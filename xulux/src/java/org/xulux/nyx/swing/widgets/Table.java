@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.28 2003-11-17 11:37:18 mvdb Exp $
+ $Id: Table.java,v 1.29 2003-11-17 12:14:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -84,7 +84,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.28 2003-11-17 11:37:18 mvdb Exp $
+ * @version $Id: Table.java,v 1.29 2003-11-17 12:14:57 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
         
@@ -129,7 +129,6 @@ public class Table extends ContainerWidget implements IContentWidget {
     private int oldListSize = 0;
     private int listSize = 0;
     
-
     /**
      * @param name
      */
@@ -211,6 +210,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             return;
         }
         initialized = true;
+        initializing = true;
         contentChanged = true;
         this.scrollPane = new JScrollPane();
         // always add the default table rule.
@@ -218,6 +218,7 @@ public class Table extends ContainerWidget implements IContentWidget {
         processIgnoreUse();
         refresh();
         processInit();
+        initializing = false;
     }
 
     /**
@@ -303,6 +304,26 @@ public class Table extends ContainerWidget implements IContentWidget {
             int rowHeight = Integer.valueOf(height).intValue();
             if (rowHeight >0 ) {
                 table.setRowHeight(Integer.valueOf(height).intValue());
+            }
+        }
+        // we want to set some things on initialization of the widget..
+        // TODO: Move this to propertyhandlers..
+        if (content != null) {
+            String initialSelection = getProperty("initialselection");
+            if (initialSelection != null) {
+                System.out.println("initialSelection : "+initialSelection);
+                if ("last".equalsIgnoreCase(initialSelection)) {
+                    table.changeSelection(table.getRowCount()-1,1,false,false);
+                } else if ("first".equalsIgnoreCase(initialSelection)) {
+                    table.changeSelection(0,1, false, false);
+                } else if ("all".equalsIgnoreCase(initialSelection)) {
+                    table.selectAll();
+                }
+                // and remove this property once processed!
+                setProperty("initialselection", null);
+                // with none, we don't have to do anything.
+                // else if ("none".equalsIgnoreCase(initialSelection)) {
+                //}
             }
         }
         scrollPane.setVisible(isVisible());

@@ -1,5 +1,5 @@
 /*
- $Id: NyxJTable.java,v 1.3 2003-11-17 11:37:18 mvdb Exp $
+ $Id: NyxJTable.java,v 1.4 2003-11-17 12:14:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -56,7 +56,7 @@ import javax.swing.table.TableModel;
  * things we'll never use..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJTable.java,v 1.3 2003-11-17 11:37:18 mvdb Exp $
+ * @version $Id: NyxJTable.java,v 1.4 2003-11-17 12:14:57 mvdb Exp $
  */
 public class NyxJTable extends JTable {
     
@@ -101,6 +101,7 @@ public class NyxJTable extends JTable {
      * @see javax.swing.JTable#changeSelection(int, int, boolean, boolean)
      */
     public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
+        System.out.println("rowIndex : "+rowIndex+" columnIndex "+columnIndex+" toggle : "+toggle+" extend : "+extend);
         super.changeSelection(rowIndex, columnIndex, toggle, extend);
         if (getSiblingTable() != null && !getSiblingTable().isChanging()) {
             changing = true;
@@ -130,5 +131,35 @@ public class NyxJTable extends JTable {
     public boolean isChanging() {
         return changing;
     } 
+
+    /**
+     * @see javax.swing.JTable#setColumnSelectionInterval(int, int)
+     */
+    public void setColumnSelectionInterval(int index0, int index1) {
+        // siblingtable can have a different number of columns, 
+        // so check to see if this is the case and set the index1 to
+        // the current number of columns-1 (starts from 0).
+        if (index1 >= getColumnCount()) {
+            index1 = getColumnCount()-1;
+        }
+        super.setColumnSelectionInterval(index0, index1);
+        if (getSiblingTable() != null && !getSiblingTable().isChanging()) {
+            changing = true;
+            getSiblingTable().setColumnSelectionInterval(index0,index1);
+            changing = false;
+        }
+    }
+
+    /**
+     * @see javax.swing.JTable#setRowSelectionInterval(int, int)
+     */
+    public void setRowSelectionInterval(int index0, int index1) {
+        super.setRowSelectionInterval(index0, index1);
+        if (getSiblingTable() != null && !getSiblingTable().isChanging()) {
+            changing = true;
+            getSiblingTable().setRowSelectionInterval(index0,index1);
+            changing = false;
+        }
+    }
 
 }

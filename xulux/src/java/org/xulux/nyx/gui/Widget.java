@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.43 2003-11-11 16:48:12 mvdb Exp $
+ $Id: Widget.java,v 1.44 2003-11-17 12:14:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.43 2003-11-11 16:48:12 mvdb Exp $
+ * @version $Id: Widget.java,v 1.44 2003-11-17 12:14:57 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -112,6 +112,11 @@ public abstract class Widget implements Serializable
     private boolean ignoreUse = false;
     
     protected Log log = LogFactory.getLog(Widget.class);
+    
+    /**
+     * Is the widget initializing ? 
+     */
+    protected boolean initializing;
 
 
     /**
@@ -940,5 +945,14 @@ public abstract class Widget implements Serializable
      */
     public boolean isUseIgnored() {
         return this.ignoreUse;
+    }
+    
+    /**
+     * Use this method if you want eg initial data set
+     * 
+     * @return if the widget is initializing or not.
+     */
+    public boolean isInitializing() {
+        return this.initializing;
     }
 }

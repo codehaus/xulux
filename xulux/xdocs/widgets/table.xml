@@ -82,6 +82,15 @@
           This property specifies if a column should be locked (so not included in the scrollable area)
         </td>
       </tr>
+      <tr>
+        <td>initialselection</td>
+        <td>swing</td>
+        <td>
+          This property specifies what the initial selection will be.<br/>
+          Possibly values are none, first, last and all. None is the same
+          as not specifying the initialselection property.
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>
