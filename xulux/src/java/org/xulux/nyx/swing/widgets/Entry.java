@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.5 2003-07-14 15:49:00 mvdb Exp $
+ $Id: Entry.java,v 1.6 2003-07-15 21:37:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.5 2003-07-14 15:49:00 mvdb Exp $
+ * @version $Id: Entry.java,v 1.6 2003-07-15 21:37:12 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -263,7 +263,13 @@ extends Widget
         }else if (getField() != null && val == null) {
             
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
-            val = map.getField(getField()).getValue(getPart().getBean());
+            try {
+                val = map.getField(getField()).getValue(getPart().getBean());
+            }catch(Exception e) {
+                // we have to catch exceptions, since there
+                // could be a null somewhere, if there is no data..
+                e.printStackTrace(System.out);
+            }
         }
         
         if (val != null)
