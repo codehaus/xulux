@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfig.java,v 1.9 2003-11-24 10:51:48 mvdb Exp $
+ $Id: WidgetConfig.java,v 1.10 2003-11-28 02:37:56 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -60,7 +60,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.9 2003-11-24 10:51:48 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.10 2003-11-28 02:37:56 mvdb Exp $
  */
 public class WidgetConfig {
 
@@ -179,6 +179,9 @@ public class WidgetConfig {
      * @param clazz the widgettools class
      */
     public void addWidgetTool(String type, Class clazz) {
+        if (clazz == null) {
+            return;
+        }
         if (contentHandlers == null) {
             contentHandlers = new HashMap();
         }

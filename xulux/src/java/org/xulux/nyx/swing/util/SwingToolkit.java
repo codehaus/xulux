@@ -1,5 +1,5 @@
 /*
- $Id: SwingToolkit.java,v 1.5 2003-11-06 19:53:10 mvdb Exp $
+ $Id: SwingToolkit.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -45,7 +45,6 @@
  */
 package org.xulux.nyx.swing.util;
 
-import java.awt.EventQueue;
 import java.awt.Toolkit;
 
 import org.xulux.nyx.gui.NYXToolkit;
@@ -54,7 +53,7 @@ import org.xulux.nyx.gui.NYXToolkit;
  * The swing toolkit...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingToolkit.java,v 1.5 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: SwingToolkit.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
  */
 public class SwingToolkit extends NYXToolkit {
     /**
@@ -83,13 +82,13 @@ public class SwingToolkit extends NYXToolkit {
         if (initialized) {
             return;
         }
-        EventQueue systemQueue =
-            Toolkit.getDefaultToolkit().getSystemEventQueue();
         this.eventQueue = new NyxEventQueue();
-//        systemQueue.push(this.eventQueue);
         initialized = true;
     }
 
+    /**
+     * @see org.xulux.nyx.gui.NYXToolkit#destroy()
+     */
     public void destroy() {
     }
 

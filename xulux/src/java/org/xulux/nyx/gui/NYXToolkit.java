@@ -1,5 +1,5 @@
 /*
- $Id: NYXToolkit.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
+ $Id: NYXToolkit.java,v 1.4 2003-11-28 02:37:56 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,7 +57,7 @@ import org.xulux.nyx.context.ApplicationContext;
  * (didn't check yet if swt uses something different though)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NYXToolkit.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: NYXToolkit.java,v 1.4 2003-11-28 02:37:56 mvdb Exp $
  */
 public abstract class NYXToolkit {
 
@@ -71,14 +71,15 @@ public abstract class NYXToolkit {
     }
 
     /**
-     *
      * @return the NYXToolkit used for the gui
      */
     protected static NYXToolkit getInstance() {
         if (instance == null) {
             instance = ApplicationContext.getInstance().getNYXToolkit();
             if (instance == null) {
-                log.warn("No toolkits present for nyx, please check your configuration or guidefaults xml file");
+                if (log.isWarnEnabled()) {
+                    log.warn("No toolkits present for nyx, please check your configuration or guidefaults xml file");
+                }
             }
 
         }

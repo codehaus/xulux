@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ $Id: NyxWindowTest.java,v 1.1 2003-11-28 02:37:55 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,72 +43,75 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.guidefaults;
+package org.xulux.nyx.swing.util;
 
-import java.util.HashMap;
-import java.util.List;
+import org.xulux.nyx.gui.NyxWindow;
+import org.xulux.nyx.gui.Widget;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.WidgetConfig;
-
 /**
- * Tests processing of guiDefaults.
- * 
+ * Contains the test for the nyxwindow
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ * @version $Id: NyxWindowTest.java,v 1.1 2003-11-28 02:37:55 mvdb Exp $
  */
-public class GuiDefaultsTest extends TestCase {
+public class NyxWindowTest extends TestCase {
 
     /**
-     * Constructor for GuiDefaultsTest.
-     * @param name the name of the test
+     * Constructor for NyxWindowTest.
+     * @param name the test name
      */
-    public GuiDefaultsTest(String name) {
+    public NyxWindowTest(String name) {
         super(name);
     }
+
 
     /**
      * @return the testsuite
      */
     public static Test suite() {
-        TestSuite suite = new TestSuite(GuiDefaultsTest.class);
+        TestSuite suite = new TestSuite(NyxWindowTest.class);
         return suite;
     }
 
     /**
-     * Test some basic things about gui defaults.
-     * @throws Exception just in case
+     * Test the methods that were dis-abstracted from containerwidget
      */
-    public void testGuiDefaults() throws Exception {
-        System.out.println("testGuiDefaults");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
-        WidgetConfig config = (WidgetConfig) map.get("combo");
-        assertNotNull(config);
-        assertEquals(Class.forName("org.xulux.nyx.swing.widgets.Combo"), config.get("swing"));
-        assertEquals(Class.forName("org.xulux.nyx.swt.widgets.SWTCombo"), config.get("swt"));
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler("swing"));
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler("swing"));
-    }
+    public void testAll() {
+        NyxWindow window = new NyxWindow(null) {
 
-    /**
-     * Test overriding the gui defaults with new defaults.
-     */
-    public void testCustomGuiDefaults() {
-        System.out.println("testCustomGuiDefaults");
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/nyx/guidefaults/GuiDefaultsTest.xml");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
-        WidgetConfig config = (WidgetConfig) map.get("window");
-        List list = config.getWidgetInitializers("swing");
-        assertEquals(1, list.size());
+            public void addToParent(Widget widget) {
+            }
+
+            public Object getNativeWidget() {
+                return null;
+            }
+
+            public void initialize() {
+            }
+
+            public void refresh() {
+            }
+
+            public Object getGuiValue() {
+                return null;
+            }
+
+            public void focus() {
+            }
+
+            public boolean isValueEmpty() {
+                return false;
+            }
+
+            public boolean canContainValue() {
+                return false;
+            }
+        };
+        assertTrue(window.canBeRootWidget());
     }
 
 }

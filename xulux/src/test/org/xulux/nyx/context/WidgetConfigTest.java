@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfigTest.java,v 1.5 2003-10-27 15:30:14 mvdb Exp $
+ $Id: WidgetConfigTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,30 +55,32 @@ import junit.framework.TestSuite;
 
 /**
  * Tests the widgetConfig
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.5 2003-10-27 15:30:14 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
  */
-public class WidgetConfigTest extends TestCase
-{
+public class WidgetConfigTest extends TestCase {
 
     /**
      * Constructor for WidgetConfigTest.
-     * @param name
+     * @param name the name of the test
      */
-    public WidgetConfigTest(String name)
-    {
+    public WidgetConfigTest(String name) {
         super(name);
     }
 
-    public static Test suite()
-    {
+    /**
+     * @return the test suite
+     */
+    public static Test suite() {
         TestSuite suite = new TestSuite(WidgetConfigTest.class);
         return suite;
     }
-    
-    public void testWidgetConfig()
-    {
+
+    /**
+     * Test the widgetconfig
+     */
+    public void testWidgetConfig() {
         System.out.println("testWidgetConfig");
         WidgetConfig config = new WidgetConfig();
         Class coreClass = Byte.class;
@@ -87,57 +89,72 @@ public class WidgetConfigTest extends TestCase
         config.setCoreClass(coreClass);
         config.add("swing", swingClass);
         config.add("swt", swtClass);
-        
+
         assertEquals(coreClass, config.getCoreClass());
         assertEquals(swingClass, config.get("swing"));
         assertEquals(swtClass, config.get("swt"));
     }
-    
+
     /**
      * We don't want nullpointer exceptions
      */
-    public void testEmptyWidgetConfig()
-    {
+    public void testEmptyWidgetConfig() {
         System.out.println("testEmptyWidgetConfig");
         WidgetConfig config = new WidgetConfig();
         assertNull(config.get("swt"));
         assertNull(config.get("swing"));
         assertNull(config.getCoreClass());
     }
-    
+
+    /**
+     * Test the widgetInitializers
+     */
     public void testWidgetInitializers() {
         System.out.println("testWidgetInitializers");
         WidgetConfig config = new WidgetConfig();
+        assertNull(config.getWidgetInitializers("bogus"));
         config.add("swt", Integer.class);
         config.add("swing", Integer.class);
         config.addWidgetInitializer("swing", initOne.class);
-        assertEquals(1,config.getWidgetInitializers("swing").size());
+        assertEquals(1, config.getWidgetInitializers("swing").size());
+        config.addWidgetInitializer("swing", initOne.class);
+        assertEquals(1, config.getWidgetInitializers("swing").size());
         config.addWidgetInitializer("swing", initTwo.class);
-        assertEquals(2,config.getWidgetInitializers("swing").size());
+        assertEquals(2, config.getWidgetInitializers("swing").size());
         assertNull(config.getWidgetInitializers("swt"));
         config.addWidgetInitializer("swt", initTwo.class);
         assertEquals(1, config.getWidgetInitializers("swt").size());
     }
-    
+
+    /**
+     * Test the contenthandlers
+     */
     public void testgetContentHandler() {
         System.out.println("testGetContentHandler");
         WidgetConfig config = new WidgetConfig();
+        assertNull(config.getContentHandler(String.class));
         Content1 content1 = new Content1();
-        config.addWidgetTool(null,content1.getClass());
+        config.addWidgetTool(null, content1.getClass());
         assertEquals(Content1.class, config.getContentHandler(Content1.class).getClass());
         // now test if we get content1 handler back when using content2 which extends from content1 
         // (in this scenario content1 and 2 are used as handlers AS well AS the object to to handle :)
         assertEquals(Content1.class, config.getContentHandler(Content2.class).getClass());
+        assertNull(config.getContentHandler(WidgetConfigTest.class));
+        // check if bogus entries are also handled.
+        config.addWidgetTool(null, "java.lang.String");
+        assertNull(config.getContentHandler(String.class));
+        config.addWidgetTool(null, (String) null);
+        config.addWidgetTool(null, "bogus.class.name");
     }
-    
+
     public class Content2 extends Content1 {
-        
+
         public Content2() {
         }
     }
-    
+
     public class Content1 implements IContentHandler {
-        
+
         public Content1() {
         }
         /**
@@ -168,11 +185,11 @@ public class WidgetConfigTest extends TestCase
 
         }
     }
-    
+
     public class initOne implements IWidgetInitializer {
-            /**
-         * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
-         */
+        /**
+        * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
+        */
         public void destroy(Widget widget) {
 
         }
@@ -184,11 +201,11 @@ public class WidgetConfigTest extends TestCase
 
         }
 
-}
+    }
     public class initTwo implements IWidgetInitializer {
-            /**
-         * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
-         */
+        /**
+        * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
+        */
         public void destroy(Widget widget) {
 
         }
@@ -200,5 +217,5 @@ public class WidgetConfigTest extends TestCase
 
         }
 
-}
+    }
 }

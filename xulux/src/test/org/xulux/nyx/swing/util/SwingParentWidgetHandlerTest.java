@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ $Id: SwingParentWidgetHandlerTest.java,v 1.1 2003-11-28 02:37:55 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,31 +43,26 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.guidefaults;
+package org.xulux.nyx.swing.util;
 
-import java.util.HashMap;
-import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.WidgetConfig;
-
 /**
- * Tests processing of guiDefaults.
- * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ * @version $Id: SwingParentWidgetHandlerTest.java,v 1.1 2003-11-28 02:37:55 mvdb Exp $
  */
-public class GuiDefaultsTest extends TestCase {
+public class SwingParentWidgetHandlerTest extends TestCase {
 
     /**
-     * Constructor for GuiDefaultsTest.
+     * Constructor for SwingParentWidgetHandlerTest.
      * @param name the name of the test
      */
-    public GuiDefaultsTest(String name) {
+    public SwingParentWidgetHandlerTest(String name) {
         super(name);
     }
 
@@ -75,40 +70,34 @@ public class GuiDefaultsTest extends TestCase {
      * @return the testsuite
      */
     public static Test suite() {
-        TestSuite suite = new TestSuite(GuiDefaultsTest.class);
+        TestSuite suite = new TestSuite(SwingParentWidgetHandlerTest.class);
         return suite;
     }
 
     /**
-     * Test some basic things about gui defaults.
-     * @throws Exception just in case
+     * Test the initialize
      */
-    public void testGuiDefaults() throws Exception {
-        System.out.println("testGuiDefaults");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
-        WidgetConfig config = (WidgetConfig) map.get("combo");
-        assertNotNull(config);
-        assertEquals(Class.forName("org.xulux.nyx.swing.widgets.Combo"), config.get("swing"));
-        assertEquals(Class.forName("org.xulux.nyx.swt.widgets.SWTCombo"), config.get("swt"));
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler("swing"));
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler("swing"));
+    public void testInitialize() {
+        System.out.println("testInitialize");
+        SwingParentWidgetHandler h = new SwingParentWidgetHandler();
+        h.initialize(null);
     }
 
     /**
-     * Test overriding the gui defaults with new defaults.
+     * Test the destroy
      */
-    public void testCustomGuiDefaults() {
-        System.out.println("testCustomGuiDefaults");
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/nyx/guidefaults/GuiDefaultsTest.xml");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
-        WidgetConfig config = (WidgetConfig) map.get("window");
-        List list = config.getWidgetInitializers("swing");
-        assertEquals(1, list.size());
+    public void testDestroy() {
+        System.out.println("testDestroy");
+        SwingParentWidgetHandler h = new SwingParentWidgetHandler();
+        h.destroy(null);
+        h.destroy("bogus");
+        JPanel panel = new JPanel();
+        System.out.println("component count : " + panel.getComponentCount());
+        JLabel label = new JLabel();
+        panel.add(label);
+        assertEquals(1, panel.getComponentCount());
+        h.destroy(label);
+        assertEquals(0, panel.getComponentCount());
+        h.destroy(panel);
     }
-
 }

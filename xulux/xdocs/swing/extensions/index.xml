@@ -12,31 +12,56 @@
   <p>
     To make nyx work the way it does, a lot of times Swing components need to be extended to
     get some basic jobs done. Below a list of widgets that are extended, with links to the docs
-    which explain why they were extended.
+    which explain why they were extended. <br/>All swing component extensions live in the 
+    <code>org.xulux.nyx.swing.extensions</code> package.
+    Keep in mind that most modifications are just tested on jdk1.3 and not yet on 1.4, which may 
+    not expose the same problems I encountered doing Swing.
   </p>
+  <subsection name="JTable extension">
+    <p>
+      The <code>javax.swing.JTable</code> is extended by use of the 
+      <a href="/apidocs/org/xulux/nyx/swing/extensions/NyxJTable.html">org.xulux.nyx.swing.extensions.NyxJTable</a> class
+      Since the nyx table supports fixed columns, we had to do some magic to get that working correctly.
+      A table with fixed columns consists of 2 tables. The main table with the fixed columns and the sibling table
+      containg the scrollable part of the table. When eg clicking on one of the tables, the extension will take
+      care of updating the sibling of the table (they are both sibling of each other).
+    </p>
+  </subsection>
+  <subsection name="JCheckBox/JRadioButton extension">
+    <p>
+      The JCheckBox and JRadioButton extensions are extended by using the
+      <a href="/apidocs/org/xulux/nyx/swing/extensions/NyxJCheckBox.html">org.xulux.nyx.swing.extensions.NyxJCheckBox</a> class
+      and the
+      <a href="/apidocs/org/xulux/nyx/swing/extensions/NyxJRadioButton.html">org.xulux.nyx.swing.extensions.NyxJRadioButton.</a> class.
+      The only reason why these extensions exist is because painting the background of the radio and checkbox didn't
+      work as anticipated (at least not on jdk1.3). It would paint a full background instead of just painting
+      the box or the radio itself. I fixed that with some simple painting magic. The consequence of this is, is that
+      you always have to set the icons, even though you want to use the defaults. You can see this behaviour
+      in the o.x.n.swing.widgets.CheckBox and RadioButton when initializing the native widget.
+    </p>
+  </subsection>
+  <subsection name="JComboBox extension">
+    <p>
+      The JComboBox extension is extended by using the 
+      <a href="/apidocs/org/xulux/nyx/swing/extensions/NyxJCheckBox.html">org.xulux.nyx.swing.extensions.NyxJComboBox</a> class.
+      One of the reasons for extending it, was that when setting the model of the combo (setContent in nyx), would
+      trigger an infinite loop with updates and a wrong selected value. To prevent this I added a boolean to make
+      sure no value is set during the setting of the model (the nyx combomodel talks back to the ComboBox widget when
+      an update in the selected value takes place). This is a pure nyx thing that was solved here. Another issues is that
+      a combobox doesn't fire focusLost events and focusGained events. The main reason is that a combo is not a combo, but in reality
+      another component, which actually do the focussing etc. I solved this by adding a focuslistener to all children of the combo, using
+      an override of addFocusListener and removeFocusListener.
+    </p>
+  </subsection>
+  <subsection name="Border extensions">
+    <p>
+     Some test extensions are already present of the borders. The problem with most borders is that you cannot set the insets (margins)
+     to a different value than actually wanted. Since I didn't find an easier way yet, I just override some border types and so being
+     able to set the insets. getInsets() normally returns a new instance of Rectangle, instead of passing in a reference, which would
+     solve the insets problem. If I missed something, let me know.
+    </p>
+  </subsection>
 </section>
-<section name="Extended Swing Components">
-  <p>
-    This section contains links to other pages, with topics 
-    of the inner workings of swing nyx integration. Also
-    extension points <b>specific</b> to swing will be addressed in some
-    cases.
-  </p>
-  <table>
-    <tr>
-      <td>A must read if you want to create swing widgets!<br/>
-      <a href="swingextensions.html">Swing extensions</a></td>
-    </tr>
-    <tr>
-      <td><a href="positioningandsizing.html">Positioning and Sizing of Widgets</a></td>
-    </tr>
-    <tr>
-      <td><a href="properties.html">VM Properties used to change swing behaviour</a></td>
-    </tr>
-  </table>
-
-</section>
-
 </body>
 
 </document>

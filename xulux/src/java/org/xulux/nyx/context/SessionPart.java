@@ -1,5 +1,5 @@
 /*
- $Id: SessionPart.java,v 1.9 2003-11-24 10:51:48 mvdb Exp $
+ $Id: SessionPart.java,v 1.10 2003-11-28 02:37:56 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,7 +52,7 @@ import java.util.Iterator;
  * Contains application wide part data.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SessionPart.java,v 1.9 2003-11-24 10:51:48 mvdb Exp $
+ * @version $Id: SessionPart.java,v 1.10 2003-11-28 02:37:56 mvdb Exp $
  */
 public class SessionPart {
 
@@ -107,7 +107,7 @@ public class SessionPart {
         if (map != null) {
             return map.remove(key);
         }
-        return key;
+        return null;
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ $Id: WidgetRectangleTest.java,v 1.1 2003-11-28 02:37:56 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,31 +43,27 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.guidefaults;
+package org.xulux.nyx.gui;
 
-import java.util.HashMap;
-import java.util.List;
+import java.awt.Rectangle;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.WidgetConfig;
-
 /**
- * Tests processing of guiDefaults.
- * 
+ * Test the widgetrectangle.
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ * @version $Id: WidgetRectangleTest.java,v 1.1 2003-11-28 02:37:56 mvdb Exp $
  */
-public class GuiDefaultsTest extends TestCase {
+public class WidgetRectangleTest extends TestCase {
 
     /**
-     * Constructor for GuiDefaultsTest.
+     * Constructor for WidgetRectangleTest.
      * @param name the name of the test
      */
-    public GuiDefaultsTest(String name) {
+    public WidgetRectangleTest(String name) {
         super(name);
     }
 
@@ -75,40 +71,60 @@ public class GuiDefaultsTest extends TestCase {
      * @return the testsuite
      */
     public static Test suite() {
-        TestSuite suite = new TestSuite(GuiDefaultsTest.class);
+        TestSuite suite = new TestSuite(WidgetRectangleTest.class);
         return suite;
     }
 
     /**
-     * Test some basic things about gui defaults.
-     * @throws Exception just in case
+     * Test the constructors and the basic setters
      */
-    public void testGuiDefaults() throws Exception {
-        System.out.println("testGuiDefaults");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
-        WidgetConfig config = (WidgetConfig) map.get("combo");
-        assertNotNull(config);
-        assertEquals(Class.forName("org.xulux.nyx.swing.widgets.Combo"), config.get("swing"));
-        assertEquals(Class.forName("org.xulux.nyx.swt.widgets.SWTCombo"), config.get("swt"));
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler("swing"));
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler("swing"));
+    public void testConstructors() {
+        System.out.println("testConstructors");
+        WidgetRectangle r = new WidgetRectangle();
+        assertEquals(0, r.getHeight());
+        assertEquals(0, r.getWidth());
+        assertEquals(0, r.getX());
+        assertEquals(0, r.getY());
+        r.setX(101);
+        r.setY(102);
+        r.setWidth(103);
+        r.setHeight(104);
+        assertEquals(101, r.getX());
+        assertEquals(102, r.getY());
+        assertEquals(103, r.getWidth());
+        assertEquals(104, r.getHeight());
+        r = new WidgetRectangle(101, 102, 103, 104);
+        assertEquals(101, r.getX());
+        assertEquals(102, r.getY());
+        assertEquals(103, r.getWidth());
+        assertEquals(104, r.getHeight());
     }
 
     /**
-     * Test overriding the gui defaults with new defaults.
+     * Test the setSize and setPosition
+     *
      */
-    public void testCustomGuiDefaults() {
-        System.out.println("testCustomGuiDefaults");
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/nyx/guidefaults/GuiDefaultsTest.xml");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
-        WidgetConfig config = (WidgetConfig) map.get("window");
-        List list = config.getWidgetInitializers("swing");
-        assertEquals(1, list.size());
+    public void testSetSizeAndPosition() {
+        System.out.println("testSetSizeAndPosition");
+        WidgetRectangle r = new WidgetRectangle();
+        r.setPosition(101,102);
+        r.setSize(103,104);
+        assertEquals(101, r.getX());
+        assertEquals(102, r.getY());
+        assertEquals(103, r.getWidth());
+        assertEquals(104, r.getHeight());
     }
 
+    /**
+     * Test the getRectangle method
+     */
+    public void testGetRectangle() {
+        System.out.println("testGetRectangle");
+        WidgetRectangle r = new WidgetRectangle(101, 102, 103, 104);
+        Rectangle rect = r.getRectangle();
+        assertEquals(101, rect.x);
+        assertEquals(102, rect.y);
+        assertEquals(103, rect.width);
+        assertEquals(104, rect.height);
+    }
 }

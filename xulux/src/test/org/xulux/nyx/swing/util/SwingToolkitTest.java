@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ $Id: SwingToolkitTest.java,v 1.1 2003-11-28 02:37:55 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,31 +43,24 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.guidefaults;
-
-import java.util.HashMap;
-import java.util.List;
+package org.xulux.nyx.swing.util;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.WidgetConfig;
-
 /**
- * Tests processing of guiDefaults.
- * 
+ * Tests the swing toolkit
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ * @version $Id: SwingToolkitTest.java,v 1.1 2003-11-28 02:37:55 mvdb Exp $
  */
-public class GuiDefaultsTest extends TestCase {
+public class SwingToolkitTest extends TestCase {
 
     /**
-     * Constructor for GuiDefaultsTest.
+     * Constructor for SwingToolkitTest.
      * @param name the name of the test
      */
-    public GuiDefaultsTest(String name) {
+    public SwingToolkitTest(String name) {
         super(name);
     }
 
@@ -75,40 +68,25 @@ public class GuiDefaultsTest extends TestCase {
      * @return the testsuite
      */
     public static Test suite() {
-        TestSuite suite = new TestSuite(GuiDefaultsTest.class);
+        TestSuite suite = new TestSuite(SwingToolkitTest.class);
         return suite;
     }
 
     /**
-     * Test some basic things about gui defaults.
-     * @throws Exception just in case
+     * Test everything in one method.
      */
-    public void testGuiDefaults() throws Exception {
-        System.out.println("testGuiDefaults");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
-        WidgetConfig config = (WidgetConfig) map.get("combo");
-        assertNotNull(config);
-        assertEquals(Class.forName("org.xulux.nyx.swing.widgets.Combo"), config.get("swing"));
-        assertEquals(Class.forName("org.xulux.nyx.swt.widgets.SWTCombo"), config.get("swt"));
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler("swing"));
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler("swing"));
+    public void testAll() {
+        System.out.println("testAll");
+        SwingToolkit toolkit = new SwingToolkit();
+        toolkit.beep();
+        assertNull(NyxEventQueue.getInstance());
+        toolkit.initialize();
+        // should have created the nyx event queue.
+        NyxEventQueue q = NyxEventQueue.getInstance();
+        assertNotNull(NyxEventQueue.getInstance());
+        // should not initialize again
+        toolkit.initialize();
+        assertEquals(q, NyxEventQueue.getInstance());
+        toolkit.destroy();
     }
-
-    /**
-     * Test overriding the gui defaults with new defaults.
-     */
-    public void testCustomGuiDefaults() {
-        System.out.println("testCustomGuiDefaults");
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/nyx/guidefaults/GuiDefaultsTest.xml");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
-        WidgetConfig config = (WidgetConfig) map.get("window");
-        List list = config.getWidgetInitializers("swing");
-        assertEquals(1, list.size());
-    }
-
 }

@@ -1,7 +1,7 @@
 /*
- $Id: WidgetListTest.java,v 1.3 2003-11-13 02:45:39 mvdb Exp $
+ $Id: WidgetListTest.java,v 1.4 2003-11-28 02:37:56 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -58,25 +58,26 @@ import junit.framework.TestSuite;
  * Test the inner ApplicationPart.WidgetList class
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetListTest.java,v 1.3 2003-11-13 02:45:39 mvdb Exp $
+ * @version $Id: WidgetListTest.java,v 1.4 2003-11-28 02:37:56 mvdb Exp $
  */
 public class WidgetListTest extends TestCase {
 
     /**
      * Constructor for WidgetListTest.
-     * @param name
+     * @param name the name of the test
      */
     public WidgetListTest(String name) {
         super(name);
     }
-    
-    public static Test suite()
-    {
+
+    /**
+     * @return the test suite
+     */
+    public static Test suite() {
         TestSuite suite = new TestSuite(WidgetListTest.class);
         return suite;
     }
-    
-    
+
     /**
      * Test the get, indexof, contains  methods.
      * Really complicated
@@ -96,7 +97,7 @@ public class WidgetListTest extends TestCase {
         list.add(widget2);
         list.add(widget3);
         list.add(widget4);
-        assertEquals(widget,  list.get("Test"));
+        assertEquals(widget, list.get("Test"));
         assertEquals(widget1, list.get("TestEntry"));
         assertEquals(widget2, list.get("Test.Entry"));
         assertEquals(widget3, list.get("NoTest.Entry"));
@@ -106,19 +107,20 @@ public class WidgetListTest extends TestCase {
         assertTrue(list.contains(widget2));
         assertTrue(list.contains(widget3));
         assertTrue(list.contains(widget4));
-        assertTrue( (list.indexOf(widget) != -1));
-        assertTrue( (list.indexOf(widget1) != -1));
-        assertTrue( (list.indexOf(widget2) != -1));
-        assertTrue( (list.indexOf(widget3) != -1));
-        assertTrue( (list.indexOf(widget4) != -1));
-        
+        assertTrue((list.indexOf(widget) != -1));
+        assertTrue((list.indexOf(widget1) != -1));
+        assertTrue((list.indexOf(widget2) != -1));
+        assertTrue((list.indexOf(widget3) != -1));
+        assertTrue((list.indexOf(widget4) != -1));
+        assertTrue(list.indexOf(null) == -1);
+        assertTrue(list.indexOf("bogus thingy thing") == -1);
+
     }
-    
+
     /**
      * Test the widgetWithField method in widgetList.
      * It should return a list of all widgets
      * that make use / reference the field specified
-     *
      */
     public void testGetWidgetsWithField() {
         System.out.println("testGetWidgetsWithField");
@@ -132,7 +134,7 @@ public class WidgetListTest extends TestCase {
         Entry entry3 = new Entry("test3");
         Entry entry4 = new Entry("test4");
         entry4.setField("?test3.test");
-        
+
         list.add(entry);
         list.add(entry1);
         list.add(entry2);
@@ -140,11 +142,11 @@ public class WidgetListTest extends TestCase {
         list.add(entry4);
         assertNull(list.getWidgetsWithField("bogus"));
         Collection field1List = list.getWidgetsWithField("field1");
-        assertEquals(2,field1List.size());
+        assertEquals(2, field1List.size());
         assertTrue(field1List.contains(entry2));
         assertTrue(field1List.contains(entry));
         Collection field2List = list.getWidgetsWithField("field2");
-        assertEquals(1,field2List.size());
+        assertEquals(1, field2List.size());
         assertTrue(field2List.contains(entry1));
         // check if the widgetlist can also find fields with pointers to other fields..
         Collection field3List = list.getWidgetsWithField("test3");
