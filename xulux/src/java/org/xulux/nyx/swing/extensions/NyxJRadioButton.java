@@ -1,5 +1,5 @@
 /*
- $Id: NyxJRadioButton.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
+ $Id: NyxJRadioButton.java,v 1.2 2003-10-23 12:07:42 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,7 +56,7 @@ import javax.swing.JRadioButton;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJRadioButton.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
+ * @version $Id: NyxJRadioButton.java,v 1.2 2003-10-23 12:07:42 mvdb Exp $
  */
 public class NyxJRadioButton extends JRadioButton {
 
@@ -187,12 +187,15 @@ public class NyxJRadioButton extends JRadioButton {
          * @see javax.swing.Icon#paintIcon(java.awt.Component, java.awt.Graphics, int, int)
          */
         public void paintIcon(Component c, Graphics g, int x, int y) {
-            Color tmpColor = c.getBackground();
+            JRadioButton cc = new JRadioButton();
+            cc.setSelected(isSelected());
             if (NyxJRadioButton.this.getRealBackground() != null) {
-                c.setBackground(getRealBackground());
+                cc.setBackground(getRealBackground());
+            } else {
+                cc.setBackground(getBackground());
             }
-            icon.paintIcon(c, g, x, y);
-            c.setBackground(tmpColor);
+            icon.paintIcon(cc, g, x, y);
+            cc = null;
         }
     }
     

@@ -1,5 +1,5 @@
 /*
- $Id: RadioButtonTestRule.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
+ $Id: RadioButtonTestRule.java,v 1.2 2003-10-23 12:07:42 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,7 @@ import org.xulux.nyx.rules.Rule;
  * in a label
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButtonTestRule.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
+ * @version $Id: RadioButtonTestRule.java,v 1.2 2003-10-23 12:07:42 mvdb Exp $
  */
 public class RadioButtonTestRule extends Rule {
 
@@ -73,7 +73,7 @@ public class RadioButtonTestRule extends Rule {
      * @see org.xulux.nyx.rules.IRule#pre(org.xulux.nyx.context.PartRequest)
      */
     public void pre(PartRequest request) {
-        //System.out.println("caller : "+request.getWidget().getName());
+        System.out.println("caller : "+request.getWidget().getName());
         if (request.getWidget().getName().equals("radio:foo") ||
             request.getWidget().getName().equals("label:foo:value")) {
             Widget w = request.getWidget("radio:foo");

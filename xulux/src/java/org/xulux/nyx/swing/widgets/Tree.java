@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.13 2003-10-23 01:43:08 mvdb Exp $
+ $Id: Tree.java,v 1.14 2003-10-23 12:07:42 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.13 2003-10-23 01:43:08 mvdb Exp $
+ * @version $Id: Tree.java,v 1.14 2003-10-23 12:07:42 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
     
@@ -95,17 +95,17 @@ public class Tree extends ContainerWidget implements IContentWidget {
      * TODO: Destroy it better than now!
      */
     public void destroy() {
-        if (!initialized) {
-            return;
-        }
-        processDestroy();
-        if (this.scrollPane != null) {
-            if (this.jtree != null) {
-                this.scrollPane.remove(jtree);
-                jtree = null;
-            }
-            this.scrollPane = null;
-        }
+//        if (!initialized) {
+//            return;
+//        }
+//        processDestroy();
+//        if (this.scrollPane != null) {
+//            if (this.jtree != null) {
+//                this.scrollPane.remove(jtree);
+//                jtree = null;
+//            }
+//            this.scrollPane = null;
+//        }
     }
 
     /**
