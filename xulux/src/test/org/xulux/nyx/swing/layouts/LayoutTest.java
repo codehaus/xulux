@@ -1,8 +1,8 @@
 /*
- $Id: LayoutTest.java,v 1.6 2003-06-17 12:53:59 mvdb Exp $
+ $Id: LayoutTest.java,v 1.7 2003-11-24 16:42:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,29 +10,29 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -41,9 +41,8 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
- */
 
+ */
 package org.xulux.nyx.swing.layouts;
 
 import java.awt.Component;
@@ -64,27 +63,31 @@ import org.xulux.nyx.swing.widgets.Window;
 
 /**
  * A class to to test the layoutmanagers for swing
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.6 2003-06-17 12:53:59 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.7 2003-11-24 16:42:28 mvdb Exp $
  */
 public class LayoutTest extends TestCase
 {
 
     /**
      * Constructor for LayoutTest.
+     * @param name the testname
      */
     public LayoutTest(String name)
     {
         super(name);
     }
-    
+
+    /**
+     * @return The test suite
+     */
     public static Test suite()
     {
         TestSuite suite = new TestSuite(LayoutTest.class);
         return suite;
     }
-    
+
     /**
      * This will only test things that are actually being used
      */
@@ -94,50 +97,55 @@ public class LayoutTest extends TestCase
         XYLayout xy = new XYLayout();
         JPanel panel = new JPanel(xy);
         Label label1 = new Label("label1");
-        label1.setSize(10,10);
-        label1.setPosition(10,10);
+        label1.setSize(10, 10);
+        label1.setPosition(10, 10);
         Label label2 = new Label("label2");
-        label2.setSize(10,10);
-        label2.setPosition(10,30);
+        label2.setSize(10, 10);
+        label2.setPosition(10, 30);
         JLabel jlabel1 = new JLabel("label1");
         JLabel jlabel2 = new JLabel("label2");
         panel.add(jlabel1, label1);
         panel.add(jlabel2, label2);
-        assertEquals(label1,xy.map.get(jlabel1));
-        assertEquals(label2,xy.map.get(jlabel2));
+        assertEquals(label1, xy.map.get(jlabel1));
+        assertEquals(label2, xy.map.get(jlabel2));
         JFrame frame = new JFrame("LayoutTest");
         frame.getContentPane().add(panel);
-        frame.setSize(100,100);
+        frame.setSize(100, 100);
         frame.pack();
         for (int i = 0; i < panel.getComponentCount(); i++)
         {
             int y = 10;
-            if (i == 1) y = 30;
+            if (i == 1) {
+                y = 30;
+            }
             Component component = panel.getComponent(i);
-            assertEquals(new Dimension(10,10), component.getSize());
+            assertEquals(new Dimension(10, 10), component.getSize());
             Rectangle rect = component.getBounds();
-            assertEquals(new Dimension(10,10),rect.getSize());
+            assertEquals(new Dimension(10, 10), rect.getSize());
             assertEquals(10, (int) rect.getX());
             assertEquals(y, (int) rect.getY());
         }
-        assertEquals(jlabel1,panel.getComponentAt(10,10));
-        assertEquals(jlabel2,panel.getComponentAt(10,30));
+        assertEquals(jlabel1, panel.getComponentAt(10, 10));
+        assertEquals(jlabel2, panel.getComponentAt(10, 30));
         frame.dispose();
         panel.removeAll();
         assertTrue(xy.map.isEmpty());
     }
-    
+
+    /**
+     * the XY with widgests
+     */
     public void testXYWithWidgets()
     {
         System.out.println("testXYWithWidgets");
         Window window = new Window("Window");
         Combo combo = new Combo("Combo");
-        combo.setSize(120,21);
-        combo.setPosition(4,10);
+        combo.setSize(120, 21);
+        combo.setPosition(4, 10);
         window.addChildWidget(combo);
         window.initialize();
-        XYLayout xy = (XYLayout)((JFrame)window.getNativeWidget()).getContentPane().getLayout();
-        Dimension dim = xy.preferredLayoutSize(((JFrame)window.getNativeWidget()).getContentPane());
+        XYLayout xy = (XYLayout) ((JFrame) window.getNativeWidget()).getContentPane().getLayout();
+        Dimension dim = xy.preferredLayoutSize(((JFrame) window.getNativeWidget()).getContentPane());
         assertEquals(124, dim.width);
         assertEquals(31, dim.height);
     }
