@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfig.java,v 1.3 2003-08-03 20:53:04 mvdb Exp $
+ $Id: WidgetConfig.java,v 1.4 2003-09-17 11:49:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.xulux.nyx.global.IContentHandler;
+import org.xulux.nyx.utils.ClassLoaderUtils;
+
 /**
  * The widget config contains the main class
  * of the widget (the abstract) and the 
@@ -56,14 +59,15 @@ import java.util.List;
  * (eg swt, swing)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.3 2003-08-03 20:53:04 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.4 2003-09-17 11:49:31 mvdb Exp $
  */
 public class WidgetConfig
 {
     
-    HashMap map;
-    HashMap initializers;
-    Class coreClass;
+    protected HashMap map;
+    protected HashMap initializers;
+    protected Class coreClass;
+    protected HashMap contentHandlers;
     
     /**
      * Constructor for WidgetConfig.
@@ -122,6 +126,7 @@ public class WidgetConfig
      * 
      * @param type
      * @param initializerClass
+     * @deprecated Please use addWidgetTool
      */    
     public void addWidgetInitializer(String type, Class initializerClass) {
         if (initializers == null) {
@@ -141,6 +146,7 @@ public class WidgetConfig
      * 
      * @param type - eg swing, swt, awt, html, etc.
      * @return the widgetHandler classlist for the specified type
+     *
      */
     public List getWidgetInitializers(String type) {
         if (initializers == null)
@@ -148,6 +154,31 @@ public class WidgetConfig
             return null;
         }
         return (List)initializers.get(type);
+    }
+    
+    public void addWidgetTool(String type, String clazzName) {
+        
+    }
+    
+    public void addWidgetTool(String type, Class clazz) {
+        if (contentHandlers == null) {
+            contentHandlers = new HashMap();
+        }
+        if (IContentHandler.class.isAssignableFrom(clazz)) {
+            Class clzType = ((IContentHandler)ClassLoaderUtils.getObjectFromClass(clazz)).getType();
+            contentHandlers.put(clzType, clazz);
+        }
+    }
+
+    /**
+     * @param clazz - the className to get the contenthandler for.
+     */
+    public IContentHandler getContentHandler(Class clazz) {
+        if (contentHandlers != null) {
+            Class clz  = (Class)contentHandlers.get(clazz);
+            return (IContentHandler)ClassLoaderUtils.getObjectFromClass(clz);
+        }
+        return null;
     }
         
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Gui Layers</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Gui Layers">
+  <p>
+    NYX is a framework to be able to build gui layer independent application.
+    Every GuiLayer is pluggable and work is under way to combine different
+    gui layers in one application. 
+  </p>
+</section>
+<section name="Implementations">
+  <p>
+    These are the gui layers that would be interesting to have it implemented.
+  </p>
+  <subsection name="Swing">
+    <p>
+      The swing implementation is in alpha state atm. Components are still missing
+      or not enough properties are supported yet to tweak everything that a 
+      component needs. The components are created based on the need that I have
+      to create it.
+      See the <a href="swing/index.html">Swing Pages</a> for more information about
+      the current implementation. See the <a href="widgets/index.html">Widget docs</a>
+      if you want to know which widgets are currently available.
+    </p>
+  </subsection>
+  <subsection name="SWT">
+    <p>
+      Started on SWT and had the nice plan to implement Widgets immidiately after
+      implementing the Swing Widget. However because of time contrains, I could
+      not handle that. If I have more time and the core (the frontend API) 
+      of nyx has been finished, I will start programming SWT support.
+      See the <a href="swt/index.html">SWT Pages</a> for more information about
+      the current implementation. See the <a href="widgets/index.html">Widget docs</a>
+    </p>
+  </subsection>
+  <subsection name="AWT">
+    <p>
+      Nice to have for pda's, phones, etc. 
+    </p>
+  </subsection>
+  <subsection name="Servlets/HTML">
+    <p>
+      Usefull to be able to present your application also on the net, without
+      needing a rewrite. Since there are some limitations to showing a gui
+      in html / js, there probably needs to be some kind of templating system.
+      Needs furthur investigation. 
+    </p>
+  </subsection>
+  <subsection name="Others">
+    <p>
+      Got any pointers to other java gui implementations? Let them know!
+    </p>
+  </subsection>
+</section>
+<section name="Goals">
+  <p>
+    I am currently in the process of generalizing everything and splitting
+    up widgets, so peaces of functionality can be mapped and overriden.
+    Generalising probably has some limitations, but those will be investigated
+    when needed.
+  </p>
+</section>
+<section name="Current limitations">
+  <p>
+    The current limitation of the gui layer API is that the different gui layers
+    cannot be combined yet (although the code might pretend differently)
+    This will be implemented when a second layer is finished or in progress.
+  </p>
+</section>
+</body>
+
+</document>

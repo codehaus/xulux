@@ -2,13 +2,13 @@
 <document>
 
   <properties>
-    <title>NYX - The Tree Widget</title>
+    <title>NYX - Swing - Widgets - Tree</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
 <body>
 
-<section name="The Tree Widget">
+<section name="The Swing Tree Widget">
   <subsection name="General">
     <p>
       Explain a tree (nice picture maybe?)
@@ -16,10 +16,9 @@
   </subsection>
   <subsection name="Properties">
     <p>
-      This is a list of all supported, Tree specific, properties,
-      or standard properties that behave a certain way, which isn't default.
-      See the <a href="index.html">widget page</a> for information
-      about properties used for all widgets.
+      This is a list of all supported Tree and Swing specific properties.
+      For other Tree properties please see <a href="/widgets/tree.html">the 
+      generic tree page</a>
     </p>
     <table>
       <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>

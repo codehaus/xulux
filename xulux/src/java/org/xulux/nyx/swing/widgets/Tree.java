@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ $Id: Tree.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,22 +46,25 @@
 package org.xulux.nyx.swing.widgets;
 
 import javax.swing.JTree;
-import javax.swing.tree.TreeNode;
 
+import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.context.WidgetConfig;
+import org.xulux.nyx.global.contenthandlers.TreeContentHandler;
 import org.xulux.nyx.gui.IContentWidget;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.swing.models.NyxTreeModel;
+import org.xulux.nyx.swing.models.SwingTreeModel;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: Tree.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
  */
 public class Tree extends Widget implements IContentWidget {
     
     protected JTree jtree;
     protected Object content;
     protected boolean contentChanged;
-    protected NyxTreeModel model;
+    protected SwingTreeModel model;
+    protected TreeContentHandler contentHandler;
     
     /**
      * @param name
@@ -96,7 +99,7 @@ public class Tree extends Widget implements IContentWidget {
         if (initialized) {
             return;
         }
-        this.model = new NyxTreeModel((TreeNode)getContent());
+        this.model = new SwingTreeModel(contentHandler);
         this.jtree = new JTree(model);
         
         refresh();
@@ -111,9 +114,17 @@ public class Tree extends Widget implements IContentWidget {
         }
         isRefreshing = true;
         initialize();
+        /* Works only for Metal L&F */
+        String lineStyle = getProperty("linestyle");
+        if (lineStyle == null) {
+            // default to none..
+            lineStyle = "None";
+        }
+        jtree.putClientProperty("JTree.lineStyle", lineStyle);
+        
+        //jtree.set
         if (contentChanged) {
-            model.setRoot((TreeNode)getContent());
-            model.reload();
+            jtree.setModel(new SwingTreeModel(contentHandler));
             contentChanged= false;
         }
         isRefreshing = false;
@@ -152,6 +163,14 @@ public class Tree extends Widget implements IContentWidget {
      */
     public void setContent(Object object) {
         this.content = object;
+        if (object != null) {
+            System.out.println("Content object : "+object.getClass());
+            WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(getWidgetType());
+            this.contentHandler = (TreeContentHandler)config.getContentHandler(object.getClass());
+            this.contentHandler.setWidget(this);
+            this.contentHandler.setContent(object);
+        }
+        
         contentChanged = true;
         refresh();
     }

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.32 2003-08-09 00:58:19 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.33 2003-09-17 11:49:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.32 2003-08-09 00:58:19 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.33 2003-09-17 11:49:31 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -427,6 +427,7 @@ public class ApplicationContext
      * and can be overriden.
      * @param type
      * @param clazz
+     * @deprecated No replacement yet.
      */
     public void registerParentWidgetHandler(String type, String clazz) {
         if (parentWidgetHandlerMap == null) {
@@ -460,6 +461,7 @@ public class ApplicationContext
      * 
      * @param type
      * @param clazz
+     * @deprecated No replacement yet
      */
     public void registerNativeWidgetHandler(String type, String clazz) {
         if (nativeWidgetHandlerMap == null) {
@@ -486,6 +488,12 @@ public class ApplicationContext
         }
     }
     
+    /**
+     * 
+     * @param type
+     * @param clazz
+     * @deprecated No replacement yet
+     */
     public void registerFieldEventHandler(String type, String clazz) {
         if (fieldEventHandlerMap == null) {
             fieldEventHandlerMap = new HashMap();
@@ -512,6 +520,7 @@ public class ApplicationContext
      *  
      * @param type
      * @return the fieldEventHandler.
+     * @deprecated No replacement yet.
      */
     public NyxListener getFieldEventHandler(String type) {
         if (fieldEventHandlerMap != null) {
@@ -527,6 +536,7 @@ public class ApplicationContext
      * 
      * @param type
      * @return the handler of parent widgets, or null when not found
+     * @deprecated No replacement yet
      */
     public IParentWidgetHandler getParentWidgetHandler(String type) {
         if (parentWidgetHandlerMap != null) {
@@ -539,6 +549,7 @@ public class ApplicationContext
      * 
      * @return the handler for the current gui framework
      *          or null if not found
+     * @deprecated No replacement yet
      */
     public IParentWidgetHandler getParentWidgetHandler() {
         return getParentWidgetHandler(getDefaultWidgetType());    
@@ -548,6 +559,7 @@ public class ApplicationContext
      * 
      * @param type - the type (eg swing, swt, or whatnot)
      * @return the native widget handler for the specified type
+     * @deprecated No replacement yet
      */
     public INativeWidgetHandler getNativeWidgetHandler(String type) {
         if (nativeWidgetHandlerMap != null) {
@@ -559,6 +571,7 @@ public class ApplicationContext
     /**
      * 
      * @return the native widgets handler for the defaulttype
+     * @deprecated No replacement yet.
      */
     public INativeWidgetHandler getNativeWidgetHandler() {
         return getNativeWidgetHandler(getDefaultWidgetType());
@@ -690,6 +703,7 @@ public class ApplicationContext
     /**
      * @return the NYX toolkit of the default type or null
      *          when not present 
+     * @deprecated Use getWidgetConfig
      */
     public NYXToolkit getNYXToolkit() {
         return getNYXToolkit(getDefaultWidgetType());
@@ -700,6 +714,7 @@ public class ApplicationContext
      * @param type - the toolkit type (eg swt, swing)
      * @return the NYX toolkit type specified or null
      *          when not present
+     * @deprecated Use getWidgetConfig
      */
     public NYXToolkit getNYXToolkit(String type) {
         if (this.nyxToolkits != null) {
@@ -712,6 +727,7 @@ public class ApplicationContext
      * Add a toolkit of specified type
      * @param clazz the toolkit class
      * @param type if the type is null, it deaults to getDefaultWidgetType
+     * @deprecated Use registerWidgetTool.
      */
     public void registerNYXToolkit(String clazz, String type) {
         if (this.nyxToolkits == null) {
@@ -730,10 +746,38 @@ public class ApplicationContext
     
     
     /**
+     * Register a widget tool for the specified widget.
+     * 
+     * @param clazz - the clazzname of the widget tool
+     * @param widgetName - the name of the widget
+     * @param type - the guilayer type to register it for.
+     */
+    public void registerWidgetTool(String clazz, String widgetName, String type) {
+        WidgetConfig config = getWidgetConfig(widgetName);
+        if (config != null) {
+            config.addWidgetTool(clazz, type);
+        }
+    }
+    
+    public void registerWidgetTool(String clazz, String widgetName) {
+        registerWidgetTool(clazz, widgetName, getDefaultWidgetType());
+    }
+    
+    /**
+     * 
+     * @param widgetType
+     * @return the widgetconfig for the widget
+     */
+    public WidgetConfig getWidgetConfig(String widgetName) {
+        return (WidgetConfig)widgets.get(widgetName);
+    }
+    
+    /**
      * Add a widget initializer 
      * @param initializerClass
      * @param widgetName
      * @param type
+     * @deprecated Use registerWidgetTool now.
      */
     public void registerWidgetInitializer(String initializerClass, String widgetName, String type) {
         if (type == null) {
@@ -768,6 +812,7 @@ public class ApplicationContext
      * @param widgetType
      * @return a new instance of the widget initializer that is part of this widget
      *          or null when not present
+     * @deprecated use getWidgetConfig
      */
     public List getWidgetInitializers(String widgetType) {
         WidgetConfig config = (WidgetConfig)widgets.get(widgetType.toLowerCase());

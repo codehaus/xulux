@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - SWT</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="SWT">
+  <p>
+    Nyx currently has an SWT gui layer under way. To goal is to first
+    finish up on Swing and after that move to SWT. 
+  </p>
+</section>
+<section name="Details">
+  <p>
+    This section contains links to other pages, with topics 
+    of the inner workings of swt nyx integration. Also
+    extension points <b>specific</b> to swt will be addressed in some
+    cases.
+  </p>
+  <table>
+    <tr>
+      <td></td>
+    </tr>
+  </table>
+
+</section>
+
+</body>
+
+</document>

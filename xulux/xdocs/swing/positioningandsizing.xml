@@ -8,11 +8,7 @@
 
 <body>
 
-<section name="FAQ">
-  <p>
-    This answers questions about the internals of nyx
-  </p>
-  <subsection name="Widget positioning and sizing">
+<section name="Widget Positioning and Sizing">
   <p>
     You can set the size and the position of the widget
     via xml or programmatically. The default layout for swing
@@ -27,7 +23,6 @@
     calls the layoutmanager again, it will layout it according
     to the size being set.
   </p>
-  </subsection>
 </section>
 
 </body>

@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.13 2003-08-03 20:53:04 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.14 2003-09-17 11:49:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.context.ApplicationContext;
  * Case insensitive processing of the guidefaults.
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.13 2003-08-03 20:53:04 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.14 2003-09-17 11:49:31 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
@@ -76,6 +76,8 @@ public class GuiDefaultsHandler extends DefaultHandler
     private static final String ELEMENT_GUI = "gui";
     private static final String ELEMENT_ROOT = "guidefaults";
     private static final String ELEMENT_INITIALIZER = "widgetinitializer";
+    private static final String ELEMENT_CONTENTHANDLERS = "contenthandlers";
+    private static final String ELEMENT_CONTENTHANDLER = "contenthandler";
     private static final String ATTRIBUTE_TYPE = "type";
     private static final String ATTRIBUTE_CLASS = "class";
     private static final String ATTRIBUTE_NAME = "name";
@@ -83,6 +85,7 @@ public class GuiDefaultsHandler extends DefaultHandler
     private static boolean superDefaultsProcessed = false;
     
     private boolean widgetsStarted = false;
+    private boolean contentHandlersStarted = false;
     
     private String initClass;
     private String initType; 
@@ -190,6 +193,13 @@ public class GuiDefaultsHandler extends DefaultHandler
         } else if(qName.equals(ELEMENT_INITIALIZER)) {
             this.initType = atts.getValue(ATTRIBUTE_TYPE);
             this.initClass = atts.getValue(ATTRIBUTE_CLASS);
+        } else if (qName.equals(ELEMENT_CONTENTHANDLERS)) {
+            this.contentHandlersStarted = true;
+        } else if (qName.equals(ELEMENT_CONTENTHANDLER)) {
+            if (this.contentHandlersStarted && widgetsStarted) {
+                String clazz = atts.getValue(ATTRIBUTE_CLASS);
+                ApplicationContext.getInstance().registerWidgetTool(clazz,widgetName);
+            }
         }
     }
     
@@ -224,6 +234,8 @@ public class GuiDefaultsHandler extends DefaultHandler
             }
         } else if (qName.equalsIgnoreCase(ELEMENT_WIDGETS)) {
             widgetsStarted = false;
+        } else if (qName.equalsIgnoreCase(ELEMENT_CONTENTHANDLERS)) {
+            contentHandlersStarted = false;
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- $Id: IContentWidget.java,v 1.3 2003-09-17 11:49:31 mvdb Exp $
+ $Id: NyxTreeCellRenderer.java,v 1.1 2003-09-17 11:49:31 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,28 +43,23 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.swing.models;
+
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 /**
- * Interface that widgets must implement if they use content.
- * Content is a collection of objects that needs to be shown
- * in eg a list, table or combo.
- * 
+ * For now extends the defaultreeCellRenderer. 
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentWidget.java,v 1.3 2003-09-17 11:49:31 mvdb Exp $
+ * @version $Id: NyxTreeCellRenderer.java,v 1.1 2003-09-17 11:49:31 mvdb Exp $
  */
-public interface IContentWidget {
-    
+public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
+
     /**
-     * Set the content for the widget
-     * @param list
+     * 
      */
-    public void setContent(Object object);
-    
-    /**
-     * Get the current content of the widget
-     * @return
-     */
-    public Object getContent();
+    public NyxTreeCellRenderer() {
+        super();
+    }
 
 }

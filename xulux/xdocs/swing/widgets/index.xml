@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Swing - Widgets</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Swing Widgets">
+  <subsection name="General">
+    <p>
+      A widget is a class that represents a control on the screen
+      NYX contains a default set of widgets, which can be expanded
+      and replaced by using an xml file. Currently these widgets swing
+      are present :
+     <table>
+      <tr><th>Widget</th><th>supported</th></tr>
+      <tr>
+        <td><a href="window.html">Window</a></td>
+        <td>swing,swt</td>
+      </tr>
+      <tr>
+        <td><a href="label.html">Label</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="entry.html">Entry</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="panel.html">Panel</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="button.html">Button</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="checkbox.html">Checkbox</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="native.html">Native</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="tabpanel.html">TabPanel</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="textarea.html">TextArea</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="table.html">table</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="tree.html">tree</a></td>
+        <td>swing</td>
+      </tr>
+      </table>
+    </p>
+  </subsection>
+  <subsection name="Behaviour">
+    <p>
+      Explain the behaviour
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      Make a list of properties
+    </p>
+  </subsection>
+</section>
+
+</body>
+
+</document>

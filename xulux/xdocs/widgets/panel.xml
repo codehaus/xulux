@@ -45,6 +45,11 @@
         <td>swing</td>
         <td>The color of the border, it defaults to the current forground color.</td>
       </tr>
+      <tr>
+        <td>default-background-color</td>
+        <td>swing</td>
+        <td>The default background color of the panel.</td>
+      </tr>
     </table>
   </subsection>
 </section>

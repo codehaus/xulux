@@ -1,5 +1,5 @@
 /*
- $Id: TreeTest.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ $Id: TreeTest.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.gui.IContentWidget;
 import org.xulux.nyx.gui.PartCreator;
 
 /**
@@ -62,7 +61,7 @@ import org.xulux.nyx.gui.PartCreator;
  * We keep it simple for now.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeTest.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: TreeTest.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
  */
 public class TreeTest extends TestCase {
 

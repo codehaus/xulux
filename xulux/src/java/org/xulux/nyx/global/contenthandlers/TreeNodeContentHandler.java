@@ -1,5 +1,5 @@
 /*
- $Id: NyxTreeModel.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ $Id: TreeNodeContentHandler.java,v 1.1 2003-09-17 11:49:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,32 +43,59 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.models;
+package org.xulux.nyx.global.contenthandlers;
 
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 /**
- * A cutom tree root, so we can do magic of our own
- * 
+ * A tree content handler using a TreeNode.
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTreeModel.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: TreeNodeContentHandler.java,v 1.1 2003-09-17 11:49:31 mvdb Exp $
  */
-public class NyxTreeModel extends DefaultTreeModel {
+public class TreeNodeContentHandler extends TreeContentHandler {
 
     /**
-     * @param root
+     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChild(java.lang.Object, int)
      */
-    public NyxTreeModel(TreeNode root) {
-        super(root);
+    public Object getChild(Object parent, int index) {
+        return ((TreeNode)parent).getChildAt(index); 
+    }
+    
+    /**
+     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChildCount(java.lang.Object)
+     */
+    public int getChildCount(Object parent) {
+        return ((TreeNode)parent).getChildCount();
     }
 
     /**
-     * @param root
-     * @param asksAllowsChildren
+     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getIndexOfChild(java.lang.Object, java.lang.Object)
      */
-    public NyxTreeModel(TreeNode root, boolean asksAllowsChildren) {
-        super(root, asksAllowsChildren);
+    public int getIndexOfChild(Object parent, Object child) {
+        return ((TreeNode)parent).getIndex((TreeNode)child);
     }
+
+    /**
+     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getRoot()
+     */
+    public Object getRoot() {
+        return (TreeNode)getWidget().getContent();
+    }
+
+    /**
+     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#isLeaf(java.lang.Object)
+     */
+    public boolean isLeaf(Object node) {
+        return ((TreeNode)node).isLeaf();
+    }
+
+    /**
+     * @see org.xulux.nyx.global.IContentHandler#getType()
+     */
+    public Class getType() {
+        return TreeNode.class;
+    }
+
 
 }

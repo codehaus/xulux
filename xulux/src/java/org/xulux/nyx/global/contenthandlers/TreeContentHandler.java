@@ -1,5 +1,5 @@
 /*
- $Id: TreeContentHandler.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ $Id: TreeContentHandler.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,22 +45,28 @@
  */
 package org.xulux.nyx.global.contenthandlers;
 
-import javax.swing.tree.TreeNode;
+import org.xulux.nyx.gui.IContentWidget;
 
 /**
  * A contenthandler for the tree. Sicne it is the main interface for having
  * trees at all in default java, it will be located in the global package.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeContentHandler.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: TreeContentHandler.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
  */
-public class TreeContentHandler extends ContentHandlerAbstract {
-
+public abstract class TreeContentHandler extends ContentHandlerAbstract
+{
+    
+    protected IContentWidget widget;
     /**
      * 
      */
     public TreeContentHandler() {
         super();
+    }
+    
+    public TreeContentHandler(IContentWidget widget) {
+        setWidget(widget);
     }
 
     /**
@@ -73,10 +79,56 @@ public class TreeContentHandler extends ContentHandlerAbstract {
     }
 
     /**
-     * @see org.xulux.nyx.global.IContentHandler#getType()
+     * 
+     * @return the widget
      */
-    public Class getType() {
-        return TreeNode.class;
+    public IContentWidget getWidget() {
+        return widget;
     }
+    
+    /**
+     * Set the widget.
+     * @param widget
+     */
+    public void setWidget(IContentWidget widget) {
+        this.widget = widget;
+    }
+
+    /**
+     * Returns the child at the index of the parent
+     * 
+     * @param parent
+     * @param index
+     */
+    public abstract Object getChild(Object parent, int index);
+    
+    /**
+     * Returns the number of children the parent has
+     * @param parent
+     * @return
+     */
+    public abstract int getChildCount(Object parent);
+    
+    /**
+     * Return the index of the specified child.
+     * 
+     * @param parent
+     * @param child
+     * @return
+     */
+    public abstract int getIndexOfChild(Object parent, Object child);
+    
+    /**
+     * 
+     * @return the root of the tree.
+     */
+    public abstract Object getRoot();
+    
+    /**
+     * 
+     * @param node
+     * @return checks if the node is a leaf or not.
+     */
+    public abstract boolean isLeaf(Object node);
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.12 2003-09-11 12:20:56 mvdb Exp $
+ $Id: Panel.java,v 1.13 2003-09-17 11:49:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,7 +50,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
@@ -59,9 +58,7 @@ import javax.swing.border.TitledBorder;
 import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.gui.WidgetRectangle;
 import org.xulux.nyx.gui.utils.ColorUtils;
-import org.xulux.nyx.swing.extensions.NyxLineBorder;
 import org.xulux.nyx.swing.extensions.NyxTitledBorder;
 import org.xulux.nyx.swing.layouts.XYLayout;
 
@@ -69,7 +66,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.12 2003-09-11 12:20:56 mvdb Exp $
+ * @version $Id: Panel.java,v 1.13 2003-09-17 11:49:31 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -138,13 +135,16 @@ public class Panel extends ContainerWidget
     public void refresh()
     {
         initialize();
+        String backgroundColor = getProperty("default-background-color");
+
+        if (backgroundColor != null) {
+            panel.setBackground(ColorUtils.getSwingColor(backgroundColor));
+        }        
         /*
          * Fix for border issues. They tend to be too big or
          * too small..
          */
-//        panel.setSize(getRectangle().getRectangle().getSize());
-//        panel.setPreferredSize(getRectangle().getRectangle().getSize());
-        String border = (String)getProperties().get("border");
+        String border = getProperty("border");
         if (border!=null)
         {
             Color color = panel.getForeground();
@@ -177,9 +177,6 @@ public class Panel extends ContainerWidget
                 //TitledBorder titledBorder = BorderFactory.createTitledBorder(new LineBorder(color,borderSize),borderTitle);
                 TitledBorder titledBorder = new NyxTitledBorder(borderTitle);
                 titledBorder.setTitleColor(titleColor);
-//                titledBorder.getBorder().
-//                titledBorder.getBorderInsets(panel).left=1;
-//                titledBorder.getBorderInsets(panel).right=1;
                 panel.setBorder(titledBorder);
             } else if (border.equalsIgnoreCase("line")) {
                 int borderSize = 1;
