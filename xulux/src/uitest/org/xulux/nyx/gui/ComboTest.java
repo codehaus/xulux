@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.3 2003-05-21 10:07:17 mvdb Exp $
+ $Id: ComboTest.java,v 1.4 2003-06-17 13:48:50 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.xulux.nyx.context.ApplicationPart;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboTest.java,v 1.3 2003-05-21 10:07:17 mvdb Exp $
+ * @version $Id: ComboTest.java,v 1.4 2003-06-17 13:48:50 mvdb Exp $
  */
 public class ComboTest extends TestCase
 {
@@ -82,6 +82,7 @@ public class ComboTest extends TestCase
         String xml = "org/xulux/nyx/gui/ComboTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(person, stream);
+        part.activate();
     }
     
     public void testSimpleComboSwt()
@@ -92,13 +93,14 @@ public class ComboTest extends TestCase
         String xml = "org/xulux/nyx/gui/ComboTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(person, stream);
+        part.activate();
     }
     
     public static void main(String args[])
     {
         try
         {
-            new ComboTest("ComboTest").testSimpleComboSwt();
+            new ComboTest("ComboTest").testSimpleComboSwing();
         }
         catch(Exception e)
         {

@@ -1,5 +1,5 @@
 /*
- $Id: EntryTest.java,v 1.2 2003-05-21 10:07:17 mvdb Exp $
+ $Id: EntryTest.java,v 1.3 2003-06-17 13:48:50 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.xulux.nyx.context.ApplicationPart;
  * Testcase for an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: EntryTest.java,v 1.2 2003-05-21 10:07:17 mvdb Exp $
+ * @version $Id: EntryTest.java,v 1.3 2003-06-17 13:48:50 mvdb Exp $
  */
 public class EntryTest extends TestCase
 {
@@ -81,6 +81,7 @@ public class EntryTest extends TestCase
         String xml = "org/xulux/nyx/gui/EntryTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(person, stream);
+        part.activate();
     }
     
     public static void main(String args[])
