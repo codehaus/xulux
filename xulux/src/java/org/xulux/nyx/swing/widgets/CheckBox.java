@@ -1,5 +1,5 @@
 /*
- $Id: CheckBox.java,v 1.4 2003-07-16 14:34:17 mvdb Exp $
+ $Id: CheckBox.java,v 1.5 2003-07-17 01:09:33 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,6 +52,7 @@ import javax.swing.JCheckBox;
 import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
 import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
@@ -59,7 +60,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * The nyx to swing implementation of a checkbox
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.4 2003-07-16 14:34:17 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.5 2003-07-17 01:09:33 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
     
@@ -146,6 +147,44 @@ public class CheckBox extends SwingWidget {
             return map.getField(getField()).getValue(getPart().getBean());
         }
         return super.getValue();
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#setValue(java.lang.Object)
+     */
+    public void setValue(Object value) {
+        if (this.value == null) {
+            this.value = "false";
+        }
+        this.previousValue = this.value;
+        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+        IField f = map.getField(getField());
+        Class cClass = f.getReturnType();
+        if (cClass == Boolean.class || cClass == Boolean.TYPE) {
+            if (value.getClass() == String.class) {
+                value = BooleanUtils.toBooleanObject((String)value);
+            }
+        } else if (cClass == String.class) {
+            if (value.getClass() == Boolean.class) {
+                value = BooleanUtils.toStringTrueFalse((Boolean)value);
+            }
+        }
+        System.err.println("cClas ** : "+cClass.getName());
+        System.err.println("Value : "+value);
+        f.setValue(getPart().getBean(),value);
+        System.err.println("Bean value : "+f.getValue(getPart().getBean()));
+        this.value = value;
+        if (initialized)
+        {
+            refresh();
+        }
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     */
+    public Object getGuiValue() {
+        return BooleanUtils.toBooleanObject(checkBox.isSelected());
     }
 
 }

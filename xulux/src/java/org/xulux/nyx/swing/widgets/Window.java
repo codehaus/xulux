@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.4 2003-07-11 01:13:25 mvdb Exp $
+ $Id: Window.java,v 1.5 2003-07-17 01:09:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,6 +54,7 @@ import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -69,7 +70,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.4 2003-07-11 01:13:25 mvdb Exp $
+ * @version $Id: Window.java,v 1.5 2003-07-17 01:09:33 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
@@ -172,6 +173,7 @@ public class Window extends NyxWindow
         {
             refresh();
         }
+        new Thread(new RepaintComponent()).start();    
     }
 
     /**
@@ -221,4 +223,36 @@ public class Window extends NyxWindow
         window.requestFocus();
     }
 
+    /**
+     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     */
+    public Object getGuiValue() {
+        return null;
+    }
+    
+    private class RepaintComponent implements Runnable{
+        /**
+         * @see java.lang.Runnable#run()
+         */
+        public void run() {
+            while (getPart().isActivating());
+            System.out.println("**** REPAINTING ****");
+            try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                /**
+                 * @see java.lang.Runnable#run()
+                 */
+                public void run() {
+                    // TODO : Look at painting problem
+                    // we for now rerun the rules, so
+                    // the window will show correctly.
+                    getPart().runPreRules();
+                }
+            });
+            }catch(Exception e) {
+                e.printStackTrace(System.out);
+            }
+        }
+
+    }
 }

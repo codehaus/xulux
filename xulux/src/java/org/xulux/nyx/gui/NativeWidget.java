@@ -1,5 +1,5 @@
 /*
- $Id: NativeWidget.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
+ $Id: NativeWidget.java,v 1.2 2003-07-17 01:09:34 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,7 +48,7 @@ package org.xulux.nyx.gui;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeWidget.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: NativeWidget.java,v 1.2 2003-07-17 01:09:34 mvdb Exp $
  */
 public class NativeWidget extends Widget {
 
@@ -92,6 +92,13 @@ public class NativeWidget extends Widget {
      */
     public void focus() {
 
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     */
+    public Object getGuiValue() {
+        return null;
     }
 
 }

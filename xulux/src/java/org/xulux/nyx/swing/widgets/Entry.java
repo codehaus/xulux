@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.7 2003-07-16 14:34:17 mvdb Exp $
+ $Id: Entry.java,v 1.8 2003-07-17 01:09:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.7 2003-07-16 14:34:17 mvdb Exp $
+ * @version $Id: Entry.java,v 1.8 2003-07-17 01:09:33 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -217,8 +217,8 @@ extends SwingWidget
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
             if (map != null)
             {
-                System.err.println("Map : "+map.getFields());
-                System.err.println("getField : "+getField());
+//                System.err.println("Map : "+map.getFields());
+//                System.err.println("getField : "+getField());
                 text2 = (String)map.getField(getField()).getValue(this.value);
             }
             if (text.equals(text2))
@@ -266,6 +266,9 @@ extends SwingWidget
             
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
             try {
+                //System.out.println("getField : "+getField());
+                //System.out.println("map : "+map.getFields());
+                //System.out.println("value : "+getField.getValue(
                 val = map.getField(getField()).getValue(getPart().getBean());
             }catch(Exception e) {
                 // we have to catch exceptions, since there
@@ -334,6 +337,12 @@ extends SwingWidget
     public void setText(String text)
     {
         this.text = text;
+    }
+    /**
+     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     */
+    public Object getGuiValue() {
+        return null;
     }
     
 }

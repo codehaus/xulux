@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.3 2003-07-16 14:34:17 mvdb Exp $
+ $Id: Combo.java,v 1.4 2003-07-17 01:09:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,9 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.KeyListener;
 
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.swing.NyxComboBox;
@@ -60,7 +63,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.3 2003-07-16 14:34:17 mvdb Exp $
+ * @version $Id: Combo.java,v 1.4 2003-07-17 01:09:33 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -126,6 +129,9 @@ public class Combo extends NyxCombo
             return;
         }
         this.initialized = true;
+        if (getName().equals("Gender")) {
+            System.err.println("Gender");
+        }
         String nsv = getProperty("notselectedvalue");
         if (nsv != null)
         {
@@ -136,6 +142,13 @@ public class Combo extends NyxCombo
         {
             refresh();
         }
+        // setValue refreshes the widget again..
+        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+        IField field = map.getField(getField());
+        System.out.println("*********");
+        System.out.println("Field :"+field);
+        System.out.println("Value : "+field.getValue(getPart().getBean()));
+        setValue(field.getValue(getPart().getBean()));
     }
 
     /**
@@ -236,7 +249,6 @@ public class Combo extends NyxCombo
         {
             combo.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
-        combo.repaint();
         isRefreshing = false;
     }
     /**
@@ -244,6 +256,12 @@ public class Combo extends NyxCombo
      */
     public void focus() {
         combo.requestFocus();
+    }
+    /**
+     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     */
+    public Object getGuiValue() {
+        return null;
     }
 
 }

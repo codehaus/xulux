@@ -1,6 +1,6 @@
 
 /*
- $Id: IField.java,v 1.2 2003-05-21 11:03:58 mvdb Exp $
+ $Id: IField.java,v 1.3 2003-07-17 01:09:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,7 +50,7 @@ package org.xulux.nyx.global;
  * The generic field interface..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IField.java,v 1.2 2003-05-21 11:03:58 mvdb Exp $
+ * @version $Id: IField.java,v 1.3 2003-07-17 01:09:34 mvdb Exp $
  */
 public interface IField
 {
@@ -79,6 +79,8 @@ public interface IField
      * Returns if a field is readonly or not
      */
     public boolean isReadOnly();
+    
+    public Class getReturnType();
     
     
 }

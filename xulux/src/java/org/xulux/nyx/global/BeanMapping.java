@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.12 2003-07-16 15:37:25 mvdb Exp $
+ $Id: BeanMapping.java,v 1.13 2003-07-17 01:09:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.12 2003-07-16 15:37:25 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.13 2003-07-17 01:09:34 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -186,7 +186,11 @@ public class BeanMapping
                 log.warn("No Bean specified");
             }
             return null;
-        } 
+        }
+        System.out.println("Name : "+name);
+        if(name.equals("strfoo")) {
+            System.out.println("strfoo");
+        }
         Method[] methods = getBean().getMethods();
         String pre = (setMethod)?"set":"get";
         for (int i = 0; i < methods.length; i++)
@@ -312,11 +316,6 @@ public class BeanMapping
         if (dotIndex != -1) {
             String field = name.substring(0,dotIndex);
             realField = name.substring(dotIndex+1);
-            if (field.equals("homeContact.Phone")) {
-                System.err.println("field : "+field);
-                System.err.println("realField :"+realField);
-                System.err.println("Fields : "+getFields());
-            }
             name = field;
         }
         int index = fields.indexOf(name);
@@ -357,15 +356,10 @@ public class BeanMapping
 
                     BeanField field = new BeanField(method);
                     // try to find the setter..
-                    try
-                    {
-                        String fieldName = field.getName().substring(0,1).toUpperCase()+field.getName().substring(1);
-                        Method setMethod = bean.getMethod("set"+fieldName, new Class[]{method.getReturnType()});
-                        field.setChangeMethod(setMethod);
-                    }
-                    catch (NoSuchMethodException e)
-                    {
-                    }
+                    String fieldName = field.getName().substring(0,1).toUpperCase()+field.getName().substring(1);
+                    Method setMethod = findMethod(fieldName, true);
+                    System.out.println("found setmethod : "+setMethod);
+                    field.setChangeMethod(setMethod);
                     addField(field);
                 }
             }

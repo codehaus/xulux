@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.1 2003-07-11 01:13:25 mvdb Exp $
+ $Id: TabPanel.java,v 1.2 2003-07-17 01:09:33 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * 
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.1 2003-07-11 01:13:25 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.2 2003-07-17 01:09:33 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
     
@@ -183,6 +183,12 @@ public class TabPanel extends ContainerWidget {
                 log.warn("Only panel widgets are allowed on top of a tabPanel, skipping widget "+widget);
             }
         }
+    }
+    /**
+     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     */
+    public Object getGuiValue() {
+        return null;
     }
 
 }

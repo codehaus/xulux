@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.42 2003-07-14 03:37:37 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.43 2003-07-17 01:09:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -80,7 +80,7 @@ import org.xulux.nyx.utils.Translation;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.42 2003-07-14 03:37:37 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.43 2003-07-17 01:09:34 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -103,6 +103,12 @@ public class ApplicationPart
     private boolean activated;
 
     boolean stopRules = false;
+    
+    /**
+     * Specifies if a window is currently
+     * activating itself.
+     */
+    private boolean isActivating = false;
     
     private String name;
     
@@ -436,6 +442,9 @@ public class ApplicationPart
         }
     }
     
+    public boolean isActivating() {
+        return this.isActivating;
+    }
     /**
      * Activates the part
      * Which means setting starting rule processing
@@ -448,6 +457,7 @@ public class ApplicationPart
             return;
         }
         activated = true;
+        isActivating = true;
         if (getRules() == null)
         {
             if (log.isDebugEnabled())
@@ -456,6 +466,33 @@ public class ApplicationPart
             }
         }
         else
+        {
+            PartRequestImpl req = new PartRequestImpl(this, PartRequest.NO_ACTION);
+            ApplicationContext.fireRequest(req, ApplicationContext.PRE_REQUEST);
+        }
+        if (widgets != null) {    
+            Iterator it = widgets.iterator();
+            while (it.hasNext())
+            {
+                Widget widget = (Widget) it.next();
+                if (widget.canBeRootWidget() || 
+                     widget.canContainChildren())
+                {
+                    widget.initialize();
+                    WidgetRequestImpl req = new WidgetRequestImpl(widget,PartRequest.NO_ACTION);
+                    ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
+                }
+            }
+        }
+        isActivating = false;
+    }
+    
+    /**
+     * Runs all the pre rules again..
+     *
+     */
+    public void runPreRules() {
+        if (getRules() != null)
         {
             PartRequestImpl req = new PartRequestImpl(this, PartRequest.NO_ACTION);
             ApplicationContext.fireRequest(req, ApplicationContext.PRE_REQUEST);

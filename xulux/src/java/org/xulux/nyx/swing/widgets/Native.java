@@ -1,5 +1,5 @@
 /*
- $Id: Native.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
+ $Id: Native.java,v 1.2 2003-07-17 01:09:33 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import org.xulux.nyx.gui.Widget;
  * It should just return the native widget when requested..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Native.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
+ * @version $Id: Native.java,v 1.2 2003-07-17 01:09:33 mvdb Exp $
  */
 public class Native extends Widget {
 
@@ -99,6 +99,12 @@ public class Native extends Widget {
      */
     public void focus() {
 
+    }
+    /**
+     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     */
+    public Object getGuiValue() {
+        return null;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.13 2003-07-16 15:37:25 mvdb Exp $
+ $Id: BeanField.java,v 1.14 2003-07-17 01:09:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,7 @@ package org.xulux.nyx.global;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -67,7 +68,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.13 2003-07-16 15:37:25 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.14 2003-07-17 01:09:34 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -162,10 +163,15 @@ public class BeanField implements IField
         boolean success = false;
         if (isReadOnly())
         {
+            if (log.isWarnEnabled()) {
+                log.warn("Field "+getName()+" is readonly or couldn't find the set Method");
+            }
             return success;
         }
         try
         {
+            System.err.println("changeMethod : "+changeMethod);
+            //System.err.println("Value : "+value.getClass());
             if (this.realField != null) {
                 // set the real value..
                 Class retType = getMethod().getReturnType();
@@ -174,7 +180,10 @@ public class BeanField implements IField
                 IField field = mapping.getField(realField);
                 field.setValue(realBean, value);
             } else {
-                this.changeMethod.invoke(bean, getArgs());
+                System.err.println("changeMethod : "+changeMethod);
+                System.err.println("Value : "+value.getClass());
+                List parmList = Arrays.asList(changeMethod.getParameterTypes());
+                this.changeMethod.invoke(bean, new Object[]{value});
             }
             success = true;
         }
@@ -204,14 +213,6 @@ public class BeanField implements IField
      */
     public Object getValue(Object bean)
     {
-        System.err.println("*****"+getName()+"*****");
-        if (getName().equals("contactoftype")) {
-            System.err.println("field : "+getName());
-            System.err.println("bean :"+bean);
-            System.err.println("parameters : "+getParameters());
-            System.err.println("realField : "+this.realField);
-        }
-            
         try
         {
             if (this.realField != null) {
@@ -223,10 +224,12 @@ public class BeanField implements IField
                 return field.getValue(getMethod().invoke(bean, getArgs()));
             }
             else {
-                System.err.println("field : "+getName());
-                System.err.println("bean :"+bean);
+//                System.err.println("field : "+getName());
+//                System.err.println("bean :"+bean);
                 if (bean != null) {
-                    System.err.println("Method "+getMethod().getName());
+//                    System.err.println("Method "+getMethod().getName());
+//                    System.err.println("method parameters : "+getParameters()); 
+//                    System.err.println("Args "+Arrays.asList(getMethod().getParameterTypes()));
                     return this.method.invoke(bean, getArgs());
                 } else {
                     if (log.isDebugEnabled()) {
@@ -437,6 +440,14 @@ public class BeanField implements IField
      */
     public void setRealField(String realField) {
         this.realField = realField;
+    }
+    
+    /**
+     * 
+     * @return the returntype of the getmethod.
+     */
+    public Class getReturnType() {
+        return this.method.getReturnType();
     }
 
 }

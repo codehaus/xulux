@@ -1,5 +1,5 @@
 /*
- $Id: LocalField.java,v 1.2 2003-05-21 11:03:58 mvdb Exp $
+ $Id: LocalField.java,v 1.3 2003-07-17 01:09:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ package org.xulux.nyx.global;
  *       way of dealing with fields.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LocalField.java,v 1.2 2003-05-21 11:03:58 mvdb Exp $
+ * @version $Id: LocalField.java,v 1.3 2003-07-17 01:09:34 mvdb Exp $
  */
 public class LocalField implements IField
 {
@@ -142,6 +142,13 @@ public class LocalField implements IField
     public boolean isReadOnly()
     {
         return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.global.IField#getReturnType()
+     */
+    public Class getReturnType() {
+        return null;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.28 2003-07-16 15:38:46 mvdb Exp $
+ $Id: Widget.java,v 1.29 2003-07-17 01:09:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.28 2003-07-16 15:38:46 mvdb Exp $
+ * @version $Id: Widget.java,v 1.29 2003-07-17 01:09:34 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -524,6 +524,14 @@ public abstract class Widget implements Serializable
         return getName();
     }
     
+    
+    /**
+     * Get the value from the native widget
+     * 
+     * @return
+     */
+    public abstract Object getGuiValue();
+    
     /**
      * 
      * @return the value associated with this widget
@@ -540,7 +548,6 @@ public abstract class Widget implements Serializable
     
     public void setValue(Object value)
     {
-        System.out.println("Setting value...");
         this.previousValue = this.value;
         this.value = value;
         if (initialized)

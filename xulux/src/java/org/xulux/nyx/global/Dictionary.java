@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.10 2003-07-16 14:36:51 mvdb Exp $
+ $Id: Dictionary.java,v 1.11 2003-07-17 01:09:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.10 2003-07-16 14:36:51 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.11 2003-07-17 01:09:34 mvdb Exp $
  */
 public class Dictionary
 {
@@ -138,6 +138,22 @@ public class Dictionary
     public BeanMapping getMapping(Class clazz)
     {
         return getMapping(clazz, false);
+    }
+    
+    /**
+     * Convenience method. This calls the 
+     * getMapping(Class)
+     * 
+     * @param object
+     * @return the beanmapping that is connected
+     *          to the class of the specified instance
+     *          or null when the object is null.
+     */
+    public BeanMapping getMapping(Object object) {
+        if (object == null) {
+            return null;
+        }
+        return getMapping(object.getClass());
     }
     
 

@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.15 2003-07-14 01:39:40 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.16 2003-07-17 01:09:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.widgets.Entry;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.15 2003-07-14 01:39:40 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.16 2003-07-17 01:09:34 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -112,10 +112,10 @@ implements FocusListener, ActionListener, ItemListener
         {
             return;
         }
-        System.out.println("Widget clazz : "+widget.getClass().getName());
+        //System.out.println("Widget clazz : "+widget.getClass().getName());
         if (widget instanceof Entry)
         {
-            System.out.println("Widget value : "+widget.getValue());
+            //System.out.println("Widget value : "+widget.getValue());
         }
         completed();
     }
@@ -143,14 +143,17 @@ implements FocusListener, ActionListener, ItemListener
     public void itemStateChanged(ItemEvent e) {
         // make sure we don't end up in a loop by checking
         // the fact if the widget is currently refreshing or not..
-        if (widget instanceof CheckBox && !widget.isRefreshing()) {
+        if (widget.isRefreshing()) {
+            return;
+        }
+        if (widget instanceof CheckBox) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 widget.setValue("true");
             }else if(e.getStateChange() == ItemEvent.DESELECTED) {
                 widget.setValue("false");
             }
-            if (log.isDebugEnabled()) {
-                log.debug("Checkbox clicked on Widget : "+
+            if (log.isWarnEnabled()) {
+                log.warn("Checkbox clicked on Widget : "+
                    widget.getName()+" value: "+
                        widget.getValue());
             }
