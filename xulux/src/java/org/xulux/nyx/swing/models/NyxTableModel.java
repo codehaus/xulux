@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableModel.java,v 1.13 2003-11-11 10:27:44 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.14 2003-11-13 15:20:57 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,11 +63,12 @@ import org.xulux.nyx.swing.widgets.Table;
  * TODO: Assumes lists right now.. Should support more probably..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.13 2003-11-11 10:27:44 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.14 2003-11-13 15:20:57 mvdb Exp $
  */
 public class NyxTableModel extends NyxListener implements TableModel {
 
     protected Table table;
+    protected TableModel model;
 
     /**
      *
@@ -78,6 +79,19 @@ public class NyxTableModel extends NyxListener implements TableModel {
 
     public NyxTableModel(Table table) {
         setTable(table);
+    }
+
+    public NyxTableModel(TableModel model, Table table) {
+        setTable(table);
+        setModel(model);
+    }
+    
+    public void setModel(TableModel model) {
+        this.model = model;
+    }
+    
+    public boolean hasModel() {
+        return this.model != null;
     }
 
     /**
@@ -92,6 +106,9 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * @see javax.swing.table.TableModel#getRowCount()
      */
     public int getRowCount() {
+        if (hasModel()) {
+            return model.getRowCount();
+        }
         int rowCount = 0;
         if (table != null) {
             if (table.getContent()!=null) {
@@ -107,6 +124,9 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * @see javax.swing.table.TableModel#getColumnCount()
      */
     public int getColumnCount() {
+        if (hasModel()) {
+            return model.getColumnCount();
+        }
         return 0;
     }
 
@@ -115,6 +135,9 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * @see javax.swing.table.TableModel#getColumnName(int)
      */
     public String getColumnName(int columnIndex) {
+        if (hasModel()) {
+            return ""+model.getColumnName(columnIndex);
+        }
         return ""+columnIndex;
     }
 
@@ -122,6 +145,9 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * @see javax.swing.table.TableModel#getColumnClass(int)
      */
     public Class getColumnClass(int columnIndex) {
+        if (hasModel()) {
+            return model.getColumnClass(columnIndex);
+        }
         return String.class;
     }
 
@@ -129,6 +155,9 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * @see javax.swing.table.TableModel#isCellEditable(int, int)
      */
     public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if (hasModel()) {
+            return model.isCellEditable(rowIndex, columnIndex);
+        }
         String editable = ((Widget)table.getChildWidgets().get(columnIndex)).getProperty("editable");
 
         return "true".equalsIgnoreCase(editable);
@@ -140,6 +169,9 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     public Object getValueAt(int rowIndex, int columnIndex) {
+        if (hasModel()) {
+            return model.getValueAt(rowIndex, columnIndex);
+        }
         if (columnIndex == -1) {
             return ((List)table.getContent()).get(rowIndex);
         }
@@ -168,6 +200,10 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
      */
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        if (hasModel()) {
+            model.setValueAt(aValue, rowIndex, columnIndex);
+            return;
+        }
         Widget w = (Widget)table.getChildWidgets().get(columnIndex);
         if (w.getField() != null) {
             BeanMapping map = Dictionary.getInstance().getMapping(((List)table.getContent()).get(rowIndex));
@@ -186,14 +222,20 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * @see javax.swing.table.TableModel#addTableModelListener(javax.swing.event.TableModelListener)
      */
     public void addTableModelListener(TableModelListener l) {
+        if (hasModel()) {
+            model.addTableModelListener(l);
+            return;
+        }
     }
 
     /**
      * @see javax.swing.table.TableModel#removeTableModelListener(javax.swing.event.TableModelListener)
      */
     public void removeTableModelListener(TableModelListener l) {
-        System.out.println("removetableModelListener : "+l);
-
+        if (hasModel()) {
+            model.removeTableModelListener(l);
+            return;
+        }
     }
 
     /**
@@ -202,6 +244,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
      */
     public void destroy() {
         this.table = null;
+        this.model = null;
     }
 
     /**

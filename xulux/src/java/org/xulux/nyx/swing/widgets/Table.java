@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.25 2003-11-13 02:45:39 mvdb Exp $
+ $Id: Table.java,v 1.26 2003-11-13 15:20:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,6 +52,7 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -84,7 +85,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.25 2003-11-13 02:45:39 mvdb Exp $
+ * @version $Id: Table.java,v 1.26 2003-11-13 15:20:57 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
         
@@ -106,7 +107,7 @@ public class Table extends ContainerWidget implements IContentWidget {
     protected boolean hasChildPopups;
     private boolean childPopupsChecked;
 
-    protected List content;
+    protected Object content;
     protected boolean contentChanged;
     /**
      * The log class
@@ -265,7 +266,11 @@ public class Table extends ContainerWidget implements IContentWidget {
 //                System.out.println("hasLockedColumns : "+this.columnModel.hasLockedColumns());
             }
             if (this.model == null) {
-                this.model = new NyxTableModel(this);
+                if (content instanceof TableModel) {
+                    this.model = new NyxTableModel((TableModel)content, this);
+                } else {
+                    this.model = new NyxTableModel(this);
+                }
             }
             if (this.editor == null) {
                 this.editor = new NyxTableCellEditor(this);
@@ -576,12 +581,10 @@ public class Table extends ContainerWidget implements IContentWidget {
      */
     public void setContent(Object object) {
         contentChanged = true;
-        this.oldListSize = this.listSize;
+        this.content = object;
         if (object instanceof List) {
-            this.content = (List)object;
-        }
-        if (object != null) {
-            listSize = this.content.size();
+            this.oldListSize = this.listSize;
+            listSize = ((List)content).size();            
         }
         if (initialized) {
             refresh();
@@ -635,11 +638,16 @@ public class Table extends ContainerWidget implements IContentWidget {
             }
         }
         initialize();
-        int index = content.indexOf(value);
-        if (index != -1) {
-            // select the row found
-            table.setRowSelectionInterval(index,index);
-        }
+        // TODO: Add getting the index of the current value in the table,
+        // so we can select that one (mostly used on initial activation of 
+        // table or after adding an entry to the table.
+        if (content instanceof List) {
+            int index = ((List)content).indexOf(value);
+            if (index != -1) {
+                // select the row found
+                table.setRowSelectionInterval(index,index);
+            }
+        }   
         getPart().refreshFields(this);
         getPart().updateDependandWidgets(this);
     }

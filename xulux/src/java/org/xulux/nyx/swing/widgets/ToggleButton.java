@@ -1,5 +1,5 @@
 /*
- $Id: ToggleButton.java,v 1.1 2003-11-10 11:07:29 mvdb Exp $
+ $Id: ToggleButton.java,v 1.2 2003-11-13 15:20:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,9 +49,12 @@ import java.awt.Container;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.ButtonModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.global.BeanMapping;
@@ -65,7 +68,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a togglebutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ToggleButton.java,v 1.1 2003-11-10 11:07:29 mvdb Exp $
+ * @version $Id: ToggleButton.java,v 1.2 2003-11-13 15:20:57 mvdb Exp $
  */
 public class ToggleButton extends Widget {
 
@@ -149,11 +152,24 @@ public class ToggleButton extends Widget {
         }
         toggleButton.setEnabled(isEnabled());
         String backgroundColor = null;
+        // TODO: check to see the repainting problem nyx has with togglebuttons.
+        // currently I got to the point when the rollover image was still active
+        // when leaving the button with the mouse, no events were fired or eaten?
+        // need to investigate further.
+//        toggleButton.getModel().addChangeListener(new ChangeListener() {
+//
+//            public void stateChanged(ChangeEvent e) {
+//                System.out.println("statechanged..."+e);
+//                toggleButton.invalidate();
+//                toggleButton.repaint();
+//            }
+//            
+//        });
         String image = getProperty("image");
         if (image != null)
         {
-            ImageIcon icon = SwingUtils.getIcon(image,this);
-            toggleButton.setIcon(icon);
+            ImageIcon normalIcon = SwingUtils.getIcon(image,this);
+            toggleButton.setIcon(normalIcon);
             toggleButton.setFocusPainted(true);
         }
         String disabledImage = getProperty("image-disabled");
@@ -167,9 +183,10 @@ public class ToggleButton extends Widget {
         if (rolloverImage!=null)
         {
             ImageIcon icon = SwingUtils.getIcon(rolloverImage, this);
-            toggleButton.setRolloverIcon(icon);
             toggleButton.setRolloverEnabled(true);
+            toggleButton.setRolloverIcon(icon);
         }
+        
         String selectedImage = getProperty("image-selected");
         if (selectedImage != null)
         {
@@ -190,7 +207,10 @@ public class ToggleButton extends Widget {
                      */
                     public void focusGained(FocusEvent e)
                     {
-                        normalIcon = toggleButton.getIcon();
+                        System.out.println("Gained : "+e);
+                        if (normalIcon == null) {
+                            normalIcon = toggleButton.getIcon();
+                        }
                         toggleButton.setIcon(toggleButton.getSelectedIcon());
                     }
 
@@ -199,10 +219,12 @@ public class ToggleButton extends Widget {
                      */
                     public void focusLost(FocusEvent e)
                     {
-                        if (normalIcon != null)
-                        {
+                        System.out.println("lost : "+e);
+                        String image = getProperty("image");
+                        if (image != null) {
+                            ImageIcon normalIcon = SwingUtils.getIcon(image,this);
                             toggleButton.setIcon(normalIcon);
-                            normalIcon = null;
+                            toggleButton.setFocusPainted(true);
                         }
                     }
                 };
@@ -210,6 +232,7 @@ public class ToggleButton extends Widget {
             }
 
         }
+        toggleButton.repaint();
         isRefreshing = false;
     }
 
