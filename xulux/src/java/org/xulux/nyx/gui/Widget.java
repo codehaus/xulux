@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.37 2003-08-07 16:41:14 mvdb Exp $
+ $Id: Widget.java,v 1.38 2003-08-29 01:00:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -66,7 +66,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.37 2003-08-07 16:41:14 mvdb Exp $
+ * @version $Id: Widget.java,v 1.38 2003-08-29 01:00:05 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -97,6 +97,11 @@ public abstract class Widget implements Serializable
     private boolean required = false;
     
     private boolean isRootWidget = false;
+    /**
+     * Valid value defaults to true!
+     */
+    private boolean validValue = true;
+    
     
     /** 
      * The parent widget, if there is one
@@ -831,6 +836,26 @@ public abstract class Widget implements Serializable
         while (it.hasNext()) {
             ((IWidgetInitializer)it.next()).destroy(this);
         }
+    }
+    
+    /**
+     * 
+     * @return if the widget contains a valid value
+     *          it defaults to true!
+     */
+    public boolean isValidValue() {
+        return this.validValue;
+    }
+    
+    /**
+     * Call this from your code when you think there is an 
+     * invalid value specified in a widget.
+     * Normally just called from rules.
+     * 
+     * @param validValue
+     */
+    public void setValidValue(boolean validValue) {
+        this.validValue = validValue;
     }
     
     /**
