@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.29 2002-12-12 14:41:12 mvdb Exp $
+ $Id: Entry.java,v 1.30 2002-12-12 14:42:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,20 +48,20 @@ package org.xulux.nyx.gui;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+
 import javax.swing.JTextField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
-import org.xulux.nyx.swing.listeners.ImmidiateListener;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.29 2002-12-12 14:41:12 mvdb Exp $
+ * @version $Id: Entry.java,v 1.30 2002-12-12 14:42:26 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -164,21 +164,6 @@ extends Widget
         textField.setVisible(isVisible());
         textField.setPreferredSize(this.size);
         initializeValue();
-/*        if (getValue()!=null)
-        {
-            textField.setText(getText());
-        }
-        else
-        {
-            textField.setText("");
-        }*/
-/*        String enabled = getProperty("enabled");
-        if (enabled != null)
-        {
-            setEnable((enabled.equalsIgnoreCase("true")?true:false));
-            textField.setEditable(isEnabled());
-        }
-        */
         String backgroundColor = null;
         if (isRequired()  && isEnabled())
         {
