@@ -17,7 +17,7 @@ import org.xulux.gui.Widget;
  * (eg LEFT means, stay left, do not center).
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: AutoSizeLayoutManager.java,v 1.1 2004-10-19 13:46:55 mvdb Exp $
+ * @version $Id: AutoSizeLayoutManager.java,v 1.2 2004-10-20 00:00:02 mvdb Exp $
  */
 public class AutoSizeLayoutManager extends SwingLayoutAbstract implements LayoutManager2 {
 
@@ -86,11 +86,8 @@ public class AutoSizeLayoutManager extends SwingLayoutAbstract implements Layout
 //    System.out.println("Parent : " + parent);
     int compCount = parent.getComponentCount();
     Insets insets = parent.getInsets();
-    System.out.println("*****************************************");
-    System.out.println("parent : " + parent);
     for (int i = 0; i < compCount; i++) {
       Component component = parent.getComponent(i);
-      System.out.println("component : "+ component);
       Widget widget = null;
       Object obj = map.get(component);
       if (obj instanceof Widget) {
@@ -99,9 +96,7 @@ public class AutoSizeLayoutManager extends SwingLayoutAbstract implements Layout
       Dimension prefSize = null;
       Point location = new Point(0,0);
       if (widget != null) {
-        System.out.println("widget : " + widget);
         prefSize = widget.getRectangle().getRectangle().getSize();
-        System.err.println("Getting location : " + widget.getRectangle().getRectangle());
         location = widget.getRectangle().getRectangle().getLocation();
       } else {
         prefSize = component.getPreferredSize();
@@ -110,22 +105,24 @@ public class AutoSizeLayoutManager extends SwingLayoutAbstract implements Layout
           if (newValue.indexOf("width=auto") != -1) {
             prefSize.width = parent.getSize().width;
           }
+          if (newValue.indexOf("height=auto") != -1) {
+            prefSize.height = parent.getSize().height;
+          }
         }
       }
-      System.out.println("PrefSize : " + prefSize);
+      int height = prefSize.height+insets.top+insets.bottom;
       int width = prefSize.width+insets.left;
       if (widget != null && widget.getProperty("width") != null) {
         String widthProp = widget.getProperty("width");
         if ("auto".equalsIgnoreCase(widthProp)) {
 	        int newX =  parent.getSize().width;
-	        if (newX > width) {
 	          width = newX;
-	        }
+        }
+        String heightProp = widget.getProperty("height");
+        if ("auto".equalsIgnoreCase(heightProp)) {
+           height = parent.getSize().height-location.y;
         }
       }
-      System.out.println("*****************************************");
-      int height = prefSize.height+insets.top+insets.bottom;
-      System.out.println("location : " + location);
       component.setBounds(location.x, location.y, width, height);
     }
   }
@@ -165,7 +162,7 @@ public class AutoSizeLayoutManager extends SwingLayoutAbstract implements Layout
       } else {
         prefSize = component.getPreferredSize();
       }
-      width+=prefSize.width;
+      width = Math.max(width, prefSize.width);
       height+=prefSize.height;
     }
 //    System.out.println("returning : " + width + " height " + height);
