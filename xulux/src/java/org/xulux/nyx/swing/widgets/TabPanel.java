@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.17 2003-11-18 16:49:23 mvdb Exp $
+ $Id: TabPanel.java,v 1.18 2003-11-18 17:28:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  *
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.17 2003-11-18 16:49:23 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.18 2003-11-18 17:28:20 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
 
@@ -298,7 +298,6 @@ public class TabPanel extends ContainerWidget {
                         Thread.sleep(100000);
                     }catch(InterruptedException ie) {
                         // please repaint everything..
-                        ie.printStackTrace(System.err);
                         sleep = false;
                         break;
                     }
