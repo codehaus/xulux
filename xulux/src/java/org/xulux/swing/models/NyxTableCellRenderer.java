@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableCellRenderer.java,v 1.9 2004-09-23 07:41:26 mvdb Exp $
+   $Id: NyxTableCellRenderer.java,v 1.10 2004-09-23 07:55:27 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,6 +20,7 @@ package org.xulux.swing.models;
 import java.awt.Component;
 
 import javax.swing.JTable;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.xulux.core.PartRequest;
@@ -33,7 +34,7 @@ import org.xulux.swing.widgets.Table;
  * We should make our own cellRenderer probably, so we can use the functionalily of widgets..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellRenderer.java,v 1.9 2004-09-23 07:41:26 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.10 2004-09-23 07:55:27 mvdb Exp $
  */
 public class NyxTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -86,6 +87,15 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
                 // should be a lot easier in the new widget structure..
                 setBackground(ColorUtils.getSwingColor(bgColor));
             }
+        }
+        String border = widget.getProperty("border");
+        if (border != null) {
+          int thickness = 1;
+          try {
+            thickness = Integer.parseInt(widget.getProperty("border-thickness"));
+          } catch(NumberFormatException nfe) {
+          }
+          setBorder(new LineBorder(ColorUtils.getSwingColor(border),thickness));
         }
         String tooltipText = widget.getProperty("tooltip");
         if (tooltipText != null) {
