@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.11 2003-09-29 13:52:11 mvdb Exp $
+ $Id: Tree.java,v 1.12 2003-10-02 10:02:01 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.11 2003-09-29 13:52:11 mvdb Exp $
+ * @version $Id: Tree.java,v 1.12 2003-10-02 10:02:01 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
     
@@ -252,8 +252,11 @@ public class Tree extends ContainerWidget implements IContentWidget {
             return; 
         }
         if (untill.equalsIgnoreCase("leaf")) {
-            expandToLeaf(root);
+            expand(root,true);
             return;
+        }
+        if (untill.equalsIgnoreCase("all")) {
+            expand(root, false);
         }
         Class untillClazz = ClassLoaderUtils.getClass(untill);
         if (untillClazz == null) {
@@ -269,8 +272,9 @@ public class Tree extends ContainerWidget implements IContentWidget {
     /**
      * TODO: Document this... or move to treecontenthandler!
      * @param root
+     * @param leaf true or false. If true it will NOT show the leaf, otherwise it will
      */
-    protected void expandToLeaf(Object root) {
+    protected void expand(Object root, boolean leaf) {
         if (expandPath == null) {
             expandPath = new ArrayList();
         }
@@ -279,13 +283,15 @@ public class Tree extends ContainerWidget implements IContentWidget {
         for (int i = 0; i < childCount; i++) {
             Object ele = contentHandler.getChild(root, i);
             if (!contentHandler.isLeaf(ele)) {
-                expandToLeaf(ele);
+                expand(ele, leaf);
             } else {
                 if (expandPath != null) {
                     // collapse the current root..
-                    jtree.collapsePath(new TreePath(expandPath.toArray()));
                     // remove the current root,else it will expand leafs..
-                    expandPath.remove(root);
+                    if (leaf) {
+                        expandPath.remove(root);
+                        jtree.collapsePath(new TreePath(expandPath.toArray()));
+                    }
                     jtree.expandPath(new TreePath(expandPath.toArray()));
                     break;
                 }
