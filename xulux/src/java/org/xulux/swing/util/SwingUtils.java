@@ -1,5 +1,5 @@
 /*
-   $Id: SwingUtils.java,v 1.8 2005-01-12 18:39:30 mvdb Exp $
+   $Id: SwingUtils.java,v 1.9 2005-01-12 19:00:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * Contains several utilities to make life with swing easier.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.8 2005-01-12 18:39:30 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.9 2005-01-12 19:00:22 mvdb Exp $
  */
 public class SwingUtils {
 
@@ -115,7 +115,10 @@ public class SwingUtils {
         }
         ImageCache cache = null;
         if (object instanceof Widget) {
-            cache = ((Widget)object).getPart().getImageCache();
+            Widget w = (Widget) object;
+            if (w.getPart() != null) {
+              cache = w.getPart().getImageCache();
+            }
         }
         Image retValue = null;
         if (cache != null) {
@@ -131,7 +134,7 @@ public class SwingUtils {
                     retValue =  icon.getImage();
                 }
             }
-            if (retValue != null) {
+            if (retValue != null && cache != null) {
                 cache.addImage(resource, retValue);
             }
         }
@@ -151,7 +154,10 @@ public class SwingUtils {
         }
         ImageCache cache = null;
         if (object instanceof Widget) {
-            cache = ((Widget)object).getPart().getImageCache();
+            Widget w = (Widget) object;
+            if (w.getPart() != null) {
+              	cache = w.getPart().getImageCache();
+            }
         }
         ImageIcon icon = null;
         if (cache != null) {
@@ -181,7 +187,7 @@ public class SwingUtils {
                     }
                 }
             }
-            if (icon != null) {
+            if (icon != null && cache != null) {
                 cache.addImage(resource, icon);
             }
         }
