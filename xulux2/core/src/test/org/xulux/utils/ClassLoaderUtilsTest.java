@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtilsTest.java,v 1.1 2004-12-04 19:06:40 mvdb Exp $
+   $Id: ClassLoaderUtilsTest.java,v 1.2 2004-12-04 19:31:46 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,11 +17,8 @@
 */
 package org.xulux.utils;
 
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -31,7 +28,7 @@ import junit.framework.TestSuite;
  * Test for the classLoaderUtils
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtilsTest.java,v 1.1 2004-12-04 19:06:40 mvdb Exp $
+ * @version $Id: ClassLoaderUtilsTest.java,v 1.2 2004-12-04 19:31:46 mvdb Exp $
  */
 public class ClassLoaderUtilsTest extends TestCase {
 
