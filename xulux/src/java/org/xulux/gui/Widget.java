@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.8 2004-03-23 16:16:22 mvdb Exp $
+   $Id: Widget.java,v 1.9 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -41,7 +41,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.8 2004-03-23 16:16:22 mvdb Exp $
+ * @version $Id: Widget.java,v 1.9 2004-04-01 16:15:09 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -583,6 +583,9 @@ public abstract class Widget implements Serializable
      * @param value the object
      */
     public void setLazyProperty(String key, Object value) {
+        if (properties == null) {
+          properties = new HashMap();
+        }
         if (value == null) {
             properties.remove(key);
         } else {

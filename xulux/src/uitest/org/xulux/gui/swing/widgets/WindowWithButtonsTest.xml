@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: WindowWithButtonsTest.xml,v 1.1 2003-12-29 14:26:42 mvdb Exp $ -->
+<!-- $Id: WindowWithButtonsTest.xml,v 1.2 2004-04-01 16:15:09 mvdb Exp $ -->
 <part name="WindowWithButtonsTest" prefix="window" application="true">
   <rules>
     <rule>org.xulux.gui.rules.WindowWithButtonsRule</rule>
@@ -10,20 +10,20 @@
     <size>300,300</size>
     <autosize>true</autosize>
     <field type="button" name="Button:Cancel">
-	  <size>120,21</size>
-	  <position>4,10</position>
-	  <text>Cancel</text>
-	  <defaultbutton>true</defaultbutton>
-	  <defaultaction>cancel</defaultaction>
-	  <rules>
+      <size>120,21</size>
+      <position>4,10</position>
+      <text>Cancel</text>
+      <defaultbutton>true</defaultbutton>
+      <defaultaction>cancel</defaultaction>
+      <rules>
 	    <rule>org.xulux.gui.rules.CancelButtonRule</rule>
-	  </rules>
+      </rules>
     </field>
     <field type="button" name="Button:Save">
-	  <size>120,21</size>
-	  <position>134,10</position>
-	  <text>Save</text>
-	  <defaultaction>save</defaultaction>
+      <size>120,21</size>
+      <position>134,10</position>
+      <text>Save</text>
+      <defaultaction>save</defaultaction>
     </field>
   </field>
 </part>

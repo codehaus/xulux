@@ -1,5 +1,5 @@
 /*
-   $Id: BeanField.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
+   $Id: BeanField.java,v 1.3 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -41,7 +41,7 @@ import org.xulux.utils.ClassLoaderUtils;
  *       to primitive types.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.3 2004-04-01 16:15:09 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -158,7 +158,7 @@ public class BeanField implements IField
         {
             if (getRealField() != null) {
                 Class retType = getReturnType();
-                BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
+                BeanMapping mapping = (BeanMapping) Dictionary.getInstance().getMapping(retType);
 //                log.warn("Mapping : "+mapping.getFields());
                 Object childObject = getMethod().invoke(bean, getArgs());
 //                log.warn("ChildObject ; "+childObject);
@@ -177,7 +177,7 @@ public class BeanField implements IField
                         return false;
                     }
                 }
-                BeanMapping childMapping = Dictionary.getInstance().getMapping(childObject);
+                BeanMapping childMapping = (BeanMapping) Dictionary.getInstance().getMapping(childObject);
 //                log.warn("childMapping : "+childMapping.getFields());
                 IField field = childMapping.getField(getRealField());
 //                log.warn("cf : "+field);
@@ -259,7 +259,7 @@ public class BeanField implements IField
                     Object retBean = getMethod().invoke(bean, getArgs());
                     retType = retBean.getClass();
                 }
-                BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
+                BeanMapping mapping = (BeanMapping) Dictionary.getInstance().getMapping(retType);
                 IField field = mapping.getField(realField);
                 Object fieldValue = field.getValue(getMethod().invoke(bean, getArgs()));
                 return fieldValue;

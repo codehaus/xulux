@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+   $Id: Table.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,7 +28,7 @@ import javax.swing.table.TableModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.BeanMapping;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
 import org.xulux.gui.ContainerWidget;
@@ -56,7 +56,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: Table.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -419,7 +419,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             contentChanged = true;
         } else if (contentType.equalsIgnoreCase("field")) {
             int index = contentProp.lastIndexOf(".");
-            BeanMapping mapping = null;
+            IMapping mapping = null;
             IField field = null;
             if (index == -1) {
                 mapping = Dictionary.getInstance().getMapping(getPart().getBean());
@@ -621,7 +621,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             this.previousValue = getGuiValue();
             this.value = value;
         } else {
-            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             IField field = map.getField(getField());
             if (field != null) {
                 Object currentValue = field.getValue(getPart().getBean());

@@ -1,5 +1,5 @@
 /*
-   $Id: CheckBox.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+   $Id: CheckBox.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,9 +22,9 @@ import java.awt.Container;
 import javax.swing.Icon;
 import javax.swing.UIManager;
 
-import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.utils.ColorUtils;
 import org.xulux.swing.SwingWidget;
@@ -36,7 +36,7 @@ import org.xulux.utils.BooleanUtils;
  * The nyx to swing implementation of a checkbox
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
 
@@ -142,7 +142,7 @@ public class CheckBox extends SwingWidget {
         if (getPart().getBean() == null || getField() == null) {
             return super.getValue();
         }
-        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
+        IMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
         if (map != null) {
             IField field = map.getField(getField());
             if (field != null) {
@@ -160,7 +160,7 @@ public class CheckBox extends SwingWidget {
             this.value = "false";
         }
         this.previousValue = this.value;
-        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+        IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
         if (map != null) {
             if (getField() != null) {
                 IField f = map.getField(getField());

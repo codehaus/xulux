@@ -1,5 +1,5 @@
 /*
-   $Id: GuiUtils.java,v 1.8 2004-03-31 11:19:33 mvdb Exp $
+   $Id: GuiUtils.java,v 1.9 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * Like firing rules when the cancel button is pressed or the window is closed.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtils.java,v 1.8 2004-03-31 11:19:33 mvdb Exp $
+ * @version $Id: GuiUtils.java,v 1.9 2004-04-01 16:15:09 mvdb Exp $
  */
 public class GuiUtils {
 
@@ -85,10 +85,9 @@ public class GuiUtils {
         if (parent.canBeRootWidget()) {
             if (ApplicationContext.isPartApplication(caller.getPart())) {
                 ApplicationContext.exitApplication();
-            } else {
+            } else if (cancelProcessed) {
               // if it is not an application, just destroy the part..
               parent.getPart().destroy();
-              cancelProcessed = true;
             }
         }
         return cancelProcessed;

@@ -1,5 +1,5 @@
 /*
-   $Id: SwingParentWidgetHandler.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+   $Id: SwingParentWidgetHandler.java,v 1.4 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,17 +18,18 @@
 package org.xulux.swing.util;
 
 import java.awt.Component;
-import java.awt.Container;
+
+import javax.swing.JComponent;
 
 import org.xulux.gui.IParentWidgetHandler;
 
 /**
- * Destroys/Initializes all components created by nyx.
- * This is only used in scenarios where nyx is used
+ * Destroys/Initializes all components created by xulux.
+ * This is only used in scenarios where xulux is used
  * on top of an already existing application
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingParentWidgetHandler.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+ * @version $Id: SwingParentWidgetHandler.java,v 1.4 2004-04-01 16:15:09 mvdb Exp $
  */
 public class SwingParentWidgetHandler implements IParentWidgetHandler {
 
@@ -42,7 +43,6 @@ public class SwingParentWidgetHandler implements IParentWidgetHandler {
      * @see org.xulux.nyx.gui.IParentWidgetHandler#initialize(java.lang.Object)
      */
     public void initialize(Object parent) {
-
     }
 
     /**
@@ -53,11 +53,8 @@ public class SwingParentWidgetHandler implements IParentWidgetHandler {
             return;
         }
         if (parent instanceof Component) {
-            Container container = ((Component) parent).getParent();
-            if (container != null) {
-                container.removeAll();
-                container.remove((Component) parent);
-            }
+            JComponent comp = (JComponent) parent;
+            comp.removeAll();
         }
     }
 

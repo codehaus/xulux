@@ -1,5 +1,5 @@
 /*
-   $Id: TextArea.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: TextArea.java,v 1.4 2004-04-01 16:15:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.utils.BooleanUtils;
  * The swing textare widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.4 2004-04-01 16:15:08 mvdb Exp $
  */
 public class TextArea extends Entry {
 
@@ -195,6 +195,7 @@ public class TextArea extends Entry {
         }
         ((JTextArea) textComponent).setLineWrap(BooleanUtils.toBoolean(getProperty("linewrap")));
         textComponent.repaint();
+        textComponent.setCaretPosition(0);
         isRefreshing = false;
     }
 }

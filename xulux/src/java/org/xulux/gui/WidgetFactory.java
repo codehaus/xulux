@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetFactory.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
+   $Id: WidgetFactory.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,15 +21,18 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.xulux.core.ApplicationContext;
+import org.xulux.core.WidgetConfig;
 import org.xulux.rules.IRule;
 
 /**
  * Factory to create the widget class..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
  */
 public class WidgetFactory {
 
@@ -47,6 +50,7 @@ public class WidgetFactory {
      * @return the widget or null when no widget could be created
      */
     public static Widget getWidget(String type, String name) {
+        WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(type);
         Class clazz = ApplicationContext.getInstance().getWidget(type);
         Widget instance = null;
         if (clazz != null) {
@@ -58,7 +62,28 @@ public class WidgetFactory {
                 e.printStackTrace();
             }
         }
+        if (instance != null) {
+          setWidgetDefaults(instance, config.getWidgetDefaults());
+        }
         return instance;
+    }
+    
+    /**
+     * Set a map with properties as properties in the widget
+     *
+     * @param widget the widget
+     * @param defaults the defaults to set in the widget
+     */
+    public static void setWidgetDefaults(Widget widget, Map defaults) {
+      if (defaults == null) {
+        return;
+      }
+      Set set = defaults.keySet();
+      Iterator it = set.iterator();
+      while (it.hasNext()) {
+        String key = (String) it.next();
+        widget.setLazyProperty(key, defaults.get(key));
+      }
     }
 
     /**

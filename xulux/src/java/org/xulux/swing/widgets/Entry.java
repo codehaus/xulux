@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.6 2004-03-31 09:37:59 mvdb Exp $
+   $Id: Entry.java,v 1.7 2004-04-01 16:15:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,9 +26,9 @@ import javax.swing.text.JTextComponent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.utils.ColorUtils;
@@ -41,7 +41,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.6 2004-03-31 09:37:59 mvdb Exp $
+ * @version $Id: Entry.java,v 1.7 2004-04-01 16:15:08 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -162,7 +162,7 @@ public class Entry extends SwingWidget {
         if (iv != null) {
             String ivType = getProperty("initialvalue.type");
             if (ivType != null && ivType.equals("field")) {
-                BeanMapping mapping = Dictionary.getInstance().getMapping(getPart().getBean());
+                IMapping mapping = Dictionary.getInstance().getMapping(getPart().getBean());
                 if (mapping != null) {
                     IField field = mapping.getField(iv);
                     if (field != null) {
@@ -262,7 +262,7 @@ public class Entry extends SwingWidget {
                 if (getProperty("entryfields") != null) {
                     String entryFields = getProperty("entryfields");
                     String entryValue = "";
-                    BeanMapping mapping = Dictionary.getInstance().getMapping(getValue());
+                    IMapping mapping = Dictionary.getInstance().getMapping(getValue());
                     StringTokenizer stn = new StringTokenizer(entryFields, ",");
                     while (stn.hasMoreTokens()) {
                         String token = stn.nextToken();
@@ -307,7 +307,7 @@ public class Entry extends SwingWidget {
         if (bean == null) {
             bean = getPart().getBean();
         }
-        BeanMapping map = Dictionary.getInstance().getMapping(bean);
+        IMapping map = Dictionary.getInstance().getMapping(bean);
         if (map == null) {
             textComponent.setText("");
             return;
@@ -349,9 +349,9 @@ public class Entry extends SwingWidget {
             }
         }
     }
+
     /**
      * @see org.xulux.nyx.gui.Widget#setValue(Object)
-     * @param object
      */
     public void setValue(Object object) {
         // if there is not field present
@@ -371,27 +371,8 @@ public class Entry extends SwingWidget {
                 this.previousValue = this.value;
             }
             this.value = object;
-            //            if (getValue() != null) {
-            //                if (valueClass != null) {
-            //                    if (valueClass.isAssignableFrom(getValue())) {
-            //                        IConverter converter =  Dictionary.getConverter(valueClass);
-            //                        if (converter != null) {
-            //                            this.previousValue = getValue();
-            //                            this.value = converter.getBeanValue(object);
-            //                        }
-            //                    }
-            //                if (getValue() != object) {
-            //                    this.previousValue = getValue();
-            //                    this.value = object;
-            //                } else {
-            //                    // nothing changed, so return
-            //                    return;
-            //                }
-            //            } else {
-            //                this.value = object;
-            //            }
         } else {
-            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             if (map != null) {
                 IField field = map.getField(getField());
                 // set the previous value
@@ -409,6 +390,7 @@ public class Entry extends SwingWidget {
             initializeValue();
         }
     }
+
     /**
      * @see org.xulux.nyx.gui.Widget#clear()
      */

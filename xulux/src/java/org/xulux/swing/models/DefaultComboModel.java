@@ -1,5 +1,5 @@
 /*
-   $Id: DefaultComboModel.java,v 1.5 2004-03-31 09:37:59 mvdb Exp $
+   $Id: DefaultComboModel.java,v 1.6 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,16 +24,16 @@ import java.util.StringTokenizer;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 
-import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.swing.widgets.Combo;
 
 /**
  * The default combobox model.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.5 2004-03-31 09:37:59 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.6 2004-04-01 16:15:09 mvdb Exp $
  */
 public class DefaultComboModel extends AbstractListModel implements ComboBoxModel {
     /**
@@ -53,9 +53,9 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
      */
     private String field;
     /**
-     * the beanmapping
+     * the Mapping
      */
-    private BeanMapping mapping;
+    private IMapping mapping;
     /**
      * the combo where this model is used for
      */

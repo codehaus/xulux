@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.2 2004-03-31 09:37:59 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.3 2004-04-01 16:15:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,9 +24,9 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
-import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
+import org.xulux.gui.INativeWidgetHandler;
 import org.xulux.gui.IParentWidgetHandler;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
@@ -56,7 +56,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.2 2004-03-31 09:37:59 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.3 2004-04-01 16:15:08 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -78,7 +78,7 @@ public class ApplicationPart {
     /**
      * The mapping of the bean
      */
-    private BeanMapping mapping;
+    private IMapping mapping;
 
     /**
      * The parentwidget of this applicationpart
@@ -206,30 +206,6 @@ public class ApplicationPart {
         return false;
     }
 
-    /**
-     * @todo primitive support (probably working already though!)
-     * This is pretty ignoarant.. If a field does not exists
-     * in the apppart, it will do nothing
-     * @param field the field to process
-     * @param value the value to set
-     */
-    public void setBeanValue(String field, Object value) {
-        IField bField = mapping.getField(field);
-        if (bField.isReadOnly()) {
-            if (log.isWarnEnabled()) {
-                log.warn("Cannot set value on a read only field");
-            }
-            // we cannot change the value,
-            // so let's not try it..
-            return;
-        }
-
-        if (!bField.setValue(this.bean, value)) {
-            if (log.isWarnEnabled()) {
-                log.warn("Could not set value");
-            }
-        }
-    }
 
     /**
      * Set the gui value
@@ -276,22 +252,6 @@ public class ApplicationPart {
             return null;
         }
         return widget.getPreviousValue();
-    }
-
-    /**
-     * @param field the field to get the beanvalue from
-     * @return the current bean value
-     */
-    public Object getBeanValue(String field) {
-        return mapping.getField(field).getValue(getBean());
-    }
-
-    /**
-     * @param field the name of the field
-     * @return the field insteance of the field name
-     */
-    public IField getField(String field) {
-        return mapping.getField(field);
     }
 
     /**
@@ -661,7 +621,7 @@ public class ApplicationPart {
     public void clear() {
         Iterator it = widgets.iterator();
         while (it.hasNext()) {
-            clear(((Widget) it.next()).getField());
+            clear(((Widget) it.next()).getName());
         }
     }
 
@@ -687,7 +647,7 @@ public class ApplicationPart {
     public void reset() {
         Iterator it = widgets.iterator();
         while (it.hasNext()) {
-            reset(((Widget) it.next()).getField());
+            reset(((Widget) it.next()).getName());
         }
     }
 
@@ -719,7 +679,6 @@ public class ApplicationPart {
         }
         mapping = null;
         bean = null;
-        parentWidget = null;
         activated = false;
         if (widgets != null) {
             ArrayList widgetList = (ArrayList) widgets.clone();
@@ -741,10 +700,16 @@ public class ApplicationPart {
             partRules = null;
         }
         mapping = null;
-        if (parentWidget != null) {
+        System.out.println("ParentWidget : " + this.parentWidget);
+        System.out.println("Root widget : " + this.getRootWidget());
+        if (getRootWidget() != null) {
             IParentWidgetHandler handler = ApplicationContext.getInstance().getParentWidgetHandler();
             handler.destroy(parentWidget);
+            INativeWidgetHandler h = ApplicationContext.getInstance().getNativeWidgetHandler();
+            System.out.println("Refreshing widget...");
+            h.refresh(getRootWidget());
         }
+        parentWidget = null;
         ApplicationContext.getInstance().removePart(getName());
         this.parentPart = null;
     }
@@ -907,14 +872,14 @@ public class ApplicationPart {
      * Utility method that refreshes all fields that have pointers to
      * a field or depend on a field
      *
-     * @param field the field name to find
+     * @param name the widget name to find
      * @param widget - the source widget that called the refresh
      */
-    protected void refreshFields(String field, Widget widget) {
-        if (field == null) {
+    protected void refreshFields(String widgetName, Widget widget) {
+        if (widgetName == null) {
             return;
         }
-        Collection col = widgets.getWidgetsWithField(field);
+        Collection col = widgets.getWidgetsWithField(widgetName);
         if (col == null) {
             return;
         }

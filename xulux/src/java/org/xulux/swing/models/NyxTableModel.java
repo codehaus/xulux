@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableModel.java,v 1.5 2004-03-23 08:42:23 mvdb Exp $
+   $Id: NyxTableModel.java,v 1.6 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,9 +22,9 @@ import java.util.List;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
@@ -35,7 +35,7 @@ import org.xulux.swing.widgets.Table;
  * @todo Assumes lists right now.. Should support more probably..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.5 2004-03-23 08:42:23 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.6 2004-04-01 16:15:09 mvdb Exp $
  */
 public class NyxTableModel extends NyxListener implements TableModel {
 
@@ -169,7 +169,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
         }
         Widget w = (Widget) table.getChildWidgets().get(columnIndex);
         if (w.getField() != null) {
-            BeanMapping map = Dictionary.getInstance().getMapping(((List) table.getContent()).get(rowIndex));
+            IMapping map = Dictionary.getInstance().getMapping(((List) table.getContent()).get(rowIndex));
             IField field = map.getField(w.getField());
             if (field != null) {
                 Object value = field.getValue(((List) table.getContent()).get(rowIndex));
@@ -198,7 +198,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
         }
         Widget w = (Widget) table.getChildWidgets().get(columnIndex);
         if (w.getField() != null) {
-            BeanMapping map = Dictionary.getInstance().getMapping(((List) table.getContent()).get(rowIndex));
+            IMapping map = Dictionary.getInstance().getMapping(((List) table.getContent()).get(rowIndex));
             IField field = map.getField(w.getField());
             if (field != null) {
                 field.setValue(((List) table.getContent()).get(rowIndex), aValue);

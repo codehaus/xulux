@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfig.java,v 1.3 2004-03-25 00:48:08 mvdb Exp $
+   $Id: WidgetConfig.java,v 1.4 2004-04-01 16:15:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,18 +35,18 @@ import org.xulux.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.3 2004-03-25 00:48:08 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.4 2004-04-01 16:15:08 mvdb Exp $
  */
 public class WidgetConfig {
 
     /**
      * The map containg gui layer implementations of the widgettype
      */
-    private HashMap map;
+    private Map map;
     /**
      * The initializers
      */
-    private HashMap initializers;
+    private Map initializers;
     /**
      * The coreclass
      */
@@ -54,7 +54,7 @@ public class WidgetConfig {
     /**
      * the map of contenthandlers
      */
-    private HashMap contentHandlers;
+    private Map contentHandlers;
 
     /**
      * The map of contenthandler views.
@@ -62,10 +62,17 @@ public class WidgetConfig {
      */
     private HashMap contentHandlerViews;
 
-	/**
-	 * the list Property handlers
-	 */
-	private HashMap propertyHandlers;
+    /**
+     * The widget defaults that can be copied
+     * in when initializing a widget.
+     */
+    private Map widgetDefaults;
+
+  	/**
+  	 * the list Property handlers
+  	 */
+  	private Map propertyHandlers;
+
     /**
      * Constructor for WidgetConfig.
      */
@@ -289,4 +296,22 @@ public class WidgetConfig {
         }
         return null;
     }
+    /**
+     * Register a property for this widget that needs to be set
+     * on creation of the widget
+     * 
+     * @param key the key of the property
+     * @param value the value of the property
+     */
+    public void registerWidgetDefault(String key, Object value) {
+      if (widgetDefaults == null) {
+        widgetDefaults = new HashMap();
+      }
+      widgetDefaults.put(key, value);
+    }
+    
+    public Map getWidgetDefaults() {
+      return widgetDefaults;
+    }
+    
 }

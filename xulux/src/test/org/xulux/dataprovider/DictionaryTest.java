@@ -1,5 +1,5 @@
 /*
-   $Id: DictionaryTest.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
+   $Id: DictionaryTest.java,v 1.3 2004-04-01 16:15:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.3 2004-04-01 16:15:10 mvdb Exp $
  */
 public class DictionaryTest extends TestCase {
 
@@ -92,7 +92,7 @@ public class DictionaryTest extends TestCase {
     public void testGetMapping() {
         System.out.println("testGetMapping");
         // just a null test..
-        BeanMapping mapping = Dictionary.getInstance().getMapping((Class)null);
+        IMapping mapping = Dictionary.getInstance().getMapping((Class)null);
         assertNull(mapping);
         mapping = Dictionary.getInstance().getMapping((Object) null);
         assertNull(mapping);
@@ -104,7 +104,7 @@ public class DictionaryTest extends TestCase {
         System.out.println("testEasyMapping");
         Dictionary d = Dictionary.getInstance();
         DictionaryBean bean = new DictionaryBean();
-        BeanMapping mapping = d.getMapping(bean.getClass());
+        IMapping mapping = d.getMapping(bean.getClass());
         assertEquals("DictionaryBean", mapping.getName());
         // Testing setting a new value on the bean..
         IField field = mapping.getField("name");
@@ -139,8 +139,8 @@ public class DictionaryTest extends TestCase {
         Dictionary d = Dictionary.getInstance();
         d.setBaseClass(DictionaryBaseBean.class);
         DictionaryBean bean = new DictionaryBean();
-        BeanMapping mapping = d.getMapping(bean.getClass());
-        BeanMapping subBean = d.getMapping("DictionarySubSubBean");
+        IMapping mapping = d.getMapping(bean.getClass());
+        IMapping subBean = d.getMapping("DictionarySubSubBean");
         IField field = subBean.getField("nice");
     }
 
@@ -151,7 +151,7 @@ public class DictionaryTest extends TestCase {
         System.out.println("testBooleanData");
         Dictionary d = Dictionary.getInstance();
         d.setBaseClass(DictionaryBaseBean.class);
-        BeanMapping subBean = d.getMapping(DictionarySubBean.class, true);
+        IMapping subBean = d.getMapping(DictionarySubBean.class, true);
         IField field = subBean.getField("nice");
         assertNotNull(field);
         DictionarySubBean bean = new DictionarySubBean();
@@ -168,7 +168,7 @@ public class DictionaryTest extends TestCase {
         System.out.println("testFieldElements");
         Dictionary d = Dictionary.getInstance();
         d.initialize((Object) this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
-        BeanMapping mapping = d.getMapping("Manual");
+        IMapping mapping = d.getMapping("Manual");
         assertNotNull(mapping.getField("straat"));
         assertNull(mapping.getField("street"));
         assertNotNull(mapping.getField("plaats"));
@@ -187,13 +187,13 @@ public class DictionaryTest extends TestCase {
     public void testInfiniteLoop() {
         System.out.println("testInfiniteLoop");
         Dictionary d = Dictionary.getInstance();
-        BeanMapping mb = d.getMapping(AnotherRecursiveBean.class);
+        IMapping mb = d.getMapping(AnotherRecursiveBean.class);
         // cache should be cleared by dictionary.
         assertTrue(!d.isInCache(AnotherRecursiveBean.class));
         assertTrue(!d.isInCache(RecursiveBean.class));
         System.out.println("Fields : " +mb.getFields());
         assertEquals(7, mb.getFields().size());
-        BeanMapping mbmain = d.getMapping(RecursiveBean.class);
+        IMapping mbmain = d.getMapping(RecursiveBean.class);
         assertEquals(3, mbmain.getFields().size());
     }
 
@@ -205,7 +205,7 @@ public class DictionaryTest extends TestCase {
         Dictionary d = Dictionary.getInstance();
         d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
         ParameteredBean bean = new ParameteredBean();
-        BeanMapping mapping = d.getMapping("pb");
+        IMapping mapping = d.getMapping("pb");
         assertEquals("pb", mapping.getName());
         // Testing setting a new value on the bean..
         assertNull(bean.getParameter("BOGUS"));
@@ -228,7 +228,7 @@ public class DictionaryTest extends TestCase {
         Dictionary d = Dictionary.getInstance();
         d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
         ParameteredBean bean = new ParameteredBean();
-        BeanMapping mapping = d.getMapping("db");
+        IMapping mapping = d.getMapping("db");
         IField fieldno1 = mapping.getField("no1");
         IField fieldno2 = mapping.getField("no2");
         IField fieldno3 = mapping.getField("no3");
@@ -252,7 +252,7 @@ public class DictionaryTest extends TestCase {
         Dictionary d = Dictionary.getInstance();
         d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
         ParameteredBean bean = new ParameteredBean();
-        BeanMapping mapping = d.getMapping("set");
+        IMapping mapping = d.getMapping("set");
         IField fieldno1 = mapping.getField("no1");
         IField fieldno2 = mapping.getField("no2");
         IField fieldno3 = mapping.getField("no3");
@@ -296,7 +296,7 @@ public class DictionaryTest extends TestCase {
     public void testGetMappingWithGetMethod() {
         System.out.println("testGetMappingWithGetMethod");
         ArrayList list = new ArrayList();
-        BeanMapping mapping = Dictionary.getInstance().getMapping(list.getClass());
+        IMapping mapping = Dictionary.getInstance().getMapping(list.getClass());
         assertNotNull(mapping.getField("get"));
         mapping = Dictionary.getInstance().getMapping(new InnerBean());
         assertNotNull(mapping.getField("x"));

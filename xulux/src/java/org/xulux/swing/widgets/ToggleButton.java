@@ -1,5 +1,5 @@
 /*
-   $Id: ToggleButton.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+   $Id: ToggleButton.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,7 +25,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 
-import org.xulux.dataprovider.BeanMapping;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
 import org.xulux.gui.Widget;
@@ -40,7 +40,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a togglebutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ToggleButton.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: ToggleButton.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
  */
 public class ToggleButton extends Widget {
 
@@ -253,7 +253,7 @@ public class ToggleButton extends Widget {
             }
             return retValue;
         }
-        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
+        IMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
         if (map != null) {
             IField field = map.getField(getField());
             if (field != null) {
@@ -271,7 +271,7 @@ public class ToggleButton extends Widget {
             this.value = "false";
         }
         this.previousValue = this.value;
-        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+        IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
         if (map != null) {
             if (getField() != null) {
                 IField f = map.getField(getField());

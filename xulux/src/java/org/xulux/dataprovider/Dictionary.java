@@ -1,5 +1,5 @@
 /*
-   $Id: Dictionary.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
+   $Id: Dictionary.java,v 1.3 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * It behaves like the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.3 2004-04-01 16:15:09 mvdb Exp $
  */
 public final class Dictionary implements IDictionary {
     /**
@@ -143,7 +143,7 @@ public final class Dictionary implements IDictionary {
      * @param clazz the class
      * @return the mapping of the specified clazz
      */
-    public BeanMapping getMapping(Class clazz) {
+    public IMapping getMapping(Class clazz) {
         if (clazz == null) {
             return null;
         }
@@ -159,7 +159,7 @@ public final class Dictionary implements IDictionary {
      *          to the class of the specified instance
      *          or null when the object is null.
      */
-    public BeanMapping getMapping(Object object) {
+    public IMapping getMapping(Object object) {
         if (object == null) {
             return null;
         }

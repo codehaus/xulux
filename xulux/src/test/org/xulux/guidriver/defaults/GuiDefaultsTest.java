@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsTest.java,v 1.3 2004-03-23 08:42:24 mvdb Exp $
+   $Id: GuiDefaultsTest.java,v 1.4 2004-04-01 16:15:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,6 +20,7 @@ package org.xulux.guidriver.defaults;
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
@@ -32,12 +33,14 @@ import org.xulux.core.ApplicationContext;
 import org.xulux.core.WidgetConfig;
 import org.xulux.dataprovider.contenthandlers.IContentHandler;
 import org.xulux.dataprovider.contenthandlers.SimpleDOMView;
+import org.xulux.gui.Widget;
+import org.xulux.gui.WidgetFactory;
 
 /**
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.3 2004-03-23 08:42:24 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.4 2004-04-01 16:15:10 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -117,5 +120,24 @@ public class GuiDefaultsTest extends TestCase {
         // overriding the view and setting it to bogus..
         assertEquals(BogusContentView.class, handler.getViewClass());
     }
-
+    
+    /**
+     * Test setting default properties on the widget during config..
+     */
+    public void testWidgetDefaults() {
+         System.out.println("testWidgetDefaults");
+         ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/guidriver/defaults/WidgetDefaults.xml");
+         Widget widget = WidgetFactory.getWidget("window", "window");
+         Map map = widget.getProperties();
+         Object test = map.get("test");
+         assertNotNull(test);
+         assertEquals("true", test);
+         Object anotherTest = map.get("anothertest");
+         assertNotNull(anotherTest);
+         assertEquals("testvalue", anotherTest);
+         Object element = map.get("element");
+         assertEquals("elementValue", element);
+         Object elementType = map.get("element.type");
+         assertEquals("attribute", elementType);
+    }
 }

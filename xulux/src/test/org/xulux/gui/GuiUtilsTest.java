@@ -1,5 +1,5 @@
 /*
-   $Id: GuiUtilsTest.java,v 1.4 2004-03-16 15:04:17 mvdb Exp $
+   $Id: GuiUtilsTest.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -32,7 +32,7 @@ import junit.framework.TestSuite;
  * Test case for the GuiUtils.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtilsTest.java,v 1.4 2004-03-16 15:04:17 mvdb Exp $
+ * @version $Id: GuiUtilsTest.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
  */
 public class GuiUtilsTest extends TestCase {
 
@@ -116,6 +116,7 @@ public class GuiUtilsTest extends TestCase {
         widget.setProperty("defaultaction", "bogus");
         assertFalse(GuiUtils.processCancel(widget));
         assertEquals(1, rule.callCount);
+        assertEquals(true, part.isPartDestroyed());
     }
 
     /**

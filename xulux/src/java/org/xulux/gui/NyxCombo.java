@@ -1,5 +1,5 @@
 /*
-   $Id: NyxCombo.java,v 1.4 2004-03-31 09:37:59 mvdb Exp $
+   $Id: NyxCombo.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.gui.events.NyxValueChangedEvent;
 import org.xulux.utils.ClassLoaderUtils;
 import org.xulux.utils.NyxCollectionUtils;
@@ -33,7 +33,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.4 2004-03-31 09:37:59 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget implements IContentWidget {
 
@@ -134,7 +134,7 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
                     log.warn("content field " + content + " of widget " + getName() + " could not be found");
                 }
             }
-            BeanMapping mapping = Dictionary.getInstance().getMapping(clz);
+            IMapping mapping = Dictionary.getInstance().getMapping(clz);
             if (mapping != null) {
                 IField field = mapping.getField(content.substring(index + 1));
                 if (field != null) {
@@ -225,7 +225,7 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
             }
             return this.value;
         } else {
-            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             if (map == null) {
                 return this.value;
             }
@@ -267,7 +267,7 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
             this.previousValue = this.value;
             this.value = object;
         } else {
-            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             IField field = map.getField(getField());
             if (field != null) {
                 Object currentValue = field.getValue(getPart().getBean());

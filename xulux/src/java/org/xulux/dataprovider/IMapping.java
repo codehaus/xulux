@@ -1,5 +1,5 @@
 /*
-   $Id: IMapping.java,v 1.1 2004-03-23 08:42:22 mvdb Exp $
+   $Id: IMapping.java,v 1.2 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,7 +24,7 @@ import java.util.List;
  * For now empty.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IMapping.java,v 1.1 2004-03-23 08:42:22 mvdb Exp $
+ * @version $Id: IMapping.java,v 1.2 2004-04-01 16:15:09 mvdb Exp $
  */
 public interface IMapping {
 
@@ -48,5 +48,10 @@ public interface IMapping {
      * @param object the field to retrieve
      * @return the field or null of not found
      */
-    IField getField(Object object);    
+    IField getField(Object object);
+    
+    /**
+     * @return the name of the mapping
+     */
+    String getName();    
 }

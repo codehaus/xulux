@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.3 2004-03-23 08:42:23 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.4 2004-04-01 16:15:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,6 +18,9 @@
 package org.xulux.guidriver.defaults;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -32,8 +35,9 @@ import org.xulux.core.WidgetConfig;
  * Case insensitive processing of the guidefaults.
  *
  * @todo move the contenthandlers to the dataprovider API.
+ * @todo do some code reuse of setting the properties.. eg util method or something
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.3 2004-03-23 08:42:23 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.4 2004-04-01 16:15:10 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 
@@ -53,6 +57,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private static final String ELEMENT_CONTENTHANDLER = "contenthandler";
     private static final String ELEMENT_PROPERTIES="properties";
     private static final String ELEMENT_PROPERTY="property";
+    private static final String ELEMENT_DEFAULTS="defaults";
     private static final String ATTRIBUTE_TYPE = "type";
     private static final String ATTRIBUTE_CLASS = "class";
     private static final String ATTRIBUTE_NAME = "name";
@@ -64,10 +69,14 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private boolean widgetsStarted = false;
     private boolean propertiesStarted = false;
     private boolean contentHandlersStarted = false;
+    private boolean defaultsStarted = false;
 
     private String initClass;
     private String initType;
     private String widgetName;
+    private String defaultQName;
+    private String defaultValue;
+    private Map defaultAtts;
 
     /**
      * Constructor for GuiDefaultsHandler.
@@ -102,12 +111,31 @@ public class GuiDefaultsHandler extends DefaultHandler {
         superDefaultsProcessed = true;
     }
 
+  /**
+   * @param atts the attributes to get a map from
+   * @return A map of the current attributes
+   */
+  private Map getAttributeMap(Attributes atts) {
+      if (atts == null || atts.getLength() == 0) {
+          return null;
+      }
+      HashMap map = new HashMap();
+      for (int i = 0; i < atts.getLength(); i++) {
+          map.put(defaultQName + "." + atts.getQName(i), atts.getValue(i));
+      }
+      return map;
+  }
+
     /**
      * @see org.xml.sax.ContentHandler#startElement(String, String, String, Attributes)
      */
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
         qName = qName.toLowerCase();
-        if (qName.equals(ELEMENT_ROOT)) {
+        // defaults may have any element present that is needed..
+        if (defaultsStarted) {
+          defaultQName = qName;
+          defaultAtts = getAttributeMap(atts);
+        } else  if (qName.equals(ELEMENT_ROOT)) {
             String defaultType = atts.getValue(ATTRIBUTE_DEFAULT);
             if (defaultType != null) {
                 defaultType = defaultType.toLowerCase();
@@ -145,6 +173,8 @@ public class GuiDefaultsHandler extends DefaultHandler {
                 ApplicationContext.getInstance().registerWidget(name, clazz, type);
             }
             this.widgetName = name;
+        } else if (qName.equals(ELEMENT_DEFAULTS) && widgetsStarted && widgetName != null) {
+          defaultsStarted = true;
         } else if (qName.equals(ELEMENT_PROPERTIES) && widgetsStarted && widgetName != null) {
         	propertiesStarted = true;
         } else if (qName.equals(ELEMENT_PROPERTY) && propertiesStarted) {
@@ -193,7 +223,21 @@ public class GuiDefaultsHandler extends DefaultHandler {
      */
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
         qName = qName.toLowerCase();
-        if (qName.equals(ELEMENT_WIDGET)) {
+        if (qName.equalsIgnoreCase(ELEMENT_DEFAULTS)) {
+            defaultsStarted = false;
+        } else if (defaultsStarted) {
+            WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(widgetName);
+            config.registerWidgetDefault(defaultQName, defaultValue.trim());
+            if (defaultAtts != null) {
+                Iterator it = defaultAtts.keySet().iterator();
+                while (it.hasNext()) {
+                    String key = (String) it.next();
+                    String value = (String) defaultAtts.get(key);
+                    config.registerWidgetDefault(key, value);
+                }
+            }
+            defaultValue = null;
+        } else if (qName.equals(ELEMENT_WIDGET)) {
             widgetName = null;
         } else if (qName.equals(ELEMENT_INITIALIZER)) {
             if (widgetName != null) {
@@ -209,5 +253,16 @@ public class GuiDefaultsHandler extends DefaultHandler {
             propertiesStarted = false;
         }
     }
+
+    /**
+     * @see org.xml.sax.ContentHandler#characters(char[], int, int)
+     */
+    public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
+      if (defaultValue== null) {
+          defaultValue = new String(arg0, arg1, arg2);
+      } else {
+          defaultValue += new String(arg0, arg1, arg2);
+      }
+  }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: TestFactory.java,v 1.6 2004-03-16 15:09:39 mvdb Exp $
+   $Id: TestFactory.java,v 1.7 2004-04-01 16:15:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,9 +24,9 @@ import javax.swing.JPanel;
 
 import org.xulux.core.ApplicationContext;
 import org.xulux.core.ApplicationPart;
-import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.gui.Widget;
 import org.xulux.gui.WidgetFactory;
 import org.xulux.guidriver.XuluxGuiDriver;
@@ -38,7 +38,7 @@ import org.xulux.swing.layouts.XYLayout;
  * a later stage.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.6 2004-03-16 15:09:39 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.7 2004-04-01 16:15:10 mvdb Exp $
  */
 public final class TestFactory
 {
@@ -77,7 +77,7 @@ public final class TestFactory
     {
         ApplicationPart part = new ApplicationPart(bean);
         Dictionary d = Dictionary.getInstance();
-        BeanMapping mapping = d.getMapping(bean.getClass());
+        IMapping mapping = d.getMapping(bean.getClass());
         Iterator iterator = mapping.getFields().iterator();
         XYLayout layout = new XYLayout();
         JPanel panel = new JPanel(layout);

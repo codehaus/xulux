@@ -133,6 +133,13 @@
           to autosize the window
         </td>
       </tr>
+      <tr>
+        <td>resizable</td>
+        <td>all</td>
+        <td>
+          Specifies if the window will be resizable or not.
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>

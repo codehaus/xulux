@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfigTest.java,v 1.4 2004-03-25 00:48:09 mvdb Exp $
+   $Id: WidgetConfigTest.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -16,6 +16,8 @@
    limitations under the License.
 */
 package org.xulux.core;
+
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
@@ -35,7 +37,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.4 2004-03-25 00:48:09 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase {
 
@@ -169,6 +171,19 @@ public class WidgetConfigTest extends TestCase {
         config.addContentHandler("java.lang.String", "java.lang.String");
         // test where the contenthandler fails to instantiate the handler..
         config.addContentHandler(FailInstantiateHandler.class.getName(), "java.lang.String");
+    }
+    
+    public void testWidgetDefaults() {
+      System.out.println("testWidgetDefaults");
+      WidgetConfig config = new WidgetConfig();
+      config.registerWidgetDefault("test", "value");
+      Object value1 = new Integer(1);
+      config.registerWidgetDefault("test1", value1);
+      Map map = config.getWidgetDefaults();
+      assertNotNull(map);
+      assertEquals(2, map.size());
+      assertEquals("value", map.get("test"));
+      assertEquals(value1, map.get("test1"));
     }
 
     public class Content2 extends Content1 {
