@@ -26,8 +26,8 @@
         <item name="ApplicationContext" href="/internals/applicationcontext.html"/>
         <item name="ApplicationHandlers" href="/internals/applicationhandlers.html"/>
         <item name="Dictionary" href="/dictionary/dictionary.html"/>
-        
       </item>
+      <item name="Acknowledgements" href="/acknowledgements.html"/>
     </menu>
   </body>
 </project>

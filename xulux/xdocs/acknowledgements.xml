@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Acknoledgements</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="acknowledgements">
+
+<p>
+  Not all code in xulux is written by the xulux project.
+  All acknowledgements are stated below
+</p>
+</section>
+
+<section name="Jakarta Apache">
+  For the sake of keeping a small core, I have imported the BooleanUtils
+  class from <a href="http://jakarta.apache.org/commons/lang">apache jakarta commons lang</a>
+  and the testcase. Thanx to the commons team for the great work!
+<p>
+  
+</p>
+</section>
+</body>  
+</document>
+
