@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.3 2004-03-16 14:35:14 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.guidefaults;
+package org.xulux.guidriver.defaults;
 
 import java.io.InputStream;
 
@@ -32,7 +32,7 @@ import org.xulux.context.WidgetConfig;
  * Case insensitive processing of the guidefaults.
  *
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.3 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 

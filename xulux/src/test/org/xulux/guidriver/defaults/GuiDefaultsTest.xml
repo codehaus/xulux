@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaultsTest.xml,v 1.3 2004-03-16 14:35:15 mvdb Exp $ -->
+<!-- $Id: GuiDefaultsTest.xml,v 1.1 2004-03-16 14:52:00 mvdb Exp $ -->
 <guidefaults defaultType="swing">
   <!-- invalid ... -->
   <contenthandlers>
@@ -7,13 +7,13 @@
   </contenthandlers>
   <widgets>
     <widget name="window">
-      <widgetInitializer class="org.xulux.guidefaults.BogusWindowInitializer"/>
+      <widgetInitializer class="org.xulux.guidriver.defaults.BogusWindowInitializer"/>
     </widget>
     <widget name="bogus">
-      <widgetInitializer class="org.xulux.guidefaults.BogusWindowInitializer"/>
+      <widgetInitializer class="org.xulux.guidriver.defaults.BogusWindowInitializer"/>
     </widget>
     <widget>
-      <widgetInitializer class="org.xulux.guidefaults.BogusWindowInitializer"/>
+      <widgetInitializer class="org.xulux.guidriver.defaults.BogusWindowInitializer"/>
     </widget>
     <widget name="tree">
       <contenthandlers>

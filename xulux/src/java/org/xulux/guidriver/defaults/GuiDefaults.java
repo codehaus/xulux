@@ -1,5 +1,5 @@
 /*
-   $Id: BogusParentWidgetHandler.java,v 1.3 2004-01-28 15:22:09 mvdb Exp $
+   $Id: GuiDefaults.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,35 +15,21 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.guidefaults;
-
-import org.xulux.gui.IParentWidgetHandler;
+package org.xulux.guidriver.defaults;
 
 /**
+ * Just a placeholer for the default gui
+ * properties. Currently doesn't do anything
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BogusParentWidgetHandler.java,v 1.3 2004-01-28 15:22:09 mvdb Exp $
+ * @version $Id: GuiDefaults.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
  */
-public class BogusParentWidgetHandler implements IParentWidgetHandler {
+public class GuiDefaults {
 
     /**
-     *
+     * Constructor for GuiDefaults.
      */
-    public BogusParentWidgetHandler() {
-        super();
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.IParentWidgetHandler#initialize(java.lang.Object)
-     */
-    public void initialize(Object parent) {
-
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.IParentWidgetHandler#destroy(java.lang.Object)
-     */
-    public void destroy(Object parent) {
-
+    public GuiDefaults() {
     }
 
 }

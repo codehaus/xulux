@@ -1,37 +1,32 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaults.xml,v 1.5 2004-03-16 14:35:14 mvdb Exp $ -->
+<!-- $Id: GuiDefaults2.xml,v 1.1 2004-03-16 14:52:00 mvdb Exp $ -->
 <!-- 
-    Where no type is specified, it will default
-    to defaultType.
+  This configuration constructs some basic widgets by means
+  of seperate handlers. This way we will keep Xulux easily extensible
+  and adaptable.
 -->
 <guidefaults defaultType="swing">
-  <parentWidgetHandler class="org.xulux.swing.util.SwingParentWidgetHandler"/>
-  <nativeWidgetHandler class="org.xulux.swing.util.NativeWidgetHandler"/>
-  <fieldEventHandler class="org.xulux.swing.listeners.PrePostFieldListener"/>
-  <nyxToolkit class="org.xulux.swing.util.SwingToolkit"/>
-  <nyxToolkit type="swt" class="org.xulux.swt.util.SWTToolkit"/>
   <widgets>
+    <!-- 
+          The widget properties can be overriden in the gui xml
+    -->
+    <widget name="window">
+      <properties>
+        <!--
+           These are widget properties that specify the core
+           possibilities for this component.
+        -->
+        <property>root</property>
+        <property>showable</property>
+        <property>container</property>
+      </properties>
+    </widget>
     <widget name="button" class="org.xulux.swing.widgets.Button"/>
     <widget name="combo"  class="org.xulux.swing.widgets.Combo"/>
     <widget name="combo" type="swt" class="org.xulux.swt.widgets.SWTCombo"/>
     <widget name="entry" class="org.xulux.swing.widgets.Entry"/>
     <widget name="checkbox" class="org.xulux.swing.widgets.CheckBox"/>
-    <widget name="label" class="org.xulux.swing.widgets.Label">
-      <!-- this will register the properties supported by the label.
-           Eventually the label widget will not exist anymore..
-      -->
-<!--      <properties> -->
-        <!-- the use attribute specifies when this propertyhandler should be called
-             supported are : 
-             refresh -> always call this when a property is set
-             normal  -> only call when setProperty is called.
-             delayed -> Delay calling this handler untill the widget is initialized
-        -->
-        <!--
-        <property use="normal" name="icon" class="org.xulux.swing.widgets.handlers.IconHandler"/>
-        <property use="normal" name="text" class="org.xulux.swing.widgets.handler.TextHandler"/>
-      </properties> -->
-    </widget>
+    <widget name="label" class="org.xulux.swing.widgets.Label"/>
     <widget name="panel" class="org.xulux.swing.widgets.Panel"/>
     <!-- a tab is the same as a panel, only different properties are
          used. The properties are however read by the tabpanel

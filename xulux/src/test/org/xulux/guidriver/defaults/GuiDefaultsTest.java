@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsTest.java,v 1.4 2004-01-28 15:22:09 mvdb Exp $
+   $Id: GuiDefaultsTest.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.guidefaults;
+package org.xulux.guidriver.defaults;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
@@ -36,7 +36,7 @@ import org.xulux.context.WidgetConfig;
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.4 2004-01-28 15:22:09 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -91,7 +91,7 @@ public class GuiDefaultsTest extends TestCase {
     public void testWithoutDefaultType() {
         System.out.println("testWithoutDefaultType");
         GuiDefaultsHandler handler = new GuiDefaultsHandler();
-        handler.read(getClass().getClassLoader().getResourceAsStream("org/xulux/guidefaults/GuiDefaultsTest2.xml"));
+        handler.read(getClass().getClassLoader().getResourceAsStream("org/xulux/guidriver/defaults/GuiDefaultsTest2.xml"));
         assertNotNull(ApplicationContext.getInstance().getWidgetConfig("testbutton"));
         assertTrue(ApplicationContext.getInstance().getParentWidgetHandler() instanceof BogusParentWidgetHandler);
     }
@@ -102,7 +102,7 @@ public class GuiDefaultsTest extends TestCase {
     public void testCustomGuiDefaults() {
         System.out.println("testCustomGuiDefaults");
         ApplicationContext.getInstance();
-        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/guidefaults/GuiDefaultsTest.xml");
+        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/guidriver/defaults/GuiDefaultsTest.xml");
         HashMap map = ApplicationContext.getInstance().getWidgets();
         WidgetConfig config = (WidgetConfig) map.get("window");
         List list = config.getWidgetInitializers("swing");

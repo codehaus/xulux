@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationContext.java,v 1.4 2004-01-28 14:57:03 mvdb Exp $
+   $Id: ApplicationContext.java,v 1.5 2004-03-16 14:52:01 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -32,7 +32,7 @@ import org.xulux.gui.IWidgetInitializer;
 import org.xulux.gui.NYXToolkit;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
-import org.xulux.guidefaults.GuiDefaultsHandler;
+import org.xulux.guidriver.defaults.GuiDefaultsHandler;
 import org.xulux.rules.IRule;
 import org.xulux.utils.ClassLoaderUtils;
 
@@ -41,13 +41,13 @@ import org.xulux.utils.ClassLoaderUtils;
  * known to the system.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.4 2004-01-28 14:57:03 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.5 2004-03-16 14:52:01 mvdb Exp $
  */
 public class ApplicationContext {
     /**
      * The default GuiDefaults (can be overridden);
      */
-    public static final String GUIDEFAULTS_XML = "org/xulux/guidefaults/GuiDefaults.xml";
+    public static final String GUIDEFAULTS_XML = "org/xulux/guidriver/defaults/GuiDefaults.xml";
 
     /**
      * The applicationcontext instance
