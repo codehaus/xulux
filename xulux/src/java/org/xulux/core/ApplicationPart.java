@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.9 2004-06-30 11:59:00 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.10 2004-07-06 16:39:35 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.Dictionary;
 import org.xulux.gui.IInvalidValueStrategy;
 import org.xulux.gui.INativeWidgetHandler;
 import org.xulux.gui.IParentWidgetHandler;
@@ -57,7 +56,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.9 2004-06-30 11:59:00 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.10 2004-07-06 16:39:35 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -179,7 +178,7 @@ public class ApplicationPart {
         this.bean = bean;
         if (bean != null) {
             // @todo remove this line, since it should be useless.
-            Dictionary.getInstance().getMapping(bean.getClass());
+            XuluxContext.getDictionary().getMapping(bean.getClass());
         }
     }
 

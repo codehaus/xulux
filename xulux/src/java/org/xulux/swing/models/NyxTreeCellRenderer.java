@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTreeCellRenderer.java,v 1.6 2004-04-01 16:15:09 mvdb Exp $
+   $Id: NyxTreeCellRenderer.java,v 1.7 2004-07-06 16:36:44 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,9 +22,9 @@ import java.awt.Component;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import org.xulux.dataprovider.IMapping;
-import org.xulux.dataprovider.Dictionary;
+import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.swing.widgets.Tree;
 import org.xulux.utils.ClassLoaderUtils;
 
@@ -32,7 +32,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * For now extends the defaultreeCellRenderer.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTreeCellRenderer.java,v 1.6 2004-04-01 16:15:09 mvdb Exp $
+ * @version $Id: NyxTreeCellRenderer.java,v 1.7 2004-07-06 16:36:44 mvdb Exp $
  */
 public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
 
@@ -63,7 +63,7 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
         String clazz = widget.getProperty("treefield.class");
         if (value != null && clazz != null) {
             if (ClassLoaderUtils.getClass(clazz) == value.getClass()) {
-                IMapping mapping = Dictionary.getInstance().getMapping(value);
+                IMapping mapping = XuluxContext.getDictionary().getMapping(value);
                 String use = widget.getProperty("treefield.use");
                 if (use != null) {
                     IField field = mapping.getField(use);

@@ -1,5 +1,5 @@
 /*
-   $Id: UpdateButtonsListener.java,v 1.8 2004-04-01 16:15:09 mvdb Exp $
+   $Id: UpdateButtonsListener.java,v 1.9 2004-07-06 16:37:19 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,7 +28,7 @@ import javax.swing.event.ListSelectionListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.core.ApplicationPart;
-import org.xulux.dataprovider.Dictionary;
+import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
 import org.xulux.gui.IContentWidget;
@@ -44,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.8 2004-04-01 16:15:09 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.9 2004-07-06 16:37:19 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener implements ActionListener, ListSelectionListener {
 
@@ -171,7 +171,7 @@ public class UpdateButtonsListener extends NyxListener implements ActionListener
                 Object value = widget.getValue();
                 String field = widget.getField();
                 if (field != null && value != null) {
-                    IMapping mapping = Dictionary.getInstance().getMapping(bean);
+                    IMapping mapping = XuluxContext.getDictionary().getMapping(bean);
                     IField f = mapping.getField(locatorField);
                     f.setValue(bean, value);
                 }
