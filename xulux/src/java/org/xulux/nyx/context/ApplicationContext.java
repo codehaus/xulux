@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.14 2002-11-27 02:33:44 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.15 2002-11-28 21:32:53 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,6 +53,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.guidefaults.GuiDefaultsHandler;
 import org.xulux.nyx.rules.IRule;
@@ -62,13 +64,14 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.14 2002-11-27 02:33:44 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.15 2002-11-28 21:32:53 mvdb Exp $
  */
 public class ApplicationContext
 {
     
     private static String GUIDEFAULTS_XML = "org/xulux/nyx/guidefaults/GuiDefaults.xml";
     private static ApplicationContext instance;
+    private static Log log = LogFactory.getLog(ApplicationContext.class);
     
     /** 
      * This is the component registery
@@ -205,7 +208,10 @@ public class ApplicationContext
         {
             return;
         }
-//        System.out.println("Rules : " + rules);
+        if (log.isDebugEnabled())
+        {
+            log.debug("Rules : " + rules);
+        }
         ArrayList currentRules = (ArrayList)rules.clone();
         Iterator it = currentRules.iterator();
         fireRequests(it, request, type);
@@ -290,23 +296,31 @@ public class ApplicationContext
                 switch (type)
                 {
                     case PRE_REQUEST :
-                        System.out.println("Processing pre rule : " + rule.getClass().getName());
+                        if (log.isTraceEnabled())
+                        {
+                            log.trace("Processing pre rule : " + rule.getClass().getName());
+                        }
                         rule.pre(request);
                         continue;
                     case EXECUTE_REQUEST :
-                        System.out.println("Processing execute rule : " + rule.getClass().getName());
+                        if (log.isTraceEnabled())
+                        {
+                            log.trace("Processing pre rule : " + rule.getClass().getName());
+                        }
                         rule.execute(request);
                         continue;
                     case POST_REQUEST :
-                        System.out.println("Processing post rule : " + rule.getClass().getName());
+                        if (log.isTraceEnabled())
+                        {
+                            log.trace("Processing pre rule : " + rule.getClass().getName());
+                        }
                         rule.post(request);
                         continue;
                 }
             }
             catch(Exception e)
             {
-                System.err.println("Exception during Processing of rule : " + rule.getClass().getName());
-                e.printStackTrace(System.err);
+                log.warn("Exception during Processing of rule : " + rule.getClass().getName(),e);
             }
         }
         return false;
@@ -325,7 +339,7 @@ public class ApplicationContext
         }
         catch (ClassNotFoundException e)
         {
-            System.err.println("Could not find "+clazz+" for widget named "+name);
+            log.warn("Could not find "+clazz+" for widget named "+name);
         }
     }
     
