@@ -1,5 +1,5 @@
 /*
-   $Id: BeanMapping.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
+   $Id: BeanMapping.java,v 1.3 2004-10-20 17:26:58 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -38,7 +38,7 @@ import org.xulux.dataprovider.IMapping;
  * @todo Also fix the set when realField is used.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.3 2004-10-20 17:26:58 mvdb Exp $
  */
 public class BeanMapping implements IMapping
 {
@@ -313,7 +313,7 @@ public class BeanMapping implements IMapping
             name = field;
         }
         int index = fields.indexOf(name);
-        if (index == -1) {
+        if (index == -1 && realField != null) {
             name = name+"."+realField;
             dotIndex = name.lastIndexOf(".");
             if (dotIndex != -1) {
@@ -344,8 +344,8 @@ public class BeanMapping implements IMapping
     /**
      * Will discover the fields in the bean.
      * if discovery is set and discovery has not yet taken
-     * place. Discovery will ignore getters which are private
-     * or protected.
+     * place. Discovery will methods which are private or protected.
+     * 
      * It will also try to discover the set method that is connected
      * to the getter (assuming it is not a read only field).
      *
@@ -359,11 +359,9 @@ public class BeanMapping implements IMapping
             for (int i = 0; i < methods.length; i++)
             {
                 Method method = methods[i];
-                if ((method.getName().toLowerCase().startsWith("get")
-                     || method.getName().toLowerCase().startsWith("is"))
-                    && !method.getName().equals("getClass")
+                if ((!method.getName().equals("getClass")
                     && method.getModifiers() != Modifier.PRIVATE
-                    && method.getModifiers() != Modifier.PROTECTED)
+                    && method.getModifiers() != Modifier.PROTECTED))
                 {
                     BeanField field = new BeanField(method);
                     // try to find the setter..
@@ -380,6 +378,13 @@ public class BeanMapping implements IMapping
         }
     }
 
+    /**
+     * Discovers a specific field, and ads it to the cache.
+     *
+     * @param field the field to discover
+     */
+    public void discover(String field) {
+    }
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */

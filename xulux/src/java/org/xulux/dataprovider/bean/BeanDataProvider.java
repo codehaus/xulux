@@ -1,5 +1,5 @@
 /*
-   $Id: BeanDataProvider.java,v 1.5 2004-10-14 13:01:16 mvdb Exp $
+   $Id: BeanDataProvider.java,v 1.6 2004-10-20 17:26:58 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -39,7 +39,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * It is the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanDataProvider.java,v 1.5 2004-10-14 13:01:16 mvdb Exp $
+ * @version $Id: BeanDataProvider.java,v 1.6 2004-10-20 17:26:58 mvdb Exp $
  */
 public final class BeanDataProvider implements IDataProvider {
     /**
@@ -83,11 +83,15 @@ public final class BeanDataProvider implements IDataProvider {
      * @param name the name of the mapping
      * @return the mapping
      */
-    public BeanMapping getMapping(String name) {
+    public IMapping getMapping(String name) {
+        IMapping mapping = null;
         if (mappings != null) {
-            return (BeanMapping) mappings.get(name);
+            mapping = (BeanMapping) mappings.get(name);
         }
-        return null;
+        if (mapping == null) {
+            mapping = getMapping(ClassLoaderUtils.getClass(name));
+        }
+        return mapping;
     }
 
     /**
@@ -176,8 +180,7 @@ public final class BeanDataProvider implements IDataProvider {
     /**
      * Tries to get a mapping based on the specified bean
      * @param clazz the class
-     * @param preferredName - the name to use for the mapping
-     *                         if it needs to be created
+     * @param preferredName the name to use for the mapping if it needs to be created
      * @return the beanmapping found
      */
     public BeanMapping getMapping(Class clazz, String preferredName) {
@@ -186,7 +189,7 @@ public final class BeanDataProvider implements IDataProvider {
                 log.debug("Base class is not set. Xulux will possibly not be able to disover data beans correctly");
             }
         }
-        BeanMapping mapping = getMapping(preferredName);
+        BeanMapping mapping = (BeanMapping) getMapping(preferredName);
         if (mapping == null) {
             mapping = new BeanMapping(preferredName);
             mapping.setBean(clazz);
