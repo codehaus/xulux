@@ -1,20 +1,20 @@
 /*
-   $Id: WidgetConfigTest.java,v 1.7 2004-05-13 15:30:15 mvdb Exp $
-   
-   Copyright 2002-2004 The Xulux Project
+ $Id: WidgetConfigTest.java,v 1.8 2004-07-25 23:22:11 mvdb Exp $
+ 
+ Copyright 2002-2004 The Xulux Project
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+ http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 package org.xulux.core;
 
 import java.util.Map;
@@ -35,15 +35,17 @@ import junit.framework.TestSuite;
 
 /**
  * Tests the widgetConfig
- *
- * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.7 2004-05-13 15:30:15 mvdb Exp $
+ * 
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt </a>
+ * @version $Id: WidgetConfigTest.java,v 1.8 2004-07-25 23:22:11 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase {
 
     /**
      * Constructor for WidgetConfigTest.
-     * @param name the name of the test
+     * 
+     * @param name
+     *            the name of the test
      */
     public WidgetConfigTest(String name) {
         super(name);
@@ -107,14 +109,14 @@ public class WidgetConfigTest extends TestCase {
         assertEquals(1, config.getWidgetInitializers("swt").size());
     }
 
-	/**
-	 * Test the propertyhandlers
-	 */
-	public void testPropertyHandlers() {
-		System.out.println("testPropertyHandlers");
-		WidgetConfig config = new WidgetConfig();
+    /**
+     * Test the propertyhandlers
+     */
+    public void testPropertyHandlers() {
+        System.out.println("testPropertyHandlers");
+        WidgetConfig config = new WidgetConfig();
         config.addPropertyHandler(null, null, null, null);
-		config.addPropertyHandler("java.lang.Integer", IPropertyHandler.NORMAL,"bogus", "swing");
+        config.addPropertyHandler("java.lang.Integer", IPropertyHandler.NORMAL, "bogus", "swing");
         assertEquals(null, config.getPropertyHandlers("swing"));
         config.addPropertyHandler(PropHandler.class.getName(), IPropertyHandler.NORMAL, "prop", "swing");
         assertEquals(1, config.getPropertyHandlers("swing").size());
@@ -122,8 +124,9 @@ public class WidgetConfigTest extends TestCase {
         config.addPropertyHandler(PropHandler2.class.getName(), IPropertyHandler.NORMAL, "prop2", "swing");
         assertEquals(2, config.getPropertyHandlers("swing").size());
         assertNull(null, config.getPropertyHandlers("swt"));
-        
-	}
+
+    }
+
     /**
      * Test the contenthandlers
      */
@@ -134,8 +137,10 @@ public class WidgetConfigTest extends TestCase {
         Content1 content1 = new Content1();
         config.addWidgetTool(null, content1.getClass());
         assertEquals(Content1.class, config.getContentHandler(Content1.class).getClass());
-        // now test if we get content1 handler back when using content2 which extends from content1
-        // (in this scenario content1 and 2 are used as handlers AS well AS the object to to handle :)
+        // now test if we get content1 handler back when using content2 which
+        // extends from content1
+        // (in this scenario content1 and 2 are used as handlers AS well AS the
+        // object to to handle :)
         assertEquals(Content1.class, config.getContentHandler(Content2.class).getClass());
         assertNull(config.getContentHandler(WidgetConfigTest.class));
         // check if bogus entries are also handled.
@@ -146,8 +151,8 @@ public class WidgetConfigTest extends TestCase {
         config.addWidgetTool(null, "org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler");
         assertNotNull(config.getContentHandler(TreeNode.class));
         config = new WidgetConfig();
-        config.addContentHandler("org.xulux.dataprovider.contenthandlers.DOMTreeContentHandler", 
-                                  "org.xulux.dataprovider.contenthandlers.SimpleDOMView");
+        config.addContentHandler("org.xulux.dataprovider.contenthandlers.DOMTreeContentHandler",
+                "org.xulux.dataprovider.contenthandlers.SimpleDOMView");
         IContentHandler handler = config.getContentHandler(Document.class);
         assertNotNull(handler);
         assertEquals(SimpleDOMView.class, handler.getViewClass());
@@ -175,18 +180,18 @@ public class WidgetConfigTest extends TestCase {
         // test for an npe when there is no contenthandler is found.
         config.getContentHandler(this.getClass());
     }
-    
+
     public void testWidgetDefaults() {
-      System.out.println("testWidgetDefaults");
-      WidgetConfig config = new WidgetConfig();
-      config.registerWidgetDefault("test", "value");
-      Object value1 = new Integer(1);
-      config.registerWidgetDefault("test1", value1);
-      Map map = config.getWidgetDefaults();
-      assertNotNull(map);
-      assertEquals(2, map.size());
-      assertEquals("value", map.get("test"));
-      assertEquals(value1, map.get("test1"));
+        System.out.println("testWidgetDefaults");
+        WidgetConfig config = new WidgetConfig();
+        config.registerWidgetDefault("test", "value");
+        Object value1 = new Integer(1);
+        config.registerWidgetDefault("test1", value1);
+        Map map = config.getWidgetDefaults();
+        assertNotNull(map);
+        assertEquals(2, map.size());
+        assertEquals("value", map.get("test"));
+        assertEquals(value1, map.get("test1"));
     }
 
     public class Content2 extends Content1 {
@@ -199,6 +204,7 @@ public class WidgetConfigTest extends TestCase {
 
         public Content1() {
         }
+
         /**
          * @see org.xulux.nyx.global.IContentHandler#getContent()
          */
@@ -226,11 +232,13 @@ public class WidgetConfigTest extends TestCase {
         public void setContent(Object content) {
 
         }
+
         /**
          * @see org.xulux.dataprovider.contenthandlers.IContentHandler#setView(java.lang.Class)
          */
         public void setView(Class view) {
         }
+
         /**
          * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getViewClass()
          */
@@ -241,8 +249,8 @@ public class WidgetConfigTest extends TestCase {
 
     public class initOne implements IWidgetInitializer {
         /**
-        * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
-        */
+         * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
+         */
         public void destroy(Widget widget) {
 
         }
@@ -255,10 +263,11 @@ public class WidgetConfigTest extends TestCase {
         }
 
     }
+
     public class initTwo implements IWidgetInitializer {
         /**
-        * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
-        */
+         * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
+         */
         public void destroy(Widget widget) {
 
         }
@@ -281,7 +290,8 @@ public class WidgetConfigTest extends TestCase {
         }
 
         /**
-         * @see org.xulux.gui.IPropertyHandler#handleProperty(org.xulux.gui.Widget, java.lang.String)
+         * @see org.xulux.gui.IPropertyHandler#handleProperty(org.xulux.gui.Widget,
+         *      java.lang.String)
          */
         public boolean handleProperty(Widget widget, String property) {
             return false;
@@ -300,12 +310,12 @@ public class WidgetConfigTest extends TestCase {
             return null;
         }
     }
-    
+
     public class PropHandler2 extends PropHandler {
     }
-    
+
     public class FailInstantiateHandler implements IContentHandler {
-        
+
         public FailInstantiateHandler() {
             throw new RuntimeException();
         }
