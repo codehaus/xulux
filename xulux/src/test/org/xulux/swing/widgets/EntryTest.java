@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  * Testcase for the entry widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: EntryTest.java,v 1.2 2004-06-29 12:00:52 mvdb Exp $
+ * @version $Id: EntryTest.java,v 1.3 2004-06-29 12:18:05 mvdb Exp $
  */
 public class EntryTest extends TestCase {
 
@@ -168,6 +168,10 @@ public class EntryTest extends TestCase {
         assertEquals(MockConverter.GUIVALUE, entry.textComponent.getText());
         assertEquals(MockConverter.BEANVALUE, entry.getValue());
         assertEquals(MockConverter.GUIVALUE, entry.getGuiValue());
+        entry.setLazyProperty("valueclass", TestObject.class.getName());
+        entry.setValue(new TestObject("karel"));
+        assertEquals(MockConverter.GUIVALUE, entry.getGuiValue());
+        assertEquals(MockConverter.BEANVALUE, entry.getValue());
     }
 
     /**

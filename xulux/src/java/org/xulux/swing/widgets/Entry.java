@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.14 2004-06-29 12:00:52 mvdb Exp $
+   $Id: Entry.java,v 1.15 2004-06-29 12:18:05 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.14 2004-06-29 12:00:52 mvdb Exp $
+ * @version $Id: Entry.java,v 1.15 2004-06-29 12:18:05 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -268,6 +268,14 @@ public class Entry extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#getValue()
      */
     public Object getValue() {
+        if (getField() != null) {
+          if (getProperty("converter.class") != null) {
+              IConverter converter = (IConverter) ClassLoaderUtils.getObjectFromClassString(getProperty("converter.class"));
+              if (converter != null) {
+                  return converter.getBeanValue(this.value);
+              }
+          }
+        }
         return this.value;
     }
 
@@ -419,12 +427,17 @@ public class Entry extends SwingWidget {
           }
         } else if (getField() == null) {
             if (object != null) {
-                if (valueClass != null && !valueClass.isAssignableFrom(object.getClass())) {
-                    IConverter converter = Dictionary.getConverter(valueClass);
+                //if (valueClass != null && !valueClass.isAssignableFrom(object.getClass())) {
+                    IConverter converter = null;
+                    if (getProperty("converter.class") != null) {
+                        converter = (IConverter) ClassLoaderUtils.getObjectFromClassString(getProperty("converter.class"));
+                    } else {
+                        converter = Dictionary.getConverter(valueClass);
+                    }
                     if (converter != null) {
                         object = converter.getBeanValue(object);
                     }
-                }
+                //}
             }
             if (object != this.value) {
                 this.previousValue = this.value;
