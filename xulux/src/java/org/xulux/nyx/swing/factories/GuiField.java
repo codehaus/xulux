@@ -1,5 +1,5 @@
 /*
- $Id: GuiField.java,v 1.2 2002-10-29 00:10:02 mvdb Exp $
+ $Id: GuiField.java,v 1.3 2002-10-31 01:44:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,11 +61,15 @@ import org.xulux.nyx.examples.datamodel.DefaultBase;
 import org.xulux.nyx.global.BeanField;
 
 /**
- * This contains specifics for the GuiFields
- * such as the mask etc.
+ * This contains specifics for the GuiFields.
+ * NOTE: Current problem is that there is way too much method exposure.
+ * Should investigate collaberation between BeanField and GuigField..
+ * Lot of cleaning up to do, since I've started to move config over
+ * to xml, since property files are (ehh can get) messy if not
+ * solely used for translations ;)
  * 
- * @author Martin van den Bemt
- * @version $Id: GuiField.java,v 1.2 2002-10-29 00:10:02 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: GuiField.java,v 1.3 2002-10-31 01:44:26 mvdb Exp $
  */
 public class GuiField
 {
@@ -84,7 +88,12 @@ public class GuiField
     public static String DEFAULTLABELPREFIX = EMPTYSTRING;
     public static String DEFAULTLABELPOSTFIX = EMPTYSTRING;
     public static String FIELD_PREFIX = "field.prefix"+DOT;
-
+    
+    /**
+     * Holds the BeanField
+     */
+    private BeanField beanField;
+    
     /** 
      * if this field is required
      */
@@ -94,10 +103,6 @@ public class GuiField
      * Specifies if this field is a baseType
      */
     private boolean baseType;
-    /** 
-     * The mask to use for this field
-     */
-    private IMask mask;
 
     /**
      * The label of the field
@@ -127,13 +132,8 @@ public class GuiField
     
     public GuiField(BeanField beanField)
     {
-        setField(beanField.getName());
+        setBeanField(beanField);
         this.method = beanField.getMethod();
-        setBaseType(beanField.isBaseType());
-        if (this.method.getReturnType() == String.class)
-        {
-            setMask(new StringMask());
-        }
     }
     /**
      * Constructor for Field.
@@ -150,9 +150,6 @@ public class GuiField
     }
 
     /**
-     * 
-     * Normally used for an initial setText on the 
-     * generated component.
      */
     public String getCurrentValue(Object base)
     {
@@ -164,6 +161,9 @@ public class GuiField
         return null;
     }
     
+    /** 
+     * Returns the value that is associ
+     */
     public Object getCurrentObject(Object base)
     {
         try
@@ -180,8 +180,32 @@ public class GuiField
         }
         return null;
     }
-        
-
+    
+    /**
+     * Returns the bean.
+     * Normally only used when you implemented the IPersistRule interface..
+     */
+    public Object getBean()
+    {
+        return null;
+    }
+    
+    /** 
+     * @return if the field has changed in regard to the bean.
+     */
+    public boolean isDirty()
+    {
+        return false;
+    }
+    
+    /**
+     * Resets the value to the original bean value
+     */
+    public void reset()
+    {
+        // TODO
+    }
+    
     /**
      * Returns the field.
      * @return String
@@ -215,15 +239,6 @@ public class GuiField
     }
 
     /**
-     * Returns the mask.
-     * @return IMask
-     */
-    public IMask getMask()
-    {
-        return mask;
-    }
-
-    /**
      * Returns the required.
      * @return boolean
      */
@@ -248,15 +263,6 @@ public class GuiField
     public void setLabel(String label)
     {
         this.label = label;
-    }
-
-    /**
-     * Sets the mask.
-     * @param mask The mask to set
-     */
-    public void setMask(IMask mask)
-    {
-        this.mask = mask;
     }
 
     /**
@@ -293,73 +299,6 @@ public class GuiField
         setRequired(TRUE.equalsIgnoreCase(required));
     }
 
-    /**
-     * Tries to set the mask using introspection
-     * If it cannot be initialized it will default to StringMask
-     */
-    private void setMask()
-    {
-        String mask =
-            Resources.getResource(
-                resourceClass,
-                prefix + DOT + field + DOT + MASK);
-        String type =
-            Resources.getResource(resourceClass, prefix + DOT + TYPE);
-        if (log.isTraceEnabled())
-        {
-            log.trace("mask : "+mask);
-            log.trace("type : "+type);
-        }
-        // the default maskType is String
-        String maskType = DEFAULTMASKTYPE;
-        try
-        {
-            Class typeClass = Class.forName(type);
-            this.method =
-                typeClass.getMethod(DEFAULT_GET + getMethodField(), null);
-            this.returnType = method.getReturnType();
-            int pkgIndex =
-                method.getReturnType().getPackage().getName().length() + 1;
-            maskType = this.returnType.getName().substring(pkgIndex);
-        }
-        catch (ClassNotFoundException e)
-        {
-            e.printStackTrace(System.out);
-        }
-        catch (NoSuchMethodException e)
-        {
-            e.printStackTrace(System.out);
-        }
-
-        if (mask == null || mask.equals(EMPTYSTRING))
-        {
-            mask =
-                Resources.getResource(
-                    resourceClass,
-                    DEFAULT_FIELD_MASK + maskType);
-        }
-        try
-        {
-            Object object = Class.forName(mask).newInstance();
-            if (object instanceof IMask)
-            {
-                setMask((IMask) object);
-            }
-            else
-            {
-                throw new RuntimeException(Resources.getResource(this, "INVALID_MASK_EXCEPTION")); //$NON-NLS-1$
-            }
-        }
-        catch (InstantiationException e)
-        {
-        }
-        catch (IllegalAccessException e)
-        {
-        }
-        catch (ClassNotFoundException e)
-        {
-        }
-    }
 
     private String getMethodField()
     {
@@ -387,6 +326,7 @@ public class GuiField
 
     /** 
      * Sets the constraints of this field
+     * NOTE: Should be XML!!
      */
     private void setConstraints()
     {
@@ -398,7 +338,6 @@ public class GuiField
             Resources.getResource(
                 resourceClass,
                 prefix + DOT + field + DOT + REQUIRED));
-        setMask();
     }
     
     /**
@@ -412,6 +351,7 @@ public class GuiField
 
     /**
      * Sets the prefix.
+     * NOTE: Should be read initialy from the GuiDefaults.xml..
      * @param prefix The prefix to set
      */
     public void setPrefix(String prefix)
@@ -435,6 +375,16 @@ public class GuiField
     public void setBaseType(boolean baseType)
     {
         this.baseType = baseType;
+    }
+    
+    protected void setBeanField(BeanField beanField)
+    {
+        this.beanField = beanField;
+    }
+    
+    protected BeanField getBeanField()
+    {
+        return this.beanField;
     }
 
 }

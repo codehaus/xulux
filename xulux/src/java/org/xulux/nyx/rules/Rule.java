@@ -1,5 +1,5 @@
 /*
- $Id: Rule.java,v 1.1 2002-10-29 16:17:46 mvdb Exp $
+ $Id: Rule.java,v 1.2 2002-10-31 01:44:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,15 +45,22 @@
  */
 package org.xulux.nyx.rules;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.xulux.nyx.context.ApplicationPart;
+
 /**
  * A convenient abstract for the rule, which only
  * makes executer mandatory.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Rule.java,v 1.1 2002-10-29 16:17:46 mvdb Exp $
+ * @version $Id: Rule.java,v 1.2 2002-10-31 01:44:26 mvdb Exp $
  */
 public abstract class Rule implements IRule
 {
+    
+    private static ArrayList partNames;
 
     /**
      * Constructor for Rule.
@@ -72,7 +79,7 @@ public abstract class Rule implements IRule
     /**
      * @see org.xulux.nyx.rules.IRule#pre()
      */
-    public void pre()
+    public void pre(ApplicationPart part)
     {
     }
 
@@ -80,12 +87,12 @@ public abstract class Rule implements IRule
      * This method has to be implemented.
      * @see org.xulux.nyx.rules.IRule#execute()
      */
-    public abstract void execute();
+    public abstract void execute(ApplicationPart part);
 
     /**
      * @see org.xulux.nyx.rules.IRule#post()
      */
-    public void post()
+    public void post(ApplicationPart part)
     {
     }
 
@@ -95,5 +102,68 @@ public abstract class Rule implements IRule
     public void destroy()
     {
     }
-
+    
+    public int getUseCount()
+    {
+        if (partNames != null)
+        {
+            return partNames.size();
+        }
+        return 0;
+    }
+    
+    public void registerPartName(String partName)
+    {
+        if (partNames == null)
+        {
+            partNames = new ArrayList();
+            // let's initialize the object...
+            this.init();
+        }
+        if (!partNames.contains(partName))
+        {
+            partNames.add(partName);
+        }
+    }
+    
+    public void deregisterPartName(String partName)
+    {
+        if (partNames == null)
+        {
+            return;
+        }
+        int index = partNames.indexOf(partName);
+        if (index != -1)
+        {
+            partNames.remove(index);
+        }
+        if (getUseCount() == 0)
+        {
+            // let's destroy the object..
+            partNames = null;
+            this.destroy();
+        }
+    }
+    
+    public boolean isRegistered(String partName)
+    {
+        return (partNames.indexOf(partName)!=-1);
+    }
+    
+    /** 
+     * A bit of debug info.
+     */
+    public static void debug()
+    {
+        System.out.println("This rules is used by : ");
+        if (partNames != null)
+        {
+            Iterator it = partNames.iterator();
+            System.out.println(it.next());
+        }
+        else
+        {
+            System.out.println("Not used at all...");
+        }
+    }
 }

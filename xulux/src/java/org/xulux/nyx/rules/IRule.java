@@ -1,5 +1,5 @@
 /*
- $Id: IRule.java,v 1.1 2002-10-29 16:17:46 mvdb Exp $
+ $Id: IRule.java,v 1.2 2002-10-31 01:44:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,13 +45,13 @@
  */
 package org.xulux.nyx.rules;
 
-import java.awt.Component;
+import org.xulux.nyx.context.ApplicationPart;
 
 /**
  * All rules must implement this interfaces.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IRule.java,v 1.1 2002-10-29 16:17:46 mvdb Exp $
+ * @version $Id: IRule.java,v 1.2 2002-10-31 01:44:26 mvdb Exp $
  */
 public interface IRule
 {
@@ -65,28 +65,61 @@ public interface IRule
     
     
     /**
+     * Method pre.
+     * @param part
+     */
+    /**
      * Preprocessing of the rule.
      * This is mainly changes state of eg the current
      * component that is about to process
      */
-    public void pre();
+    public void pre(ApplicationPart part);
     
     /**
      * The actual rule will be processed here.
      */
-    public void execute();
+    public void execute(ApplicationPart part);
     
+    /**
+     * Method post.
+     * @param part
+     */
     /**
      * Post processing of the rule
      * This is mainly changing states in eg components
      * after the executer has been process.
      */
-    public void post();
+    public void post(ApplicationPart part);
     
     /**
      * Destroys the rule when removed from 
      * the context
      */
     public void destroy();
+
+    /**
+     * How many times is the current rule used 
+     */
+    public int getUseCount();
+    
+    /**
+     * Method registerPartName.
+     * @param partName
+     */
+    public void registerPartName(String partName);
+    
+    /**
+     * Method derigsterPartName.
+     * @param partName
+     */
+    public void deregisterPartName(String partName);
+    
+    /**
+     * Method isRegistered.
+     * @param partName
+     * @return boolean
+     */
+    public boolean isRegistered(String partName);
+    
 
 }
