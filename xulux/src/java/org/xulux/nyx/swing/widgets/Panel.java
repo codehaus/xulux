@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.16 2003-09-24 12:27:16 mvdb Exp $
+ $Id: Panel.java,v 1.17 2003-09-25 13:30:30 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,6 +51,7 @@ import java.awt.Container;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -66,7 +67,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.16 2003-09-24 12:27:16 mvdb Exp $
+ * @version $Id: Panel.java,v 1.17 2003-09-25 13:30:30 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -197,7 +198,13 @@ public class Panel extends ContainerWidget
             System.out.println("Border insets : "+panel.getBorder().getBorderInsets(panel));
             System.out.println("End : "+getName());
         }
-        panel.setEnabled(isEnabled());
+        // TODO: Add tab widget instead of panel widget..
+        String tabId = getProperty(TabPanel.TABID);
+        if (tabId == null) {
+            panel.setEnabled(isEnabled());
+        } else {
+            ((JTabbedPane)getParent().getNativeWidget()).setEnabledAt(Integer.parseInt(tabId), isEnabled());
+        }
     }
 
 
