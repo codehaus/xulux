@@ -1,5 +1,5 @@
 /*
-   $Id: Logger.java,v 1.1 2004-12-04 19:06:41 mvdb Exp $
+   $Id: Logger.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,7 +27,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Not using any logger as the default, since we want to minimize dependencies.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Logger.java,v 1.1 2004-12-04 19:06:41 mvdb Exp $
+ * @version $Id: Logger.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
  */
 
 public class Logger {
@@ -50,13 +50,36 @@ public class Logger {
      * The current logger for the application
      */
     ILog currentLog;
-    
+
+    /**
+     * The log level
+     */
+    int level = ILog.ERROR;
+
     /**
      * The logger constructor
      */
     public Logger() {
     }
     
+
+    /**
+     * @return the log level used. If not set, it will return DEFAULTLEVEL 
+     */
+    public int getLevel() {
+        return level;
+    }
+    
+    /**
+     * If the level is null, it will start using the default log level
+     * again.
+     *
+     * @param level the log level
+     */
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     /**
      * Register a logger.
      *
@@ -88,9 +111,11 @@ public class Logger {
      * @param name the name to use (used as eg a prefix in the logging output)
      * @param message the log message
      */
-    public void log(String level, String name, String message) {
+    public void log(int level, String name, String message) {
         if (getCurrentLog() != null) {
-            getCurrentLog().log(level, name, message);
+            if (level <= getLevel()) {
+                getCurrentLog().log(level, name, message);
+            }
         }
     }
     
@@ -102,9 +127,11 @@ public class Logger {
      * @param message the log message
      * @param t the exception to log
      */
-    public void log(String level, String name, String message, Throwable t) {
+    public void log(int level, String name, String message, Throwable t) {
         if (getCurrentLog() != null) {
-            getCurrentLog().log(level, name, message, t);
+            if (level <= getLevel()) { 
+                getCurrentLog().log(level, name, message, t);
+            }
         }
     }
     

@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtils.java,v 1.1 2004-12-04 19:06:41 mvdb Exp $
+   $Id: ClassLoaderUtils.java,v 1.2 2004-12-16 06:44:06 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,13 +24,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.xulux.core.XuluxContext;
+import org.xulux.logging.ILog;
+import org.xulux.logging.Logger;
 
 /**
  * This util class contains classloader utils
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.1 2004-12-04 19:06:41 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.2 2004-12-16 06:44:06 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -75,13 +77,13 @@ public class ClassLoaderUtils {
             }
             return object;
         } catch (InvocationTargetException e) {
-            XuluxContext.getLogger().log("warn", ClassLoaderUtils.class.getName(),"Cannot invocate target on " + clazz.getName());
+            XuluxContext.getLogger().log(ILog.WARN, ClassLoaderUtils.class.getName(),"Cannot invocate target on " + clazz.getName());
         } catch (NoSuchMethodException e) {
-            XuluxContext.getLogger().log("warn", ClassLoaderUtils.class.getName(), "Cannot find method on " + clazz.getName());
+            XuluxContext.getLogger().log(ILog.WARN, ClassLoaderUtils.class.getName(), "Cannot find method on " + clazz.getName());
         } catch (InstantiationException e) {
-            XuluxContext.getLogger().log("warn", ClassLoaderUtils.class.getName(), "Cannot instantiate class " + clazz.getName());
+            XuluxContext.getLogger().log(ILog.WARN, ClassLoaderUtils.class.getName(), "Cannot instantiate class " + clazz.getName());
         } catch (Throwable t) {
-            XuluxContext.getLogger().log("warn", ClassLoaderUtils.class.getName(), null, t);
+            XuluxContext.getLogger().log(ILog.WARN, ClassLoaderUtils.class.getName(), null, t);
         }
         return null;
     }
@@ -204,7 +206,7 @@ public class ClassLoaderUtils {
             }
         }
         catch (Exception e) {
-            XuluxContext.getLogger().log("warn", ClassLoaderUtils.class.getName(), "Unknown error in getting object", e);
+            XuluxContext.getLogger().log(ILog.WARN, ClassLoaderUtils.class.getName(), "Unknown error in getting object", e);
         }
         return getObjectFromClass(clazz);
     }
@@ -230,7 +232,7 @@ public class ClassLoaderUtils {
             return clazz;
         }
         catch (ClassNotFoundException e) {
-            XuluxContext.getLogger().log("warn", ClassLoaderUtils.class.getName(), "Cannot find class " + clazzString);
+            XuluxContext.getLogger().log(ILog.WARN, ClassLoaderUtils.class.getName(), "Cannot find class " + clazzString);
         }
         return null;
     }

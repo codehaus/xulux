@@ -1,5 +1,5 @@
 /*
-   $Id: TstListLogger.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
+   $Id: Log4jLogger.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,49 +17,55 @@
 */
 package org.xulux.logging;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.xulux.logging.ILog;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 /**
- * Logs everything to a list..
- * level is ignored 
- *
+ * The Log4j logger..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TstListLogger.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
+ * @version $Id: Log4jLogger.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
  */
 
-public class TstListLogger implements ILog {
+public class Log4jLogger implements ILog {
 
-    public List log;
+    /**
+     * 
+     */
+    public Log4jLogger() {
+    }
+
     /**
      * @see org.xulux.logging.ILog#init()
      */
     public void init() {
-        log = new ArrayList();
     }
 
     /**
      * @see org.xulux.logging.ILog#destroy()
      */
     public void destroy() {
-        log.clear();
-        log= null;
     }
 
     /**
      * @see org.xulux.logging.ILog#log(int, java.lang.String, java.lang.String)
      */
     public void log(int level, String name, String message) {
-        log.add(level+":"+name+":"+message);
+        if (name == null) {
+            return;
+        }
+        Logger logger = Logger.getLogger(name);
+        logger.log(Level.INFO, message);
     }
 
     /**
      * @see org.xulux.logging.ILog#log(int, java.lang.String, java.lang.String, java.lang.Throwable)
      */
     public void log(int level, String name, String message, Throwable t) {
-        log.add(level+":"+name+":"+message+":"+t);
+        if (name == null) {
+            return;
+        }
+        Logger logger = Logger.getLogger(name);
+        logger.log(Level.INFO, message, t);
     }
 
 }

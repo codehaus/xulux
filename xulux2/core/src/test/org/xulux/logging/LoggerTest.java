@@ -1,5 +1,5 @@
 /*
-   $Id: LoggerTest.java,v 1.1 2004-12-04 19:06:40 mvdb Exp $
+   $Id: LoggerTest.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  * Testcase for the logger..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LoggerTest.java,v 1.1 2004-12-04 19:06:40 mvdb Exp $
+ * @version $Id: LoggerTest.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
  */
 
 public class LoggerTest extends TestCase {
@@ -158,21 +158,36 @@ public class LoggerTest extends TestCase {
         String msg = "level:name:message";
         Logger logger = new Logger();
         // should not crash
-        logger.log(null, null, null);
-        logger.log(null, null, null, null);
+        logger.log(0, null, null);
+        logger.log(0, null, null, null);
         logger.registerLogger("test", TstListLogger.class.getName());
         logger.setDefaultLogger("test");
         logger.useDefaultLogger();
         TstListLogger log = (TstListLogger) logger.getCurrentLog();
         assertNotNull(log.log);
-        logger.log("level", "name", "message");
+        logger.log(0, "name", "message");
         assertEquals(msg, log.log.get(0));
-        logger.log("level", "name", "message", new Throwable());
+        logger.log(0, "name", "message", new Throwable());
         assertEquals(true, ((String)log.log.get(1)).startsWith(msg));
         assertEquals(true, ((String) log.log.get(1)).length() > msg.length());
         logger.clearCache();
         assertNull(log.log);
-        
+    }
+    
+    /**
+     * Test if set level works..
+     */
+    public void testLevel() {
+        System.out.println("testLevel");
+        Logger logger = new Logger();
+        assertEquals(-1, logger.getLevel());
+        logger.setLevel(1234);
+        assertEquals(1234, logger.getLevel());
+        logger.setLevel(-1);
+        assertEquals(-1, logger.getLevel());
+        logger.registerLogger("jdk", JdkLogging.class.getName());
+        logger.setCurrentLogger("jdk");
+        logger.log(0, "test", "should not be logged");
     }
 
     public class TstLogger implements ILog {
@@ -195,15 +210,15 @@ public class LoggerTest extends TestCase {
         }
 
         /**
-         * @see org.xulux.logging.ILog#log(java.lang.String, java.lang.String, java.lang.String)
+         * @see org.xulux.logging.ILog#log(int, java.lang.String, java.lang.String)
          */
-        public void log(String level, String name, String message) {
+        public void log(int level, String name, String message) {
         }
 
         /**
-         * @see org.xulux.logging.ILog#log(java.lang.String, java.lang.String, java.lang.String, java.lang.Throwable)
+         * @see org.xulux.logging.ILog#log(int, java.lang.String, java.lang.String, java.lang.Throwable)
          */
-        public void log(String level, String name, String message, Throwable t) {
+        public void log(int level, String name, String message, Throwable t) {
         }
     }
     
@@ -225,14 +240,14 @@ public class LoggerTest extends TestCase {
 	        throw new RuntimeException("Should see a stacktrace");
 	    }
         /**
-         * @see org.xulux.logging.ILog#log(java.lang.String, java.lang.String, java.lang.String)
+         * @see org.xulux.logging.ILog#log(int, java.lang.String, java.lang.String)
          */
-        public void log(String level, String name, String message) {
+        public void log(int level, String name, String message) {
         }
         /**
-         * @see org.xulux.logging.ILog#log(java.lang.String, java.lang.String, java.lang.String, java.lang.Throwable)
+         * @see org.xulux.logging.ILog#log(int, java.lang.String, java.lang.String, java.lang.Throwable)
          */
-        public void log(String level, String name, String message, Throwable t) {
+        public void log(int level, String name, String message, Throwable t) {
         }
     }
     

@@ -1,5 +1,5 @@
 /*
-   $Id: ILog.java,v 1.1 2004-12-04 19:06:41 mvdb Exp $
+   $Id: ILog.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,10 +22,26 @@ package org.xulux.logging;
  * if you want to support a logger (eg commons-logging, log4j, jdk logging);
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ILog.java,v 1.1 2004-12-04 19:06:41 mvdb Exp $
+ * @version $Id: ILog.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
  */
 
 public interface ILog {
+    
+    /**
+     * ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF
+     */
+    /**
+     * Use the default log level..
+     */
+    int DEFAULT = 0;
+    int ALL = 100;
+    int DEBUG = 200;
+    int INFO = 300;
+    int WARN = 400;
+    int ERROR = 500;
+    int FATAL = 600;
+    int OFF = 700;
+    
     
     /**
      * Initialize the log
@@ -45,7 +61,7 @@ public interface ILog {
      * @param name the name to use (used as eg a prefix in the logging output)
      * @param message the log message
      */
-    public void log(String level, String name, String message);
+    public void log(int level, String name, String message);
     
     /**
      * Log a message
@@ -55,7 +71,7 @@ public interface ILog {
      * @param message the log message
      * @param t the exception to log
      */
-    public void log(String level, String name, String message, Throwable t);
+    public void log(int level, String name, String message, Throwable t);
     
 
 }

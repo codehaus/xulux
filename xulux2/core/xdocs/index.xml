@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>XULUX - "ZooLLooks"</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Introduction to XULUX">
+<p>
+  The main goals of XULUX is to provide an easy way
+  to create frontends. The Frontend API that will
+  result from the development of XULUX will provide
+  an easy way to migrate current applications to XULUX and
+  reuse the components that are already created or used
+  by that application.
+  The API allows easy integration of widgets and gui
+  layers, rule engines and dataproviders.
+  We aim to provide a default set of implementations
+  to get a professional frontend up and running in no time
+  and this way provide an easy look into the workings
+  of XULUX.
+  Please understand that this is a work in progress and 
+  by far doesn't yet offer the functionality specified 
+  above. Also much of the documentation that is provided
+  is what is meant to be and not necessarily what is (yet).
+  Please have a look at the <a href="features.html">features</a>
+  page to see in more detail what we are going to provide.
+</p>
+</section>
+<section name="What is XULUX 2 ?">
+  <p>
+    
+  </p>
+</section>
+<section name="Releases">
+  <p>
+   Currently there are no releases of XULUX. Not even an alpha release.
+   Since XULUX currrently still is a moving target, I think it is best to 
+   not have any releases, until the API stabelises. There are still some major 
+   things on the list to get done :
+   <ul>
+    <li>
+       Finalize the dataprovider API and add some examples / dataproviders 
+       besides the current bean implementation.
+    </li>
+    <li>
+       Refactor of widgets. All widgets should be constructed out of eg 
+       PropertyHandlers, that handle all construction of widgets dynamically.
+       Currently it is impossible to extend widgets without a lot of code
+       duplication. Also changing the way the widget looks dynamically (eg
+       background color, etc) is far from efficient.
+    </li>
+    <li>
+       Move out the rule engine functionality from the core and start using
+       interfaces and make the rule engine flexible.
+    </li>
+    <li>
+       XULUX needs a lot of profiling to get it faster and more efficient.
+       A lot of effort is currently in profiling, but currently not efficient
+       enough.
+    </li>
+    <li>
+      Add more testing. The current test coverage is about 50%, which should
+      be more than 80% as far as I am concerned.
+    </li>
+    <li>
+      Start removing the really old stuff in xulux that is holding back a big
+      cleanup of code. 
+    </li>
+    <li>
+      Write huge amounts of docs and write some nice examples. Currently it can
+      be hard to start with xulux and although src/iutest gives some pointers
+      on how to use xulux, it is hardly comparable with a real world example.
+    </li>
+    <li>
+      A nice Xulux IDE to make xulux application. Preferrably build in XULUX
+      , but an Eclipse plugin would be nice too..
+    </li>
+   </ul>
+  </p>
+</section>
+</body>
+</document>

@@ -1,5 +1,5 @@
 /*
-   $Id: TstListLogger.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
+   $Id: JdkLogging.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,49 +17,62 @@
 */
 package org.xulux.logging;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.xulux.logging.ILog;
 
 /**
- * Logs everything to a list..
- * level is ignored 
+ * The JDK logging implementation.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TstListLogger.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
+ * @version $Id: JdkLogging.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
  */
 
-public class TstListLogger implements ILog {
+public class JdkLogging implements ILog {
 
-    public List log;
+    /**
+     * 
+     */
+    public JdkLogging() {
+        super();
+
+    }
+
     /**
      * @see org.xulux.logging.ILog#init()
      */
     public void init() {
-        log = new ArrayList();
     }
 
     /**
      * @see org.xulux.logging.ILog#destroy()
      */
     public void destroy() {
-        log.clear();
-        log= null;
     }
 
     /**
+     * If the name is null, the jdk anonymous logger will be used.
      * @see org.xulux.logging.ILog#log(int, java.lang.String, java.lang.String)
      */
     public void log(int level, String name, String message) {
-        log.add(level+":"+name+":"+message);
+        Logger logger = null;
+        if (name == null) {
+            return;
+        }
+        logger = Logger.getLogger(name);
+        logger.logp(Level.SEVERE, null, null, message);
     }
 
     /**
      * @see org.xulux.logging.ILog#log(int, java.lang.String, java.lang.String, java.lang.Throwable)
      */
     public void log(int level, String name, String message, Throwable t) {
-        log.add(level+":"+name+":"+message+":"+t);
+        Logger logger = null;
+        if (name == null) {
+            return;
+        }
+        logger = Logger.getLogger(name);
+        logger.logp(Level.SEVERE, null, null, message, t);
     }
 
 }
