@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.15 2002-11-13 23:16:02 mvdb Exp $
+ $Id: Entry.java,v 1.16 2002-11-16 14:23:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.gui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JTextField;
@@ -58,7 +59,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.15 2002-11-13 23:16:02 mvdb Exp $
+ * @version $Id: Entry.java,v 1.16 2002-11-16 14:23:42 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -147,14 +148,28 @@ extends Widget
         textField.setVisible(isVisible());
         textField.setPreferredSize(this.size);
         textField.setText(getText());
-        if (getProperties() != null)
+        String enabled = getProperty("enabled");
+        if (enabled != null)
         {
-            String enabled = (String)properties.get("enabled");
-            if (enabled != null)
-            {
-                setEnable((enabled.equalsIgnoreCase("true")?true:false));
-                textField.setEditable(isEnabled());
-            }
+            setEnable((enabled.equalsIgnoreCase("true")?true:false));
+            textField.setEditable(isEnabled());
+        }
+        String backgroundColor = null;
+        if (isRequired())
+        {
+            backgroundColor = getProperty("required-background-color");
+        }
+        else if (!isEnabled())
+        {
+            backgroundColor = getProperty("disabled-background-color");
+        }
+        else
+        {
+            backgroundColor = getProperty("default-background-color");
+        }
+        if (backgroundColor != null)
+        {
+            textField.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
         textField.repaint();
         isRefreshing = false;
@@ -165,14 +180,36 @@ extends Widget
      */
     public Object getValue()
     {
+        String text = null;
         if (textField != null)
         {
-            System.out.println("returning text value :"+textField.getText());
-            return textField.getText();
+            //System.out.println("returning text value :"+textField.getText());
+            text = textField.getText();
         }
         else if (this.value != null)
         {
             return this.value;
+        }
+        if (text!=null)
+        {
+            if (getField()!= null && this.value != null)
+            {
+                String text2 = null;
+                // we ignore multiple values for now.. 
+                BeanMapping map = Dictionary.getInstance().getMapping(this.value.getClass());
+                if (map != null)
+                {
+                    text2 = (String)map.getField(getField()).getValue(this.value);
+                }
+                if (text.equals(text2))
+                {
+                    return this.value;
+                }
+            }
+            else
+            {
+                return text;
+            }
         }
         return null;
     }

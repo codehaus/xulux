@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.13 2002-11-13 23:16:02 mvdb Exp $
+ $Id: Widget.java,v 1.14 2002-11-16 14:23:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.13 2002-11-13 23:16:02 mvdb Exp $
+ * @version $Id: Widget.java,v 1.14 2002-11-16 14:23:42 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -435,6 +435,19 @@ public abstract class Widget
         {
             refresh();
         }
+    }
+    
+    /**
+     * Convenience method so you don't have to check for 
+     * nulls yourself when getting the properties.
+     */
+    public String getProperty(String key)
+    {
+        if (properties != null)
+        {
+            return (String) properties.get(key);
+        }
+        return null;
     }
 
 }

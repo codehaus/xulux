@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.6 2002-11-13 23:16:02 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.7 2002-11-16 14:23:43 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,23 +49,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.rules.IRule;
+import org.xulux.nyx.rules.Rule;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.6 2002-11-13 23:16:02 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.7 2002-11-16 14:23:43 mvdb Exp $
  */
 public class PrePostFieldListener 
 implements FocusListener, ActionListener
 {
     
     Widget widget;
+    
+    private static boolean processing = false;
     
     /**
      * Constructor for PrePostFieldListener.
@@ -81,15 +87,18 @@ implements FocusListener, ActionListener
      */
     public void focusGained(FocusEvent e)
     {
-        System.out.println("FOCUSGAINED : MINIMIZING :"+e.getID());
-        if (e.getID() != FocusEvent.FOCUS_GAINED)
+        if (processing)
         {
-            System.err.println("Not an event we need!!!!!!");
-            // only above is interesting..
             return;
         }
+        if (e.getID() != FocusEvent.FOCUS_GAINED || e.isTemporary())
+        {
+            return;
+        }
+        processing = true;
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
+        processing = false;
     }
 
     /**
@@ -98,19 +107,20 @@ implements FocusListener, ActionListener
      */
     public void focusLost(FocusEvent e)
     {
-        System.out.println("FOCUSLOST : MINIMIZING :"+e.getID());
-        
-        if (e.getID() != FocusEvent.FOCUS_LOST)
+        if (processing)
         {
-            System.err.println("Not an event we need!!!!!!");
-            // only above is interesting..
             return;
         }
-        
+        if (e.getID() != FocusEvent.FOCUS_LOST || e.isTemporary())
+        {
+            return;
+        }
+        processing = true;
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
         // preform all pre rules.
         ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+        processing = false;
     }
 
     /**
@@ -118,8 +128,15 @@ implements FocusListener, ActionListener
      */
     public void actionPerformed(ActionEvent e)
     {
+        if (processing)
+        {
+            return;
+        }
+        processing = true;
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
         ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+        processing = false;
     }
+    
 }

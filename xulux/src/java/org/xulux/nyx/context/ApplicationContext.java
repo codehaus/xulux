@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.11 2002-11-13 02:44:50 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.12 2002-11-16 14:23:43 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,7 @@ import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -61,7 +62,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.11 2002-11-13 02:44:50 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.12 2002-11-16 14:23:43 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -80,6 +81,8 @@ public class ApplicationContext
      * The listeners that are added to components
      */
     private ArrayList listeners;
+    
+    private HashMap parts;
     
     private HashMap widgets;
 
@@ -202,7 +205,7 @@ public class ApplicationContext
         {
             return;
         }
-        System.out.println("Rules : " + rules);
+//        System.out.println("Rules : " + rules);
         ArrayList currentRules = (ArrayList)rules.clone();
         Iterator it = currentRules.iterator();
         fireRequests(it, request, type);
@@ -245,45 +248,24 @@ public class ApplicationContext
         while (wit.hasNext() && !stopAllRules)
         {
             Widget widget = (Widget) wit.next();
-            if (widget == request.getWidget())
+            if (request.getWidget()!=null && widget.equals(request.getWidget()))
             {
                 // don't process the caller again..
+//                System.out.println("*********************  "+widget.getName()+","+request.getWidget().getName());
                 continue;
             }
             stopAllRules = request.getPart().needToStopAllRules(getInstance());
             if (stopAllRules)
             {
-                //System.err.println("stopping all rules");
                 return;
-            }
-            //System.out.println("Widget name :"+widget.getName());
-            if (widget.canContainChildren())
-            {
-                //System.err.println("Can contain children");
-                ArrayList cw = widget.getChildWidgets();
-                if (cw != null || cw.size() > 0)
-                {
-                    ArrayList currentW = (ArrayList)cw.clone();
-                    Iterator it = currentW.iterator();
-                    while (it.hasNext())
-                    {
-                        fireFieldRequest((Widget)it.next(),request, type);
-                    }
-                }
-            }
-            else
-            {
-                //System.out.println("widget "+widget.getName()+" has no rules");
             }
             ArrayList rules = widget.getRules();
             if (rules == null || rules.size() == 0)
             {
-                //System.err.println("no rules");
                 continue;
             }
             ArrayList currentRules = (ArrayList)rules.clone();
             Iterator it = currentRules.iterator();
-            //System.err.println("Firing request for "+currentRules);
             stopAllRules = fireRequests(it, request, type);
         }
     }
@@ -295,6 +277,7 @@ public class ApplicationContext
      */
     private static boolean fireRequests(Iterator it, PartRequest request, int type)
     {
+        Widget widget = request.getWidget();        
         boolean stopAllRules = false;
         while (it.hasNext() && !stopAllRules)
         {
@@ -372,5 +355,43 @@ public class ApplicationContext
     {
         name = name.toLowerCase();
         return (Class)widgets.get(name);
+    }
+    
+    public void registerPart(ApplicationPart part)
+    {
+        if (parts == null)
+        {
+            parts = new HashMap();
+        }
+        
+        parts.put(part.getName(), part);
+    }
+    
+    public ApplicationPart getPart(String name)
+    {
+        System.err.println("Requesting part : "+name);
+        if (parts == null)
+        {
+            return null;
+        }
+        ApplicationPart part = (ApplicationPart)parts.get(name);
+        if (part!=null)
+        {
+            System.err.println("Returning part with name : "+part.getName());
+        }
+        else
+        {
+            System.err.println("Returning null part");
+        }
+        return part;
+    }
+    
+    public Collection getParts()
+    {
+        if (parts == null)
+        {
+            return null;
+        }
+        return parts.values();
     }
 }

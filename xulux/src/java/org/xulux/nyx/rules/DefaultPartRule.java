@@ -1,5 +1,5 @@
 /*
- $Id: DefaultPartRule.java,v 1.4 2002-11-12 00:55:41 mvdb Exp $
+ $Id: DefaultPartRule.java,v 1.5 2002-11-16 14:23:43 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,7 @@ import org.xulux.nyx.context.PartRequest;
  * TODO: Figure out how to be always last....
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultPartRule.java,v 1.4 2002-11-12 00:55:41 mvdb Exp $
+ * @version $Id: DefaultPartRule.java,v 1.5 2002-11-16 14:23:43 mvdb Exp $
  */
 public class DefaultPartRule extends Rule
 {
@@ -71,7 +71,6 @@ public class DefaultPartRule extends Rule
      */
     public void pre(PartRequest request)
     {
-        System.out.println("Executing pre DefaultPartRule on part :"+request.getPart().getName());
         ApplicationPart part = request.getPart();
         part.initialize(this);
     }

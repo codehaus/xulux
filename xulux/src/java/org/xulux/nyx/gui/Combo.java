@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.12 2002-11-13 23:16:02 mvdb Exp $
+ $Id: Combo.java,v 1.13 2002-11-16 14:23:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,8 @@
  */
 package org.xulux.nyx.gui;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Image;
 import java.awt.event.FocusListener;
@@ -62,7 +64,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.12 2002-11-13 23:16:02 mvdb Exp $
+ * @version $Id: Combo.java,v 1.13 2002-11-16 14:23:42 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -101,8 +103,12 @@ public class Combo extends Widget
      */
     public void setContent(ArrayList list)
     {
-        //System.out.println("content : "+list);
         this.content = list;
+        if (notSelectedValue != null && 
+            this.content != null)
+        {
+            content.add(0,notSelectedValue);
+        }
         contentChanged = true;
         refresh();
     }
@@ -219,12 +225,15 @@ public class Combo extends Widget
         if (contentChanged)
         {
             contentChanged = false;
-            String comboFields = null;
-            if (getProperties() != null)
+            String comboFields = getProperty("combofields");
+            if (content != null)
             {
-                comboFields = (String)getProperties().get("combofields");
+                this.model = new DefaultComboModel(content, comboFields);
             }
-            this.model = new DefaultComboModel(content, comboFields);
+            else
+            {
+                this.model = new DefaultComboModel();
+            }
             combo.setModel(this.model);
             if (this.actionListener == null)
             {
@@ -242,18 +251,43 @@ public class Combo extends Widget
             if (content != null && value != null)
             {
                 index = content.indexOf(value);
-                if ("SPE-ANE-Anaesthesie-08".equals(value.toString()))
-                {
-                    System.out.println("Content  :"+content);
-                    System.out.println("clazz : "+content.get(1).getClass());
-                    System.out.println("value : "+value.getClass());
-                }
             }
-            System.err.println("Index of specialismList :"+index);
             if (index != -1)
             {
                 model.setSelectedItem(index);
             }
+            
+            //Ideal for debugging...
+            if (getName().equalsIgnoreCase("treatmentList"))
+            {
+                System.err.println("***************************************");
+                System.err.println("Index : "+index);
+                System.err.println("content : "+content);
+                System.err.println("this.value : "+value);
+                if (value != null)
+                {
+                    System.err.println("this.value class: "+value.getClass());
+                    //System.exit(0);
+                }
+                System.err.println("***************************************");
+            }
+        }
+        String backgroundColor = null;
+        if (isRequired())
+        {
+            backgroundColor = getProperty("required-background-color");
+        }
+        else if (!isEnabled())
+        {
+            backgroundColor = getProperty("disabled-background-color");
+        }
+        else
+        {
+            backgroundColor = getProperty("default-background-color");
+        }
+        if (backgroundColor != null)
+        {
+            combo.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
         combo.repaint();
     }
@@ -272,7 +306,12 @@ public class Combo extends Widget
             {
                 return null;
             }
-            return content.get(combo.getSelectedIndex());
+            Object sel = content.get(combo.getSelectedIndex());
+            if (sel.equals(notSelectedValue))
+            {
+                return null;
+            }
+            return sel;
         }
     }
     
@@ -299,7 +338,15 @@ public class Combo extends Widget
         }
         else
         {
-            combo.setSelectedIndex(0);
+            try
+            {
+               combo.setSelectedIndex(0);
+            }
+            catch(Exception e)
+            {
+                System.out.println("content : "+content);
+                e.printStackTrace(System.out);
+            }
         }
         refresh();
     }

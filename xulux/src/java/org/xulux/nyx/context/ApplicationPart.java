@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.21 2002-11-13 23:16:02 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.22 2002-11-16 14:23:43 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -83,7 +83,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.21 2002-11-13 23:16:02 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.22 2002-11-16 14:23:43 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -184,9 +184,9 @@ public class ApplicationPart
     public void setGuiValue(String name, Object value)
     {
         Widget widget = (Widget) widgets.get(name);
-        System.out.println("Widget : "+widget.getName());
-        System.out.println("Widget class : "+widget.getClass());
-        System.out.println("value : "+value);
+        //System.out.println("Widget : "+widget.getName());
+        //System.out.println("Widget class : "+widget.getClass());
+        //System.out.println("value : "+value);
         widget.setValue(value);
     }
     
@@ -199,8 +199,8 @@ public class ApplicationPart
         Widget widget = (Widget)widgets.get(name);
         if (widget == null)
         {
-            System.out.println("WIDGET NOT FOUND");
-            System.out.println("WIDGETS : "+widgets);
+            //System.out.println("WIDGET NOT FOUND");
+            //System.out.println("WIDGETS : "+widgets);
         }
         return widget.getValue();
     }
@@ -371,16 +371,16 @@ public class ApplicationPart
      */
     public void activate()
     {
-        System.out.println("Activating part");
+//        System.out.println("Activating part");
         if (activated)
         {
-            System.out.println("already activated");
+//            System.out.println("already activated");
             return;
         }
         activated = true;
         if (getRules() == null)
         {
-            System.err.println("No part rules to process");
+ //           System.err.println("No part rules to process");
         }
         else
         {

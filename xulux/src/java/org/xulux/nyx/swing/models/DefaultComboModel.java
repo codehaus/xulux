@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.6 2002-11-13 02:44:50 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.7 2002-11-16 14:23:43 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.global.IField;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.6 2002-11-13 02:44:50 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.7 2002-11-16 14:23:43 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -70,7 +70,13 @@ public class DefaultComboModel implements ComboBoxModel
     private ComboShowable selectedItem;
     private String field;
     private BeanMapping mapping;
-
+    
+    
+    public DefaultComboModel()
+    {
+        // don't do anything, since we don't have any data..
+        this.list = new ArrayList();
+    }
     /**
      * Constructor for DefaultComboModel.
      */
@@ -168,17 +174,18 @@ public class DefaultComboModel implements ComboBoxModel
         
         if (field != null && original.size() > 1)
         {
-            Class tmpClazz = original.get(2).getClass();
+            Class tmpClazz = original.get(1).getClass();
             if (tmpClazz != String.class)
             {
-                mapping = Dictionary.getInstance().getMapping(original.get(2).getClass());
+                mapping = Dictionary.getInstance().getMapping(original.get(1).getClass());
             }
         }
         list = new ArrayList();
         for (int i=0; i < original.size(); i++)
         {
             Object object = original.get(i);
-            if (field == null || mapping == null || i == 0)
+            if (field == null || mapping == null || 
+                (i == 0 && object instanceof String))
             {
                 list.add(new ComboShowable(i, object.toString()));
             }
