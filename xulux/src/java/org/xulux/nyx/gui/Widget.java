@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.21 2002-12-03 02:19:08 mvdb Exp $
+ $Id: Widget.java,v 1.22 2002-12-23 01:48:38 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 
 package org.xulux.nyx.gui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -61,9 +62,9 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.21 2002-12-03 02:19:08 mvdb Exp $
+ * @version $Id: Widget.java,v 1.22 2002-12-23 01:48:38 mvdb Exp $
  */
-public abstract class Widget
+public abstract class Widget implements Serializable
 {
     
     private String field;

@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
+ $Id: Panel.java,v 1.4 2002-12-23 01:48:38 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import sun.security.action.GetPropertyAction;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: Panel.java,v 1.4 2002-12-23 01:48:38 mvdb Exp $
  */
 public class Panel extends Widget
 {
@@ -96,6 +96,7 @@ public class Panel extends Widget
         }
         Container container = panel.getParent();
         panel.setVisible(false);
+        panel.removeAll();
         if (container != null)
         {
             container.remove(panel);

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<guidefaults>
+<guidefaults defaultType="swing">
   <widgets>
     <widget name="button" class="org.xulux.nyx.gui.Button"/>
     <widget name="combo" class="org.xulux.nyx.gui.Combo"/>

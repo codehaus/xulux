@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.31 2002-12-22 23:58:19 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.32 2002-12-23 01:48:38 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -83,7 +83,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.31 2002-12-22 23:58:19 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.32 2002-12-23 01:48:38 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -352,13 +352,18 @@ public class ApplicationPart
             widgets.add(widget);
         }
     }
-    
+    /**
+     * If the root widget is null,
+     * the part is contained in itself
+     */
     public Object getRootWidget()
     {
         return parentWidget;
     }
     
     /**
+     * NOTE : Is actually not ding anything
+     * 
      * Initialize the part, which makes the gui visible,
      * processes fields, etc.
      * Can only be called from the DefaultPartRule
@@ -384,6 +389,9 @@ public class ApplicationPart
         runIndex++;
     }
     
+    /**
+     * Refreshes all widgets
+     */
     public void refreshAllWidgets()
     {
         Iterator it = widgets.iterator();
@@ -663,6 +671,7 @@ public class ApplicationPart
         if (parentWidget != null)
         {
             Container container = ((Component)parentWidget).getParent();
+            container.removeAll();
             container.remove((Component)parentWidget);
         }
         ApplicationContext.getInstance().removePart(getName());

@@ -36,6 +36,26 @@
       about properties used for all widgets.
     </p>
   </subsection>
+  <subsection name="Swing notes">
+    <h3>Overriden JComboBox NyxCombo</h3>
+    <p>
+      We had to override the swing combobox since it was
+      firing of too many events in case of setting new content.
+      Since it would lose the selectedValue during the setting
+      , I did some overriding of the setModel which prevents
+      it from being set.
+    </p>
+    <h3>Current problems</h3>
+    <p>
+      The combo, using swing, will not select the correct
+      value (visually) if the selected value is below the 
+      initial viewable size (as far as I could see). 
+      It doesn't have any consequences for the workings of the
+      combo however. I think the problem is related to messages
+      being sent or not being sent. (the model doesn't do 
+      anything with listeners for example)
+    </p>
+  </subsection>
 </section>
 
 </body>

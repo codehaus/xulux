@@ -1,5 +1,5 @@
 /*
- $Id: PartCreator.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
+ $Id: PartCreator.java,v 1.3 2002-12-23 01:48:38 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,13 +56,12 @@ import javax.swing.JFrame;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.global.Dictionary;
-import org.xulux.nyx.swing.factories.TestFactory;
 
 /**
  * Creates a gui representation of a part
  * 
  * @author Martin van den Bemt
- * @version $Id: PartCreator.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
+ * @version $Id: PartCreator.java,v 1.3 2002-12-23 01:48:38 mvdb Exp $
  */
 public class PartCreator
 {
@@ -81,13 +80,8 @@ public class PartCreator
     {
         // this is bad, but for now mandatory...
         ApplicationContext.getInstance();
+        return null;
         // first initialize the dictionary (not really necessary though
-        ApplicationPart part = TestFactory.getForm(stream, object);
-        part.activate();
-        ArrayList widgets = part.getWidgets();
-        Iterator it = widgets.iterator();
-        addToFrame(part);
-        return part;
     }
     
     public static void addToFrame(ApplicationPart part)

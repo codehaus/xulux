@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.2 2002-12-23 01:48:38 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,13 +58,15 @@ import org.xulux.nyx.context.ApplicationContext;
  * It should be case insensitive, but isn't really ;)
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.2 2002-12-23 01:48:38 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
     
     public static String ELEMENT_WIDGETS = "widgets";
     public static String ELEMENT_WIDGET = "widget";
+    public static String ELEMENT_GUI = "gui";
+    public static String ATTRIBUTE_TYPE = "type";
     public static String ATTRIBUTE_CLASS = "class";
     public static String ATTRIBUTE_NAME = "name";
     
