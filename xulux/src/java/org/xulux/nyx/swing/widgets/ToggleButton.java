@@ -1,5 +1,5 @@
 /*
- $Id: ToggleButton.java,v 1.4 2003-11-17 14:23:28 mvdb Exp $
+ $Id: ToggleButton.java,v 1.5 2003-11-18 02:30:51 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -71,7 +71,7 @@ import org.xulux.nyx.utils.BooleanUtils;
  * Represents a togglebutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ToggleButton.java,v 1.4 2003-11-17 14:23:28 mvdb Exp $
+ * @version $Id: ToggleButton.java,v 1.5 2003-11-18 02:30:51 mvdb Exp $
  */
 public class ToggleButton extends Widget {
 
@@ -151,10 +151,8 @@ public class ToggleButton extends Widget {
             setProperty("selected", null);
         }
         if (getValue() instanceof Boolean) {
-            System.out.println("Boolean getValue : "+getValue());
             toggleButton.setSelected(BooleanUtils.toBoolean((Boolean)getValue()));
         }else if (getValue() instanceof String) {
-            System.out.println("String getValue : "+getValue());
             toggleButton.setSelected(BooleanUtils.toBoolean((String)getValue()));
         }
         toggleButton.setEnabled(isEnabled());
@@ -321,12 +319,8 @@ public class ToggleButton extends Widget {
             }
         }
         this.value = value;
-        //toggleButton.setSelected(BooleanUtils.toBoolean(value));
         if (initialized) {
             refresh();
         }
     }
-
-
-
 }

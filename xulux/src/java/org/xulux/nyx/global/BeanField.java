@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.27 2003-11-06 19:53:12 mvdb Exp $
+ $Id: BeanField.java,v 1.28 2003-11-18 02:31:29 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,7 +68,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  *       to primitive types.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.27 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.28 2003-11-18 02:31:29 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -176,9 +176,6 @@ public class BeanField implements IField
             }
             return success;
         }
-//        log.warn("toString : "+toString());
-//        log.warn("Bean : "+bean);
-//        log.warn("Value : "+value);
         try
         {
             // TODO: Test!!!

@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.38 2003-11-17 14:00:20 mvdb Exp $
+ $Id: Entry.java,v 1.39 2003-11-18 02:29:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.38 2003-11-17 14:00:20 mvdb Exp $
+ * @version $Id: Entry.java,v 1.39 2003-11-18 02:29:28 mvdb Exp $
  */
 public class Entry
 extends SwingWidget
@@ -301,7 +301,6 @@ extends SwingWidget
             int dotIndex = getField().indexOf('.');
             if (dotIndex != -1) {
                 bean = getPart().getWidget(getField().substring(1,dotIndex)).getValue();
-                System.err.println("Bean : "+(bean!=null?bean.getClass().getName():" Still null"));
                 if (bean == null) {
                     // TODO : Clear the field!
                     return;
