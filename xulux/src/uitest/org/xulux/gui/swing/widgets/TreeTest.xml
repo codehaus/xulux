@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: TreeTest.xml,v 1.4 2004-06-30 09:21:23 mvdb Exp $ -->
+<!-- $Id: TreeTest.xml,v 1.5 2004-10-26 07:43:06 mvdb Exp $ -->
 <part name="LabelTestForm" prefix="Person">
   <rules>
     <rule>org.xulux.gui.rules.TreeContentRule</rule>
@@ -8,7 +8,6 @@
     <title>TreeTest</title>
     <icon>resources/Car.ico</icon>
     <size>740,500</size>
-    <!--
     <field type="label" name="Label:SimpleTree">
       <text>SimpleTree</text>
       <position>10,0</position>
@@ -18,7 +17,7 @@
      <treefield class="org.xulux.gui.swing.widgets.ExampleTreeNode" use="getString"/>
      <position>10,21</position>
      <size>300,400</size>
-    </field> -->
+    </field>
     <field type="label" name="Label:DomTree">
       <text>DOMTree</text>
       <position>310,0</position>
@@ -39,6 +38,14 @@
     <field type="button" name="enabletree">
       <text>Disable Tree</text>
       <position>465,430</position>
+      <size>150,31</size>
+      <rules>
+        <rule>org.xulux.gui.rules.ChangeViewRule</rule>
+      </rules>
+    </field>
+    <field type="button" name="expandall">
+      <text>EAL</text>
+      <position>615,430</position>
       <size>150,31</size>
       <rules>
         <rule>org.xulux.gui.rules.ChangeViewRule</rule>

@@ -1,5 +1,5 @@
 /*
-   $Id: TreeContentRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+   $Id: TreeContentRule.java,v 1.4 2004-10-26 07:43:06 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,13 +19,14 @@ package org.xulux.gui.rules;
 
 import org.xulux.core.PartRequest;
 import org.xulux.gui.IContentWidget;
+import org.xulux.gui.Widget;
 import org.xulux.gui.swing.widgets.TreeTest;
 import org.xulux.rules.Rule;
 
 /**
  * Sets the content from a rule..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeContentRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+ * @version $Id: TreeContentRule.java,v 1.4 2004-10-26 07:43:06 mvdb Exp $
  */
 public class TreeContentRule extends Rule {
 
@@ -40,9 +41,14 @@ public class TreeContentRule extends Rule {
      * @see org.xulux.nyx.rules.IRule#pre(org.xulux.nyx.context.PartRequest)
      */
     public void pre(PartRequest request) {
-        System.out.println("TreeTest : " + TreeTest.getData());
-        //((IContentWidget)request.getPart().getWidget("SimpleTree")).setContent(TreeTest.getData());
-        ((IContentWidget) request.getPart().getWidget("DomTree")).setContent(TreeTest.getDocument(this));
+        Widget simpleTree = request.getPart().getWidget("SimpleTree"); 
+        ((IContentWidget) simpleTree).setContent(TreeTest.getData());
+        simpleTree.setLazyProperty("expand", "true");
+        simpleTree.setProperty("expand-untill", "all");
+        Widget widget  = request.getPart().getWidget("DomTree");
+        ((IContentWidget) widget).setContent(TreeTest.getDocument(this));
+        widget.setLazyProperty("expand", "true");
+        widget.setProperty("expand-untill", "all");
 
     }
 

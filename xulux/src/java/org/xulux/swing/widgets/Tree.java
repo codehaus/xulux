@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.15 2004-08-19 16:29:13 mvdb Exp $
+   $Id: Tree.java,v 1.16 2004-10-26 07:43:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -48,7 +48,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.15 2004-08-19 16:29:13 mvdb Exp $
+ * @version $Id: Tree.java,v 1.16 2004-10-26 07:43:04 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -215,7 +215,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
                 // @todo really make this flexible!
                 String collapseUntill = getProperty("collapse-untill");
                 if (getContent() != null) {
-                  setProperty("collapse-untill", null);
+                  setLazyProperty("collapse-untill", null);
                 }
                 jtree.collapsePath(new TreePath(contentHandler.getRoot()));
                 if (collapseUntill != null) {
@@ -230,7 +230,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
         }
         if (getProperty("expand") != null) {
             if (getContent() != null) {
-              setProperty("expand", null);
+              setLazyProperty("expand", null);
             }
             if (jtree != null && contentHandler != null) {
                 String expandUntill = getProperty("expand-untill");
@@ -253,6 +253,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
         }
         jtree.setEnabled(isEnabled());
         jtree.setVisible(isVisible());
+        scrollPane.setPreferredSize(getRectangle().getRectangle().getSize());
         initializePopupMenu();
         isRefreshing = false;
     }
@@ -360,7 +361,6 @@ public class Tree extends ContainerWidget implements IContentWidget {
                         jtree.collapsePath(new TreePath(expandPath.toArray()));
                     }
                     jtree.expandPath(new TreePath(expandPath.toArray()));
-                    break;
                 }
             }
         }
@@ -427,13 +427,13 @@ public class Tree extends ContainerWidget implements IContentWidget {
                 WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(getWidgetType());
                 handler = (TreeContentHandler) config.getContentHandler(object.getClass());
             }
-            System.out.println("handler for tree : " + handler);
+//            System.out.println("handler for tree : " + handler);
             if (handler == null) {
                 System.err.println("Handler for content " + object.getClass() + " not found");
             } else {
                 handler.setWidget(this);
                 handler.setContent(object);
-                System.err.println("handler content "+handler.getContent());
+//                System.err.println("handler content "+handler.getContent());
                 this.contentHandler = new SwingTreeModel(handler);
                 this.contentHandler.setWidget(this);
                 this.contentHandler.setContent(object);
@@ -512,7 +512,6 @@ public class Tree extends ContainerWidget implements IContentWidget {
                         cw.setParent(menu);
                         cw.setPart(getPart());
                         menu.addChildWidget(cw);
-                        //                        System.err.println("Adding childwidget : "+cw);
                     }
                 }
             }

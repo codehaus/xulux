@@ -1,5 +1,5 @@
 /*
-   $Id: ContentView.java,v 1.1 2004-03-23 08:42:23 mvdb Exp $
+   $Id: ContentView.java,v 1.2 2004-10-26 07:43:07 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * This mechanisme also allows for different representation of the same data.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ContentView.java,v 1.1 2004-03-23 08:42:23 mvdb Exp $
+ * @version $Id: ContentView.java,v 1.2 2004-10-26 07:43:07 mvdb Exp $
  */
 public abstract class ContentView {
 
@@ -72,4 +72,29 @@ public abstract class ContentView {
         }
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        int hashCode = getSource().hashCode();
+        return hashCode;
+    }
+    
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj instanceof ContentView) {
+          if (getSource() == null || ((ContentView) obj).getSource() == null) {
+            return false;
+          }
+          if (getSource().equals(((ContentView) obj).getSource())) {
+            return true;
+          }
+        }
+        return false;
+    }
 }
