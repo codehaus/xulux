@@ -1,5 +1,5 @@
 /*
- $Id: DOMTreeContentHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
+ $Id: DOMTreeContentHandler.java,v 1.4 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.nyx.gui.IContentWidget;
  * A dom contenthandler for a tree..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DOMTreeContentHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: DOMTreeContentHandler.java,v 1.4 2003-11-24 11:47:19 mvdb Exp $
  */
 public class DOMTreeContentHandler extends TreeContentHandler {
 
@@ -71,7 +71,7 @@ public class DOMTreeContentHandler extends TreeContentHandler {
     }
 
     /**
-     * @param widget
+     * @param widget the content widget
      */
     public DOMTreeContentHandler(IContentWidget widget) {
         super(widget);
@@ -82,16 +82,16 @@ public class DOMTreeContentHandler extends TreeContentHandler {
      */
     public Object getChild(Object parent, int index) {
         if (parent instanceof DOMWrapper) {
-            parent = ((DOMWrapper)parent).getSource();
+            parent = ((DOMWrapper) parent).getSource();
         }
         if (parent instanceof Document) {
-            List list = ((Document)parent).content();
+            List list = ((Document) parent).content();
             return new DOMWrapper(list.get(index));
         } else if (parent instanceof Element) {
             Element element = (Element) parent;
             List list = getRealContent(element.content());
             if ("part".equals(element.getName())) {
-                System.err.println("Attributes : "+element.attributes());
+                System.err.println("Attributes : " + element.attributes());
             }
             list.addAll(element.attributes());
             return new DOMWrapper(list.get(index));
@@ -104,28 +104,28 @@ public class DOMTreeContentHandler extends TreeContentHandler {
      */
     public int getChildCount(Object parent) {
         if (parent instanceof DOMWrapper) {
-            parent = ((DOMWrapper)parent).getSource();
+            parent = ((DOMWrapper) parent).getSource();
         }
         int children = 0;
         if (parent instanceof Document) {
-            List list = ((Document)parent).content();
+            List list = ((Document) parent).content();
             if (list != null) {
                 children = list.size();
             }
         } else if (parent instanceof Element) {
-            Element element = (Element)parent;
+            Element element = (Element) parent;
             children =  getRealContent(element.content()).size();
-            children+=element.attributeCount();
+            children += element.attributeCount();
         }
-        System.err.println("Children : "+children);
+        System.err.println("Children : " + children);
         return children;
     }
 
     /**
      * Removes all empty text.
      *
-     * @param content
-     * @return
+     * @param content the current content
+     * @return a list with the real content
      */
     private List getRealContent(List content) {
         List result = new ArrayList();
@@ -147,8 +147,8 @@ public class DOMTreeContentHandler extends TreeContentHandler {
      */
     public int getIndexOfChild(Object parent, Object child) {
         System.out.println("getIndexOfChild");
-        System.out.println("parent : "+parent.getClass());
-        System.out.println("child : "+parent.getClass());
+        System.out.println("parent : " + parent.getClass());
+        System.out.println("child : " + parent.getClass());
         return 0;
     }
 
@@ -164,9 +164,9 @@ public class DOMTreeContentHandler extends TreeContentHandler {
      */
     public boolean isLeaf(Object node) {
         if (node instanceof DOMWrapper) {
-            node = ((DOMWrapper)node).getSource();
+            node = ((DOMWrapper) node).getSource();
         }
-        System.out.println("Node : "+node.getClass());
+        System.out.println("Node : " + node.getClass());
         if (node instanceof Comment) {
             return true;
         } else if (node instanceof Element) {
@@ -194,32 +194,45 @@ public class DOMTreeContentHandler extends TreeContentHandler {
      *
      */
     public class DOMWrapper {
+        /**
+         * The object
+         */
         private Object object;
 
+        /**
+         * The DomWrapper constructor
+         * @param object the object to wrap
+         */
         public DOMWrapper(Object object) {
             this.object = object;
         }
 
+        /**
+         * @return the source of the DOM
+         */
         public Object getSource() {
             return this.object;
         }
 
+        /**
+         * @see java.lang.Object#toString()
+         */
         public String toString() {
             if (object instanceof Element) {
-                return ((Element)object).getName();
+                return ((Element) object).getName();
             } else if (object instanceof Document) {
-                String name = ((Document)object).getName();
+                String name = ((Document) object).getName();
                 if (name == null || "null".equals(name)) {
                     return "Unkown document type";
                 }
             } else if (object instanceof Comment) {
-                return "Comment: "+((Comment)object).getText();
+                return "Comment: " + ((Comment) object).getText();
                 //return ((Comment)object).getName();
             } else if (object instanceof Text) {
-                return "Text: "+((Text)object).getText();
+                return "Text: " + ((Text) object).getText();
             } else if (object instanceof Attribute) {
-                Attribute attribute = (Attribute)object;
-                return attribute.getName()+"="+attribute.getValue();
+                Attribute attribute = (Attribute) object;
+                return attribute.getName() + "=" + attribute.getValue();
             }
             return object.toString();
         }

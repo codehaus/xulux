@@ -1,5 +1,5 @@
 /*
- $Id: TreeContentHandler.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
+ $Id: TreeContentHandler.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,12 +52,16 @@ import org.xulux.nyx.gui.IContentWidget;
  * trees at all in default java, it will be located in the global package.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeContentHandler.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: TreeContentHandler.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
  */
 public abstract class TreeContentHandler extends ContentHandlerAbstract
 {
 
+    /**
+     * The widget to get the content from
+     */
     protected IContentWidget widget;
+
     /**
      *
      */
@@ -65,6 +69,9 @@ public abstract class TreeContentHandler extends ContentHandlerAbstract
         super();
     }
 
+    /**
+     * @param widget the widget to get the content from
+     */
     public TreeContentHandler(IContentWidget widget) {
         setWidget(widget);
     }
@@ -87,29 +94,29 @@ public abstract class TreeContentHandler extends ContentHandlerAbstract
 
     /**
      * Set the widget.
-     * @param widget
+     * @param widget the widget to get the content from
      */
     public void setWidget(IContentWidget widget) {
         this.widget = widget;
     }
 
     /**
-     * @param parent
-     * @param index
+     * @param parent the parent of the child
+     * @param index the index of the child
      * @return the child at the index of the parent
      */
     public abstract Object getChild(Object parent, int index);
 
     /**
-     * @param parent
+     * @param parent the parent of the children
      * @return the number of children the parent has
      */
     public abstract int getChildCount(Object parent);
 
     /**
      *
-     * @param parent
-     * @param child
+     * @param parent the parent of the children
+     * @param child the child to get the index from
      * @return the index of the specified child.
      */
     public abstract int getIndexOfChild(Object parent, Object child);
@@ -120,7 +127,7 @@ public abstract class TreeContentHandler extends ContentHandlerAbstract
     public abstract Object getRoot();
 
     /**
-     * @param node
+     * @param node the node to check for
      * @return checks if the node is a leaf or not.
      */
     public abstract boolean isLeaf(Object node);

@@ -1,5 +1,5 @@
 /*
- $Id: TreeNodeContentHandler.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
+ $Id: TreeNodeContentHandler.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -51,7 +51,7 @@ import javax.swing.tree.TreeNode;
  * A tree content handler using a TreeNode.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeNodeContentHandler.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: TreeNodeContentHandler.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
  */
 public class TreeNodeContentHandler extends TreeContentHandler {
 
@@ -59,37 +59,37 @@ public class TreeNodeContentHandler extends TreeContentHandler {
      * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChild(java.lang.Object, int)
      */
     public Object getChild(Object parent, int index) {
-        return ((TreeNode)parent).getChildAt(index);
+        return ((TreeNode) parent).getChildAt(index);
     }
 
     /**
      * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChildCount(java.lang.Object)
      */
     public int getChildCount(Object parent) {
-        return ((TreeNode)parent).getChildCount();
+        return ((TreeNode) parent).getChildCount();
     }
 
     /**
      * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getIndexOfChild(java.lang.Object, java.lang.Object)
      */
     public int getIndexOfChild(Object parent, Object child) {
-        return ((TreeNode)parent).getIndex((TreeNode)child);
+        return ((TreeNode) parent).getIndex((TreeNode) child);
     }
 
     /**
      * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getRoot()
      */
     public Object getRoot() {
-        return (TreeNode)getWidget().getContent();
+        return (TreeNode) getWidget().getContent();
     }
 
     /**
      * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#isLeaf(java.lang.Object)
      */
     public boolean isLeaf(Object node) {
-        boolean isLeaf = ((TreeNode)node).isLeaf();
+        boolean isLeaf = ((TreeNode) node).isLeaf();
         if (!isLeaf) {
-            if (((TreeNode)node).getChildCount() == 0) {
+            if (((TreeNode) node).getChildCount() == 0) {
                 isLeaf = true;
             }
         }

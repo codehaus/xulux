@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.19 2003-11-06 19:53:12 mvdb Exp $
+ $Id: Dictionary.java,v 1.20 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -62,13 +62,24 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * A static applcation dictionary context
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.19 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.20 2003-11-24 11:47:19 mvdb Exp $
  */
-public class Dictionary
-{
+public final class Dictionary {
+    /**
+     * The log instance
+     */
     private static Log log = LogFactory.getLog(Dictionary.class);
+    /**
+     * The map containing all the mappings
+     */
     private HashMap mappings;
+    /**
+     * the dictionary instance
+     */
     private static Dictionary instance;
+    /**
+     * the baseclass of all the mappings
+     */
     private Class baseClass;
     /**
      * A mappingcache is used temporarily to add
@@ -76,11 +87,19 @@ public class Dictionary
      * we can test for infinite loop troubles
      */
     private ArrayList mappingCache;
+    /**
+     * the depth of the mappings.
+     */
     private int mappingDepth = 0;
 
+    /**
+     * A map containg the converters
+     */
     private static HashMap converters;
+    /**
+     * @todo Move this to xml!!
+     */
     static {
-        // TODO: Move this to xml!!
         addConverter(DoubleConverter.class);
         addConverter(IntegerConverter.class);
     }
@@ -105,16 +124,15 @@ public class Dictionary
         return instance;
     }
 
-    public BeanMapping getMapping(String name)
-    {
-        if (mappings != null)
-        {
+    /**
+     * @param name the name of the mapping
+     * @return the mapping
+     */
+    public BeanMapping getMapping(String name) {
+        if (mappings != null) {
             return (BeanMapping) mappings.get(name);
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -123,14 +141,17 @@ public class Dictionary
      * registry..
      * @return the mappings in an HashMap
      */
-    public HashMap getMappings()
-    {
+    public HashMap getMappings() {
         if (mappings == null) {
             return new HashMap();
         }
-        return (HashMap)mappings.clone();
+        return (HashMap) mappings.clone();
     }
 
+    /**
+     * add the specified beanmapping
+     * @param beanMapping the mapping
+     */
     public void addMapping(BeanMapping beanMapping)
     {
         if (mappings == null) {
@@ -150,8 +171,11 @@ public class Dictionary
         }
     }
 
-    public BeanMapping getMapping(Class clazz)
-    {
+    /**
+     * @param clazz the class
+     * @return the mapping of the specified clazz
+     */
+    public BeanMapping getMapping(Class clazz) {
         if (clazz == null) {
             return null;
         }
@@ -162,7 +186,7 @@ public class Dictionary
      * Convenience method. This calls the
      * getMapping(Class)
      *
-     * @param object
+     * @param object the object to get the mapping for
      * @return the beanmapping that is connected
      *          to the class of the specified instance
      *          or null when the object is null.
@@ -176,42 +200,38 @@ public class Dictionary
 
 
     /**
-     * @param bean
-     * @param newMapping - if true it creates the mapping and adds
+     * @param clazz the class to get the mapping for
+     * @param newMapping if true it creates the mapping and adds
      *                      it to the  dictionary, if the name is not
      *                      yet known.
+     * @return the beanmapping or null when no mapping could be created
      */
     public BeanMapping getMapping(Class clazz, boolean newMapping)
     {
         String name = null;
-        if (newMapping)
-        {
+        if (newMapping) {
             name = getPossibleMappingName(clazz);
-        }
-        else
-        {
+        } else {
             name = getPlainBeanName(clazz);
         }
-//        System.out.println("mapping name : "+name);
         return getMapping(clazz, name);
     }
     /**
      * Tries to get a mapping based on the specified bean
-     * @param bean
+     * @param clazz the class
      * @param preferredName - the name to use for the mapping
      *                         if it needs to be created
+     * @return the beanmapping found
      */
     public BeanMapping getMapping(Class clazz, String preferredName)
     {
-        if (getBaseClass() == null)
-        {
+        if (getBaseClass() == null) {
             if (log.isInfoEnabled()) {
                 log.info("Base class is not set Nyx will possibly not be able to disover data beans correctly");
             }
         }
         BeanMapping mapping = getMapping(preferredName);
-        if (mapping == null)
-        {
+        if (mapping == null) {
             mapping = new BeanMapping(preferredName);
             mapping.setBean(clazz);
             mapping.setDiscovery(true);
@@ -222,16 +242,22 @@ public class Dictionary
 
     /**
      * Creates a mapping from the specified with the specified name
-     * @param bean
-     * @param name
+     * Do not use, since it doesn't do much...
+     * @param bean the bean to create a mapping for
+     * @param name the name of the mapping
+     * @return the newly creating mapping.
      */
     private BeanMapping createMapping(Object bean, String name)
     {
         // first
         BeanMapping mapping = new BeanMapping(name);
-        return null;
+        return mapping;
     }
 
+    /**
+     * @param clazz the class
+     * @return the plaing bean name for the specified class
+     */
     public String getPlainBeanName(Class clazz)
     {
         int pLength = clazz.getPackage().getName().length();
@@ -240,19 +266,17 @@ public class Dictionary
     }
     /**
      * Tries to find a possible name for the mapping
-     * @param bean
+     * @param clazz the class to investigate
+     * @return the possible mapping name
      */
     public String getPossibleMappingName(Class clazz)
     {
         String mapName = getPlainBeanName(clazz);
         int i = 1;
-        if (getMapping(mapName) != null)
-        {
-            while (true)
-            {
-                if (getMapping(mapName + i) == null)
-                {
-                    mapName+=i;
+        if (getMapping(mapName) != null) {
+            while (true) {
+                if (getMapping(mapName + i) == null) {
+                    mapName += i;
                     break;
                 }
                 i++;
@@ -301,10 +325,11 @@ public class Dictionary
         this.baseClass = baseClass;
     }
 
-    public void clearMappings()
-    {
-        if (mappings!=null)
-        {
+    /**
+     * Clears all the mappings currently available
+     */
+    public void clearMappings() {
+        if (mappings != null) {
             mappings.clear();
         }
     }
@@ -326,16 +351,14 @@ public class Dictionary
      * discovered. This is a nice way to prevent
      * infinite loops.
      *
-     * @param clazz
-     * @return boolean
+     * @param clazz the class to look for
+     * @return boolean if the class is already in the cache
      */
-    public boolean isInCache(Class clazz)
-    {
-        if (mappingCache == null)
-        {
+    public boolean isInCache(Class clazz) {
+        if (mappingCache == null) {
             return false;
         }
-        return (mappingCache.indexOf(clazz)==-1)?false:true;
+        return mappingCache.indexOf(clazz) != -1;
     }
 
     /**
@@ -343,7 +366,10 @@ public class Dictionary
      * @return a clone of the current cache.
      */
     public List getCache() {
-        return (mappingCache != null)?(List)mappingCache.clone():null;
+        if (mappingCache != null) {
+            return (List) mappingCache.clone();
+        }
+        return null;
     }
 
     /**
@@ -355,11 +381,15 @@ public class Dictionary
         }
         Object object = ClassLoaderUtils.getObjectFromClass(clazz);
         if (object instanceof IConverter) {
-            IConverter c = (IConverter)object;
-            converters.put(c.getType(),c);
+            IConverter c = (IConverter) object;
+            converters.put(c.getType() , c);
         } else {
             if (log.isWarnEnabled()) {
-                log.warn((clazz!=null)?clazz.getName():"null"+" class does not implement IConverter, not registering object");
+                String clazzName = "null";
+                if (clazz != null) {
+                    clazzName = clazz.getName();
+                }
+                log.warn(clazzName + " class does not implement IConverter, not registering object");
             }
         }
     }
@@ -368,7 +398,7 @@ public class Dictionary
      * Convenience method. see addConverter(Class) for more
      * details.
      *
-     * @param clazz
+     * @param clazz the clazz to add the converter for
      */
     public static void addConverter(String clazz) {
         if (clazz == null) {
@@ -377,7 +407,7 @@ public class Dictionary
         Class clz = ClassLoaderUtils.getClass(clazz);
         if (clz == null) {
             if (log.isWarnEnabled()) {
-                log.warn(clz +" does not exists or could not be loaded");
+                log.warn(clz + " does not exists or could not be loaded");
             }
         } else {
             addConverter(clz);
@@ -388,12 +418,15 @@ public class Dictionary
 
     /**
      *
-     * @param object
+     * @param object the object to get the convert for
      * @return the converter for the object specified or
      *          null when no converter is present
      */
     public static IConverter getConverter(Object object) {
-        return getConverter(object!=null?object.getClass():null);
+        if (object != null) {
+            return getConverter(object.getClass());
+        }
+        return null;
     }
     /**
      *
@@ -404,13 +437,13 @@ public class Dictionary
     }
     /**
      *
-     * @param clazz
+     * @param clazz the class to get the convert for
      * @return the coverter for the clazz specified or null
      *          when no converter is present
      */
     public static IConverter getConverter(Class clazz) {
         if (clazz != null && converters != null)  {
-            return (IConverter)converters.get(clazz);
+            return (IConverter) converters.get(clazz);
         }
         return null;
     }

@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.20 2003-11-18 20:23:50 mvdb Exp $
+ $Id: BeanMapping.java,v 1.21 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -62,23 +62,41 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.20 2003-11-18 20:23:50 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.21 2003-11-24 11:47:19 mvdb Exp $
  */
 public class BeanMapping
 {
 
-    private String name;
-    private Class bean;
-    private boolean discovery;
-    private boolean isDiscovered;
-    private FieldList fields;
+    /**
+     * the logging instance
+     */
     private static Log log = LogFactory.getLog(BeanMapping.class);
+
+    /**
+     * The name of the mapping
+     */
+    private String name;
+    /**
+     * the bean to use for the mapping
+     */
+    private Class bean;
+    /**
+     * use discvovery for this mapping
+     */
+    private boolean discovery;
+    /**
+     * is this bean already discovered
+     */
+    private boolean isDiscovered;
+    /**
+     * the fields of the mapping
+     */
+    private FieldList fields;
 
     /**
      * Constructor for BeanMapping.
      */
-    public BeanMapping()
-    {
+    public BeanMapping() {
     }
     /**
      * Creates a BeanMapping with the specified name
@@ -155,16 +173,15 @@ public class BeanMapping
      * null will be returned.
      *
      * @param name - the name of the field methods to discover.
+     * @return the beanfield with the specified name
      */
     public BeanField createBeanField(String name)
     {
         Method method = findMethod(name, false);
         Method setMethod = findMethod(name, true);
-        if (method != null)
-        {
+        if (method != null) {
             BeanField field = new BeanField(method);
-            if (setMethod != null)
-            {
+            if (setMethod != null) {
                 field.setChangeMethod(setMethod);
             }
             return field;
@@ -174,9 +191,10 @@ public class BeanMapping
 
     /**
      *
-     * @param name - the name the is contained in the method..getXXX/setXXX where XXX is the name
+     * @param name the name the is contained in the method..getXXX/setXXX where XXX is the name
      *                (case insensitive..)
-     * @param setMethod - discover the setMethod (true) or the getMethod (false)
+     * @param setMethod discover the setMethod (true) or the getMethod (false)
+     * @return the method found
      */
     private Method findMethod(String name, boolean setMethod)
     {
@@ -187,13 +205,18 @@ public class BeanMapping
             return null;
         }
         Method[] methods = getBean().getMethods();
-        String pre = (setMethod)?"set":"get";
+        String pre = null;
+        if (setMethod) {
+            pre = "set";
+        } else {
+            pre = "get";
+        }
         for (int i = 0; i < methods.length; i++)
         {
             Method method = methods[i];
-            if (method.getName().equalsIgnoreCase(pre+name)) {
+            if (method.getName().equalsIgnoreCase(pre + name)) {
                 return method;
-            } else if (!setMethod && method.getName().equalsIgnoreCase("is"+name)) {
+            } else if (!setMethod && method.getName().equalsIgnoreCase("is" + name)) {
                 return method;
             }
         }
@@ -291,8 +314,7 @@ public class BeanMapping
      * This method will also search aliases
      * of the field.
      *
-     *
-     * @param name
+     * @param name the name of the field
      * @return the beanfield for the specified
      * field or null when no field is present
      */
@@ -305,15 +327,15 @@ public class BeanMapping
         if (name.startsWith("?")) {
             int dotIndex = name.indexOf('.');
             if (dotIndex != -1) {
-                name = name.substring(dotIndex+1);
+                name = name.substring(dotIndex + 1);
             }
         }
-            
+
         int dotIndex = name.indexOf(".");
         String realField = null;
         if (dotIndex != -1) {
-            String field = name.substring(0,dotIndex);
-            realField = name.substring(dotIndex+1);
+            String field = name.substring(0, dotIndex);
+            realField = name.substring(dotIndex + 1);
             name = field;
         }
         int index = fields.indexOf(name);
@@ -341,8 +363,8 @@ public class BeanMapping
      * or protected.
      * It will also try to discover the set method that is connected
      * to the getter (assuming it is not a read only field).
-     * 
-     * @todo What to do with collections ? 
+     *
+     * @todo What to do with collections ?
      */
     public void discover()
     {
@@ -352,8 +374,8 @@ public class BeanMapping
             for (int i = 0; i < methods.length; i++)
             {
                 Method method = methods[i];
-                if ((method.getName().toLowerCase().startsWith("get") ||
-                     method.getName().toLowerCase().startsWith("is"))
+                if ((method.getName().toLowerCase().startsWith("get")
+                     || method.getName().toLowerCase().startsWith("is"))
                     && !method.getName().equals("getClass")
                     && method.getModifiers() != Modifier.PRIVATE
                     && method.getModifiers() != Modifier.PROTECTED)
@@ -362,7 +384,7 @@ public class BeanMapping
                     // try to find the setter..
                     String fieldName = field.getName();
                     if (fieldName.length() > 0) {
-                        fieldName = field.getName().substring(0,1).toUpperCase()+field.getName().substring(1);
+                        fieldName = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
                     }
                     Method setMethod = findMethod(fieldName, true);
                     field.setChangeMethod(setMethod);
@@ -373,19 +395,23 @@ public class BeanMapping
         }
     }
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     public boolean equals(Object object)
     {
-        if (object instanceof BeanMapping)
-        {
-            String name = ((BeanMapping) object).getName();
-            return name.equals(this.getName());
+        if (object instanceof BeanMapping) {
+            String mappingName = ((BeanMapping) object).getName();
+            return mappingName.equals(this.getName());
         }
         return false;
     }
 
 
-    public String toString()
-    {
+    /**
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
         return getName();
     }
 
@@ -398,8 +424,10 @@ public class BeanMapping
      */
     public class FieldList extends ArrayList
     {
-        public FieldList()
-        {
+        /**
+         * The fieldlist constructor
+         */
+        public FieldList() {
             super();
         }
 
@@ -409,20 +437,16 @@ public class BeanMapping
          * equals on the alement in the list.
          * Null will always return -1.
          *
-         * @param elem
+         * @param elem the element to find
          * @return int - the position or -1 when not found
          */
-        public int indexOf(Object elem)
-        {
-            if (elem == null)
-            {
+        public int indexOf(Object elem) {
+            if (elem == null) {
                 return -1;
             }
-            for (int i = 0; i < size(); i++)
-            {
+            for (int i = 0; i < size(); i++) {
                 Object data = get(i);
-                if (data != null && data.equals(elem))
-                {
+                if (data != null && data.equals(elem)) {
                     return i;
                 }
             }

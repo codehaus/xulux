@@ -1,5 +1,5 @@
 /*
- $Id: BeanParameter.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
+ $Id: BeanParameter.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -55,12 +55,21 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * that a method may need to get or set appropiate data.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanParameter.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: BeanParameter.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
  */
 public class BeanParameter {
 
+    /**
+     * the type of parameter
+     */
     private String type;
+    /**
+     * the value
+     */
     private String value;
+    /**
+     * the object
+     */
     private Object object;
 
     /**
@@ -72,8 +81,8 @@ public class BeanParameter {
     /**
      * Convenient constructor
      *
-     * @param type
-     * @param value
+     * @param type the type of parameter
+     * @param value the value of the type
      */
     public BeanParameter(String type, String value) {
         setType(type);
@@ -98,7 +107,7 @@ public class BeanParameter {
     /**
      * Set the type.
      * String or static
-     * @param string
+     * @param type the type of parameter
      */
     public void setType(String type) {
         this.type = type;
@@ -107,7 +116,7 @@ public class BeanParameter {
     /**
      * Set the value of the type
      * eg "M" or eg StaticClass.M
-     * @param string
+     * @param value the value of the type
      */
     public void setValue(String value) {
         this.value = value;
@@ -122,10 +131,10 @@ public class BeanParameter {
         if (this.object == null) {
             if (getType().equalsIgnoreCase("string")) {
                 this.object = value;
-            }else if (getType().equalsIgnoreCase("static")) {
+            } else if (getType().equalsIgnoreCase("static")) {
                 // static format is like package.Class.Field, so first
                 // the class needs processing.
-                String field = getValue().substring(getValue().lastIndexOf('.')+1);
+                String field = getValue().substring(getValue().lastIndexOf('.') + 1);
                 String classString = getValue().substring(0, getValue().lastIndexOf("."));
                 Class clazz = ClassLoaderUtils.getClass(classString);
                 if (clazz != null) {
@@ -145,9 +154,11 @@ public class BeanParameter {
         return this.object;
     }
 
-
+    /**
+     * @see java.lang.Object#toString()
+     */
     public String toString() {
-        return getType()+":"+getValue();
+        return getType() + ":" + getValue();
     }
 
 }

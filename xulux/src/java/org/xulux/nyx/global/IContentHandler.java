@@ -1,5 +1,5 @@
 /*
- $Id: IContentHandler.java,v 1.4 2003-11-06 19:53:12 mvdb Exp $
+ $Id: IContentHandler.java,v 1.5 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -55,34 +55,34 @@ package org.xulux.nyx.global;
  * of a widget can specify which content is supported.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentHandler.java,v 1.4 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: IContentHandler.java,v 1.5 2003-11-24 11:47:19 mvdb Exp $
  */
 public interface IContentHandler {
 
     /**
      * Sets the content to the specified object.
      *
-     * @param content
+     * @param content the content to use on the handler
      */
-    public void setContent(Object content);
+    void setContent(Object content);
 
     /**
      *
      * @return the content that is previously set
      */
-    public Object getContent();
+    Object getContent();
 
     /**
      *
      * @return the type of content this handler supports.
      */
-    public Class getType();
+    Class getType();
 
     /**
      * Notifies the contenthandler that a refresh needs to take place
      * since some content was changed WITHOUT calling setContent.
      *
      */
-    public void refresh();
+    void refresh();
 
 }

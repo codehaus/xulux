@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.29 2003-11-18 20:25:24 mvdb Exp $
+ $Id: BeanField.java,v 1.30 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,7 +68,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  *       to primitive types.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.29 2003-11-18 20:25:24 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.30 2003-11-24 11:47:19 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -124,6 +124,9 @@ public class BeanField implements IField
      */
     private String realField;
 
+    /**
+     * Temporary real field when processing strange naming
+     */
     private boolean tempRealField;
 
     /**
@@ -153,18 +156,20 @@ public class BeanField implements IField
      * @return specifies if the field is just for display
      *          (eg doesn't have a setter method)
      */
-    public boolean isReadOnly()
-    {
-        return (changeMethod==null);
+    public boolean isReadOnly() {
+        if (changeMethod == null) {
+            return true;
+        }
+        return false;
     }
 
     /**
      * Sets a new value in the field
      * Exceptions will be eaten.
-     * TODO: Fix returntype, if the objec tis 
      * @param bean - the bean to set the value on
      * @param value - the value to set to the bean
      * @return false on failure or if field is read only
+     * @todo add some more intensive testing
      */
     public boolean setValue(Object bean, Object value)
     {
@@ -172,13 +177,12 @@ public class BeanField implements IField
         if (isReadOnly())
         {
             if (log.isWarnEnabled()) {
-                log.warn("Field "+getName()+" is readonly or couldn't find the set Method");
+                log.warn("Field " + getName() + " is readonly or couldn't find the set Method");
             }
             return success;
         }
         try
         {
-            // TODO: Test!!!
             if (getRealField() != null) {
                 Class retType = getReturnType();
                 BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
@@ -194,7 +198,8 @@ public class BeanField implements IField
                     // TODO : Preform some magic to set the object to the bean!!
                     if (childObject == null) {
                         if (log.isWarnEnabled()) {
-                            log.warn("Cannot set value on "+toString()+" Please set the value in a rule or provide an empty constructor");
+                            log.warn("Cannot set value on " + toString() + "  Please set the value in a rule "
+                            +  "or provide an empty constructor");
                         }
                         return false;
                     }
@@ -203,7 +208,7 @@ public class BeanField implements IField
 //                log.warn("childMapping : "+childMapping.getFields());
                 IField field = childMapping.getField(getRealField());
 //                log.warn("cf : "+field);
-                success = field.setValue(childObject,value);
+                success = field.setValue(childObject, value);
                 success = true;
                 return success;
             }
@@ -212,9 +217,9 @@ public class BeanField implements IField
 //                log.warn("args : "+Arrays.asList(getSetMethodArgs(value)));
                 this.changeMethod.invoke(bean, getSetMethodArgs(value));
                 realField = null;
-            }catch(IllegalArgumentException iae) {
+            } catch (IllegalArgumentException iae) {
                 if (log.isWarnEnabled()) {
-                    log.warn("Invalid argument "+value.getClass().getName()+" for method "+this.changeMethod,iae);
+                    log.warn("Invalid argument " + value.getClass().getName() + " for method " + this.changeMethod, iae);
                 }
                 success = false;
             }
@@ -223,28 +228,26 @@ public class BeanField implements IField
         catch (IllegalAccessException e)
         {
             if (log.isTraceEnabled()) {
-                log.trace("Exception occured ",e);
+                log.trace("Exception occured ", e);
             }
         }
         catch (InvocationTargetException e)
         {
             if (log.isTraceEnabled()) {
-                log.trace("Exception occured ",e);
+                log.trace("Exception occured ", e);
             }
         }
         catch (Exception e) {
             if (log.isWarnEnabled()) {
-                log.warn("Unexcpected exception ",e);
+                log.warn("Unexcpected exception ", e);
             }
         }
         return success;
     }
 
     /**
-     * Returns a list of values from a list with beanparameter objects.
-     *
-     * @param list
-     * @return
+     * @param list the list of objects
+     * @return a list of values from a list with beanparameter objects.
      */
     private List getBeanParameterValues(List list) {
         if (list == null || list.size() == 0) {
@@ -254,7 +257,7 @@ public class BeanField implements IField
         for (int i = 0; i < list.size(); i++) {
             Object object = list.get(i);
             if (object instanceof BeanParameter) {
-                valueList.add(((BeanParameter)object).getObject());
+                valueList.add(((BeanParameter) object).getObject());
             }
         }
 //        log.warn("valueList : "+valueList);
@@ -298,7 +301,7 @@ public class BeanField implements IField
                         return getMethod().invoke(null, getArgs());
                     }
                     if (log.isDebugEnabled()) {
-                        log.debug("no data found for "+getName()+", alias "+getAlias()+", realfield "+realField);
+                        log.debug("no data found for " + getName() + ", alias " + getAlias() + ", realfield " + realField);
 
                     }
                 }
@@ -308,21 +311,21 @@ public class BeanField implements IField
         {
             if (log.isTraceEnabled())
             {
-                log.trace("Exception occured ",e);
+                log.trace("Exception occured ", e);
             }
         }
         catch (InvocationTargetException e)
         {
             if (log.isWarnEnabled())
             {
-                log.warn("Exception occured ",e.getTargetException());
+                log.warn("Exception occured ", e.getTargetException());
             }
         }
         return null;
     }
 
     /**
-     * TODO: for now we assume all is hardcoded data need to fix that..
+     * @todo for now we assume all is hardcoded data need to fix that..
      * @return the list of parameters to pass into
      *          the method.
      */
@@ -351,33 +354,38 @@ public class BeanField implements IField
      * call this method.
      * (eg isReadOnly should be false)
      *
+     * @param value get the setmethod for the specified value
      * @return the list of methods to pass into a
      *          setmethod to correctly set a value.
      */
     protected Object[] getSetMethodArgs(Object value) {
         ArrayList parms = new ArrayList();
         Class[] clz = this.changeMethod.getParameterTypes();
-        int parmSize = (parameterList!=null)?parameterList.size():0;
+        int parmSize = 0;
+        if (parameterList != null) {
+            parmSize = parameterList.size();
+        }
         int clzSize = clz.length;
         // actually always the case I guess??
        if (clzSize == 1) {
             Class parmType = clz[0];
             if (value != null) {
                 if (parmType == value.getClass()) {
-                    return new Object[] { value };
+                    return new Object[] {value};
                 }
             }
         }
         if (parmSize <= clzSize && clzSize != 0) {
-            // TODO: Parameter conversion checking..
-            // normal get / set method system
-            // TODO : Add test for this scenario!
             if (parmSize == 0 && clzSize == 1) {
                 if (clz[0] == String.class) {
                     if (value == null) {
-                        return new Object[] { value };
+                        return new Object[] {
+                            value
+                            };
                     } else {
-                        return new Object[] { value.toString() };
+                        return new Object[] {
+                            value.toString()
+                            };
                     }
                 } else {
                     IConverter converter = Dictionary.getConverter(clz[0]);
@@ -387,19 +395,21 @@ public class BeanField implements IField
                             value = newValue;
                         }
                     }
-                    return new Object[] { value };
+                    return new Object[] {
+                        value
+                        };
                 }
             }
             /* simple logistics :
              * eg getXXX(String) should have a setXXX(Strint, Value);
-             * TODO: Make more advanced, or look at external package
+             * @todo Make more advanced, or look at external package
              *        to handle this.
              */
 
             if (parmSize == 1 && clzSize == 2) {
                 Object[] retValue = new Object[clzSize];
                 int currentParm = 1;
-                retValue[0] = ((BeanParameter)parameterList.get(0)).getObject();
+                retValue[0] = ((BeanParameter) parameterList.get(0)).getObject();
                 if (clz[0] != retValue[0].getClass()) {
                     retValue[1] = retValue[0];
                     currentParm = 0;
@@ -411,15 +421,15 @@ public class BeanField implements IField
                      * so if the value is a string and the type
                      * an integer, some conversion needs to take
                      * place
-                     * TODO: Fix this :)
+                     * @todo Fix this :)
                      */
                      if (clz[currentParm] == value.getClass()) {
                         retValue[currentParm] = value;
                      } else {
-                         log.warn("Cannot set value of type "+value.getClass().getName()+" for the parameter "+clz[1]);
+                         log.warn("Cannot set value of type " + value.getClass().getName() + " for the parameter " + clz[1]);
                          // we are hardheaded and set it anyway, so we can
                          // get some kind of exception.
-                         // TODO: FIX!!
+                         // @todo FIX!!
                          retValue[currentParm] = value;
                      }
                 }
@@ -473,7 +483,7 @@ public class BeanField implements IField
      */
     public String toString()
     {
-        return getMethod().getName()+"["+getAlias()+","+getName()+",realField="+getRealField()+"]";
+        return getMethod().getName() + "[" + getAlias() + "," + getName() + ",realField=" + getRealField() + "]";
     }
 
     /**
@@ -499,12 +509,10 @@ public class BeanField implements IField
                 return true;
             }
         }
-        else if (object instanceof BeanField)
-        {
-            Method method = ((BeanField)object).getMethod();
-            if (method.getDeclaringClass().equals(this.getMethod().getDeclaringClass())
-                 && method.getName().equals(this.getMethod().getName()))
-            {
+        else if (object instanceof BeanField) {
+            Method tmpMethod = ((BeanField) object).getMethod();
+            if (tmpMethod.getDeclaringClass().equals(this.getMethod().getDeclaringClass())
+                 && tmpMethod.getName().equals(this.getMethod().getName())) {
                 return true;
             }
         }
@@ -543,12 +551,13 @@ public class BeanField implements IField
      * Convenience method to set the changemethod.
      * It will figure out which changemethod it will
      * be..
-     * @param name
+     * @param clazz the class to investigate
+     * @param name the name of the change method
      */
     public void setChangeMethod(Class clazz, String name) {
         Method[] methods = clazz.getMethods();
         //System.out.println("methods : "+Arrays.asList(methods));
-        for (int i=0; i < methods.length; i++) {
+        for (int i = 0; i < methods.length; i++) {
             Method m = methods[i];
             if (m.getName().equalsIgnoreCase(name)) {
                 //System.out.println("Found changeMethod :"+m);
@@ -557,7 +566,7 @@ public class BeanField implements IField
             }
         }
         if (!name.startsWith("set")) {
-            setChangeMethod(clazz, "set"+name);
+            setChangeMethod(clazz, "set" + name);
         }
     }
 
@@ -590,7 +599,7 @@ public class BeanField implements IField
      * This will overwrite all previous values.
      * Use addParameter instead if you want to preserve them
      *
-     * @param parameters
+     * @param parameters the parameters to use
      */
     public void setParameters(List parameters) {
         this.parameterList = parameters;
@@ -607,7 +616,7 @@ public class BeanField implements IField
 
     /**
      * Add a single parameter to the parameter list
-     * @param parameter
+     * @param parameter the parameter to add
      */
     public void addParameter(BeanParameter parameter) {
         if (parameterList == null) {
@@ -617,7 +626,7 @@ public class BeanField implements IField
     }
 
     /**
-     * @param realField
+     * @param realField the real field to use
      */
     public void setRealField(String realField) {
         this.realField = realField;
@@ -626,17 +635,23 @@ public class BeanField implements IField
     /**
      * Set a temporary realfield, which is not dictionary
      * based.
-     * @param realField
+     * @param realField the temporary realfield
      */
     public void setTempRealField(String realField) {
         this.realField = realField;
         this.tempRealField = true;
     }
 
+    /**
+     * @return if this field has a temporary realfield
+     */
     public boolean hasTempRealField() {
         return this.tempRealField;
     }
 
+    /**
+     * Remove the temporaray real field
+     */
     public void removeTempRealField() {
         this.realField = null;
         this.tempRealField = false;
@@ -658,6 +673,9 @@ public class BeanField implements IField
         return this.method.getReturnType();
     }
 
+    /**
+     * @return the changemethod
+     */
     protected Method getChangeMethod() {
         return this.changeMethod;
     }

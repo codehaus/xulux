@@ -1,5 +1,5 @@
 /*
- $Id: IField.java,v 1.5 2003-11-06 19:53:12 mvdb Exp $
+ $Id: IField.java,v 1.6 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,37 +49,44 @@ package org.xulux.nyx.global;
  * The generic field interface..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IField.java,v 1.5 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: IField.java,v 1.6 2003-11-24 11:47:19 mvdb Exp $
  */
 public interface IField
 {
 
     /**
-     * Returns the name of the field
+     * @return the name of the field
      */
-    public String getName();
+    String getName();
+
     /**
-     * Returns the alias of the field
+     * @return the alias of the field
      */
-    public String getAlias();
+    String getAlias();
 
     /**
      * Sets the value of the object
+     * @param object the object to set the value on
+     * @param value the value to set
      * @return true on success, false on failure
      */
-    public boolean setValue(Object bean, Object value);
+    boolean setValue(Object object, Object value);
 
     /**
-     * gets the value
+     * @param object the object to get the value from
+     * @return the value of the field
      */
-    public Object getValue(Object bean);
+    Object getValue(Object object);
 
     /**
-     * Returns if a field is readonly or not
+     * @return if a field is readonly or not
      */
-    public boolean isReadOnly();
+    boolean isReadOnly();
 
-    public Class getReturnType();
+    /**
+     * @return the returntype of the field
+     */
+    Class getReturnType();
 
 
 }

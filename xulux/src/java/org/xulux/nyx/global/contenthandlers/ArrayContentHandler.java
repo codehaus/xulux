@@ -1,5 +1,5 @@
 /*
- $Id: ArrayContentHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
+ $Id: ArrayContentHandler.java,v 1.4 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,7 +52,7 @@ import java.util.Collection;
  * A content handler for arrays.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ArrayContentHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: ArrayContentHandler.java,v 1.4 2003-11-24 11:47:19 mvdb Exp $
  */
 public class ArrayContentHandler extends ContentHandlerAbstract {
     /**
@@ -67,13 +67,13 @@ public class ArrayContentHandler extends ContentHandlerAbstract {
      */
     public Object getContent() {
         if (content instanceof Collection) {
-            return ((Collection)content).toArray();
+            return ((Collection) content).toArray();
         }
         if (log.isWarnEnabled()) {
-            log.warn("Content of type " +
-              content.getClass().getName()+
-                " cannot be converted to type " +getType().getName()+
-                " Returning original content");
+            log.warn("Content of type "
+                + content.getClass().getName()
+                + " cannot be converted to type " + getType().getName()
+                + " Returning original content");
         }
         return content;
     }

@@ -1,5 +1,5 @@
 /*
- $Id: LocalField.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
+ $Id: LocalField.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,22 +49,29 @@ package org.xulux.nyx.global;
  * A localfield.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LocalField.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: LocalField.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
  */
 public class LocalField implements IField
 {
 
+    /**
+     * The name of the local field
+     */
     private String name;
+    /**
+     * the field
+     */
     private Object field;
+    /**
+     * the value of the field
+     */
     private Object value;
 
     /**
      * Constructor for LocalField.
      * @param name - the name of the localfield
-     * @param value - the value of the localfield
      */
-    public LocalField(String name)
-    {
+    public LocalField(String name) {
         setName(name);
     }
 

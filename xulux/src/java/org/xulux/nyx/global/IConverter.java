@@ -1,5 +1,5 @@
 /*
- $Id: IConverter.java,v 1.3 2003-11-06 19:53:12 mvdb Exp $
+ $Id: IConverter.java,v 1.4 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,10 +49,10 @@ package org.xulux.nyx.global;
  * A converter for data.
  * You can register a converter in the dictionary
  * for certain types.
- * TODO: Default converters.
+ * @todo Default converters.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IConverter.java,v 1.3 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: IConverter.java,v 1.4 2003-11-24 11:47:19 mvdb Exp $
  */
 public interface IConverter {
 
@@ -63,22 +63,22 @@ public interface IConverter {
      * @param object - the String (or other object) to convert
      * @return The object needed.
      */
-    public Object getBeanValue(Object object);
+    Object getBeanValue(Object object);
 
     /**
      * Converts the bean value to a value that can be used
      * in a gui
      *
-     * @param object
+     * @param object the object to get the gui value from
      * @return the object needed (a String)
      */
-    public Object getGuiValue(Object object);
+    Object getGuiValue(Object object);
 
 
     /**
      * @return the class that this converter handles
      */
-    public Class getType();
+    Class getType();
 
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: ContentHandlerAbstract.java,v 1.4 2003-11-06 19:53:11 mvdb Exp $
+ $Id: ContentHandlerAbstract.java,v 1.5 2003-11-24 11:47:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -53,11 +53,18 @@ import org.xulux.nyx.global.IContentHandler;
  * An absract for the content handler.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ContentHandlerAbstract.java,v 1.4 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: ContentHandlerAbstract.java,v 1.5 2003-11-24 11:47:19 mvdb Exp $
  */
 public abstract class ContentHandlerAbstract implements IContentHandler {
 
+    /**
+     * Contains the conent
+     */
     protected Object content;
+
+    /**
+     * the shared log instance
+     */
     protected static Log log = LogFactory.getLog(ContentHandlerAbstract.class);
 
     /**

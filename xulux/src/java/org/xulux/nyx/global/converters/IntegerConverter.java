@@ -1,5 +1,5 @@
 /*
- $Id: IntegerConverter.java,v 1.4 2003-11-06 19:53:13 mvdb Exp $
+ $Id: IntegerConverter.java,v 1.5 2003-11-24 11:47:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,7 +52,7 @@ import org.xulux.nyx.global.IConverter;
  * It will return null when none of the above is possible.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IntegerConverter.java,v 1.4 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: IntegerConverter.java,v 1.5 2003-11-24 11:47:20 mvdb Exp $
  */
 public class IntegerConverter implements IConverter {
 
@@ -68,8 +68,9 @@ public class IntegerConverter implements IConverter {
     public Object getBeanValue(Object object) {
         if (object instanceof String) {
             try {
-                return new Integer((String)object);
-            }catch(NumberFormatException nfe) {
+                return new Integer((String) object);
+            } catch (NumberFormatException nfe) {
+                return null;
             }
         }
         return null;
@@ -80,7 +81,7 @@ public class IntegerConverter implements IConverter {
      */
     public Object getGuiValue(Object object) {
         if (object instanceof Integer) {
-            return ((Integer)object).toString();
+            return ((Integer) object).toString();
         }
         return null;
     }
