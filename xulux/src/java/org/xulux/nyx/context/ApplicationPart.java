@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.8 2002-11-05 13:51:25 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.9 2002-11-05 14:02:41 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -80,7 +80,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.8 2002-11-05 13:51:25 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.9 2002-11-05 14:02:41 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -445,5 +445,41 @@ public class ApplicationPart
         }
         return session;
     }
-
+    
+    /** 
+     * Destroys the applicationPart
+     * (does a lot of cleanups)
+     * After the destroy the object is not usable anymore.
+     * Maybe a lot of unecessary code, but you never know
+     * when swing stuff still stays in memory..
+     */
+    public void destroy()
+    {
+        if (session != null)
+        {
+            getSession().clear();
+            session = null;
+        }
+        mapping = null;
+        bean = null;
+        parentWidget = null;
+        activated = false;
+        Iterator it = widgets.iterator();
+        while (it.hasNext())
+        {
+            ((Widget)it.next()).destroy();
+            // and remove from list..
+            it.remove();
+        }
+        widgets.clear();
+        widgets = null;
+        it = partRules.iterator();
+        while (it.hasNext())
+        {
+            ((IRule)it.next()).destroy();
+            it.remove();
+        }
+        partRules.clear();
+        partRules = null;
+    }
 }
