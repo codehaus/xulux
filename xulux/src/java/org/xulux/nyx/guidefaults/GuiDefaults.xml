@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaults.xml,v 1.16 2003-09-10 07:41:28 mvdb Exp $ -->
+<!-- $Id: GuiDefaults.xml,v 1.17 2003-09-25 17:09:58 mvdb Exp $ -->
 <!-- 
     Where no type is specified, it will default
     to defaultType.
@@ -30,6 +30,8 @@
     <widget name="popupmenu" class="org.xulux.nyx.swing.widgets.PopupMenu"/>
     <widget name="menuitem" class="org.xulux.nyx.swing.widgets.MenuItem"/>
     <widget name="tree" class="org.xulux.nyx.swing.widgets.Tree"/>
+    <widget name="radiobutton" class="org.xulux.nyx.swing.widgets.RadioButton"/>
+    <widget name="buttongroup" class="org.xulux.nyx.swing.widgets.ButtonGroup"/>
   </widgets>
   <!-- register the property handlers -->
 <!--  <propertyHandlers>
