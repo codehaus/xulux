@@ -25,6 +25,14 @@
     Also make a way to automaticcaly process custom guidefaults
     (eg in manifests in jars)
   </li>
+  <li>
+    Only when updateAction is specified actionListeners are registered.
+    Need to fix this!  
+  </li>
+  <li>
+    Now the table has a classType element, needs to be a reference to 
+    the dictionary prefix if it is present.
+  </li>
 </ul>
 </p>
 </section>
