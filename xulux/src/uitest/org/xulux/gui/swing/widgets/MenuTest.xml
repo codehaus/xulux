@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: MenuTest.xml,v 1.1 2003-12-29 14:26:42 mvdb Exp $ -->
+<!-- $Id: MenuTest.xml,v 1.2 2004-01-28 12:24:02 mvdb Exp $ -->
 <part name="MenuTest" prefix="menu" application="true">
   <field type="window" name="WindowTest1">
     <title>MenuTest</title>
@@ -11,9 +11,13 @@
         <text>File</text>
         <field type="menuitem" name="exit">
           <text>Exit</text>
-          <rules>
-            <rule>org.xulux.gui.rules.CancelButtonRule</rule>
-          </rules>
+          <defaultaction>cancel</defaultaction>
+        </field>
+      </field>
+      <field type="menu" name="Help">
+        <text>Help</text>
+        <field type="menuitem" name="About">
+          <text>About</text>
         </field>
       </field>
     </field>

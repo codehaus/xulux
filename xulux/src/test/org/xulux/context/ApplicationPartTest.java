@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartTest.java,v 1.3 2004-01-06 19:01:37 mvdb Exp $
+ $Id: ApplicationPartTest.java,v 1.4 2004-01-28 12:24:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -46,6 +46,7 @@
 package org.xulux.context;
 
 import org.xulux.gui.Widget;
+import org.xulux.swing.util.NyxEventQueue;
 import org.xulux.swing.widgets.CheckBox;
 import org.xulux.swing.widgets.Combo;
 import org.xulux.swing.widgets.Entry;
@@ -58,7 +59,7 @@ import junit.framework.TestSuite;
  * The ApplicationPart test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartTest.java,v 1.3 2004-01-06 19:01:37 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.4 2004-01-28 12:24:03 mvdb Exp $
  */
 public class ApplicationPartTest extends TestCase {
 
@@ -101,6 +102,21 @@ public class ApplicationPartTest extends TestCase {
     }
 
     /**
+     * Test destroy
+     */
+    public void testDestroy() {
+        System.out.println("testDestroy");
+        // without event queue
+        ApplicationPart part = new ApplicationPart("part");
+        part.destroy();
+        // with eventqueue
+        NyxEventQueue q = new NyxEventQueue();
+        part.destroy();
+        // with a session object
+        part.getSession();
+        part.destroy();
+    }
+    /**
      * Test the session.
      * Just tests if we don't get a clone of the session
      * by accident.
@@ -111,5 +127,4 @@ public class ApplicationPartTest extends TestCase {
         SessionPart session = part.getSession();
         assertEquals(session, part.getSession());
     }
-
 }

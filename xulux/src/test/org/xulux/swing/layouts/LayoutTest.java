@@ -1,5 +1,5 @@
 /*
- $Id: LayoutTest.java,v 1.1 2003-12-18 00:17:31 mvdb Exp $
+ $Id: LayoutTest.java,v 1.2 2004-01-28 12:24:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,7 +50,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.io.InputStream;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -61,6 +63,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xulux.context.ApplicationContext;
+import org.xulux.context.ApplicationPart;
+import org.xulux.context.ApplicationPartHandler;
 import org.xulux.gui.Widget;
 import org.xulux.swing.widgets.Combo;
 import org.xulux.swing.widgets.Label;
@@ -71,7 +76,7 @@ import org.xulux.swing.widgets.Window;
  * A class to to test the layoutmanagers for swing
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.1 2003-12-18 00:17:31 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.2 2004-01-28 12:24:03 mvdb Exp $
  */
 public class LayoutTest extends TestCase
 {
@@ -180,6 +185,9 @@ public class LayoutTest extends TestCase
 
     /**
      * Test getLayoutSize method and the getPreferredLayoutSize
+     * @todo this test needs redoing. Testing with only native widgets is useless,
+     *       since this is an XYLayout and not anothe layout that automatically
+     *       figures out a nice position for native widgets.
      */
     public void testGetLayoutSize() {
         System.out.println("testGetLayoutSize");
@@ -190,6 +198,7 @@ public class LayoutTest extends TestCase
         JLabel nativeLabel2 = new JLabel();
         JLabel nativeLabel3 = new JLabel();
         nativeLabel1.setPreferredSize(new Dimension(25, 25));
+        //nativeLabel1.setLocation(0, 0);
         nativeLabel2.setPreferredSize(new Dimension(25, 25));
         nativeLabel3.setPreferredSize(new Dimension(25, 25));
         MockWidget panel = new MockWidget("panel");
@@ -207,29 +216,29 @@ public class LayoutTest extends TestCase
         // we now have 2 widgets in the layout mapping..
         assertEquals(2, layout.map.size());
         Dimension dim = layout.getLayoutSize(nativePanel);
-        assertEquals(50, dim.width);
-        assertEquals(50, dim.height);
+        assertEquals(25, dim.width);
+        assertEquals(25, dim.height);
         dim = layout.preferredLayoutSize(nativePanel);
-        assertEquals(50, dim.width);
-        assertEquals(50, dim.height);
+        assertEquals(25, dim.width);
+        assertEquals(25, dim.height);
         // just add a native component, without any nyx magic
         nativePanel.add(nativeLabel3);
         dim = layout.getLayoutSize(nativePanel);
-        assertEquals(75, dim.width);
-        assertEquals(75, dim.height);
+        assertEquals(50, dim.width);
+        assertEquals(50, dim.height);
         dim = layout.preferredLayoutSize(nativePanel);
-        assertEquals(75, dim.width);
-        assertEquals(75, dim.height);
+        assertEquals(50, dim.width);
+        assertEquals(50, dim.height);
         TitledBorder border = new TitledBorder("title");
         nativePanel.setBorder(border);
         int height = nativePanel.getInsets().bottom + nativePanel.getInsets().top;
         int width = nativePanel.getInsets().left + nativePanel.getInsets().right;
         dim = layout.getLayoutSize(nativePanel);
-        assertEquals(75 + width, dim.width);
-        assertEquals(75 + height, dim.height);
+        assertEquals(50 + width, dim.width);
+        assertEquals(50 + height, dim.height);
         dim = layout.preferredLayoutSize(nativePanel);
-        assertEquals(75 + width, dim.width);
-        assertEquals(75 + height, dim.height);
+        assertEquals(50 + width, dim.width);
+        assertEquals(50 + height, dim.height);
         label1.setVisible(false);
         label2.setVisible(false);
         dim = layout.preferredLayoutSize(nativePanel);
@@ -439,5 +448,41 @@ public class LayoutTest extends TestCase
         assertEquals(window, layout.getParent());
         assertEquals("Value changed. please test", 0.5F, layout.getLayoutAlignmentX(null), 0);
         assertEquals("Value changed. please test", 0.5F, layout.getLayoutAlignmentY(null), 0);
+    }
+
+    /**
+     * Test the layoutsize when just using a native widget as the parent.
+     */
+    public void testNativeGetLayoutSize() {
+        System.out.println("testNativeGetLayoutSize");
+        // x,y : 0,0 w,h : 100,21 layoutsize : 100,21
+        // x,Y : 0,
+        ApplicationContext.getInstance();
+        ApplicationPartHandler handler = new ApplicationPartHandler();
+        String xml = "org/xulux/swing/layouts/XuluxOnNative.xml";
+        InputStream stream = this.getClass().getClassLoader().getResourceAsStream(xml);
+        ApplicationPart part = handler.read(stream, null);
+        XYLayout layout = new XYLayout();
+        JPanel panel = new JPanel(layout);
+        ApplicationContext.getInstance().registerPart(part);
+        part.setParentWidget(panel);
+        part.activate();
+        JFrame frame = new JFrame("XuluxOnNative");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.show();
+        Dimension dim = ((Component) part.getRootWidget()).getPreferredSize();
+        dim.width += frame.getBounds().getWidth();
+        dim.height += frame.getBounds().getHeight();
+        frame.setSize(dim.width, dim.height);
+        frame.getContentPane().add((Component) part.getRootWidget());
+        frame.pack();
+        Widget bC = part.getWidget("Button:Save");
+        JComponent nC = (JComponent) bC.getNativeWidget();
+        System.out.println("Preferred size : "  + nC.getPreferredSize());
+        System.out.println("Location : " + nC.getLocation());
+    }
+
+    public static void main(String[] args) {
+        new LayoutTest("LayoutTest").testNativeGetLayoutSize();
     }
 }

@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.2 2003-12-28 23:34:57 mvdb Exp $
+ $Id: XYLayout.java,v 1.3 2004-01-28 12:24:00 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,10 +68,9 @@ import org.xulux.gui.Widget;
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.2 2003-12-28 23:34:57 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.3 2004-01-28 12:24:00 mvdb Exp $
  */
-public class XYLayout implements LayoutManager2, Serializable
-{
+public class XYLayout implements LayoutManager2, Serializable {
     /**
      * the map with widgets
      */
@@ -88,8 +87,7 @@ public class XYLayout implements LayoutManager2, Serializable
     /**
      *
      */
-    public XYLayout()
-    {
+    public XYLayout() {
         map = new HashMap();
     }
 
@@ -97,8 +95,7 @@ public class XYLayout implements LayoutManager2, Serializable
      * Use this contructor if used inside nyx.
      * @param parent the creator of the XYLayout
      */
-    public XYLayout(Widget parent)
-    {
+    public XYLayout(Widget parent) {
         map = new HashMap();
         setParent(parent);
     }
@@ -130,39 +127,34 @@ public class XYLayout implements LayoutManager2, Serializable
     /**
      * @see java.awt.LayoutManager2#getLayoutAlignmentX(Container)
      */
-    public float getLayoutAlignmentX(Container target)
-    {
+    public float getLayoutAlignmentX(Container target) {
         return 0.5F;
     }
 
     /**
      * @see java.awt.LayoutManager2#getLayoutAlignmentY(Container)
      */
-    public float getLayoutAlignmentY(Container target)
-    {
+    public float getLayoutAlignmentY(Container target) {
         return 0.5F;
     }
 
     /**
      * @see java.awt.LayoutManager2#invalidateLayout(Container)
      */
-    public void invalidateLayout(Container target)
-    {
+    public void invalidateLayout(Container target) {
     }
 
     /**
      * @see java.awt.LayoutManager2#maximumLayoutSize(Container)
      */
-    public Dimension maximumLayoutSize(Container target)
-    {
+    public Dimension maximumLayoutSize(Container target) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
     /**
      * @see java.awt.LayoutManager#addLayoutComponent(String, Component)
      */
-    public void addLayoutComponent(String name, Component comp)
-    {
+    public void addLayoutComponent(String name, Component comp) {
     }
 
     /**
@@ -194,11 +186,7 @@ public class XYLayout implements LayoutManager2, Serializable
                 r = getRectangle(component, insets);
             }
             // r cannot be null in this scenario
-            component.setBounds(
-                insets.left + r.x,
-                insets.top + r.y,
-                r.width,
-                r.height);
+            component.setBounds(insets.left + r.x, insets.top + r.y, r.width, r.height);
         }
     }
 
@@ -257,20 +245,17 @@ public class XYLayout implements LayoutManager2, Serializable
         return r;
     }
 
-
     /**
      * @see java.awt.LayoutManager#minimumLayoutSize(Container)
      */
-    public Dimension minimumLayoutSize(Container parent)
-    {
+    public Dimension minimumLayoutSize(Container parent) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
     /**
      * @see java.awt.LayoutManager#preferredLayoutSize(Container)
      */
-    public Dimension preferredLayoutSize(Container parent)
-    {
+    public Dimension preferredLayoutSize(Container parent) {
         Dimension dim = getLayoutSize(parent);
         return dim;
     }
@@ -289,30 +274,37 @@ public class XYLayout implements LayoutManager2, Serializable
      * @param parent the parent container
      * @return the layoutsize
      */
-    protected Dimension getLayoutSize(Container parent)
-    {
-        System.out.println("parent : " + parent+ " count  : "+parent.getComponentCount());
+    protected Dimension getLayoutSize(Container parent) {
         Dimension dim = new Dimension(0, 0);
+        Widget pWidget = (Widget) map.get(parent);
+        int maxX = 0;
+        int maxY = 0;
         for (int i = 0; i < parent.getComponentCount(); i++) {
             Component component = parent.getComponent(i);
             Widget widget = (Widget) map.get(component);
             if (widget != null && widget.isVisible()) {
                 Rectangle r = getRectangle(widget, component);
-                System.out.println("r : " + r);
-                dim.width += r.x + r.width;
-                dim.height += r.y + r.height;
+                int tmpWidth = r.x + r.width;
+                if (tmpWidth > maxX) {
+                    maxX = tmpWidth;
+                }
+                int tmpHeight = r.y + r.height;
+                if (tmpHeight > maxY) {
+                    maxY = tmpHeight;
+                }
             } else if (widget == null) { //if (widget == null) {
                 // only process when there is no widget
                 Dimension compDim = component.getPreferredSize();
-                dim.width += compDim.width;
-                dim.height += compDim.height;
+                maxX += compDim.width;
+                maxY += compDim.height;
             }
         }
+        dim.width = maxX;
+        dim.height = maxY;
+
         Insets insets = parent.getInsets();
-        System.out.println("Insets : " + insets);
         dim.width += insets.left + insets.right;
         dim.height += insets.top + insets.bottom;
-        System.out.println("Returning dim : " + dim);
         return dim;
     }
 

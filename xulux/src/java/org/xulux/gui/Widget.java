@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.3 2003-12-29 14:52:12 mvdb Exp $
+ $Id: Widget.java,v 1.4 2004-01-28 12:24:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.3 2003-12-29 14:52:12 mvdb Exp $
+ * @version $Id: Widget.java,v 1.4 2004-01-28 12:24:03 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -919,7 +919,7 @@ public abstract class Widget implements Serializable
     /**
      * Notifies the listeners that an event has occured.
      */
-    public void notifyListeners(NyxEvent event) {
+    public void notifyListeners(XuluxEvent event) {
         if (listenerList == null) {
             return;
         }

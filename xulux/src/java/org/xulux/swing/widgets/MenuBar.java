@@ -1,5 +1,5 @@
 /*
- $Id: Menu.java,v 1.2 2004-01-28 12:24:01 mvdb Exp $
+ $Id: MenuBar.java,v 1.1 2004-01-28 12:24:01 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -46,25 +46,25 @@
 package org.xulux.swing.widgets;
 
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import javax.swing.JMenuBar;
 
 import org.xulux.gui.ContainerWidget;
 import org.xulux.gui.Widget;
 
 /**
- * The menu widget
+ * The menubar widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Menu.java,v 1.2 2004-01-28 12:24:01 mvdb Exp $
+ * @version $Id: MenuBar.java,v 1.1 2004-01-28 12:24:01 mvdb Exp $
  */
-public class Menu extends ContainerWidget {
+public class MenuBar extends ContainerWidget {
 
-    private JMenu menu;
+    private JMenuBar bar;
     
     /**
      * @param name
      */
-    public Menu(String name) {
+    public MenuBar(String name) {
         super(name);
     }
 
@@ -82,7 +82,7 @@ public class Menu extends ContainerWidget {
         if (!initialized) {
             initialize();
         }
-        return menu;
+        return bar;
     }
 
     /**
@@ -92,7 +92,7 @@ public class Menu extends ContainerWidget {
         if (initialized) {
             return;
         }
-        menu = new JMenu();
+        bar = new JMenuBar();
         initialized = true;
         initializeChildren();
         refresh();
@@ -109,10 +109,7 @@ public class Menu extends ContainerWidget {
             initialize();
         }
         isRefreshing = true;
-        String text = getProperty("text");
-        if (text != null) {
-            menu.setText(text);
-        }
+        // nothing to do yet..
         isRefreshing = false;
     }
 
@@ -149,9 +146,9 @@ public class Menu extends ContainerWidget {
      */
     public void addToParent(Widget widget) {
         System.out.println("Widget : " + widget);
-        if (widget.getNativeWidget() instanceof JMenuItem) {
-            System.out.println("menu item....");
-            menu.add((JMenuItem)widget.getNativeWidget());
+        if (widget.getNativeWidget() instanceof JMenu) {
+            System.out.println("menu....");
+            bar.add((JMenu)widget.getNativeWidget());
         } else {
             System.err.println("NOT A MENU ITEM");
         }

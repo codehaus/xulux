@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- $Id: XuluxOnNative.xml,v 1.1 2004-01-28 12:24:02 mvdb Exp $ -->
+<part name="XuluxOnNative" prefix="window" application="true">
+  <field type="panel" name="panel">
+    <autosize>true</autosize>
+<!--    <size>300,300</size> -->
+    <field type="button" name="Button:Cancel">
+	  <size>120,21</size>
+	  <position>134,10</position>
+	  <text>Cancel</text>
+	  <defaultbutton>true</defaultbutton>
+	  <defaultaction>cancel</defaultaction>
+    </field>
+    <field type="button" name="Button:Save">
+	  <size>120,21</size>
+	  <position>134,41</position>
+	  <text>Save</text>
+	  <defaultaction>save</defaultaction>
+    </field>
+  </field>
+</part>

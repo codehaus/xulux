@@ -1,5 +1,5 @@
 /*
- $Id: ValueChangedListener.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
+ $Id: ValueChangedListener.java,v 1.3 2004-01-28 12:24:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -47,7 +47,7 @@ package org.xulux.swing.listeners;
 
 import javax.swing.JTable;
 
-import org.xulux.gui.NyxEvent;
+import org.xulux.gui.XuluxEvent;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
 import org.xulux.gui.events.NyxValueChangedEvent;
@@ -57,7 +57,7 @@ import org.xulux.swing.widgets.Table;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ValueChangedListener.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
+ * @version $Id: ValueChangedListener.java,v 1.3 2004-01-28 12:24:03 mvdb Exp $
  */
 public class ValueChangedListener extends NyxListener {
 
@@ -80,9 +80,9 @@ public class ValueChangedListener extends NyxListener {
     }
 
     /**
-     * @see org.xulux.nyx.gui.NyxListener#processEvent(org.xulux.nyx.gui.NyxEvent)
+     * @see org.xulux.nyx.gui.NyxListener#processEvent(org.xulux.nyx.gui.XuluxEvent)
      */
-    public void processEvent(NyxEvent event) {
+    public void processEvent(XuluxEvent event) {
         if (isProcessing) {
             isProcessing = false;
             return;

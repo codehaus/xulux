@@ -4,7 +4,7 @@
   <pomVersion>3</pomVersion>
   <id>xulux</id>
   <name>xulux</name>
-  <currentVersion>1.0-SNAPSHOT</currentVersion>
+  <currentVersion>1.0</currentVersion>
   <organization>
     <name>xulux.org</name>
     <url>http://nyx.xulux.org/</url>

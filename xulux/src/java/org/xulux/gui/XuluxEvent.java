@@ -1,5 +1,5 @@
 /*
- $Id: NyxEvent.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ $Id: XuluxEvent.java,v 1.1 2004-01-28 12:24:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,9 +49,9 @@ package org.xulux.gui;
  * The nyxevent interface. This is a basic skeletion for firing events.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxEvent.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ * @version $Id: XuluxEvent.java,v 1.1 2004-01-28 12:24:03 mvdb Exp $
  */
-public interface NyxEvent {
+public interface XuluxEvent {
 
     /**
      *

@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.2 2003-12-29 14:52:12 mvdb Exp $
+ $Id: NyxListener.java,v 1.3 2004-01-28 12:24:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -64,7 +64,7 @@ import org.xulux.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.2 2003-12-29 14:52:12 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.3 2004-01-28 12:24:03 mvdb Exp $
  */
 public abstract class NyxListener {
     /**
@@ -277,9 +277,9 @@ public abstract class NyxListener {
     /**
      * Override this if you want to handle events.
      *
-     * @param event the NyxEvent to process
+     * @param event the XuluxEvent to process
      */
-    public void processEvent(NyxEvent event) {
+    public void processEvent(XuluxEvent event) {
     }
 
 }
