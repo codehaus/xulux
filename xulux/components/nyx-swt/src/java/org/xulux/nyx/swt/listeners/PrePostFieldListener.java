@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.2 2003-06-17 12:47:19 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.3 2003-06-17 14:06:29 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,7 +53,7 @@ import org.xulux.nyx.gui.Widget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.2 2003-06-17 12:47:19 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.3 2003-06-17 14:06:29 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements SelectionListener
@@ -71,14 +71,14 @@ implements SelectionListener
     /**
      * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(SelectionEvent)
      */
-    public void widgetDefaultSelected(SelectionEvent arg0)
+    public void widgetDefaultSelected(SelectionEvent selectionEvent)
     {
     }
 
     /**
      * @see org.eclipse.swt.events.SelectionListener#widgetSelected(SelectionEvent)
      */
-    public void widgetSelected(SelectionEvent arg0)
+    public void widgetSelected(SelectionEvent selectionEvent)
     {
     }
 

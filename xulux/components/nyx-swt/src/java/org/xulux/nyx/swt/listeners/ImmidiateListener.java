@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.2 2003-06-17 13:55:15 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.3 2003-06-17 14:06:29 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import org.xulux.nyx.swt.widgets.SWTCombo;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: ImmidiateListener.java,v 1.2 2003-06-17 13:55:15 mvdb Exp $
+ * @version $Id: ImmidiateListener.java,v 1.3 2003-06-17 14:06:29 mvdb Exp $
  */
 public class ImmidiateListener implements KeyListener
 {
@@ -69,14 +69,14 @@ public class ImmidiateListener implements KeyListener
     /**
      * @see org.eclipse.swt.events.KeyListener#keyPressed(KeyEvent)
      */
-    public void keyPressed(KeyEvent arg0)
+    public void keyPressed(KeyEvent keyEvent)
     {
     }
 
     /**
      * @see org.eclipse.swt.events.KeyListener#keyReleased(KeyEvent)
      */
-    public void keyReleased(KeyEvent arg0)
+    public void keyReleased(KeyEvent keyEvent)
     {
     }
 
