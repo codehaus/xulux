@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.16 2003-07-21 21:04:18 mvdb Exp $
+ $Id: BeanField.java,v 1.17 2003-07-21 21:16:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.16 2003-07-21 21:04:18 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.17 2003-07-21 21:16:20 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -324,7 +324,11 @@ public class BeanField implements IField
             // TODO: Parameter conversion checking..
             // normal get / set method system
             if (parmSize == 0 && clzSize == 1) {
-                return new Object[] { value };
+                if (clz[0] == String.class) {
+                    return new Object[] { value.toString() };
+                } else {
+                    return new Object[] { value };
+                }
             }
             /* simple logistics :
              * eg getXXX(String) should have a setXXX(Strint, Value);
