@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.15 2002-11-19 20:45:06 mvdb Exp $
+ $Id: Widget.java,v 1.16 2002-11-22 20:01:35 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.15 2002-11-19 20:45:06 mvdb Exp $
+ * @version $Id: Widget.java,v 1.16 2002-11-22 20:01:35 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -77,6 +77,8 @@ public abstract class Widget
     
     private ArrayList rules;
     private ApplicationPart part;
+    
+    private ArrayList dependencies;
     
     private WidgetRectangle rectangle;
     
@@ -449,6 +451,72 @@ public abstract class Widget
             return (String) properties.get(key);
         }
         return null;
+    }
+    
+    /**
+     * Adds the fields that depend on this field. If it already is registered,
+     * no action is taken.
+     * It is used to optimize the rules engine so it 
+     * only fires rules when needed.
+     * It will only fire the pre rules of the fields mentioned
+     * here.
+     * If no dependencies are specified, it will just call all pre rules in the current part..
+     * 
+     * @param name - the name of the widget. If you just specify one name, it will
+     *                assume the current part to receive the events. If you want a field
+     *                to be updated in another part, use the format partname.fieldname
+     */
+    public void addDependency(String name)
+    {
+        boolean add = false;
+        if (dependencies == null)
+        {
+            dependencies = new ArrayList();
+            add = true;
+        }
+        int index = -1;
+        if (!add)
+        {
+            index = dependencies.indexOf(name);
+            if (index == -1)
+            {
+                add = true;
+            }
+        }
+        if (add)
+        {
+            dependencies.add(name);
+        }
+        else
+        {
+            dependencies.set(index, name);
+        }
+    }
+    
+    /**
+     * Returns if the widget has dependencies..
+     * @return
+     */
+    public boolean hasDependencies()
+    {
+        boolean retValue = true;
+        if (dependencies == null)
+        {
+            retValue = false;
+        }
+        else if (dependencies.size() == 0)
+        {
+            retValue =  false;
+        }
+        return retValue;
+    }
+    
+    /**
+     * Returns the dependencies
+     */
+    public ArrayList getDependencies()
+    {
+        return dependencies;
     }
 
 }

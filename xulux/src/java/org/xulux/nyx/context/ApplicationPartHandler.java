@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.8 2002-11-19 20:45:06 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.9 2002-11-22 20:01:35 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.rules.IRule;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.8 2002-11-19 20:45:06 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.9 2002-11-22 20:01:35 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -142,6 +142,7 @@ public class ApplicationPartHandler extends DefaultHandler
             try
             {
                 saxParser.parse(stream, this);
+                stream.close();
             }
             catch (SAXException se)
             {
@@ -329,7 +330,9 @@ public class ApplicationPartHandler extends DefaultHandler
      */
     public void characters(char[] arg0, int arg1, int arg2) throws SAXException
     {
-        if (processText)
+        if (processText || (processPosition || processSize) || 
+            processValue || (processUnknown && currentqName!=null) ||
+            processRule)
         {
             if (currentValue == null)
             {
@@ -338,50 +341,6 @@ public class ApplicationPartHandler extends DefaultHandler
             else
             {
                 currentValue+=new String(arg0, arg1, arg2);
-            }
-        }
-        else if (processPosition || processSize)
-        {
-            if (currentValue == null)
-            {
-                currentValue = new String(arg0, arg1, arg2);
-            }
-            else
-            {
-                currentValue+=new String(arg0, arg1, arg2);
-            }
-        }
-        else if (processValue)
-        {
-            if (currentValue == null)
-            {
-                currentValue = new String(arg0, arg1, arg2);
-            }
-            else
-            {
-                currentValue+=new String(arg0, arg1, arg2);
-            }
-        }
-        else if(processUnknown && currentqName!=null)
-        {
-            if (currentValue == null)
-            {
-                currentValue = new String(arg0, arg1, arg2);
-            }
-            else
-            {
-                currentValue+=new String(arg0, arg1, arg2);
-            }
-        }
-        else if (processRule)
-        {
-            if (currentValue == null)
-            {
-                currentValue = new String(arg0, arg1, arg2);
-            }
-            else
-            {
-                currentValue+=new String(arg0,arg1,arg2);
             }
         }
     }
