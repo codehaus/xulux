@@ -1,5 +1,5 @@
 /*
- $Id: SwingFlowLayout.java,v 1.1 2004-10-18 14:10:47 mvdb Exp $
+ $Id: SwingFlowLayout.java,v 1.2 2004-11-15 20:51:45 mvdb Exp $
  
  Copyright 2002-2004 The Xulux Project
 
@@ -30,10 +30,10 @@ import org.xulux.gui.ContainerWidget;
 import org.xulux.gui.Widget;
 
 /**
- * The flow layout. This is a wrapper around the swing border layout
+ * The flow layout. This is a wrapper around the swing flow layout
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt </a>
- * @version $Id: SwingFlowLayout.java,v 1.1 2004-10-18 14:10:47 mvdb Exp $
+ * @version $Id: SwingFlowLayout.java,v 1.2 2004-11-15 20:51:45 mvdb Exp $
  */
 public class SwingFlowLayout extends SwingLayoutAbstract implements
     LayoutManager {
