@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.8 2003-08-03 22:48:49 mvdb Exp $
+ $Id: Window.java,v 1.9 2003-08-03 22:53:59 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -70,7 +70,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.8 2003-08-03 22:48:49 mvdb Exp $
+ * @version $Id: Window.java,v 1.9 2003-08-03 22:53:59 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
@@ -114,12 +114,7 @@ public class Window extends NyxWindow
         Container container = window.getParent();
         if (container != null) 
         {
-            System.out.println("window container is not null");
             container.remove(window);
-        } else {
-            // we can assume that this is the only window..
-            System.out.println("window container is null");
-            System.exit(0);
         }
         window.dispose();
         window = null;
