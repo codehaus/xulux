@@ -1,5 +1,5 @@
 /*
- $Id: WindowTest.java,v 1.2 2003-10-23 13:57:39 mvdb Exp $
+ $Id: SWTToolkit.java,v 1.1 2003-10-23 13:57:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,64 +43,44 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swt.window;
+package org.xulux.nyx.swt.util;
 
-import java.io.InputStream;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.gui.PartCreator;
-import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.NYXToolkit;
 
 /**
- * Testcase for an entry field
+ * The swt toolkit. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowTest.java,v 1.2 2003-10-23 13:57:39 mvdb Exp $
+ * @version $Id: SWTToolkit.java,v 1.1 2003-10-23 13:57:39 mvdb Exp $
  */
-public class WindowTest extends TestCase
-{
+public class SWTToolkit extends NYXToolkit {
 
     /**
-     * Constructor for EntryTest.
+     * 
      */
-    public WindowTest(String name)
-    {
-        super(name);
+    public SWTToolkit() {
+        super();
     }
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite(WindowTest.class);
-        return suite;
+
+    /**
+     * @see org.xulux.nyx.gui.NYXToolkit#beep()
+     */
+    public void beep() {
+
     }
-    
-    public void testSimpleWindow()
-    {
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        String xml = "org/xulux/nyx/swt/window/WindowTest1.xml";
-//        ((SimpleLog)LogFactory.getLog(NyxWindowListener.class)).setLevel(SimpleLog.LOG_LEVEL_TRACE);
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(null, stream);
-        part.activate();
-        Widget widget = part.getWidget("WindowTest1");
-        widget.setVisible(true);
+
+    /**
+     * @see org.xulux.nyx.gui.NYXToolkit#initialize()
+     */
+    public void initialize() {
+
     }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new WindowTest("WindowTest").testSimpleWindow();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
+
+    /**
+     * @see org.xulux.nyx.gui.NYXToolkit#destroy()
+     */
+    public void destroy() {
+
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: SWTCombo.java,v 1.9 2003-09-23 14:29:12 mvdb Exp $
+ $Id: SWTCombo.java,v 1.10 2003-10-23 13:57:38 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,16 +64,16 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * Represents the swt combo and cCombo.
  * 
  * @author <a href="mailo:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTCombo.java,v 1.9 2003-09-23 14:29:12 mvdb Exp $
+ * @version $Id: SWTCombo.java,v 1.10 2003-10-23 13:57:38 mvdb Exp $
  */
 public class SWTCombo extends NyxCombo
 implements SWTWidget
 {
     
-    Combo combo;
-    KeyListener keyListener;
-    SelectionListener selectionListener;
-    Composite parent;
+    protected Combo combo;
+    protected KeyListener keyListener;
+    protected SelectionListener selectionListener;
+    protected Composite parent;
 
     /**
      * Constructor for NyxCombo.
@@ -97,8 +97,7 @@ implements SWTWidget
      */
     public Object getNativeObject(Composite composite)
     {
-        if (!initialized)
-        {
+        if (!initialized) {
             System.out.println("initializing : "+composite.getClass().getName());
             this.parent = composite;
             initialize();
@@ -112,20 +111,21 @@ implements SWTWidget
      */
     public void initialize()
     {
-        if (this.initialized)
-        {
+        if (this.initialized) {
+            return;
+        }
+        if (parent == null) {
             return;
         }
         this.initialized = true;
         String nsv = getProperty("notselectedvalue");
-        if (nsv != null)
-        {
+        if (nsv != null)  {
             this.notSelectedValue = nsv;
         }
+        System.err.println("parent : "+parent);
         combo = new Combo(parent, SWT.DROP_DOWN);
         combo.setBounds(SWTUtil.getRectangle(getRectangle()));
-        if (!isRefreshing())
-        {
+        if (!isRefreshing()) {
             refresh();
         }
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaults.xml,v 1.17 2003-09-25 17:09:58 mvdb Exp $ -->
+<!-- $Id: GuiDefaults.xml,v 1.18 2003-10-23 13:57:39 mvdb Exp $ -->
 <!-- 
     Where no type is specified, it will default
     to defaultType.
@@ -9,6 +9,7 @@
   <nativeWidgetHandler class="org.xulux.nyx.swing.util.NativeWidgetHandler"/>
   <fieldEventHandler class="org.xulux.nyx.swing.listeners.PrePostFieldListener"/>
   <nyxToolkit class="org.xulux.nyx.swing.util.SwingToolkit"/>
+  <nyxToolkit type="swt" class="org.xulux.nyx.swt.util.SWTToolkit"/>
   <widgets>
     <widget name="button" class="org.xulux.nyx.swing.widgets.Button"/>
     <widget name="combo"  class="org.xulux.nyx.swing.widgets.Combo"/>
