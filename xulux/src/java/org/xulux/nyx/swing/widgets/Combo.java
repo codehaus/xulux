@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.9 2003-07-21 22:11:03 mvdb Exp $
+ $Id: Combo.java,v 1.10 2003-07-23 13:18:43 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.9 2003-07-21 22:11:03 mvdb Exp $
+ * @version $Id: Combo.java,v 1.10 2003-07-23 13:18:43 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -132,29 +132,7 @@ public class Combo extends NyxCombo
             this.notSelectedValue = nsv;
         }
         combo = new NyxComboBox();
-        //initializeValue();
         refresh();
-//        // setValue refreshes the widget again..
-//        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
-//        // if the field is null, we should try to get a value
-//        // for it..
-//        if (getField() == null || map == null) {
-//            return;
-//        }
-//        IField field = map.getField(getField());
-//        if (field == null) {
-//            if (log.isWarnEnabled()) {
-//                log.warn("Field "+getField()+" is not present in the dictionary");
-//            }
-//            return;
-//        }
-//        log.warn("*********");
-//        log.warn("Field :"+field);
-//        if (field != null) {
-//            log.warn("field value : "+field.getValue(getPart().getBean()).getClass());
-//        }
-//        setValue(field.getValue(getPart().getBean()));
-//        log.warn("Value of combo itself : "+this.combo.getSelectedItem());
     }
 
     /**
@@ -218,7 +196,9 @@ public class Combo extends NyxCombo
         {
             if (content != null && getValue() != null)
             {
-                log.warn("Setting value to : "+getValue());
+                if (log.isTraceEnabled()) {
+                    log.trace("Setting value to : "+getValue());
+                }
                 model.setRealSelectedValue(getValue());
             }
             else if (model!=null && content != null &&
@@ -226,7 +206,9 @@ public class Combo extends NyxCombo
             {
                 // if we don't have a value select
                 // the first one in the list
-                log.warn("Select the first one in the list");
+                if (log.isTraceEnabled()) {
+                    log.trace("Select the first one in the list");
+                }
                 if (!content.isEmpty())
                 {
                     model.setSelectedItem(0);
@@ -273,7 +255,6 @@ public class Combo extends NyxCombo
      */
     public Object getGuiValue() {
         Object object = this.model.getRealSelectedValue();
-        log.warn("Object : "+object.getClass());
         return this.model.getRealSelectedValue();
     }
 

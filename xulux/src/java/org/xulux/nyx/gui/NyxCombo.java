@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.3 2003-07-21 21:04:18 mvdb Exp $
+ $Id: NyxCombo.java,v 1.4 2003-07-23 13:18:43 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.xulux.nyx.global.IField;
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.3 2003-07-21 21:04:18 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.4 2003-07-23 13:18:43 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 {
@@ -256,7 +256,6 @@ public abstract class NyxCombo extends Widget
      */
     public void setLazyValue(Object object)
     {
-        log.warn("SetLazyValue called");
         setValue(object, false);
     }
     
