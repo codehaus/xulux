@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.7 2003-12-01 02:08:21 mvdb Exp $
+ $Id: GuiDefaultsTest.java,v 1.8 2003-12-01 11:34:09 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,13 +59,12 @@ import junit.framework.TestSuite;
 import org.dom4j.Document;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.WidgetConfig;
-import org.xulux.nyx.global.contenthandlers.TreeNodeContentHandler;
 
 /**
  * Tests processing of guiDefaults.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.7 2003-12-01 02:08:21 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.8 2003-12-01 11:34:09 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
