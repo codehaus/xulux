@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.27 2005-01-20 15:58:00 mvdb Exp $
+   $Id: Widget.java,v 1.28 2005-01-20 17:30:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -43,7 +43,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.27 2005-01-20 15:58:00 mvdb Exp $
+ * @version $Id: Widget.java,v 1.28 2005-01-20 17:30:00 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -912,8 +912,14 @@ public abstract class Widget implements Serializable
      *        use this one as the default.
      */
     protected Object processNativeWidget(Object defaultNative) {
-        String nClass = getProperty("native");
-        Object retValue = ClassLoaderUtils.getObjectFromClassString(nClass);
+        Object value = getRealProperty("native");
+        Object retValue = null;
+        if (value instanceof String) {
+          String nClass = getProperty("native");
+          retValue = ClassLoaderUtils.getObjectFromClassString(nClass);
+        } else {
+          retValue = value;
+        }
         if (retValue == null) {
             retValue = defaultNative;
         }
