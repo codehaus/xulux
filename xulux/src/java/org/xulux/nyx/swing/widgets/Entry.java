@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.17 2003-07-31 14:37:40 mvdb Exp $
+ $Id: Entry.java,v 1.18 2003-07-31 14:38:25 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.17 2003-07-31 14:37:40 mvdb Exp $
+ * @version $Id: Entry.java,v 1.18 2003-07-31 14:38:25 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -204,7 +204,6 @@ extends SwingWidget
         if (getProperty("enabled.depends")!= null) {
             String value = getProperty("enabled.depends");
             Object depValue = getPart().getWidget(value).getValue();
-            System.out.println("depValue : "+depValue);
             if (depValue != null) {
                 setEnable(BooleanUtils.toBoolean(depValue.toString()));
             } else {
