@@ -1,5 +1,5 @@
 /*
- $Id: NyxFocusManager.java,v 1.1.2.4 2003-05-05 07:15:29 mvdb Exp $
+ $Id: NyxFocusManager.java,v 1.1.2.5 2003-06-04 23:45:59 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.gui.Widget;
  * In the xml definition this corresponds to the order element
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxFocusManager.java,v 1.1.2.4 2003-05-05 07:15:29 mvdb Exp $
+ * @version $Id: NyxFocusManager.java,v 1.1.2.5 2003-06-04 23:45:59 mvdb Exp $
  */
 public class NyxFocusManager extends DefaultFocusManager {
 
@@ -100,6 +100,9 @@ public class NyxFocusManager extends DefaultFocusManager {
      */
     private void initializeOrderList() {
         List oldOrder = part.getTabOrder();
+        if (oldOrder == null) {
+            return;
+        }
         ArrayList orderList = new ArrayList();
         ApplicationPart.WidgetList widgets = part.getWidgets();
         orderList.addAll(oldOrder);
