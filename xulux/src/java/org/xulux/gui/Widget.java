@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.21 2004-10-18 14:10:48 mvdb Exp $
+   $Id: Widget.java,v 1.22 2004-10-19 13:46:55 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.21 2004-10-18 14:10:48 mvdb Exp $
+ * @version $Id: Widget.java,v 1.22 2004-10-19 13:46:55 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -265,6 +265,9 @@ public abstract class Widget implements Serializable
     public void setPosition(int x, int y) {
         getRectangle().setPosition(x,y);
         if (x != 0 && x != y) {
+          if (properties == null) {
+            properties = new HashMap();
+          }
           properties.put("position", x+","+y);
         }
     }

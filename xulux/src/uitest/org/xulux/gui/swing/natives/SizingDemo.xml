@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- $Id: SizingDemo.xml,v 1.1 2004-10-19 13:46:54 mvdb Exp $ -->
+<part name="SizingDemo" application="true">
+  <field type="window" name="SizingDemo">
+    <title>SizingDemo</title>
+    <icon>resources/Car.ico</icon>
+    <autosize>true</autosize>
+    <layout>autosize</layout>
+    <field type="button" name="ButtonTest">
+      <text>I am a button</text>
+      <!-- initial width -->
+	  <size>300,300</size>
+	  <position>0,0</position>
+	  <!-- width should auto size -->
+	  <width>auto</width>
+    </field>
+  </field>
+</part>
