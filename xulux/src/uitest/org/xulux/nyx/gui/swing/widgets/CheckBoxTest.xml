@@ -1,6 +1,6 @@
 <part name="CheckBoxForm" prefix="CheckBoxBean">
   <field type="window" name="Window">
-    <title>ComboTest</title>
+    <title>CheckboxTest</title>
     <icon>resources/Car.ico</icon>
     <size>300,300</size>
     <autosize>true</autosize>

@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.11 2003-07-14 01:39:40 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.12 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.context.ApplicationContext;
  * Case insensitive processing of the guidefaults.
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.11 2003-07-14 01:39:40 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.12 2003-07-29 16:14:27 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
@@ -71,6 +71,7 @@ public class GuiDefaultsHandler extends DefaultHandler
     private static final String ELEMENT_PARENTWIDGETHANDLER = "parentwidgethandler";
     private static final String ELEMENT_NATIVEWIDGETHANDLER = "nativewidgethandler";
     private static final String ELEMENT_FIELDEVENTHANDLER = "fieldeventhandler";
+    private static final String ELEMENT_NYXTOOLKIT = "nyxtoolkit";
     private static final String ELEMENT_WIDGET = "widget";
     private static final String ELEMENT_GUI = "gui";
     private static final String ELEMENT_ROOT = "guidefaults";
@@ -160,6 +161,11 @@ public class GuiDefaultsHandler extends DefaultHandler
             String type = getType(atts);
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             ApplicationContext.getInstance().registerFieldEventHandler(type, clazz);
+        }
+        else if (qName.equals(ELEMENT_NYXTOOLKIT)) {
+            String type = getType(atts);
+            String clazz = atts.getValue(ATTRIBUTE_CLASS);
+            ApplicationContext.getInstance().registerNYXToolkit(clazz,type);
         }
         else if (qName.equals(ELEMENT_WIDGETS))
         {

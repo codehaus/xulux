@@ -1,5 +1,5 @@
 /*
- $Id: SwingWidget.java,v 1.2 2003-07-29 16:14:27 mvdb Exp $
+ $Id: SwingToolkit.java,v 1.1 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,65 +43,31 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing;
+package org.xulux.nyx.swing.util;
 
-import javax.swing.JComponent;
+import java.awt.Toolkit;
 
-import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.NYXToolkit;
 
 /**
- * A convenience class for swing widgets to override..
+ * The swing toolkit...
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingWidget.java,v 1.2 2003-07-29 16:14:27 mvdb Exp $
+ * @version $Id: SwingToolkit.java,v 1.1 2003-07-29 16:14:27 mvdb Exp $
  */
-public abstract class SwingWidget extends Widget {
+public class SwingToolkit extends NYXToolkit {
 
     /**
-     * @param name
+     * 
      */
-    public SwingWidget(String name) {
-        super(name);
+    public SwingToolkit() {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.nyx.gui.NYXToolkit#beep()
      */
-    public abstract void destroy();
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
-     */
-    public abstract Object getNativeWidget();
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#initialize()
-     */
-    public abstract void initialize();
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#refresh()
-     */
-    public abstract void refresh();
-
-    /**
-     * TODO: Add to programmers manual for widget programmers
-     * @see org.xulux.nyx.gui.Widget#focus()
-     */
-    public void focus() {
-        JComponent j = (JComponent)getNativeWidget();
-        j.requestFocus();
-        // if widget is not showing we have
-        // to make it showing..
-        if (!j.isShowing() && getParent() != null) {
-            // set the session variable, so controls
-            // can look who requested focus..
-            getPart().getSession().setValue("nyx.focusrequest", this);
-            getParent().focus();            
-        }
-        // remove session variable again.
-        getPart().getSession().remove("nyx.focusrequest");
-        j.requestFocus();
+    public void beep() {
+        Toolkit.getDefaultToolkit().beep();
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.27 2003-07-14 01:39:39 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.28 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,6 +56,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.INativeWidgetHandler;
 import org.xulux.nyx.gui.IParentWidgetHandler;
+import org.xulux.nyx.gui.NYXToolkit;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.guidefaults.GuiDefaultsHandler;
@@ -67,7 +68,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.27 2003-07-14 01:39:39 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.28 2003-07-29 16:14:27 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -116,6 +117,11 @@ public class ApplicationContext
      */
     private HashMap fieldEventHandlerMap;
     
+    /**
+     * Container for the nyx toolkits 
+     * Normal situations just have 1 toolkit..
+     */
+    private HashMap nyxToolkits;
     /** 
      * The currently registered rules
      */
@@ -692,5 +698,47 @@ public class ApplicationContext
     {
         return this.widgets;
     }
+
+    /**
+     * @return the NYX toolkit of the default type or null
+     *          when not present 
+     */
+    public NYXToolkit getNYXToolkit() {
+        return getNYXToolkit(getDefaultWidgetType());
+    }
+    
+    /**
+     * 
+     * @param type - the toolkit type (eg swt, swing)
+     * @return the NYX toolkit type specified or null
+     *          when not present
+     */
+    public NYXToolkit getNYXToolkit(String type) {
+        if (this.nyxToolkits != null) {
+            return (NYXToolkit)this.nyxToolkits.get(type);
+        }
+        return null;
+    }
+        
+    /**
+     * Add a toolkit of specified type
+     * @param clazz the toolkit class
+     * @param type if the type is null, it deaults to getDefaultWidgetType
+     */
+    public void registerNYXToolkit(String clazz, String type) {
+        if (this.nyxToolkits == null) {
+            this.nyxToolkits = new HashMap();
+        }
+        if (type == null) {
+            type = getDefaultWidgetType();
+        }
+        Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
+        if (object instanceof NYXToolkit) {
+            this.nyxToolkits.put(type, object);
+        } else {
+            log.warn("NYXToolkit class "+clazz+" is not of type NYXToolkit or cannot be instantiated");
+        } 
+    }
+        
 
 }

@@ -21,9 +21,14 @@
     <table>
       <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
       <tr>
-        <td>xxx</td>
+        <td>defaultaction</td>
         <td>swing</td>
-        <td>xxx</td>
+        <td>
+          valid values : <b>save</b> and <b>cancel</b>.
+          If save is specified it will check if all required
+          fields actually have content and if cancel is 
+          clicked it will not check required fields.
+          </td>
       </tr>
     </table>
   </subsection>

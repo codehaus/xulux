@@ -1,5 +1,5 @@
 /*
- $Id: NativeWidget.java,v 1.2 2003-07-17 01:09:34 mvdb Exp $
+ $Id: NYXToolkit.java,v 1.1 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,60 +45,51 @@
  */
 package org.xulux.nyx.gui;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.context.ApplicationContext;
+
 /**
- * 
+ * The toolkit class is a class that takes care
+ * of minor things like beeping etc. 
+ * It will load the correct instance of the toolkit
+ * eg for swing or swt.
+ * (didn't check yet if swt uses something different though)
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeWidget.java,v 1.2 2003-07-17 01:09:34 mvdb Exp $
+ * @version $Id: NYXToolkit.java,v 1.1 2003-07-29 16:14:27 mvdb Exp $
  */
-public class NativeWidget extends Widget {
+public abstract class NYXToolkit {
 
+    private static NYXToolkit instance;
+    private static Log log = LogFactory.getLog(NYXToolkit.class);
+    private static boolean initialized = false;
     /**
-     * @param name
+     * 
      */
-    public NativeWidget(String name) {
-        super(name);
+    public NYXToolkit() {
+        super();
     }
-
+    
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * 
+     * @return the NYXToolkit used for the gui
      */
-    public void destroy() {
-
+    protected static NYXToolkit getInstance() {
+        if (instance == null) {
+            instance = ApplicationContext.getInstance().getNYXToolkit();
+            if (!initialized && instance == null) {
+                log.warn("No toolkits present for nyx, please check your configuration or guidefaults xml file");
+            }
+            initialized = true;
+            
+        }
+        return instance;
     }
-
+    
     /**
-     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
+     * Make a noise.
      */
-    public Object getNativeWidget() {
-        return null;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#initialize()
-     */
-    public void initialize() {
-
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#refresh()
-     */
-    public void refresh() {
-
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#focus()
-     */
-    public void focus() {
-
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#getGuiValue()
-     */
-    public Object getGuiValue() {
-        return null;
-    }
+    public abstract void beep();
 
 }

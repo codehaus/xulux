@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.6 2003-07-17 01:09:33 mvdb Exp $
+ $Id: Button.java,v 1.7 2003-07-29 16:14:26 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.6 2003-07-17 01:09:33 mvdb Exp $
+ * @version $Id: Button.java,v 1.7 2003-07-29 16:14:26 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
@@ -227,5 +227,19 @@ public class Button extends SwingWidget
         return null;
     }
     
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#canContainValue()
+     */
+    public boolean canContainValue() {
+        return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#isValueEmpty()
+     */
+    public boolean isValueEmpty() {
+        return true;
+    }
 
 }

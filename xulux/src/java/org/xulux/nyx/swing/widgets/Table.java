@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.1 2003-07-29 09:17:37 mvdb Exp $
+ $Id: Table.java,v 1.2 2003-07-29 16:14:26 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.swing.widgets;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.xulux.nyx.gui.ContainerWidget;
@@ -55,12 +56,13 @@ import org.xulux.nyx.swing.NyxJTable;
  * A nyx table.. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.1 2003-07-29 09:17:37 mvdb Exp $
+ * @version $Id: Table.java,v 1.2 2003-07-29 16:14:26 mvdb Exp $
  */
 public class Table extends ContainerWidget {
 
 
     protected JTable table;
+    protected JScrollPane scrollPane;
     
     /**
      * @param name
@@ -80,7 +82,7 @@ public class Table extends ContainerWidget {
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
     public Object getNativeWidget() {
-        return null;
+        return this.scrollPane;
     }
 
     /**
@@ -92,6 +94,7 @@ public class Table extends ContainerWidget {
         }
         initialized = true;
         this.table = new NyxJTable();
+        this.scrollPane = new JScrollPane();
     }
 
     /**
@@ -112,7 +115,7 @@ public class Table extends ContainerWidget {
      * @see org.xulux.nyx.gui.Widget#focus()
      */
     public void focus() {
-        table.requestFocus();
+        this.scrollPane.requestFocus();
     }
 
     /**
@@ -121,6 +124,20 @@ public class Table extends ContainerWidget {
      */
     public void addToParent(Widget widget) {
 
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#canContainValue()
+     */
+    public boolean canContainValue() {
+        return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#isValueEmpty()
+     */
+    public boolean isValueEmpty() {
+        return true;
     }
 
 }

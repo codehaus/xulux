@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.21 2003-07-24 12:55:27 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.22 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,7 +45,6 @@
  */
 package org.xulux.nyx.swing.listeners;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -55,17 +54,14 @@ import java.awt.event.ItemListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.CheckBox;
-import org.xulux.nyx.swing.widgets.Entry;
-import org.xulux.nyx.swing.widgets.TextArea;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.21 2003-07-24 12:55:27 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.22 2003-07-29 16:14:27 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -115,26 +111,9 @@ implements FocusListener, ActionListener, ItemListener
         {
             return;
         }
-        if (widget instanceof Entry ||
-            widget instanceof TextArea )
-        {
-            // if the widget is required, a value must
-            // exist.
-            if (widget.isRequired()) {
-                Object guiValue = widget.getGuiValue();
-                if (guiValue instanceof String || guiValue == null) {
-                    if (guiValue == null || ((String)guiValue).trim().equals("")) {
-                        Toolkit.getDefaultToolkit().beep();
-                        widget.focus();
-                        return;
-                    }
-                }
-            }
-            widget.setValue(widget.getGuiValue());
-            // refresh the all widgets who references this field
-            widget.getPart().refreshFields(widget);
+        if (accepted(widget)) {
+            completed();
         }
-        completed();
     }
 
     /**
@@ -151,13 +130,9 @@ implements FocusListener, ActionListener, ItemListener
         if (widget.isRefreshing()) {
             return;
         }
-        if (widget instanceof NyxCombo) {
-            // set the value, but do not refresh the gui.
-            ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
-            // refresh fields that use the same functionality
-            widget.getPart().refreshFields(widget);
+        if (accepted(widget)) {
+            completed();
         }
-        completed();
     }
     
     /**
@@ -171,6 +146,9 @@ implements FocusListener, ActionListener, ItemListener
     public void itemStateChanged(ItemEvent e) {
         // make sure we don't end up in a loop by checking
         // the fact if the widget is currently refreshing or not..
+//        if (isProcessing()) {
+//            return;
+//        }
         if (widget.isRefreshing()) {
             return;
         }

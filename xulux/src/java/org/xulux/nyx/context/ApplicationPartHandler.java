@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.24 2003-07-22 16:13:46 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.25 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -74,7 +74,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.24 2003-07-22 16:13:46 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.25 2003-07-29 16:14:27 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -95,6 +95,7 @@ public class ApplicationPartHandler extends DefaultHandler
      * Include another part in the current part
      */
     private static String INCLUDE_ELEMENT = "includepart";
+    
     /**
      * The prefix of the current part 
      * This is to prevent name clashes between fields

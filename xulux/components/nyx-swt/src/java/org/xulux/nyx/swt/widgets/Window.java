@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.4 2003-07-16 19:50:53 mvdb Exp $
+ $Id: Window.java,v 1.5 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * The SWT window
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.4 2003-07-16 19:50:53 mvdb Exp $
+ * @version $Id: Window.java,v 1.5 2003-07-29 16:14:27 mvdb Exp $
  */
 public class Window extends NyxWindow
 implements SWTWidget
@@ -221,6 +221,20 @@ implements SWTWidget
      */
     public Object getGuiValue() {
         return null;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#canContainValue()
+     */
+    public boolean canContainValue() {
+        return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#isValueEmpty()
+     */
+    public boolean isValueEmpty() {
+        return true;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: CheckBoxBean.java,v 1.1 2003-07-16 14:19:39 mvdb Exp $
+ $Id: CheckBoxBean.java,v 1.2 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,7 +49,7 @@ package org.xulux.nyx.gui.swing.widgets;
  * A checkbox bean..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBoxBean.java,v 1.1 2003-07-16 14:19:39 mvdb Exp $
+ * @version $Id: CheckBoxBean.java,v 1.2 2003-07-29 16:14:27 mvdb Exp $
  */
 public class CheckBoxBean {
     
@@ -69,7 +69,6 @@ public class CheckBoxBean {
      * @return
      */
     public boolean isBar() {
-        System.out.println("isBar is called");
         return Bar;
     }
     

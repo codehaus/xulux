@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.30 2003-07-22 16:13:46 mvdb Exp $
+ $Id: Widget.java,v 1.31 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.30 2003-07-22 16:13:46 mvdb Exp $
+ * @version $Id: Widget.java,v 1.31 2003-07-29 16:14:27 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -751,5 +751,17 @@ public abstract class Widget implements Serializable
     public void setParent(Widget parent) {
         this.parent = parent;
     }
+    /**
+     * Specifies if the GUI value of the current field
+     * is empty or not.
+     * @return
+     */
+    public abstract boolean isValueEmpty();
+    
+    /**
+     * Specifies if the widget CAN contain a value
+     * @return
+     */
+    public abstract boolean canContainValue();
 
 }

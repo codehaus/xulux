@@ -1,5 +1,5 @@
 /*
- $Id: CheckBoxTestRule.java,v 1.1 2003-07-17 01:10:00 mvdb Exp $
+ $Id: CheckBoxTestRule.java,v 1.2 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,7 @@ import org.xulux.nyx.rules.Rule;
  * A rule to test setting of checkboxes and stuff..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBoxTestRule.java,v 1.1 2003-07-17 01:10:00 mvdb Exp $
+ * @version $Id: CheckBoxTestRule.java,v 1.2 2003-07-29 16:14:27 mvdb Exp $
  */
 public class CheckBoxTestRule extends Rule {
 
@@ -75,19 +75,15 @@ public class CheckBoxTestRule extends Rule {
     /**
      * @see org.xulux.nyx.rules.IRule#post(org.xulux.nyx.context.PartRequest)
      */
-    public void post(PartRequest part) {
-        if (part.getWidget().getName().equals("foo")) {
-            Widget widget = part.getPart().getWidget("strfoo");
-            System.err.println("***VALUE**** "+widget.getValue());
-            System.err.println("widget : "+widget);
-            System.err.println("widgets  :"+part.getPart().getWidgets());
-            System.err.println("***SETTING VALUE*** "+part.getValue());
-            part.getPart().getWidget("strfoo").setValue(part.getValue());
-            part.getPart().getWidget("bar").setValue(part.getValue());
-            System.out.println("Foo "+((CheckBoxBean)part.getPart().getBean()).isFoo());        
+    public void post(PartRequest request) {
+        if (request.getWidget().getName().equals("foo")) {
+            Widget widget = request.getWidget("strfoo");
+            request.getWidget("strfoo").setValue(request.getValue());
+            request.getWidget("bar").setValue(request.getValue());
+            System.out.println("Foo "+((CheckBoxBean)request.getPart().getBean()).isFoo());        
         }
-        if (part.getWidget().getName().equals("strFoo")) {
-            System.out.println("value strFoo: "+part.getValue());
+        if (request.getWidget().getName().equals("strFoo")) {
+            System.out.println("value strFoo: "+request.getValue());
         }
     }
 

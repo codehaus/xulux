@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.2 2003-07-17 01:09:33 mvdb Exp $
+ $Id: TabPanel.java,v 1.3 2003-07-29 16:14:26 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,7 @@ import java.awt.Component;
 import java.awt.Container;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 
 import org.apache.commons.logging.Log;
@@ -63,7 +64,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * 
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.2 2003-07-17 01:09:33 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.3 2003-07-29 16:14:26 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
     
@@ -101,9 +102,35 @@ public class TabPanel extends ContainerWidget {
 
     /**
      * @see org.xulux.nyx.gui.Widget#focus()
+     * TODO: This is bad coding 
      */
     public void focus() {
+        System.out.println("isVisible : "+this.tabPanel.isVisible());
+        Object object = getPart().getSession().getValue("nyx.focusrequest");
+        if (object != null) {
+            Widget w = (Widget)object;
+            w = findChildAndParentForFocus(w);
+            this.tabPanel.setSelectedComponent((JComponent)w.getNativeWidget());
+        }
         this.tabPanel.requestFocus();
+    }
+    
+    /**
+     * Tries to find the widget of the parent of the widget passed
+     * and which is also a child of this widget
+     * @param w
+     * @return null when it is not found.
+     */
+    private Widget findChildAndParentForFocus(Widget w) {
+        Widget widget = null;
+        while (w != null) {
+            if (getChildWidgets().contains(w)) {
+                return w;
+            } else {
+                w = w.getParent();
+            }
+        }
+        return null;
     }
 
     /**
@@ -189,6 +216,20 @@ public class TabPanel extends ContainerWidget {
      */
     public Object getGuiValue() {
         return null;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#canContainValue()
+     */
+    public boolean canContainValue() {
+        return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#isValueEmpty()
+     */
+    public boolean isValueEmpty() {
+        return true;
     }
 
 }

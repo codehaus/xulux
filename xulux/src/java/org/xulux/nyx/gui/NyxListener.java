@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.2 2003-07-14 01:39:39 mvdb Exp $
+ $Id: NyxListener.java,v 1.3 2003-07-29 16:14:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,15 +45,20 @@
  */
 package org.xulux.nyx.gui;
 
+import java.util.Iterator;
+
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
+import org.xulux.nyx.swing.widgets.Button;
+import org.xulux.nyx.swing.widgets.Entry;
+import org.xulux.nyx.swing.widgets.TextArea;
 
 /**
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.2 2003-07-14 01:39:39 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.3 2003-07-29 16:14:27 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -83,6 +88,69 @@ public abstract class NyxListener
         // preform all pre rules.
         ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
         processing = false;
+    }
+    
+    /**
+     * If a value is "accepted" (eg entry filled in
+     * , button clicked, etc preform this code.
+     * 
+     * @param widget
+     * @return true if the accepted went ok, false if not.
+     */
+    public boolean accepted(Widget widget) {
+        
+        if (widget instanceof NyxCombo) {
+            // set the value, but do not refresh the gui.
+            ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
+            // refresh fields that use the same functionality
+            widget.getPart().refreshFields(widget);
+            return true;
+        }
+        
+        if (widget instanceof Entry ||
+            widget instanceof TextArea )
+        {
+            // if the widget is required, a value must
+            // exist.
+            if (widget.isRequired()) {
+                Object guiValue = widget.getGuiValue();
+//                if (guiValue instanceof String || guiValue == null) {
+//                    if (guiValue == null || ((String)guiValue).trim().equals("")) {
+//                        NYXToolkit.getInstance().beep();
+//                        widget.focus();
+//                        return false;
+//                    }
+//                }
+            }
+            widget.setValue(widget.getGuiValue());
+            // refresh the all widgets who references this field
+            widget.getPart().refreshFields(widget);
+            return true;
+        }
+        
+        if (widget instanceof Button) {
+//            Button button = (Button) widget;
+            String defAction = widget.getProperty("defaultaction");
+            if (defAction != null) {
+                if (defAction.equalsIgnoreCase("save")) {
+                    System.out.println("save");
+                    Iterator it = widget.getPart().getWidgets().iterator();
+                    while (it.hasNext()) {
+                        Widget w = (Widget)it.next();
+                        boolean process = false;
+                        if (w.isRequired() && (w.canContainValue() && w.isValueEmpty())) {
+                            NYXToolkit.getInstance().beep();
+                            w.focus();
+                            return false;
+                        }
+                    }
+                } else if (defAction.equalsIgnoreCase("cancel")) {
+                    System.out.println("cancel");
+                }
+            }
+            return true;
+        }
+        return true;
     }
     
     /**
