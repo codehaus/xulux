@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.24 2003-11-24 16:11:47 mvdb Exp $
+ $Id: Combo.java,v 1.25 2003-11-25 19:23:54 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.util.NyxEventQueue;
  * The swing combo widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.24 2003-11-24 16:11:47 mvdb Exp $
+ * @version $Id: Combo.java,v 1.25 2003-11-25 19:23:54 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -320,7 +320,9 @@ public class Combo extends NyxCombo
         public void focusGained(FocusEvent e) {
             // free up the eventqueue when combo gains focus..
             NyxEventQueue q = NyxEventQueue.getInstance();
-            q.holdEvents(false);
+            if (q != null) {
+                q.holdEvents(false);
+            }
         }
 
         /**

@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.12 2003-11-24 18:21:18 mvdb Exp $
+ $Id: XYLayout.java,v 1.13 2003-11-25 19:23:54 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,7 +68,7 @@ import org.xulux.nyx.gui.Widget;
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.12 2003-11-24 18:21:18 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.13 2003-11-25 19:23:54 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
@@ -123,8 +123,7 @@ public class XYLayout implements LayoutManager2, Serializable
      * The contraints is the widget itself.
      * @see java.awt.LayoutManager2#addLayoutComponent(Component, Object)
      */
-    public void addLayoutComponent(Component comp, Object constraints)
-    {
+    public void addLayoutComponent(Component comp, Object constraints) {
         map.put(comp, constraints);
     }
 
@@ -171,6 +170,9 @@ public class XYLayout implements LayoutManager2, Serializable
      */
     public void layoutContainer(Container parent)
     {
+        if (parent == null) {
+            return;
+        }
         Insets insets = parent.getInsets();
         int count = parent.getComponentCount();
         for (int i = 0; i < count; i++)
@@ -224,8 +226,10 @@ public class XYLayout implements LayoutManager2, Serializable
      * @param component the component to get the size from
      * @return the rectangle of the component
      */
-    public Rectangle getRectangle(Widget widget, Component component)
-    {
+    public Rectangle getRectangle(Widget widget, Component component) {
+        if (widget == null) {
+            return null;
+        }
         Rectangle r = widget.getRectangle().getRectangle();
         if (r.width <= 0 && r.height <= 0) {
             Dimension d = component.getPreferredSize();
@@ -248,12 +252,20 @@ public class XYLayout implements LayoutManager2, Serializable
      */
     public Rectangle getRectangle(Component component, Insets insets) {
 
+        if (component == null) {
+            return null;
+        }
         Rectangle r = component.getBounds();
-        if (!firstLayout) {
-            r.x -= insets.left;
-            r.y -= insets.top;
+        // we need to correct the insets when the first run alrady
+        // has taken place.
+        if (!isFirstLayout()) {
+            if (insets != null) {
+                r.x -= insets.left;
+                r.y -= insets.top;
+                component.setBounds(r);
+            }
         } else {
-            firstLayout = false;
+            setFirstLayout(false);
         }
         Dimension d = component.getPreferredSize();
         r.width = d.width;
@@ -285,7 +297,7 @@ public class XYLayout implements LayoutManager2, Serializable
      * @param parent the parent container
      * @return the layoutsize
      */
-    private Dimension getLayoutSize(Container parent)
+    protected Dimension getLayoutSize(Container parent)
     {
         Dimension dim = new Dimension(0, 0);
         for (int i = 0; i < parent.getComponentCount(); i++)
@@ -311,10 +323,24 @@ public class XYLayout implements LayoutManager2, Serializable
     }
 
     /**
+     * Set if this is the first time that we layout or not
+     * @param firstLayout true or false
+     */
+    protected void setFirstLayout(boolean firstLayout) {
+        this.firstLayout = firstLayout;
+    }
+
+    /**
+     * @return if the layout still needs to process it's first layout
+     */
+    protected boolean isFirstLayout() {
+        return this.firstLayout;
+    }
+
+    /**
      * @see java.awt.LayoutManager#removeLayoutComponent(Component)
      */
-    public void removeLayoutComponent(Component comp)
-    {
+    public void removeLayoutComponent(Component comp) {
         map.remove(comp);
     }
 

@@ -1,5 +1,5 @@
 /*
- $Id: LayoutTest.java,v 1.7 2003-11-24 16:42:28 mvdb Exp $
+ $Id: LayoutTest.java,v 1.8 2003-11-25 19:23:53 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -47,15 +47,18 @@ package org.xulux.nyx.swing.layouts;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.Combo;
 import org.xulux.nyx.swing.widgets.Label;
 import org.xulux.nyx.swing.widgets.Window;
@@ -65,7 +68,7 @@ import org.xulux.nyx.swing.widgets.Window;
  * A class to to test the layoutmanagers for swing
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.7 2003-11-24 16:42:28 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.8 2003-11-25 19:23:53 mvdb Exp $
  */
 public class LayoutTest extends TestCase
 {
@@ -86,6 +89,89 @@ public class LayoutTest extends TestCase
     {
         TestSuite suite = new TestSuite(LayoutTest.class);
         return suite;
+    }
+    /**
+     * Test the addLayoutComponent
+     */
+    public void testAddLayoutCompenent() {
+        MockWidget parent = new MockWidget("parent");
+        XYLayout layout = new XYLayout(parent);
+        assertEquals(parent, layout.getParent());
+        MockWidget child1 = new MockWidget("child1");
+        JLabel label = new JLabel();
+        child1.setNativeWidget(label);
+        layout.addLayoutComponent((Component) child1.getNativeWidget(), child1);
+        assertTrue(layout.map.containsValue(child1));
+        assertTrue(layout.map.containsKey(child1.getNativeWidget()));
+        assertEquals(child1, layout.map.get(label));
+        assertEquals(layout.map.size(), 1);
+    }
+
+    /**
+     * Test the getRectangle with the widget as parameter
+     */
+    public void testgetRectangleWidget() {
+        System.out.println("testRectangleWidget");
+        MockWidget widget = new MockWidget("parent");
+        assertEquals(0, widget.getRectangle().getWidth());
+        assertEquals(0, widget.getRectangle().getHeight());
+        // the widget has no size, so the size of the
+        // widget should be set to 100 by 100.
+        JLabel label = new JLabel();
+        label.setPreferredSize(new Dimension(100, 200));
+        XYLayout layout = new XYLayout();
+        Rectangle rect = layout.getRectangle(widget, label);
+        assertEquals(100, rect.width);
+        assertEquals(200, rect.height);
+        assertEquals(100, widget.getRectangle().getWidth());
+        assertEquals(200, widget.getRectangle().getHeight());
+        widget.setSize(-12, -30);
+        rect = layout.getRectangle(widget, label);
+        assertEquals(100, rect.width);
+        assertEquals(200, rect.height);
+        assertEquals(100, widget.getRectangle().getWidth());
+        assertEquals(200, widget.getRectangle().getHeight());
+        widget.setSize(150, 250);
+        rect = layout.getRectangle(widget, label);
+        assertEquals(150, rect.width);
+        assertEquals(250, rect.height);
+        assertEquals(100, label.getPreferredSize().width);
+        assertEquals(200, label.getPreferredSize().height);
+        assertEquals(150, widget.getRectangle().getWidth());
+        assertEquals(250, widget.getRectangle().getHeight());
+    }
+
+    /**
+     * Test the getRectangle Swing method
+     */
+    public void testGetRectangleSwing() {
+        System.out.println("testRectangleWidget");
+        MockWidget widget = new MockWidget("parent");
+        assertEquals(0, widget.getRectangle().getWidth());
+        assertEquals(0, widget.getRectangle().getHeight());
+        // the widget has no size, so the size of the
+        // widget should be set to 100 by 100.
+        JLabel label = new JLabel();
+        label.setPreferredSize(new Dimension(100, 200));
+        XYLayout layout = new XYLayout();
+        assertTrue(layout.isFirstLayout());
+        layout.getRectangle(label, null);
+        assertFalse(layout.isFirstLayout());
+        Rectangle rect = layout.getRectangle(label, null);
+        assertEquals(100, rect.width);
+        assertEquals(200, rect.height);
+        Insets insets = new Insets(10, 10, 0, 0);
+        layout.setFirstLayout(true);
+        label.setBounds(100, 200, 100, 200);
+        rect = layout.getRectangle(label, insets);
+        // the insets are added
+        assertEquals(100, rect.width);
+        assertEquals(200, rect.height);
+        rect = layout.getRectangle(label, insets);
+        assertEquals(90, label.getBounds().x);
+        assertEquals(190, label.getBounds().y);
+        assertEquals(100, rect.width);
+        assertEquals(200, rect.height);
     }
 
     /**
@@ -148,5 +234,39 @@ public class LayoutTest extends TestCase
         Dimension dim = xy.preferredLayoutSize(((JFrame) window.getNativeWidget()).getContentPane());
         assertEquals(124, dim.width);
         assertEquals(31, dim.height);
+    }
+
+    /**
+     * Test null values passed into all methods.
+     */
+    public void testNulls() {
+        XYLayout layout = new XYLayout(null);
+        layout.addLayoutComponent((Component) null, (Object) null);
+        layout.addLayoutComponent((String) null, (Component) null);
+        assertFalse(layout.equals(null));
+        layout.getLayoutAlignmentX(null);
+        layout.getLayoutAlignmentY(null);
+        layout.getRectangle((Widget) null, (Component) null);
+        layout.getRectangle((Component) null, (Insets) null);
+        layout.invalidateLayout(null);
+        layout.layoutContainer(null);
+        layout.maximumLayoutSize(null);
+        layout.minimumLayoutSize(null);
+        layout.removeLayoutComponent(null);
+    }
+
+    /**
+     * Test the Simple Getters.
+     */
+    public void testSimpleGetters() {
+        Window window = new Window("window");
+        XYLayout layout = new XYLayout(window);
+        assertEquals(window, layout.getParent());
+        layout = new XYLayout();
+        assertNull(layout.getParent());
+        layout.setParent(window);
+        assertEquals(window, layout.getParent());
+        assertEquals("Value changed. please test", 0.5F, layout.getLayoutAlignmentX(null), 0);
+        assertEquals("Value changed. please test", 0.5F, layout.getLayoutAlignmentY(null), 0);
     }
 }
