@@ -1,5 +1,5 @@
 /*
- $Id: NativeWidgetHandler.java,v 1.5 2003-09-11 12:30:54 mvdb Exp $
+ $Id: NativeWidgetHandler.java,v 1.6 2003-09-23 12:42:28 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * The native widgets handler for swing.
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeWidgetHandler.java,v 1.5 2003-09-11 12:30:54 mvdb Exp $
+ * @version $Id: NativeWidgetHandler.java,v 1.6 2003-09-23 12:42:28 mvdb Exp $
  */
 public class NativeWidgetHandler implements INativeWidgetHandler {
     
@@ -73,11 +73,12 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
     }
 
     /**
-     * Adds a JComponent to the widget specified as parent
-     * @see org.xulux.nyx.gui.INativeWidgetHandler#addNativeWidget(java.lang.Object, org.xulux.nyx.context.ApplicationPart)
+     * Adds the specified object (if it is an instanceof JComponent)
+     * to the specified parent.
+     * 
+     * @see org.xulux.nyx.gui.INativeWidgetHandler#getWidget(java.lang.Object, org.xulux.nyx.gui.Widget)
      */
-    public Widget getWidget(String clazz, Widget parent) {
-        Object nativeWidget = ClassLoaderUtils.getObjectFromClassString(clazz);
+    public Widget getWidget(Object nativeWidget, Widget parent) {
         if (nativeWidget != null) {
             if (parent.canContainChildren()) {
                 Object nativeParent = parent.getNativeWidget();
@@ -95,6 +96,15 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
             log.warn("Native widget cannot be added, since it is not of type JComponent or null");
         }
         return null;
+    }
+
+    /**
+     * Adds a JComponent to the widget specified as parent
+     * @see org.xulux.nyx.gui.INativeWidgetHandler#addNativeWidget(java.lang.Object, org.xulux.nyx.context.ApplicationPart)
+     */
+    public Widget getWidget(String clazz, Widget parent) {
+        Object nativeWidget = ClassLoaderUtils.getObjectFromClassString(clazz);
+        return getWidget(nativeWidget, parent);
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: INativeWidgetHandler.java,v 1.3 2003-09-11 12:20:56 mvdb Exp $
+ $Id: INativeWidgetHandler.java,v 1.4 2003-09-23 12:42:28 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,18 +51,32 @@ package org.xulux.nyx.gui;
  * via eg the guidefaults xml file.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: INativeWidgetHandler.java,v 1.3 2003-09-11 12:20:56 mvdb Exp $
+ * @version $Id: INativeWidgetHandler.java,v 1.4 2003-09-23 12:42:28 mvdb Exp $
  */
 public interface INativeWidgetHandler {
     
     /**
-     * Return a widget with the specified 
-     * nativewidget added.
+     * Returns the widget passed in (as convenience) 
+     * and adds the native widget to the parent.
+     * This is normally used for automated processing
+     * of native widgets.
      * 
-     * @param part
-     * @param nativeWidget
+     * @param clazz - the className of the native widget
+     * @param parent - the nyx parent widget
+     * @return the nyx parent widget.
      */
     public Widget getWidget(String clazz, Widget parent);
+    
+    /**
+     * Returns the widget passed in (as convenience) 
+     * and adds the native widget to the parent.
+     * Use this for hand programmed addition of native widgets.
+     * 
+     * @param object - the native widget
+     * @param parent - the nyx parent widget
+     * @return - the nyx parent widget.
+     */
+    public Widget getWidget(Object object, Widget parent);
     
     /**
      * Set the location on the native widget
