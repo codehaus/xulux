@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.1 2003-12-18 00:17:28 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.2 2003-12-29 10:29:55 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -75,7 +75,7 @@ import org.xulux.utils.Translator;
  * @todo Move out "generic" code, so we can have a helper class to do all the nyx magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.1 2003-12-18 00:17:28 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.2 2003-12-29 10:29:55 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler {
 
@@ -341,7 +341,7 @@ public class ApplicationPartHandler extends DefaultHandler {
         }
         catch (Exception e) {
             if (log.isFatalEnabled()) {
-                log.fatal("Exception during paring of part xml", e);
+                log.fatal("Exception during parsing of part xml", e);
             }
         }
     }
