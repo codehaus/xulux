@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.10 2003-09-25 13:30:59 mvdb Exp $
+ $Id: TabPanel.java,v 1.11 2003-09-25 14:11:16 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * 
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.10 2003-09-25 13:30:59 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.11 2003-09-25 14:11:16 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
     
@@ -205,6 +205,8 @@ public class TabPanel extends ContainerWidget {
                     }
                 }
             }
+            // always add the parent to the added widget.. 
+            widget.setParent(this);
             tabPanel.addTab(tabTitle,icon,(Component)widget.getNativeWidget(), tabTip);
             // just in case, but this doesn't seem to 
             // work either. Who know jdk1.4 does..
