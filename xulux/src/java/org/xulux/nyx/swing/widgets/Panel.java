@@ -1,7 +1,7 @@
 /*
- $Id: Panel.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ $Id: Panel.java,v 1.4 2003-07-11 00:15:15 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ * @version $Id: Panel.java,v 1.4 2003-07-11 00:15:15 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -70,11 +70,11 @@ public class Panel extends ContainerWidget
 
     /**
      * Constructor for Panel.
-     * @param field
+     * @param name
      */
-    public Panel(String field)
+    public Panel(String name)
     {
-        super(field);
+        super(name);
     }
 
     /**
