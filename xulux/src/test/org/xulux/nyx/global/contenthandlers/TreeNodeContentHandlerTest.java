@@ -1,8 +1,8 @@
 /*
- $Id: TreeNodeContentHandlerTest.java,v 1.1 2003-12-02 09:53:46 mvdb Exp $
+ $Id: TreeNodeContentHandlerTest.java,v 1.2 2003-12-10 11:07:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,29 +10,29 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.global.contenthandlers;
 
@@ -58,7 +58,7 @@ import junit.framework.TestSuite;
  * Test the javax.swing.TreeNode contenthandler
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeNodeContentHandlerTest.java,v 1.1 2003-12-02 09:53:46 mvdb Exp $
+ * @version $Id: TreeNodeContentHandlerTest.java,v 1.2 2003-12-10 11:07:17 mvdb Exp $
  */
 public class TreeNodeContentHandlerTest extends TestCase {
 
@@ -88,7 +88,7 @@ public class TreeNodeContentHandlerTest extends TestCase {
         assertNull(handler.getContent());
         assertNull(handler.getWidget());
         handler = new TreeNodeContentHandler(null);
-        assertNull(handler.getWidget()); 
+        assertNull(handler.getWidget());
     }
 
     /**
@@ -104,7 +104,7 @@ public class TreeNodeContentHandlerTest extends TestCase {
         assertEquals(2, handler.getChildCount(w.getContent()));
         Object child1 = handler.getChild(w.getContent(), 0);
         assertEquals("child1", child1.toString());
-        assertEquals(2, handler.getChildCount(handler.getChild(w.getContent(), 0)));
+        assertEquals(3, handler.getChildCount(handler.getChild(w.getContent(), 0)));
         Object child11 = handler.getChild(child1, 0);
         assertEquals("child11", child11.toString());
         Object child12 = handler.getChild(child1, 1);
@@ -113,6 +113,8 @@ public class TreeNodeContentHandlerTest extends TestCase {
         assertTrue(handler.isLeaf(handler.getChild(child1, 0)));
         assertTrue(handler.isLeaf(handler.getChild(child1, 1)));
         assertFalse(handler.isLeaf(child1));
+        Object child13 = handler.getChild(child1, 2);
+        assertTrue(handler.isLeaf(child13));
         assertEquals(0, handler.getIndexOfChild(child1, child11));
         assertEquals(1, handler.getIndexOfChild(child1, child12));
     }
@@ -133,6 +135,10 @@ public class TreeNodeContentHandlerTest extends TestCase {
         child1.insert(child12, child1.getChildCount());
         child12.setParent(child1);
         child12.setLeaf(false);
+        InternalTreeNode child13 = new InternalTreeNode("child13");
+        child1.insert(child13, child1.getChildCount());
+        child13.setParent(child1);
+        child13.setLeaf(true);
         InternalTreeNode child2 = new InternalTreeNode("child2");
         tree.insert(child2, tree.getChildCount());
         child1.setParent(tree);
@@ -146,25 +152,28 @@ public class TreeNodeContentHandlerTest extends TestCase {
      */
     public class InternalTreeNode extends DefaultMutableTreeNode {
 
+        /**
+         * leaf is false
+         */
         private boolean leaf = false;
 
         /**
-         * 
+         *
          */
         public InternalTreeNode() {
             super();
         }
 
         /**
-         * @param userObject
+         * @param userObject the userObject
          */
         public InternalTreeNode(Object userObject) {
             super(userObject);
         }
 
         /**
-         * @param userObject
-         * @param allowsChildren
+         * @param userObject the userObject
+         * @param allowsChildren does it allowchildren
          */
         public InternalTreeNode(Object userObject, boolean allowsChildren) {
             super(userObject, allowsChildren);
