@@ -15,7 +15,7 @@ import org.xulux.nyx.swing.factories.FieldCollection;
  * A simpleForm which contructs a for based on the fields
  * 
  * @author Martin van den Bemt
- * @version $Id: SimpleForm.java,v 1.1 2002-10-23 00:28:43 mvdb Exp $
+ * @version $Id: SimpleForm.java,v 1.2 2002-10-23 14:39:39 mvdb Exp $
  */
 public class SimpleForm 
 extends BaseForm 
@@ -47,11 +47,12 @@ extends BaseForm
     {
         this.fields = fields;
         FormFieldArea fieldArea = null;
-        Component[] components = findComponent(FormFieldArea.class, this);
+/*        Component[] components = findComponent(FormFieldArea.class, this);
         for (int i=0; i < components.length; i++)
         {
             ((FormFieldArea)components[i]).removeAllFields();
         }
+        */
         if (fieldArea == null)
         {
             fieldArea = new FormFieldArea();
