@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.21 2004-12-01 11:37:04 mvdb Exp $
+   $Id: Entry.java,v 1.22 2005-01-20 15:58:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -45,7 +45,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.21 2004-12-01 11:37:04 mvdb Exp $
+ * @version $Id: Entry.java,v 1.22 2005-01-20 15:58:00 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -152,7 +152,7 @@ public class Entry extends SwingWidget {
         }
         this.initialized = true;
         this.setValueCalled = true;
-        textComponent = new JTextField();
+        textComponent = (JTextComponent) processNativeWidget(new JTextField());
         if (isImmidiate()) {
             if (this.immidiateListener == null) {
                 NyxListener listener = getPart().getFieldEventHandler(this);

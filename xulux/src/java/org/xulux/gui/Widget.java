@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.26 2004-12-01 13:06:09 mvdb Exp $
+   $Id: Widget.java,v 1.27 2005-01-20 15:58:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,6 +31,7 @@ import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.rules.IRule;
 import org.xulux.rules.Rule;
+import org.xulux.utils.ClassLoaderUtils;
 import org.xulux.utils.NyxCollectionUtils;
 
 /**
@@ -42,7 +43,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.26 2004-12-01 13:06:09 mvdb Exp $
+ * @version $Id: Widget.java,v 1.27 2005-01-20 15:58:00 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -538,9 +539,11 @@ public abstract class Widget implements Serializable
         //System.out.println(getName()+"key : "+key+"  value : "+value);
         String oldValue = (String)properties.get(key);
         if (oldValue != null) {
-            if (oldValue.equalsIgnoreCase((String) value)) {
-                // nothing has changed, so we'll return
-                return;
+            if (value instanceof String) {
+                if (oldValue.equalsIgnoreCase((String) value)) {
+                    // nothing has changed, so we'll return
+                    return;
+                }
             }
         }
         properties.put(key.toLowerCase(), value);
@@ -900,6 +903,21 @@ public abstract class Widget implements Serializable
         while (it.hasNext()) {
             ((IWidgetInitializer) it.next()).initialize(this);
         }
+    }
+    
+    /**
+     * Dynamically create a native widget, instead of the default
+     *
+     * @param defaultNative when a native widget handler cannot be found
+     *        use this one as the default.
+     */
+    protected Object processNativeWidget(Object defaultNative) {
+        String nClass = getProperty("native");
+        Object retValue = ClassLoaderUtils.getObjectFromClassString(nClass);
+        if (retValue == null) {
+            retValue = defaultNative;
+        }
+        return retValue;
     }
 
     /**

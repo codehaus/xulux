@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  * Testcase for the entry widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: EntryTest.java,v 1.5 2004-10-05 10:11:05 mvdb Exp $
+ * @version $Id: EntryTest.java,v 1.6 2005-01-20 15:58:00 mvdb Exp $
  */
 public class EntryTest extends TestCase {
 
@@ -149,9 +149,9 @@ public class EntryTest extends TestCase {
         IField field = new TestProvider().getMapping(null).getField(null);
         assertEquals("testobject", field.getValue(object));
         entry.setField("name");
-//        entry.setValue(new TestObject("newvalue"));
+        entry.setValue(new TestObject("newvalue"));
         entry.setValue("newvalue");
-        System.out.println("value : " + entry.getValue().getClass());
+        assertEquals(TestObject.class, entry.getValue().getClass());
     }
     
     /**
