@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
+ $Id: Label.java,v 1.4 2002-11-10 21:44:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,12 +46,13 @@
 
 package org.xulux.nyx.gui;
 
+import java.awt.Container;
 import javax.swing.JLabel;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: Label.java,v 1.4 2002-11-10 21:44:11 mvdb Exp $
  */
 public class Label extends Widget
 {
@@ -68,6 +69,18 @@ public class Label extends Widget
      */
     public void destroy()
     {
+        if (label != null)
+        {
+            Container container = label.getParent();
+            label.setVisible(false);
+            if (container != null)
+            {
+                container.remove(label);
+            }
+            label = null;
+        }
+        removeAllRules();
+        getPart().removeWidget(this,this);
     }
 
     /**
@@ -75,10 +88,7 @@ public class Label extends Widget
      */
     public Object getNativeWidget()
     {
-        if (!initialized)
-        {
-            initialize();
-        }
+        initialize();
         return label;
     }
 
@@ -92,15 +102,33 @@ public class Label extends Widget
             return;
         }
         this.initialized = true;
-        label = new JLabel(getText());
-        label.setHorizontalAlignment(JLabel.RIGHT);
+        this.label = new JLabel(getText());
+        refresh();
     }
     /**
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public void refresh()
     {
+        initialize();
         label.setText(getText());
+        if (getProperties() == null)
+        {
+            return;
+        }
+        String ha = (String)getProperties().get("horizontalalignment");
+        if (ha.equalsIgnoreCase("left"))
+        {
+            label.setHorizontalAlignment(JLabel.LEFT);
+        }
+        else if (ha.equalsIgnoreCase("center"))
+        {
+            label.setHorizontalAlignment(JLabel.CENTER);
+        }
+        else
+        {
+            label.setHorizontalAlignment(JLabel.RIGHT);
+        }
     }
 
 }

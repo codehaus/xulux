@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.7 2002-11-10 01:32:57 mvdb Exp $
+ $Id: Entry.java,v 1.8 2002-11-10 21:44:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.gui;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JTextField;
 
@@ -55,7 +56,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.7 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: Entry.java,v 1.8 2002-11-10 21:44:11 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -82,8 +83,18 @@ implements ValueWidget
      */
     public void destroy()
     {
-        textField.removeAll();
-        // remove all listeners too..
+        if (textField != null)
+        {
+            textField.removeAll();
+            Container container = textField.getParent();
+            if (container != null)
+            {
+                container.remove(textField);
+            }
+            textField = null;
+        }
+        removeAllRules();
+        getPart().removeWidget(this,this);
     }
 
     /**

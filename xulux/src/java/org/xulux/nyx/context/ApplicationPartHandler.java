@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,9 +45,7 @@
  */
 package org.xulux.nyx.context;
 
-import java.awt.Image;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -66,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -178,12 +176,10 @@ public class ApplicationPartHandler extends DefaultHandler
         }
         else if (qName.equals(RULES_ELEMENT))
         {
-            System.err.println("RulesStarted");
             rulesStarted = true;
         }
         else if (qName.equals(RULE_ELEMENT))
         {
-            System.err.println("need to process ont rule");
             processRule = true;
         }
         else if (qName.equals(TEXT_ELEMENT))
@@ -274,8 +270,8 @@ public class ApplicationPartHandler extends DefaultHandler
         String type = atts.getValue(TYPE_ATTRIBUTE);
         String name = atts.getValue(NAME_ATTRIBUTE);
         String use = atts.getValue(USE_ATTRIBUTE);
-        Widget widget = WidgetFactory.getWidget(type, use);
-        widget.setName(name);
+        Widget widget = WidgetFactory.getWidget(type, name);
+        widget.setField(use);
         stack.push(widget);
     }
 
@@ -311,7 +307,6 @@ public class ApplicationPartHandler extends DefaultHandler
         }
         else if (processRule)
         {
-            System.out.println("processRule is true");
             String ruleClass = new String(arg0, arg1, arg2);
             Widget widget = (Widget) stack.get(stack.size()-1);
             addRule(widget, ruleClass);
@@ -334,13 +329,11 @@ public class ApplicationPartHandler extends DefaultHandler
     
     private void addRule(Widget widget, String ruleClass)
     {
-        System.out.println("addRule called");
         try
         {
             Class clazz = Class.forName(ruleClass);
             IRule rule = (IRule)clazz.newInstance();
             widget.registerRule(rule);
-            System.out.println("rule class "+ruleClass+" for widget "+widget.getName()+" registered");
         }
         catch(Exception e)
         {

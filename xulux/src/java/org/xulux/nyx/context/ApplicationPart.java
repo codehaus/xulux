@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.13 2002-11-10 01:32:57 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.14 2002-11-10 21:44:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.context;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.LayoutManager2;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +83,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.13 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.14 2002-11-10 21:44:11 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -282,6 +283,7 @@ public class ApplicationPart
         if (caller instanceof Widget)
         {
             widgets.remove(widget);
+            return;
         }
         widget.destroy();
     }
@@ -318,7 +320,6 @@ public class ApplicationPart
      */
     public void initialize(Object caller)
     {
-        System.err.println("Initialize is called..");
         if (!(caller instanceof DefaultPartRule))
         {
             return;
@@ -327,8 +328,6 @@ public class ApplicationPart
         while (it.hasNext())
         {
             Widget widget = (Widget) it.next();
-            System.out.println("Next ; "+widget.getField());
-            // getting widget..
         }
         if (runIndex == 2) throw new RuntimeException("Hoi");
         runIndex++;
@@ -372,7 +371,6 @@ public class ApplicationPart
             System.err.println("No part rules to process");
         }
         Iterator it = widgets.iterator();
-        System.out.println("Rules : "+getRules());
         while (it.hasNext())
         {
             Widget widget = (Widget) it.next();
@@ -408,7 +406,7 @@ public class ApplicationPart
      */
     private void initializePartRules()
     {
-        if (partRules == null)
+        if (partRules == null && activated)
         {
             partRules = new ArrayList();
             // add the default rule..
@@ -554,22 +552,28 @@ public class ApplicationPart
         bean = null;
         parentWidget = null;
         activated = false;
-        Iterator it = widgets.iterator();
+        ArrayList widgetList = (ArrayList)widgets.clone();
+        Iterator it = widgetList.iterator();
         while (it.hasNext())
         {
             ((Widget)it.next()).destroy();
-            // and remove from list..
-            it.remove();
         }
         widgets.clear();
+        widgetList.clear();
+        widgetList = null;
         widgets = null;
         it = partRules.iterator();
         while (it.hasNext())
         {
             ((IRule)it.next()).destroy();
-            it.remove();
         }
         partRules.clear();
         partRules = null;
+        mapping = null;
+        if (parentWidget != null)
+        {
+            Container container = ((Component)parentWidget).getParent();
+            container.remove((Component)parentWidget);
+        }
     }
 }

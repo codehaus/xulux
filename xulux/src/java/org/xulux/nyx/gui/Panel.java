@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
+ $Id: Panel.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,19 +46,21 @@
 package org.xulux.nyx.gui;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 
 import org.xulux.nyx.swing.layouts.XYLayout;
+import sun.security.action.GetPropertyAction;
 
 /**
  * A panel widget
- * TODO: Also need to initialize child widgets !!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: Panel.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
  */
 public class Panel extends Widget
 {
@@ -80,6 +82,25 @@ public class Panel extends Widget
      */
     public void destroy()
     {
+        ArrayList children = getChildWidgets();
+        if (children != null)
+        {
+            Iterator it = children.iterator();
+            while (it.hasNext())
+            {
+                Widget cw = (Widget)it.next();
+                cw.destroy();
+            }
+            children.clear();
+            children = null;
+        }
+        Container container = panel.getParent();
+        panel.setVisible(false);
+        if (container != null)
+        {
+            container.remove(panel);
+        }
+        panel = null;
     }
 
     /**
@@ -102,6 +123,7 @@ public class Panel extends Widget
             return;
         }
         // we default to XYLayout for now..
+        initialized = true;
         panel = new JPanel(new XYLayout());
         if (widgets != null)
         {
@@ -113,7 +135,7 @@ public class Panel extends Widget
                 panel.add((Component)widget.getNativeWidget(), widget);
             }
         }
-            
+        refresh();
     }
 
     /**
@@ -122,6 +144,14 @@ public class Panel extends Widget
     public void refresh()
     {
         initialize();
+        String border = (String)getProperties().get("border");
+        if (border!=null)
+        {
+            if (border.equalsIgnoreCase("bevel"))
+            {
+                panel.setBorder(new BevelBorder(BevelBorder.RAISED));
+            }
+        }
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.1 2002-11-05 17:11:26 mvdb Exp $
+ $Id: XYLayout.java,v 1.2 2002-11-10 21:44:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.gui.WidgetRectangle;
  * using the size and the position of the control
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.1 2002-11-05 17:11:26 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.2 2002-11-10 21:44:12 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
@@ -178,7 +178,6 @@ public class XYLayout implements LayoutManager2, Serializable
     public Dimension preferredLayoutSize(Container parent)
     {
         Dimension dim = getLayoutSize(parent);
-        System.out.println("dim : "+dim);
         return dim;
     }
 

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.6 2002-11-10 01:32:57 mvdb Exp $
+ $Id: Widget.java,v 1.7 2002-11-10 21:44:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.6 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: Widget.java,v 1.7 2002-11-10 21:44:11 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -88,9 +88,9 @@ public abstract class Widget
     protected HashMap properties;
     
         
-    public Widget(String field)
+    public Widget(String name)
     {
-        this.field = field;
+        setName(name);
     }
     
     public void setPart(ApplicationPart part)
@@ -348,4 +348,21 @@ public abstract class Widget
         return properties;
     }
     
+    /**
+     * Sets the field.
+     * @param field The field to set
+     */
+    public void setField(String field)
+    {
+        this.field = field;
+    }
+    
+    protected void removeAllRules()
+    {
+        if (rules != null)
+        {
+            rules.clear();
+        }
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
+ $Id: Button.java,v 1.4 2002-11-10 21:44:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,21 +45,23 @@
  */
 package org.xulux.nyx.gui;
 
-import java.awt.Image;
-
+import java.awt.Container;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: Button.java,v 1.4 2002-11-10 21:44:11 mvdb Exp $
  */
 public class Button extends Widget
 {
     
     private JButton button;
+    private PrePostFieldListener actionListener;
 
     /**
      * Constructor for Button.
@@ -68,7 +70,6 @@ public class Button extends Widget
     {
         super(field);
     }
-
 
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
@@ -89,16 +90,8 @@ public class Button extends Widget
             return;
         }
         button = new JButton();
-        
         initialized = true;
         refresh();
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
-     */
-    public void destroy()
-    {
     }
 
     /**
@@ -106,9 +99,15 @@ public class Button extends Widget
      */
     public void refresh()
     {
+        initialize();
         if (getText()!=null)
         {
             button.setText(getText());
+        }
+        if (actionListener == null && getRules()!=null)
+        {
+            actionListener = new PrePostFieldListener(this);
+            button.addActionListener(actionListener);
         }
         if (properties == null)
         {
@@ -121,4 +120,26 @@ public class Button extends Widget
             button.setIcon(icon);
         }
     }
+    
+    /**
+     * @see org.xulux.nyx.gui.Widget#destroy()
+     */
+    public void destroy()
+    {
+        Container container = button.getParent();
+        if (actionListener != null)
+        {
+            button.removeActionListener(actionListener);
+        }
+        actionListener = null;
+        removeAllRules();
+        button.setVisible(false);
+        if (container != null)
+        {
+            container.remove(button);
+        }
+        getPart().removeWidget(this,this);
+        button = null;
+    }
+    
 }

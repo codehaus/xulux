@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.4 2002-11-10 01:32:57 mvdb Exp $
+ $Id: Combo.java,v 1.5 2002-11-10 21:44:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.gui;
 
+import java.awt.Container;
 import java.awt.Image;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
@@ -60,7 +61,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.4 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: Combo.java,v 1.5 2002-11-10 21:44:11 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -162,9 +163,15 @@ public class Combo extends Widget
                 keyListener = null;
             }
             combo.removeAll();
+            Container container = combo.getParent();
+            if (container != null)
+            {
+                container.remove(combo);
+            }
             combo = null;
         }
         getPart().removeWidget(this, this);
+        removeAllRules();
     }
     
 

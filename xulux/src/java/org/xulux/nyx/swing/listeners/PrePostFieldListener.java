@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.1 2002-11-05 01:37:45 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.2 2002-11-10 21:44:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,8 @@
  */
 package org.xulux.nyx.swing.listeners;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -56,12 +58,14 @@ import org.xulux.nyx.gui.Widget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">artin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.1 2002-11-05 01:37:45 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.2 2002-11-10 21:44:11 mvdb Exp $
  */
-public class PrePostFieldListener implements FocusListener
+public class PrePostFieldListener 
+implements FocusListener, ActionListener
 {
     
     Widget widget;
+    
     /**
      * Constructor for PrePostFieldListener.
      */
@@ -76,7 +80,7 @@ public class PrePostFieldListener implements FocusListener
      */
     public void focusGained(FocusEvent e)
     {
-        PartRequestImpl impl = new PartRequestImpl(widget.getField(), widget.getPart(), PartRequest.ACTION_VALUE_CHANGED);
+        PartRequestImpl impl = new PartRequestImpl(widget.getName(), widget.getPart(), PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
     }
 
@@ -86,10 +90,18 @@ public class PrePostFieldListener implements FocusListener
      */
     public void focusLost(FocusEvent e)
     {
-        PartRequestImpl impl = new PartRequestImpl(widget.getField(), widget.getPart(), PartRequest.ACTION_VALUE_CHANGED);
+        PartRequestImpl impl = new PartRequestImpl(widget.getName(), widget.getPart(), PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
         // preform all pre rules.
         ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
     }
 
+    /**
+     * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
+     */
+    public void actionPerformed(ActionEvent e)
+    {
+        PartRequestImpl impl = new PartRequestImpl(widget.getName(), widget.getPart(), PartRequest.ACTION_VALUE_CHANGED);
+        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
+    }
 }

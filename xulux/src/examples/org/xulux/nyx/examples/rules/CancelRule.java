@@ -1,5 +1,5 @@
 /*
- $Id: DefaultPartRule.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
+ $Id: CancelRule.java,v 1.1 2002-11-10 21:44:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,27 +43,27 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.rules;
+package org.xulux.nyx.examples.rules;
 
-import org.xulux.nyx.context.ApplicationPart;
+import javax.swing.SwingUtilities;
+
 import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.rules.Rule;
 
 /**
- * The default part rule, initializes the the part , and makes it visible.
- * It is always last in line when registring the part. 
- * TODO: Figure out how to be always last....
  * 
- * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultPartRule.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
+ * @author Martin van den Bemt
+ * @version $Id: CancelRule.java,v 1.1 2002-11-10 21:44:12 mvdb Exp $
  */
-public class DefaultPartRule extends Rule
+public class CancelRule extends Rule
 {
 
     /**
-     * Constructor for DefaultPartRule.
+     * Constructor for CancelRule.
      */
-    public DefaultPartRule()
+    public CancelRule()
     {
+        super();
     }
 
     /**
@@ -71,8 +71,6 @@ public class DefaultPartRule extends Rule
      */
     public void pre(PartRequest request)
     {
-        ApplicationPart part = request.getPart();
-        part.initialize(this);
     }
 
     /**
@@ -80,6 +78,10 @@ public class DefaultPartRule extends Rule
      */
     public void post(PartRequest request)
     {
+        if (request.getName().equals("Button:Cancel"))
+        {
+            request.getPart().destroy();
+        }
     }
 
 }
