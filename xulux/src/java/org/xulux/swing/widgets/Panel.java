@@ -1,5 +1,5 @@
 /*
-   $Id: Panel.java,v 1.7 2004-10-11 19:14:19 mvdb Exp $
+   $Id: Panel.java,v 1.8 2004-10-14 09:56:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -47,7 +47,7 @@ import org.xulux.swing.util.SwingUtils;
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.7 2004-10-11 19:14:19 mvdb Exp $
+ * @version $Id: Panel.java,v 1.8 2004-10-14 09:56:02 mvdb Exp $
  */
 public class Panel extends ContainerWidget {
 
@@ -219,6 +219,7 @@ public class Panel extends ContainerWidget {
         if (tabId == null) {
             panel.setEnabled(isEnabled());
         } else {
+            System.out.println("tabId : " + tabId);
             ((JTabbedPane) getParent().getNativeWidget()).setEnabledAt(Integer.parseInt(tabId), isEnabled());
         }
         panel.repaint();
@@ -262,15 +263,22 @@ public class Panel extends ContainerWidget {
      * @see org.xulux.nyx.gui.Widget#focus()
      */
     public void focus() {
-        if (initialized) {
-            panel.requestFocus();
-            // if widget is not showing we have
-            // to make it showing..
-            if (!panel.isShowing() && getParent() != null) {
-                getParent().focus();
-                panel.requestFocus();
-            }
-        }
+      isRefreshing = true;
+      panel.requestFocus();
+      isRefreshing = false;
+      // if widget is not showing we have
+      // to make it showing..
+      // if we have a tab, we need to call the parent too..
+      if (!panel.isShowing() && getParent() != null || 
+          getProperty(TabPanel.TABID) != null) {
+          // set the session variable, so controls
+          // can look who requested focus..
+          getPart().getSession().setValue("nyx.focusrequest", this);
+          getParent().focus();
+          // remove session variable again.
+          getPart().getSession().remove("nyx.focusrequest");
+          panel.requestFocus();
+      }
     }
     /**
      * @see org.xulux.nyx.gui.Widget#getGuiValue()

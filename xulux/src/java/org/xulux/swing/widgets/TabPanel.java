@@ -1,5 +1,5 @@
 /*
-   $Id: TabPanel.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: TabPanel.java,v 1.4 2004-10-14 09:56:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -41,7 +41,7 @@ import org.xulux.swing.util.SwingUtils;
  *
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.4 2004-10-14 09:56:02 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
 
@@ -114,6 +114,7 @@ public class TabPanel extends ContainerWidget {
         Object object = getPart().getSession().getValue("nyx.focusrequest");
         if (object != null) {
             Widget w = (Widget) object;
+            System.out.println("tabcount : " + w.getProperty(TABID));
             w = findChildAndParentForFocus(w);
             this.tabPanel.setSelectedComponent((JComponent) w.getNativeWidget());
         }
@@ -156,11 +157,11 @@ public class TabPanel extends ContainerWidget {
         // we default to XYLayout for now..
         initialized = true;
         tabPanel = new JTabbedPane();
-        repaintComponent = new RepaintComponent();
-        tabPanel.addHierarchyListener(repaintComponent);
-        repaintThread = new Thread(repaintComponent);
-        repaintThread.start();
-        System.err.println("Still running");
+//        repaintComponent = new RepaintComponent();
+//        tabPanel.addHierarchyListener(repaintComponent);
+//        repaintThread = new Thread(repaintComponent);
+//        repaintThread.start();
+//        System.err.println("Still running");
         initializeChildren();
         refresh();
         processInit();
@@ -181,7 +182,7 @@ public class TabPanel extends ContainerWidget {
      * is a panel. For now no support for other
      * widget types. Need to dig in deep into
      * panels to see what can be usefull here
-     * @todo Tooltips don't seem to work...
+     * @todo Tooltips don't seem to work in jdk1.3
      * @see org.xulux.nyx.gui.ContainerWidget#addToParent(org.xulux.nyx.gui.Widget)
      */
     public void addToParent(Widget widget) {
@@ -210,13 +211,13 @@ public class TabPanel extends ContainerWidget {
             // work either. Who know jdk1.4 does..
             tabPanel.setToolTipTextAt(tabCount, tabTip);
             // add the tabId to the property of the widget.
-            widget.setProperty(TABID, String.valueOf(tabCount));
+            widget.setLazyProperty(TABID, String.valueOf(tabCount));
             // Set the selectedIndex to the first tab that is not disabled.
             if (initialFocus == null && widget.isEnabled() && widget.isVisible()) {
                 initialFocus = String.valueOf(tabCount);
                 tabPanel.setSelectedIndex(tabCount);
             }
-            widget.refresh();
+            //widget.refresh();
             tabCount++;
         } else {
             // do not yet allow any addition of other widgets.
@@ -255,7 +256,7 @@ public class TabPanel extends ContainerWidget {
 
     /**
      * Fixes painting issues with the tabPanel.
-     * Eg buttons from another panel would shine through throuhg
+     * Eg buttons from another panel would shine through
      * the first panel. After selecting the panel with the shine
      * through buttons on it, the problems would never appear again.
      * The selection of other tabs needs to be done in seperate runnables,
@@ -293,7 +294,7 @@ public class TabPanel extends ContainerWidget {
                 boolean sleep = true;
                 if (sleep) {
                     try {
-                        Thread.sleep(100000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException ie) {
                         // please repaint everything..
                         sleep = false;

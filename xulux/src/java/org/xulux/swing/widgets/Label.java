@@ -1,5 +1,5 @@
 /*
-   $Id: Label.java,v 1.11 2004-10-11 19:14:19 mvdb Exp $
+   $Id: Label.java,v 1.12 2004-10-14 09:56:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.11 2004-10-11 19:14:19 mvdb Exp $
+ * @version $Id: Label.java,v 1.12 2004-10-14 09:56:02 mvdb Exp $
  */
 public class Label extends SwingWidget {
 
@@ -170,10 +170,8 @@ public class Label extends SwingWidget {
 	      if (getProvider() != null && getField() != null) {
 	        IDataProvider provider = XuluxContext.getDictionary().getProvider(getProvider());
 	        Object bean = getPart().getBean();
-	        System.out.println("bean : " + bean);
 	        //System.out.println("bean class : " + bean.getClass());
 	        Object value = provider.getValue(bean, getField(), bean);
-	        System.out.println("value : " + value);
 	        if (value == null) {
 	          value = "";
 	        }
