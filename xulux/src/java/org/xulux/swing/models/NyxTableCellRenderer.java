@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableCellRenderer.java,v 1.7 2004-06-24 21:33:03 mvdb Exp $
+   $Id: NyxTableCellRenderer.java,v 1.8 2004-07-14 15:05:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,10 +22,8 @@ import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.xulux.core.XuluxContext;
-import org.xulux.core.ApplicationPart;
 import org.xulux.core.PartRequest;
-import org.xulux.core.SessionPart;
+import org.xulux.core.XuluxContext;
 import org.xulux.gui.Widget;
 import org.xulux.gui.utils.ColorUtils;
 import org.xulux.swing.widgets.Table;
@@ -35,7 +33,7 @@ import org.xulux.swing.widgets.Table;
  * We should make our own cellRenderer probably, so we can use the functionalily of widgets..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellRenderer.java,v 1.7 2004-06-24 21:33:03 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.8 2004-07-14 15:05:31 mvdb Exp $
  */
 public class NyxTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -75,19 +73,17 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
         int row,
         int column) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        if (widget.getNativeWidget() instanceof Component) {
-            request.setValue(value);
-            XuluxContext.fireFieldRequest(widget, request, XuluxContext.PRE_REQUEST);
-            // refresh widget so gui changes can propegate.
-            Component comp = (Component) widget.getNativeWidget();
-            if (!isSelected) {
-                String bgColor = widget.getProperty("background-color-enabled");
-                if (bgColor != null) {
-                    // make sure that it gets painted ok!
-                    setOpaque(true);
-                    // should be a lot easier in the new widget structure..
-                    setBackground(ColorUtils.getSwingColor(bgColor));
-                }
+        request.setValue(value);
+        XuluxContext.fireFieldRequest(widget, request, XuluxContext.PRE_REQUEST);
+        // refresh widget so gui changes can propegate.
+        //Component comp = (Component) widget.getNativeWidget();
+        if (!isSelected) {
+            String bgColor = widget.getProperty("background-color-enabled");
+            if (bgColor != null) {
+                // make sure that it gets painted ok!
+                setOpaque(true);
+                // should be a lot easier in the new widget structure..
+                setBackground(ColorUtils.getSwingColor(bgColor));
             }
         }
         return this;
@@ -99,99 +95,6 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
      */
     public void destroy() {
         widget = null;
-    }
-
-    /**
-     * The cellPartRequest
-     */
-    public class CellPartRequest implements PartRequest {
-
-        /**
-         * the widget
-         */
-        private Widget widget;
-        /**
-         * the value
-         */
-        private Object value;
-
-        /**
-         * @param widget the widget
-         */
-        public CellPartRequest(Widget widget) {
-            this.widget = widget;
-        }
-
-        /**
-         * @see org.xulux.nyx.context.PartRequest#getName()
-         */
-        public String getName() {
-            return widget.getName();
-        }
-
-        /**
-         * @see org.xulux.nyx.context.PartRequest#getPart()
-         */
-        public ApplicationPart getPart() {
-            return widget.getPart();
-        }
-
-        /**
-         * @see org.xulux.nyx.context.PartRequest#getSession()
-         */
-        public SessionPart getSession() {
-            return getPart().getSession();
-        }
-
-        /**
-         * @see org.xulux.nyx.context.PartRequest#getType()
-         */
-        public int getType() {
-            return PartRequest.NO_ACTION;
-        }
-
-        /**
-         * @see org.xulux.nyx.context.PartRequest#getValue()
-         */
-        public Object getValue() {
-            return value;
-        }
-
-        /**
-         * @see org.xulux.nyx.context.PartRequest#getValue(java.lang.String)
-         */
-        public Object getValue(String field) {
-            return getPart().getWidget(field).getValue();
-        }
-
-        /**
-         * @see org.xulux.nyx.context.PartRequest#getWidget()
-         */
-        public Widget getWidget() {
-            return widget;
-        }
-
-        /**
-         * @see org.xulux.nyx.context.PartRequest#getWidget(java.lang.String)
-         */
-        public Widget getWidget(String name) {
-            return getPart().getWidget(name);
-        }
-
-        /**
-         * @see org.xulux.nyx.context.PartRequest#setValue(java.lang.Object)
-         */
-        public void setValue(Object value) {
-            this.value = value;
-        }
-
-        /**
-         * @see java.lang.Object#clone()
-         */
-        public Object clone() {
-            return null;
-        }
-
     }
 
 }

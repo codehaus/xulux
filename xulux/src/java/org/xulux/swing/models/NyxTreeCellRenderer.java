@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTreeCellRenderer.java,v 1.7 2004-07-06 16:36:44 mvdb Exp $
+   $Id: NyxTreeCellRenderer.java,v 1.8 2004-07-14 15:05:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,9 +22,12 @@ import java.awt.Component;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import org.xulux.core.PartRequest;
 import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
+import org.xulux.gui.Widget;
+import org.xulux.swing.util.SwingUtils;
 import org.xulux.swing.widgets.Tree;
 import org.xulux.utils.ClassLoaderUtils;
 
@@ -32,7 +35,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * For now extends the defaultreeCellRenderer.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTreeCellRenderer.java,v 1.7 2004-07-06 16:36:44 mvdb Exp $
+ * @version $Id: NyxTreeCellRenderer.java,v 1.8 2004-07-14 15:05:31 mvdb Exp $
  */
 public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
 
@@ -40,12 +43,40 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
      * the tree widget
      */
     protected Tree widget;
+    
+    /**
+     * The childwidget
+     */
+    protected Widget childWidget;
+
+    /**
+     * the request
+     */
+    protected PartRequest request;
+
     /**
      * @param tree the tree
      */
     public NyxTreeCellRenderer(Tree tree) {
         super();
         this.widget = tree;
+    }
+
+    /**
+     * Set the childwidget of the tree
+     *
+     * @param widget the widget to use for formatting. Should be a label.
+     */
+    public void setChildWidget(Widget widget) {
+        this.childWidget = widget;
+        request = new CellPartRequest(widget);
+    }
+
+    /**
+     * @return the childwidget
+     */    
+    public Widget getChildWidget() {
+        return this.childWidget;
     }
 
     /**
@@ -60,6 +91,8 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
         boolean leaf,
         int row,
         boolean hasFocus) {
+//        System.out.println("NyxTreeCellRenderer called");
+//        System.out.println("ChildWidget : " + getChildWidget());
         String clazz = widget.getProperty("treefield.class");
         if (value != null && clazz != null) {
             if (ClassLoaderUtils.getClass(clazz) == value.getClass()) {
@@ -73,12 +106,24 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
                 }
             }
         }
+        if (getChildWidget() != null) {
+            request.setValue(value);
+            XuluxContext.fireFieldRequest(getChildWidget(), request, XuluxContext.PRE_REQUEST);
+        }
         try {
-          return super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+            super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+            if (getChildWidget() != null) {
+                Widget w = getChildWidget();
+                String icon = w.getProperty("icon");
+                if (icon != null) {
+                    setIcon(SwingUtils.getIcon(icon, this));
+                }
+            }
         } catch (Exception e) {
           // an exception occured, we need to have some value, so we show the exception
-          return super.getTreeCellRendererComponent(tree, e.toString(), sel, expanded, leaf, row, hasFocus);
+            super.getTreeCellRendererComponent(tree, e.toString(), sel, expanded, leaf, row, hasFocus);
         }
+        return this;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: TreeTest.java,v 1.1 2004-05-24 14:23:51 mvdb Exp $
+   $Id: TreeTest.java,v 1.2 2004-07-14 15:05:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeTest.java,v 1.1 2004-05-24 14:23:51 mvdb Exp $
+ * @version $Id: TreeTest.java,v 1.2 2004-07-14 15:05:31 mvdb Exp $
  */
 public class TreeTest extends TestCase {
 
@@ -42,5 +42,4 @@ public class TreeTest extends TestCase {
         tree.setProperty("showroot", "false");
         assertEquals(false, tree.jtree.isRootVisible());
     }
-
 }

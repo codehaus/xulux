@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.13 2004-07-07 17:43:42 mvdb Exp $
+   $Id: Tree.java,v 1.14 2004-07-14 15:05:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -48,7 +48,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.13 2004-07-07 17:43:42 mvdb Exp $
+ * @version $Id: Tree.java,v 1.14 2004-07-14 15:05:31 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -188,6 +188,10 @@ public class Tree extends ContainerWidget implements IContentWidget {
         }
         jtree.putClientProperty("JTree.lineStyle", lineStyle);
         boolean showRoot = true;
+        if (getChildWidgets() != null) {
+          // we need to set the cellrenderer..
+          Widget child = (Widget) getChildWidgets().get(0);
+        }
         if (getProperty("showRoot") != null) {
             showRoot = BooleanUtils.toBoolean(getProperty("showRoot"));
         }
@@ -480,6 +484,8 @@ public class Tree extends ContainerWidget implements IContentWidget {
     public void addToParent(Widget widget) {
         if (widget instanceof PopupMenu || widget instanceof MenuItem) {
             hasChildPopups = true;
+        } else {
+            cellRenderer.setChildWidget(widget);
         }
     }
 
