@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.28 2003-09-11 12:20:57 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.29 2003-09-29 12:20:23 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.28 2003-09-11 12:20:57 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.29 2003-09-29 12:20:23 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -349,6 +349,7 @@ public class ApplicationPartHandler extends DefaultHandler
                     part.addWidget((Widget) stack.pop());
                 }
             }
+            processingField = false;
         }
         else if (qName.equals(TRANSLATION_ELEMENT)) {
             processingTranslation = false;
@@ -365,7 +366,12 @@ public class ApplicationPartHandler extends DefaultHandler
             try
             {
                 Widget widget = (Widget) stack.get(stack.size()-1);
-                addRule(widget, currentValue);
+                if (processingField) {
+                    addRule(widget, currentValue);
+                } else {
+                    // partrule.. TODO: Test rule registration
+                    addRule(null, currentValue);
+                }
             }
             catch(ArrayIndexOutOfBoundsException aioobe)
             {
@@ -523,7 +529,8 @@ public class ApplicationPartHandler extends DefaultHandler
      * @param atts
      */
     private void processField(Attributes atts) {
-
+        
+        processingField = true;
         String type = atts.getValue(TYPE_ATTRIBUTE);
         String name = atts.getValue(NAME_ATTRIBUTE);
         String use = atts.getValue(USE_ATTRIBUTE);
