@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Rules</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Rules FAQ">
+  <subsection name="Valid values">
+    <p>
+      When using rules and you are checking valid values from within a pre
+      or post method, you can call the widgets setValidValue(boolean) to 
+      specify if the value was valid or not. Default will be that everything
+      is a valid value, so normal processing takes place by default.
+      If you call setValidValue(false) don't forget to set it back to true
+      when the value is Ok!
+    </p>
+  </subsection>
+</section>
+
+</body>
+
+</document>
