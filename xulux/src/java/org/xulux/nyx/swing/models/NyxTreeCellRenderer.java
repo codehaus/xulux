@@ -1,7 +1,7 @@
 /*
- $Id: NyxTreeCellRenderer.java,v 1.1 2003-09-17 11:49:31 mvdb Exp $
+ $Id: NyxTreeCellRenderer.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -45,21 +45,71 @@
  */
 package org.xulux.nyx.swing.models;
 
+import java.awt.Component;
+
+import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
+
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.widgets.Tree;
+import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * For now extends the defaultreeCellRenderer. 
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTreeCellRenderer.java,v 1.1 2003-09-17 11:49:31 mvdb Exp $
+ * @version $Id: NyxTreeCellRenderer.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
  */
 public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
 
+    protected Tree widget;
     /**
      * 
      */
-    public NyxTreeCellRenderer() {
+    public NyxTreeCellRenderer(Tree tree) {
         super();
+        this.widget = tree;
+    }
+
+    /**
+     * @see javax.swing.tree.TreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
+     */
+    public Component getTreeCellRendererComponent(
+        JTree tree,
+        Object value,
+        boolean sel,
+        boolean expanded,
+        boolean leaf,
+        int row,
+        boolean hasFocus) {
+//        System.out.println("Content : "+widget.getSwingModel().getContent().getClass());
+//        System.out.println("Swing tree model : "+tree.getModel().getClass());
+        System.out.println("NYXTreeCellRenderer : "+value.getClass()+"<===>"+value);
+        String clazz = widget.getProperty("treefield.class");
+        System.out.println("clazz : "+clazz); 
+        if (value != null && clazz != null) {
+            if (ClassLoaderUtils.getClass(clazz) == value.getClass()) {
+                BeanMapping mapping = Dictionary.getInstance().getMapping(value);
+                String use = widget.getProperty("treefield.use");
+                if (use != null) {
+                    IField field = mapping.getField(use);
+                    if (field != null) {
+                        value = field.getValue(value);
+                    }
+                }
+            }
+        }
+        return super.getTreeCellRendererComponent(
+            tree,
+            value,
+            sel,
+            expanded,
+            leaf,
+            row,
+            hasFocus);
     }
 
 }

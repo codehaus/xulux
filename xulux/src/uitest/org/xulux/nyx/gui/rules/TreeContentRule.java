@@ -1,5 +1,5 @@
 /*
- $Id: TreeContentRule.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ $Id: TreeContentRule.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,7 +53,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * Sets the content from a rule..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeContentRule.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: TreeContentRule.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
  */
 public class TreeContentRule extends Rule {
 
@@ -68,6 +68,7 @@ public class TreeContentRule extends Rule {
      * @see org.xulux.nyx.rules.IRule#pre(org.xulux.nyx.context.PartRequest)
      */
     public void pre(PartRequest request) {
+        System.out.println("TreeTest : "+TreeTest.getData());
         ((IContentWidget)request.getPart().getWidget("SimpleTree")).setContent(TreeTest.getData());
     }
 

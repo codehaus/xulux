@@ -1,5 +1,5 @@
 /*
- $Id: IRuleEngine.java,v 1.1 2003-10-06 14:20:56 mvdb Exp $
+ $Id: IRuleEngine.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.xulux.nyx.gui.Widget;
  * after that the internal rule system. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IRuleEngine.java,v 1.1 2003-10-06 14:20:56 mvdb Exp $
+ * @version $Id: IRuleEngine.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
  */
 public interface IRuleEngine {
     
@@ -85,6 +85,13 @@ public interface IRuleEngine {
      * @param type
      */
     public void fireFieldRequest(PartRequest request, int type);
+    
+    /**
+     * Do not continue any rules left in the rule queue. 
+     * It should act as if all rules are actually processed.
+     *
+     */
+    public void stopAllRules();
     
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: TreeTest.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
+ $Id: TreeTest.java,v 1.3 2003-10-27 17:14:28 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,7 +53,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.context.WidgetConfig;
+import org.xulux.nyx.global.contenthandlers.TreeNodeContentHandler;
 import org.xulux.nyx.gui.PartCreator;
 
 /**
@@ -61,7 +64,7 @@ import org.xulux.nyx.gui.PartCreator;
  * We keep it simple for now.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeTest.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
+ * @version $Id: TreeTest.java,v 1.3 2003-10-27 17:14:28 mvdb Exp $
  */
 public class TreeTest extends TestCase {
 
@@ -87,6 +90,8 @@ public class TreeTest extends TestCase {
     public void showSimpleTree() {
         String xml = "org/xulux/nyx/gui/swing/widgets/TreeTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig("tree");
+        config.addWidgetTool("swing", TreeNodeContentHandler.class);
         ApplicationPart part = PartCreator.createPart(null, stream);
         part.activate();
     }
@@ -96,6 +101,7 @@ public class TreeTest extends TestCase {
      * @return the treenode.. 
      */
     public static TreeNode getData() {
+        TreeTest tt = new TreeTest("TreeTest");
         ExampleTreeNode root = new ExampleTreeNode("Root");
         ExampleTreeNode child10 = new ExampleTreeNode("Child10");
         ExampleTreeNode child11 = new ExampleTreeNode("Child11");
@@ -117,5 +123,4 @@ public class TreeTest extends TestCase {
         root.insert(child30, 2);
         return root;
     }
-    
 }

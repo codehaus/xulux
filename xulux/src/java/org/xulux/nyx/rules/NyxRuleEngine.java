@@ -1,5 +1,5 @@
 /*
- $Id: NyxRuleEngine.java,v 1.1 2003-10-06 14:20:56 mvdb Exp $
+ $Id: NyxRuleEngine.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.xulux.nyx.gui.Widget;
  * you can actually plugin other rule engines. You are able to connect  
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxRuleEngine.java,v 1.1 2003-10-06 14:20:56 mvdb Exp $
+ * @version $Id: NyxRuleEngine.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
  */
 public class NyxRuleEngine implements IRuleEngine {
 
@@ -100,6 +100,13 @@ public class NyxRuleEngine implements IRuleEngine {
      * @see org.xulux.nyx.context.IRuleEngine#fireFieldRequest(org.xulux.nyx.context.PartRequest, int)
      */
     public void fireFieldRequest(PartRequest request, int type) {
+
+    }
+
+    /**
+     * @see org.xulux.nyx.context.IRuleEngine#stopAllRules()
+     */
+    public void stopAllRules() {
 
     }
 

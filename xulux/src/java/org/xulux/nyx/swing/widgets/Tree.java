@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.14 2003-10-23 12:07:42 mvdb Exp $
+ $Id: Tree.java,v 1.15 2003-10-27 17:14:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,12 +64,13 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
+import org.xulux.nyx.swing.models.NyxTreeCellRenderer;
 import org.xulux.nyx.swing.models.SwingTreeModel;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.14 2003-10-23 12:07:42 mvdb Exp $
+ * @version $Id: Tree.java,v 1.15 2003-10-27 17:14:28 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
     
@@ -80,6 +81,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
     protected SwingTreeModel contentHandler;
     protected boolean hasChildPopups;
     protected Widget menu;
+    protected NyxTreeCellRenderer cellRenderer;
     //protected TreeContentHandler contentHandler;
     
     /**
@@ -95,17 +97,18 @@ public class Tree extends ContainerWidget implements IContentWidget {
      * TODO: Destroy it better than now!
      */
     public void destroy() {
-//        if (!initialized) {
-//            return;
-//        }
-//        processDestroy();
-//        if (this.scrollPane != null) {
-//            if (this.jtree != null) {
-//                this.scrollPane.remove(jtree);
-//                jtree = null;
-//            }
-//            this.scrollPane = null;
-//        }
+        if (!initialized) {
+            return;
+        }
+        processDestroy();
+        this.cellRenderer = null;
+        if (this.scrollPane != null) {
+            if (this.jtree != null) {
+                this.scrollPane.remove(jtree);
+                jtree = null;
+            }
+            this.scrollPane = null;
+        }
     }
 
     /**
@@ -132,6 +135,8 @@ public class Tree extends ContainerWidget implements IContentWidget {
             this.contentHandler = new SwingTreeModel(null);
         }
         jtree = new JTree(this.contentHandler);
+        this.cellRenderer = new NyxTreeCellRenderer(this);
+        jtree.setCellRenderer(this.cellRenderer);
         scrollPane = new JScrollPane(jtree);
         initializeChildren();
         initialized = true;
@@ -365,6 +370,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
         if (object != null) {
 //            System.err.println("Content object : "+object.getClass());
             WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(getWidgetType());
+            System.err.println("Object getClass : "+object.getClass());
             TreeContentHandler handler = (TreeContentHandler)config.getContentHandler(object.getClass());
             handler.setWidget(this);
             handler.setContent(object);
@@ -446,6 +452,14 @@ public class Tree extends ContainerWidget implements IContentWidget {
             }
         }
         return null;
+    }
+    
+    /**
+     * 
+     * @return the tree model. It is a convenience method for internal use only. 
+     */
+    public SwingTreeModel getSwingModel() {
+        return this.contentHandler;
     }
 
 }

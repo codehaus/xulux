@@ -1,5 +1,5 @@
 /*
- $Id: ExampleTreeNode.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ $Id: ExampleTreeNode.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,8 +55,9 @@ import javax.swing.tree.TreeNode;
 
 /**
  * An example tree node.. Should turn out to be the big TreeNode in the end..
+ * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ExampleTreeNode.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: ExampleTreeNode.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
  */
 public class ExampleTreeNode implements MutableTreeNode {
 
@@ -173,7 +174,11 @@ public class ExampleTreeNode implements MutableTreeNode {
     }
     
     public String toString() {
+        return String.valueOf("toString() : "+userObject);
+    }
+    
+    public String getString() {
         return String.valueOf(userObject);
     }
-
+    
 }
