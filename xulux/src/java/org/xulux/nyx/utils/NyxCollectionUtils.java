@@ -1,5 +1,5 @@
 /*
- $Id: NyxCollectionUtils.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
+ $Id: NyxCollectionUtils.java,v 1.2 2003-08-20 13:56:33 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import java.util.StringTokenizer;
  * Collection utilities to do conversions for nyx.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCollectionUtils.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
+ * @version $Id: NyxCollectionUtils.java,v 1.2 2003-08-20 13:56:33 mvdb Exp $
  */
 public class NyxCollectionUtils {
 
@@ -98,7 +98,10 @@ public class NyxCollectionUtils {
      * 
      * @param object
      * @return A list from the specified object. If the object
-     *          is already a list, it will return with the list passed in
+     *          is already a list, it will return with the list passed in.
+     *          If it is not a collection, array or list, it will just
+     *          create a new list and add the passed in object to that list
+     *          resulting in one value in the list content.
      */
     public static List getList(Object object) {
         if (object == null) {
@@ -112,8 +115,11 @@ public class NyxCollectionUtils {
         }
         if (object.getClass().isArray()) {
             return Arrays.asList((Object[])object);
-        } 
-        return null;
+        }
+        // we just add the value to a new list..
+        ArrayList list = new ArrayList();
+        list.add(object);
+        return list;
     }
 
 }
