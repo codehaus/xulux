@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.8 2003-08-03 20:53:03 mvdb Exp $
+ $Id: Button.java,v 1.9 2003-08-03 22:32:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.8 2003-08-03 20:53:03 mvdb Exp $
+ * @version $Id: Button.java,v 1.9 2003-08-03 22:32:21 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
@@ -118,7 +118,7 @@ public class Button extends SwingWidget
         {
             button.setText(getProperty("text"));
         }
-        if (actionListener == null && getRules()!=null)
+        if (actionListener == null)
         {
             NyxListener listener = getPart().getFieldEventHandler(this);
             if (listener == null)
