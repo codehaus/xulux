@@ -1,5 +1,5 @@
 /*
-   $Id: SwingTreeModel.java,v 1.5 2004-03-23 16:16:22 mvdb Exp $
+   $Id: SwingTreeModel.java,v 1.6 2004-07-07 17:43:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.xulux.dataprovider.contenthandlers.TreeContentHandler;
  * A cutom tree root, so we can do magic of our own
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingTreeModel.java,v 1.5 2004-03-23 16:16:22 mvdb Exp $
+ * @version $Id: SwingTreeModel.java,v 1.6 2004-07-07 17:43:42 mvdb Exp $
  */
 public class SwingTreeModel extends TreeContentHandler implements TreeModel {
 
@@ -132,14 +132,12 @@ public class SwingTreeModel extends TreeContentHandler implements TreeModel {
      * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#refresh()
      */
     public void refresh() {
-        System.err.println("REFRESH MODEL");
         if (listenerList == null) {
             return;
         }
         TreeModelEvent event = null;
         for (int i = listenerList.size() - 1; i >= 0; i--) {
             Object listener = listenerList.get(i);
-            System.err.println("Listener : " + listener);
             if (listener instanceof TreeModelListener) {
                 if (event == null) {
                     event = new TreeModelEvent(this, new TreePath(getRoot()));

@@ -1,5 +1,5 @@
 /*
-   $Id: IInvalidValueStrategy.java,v 1.1 2004-06-30 11:59:00 mvdb Exp $
+   $Id: IInvalidValueStrategy.java,v 1.2 2004-07-07 17:43:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,7 +29,7 @@ import org.xulux.core.ApplicationPart;
  * a checking on a form level, just return true form that method.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IInvalidValueStrategy.java,v 1.1 2004-06-30 11:59:00 mvdb Exp $
+ * @version $Id: IInvalidValueStrategy.java,v 1.2 2004-07-07 17:43:42 mvdb Exp $
  */
 public interface IInvalidValueStrategy {
     
@@ -48,6 +48,5 @@ public interface IInvalidValueStrategy {
      * @return true if the widget contains a valid value, false it it doesn't
      */
     boolean checkWidget(Widget widget);
-        
 
 }

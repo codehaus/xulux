@@ -1,5 +1,5 @@
 /*
-   $Id: ScrollPane.java,v 1.3 2004-06-29 22:49:33 mvdb Exp $
+   $Id: ScrollPane.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.gui.Widget;
  * of the widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ScrollPane.java,v 1.3 2004-06-29 22:49:33 mvdb Exp $
+ * @version $Id: ScrollPane.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
  */
 public class ScrollPane extends ContainerWidget {
 
@@ -156,14 +156,8 @@ public class ScrollPane extends ContainerWidget {
         if (!initialized) {
           initialize();
         }
-        System.err.println("SCROLLPANE : " + pane);
-        System.err.println("PARENT : " + pane.getParent());
-        System.out.println("childwidget size : " + getChildWidgets().size());
-//        pane.getViewport().setViewSize(getRectangle().getRectangle().getSize());
-//        pane.setPreferredSize(getRectangle().getRectangle().getSize());
         pane.setVisible(isVisible());
         pane.setViewportView(pane.getViewport().getView());//invalidate();
-        //pane.doLayout();
         isRefreshing = false;
     }
 }

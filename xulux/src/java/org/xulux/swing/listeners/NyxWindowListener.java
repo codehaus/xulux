@@ -1,5 +1,5 @@
 /*
-   $Id: NyxWindowListener.java,v 1.3 2004-05-06 12:30:01 mvdb Exp $
+   $Id: NyxWindowListener.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -32,7 +32,7 @@ import org.xulux.gui.Widget;
  * the X button.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListener.java,v 1.3 2004-05-06 12:30:01 mvdb Exp $
+ * @version $Id: NyxWindowListener.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
  */
 public class NyxWindowListener extends NyxListener implements WindowListener {
     /**
@@ -95,7 +95,6 @@ public class NyxWindowListener extends NyxListener implements WindowListener {
      * @see java.awt.event.WindowListener#windowDeactivated(WindowEvent)
      */
     public void windowDeactivated(WindowEvent e) {
-        System.err.println("WindowDeactivated...");
         if (!shouldDestroy) {
             return;
         }

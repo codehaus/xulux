@@ -1,5 +1,5 @@
 /*
-   $Id: SplitPane.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: SplitPane.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.gui.Widget;
  * The splitpane
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SplitPane.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: SplitPane.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
  */
 public class SplitPane extends ContainerWidget {
 
@@ -142,7 +142,6 @@ public class SplitPane extends ContainerWidget {
     public void addToParent(Widget widget) {
         String position = widget.getProperty("pane");
         JComponent comp = (JComponent) widget.getNativeWidget();
-        System.out.println("min size : " + comp.getMinimumSize());
         comp.setMinimumSize(new Dimension(10, 10));
         if (position == null) {
             if (!topProcessed) {

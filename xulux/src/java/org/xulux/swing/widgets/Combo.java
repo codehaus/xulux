@@ -1,5 +1,5 @@
 /*
-   $Id: Combo.java,v 1.5 2004-05-17 16:30:21 mvdb Exp $
+   $Id: Combo.java,v 1.6 2004-07-07 17:43:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.swing.util.NyxEventQueue;
  * The swing combo widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.5 2004-05-17 16:30:21 mvdb Exp $
+ * @version $Id: Combo.java,v 1.6 2004-07-07 17:43:42 mvdb Exp $
  */
 public class Combo extends NyxCombo {
     /**
@@ -174,7 +174,7 @@ public class Combo extends NyxCombo {
             contentChanged = false;
         }
         if (getValue() instanceof DefaultComboModel.ComboShowable) {
-            model.setSelectedItem(value);
+            model.setSelectedItem(getValue());
         } else {
             if (content != null && getValue() != null) {
                 if (log.isTraceEnabled()) {
@@ -189,14 +189,14 @@ public class Combo extends NyxCombo {
                 }
                 if (!content.isEmpty()) {
                     model.setSelectedItem(0);
-                    if (getField() == null) {
+                    if (getField() == null && getProvider() == null) {
                         this.value = model.getRealSelectedValue();
-                    } else {
+                    } else if (getProvider() == null) {
                         setValue(model.getRealSelectedValue(), false);
                     }
                 }
             }
-            if (model != null && model.getSelectedIndex() == 0 && contentChanged) {
+            if (model != null && model.getSelectedIndex() == 0 && contentChanged && getProvider() == null) {
                 this.value = model.getRealSelectedValue();
             }
         }

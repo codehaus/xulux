@@ -1,5 +1,5 @@
 /*
-   $Id: DefaultComboModel.java,v 1.9 2004-06-15 11:03:08 mvdb Exp $
+   $Id: DefaultComboModel.java,v 1.10 2004-07-07 17:43:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -33,7 +33,7 @@ import org.xulux.swing.widgets.Combo;
  * The default combobox model.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.9 2004-06-15 11:03:08 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.10 2004-07-07 17:43:42 mvdb Exp $
  */
 public class DefaultComboModel extends AbstractListModel implements ComboBoxModel {
     /**
@@ -101,7 +101,7 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
     public void setSelectedItem(Object anItem) {
         if (anItem instanceof ComboShowable) {
             this.selectedItem = (ComboShowable) anItem;
-            if (initialized && !combo.isRefreshing()) {
+            if (initialized && !combo.isRefreshing()) {// && combo.getProvider() == null) {
                 combo.setLazyValue(getRealSelectedValue());
             }
         } else {
@@ -183,7 +183,6 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
         if (original == null) {
             return;
         }
-        //System.out.println("Real selected item : " + selectedItem);
         int index = -1;
         try {
             index = original.indexOf(selectedItem);
@@ -191,15 +190,15 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
             // ignore exceptions thrown in an equals method.
             e.printStackTrace();
         }
-        //        System.err.println("index : "+index);
-        //        System.err.println("selectedItem : "+selectedItem.getClass());
-        //        System.err.println("selectedItem : "+selectedItem);
-        //        System.err.println("original : "+original);
         if (index != -1) {
             setSelectedItem(list.get(index));
+        } else if (combo.getProvider() != null) {
+            combo.setValue(getRealSelectedValue());
         } else {
             setSelectedItem(0);
-            combo.setLazyValue(getRealSelectedValue());
+            if (combo.getProvider() == null) {
+                combo.setLazyValue(getRealSelectedValue());
+            }
         }
     }
 
@@ -210,7 +209,6 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
         if (field != null && original.size() > 0) {
             int startMappingAt = 0;
             if (original.get(0).equals(combo.getNotSelectedValue())) {
-                System.out.println("StartMapping...");
                 startMappingAt = 1;
             }
             if ((startMappingAt == 1 && original.size() > 1) || startMappingAt == 0) {
@@ -221,7 +219,6 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
         list = new ArrayList();
         for (int i = 0; i < original.size(); i++) {
             Object object = original.get(i);
-//            System.out.println("Object " + object);
             if (object != null && (i == 0 && combo.getNotSelectedValue() != null && object.equals(combo.getNotSelectedValue())) || this.field == null) {
                 list.add(new ComboShowable(i, object.toString()));
             } else {

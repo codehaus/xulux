@@ -1,5 +1,5 @@
 /*
-   $Id: NyxCombo.java,v 1.7 2004-05-17 16:30:22 mvdb Exp $
+   $Id: NyxCombo.java,v 1.8 2004-07-07 17:43:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.7 2004-05-17 16:30:22 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.8 2004-07-07 17:43:42 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget implements IContentWidget {
 
@@ -51,10 +51,13 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
      * Is the content changed ?
      */
     protected boolean contentChanged;
+
     /**
      * Is the notselected value set
      */
     protected boolean notSelectedValueSet;
+    
+    protected Object value;
     /**
      * The log instance
      */
@@ -225,7 +228,7 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
             IDataProvider dp = XuluxContext.getDictionary().getProvider(getProvider());
             IMapping mapping = dp.getMapping(this.value);
             IField field = mapping.getField(this.value);
-            return this.value;
+            return field.getValue(this.value);
         } else if (getField() == null) {
             if (this.value != null && getNotSelectedValue() != null && this.value.equals(getNotSelectedValue())) {
                 return null;
@@ -272,20 +275,19 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
             });
         }
         if (getProvider() != null) {
-            IDataProvider pr = XuluxContext.getDictionary().getProvider(getProvider());
-            IMapping mapping = null;
-            IField field = null;
             if (!(object instanceof String) && this.value == null) {
               this.value = object;
             } else {
-              mapping = pr.getMapping(this.value);
+              IDataProvider pr = XuluxContext.getDictionary().getProvider(getProvider());
+              IMapping mapping = pr.getMapping(this.value);
+              IField field = null;
               if (getField() != null) {
                   field = mapping.getField(getField());
               } else {
                   field = mapping.getField(this.value);
               }
               try {
-                field.setValue(this.value, object);
+                this.value = field.setValue(this.value, object);
                 setValidValue(true);
               } catch(InvalidValueException ive) {
                 setValidValue(false);

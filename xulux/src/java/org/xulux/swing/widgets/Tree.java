@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.12 2004-06-30 09:12:49 mvdb Exp $
+   $Id: Tree.java,v 1.13 2004-07-07 17:43:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,9 +27,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.xulux.core.XuluxContext;
 import org.xulux.core.WidgetConfig;
-import org.xulux.dataprovider.Dictionary;
+import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.contenthandlers.ContentView;
@@ -49,7 +48,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.12 2004-06-30 09:12:49 mvdb Exp $
+ * @version $Id: Tree.java,v 1.13 2004-07-07 17:43:42 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -195,14 +194,11 @@ public class Tree extends ContainerWidget implements IContentWidget {
         jtree.setRootVisible(showRoot);
 
         if (contentChanged) {
-            //            System.err.println("setting model to : "+contentHandler);
-            System.out.println("CONTENTVIEW : " + getProperty("contentview"));
             if (getProperty("contentview") != null) {
                 contentHandler.setView(ClassLoaderUtils.getClass((String)getProperty("contentview")));
             }
             contentHandler.refresh();
             jtree.setModel(contentHandler);
-            //            System.err.println("Content : "+contentHandler.getContent());
             contentChanged = false;
         }
         if (getProperty("collapse") != null) {
@@ -460,7 +456,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
             String c = getProperty("content");
             String cType = getProperty("content.type");
             if (cType == null || cType.equalsIgnoreCase("use")) {
-              IMapping mapping = Dictionary.getInstance().getMapping(getPart().getBean());
+              IMapping mapping = XuluxContext.getDictionary().getMapping(getPart().getBean());
               IField field = mapping.getField(c);
               setContent(field.getValue(getPart().getBean()));
             }
