@@ -1,7 +1,7 @@
 /*
- $Id: NYXToolkit.java,v 1.4 2003-11-28 02:37:56 mvdb Exp $
+ $Id: NYXToolkit.java,v 1.5 2003-12-11 20:01:19 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -57,11 +57,17 @@ import org.xulux.nyx.context.ApplicationContext;
  * (didn't check yet if swt uses something different though)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NYXToolkit.java,v 1.4 2003-11-28 02:37:56 mvdb Exp $
+ * @version $Id: NYXToolkit.java,v 1.5 2003-12-11 20:01:19 mvdb Exp $
  */
 public abstract class NYXToolkit {
 
+    /**
+     * The toolkit instance
+     */
     private static NYXToolkit instance;
+    /**
+     * The log instance
+     */
     private static Log log = LogFactory.getLog(NYXToolkit.class);
     /**
      *

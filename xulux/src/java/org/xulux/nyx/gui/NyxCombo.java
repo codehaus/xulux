@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.18 2003-11-06 19:53:11 mvdb Exp $
+ $Id: NyxCombo.java,v 1.19 2003-12-11 20:01:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -61,7 +61,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.18 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.19 2003-12-11 20:01:19 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 implements IContentWidget
@@ -121,6 +121,9 @@ implements IContentWidget
     {
         if (object instanceof List) {
             this.content = (List)object;
+            if (getNotSelectedValue() != null) {
+                this.content.add(0, getNotSelectedValue());
+            }
             contentChanged = true;
         }
         if (initialized)
@@ -159,48 +162,39 @@ implements IContentWidget
         }
     }
 
+    /**
+     * Initializes the not selected value.
+     */
     protected void initializeNotSelectedValue()
     {
         String nsv = getNotSelectedValue();
-        if (nsv== null)
-        {
-            if (notSelectedValueSet)
-            {
+        if (nsv == null) {
+            if (notSelectedValueSet) {
                 this.content.remove(0);
                 notSelectedValueSet = false;
                 contentChanged = true;
             }
             return;
         }
-        if (this.content == null ||  content.size() == 0)
-        {
-            if (this.content == null)
-            {
+        if (this.content == null ||  content.size() == 0) {
+            if (this.content == null) {
                 this.content = new ArrayList();
             }
             this.content.add(nsv);
-        }
-        else
-        {
+        } else {
             boolean replaceFirstEntry = false;
-            if (notSelectedValueSet)
-            {
+            if (notSelectedValueSet) {
                 Object firstValue = content.get(0);
-                if (firstValue instanceof String)
-                {
-                    if (firstValue.equals(getNotSelectedValue()))
-                    {
+                if (firstValue instanceof String) {
+                    if (firstValue.equals(getNotSelectedValue())) {
                         return;
                     }
                     replaceFirstEntry = true;
                 }
             }
-            if (replaceFirstEntry)
-            {
-                content.set(0,nsv);
-            }
-            else
-            {
+            if (replaceFirstEntry) {
+                content.set(0, nsv);
+            } else {
                 List tmpContent = this.content;
                 content = new ArrayList();
                 content.add(nsv);
@@ -215,22 +209,19 @@ implements IContentWidget
      * Sets the not selected value.
      * It will always be the first one in the list..
      * Does nothing when value is null
-     * @param nsv - the text representing the notselected text.
+     * @param notSelectedValue the text representing the notselected text.
      */
     public void setNotSelectedValue(String notSelectedValue)
     {
-        if (notSelectedValueSet)
-        {
+        if (notSelectedValueSet) {
             // we don't want to do anything when
             // the not selected value is the same
-            if (this.notSelectedValue.equals(notSelectedValue))
-            {
+            if (this.notSelectedValue.equals(notSelectedValue)) {
                 return;
             }
         }
         this.notSelectedValue = notSelectedValue;
-        if (initialized)
-        {
+        if (initialized) {
             refresh();
         }
     }
@@ -238,8 +229,7 @@ implements IContentWidget
     /**
      * @return the notSelectedValue
      */
-    public String getNotSelectedValue()
-    {
+    public String getNotSelectedValue() {
         return this.notSelectedValue;
     }
 

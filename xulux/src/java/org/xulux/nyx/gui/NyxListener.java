@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.20 2003-11-06 19:53:11 mvdb Exp $
+ $Id: NyxListener.java,v 1.21 2003-12-11 20:01:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -64,31 +64,39 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.20 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.21 2003-12-11 20:01:19 mvdb Exp $
  */
-public abstract class NyxListener
-{
+public abstract class NyxListener {
+    /**
+     * The widget
+     */
     protected Widget widget;
+    /**
+     * Is the listener still processing ?
+     */
     private static boolean processing = false;
+    /**
+     * The log instanace
+     */
     private static Log log = LogFactory.getLog(NyxListener.class);
 
-    public NyxListener()
-    {
+    /**
+     * The default constructor
+     */
+    public NyxListener() {
     }
     /**
      * Constructor
-     * @param widget
+     * @param widget thw widget to use this listener for
      */
-    public NyxListener(Widget widget)
-    {
+    public NyxListener(Widget widget) {
         this.widget = widget;
     }
 
     /**
      * Should be called when a field is completed
      */
-    public void completed()
-    {
+    public void completed() {
         completed(false);
     }
 
@@ -125,52 +133,43 @@ public abstract class NyxListener
      * Refreshes the fields that have dependencies on the
      * caller widget
      *
-     * @param widget
+     * @param widget the widget that is is the caller of refresh
      */
     private void refreshFields(Widget widget) {
         widget.getPart().refreshFields(widget);
         widget.getPart().updateDependandWidgets(widget);
     }
 
-
     /**
      * If a value is "accepted" (eg entry filled in
      * , button clicked, etc preform this code.
      *
-     * @param widget
+     * @param widget the widget to accept
      * @return true if the accepted went ok, false if not.
      */
     public boolean accepted(Widget widget) {
         if (widget instanceof NyxCombo) {
             // set the value, but do not refresh the gui.
-            log.warn("COMBO GUI VALUE : "+widget.getName()+":"+widget.getGuiValue());
-            try {
-                throw new Exception();
-            }catch(Exception e) {
-                //e.printStackTrace(System.err);
-            }
-            ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
+            ((NyxCombo) widget).setValue(widget.getGuiValue(), false);
             // refresh fields that use the same functionality
             refreshFields(widget);
             return true;
         }
 
-        if (widget instanceof Entry ||
-            widget instanceof TextArea )
-        {
+        if (widget instanceof Entry || widget instanceof TextArea) {
             // if the widget is required, a value must
             // exist.
-//            if (widget.isRequired()) {
-//                Object guiValue = widget.getGuiValue();
-                // TODO: Make an option to check for immidiate required fields
-//                if (guiValue instanceof String || guiValue == null) {
-//                    if (guiValue == null || ((String)guiValue).trim().equals("")) {
-//                        NYXToolkit.getInstance().beep();
-//                        widget.focus();
-//                        return false;
-//                    }
-//                }
-//            }
+            //            if (widget.isRequired()) {
+            //                Object guiValue = widget.getGuiValue();
+            // @todo Make an option to check for immidiate required fields
+            //                if (guiValue instanceof String || guiValue == null) {
+            //                    if (guiValue == null || ((String)guiValue).trim().equals("")) {
+            //                        NYXToolkit.getInstance().beep();
+            //                        widget.focus();
+            //                        return false;
+            //                    }
+            //                }
+            //            }
             widget.setValue(widget.getGuiValue());
             // refresh the all widgets who references this field
             refreshFields(widget);
@@ -183,10 +182,9 @@ public abstract class NyxListener
                 if (defAction.equalsIgnoreCase("save")) {
                     Iterator it = widget.getPart().getWidgets().iterator();
                     while (it.hasNext()) {
-                        Widget w = (Widget)it.next();
+                        Widget w = (Widget) it.next();
                         boolean process = false;
-                        if (w.isRequired() && (w.canContainValue() && w.isValueEmpty())
-                            || !w.isValidValue()) {
+                        if (w.isRequired() && (w.canContainValue() && w.isValueEmpty()) || !w.isValidValue()) {
                             NYXToolkit.getInstance().beep();
                             w.focus();
                             return false;
@@ -202,10 +200,10 @@ public abstract class NyxListener
                     if (widget.getPart().getParentPart() != null) {
                         widget.getPart().getParentPart().getSession().setValue("nyx.childbean", bean);
                     }
-                    Widget parent = (Widget)widget.getPart().getSession().getValue("nyx.callerwidget");
+                    Widget parent = (Widget) widget.getPart().getSession().getValue("nyx.callerwidget");
                     if (parent instanceof IContentWidget) {
-                        Object objData = ((IContentWidget)parent).getContent();
-                        // TODO:now only supports content with a list.. Needs to be improved..
+                        Object objData = ((IContentWidget) parent).getContent();
+                        // @todo now only supports content with a list.. Needs to be improved..
                         if (objData instanceof List) {
                             List data = (List) objData;
                             if (data == null) {
@@ -213,12 +211,12 @@ public abstract class NyxListener
                             }
                             Object dataBean = widget.getPart().getBean();
                             int dataIndex = data.indexOf(dataBean);
-                            if (dataIndex != -1 ) {
+                            if (dataIndex != -1) {
                                 data.set(dataIndex, dataBean);
                             } else {
                                 data.add(widget.getPart().getBean());
                             }
-                            ((IContentWidget)parent).setContent(data);
+                            ((IContentWidget) parent).setContent(data);
                         }
                         parent.setValue(widget.getPart().getBean());
                     }
@@ -244,8 +242,7 @@ public abstract class NyxListener
     /**
      * Should be called when a field is entered
      */
-    public void started()
-    {
+    public void started() {
         processing = true;
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
@@ -256,8 +253,7 @@ public abstract class NyxListener
      * Returns the widget.
      * @return Widget
      */
-    public Widget getWidget()
-    {
+    public Widget getWidget() {
         return widget;
     }
 
@@ -265,8 +261,7 @@ public abstract class NyxListener
      * Sets the widget.
      * @param widget The widget to set
      */
-    public void setWidget(Widget widget)
-    {
+    public void setWidget(Widget widget) {
         this.widget = widget;
     }
 
@@ -274,18 +269,16 @@ public abstract class NyxListener
      * Returns the processing.
      * @return boolean
      */
-    public static boolean isProcessing()
-    {
+    public static boolean isProcessing() {
         return processing;
     }
 
     /**
      * Override this if you want to handle events.
      *
-     * @param event
+     * @param event the NyxEvent to process
      */
     public void processEvent(NyxEvent event) {
     }
-
 
 }

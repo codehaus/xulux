@@ -1,7 +1,7 @@
 /*
- $Id: INativeWidgetHandler.java,v 1.5 2003-11-06 19:53:11 mvdb Exp $
+ $Id: INativeWidgetHandler.java,v 1.6 2003-12-11 20:01:19 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -51,7 +51,7 @@ package org.xulux.nyx.gui;
  * via eg the guidefaults xml file.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: INativeWidgetHandler.java,v 1.5 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: INativeWidgetHandler.java,v 1.6 2003-12-11 20:01:19 mvdb Exp $
  */
 public interface INativeWidgetHandler {
 
@@ -65,7 +65,7 @@ public interface INativeWidgetHandler {
      * @param parent - the nyx parent widget
      * @return the nyx parent widget.
      */
-    public Widget getWidget(String clazz, Widget parent);
+    Widget getWidget(String clazz, Widget parent);
 
     /**
      * Returns the widget passed in (as convenience)
@@ -76,21 +76,31 @@ public interface INativeWidgetHandler {
      * @param parent - the nyx parent widget
      * @return - the nyx parent widget.
      */
-    public Widget getWidget(Object object, Widget parent);
+    Widget getWidget(Object object, Widget parent);
 
     /**
-     * Set the location on the native widget
+     * Set the location on the last native widget added
      *
-     * @param x
-     * @param y
+     * @param parent the parent widget to set the location on
+     * @param x the x position
+     * @param y the y position
      */
-    public void setLocationOnWidget(Widget parent, int x, int y);
+    void setLocationOnWidget(Widget parent, int x, int y);
+
+    /**
+     * Set the location on the last native widget added
+     *
+     * @param widget the native widget to set the location on
+     * @param x the x position
+     * @param y the y position
+     */
+    void setLocationOnWidget(Object widget, int x, int y);
 
     /**
      * Adds a widget to the parent, which is a native. (getParentWidget())
-     * @param widget
-     * @param nativeWidget
+     * @param widget the widget to add
+     * @param parentWidget the parent to add the widget to
      */
-    public void addWidgetToParent(Widget widget, Object parentWidget);
+    void addWidgetToParent(Widget widget, Object parentWidget);
 
 }
