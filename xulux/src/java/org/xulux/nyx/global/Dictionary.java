@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ $Id: Dictionary.java,v 1.3 2002-11-08 00:08:36 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.3 2002-11-08 00:08:36 mvdb Exp $
  */
 public class Dictionary
 {
@@ -251,7 +251,10 @@ public class Dictionary
     
     public void clearMappings()
     {
-        mappings.clear();
+        if (mappings!=null)
+        {
+            mappings.clear();
+        }
     }
 
 }
