@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.17 2003-11-06 19:53:12 mvdb Exp $
+ $Id: BeanMapping.java,v 1.18 2003-11-10 12:42:54 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -62,7 +62,7 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.17 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.18 2003-11-10 12:42:54 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -333,7 +333,8 @@ public class BeanMapping
      * or protected.
      * It will also try to discover the set method that is connected
      * to the getter (assuming it is not a read only field).
-     *
+     * 
+     * @todo What to do with collections ? 
      */
     public void discover()
     {
@@ -352,7 +353,9 @@ public class BeanMapping
                     BeanField field = new BeanField(method);
                     // try to find the setter..
                     String fieldName = field.getName();
-                    fieldName = field.getName().substring(0,1).toUpperCase()+field.getName().substring(1);
+                    if (fieldName.length() > 0) {
+                        fieldName = field.getName().substring(0,1).toUpperCase()+field.getName().substring(1);
+                    }
                     Method setMethod = findMethod(fieldName, true);
                     field.setChangeMethod(setMethod);
                     addField(field);

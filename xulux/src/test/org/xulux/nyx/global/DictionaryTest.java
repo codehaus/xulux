@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.17 2003-10-27 15:30:14 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.18 2003-11-10 12:42:54 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.17 2003-10-27 15:30:14 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.18 2003-11-10 12:42:54 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -277,12 +277,39 @@ public class DictionaryTest extends TestCase
         assertEquals(IntegerConverter.class,Dictionary.getConverter(Integer.class).getClass());
         assertEquals(DoubleConverter.class,Dictionary.getConverter(Double.class).getClass());
     }
+    
+    /**
+     * If the bean (in this case a list) contains the method get(int) or any 
+     * other get, it would crash.
+     */
+    public void testGetMappingWithGetMethod() {
+        System.out.println("testGetMappingWithGetMethod");
+        ArrayList list = new ArrayList();
+        BeanMapping mapping = Dictionary.getInstance().getMapping(list.getClass());
+        System.out.println("mapping : "+mapping.getField("get"));
+        assertNotNull(mapping.getField("get"));
+        mapping = Dictionary.getInstance().getMapping(new InnerBean());
+        assertNotNull(mapping.getField("x"));
+    }        
         
     /**
      * @see junit.framework.TestCase#setUp()
      */
     protected void setUp() throws Exception {
         Dictionary.reset();
+    }
+    
+    public class InnerBean {
+        
+        public InnerBean() {
+        }
+        
+        public String getX() {
+            return "X";
+        }
+        
+        public void setX(String x) {
+        } 
     }
 
 }
