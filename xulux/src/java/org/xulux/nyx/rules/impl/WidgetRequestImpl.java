@@ -1,5 +1,5 @@
 /*
- $Id: WidgetRequestImpl.java,v 1.4 2003-11-06 16:57:53 mvdb Exp $
+ $Id: WidgetRequestImpl.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -43,7 +43,6 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
-
 package org.xulux.nyx.rules.impl;
 
 import org.xulux.nyx.context.ApplicationContext;
@@ -56,7 +55,7 @@ import org.xulux.nyx.gui.Widget;
  * This class should not be used directly, it is only for internal use.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetRequestImpl.java,v 1.4 2003-11-06 16:57:53 mvdb Exp $
+ * @version $Id: WidgetRequestImpl.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
  */
 public class WidgetRequestImpl implements PartRequest
 {

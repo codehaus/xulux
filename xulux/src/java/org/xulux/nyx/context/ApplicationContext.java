@@ -1,8 +1,8 @@
 /*
- $Id: ApplicationContext.java,v 1.33 2003-09-17 11:49:31 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.34 2003-11-06 19:09:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,29 +10,29 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.context;
 
@@ -67,69 +67,87 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 /**
  * The context contains all the components currently
  * known to the system.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.33 2003-09-17 11:49:31 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.34 2003-11-06 19:09:33 mvdb Exp $
  */
-public class ApplicationContext
-{
-    
-    public static String GUIDEFAULTS_XML = "org/xulux/nyx/guidefaults/GuiDefaults.xml";
+public class ApplicationContext {
+    /**
+     * The default GuiDefaults (can be overridden);
+     */
+    public final static String GUIDEFAULTS_XML = "org/xulux/nyx/guidefaults/GuiDefaults.xml";
+
+    /**
+     * The applicationcontext instance
+     */
     private static ApplicationContext instance;
+
+    /**
+     * The log system.
+     */
     private static Log log = LogFactory.getLog(ApplicationContext.class);
-    
-    /** 
+
+    /**
      * This is the component registery
      * Which contains all components in the application
      * that aren't disposed
      */
     private ArrayList registry;
-    
+
     /**
      * placeholder to know if we are in testmode
      * so exceptions shouldn't be caught
      */
     private static boolean test = false;
 
+    /**
+     * contains all the known parts
+     */
     private HashMap parts;
-    
+
+    /**
+     * contains all the known widgets
+     */
     private HashMap widgets;
-    
+
     /**
      * Map of parentWidgetHandlers
      * The key is the type
      */
     private HashMap parentWidgetHandlerMap;
-    
+
     /**
      * Map of the nativeWidgetHandlers
      * They key is the type
      */
     private HashMap nativeWidgetHandlerMap;
-    
+
     /**
      * Map of the fieldEventHandlers.
      * The key is the type
      */
     private HashMap fieldEventHandlerMap;
-    
+
     /**
-     * Container for the nyx toolkits 
+     * Container for the nyx toolkits
      * Normal situations just have 1 toolkit..
      */
     private HashMap nyxToolkits;
-    
+
     /**
      * Map contains widget Initializers and
      * destroyers.
      */
     private HashMap widgetInitMap;
-    
+
     /** 
      * The currently registered rules
      */
     private ArrayList rules;
-    
+
+    /**
+     * is nyx the complete application ? 
+     */
     private ApplicationPart isApplication;
 
     /**
@@ -150,32 +168,29 @@ public class ApplicationContext
     /**
      * Constructor for GuiContext.
      */
-    public ApplicationContext()
-    {
+    public ApplicationContext() {
         super();
     }
-    
+
     /**
      * Checks to see if this part is the application
      */
-    public static boolean isPartApplication(ApplicationPart part)
-    {
+    public static boolean isPartApplication(ApplicationPart part) {
         return (part == getInstance().isApplication);
     }
-    
+
     /**
      * Exits the application
      */
-    public static void exitApplication()
-    {
+    public static void exitApplication() {
         System.exit(0);
     }
-    
-    
-    public static ApplicationContext getInstance()
-    {
-        if (instance == null)
-        {
+
+    /**
+     * @return the applicationcontext instance
+     */
+    public static ApplicationContext getInstance() {
+        if (instance == null) {
             instance = new ApplicationContext();
             instance.initializeGuiDefaults();
         }
@@ -184,20 +199,26 @@ public class ApplicationContext
 
     /** 
      * Register applicationpart
+     *
+     * @param part registers a part in the context. The part will not be treated
+     *         as an application.
      */
-    public void register(ApplicationPart part)
-    {
+    public void register(ApplicationPart part) {
+        register(part, false);
     }
-    
-    public void register(ApplicationPart part, boolean isApplication)
-    {
-        if (registry == null)
-        {
+
+    /**
+     * Register an applicationpart.
+     *
+     * @param part
+     * @param isApplication
+     */
+    public void register(ApplicationPart part, boolean isApplication) {
+        if (registry == null) {
             registry = new ArrayList();
         }
         registry.add(part);
-        if (isApplication) 
-        {
+        if (isApplication) {
             this.isApplication = part;
         }
     }
@@ -205,21 +226,18 @@ public class ApplicationContext
     /** 
      * Register a certain rule to a certain part.
      * If the rulecount is zero, it will add it by default..
-     * 
+     *
      * @param partName can be eg TestForm or TestForm.fieldname If the emapping already exists,
      *         this will add it to the new mapping. Need to do some work here, since 2 identical
      *         rules will be called on processing.
      * @param rule - the rule to register. If there is already an instance of a rule present,
      *                the new rule will be ignored. 
      */
-    public void register(String partName, IRule rule)
-    {
-        if (rules == null)
-        {
+    public void register(String partName, IRule rule) {
+        if (rules == null) {
             rules = new ArrayList();
         }
-        if (rule.getUseCount() == 0)
-        {
+        if (rule.getUseCount() == 0) {
             // we need to register it..
             rules.add(rule);
             // and ad that we have a "user"
@@ -234,11 +252,9 @@ public class ApplicationContext
      *       so heavily used rules will never be deregistered.when they are zero.
      * @param partName
      */
-    public void deregister(String partName)
-    {
+    public void deregister(String partName) {
         Iterator it = rules.iterator();
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             IRule rule = (IRule) it.next();
             rule.deregisterPartName(partName);
         }
@@ -247,80 +263,72 @@ public class ApplicationContext
     /** 
      * Fires a request of a certain type.
      */
-    public static void fireRequest(PartRequest request, int type)
-    {
+    public static void fireRequest(PartRequest request, int type) {
         ApplicationPart part = request.getPart();
         ArrayList rules = part.getRules();
-        if (rules == null || rules.size() == 0)
-        {
+        if (rules == null || rules.size() == 0) {
             return;
         }
-        if (log.isDebugEnabled())
-        {
+        if (log.isDebugEnabled()) {
             log.debug("Rules : " + rules);
         }
-        ArrayList currentRules = (ArrayList)rules.clone();
+        ArrayList currentRules = (ArrayList) rules.clone();
         Iterator it = currentRules.iterator();
         fireRequests(it, request, type);
     }
-    
+
     /**
      * Fires the rules on the specified field
      * @param widget
      * @param request
      * @param type
      */
-    public static void fireFieldRequest(
-        Widget widget,
-        PartRequest request,
-        int type)
-    {
+    public static void fireFieldRequest(Widget widget, PartRequest request, int type) {
         ArrayList rules = widget.getRules();
-        if (rules == null || rules.size() == 0)
-        {
+        if (rules == null || rules.size() == 0) {
             return;
         }
-        ArrayList currentRules = (ArrayList)rules.clone();
+        ArrayList currentRules = (ArrayList) rules.clone();
         Iterator it = currentRules.iterator();
         fireRequests(it, request, type);
         currentRules.clear();
         currentRules = null;
     }
 
-    public static void fireFieldRequests(PartRequest request, int type)
-    {
+    /**
+     * Fires an fieldrequest of the type specfied 
+     * 
+     * @param request
+     * @param type
+     */
+    public static void fireFieldRequests(PartRequest request, int type) {
         ArrayList widgets = request.getPart().getWidgets();
-        if (widgets == null)
-        {
+        if (widgets == null) {
             return;
         }
-        ArrayList currentWidgets = (ArrayList)widgets.clone();
+        ArrayList currentWidgets = (ArrayList) widgets.clone();
         Iterator wit = currentWidgets.iterator();
         boolean stopAllRules = false;
-        while (wit.hasNext() && !stopAllRules)
-        {
+        while (wit.hasNext() && !stopAllRules) {
             Widget widget = (Widget) wit.next();
-            if (request.getWidget()!=null && widget.equals(request.getWidget()))
-            {
+            if (request.getWidget() != null && widget.equals(request.getWidget())) {
                 // don't process the caller again..
                 continue;
             }
             stopAllRules = request.getPart().needToStopAllRules(getInstance());
-            if (stopAllRules)
-            {
+            if (stopAllRules) {
                 return;
             }
             ArrayList rules = widget.getRules();
-            if (rules == null || rules.size() == 0)
-            {
+            if (rules == null || rules.size() == 0) {
                 continue;
             }
-            ArrayList currentRules = (ArrayList)rules.clone();
+            ArrayList currentRules = (ArrayList) rules.clone();
             Iterator it = currentRules.iterator();
             stopAllRules = fireRequests(it, request, type);
         }
     }
-    
+
     /**
      * Convenience method so I don't have to replicate
      * code
@@ -329,52 +337,43 @@ public class ApplicationContext
      * @param type
      * @return true if all rules need to be stopped..
      */
-    private static boolean fireRequests(Iterator it, PartRequest request, int type)
-    {
+    private static boolean fireRequests(Iterator it, PartRequest request, int type) {
         boolean stopAllRules = false;
-        while (it.hasNext() && !stopAllRules)
-        {
+        while (it.hasNext() && !stopAllRules) {
             IRule rule = (IRule) it.next();
             stopAllRules = request.getPart().needToStopAllRules(getInstance());
-            if (stopAllRules)
-            {
+            if (stopAllRules) {
                 return true;
             }
-            try
-            {
-                switch (type)
-                {
+            try {
+                switch (type) {
                     case PRE_REQUEST :
-                        if (log.isTraceEnabled())
-                        {
+                        if (log.isTraceEnabled()) {
                             log.trace("Processing pre rule : " + rule.getClass().getName());
                         }
                         rule.pre(request);
                         continue;
                     case EXECUTE_REQUEST :
-                        if (log.isTraceEnabled())
-                        {
+                        if (log.isTraceEnabled()) {
                             log.trace("Processing execute rule : " + rule.getClass().getName());
                         }
                         rule.execute(request);
                         continue;
                     case POST_REQUEST :
-                        if (log.isTraceEnabled())
-                        {
+                        if (log.isTraceEnabled()) {
                             log.trace("Processing post rule : " + rule.getClass().getName());
                         }
                         rule.post(request);
                         continue;
                 }
             }
-            catch(Exception e)
-            {
-                log.warn("Exception during Processing of rule : " + rule.getClass().getName()+"\n",e);
+            catch (Exception e) {
+                log.warn("Exception during Processing of rule : " + rule.getClass().getName() + "\n", e);
             }
         }
         return false;
     }
-    
+
     /**
      * Registers a widget that can be used to construct
      * an ui.
@@ -385,40 +384,32 @@ public class ApplicationContext
      *                the coretype represent an generic extension
      *                of widget for eg a combo)
      */
-    public void registerWidget(String name, String clazz, String type)
-    {
-        if (this.widgets == null)
-        {
+    public void registerWidget(String name, String clazz, String type) {
+        if (this.widgets == null) {
             widgets = new HashMap();
         }
-        try
-        {
+        try {
             Class widgetClass = Class.forName(clazz);
-            WidgetConfig config = (WidgetConfig)widgets.get(name);
-            if (config == null)
-            {
+            WidgetConfig config = (WidgetConfig) widgets.get(name);
+            if (config == null) {
                 config = new WidgetConfig();
             }
-            if (type == null)
-            {
+            if (type == null) {
                 type = defaultType;
             }
-            if ("core".equals(type))
-            {
+            if ("core".equals(type)) {
                 config.setCoreClass(widgetClass);
             }
-            else
-            {
+            else {
                 config.add(type, widgetClass);
             }
             widgets.put(name, config);
         }
-        catch (ClassNotFoundException e)
-        {
-            log.warn("Could not find "+clazz+" for widget named "+name+" and type "+type);
+        catch (ClassNotFoundException e) {
+            log.warn("Could not find " + clazz + " for widget named " + name + " and type " + type);
         }
     }
-    
+
     /**
      * Registers the parent widget handler.
      * This is used when cleaning up the applicationpart
@@ -433,27 +424,24 @@ public class ApplicationContext
         if (parentWidgetHandlerMap == null) {
             parentWidgetHandlerMap = new HashMap();
         }
-        try
-        {
-            if (type == null)
-            {
+        try {
+            if (type == null) {
                 type = defaultType;
             }
             Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
             if (!(object instanceof IParentWidgetHandler)) {
                 if (log.isWarnEnabled()) {
-                    log.warn(clazz+" is not an instance of IParentWidgetHandler");
+                    log.warn(clazz + " is not an instance of IParentWidgetHandler");
                 }
             }
-                
-            parentWidgetHandlerMap.put(type,object);
+
+            parentWidgetHandlerMap.put(type, object);
         }
-        catch (Exception e)
-        {
-            log.warn("Could not find "+clazz+" for parentWidgetHandler named for "+type);
+        catch (Exception e) {
+            log.warn("Could not find " + clazz + " for parentWidgetHandler named for " + type);
         }
     }
-    
+
     /**
      * Registers the native widget handler.
      * The handler will contain all logic to be able
@@ -467,27 +455,24 @@ public class ApplicationContext
         if (nativeWidgetHandlerMap == null) {
             nativeWidgetHandlerMap = new HashMap();
         }
-        try
-        {
-            if (type == null)
-            {
+        try {
+            if (type == null) {
                 type = defaultType;
             }
             Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
             if (!(object instanceof INativeWidgetHandler)) {
                 if (log.isWarnEnabled()) {
-                    log.warn(clazz+" is not an instance of INativeWidgetHandler");
+                    log.warn(clazz + " is not an instance of INativeWidgetHandler");
                 }
             }
-                
-            nativeWidgetHandlerMap.put(type,object);
+
+            nativeWidgetHandlerMap.put(type, object);
         }
-        catch (Exception e)
-        {
-            log.warn("Could not find the nativeWidgetHandler "+clazz+" for type "+type);
+        catch (Exception e) {
+            log.warn("Could not find the nativeWidgetHandler " + clazz + " for type " + type);
         }
     }
-    
+
     /**
      * 
      * @param type
@@ -505,16 +490,16 @@ public class ApplicationContext
             Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
             if (!(object instanceof NyxListener)) {
                 if (log.isWarnEnabled()) {
-                    log.warn(clazz+" is not an instance of NyxListener");
+                    log.warn(clazz + " is not an instance of NyxListener");
                 }
             }
-            fieldEventHandlerMap.put(type,object.getClass());
+            fieldEventHandlerMap.put(type, object.getClass());
         }
-        catch(Exception e) {
-            log.warn("Could not find the fieldEventHandler "+clazz+" for type "+type);
+        catch (Exception e) {
+            log.warn("Could not find the fieldEventHandler " + clazz + " for type " + type);
         }
     }
-    
+
     /**
      * Returns a new instance of the event Handler 
      *  
@@ -527,11 +512,11 @@ public class ApplicationContext
             if (type == null) {
                 type = defaultType;
             }
-            return (NyxListener) ClassLoaderUtils.getObjectFromClass((Class)fieldEventHandlerMap.get(type));
+            return (NyxListener) ClassLoaderUtils.getObjectFromClass((Class) fieldEventHandlerMap.get(type));
         }
         return null;
     }
-    
+
     /**
      * 
      * @param type
@@ -552,9 +537,9 @@ public class ApplicationContext
      * @deprecated No replacement yet
      */
     public IParentWidgetHandler getParentWidgetHandler() {
-        return getParentWidgetHandler(getDefaultWidgetType());    
+        return getParentWidgetHandler(getDefaultWidgetType());
     }
-    
+
     /**
      * 
      * @param type - the type (eg swing, swt, or whatnot)
@@ -567,7 +552,7 @@ public class ApplicationContext
         }
         return null;
     }
-    
+
     /**
      * 
      * @return the native widgets handler for the defaulttype
@@ -576,17 +561,16 @@ public class ApplicationContext
     public INativeWidgetHandler getNativeWidgetHandler() {
         return getNativeWidgetHandler(getDefaultWidgetType());
     }
-    
+
     /**
      * Initializes the default GuiDefaults in the systme
      * @see org.xulux.nyx.guidefaults.GuiDefaultsHandler#read for more info.
      * to override the current guidefaults..
      */
-    private void initializeGuiDefaults()
-    {
+    private void initializeGuiDefaults() {
         initializeGuiDefaults(GUIDEFAULTS_XML);
     }
-    
+
     public void initializeGuiDefaults(String xmlFile) {
         GuiDefaultsHandler handler = new GuiDefaultsHandler();
         InputStream stream = this.getClass().getClassLoader().getResourceAsStream(xmlFile);
@@ -602,19 +586,17 @@ public class ApplicationContext
      * @param name - the widget
      * @param type - the type of widget
      */
-    public Class getWidget(String name, String type)
-    {
+    public Class getWidget(String name, String type) {
         name = name.toLowerCase();
-        WidgetConfig config =  (WidgetConfig)widgets.get(name);
-        if (config == null)
-        {
+        WidgetConfig config = (WidgetConfig) widgets.get(name);
+        if (config == null) {
             return null;
         }
         Class clazz = config.get(type);
-        
+
         return config.get(type);
     }
-    
+
     /**
      * Returns the class that corresponds to the name or null
      * when not found
@@ -624,57 +606,46 @@ public class ApplicationContext
      * (system default is swing).
      * @param name - the widget
      */
-    public Class getWidget(String name)
-    {
+    public Class getWidget(String name) {
         return getWidget(name, getDefaultWidgetType());
     }
-    
-    public void registerPart(ApplicationPart part)
-    {
-        if (parts == null)
-        {
+
+    public void registerPart(ApplicationPart part) {
+        if (parts == null) {
             parts = new HashMap();
         }
-        
+
         parts.put(part.getName(), part);
     }
-    
-    public ApplicationPart getPart(String name)
-    {
-        if (parts == null)
-        {
+
+    public ApplicationPart getPart(String name) {
+        if (parts == null) {
             return null;
         }
-        ApplicationPart part = (ApplicationPart)parts.get(name);
+        ApplicationPart part = (ApplicationPart) parts.get(name);
         return part;
     }
-    
+
     /** 
      * Removes parts from the context
      */
-    public void removePart(String name)
-    {
-        if (parts != null)
-        {
+    public void removePart(String name) {
+        if (parts != null) {
             parts.remove(name);
         }
     }
-            
-    
-    public Collection getParts()
-    {
-        if (parts == null)
-        {
+
+    public Collection getParts() {
+        if (parts == null) {
             return null;
         }
         return parts.values();
     }
-    
+
     /** 
      * Enable test mode
      */
-    public static void setTest(boolean testMode)
-    {
+    public static void setTest(boolean testMode) {
         test = testMode;
     }
     /**
@@ -682,21 +653,23 @@ public class ApplicationContext
      * (eg. swt, core, swing)
      * @param defaultType
      */
-    public void setDefaultWidgetType(String defaultType)
-    {
+    public void setDefaultWidgetType(String defaultType) {
         this.defaultType = defaultType;
     }
-    
-    public String getDefaultWidgetType()
-    {
+
+    /**
+     * 
+     * @return the default widget type for the context instance
+     */
+    public String getDefaultWidgetType() {
         return this.defaultType;
     }
 
     /**
      * Method getWidgets.
+     * @return a map with widgets.
      */
-    public HashMap getWidgets()
-    {
+    public HashMap getWidgets() {
         return this.widgets;
     }
 
@@ -708,7 +681,7 @@ public class ApplicationContext
     public NYXToolkit getNYXToolkit() {
         return getNYXToolkit(getDefaultWidgetType());
     }
-    
+
     /**
      * 
      * @param type - the toolkit type (eg swt, swing)
@@ -718,11 +691,11 @@ public class ApplicationContext
      */
     public NYXToolkit getNYXToolkit(String type) {
         if (this.nyxToolkits != null) {
-            return (NYXToolkit)this.nyxToolkits.get(type);
+            return (NYXToolkit) this.nyxToolkits.get(type);
         }
         return null;
     }
-        
+
     /**
      * Add a toolkit of specified type
      * @param clazz the toolkit class
@@ -739,12 +712,12 @@ public class ApplicationContext
         Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
         if (object instanceof NYXToolkit) {
             this.nyxToolkits.put(type, object);
-        } else {
-            log.warn("NYXToolkit class "+clazz+" is not of type NYXToolkit or cannot be instantiated");
-        } 
+        }
+        else {
+            log.warn("NYXToolkit class " + clazz + " is not of type NYXToolkit or cannot be instantiated");
+        }
     }
-    
-    
+
     /**
      * Register a widget tool for the specified widget.
      * 
@@ -758,20 +731,20 @@ public class ApplicationContext
             config.addWidgetTool(clazz, type);
         }
     }
-    
+
     public void registerWidgetTool(String clazz, String widgetName) {
         registerWidgetTool(clazz, widgetName, getDefaultWidgetType());
     }
-    
+
     /**
      * 
      * @param widgetType
      * @return the widgetconfig for the widget
      */
     public WidgetConfig getWidgetConfig(String widgetName) {
-        return (WidgetConfig)widgets.get(widgetName);
+        return (WidgetConfig) widgets.get(widgetName);
     }
-    
+
     /**
      * Add a widget initializer 
      * @param initializerClass
@@ -787,26 +760,31 @@ public class ApplicationContext
         if (clz != null) {
             if (!IWidgetInitializer.class.isAssignableFrom(clz)) {
                 if (log.isWarnEnabled()) {
-                    log.warn("Widget initializer "+initializerClass+" is not of type IWidgetInitializer");
+                    log.warn("Widget initializer " + initializerClass + " is not of type IWidgetInitializer");
                 }
                 return;
             }
-            WidgetConfig config = (WidgetConfig)widgets.get(widgetName);
+            WidgetConfig config = (WidgetConfig) widgets.get(widgetName);
             if (config != null) {
                 config.addWidgetInitializer(type, clz);
-            } else {
-                if (log.isWarnEnabled()) {
-                    log.warn("Cannot register widget initializer "+initializerClass+
-                       " since there is no widget with the name "+widgetName);
-                }
-            } 
-        } else {
-            if (log.isWarnEnabled()) {
-                log.warn("Widget initializer "+initializerClass+" cannot be initialized");
             }
-        } 
+            else {
+                if (log.isWarnEnabled()) {
+                    log.warn(
+                        "Cannot register widget initializer "
+                            + initializerClass
+                            + " since there is no widget with the name "
+                            + widgetName);
+                }
+            }
+        }
+        else {
+            if (log.isWarnEnabled()) {
+                log.warn("Widget initializer " + initializerClass + " cannot be initialized");
+            }
+        }
     }
-    
+
     /**
      * 
      * @param widgetType
@@ -815,16 +793,16 @@ public class ApplicationContext
      * @deprecated use getWidgetConfig
      */
     public List getWidgetInitializers(String widgetType) {
-        WidgetConfig config = (WidgetConfig)widgets.get(widgetType.toLowerCase());
+        WidgetConfig config = (WidgetConfig) widgets.get(widgetType.toLowerCase());
         List clzs = config.getWidgetInitializers(getDefaultWidgetType());
-        if (clzs == null ) {
+        if (clzs == null) {
             return null;
         }
         Iterator it = clzs.iterator();
         ArrayList list = new ArrayList();
         while (it.hasNext()) {
-            Class clz = (Class)it.next();
-            list.add((IWidgetInitializer)ClassLoaderUtils.getObjectFromClass(clz));
+            Class clz = (Class) it.next();
+            list.add((IWidgetInitializer) ClassLoaderUtils.getObjectFromClass(clz));
         }
         if (list.size() == 0) {
             return null;
