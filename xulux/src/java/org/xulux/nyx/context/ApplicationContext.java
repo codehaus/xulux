@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.18.2.2 2003-04-29 16:52:43 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.18.2.3 2003-06-04 23:47:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.18.2.2 2003-04-29 16:52:43 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.18.2.3 2003-06-04 23:47:31 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -115,7 +115,11 @@ public class ApplicationContext
     {
         super();
     }
-
+    /**
+     * 
+     * @return an instance of the applicationContext
+     *          There can only be one per vm.
+     */
     public static ApplicationContext getInstance()
     {
         if (instance == null)
@@ -128,6 +132,8 @@ public class ApplicationContext
 
     /** 
      * Register applicationpart
+     * 
+     * @param part - the part to register
      */
     public void register(ApplicationPart part)
     {
@@ -179,6 +185,14 @@ public class ApplicationContext
             rule.deregisterPartName(partName);
         }
     }
+    
+    /**
+     * @see #deregister(String)
+     * @param part
+     */
+    public void deregister(ApplicationPart part) {
+        deregister(part.getName());
+    }
 
     /**
      * Adds default listeners to a certain component
@@ -223,6 +237,7 @@ public class ApplicationContext
     
     /**
      * Fires the rules on the specified field
+     * 
      * @param widget
      * @param request
      * @param type
@@ -331,6 +346,16 @@ public class ApplicationContext
         return false;
     }
     
+    /**
+     * Register a new widget under the name specified.
+     * When using a name that already exists, it will 
+     * override the default one.
+     * It will just log a simple warning when the class
+     * specified is not found
+     *  
+     * @param name
+     * @param clazz
+     */
     public void registerWidget(String name, String clazz)
     {
         if (this.widgets == null)

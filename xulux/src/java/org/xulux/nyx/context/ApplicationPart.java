@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.30.2.5 2003-05-05 07:15:29 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.30.2.6 2003-06-04 23:47:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -88,7 +88,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.30.2.5 2003-05-05 07:15:29 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.30.2.6 2003-06-04 23:47:31 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -128,6 +128,12 @@ public class ApplicationPart
     public final static int OK_STATE =2;
     private int state = NO_STATE;
     private PrePostFieldListener fieldEventHandler;
+    
+    /** 
+     * Placeholder for the current field being edited/
+     * selected
+     */
+    private String currentField;
     
     /**
      * Constructor for GuiPart.
@@ -170,13 +176,33 @@ public class ApplicationPart
      */
     public boolean isCurrentField(String field)
     {
-        return false;
+        if (field == null) {
+            return false;
+        }
+        return field.equals(getCurrentField());
+    }
+    
+    /**
+     * Sets the currentfield 
+     * @param field - the fieldname
+     */
+    public void setCurrentField(String field) {
+        this.currentField = field;
+    }
+    
+    /**
+     * 
+     * @return - the current field or null if not field
+     *            is being edited or selected
+     */
+    public String getCurrentField() {
+        return this.currentField;
     }
     
     /**
      * No primitive support yet.. sorry ;)
-     * This is pretty ignoarant.. If a field does not exists 
-     * in the apppart, it will do nothing
+     * This is pretty ignorant.. If a field does not exists 
+     * in the applicationpart, it will do nothing
      * @param field
      * @param value
      */
@@ -204,6 +230,11 @@ public class ApplicationPart
     }
     
     
+    /**
+     * Sets the guivalue to the field
+     * @param name - the name of the field to fill
+     * @param value - the value to fill the field with
+     */
     public void setGuiValue(String name, Object value)
     {
         Widget widget = (Widget) widgets.get(name);
@@ -221,8 +252,8 @@ public class ApplicationPart
     }
     
     /** 
-     * Returns the current value of the specified field
-     * @param field
+     * @param name - the name of the field
+     * @return the current value of the specified field 
      */
     public Object getGuiValue(String name)
     {
@@ -238,6 +269,11 @@ public class ApplicationPart
         return widget.getValue();
     }
     
+    /**
+     * 
+     * @param name - the fieldname
+     * @return the previous value of the specified field
+     */
     public Object getPreviousGuiValue(String name)
     {
         Widget widget = (Widget)widgets.get(name);
@@ -346,6 +382,9 @@ public class ApplicationPart
     }
     /** 
      * Replaces the field with the specified widget
+     * If the widget doesn't exist yet, the widget will be
+     * added.
+     * 
      * @param widget
      * @param field
      */
@@ -362,6 +401,10 @@ public class ApplicationPart
         }
     }
     
+    /**
+     * @return the parent of the part. In this version of nyx it will
+     *          allways be a panel
+     */
     public Object getRootWidget()
     {
         return parentWidget;
@@ -393,6 +436,9 @@ public class ApplicationPart
         runIndex++;
     }
     
+    /**
+     * Refreshes all widgets.
+     */
     public void refreshAllWidgets()
     {
         Iterator it = widgets.iterator();
@@ -413,7 +459,12 @@ public class ApplicationPart
         partRules.add(partRules.size()-1, rule);
         rule.registerPartName(this.getName());
     }
-    
+
+    /**
+     * Registers a fieldrule.
+     * @param rule - the rule to register
+     * @param field - the field to register.
+     */    
     public void registerFieldRule(IRule rule, String field)
     {
         Object tmp = widgets.get(field);
@@ -584,7 +635,6 @@ public class ApplicationPart
             }
             return retValue;
         }
-            
     }
     
     public WidgetList getWidgets()
