@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.32 2003-11-10 11:07:29 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.33 2003-12-12 02:47:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.swing.widgets.ToggleButton;
  * Also if a user closes the window, widget.destroy should be called
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.32 2003-11-10 11:07:29 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.33 2003-12-12 02:47:33 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -147,7 +147,6 @@ implements FocusListener, ActionListener, ItemListener
             if (isCancel) {
                 // drop all events and accepted in the event queue..
                 q.clearAccepted();
-                q.clearQueue();
             }
             // free event queue.
             q.holdEvents(false);

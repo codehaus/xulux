@@ -10,6 +10,16 @@
 
 <section name="Examples">
   <p>
+    <b>
+       There are no examples yet! This is just an idea that has not been implemented
+       yet. You can find some basic examples in the <code>src/uitest</code> that contain
+       some of the widgets that are present in Xulux. <br/>
+       We need lot's of improvement in this area though. If you want a specific use case
+       or example, please don't hestitate to mail us with your wishes or add a request in
+       the bug database Jira.
+     </b>
+  </p>
+  <p>
     The hard part of systems like this is to decide if this system is useable to you.
     To make the decision easier, I provide some examples of current scenarios that
     are supported. 

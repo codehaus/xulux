@@ -3,15 +3,15 @@
 
   <pomVersion>3</pomVersion>
   <id>xulux</id>
-  <name>NYX</name>
-  <currentVersion>dev</currentVersion>
+  <name>xulux</name>
+  <currentVersion>1.0-SNAPSHOT</currentVersion>
   <organization>
     <name>xulux.org</name>
     <url>http://nyx.xulux.org/</url>
     <logo>http://nyx.xulux.org/images/xulux.gif</logo>
   </organization>
   <inceptionYear>2002</inceptionYear>
-  <package>org.xulux.nyx</package>
+  <package>org.xulux</package>
   
   <!-- Gump integration -->
   <gumpRepositoryId>nyx</gumpRepositoryId>
@@ -21,13 +21,13 @@
     by the user
   </description>
 
-  <shortDescription>NYX data driven gui's</shortDescription>
+  <shortDescription>Xulux Gui Independend Framework</shortDescription>
 
   <url>http://nyx.xulux.org/</url>
   <issueTrackingUrl>http://jira.codehaus.org</issueTrackingUrl>
   <siteAddress>codehaus.org</siteAddress>
-  <siteDirectory>/www/nyx.xulux.org/htdocs/</siteDirectory>
-  <distributionDirectory>/www/nyx.xulux.org//htdocs/builds/nyx/</distributionDirectory>
+  <siteDirectory>/www/nyx.xulux.org/</siteDirectory>
+  <distributionDirectory>/www/nyx.xulux.org/builds/</distributionDirectory>
 
   <repository>
     <connection>scm:cvs:pserver:anoncvs@codehaus.org:/cvsroot/xulux:nyx</connection>

@@ -1,5 +1,5 @@
 /*
- $Id: NyxEventQueue.java,v 1.6 2003-11-25 19:23:54 mvdb Exp $
+ $Id: NyxEventQueue.java,v 1.7 2003-12-12 02:47:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -45,10 +45,7 @@
  */
 package org.xulux.nyx.swing.util;
 
-import java.awt.AWTEvent;
-import java.awt.EventQueue;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.xulux.nyx.gui.NyxListener;
 
@@ -61,13 +58,25 @@ import org.xulux.nyx.gui.NyxListener;
  * doing rule processing..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxEventQueue.java,v 1.6 2003-11-25 19:23:54 mvdb Exp $
+ * @version $Id: NyxEventQueue.java,v 1.7 2003-12-12 02:47:34 mvdb Exp $
  */
-public class NyxEventQueue extends EventQueue {
+public class NyxEventQueue {// extends EventQueue {
 
+    /**
+     * The queue
+     */
     private ArrayList queue;
+    /**
+     * Hold events ?
+     */
     private boolean holdEvents;
+    /**
+     * The queue instance
+     */
     private static NyxEventQueue instance;
+    /**
+     * The accepted queue
+     */
     private ArrayList accepted;
 
     /**
@@ -79,7 +88,6 @@ public class NyxEventQueue extends EventQueue {
     }
 
     /**
-     *
      * @return the instance created by the SwingToolkit.
      */
     public static NyxEventQueue getInstance() {
@@ -87,66 +95,22 @@ public class NyxEventQueue extends EventQueue {
     }
 
     /**
-     * @see java.awt.EventQueue#postEvent(java.awt.AWTEvent)
-     */
-    public void postEvent(AWTEvent theEvent) {
-        super.postEvent(theEvent);
-    }
-
-    /**
-     * @see java.awt.EventQueue#dispatchEvent(java.awt.AWTEvent)
-     */
-    protected void dispatchEvent(AWTEvent event) {
-        if (holdEvents) {
-            // queue the event..
-            if (queue == null) {
-                queue = new ArrayList();
-            }
-            queue.add(event);
-        } else {
-            // do a normal dispatch
-            super.dispatchEvent(event);
-        }
-    }
-
-    /**
-     * Process the events that are queued when the hold events
-     * status changes..
-     * This will call super.dispatchEvent to prevent misunderstandig
-     * of holdEventsCalled..
-     */
-    private void processQueuedEvents() {
-        if (queue == null || queue.size() == 0) {
-            return;
-        }
-        for (int i = 0; i < queue.size(); i++) {
-            super.dispatchEvent((AWTEvent)queue.get(i));
-        }
-        queue = null;
-    }
-
-    /**
-     *
-     * @return the events that are hold up to now..
-     */
-    public List getEventHoldQueue() {
-        return queue;
-    }
-
-    /**
-     * Holds the events so we can see what events are
-     * @param hold
+     * Holds or frees up the eventqueue
+     * @param hold if true it will start holding events, false it will 
+     *        process the events that are in the queue
      */
     public void holdEvents(boolean hold) {
 
         if (this.holdEvents && !hold) {
             processAccepted();
-            processQueuedEvents();
         }
         this.holdEvents = hold;
     }
 
-    private void processAccepted() {
+    /**
+     * Process the accepted event queue
+     */
+    protected void processAccepted() {
         if (accepted == null || accepted.size() == 0) {
             return;
         }
@@ -159,12 +123,13 @@ public class NyxEventQueue extends EventQueue {
         accepted = null;
     }
 
-
-
     /**
-     * @param listener
+     * @param listener the listener to hold.
      */
     public void holdAccepted(NyxListener listener) {
+        if (listener == null) {
+            return;
+        }
         if (accepted == null) {
             accepted = new ArrayList();
         }
@@ -177,10 +142,6 @@ public class NyxEventQueue extends EventQueue {
      */
     public void clearAccepted() {
         accepted = null;
-    }
-
-    public void clearQueue() {
-        queue = null;
     }
 
 }

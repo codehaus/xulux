@@ -10,9 +10,8 @@
 
 <section name="General">
   <p>
-    Work is on the way to integrate <a href="http://drools.codehaus.org">Drools</a>
-    with xulux. After the refactor of the current internal rule engine, we will
-    start working on it.
+    Since this concept is a "new" concept (at least to actually have an API for this)
+    , documentation still needs to be made..
   </p>
 </section>
 

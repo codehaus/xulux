@@ -1,5 +1,5 @@
 /*
- $Id: NewSelectionListener.java,v 1.3 2003-12-12 02:47:33 mvdb Exp $
+ $Id: NewSelectionListenerTest.java,v 1.1 2003-12-12 02:47:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,57 +46,83 @@
 package org.xulux.nyx.swing.listeners;
 
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 
+import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.layouts.MockWidget;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
- * The selection listener refreshes all widgets when a new entry has been
- * selected. It only refreshes when a widget actually needs data from
- * the calling widget.
- * 
- * eg have a pointer in the field like ?Table:Person.name
- * 
- * This works only within parts.
- * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NewSelectionListener.java,v 1.3 2003-12-12 02:47:33 mvdb Exp $
+ * @version $Id: NewSelectionListenerTest.java,v 1.1 2003-12-12 02:47:34 mvdb Exp $
  */
-public class NewSelectionListener 
-implements ListSelectionListener, TreeSelectionListener {
-    
-    protected Widget widget;
-    
+public class NewSelectionListenerTest extends TestCase {
+
     /**
-     * 
+     * Constructor for NewSelectionListenerTest.
+     * @param name the name of the test
      */
-    public NewSelectionListener(Widget widget) {
-        this.widget = widget;
+    public NewSelectionListenerTest(String name) {
+        super(name);
     }
 
     /**
-     * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+     * @return The test suite
      */
-    public void valueChanged(ListSelectionEvent e) {
-        valueChanged();
+    public static Test suite() {
+        TestSuite suite = new TestSuite(NewSelectionListenerTest.class);
+        return suite;
     }
 
     /**
-     * @see javax.swing.event.TreeSelectionListener#valueChanged(javax.swing.event.TreeSelectionEvent)
+     * Test the newselection listener
      */
-    public void valueChanged(TreeSelectionEvent e) {
-        valueChanged();
+    public void testNewSelection() {
+        System.out.println("testNewSelection");
+        MockWidget widget = new MockWidget("mockwidget");
+        InternalPart part = new InternalPart();
+        widget.setPart(part);
+        NewSelectionListener listener = new NewSelectionListener(null);
+        listener.valueChanged((ListSelectionEvent) null);
+        listener.valueChanged((TreeSelectionEvent) null);
+        assertEquals(0, part.getCallCount());
+        listener = new NewSelectionListener(widget);
+        listener.valueChanged((ListSelectionEvent) null);
+        listener.valueChanged((TreeSelectionEvent) null);
+        assertEquals(2, part.getCallCount());
     }
     
     /**
-     * Refresh the value of all widgets that are pointing this widget.
+     * Fake some methods..
      */
-    public void valueChanged() {
-        if (widget != null) {
-            widget.getPart().refreshWidgets(widget);
+    public class InternalPart extends ApplicationPart {
+        /**
+         * The call count
+         */
+        private int callCount;
+        
+        /**
+         * @return the callcount
+         */
+        public int getCallCount() {
+            return callCount;
         }
-    }
+        /**
+         * Reset the callcount
+         */
+        public void resetCallCount() {
+            callCount = 0;
+        }
+        /**
+         * @see org.xulux.nyx.context.ApplicationPart#refreshWidgets(org.xulux.nyx.gui.Widget)
+         */
+        public void refreshWidgets(Widget caller) {
+            callCount++;
+        }
 
+    }
 }

@@ -1,5 +1,5 @@
 /*
- $Id: NyxWindowListenerTest.java,v 1.1 2003-12-11 19:57:37 mvdb Exp $
+ $Id: NyxWindowListenerTest.java,v 1.2 2003-12-12 02:47:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import junit.framework.TestSuite;
  * Tests the nyxwindowlistener
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListenerTest.java,v 1.1 2003-12-11 19:57:37 mvdb Exp $
+ * @version $Id: NyxWindowListenerTest.java,v 1.2 2003-12-12 02:47:34 mvdb Exp $
  */
 public class NyxWindowListenerTest extends TestCase {
 
@@ -74,8 +74,7 @@ public class NyxWindowListenerTest extends TestCase {
     /**
      * @return The test suite
      */
-    public static Test suite()
-    {
+    public static Test suite() {
         TestSuite suite = new TestSuite(NyxWindowListenerTest.class);
         return suite;
     }
