@@ -1,5 +1,5 @@
 /*
-   $Id: Button.java,v 1.13 2004-12-01 11:37:04 mvdb Exp $
+   $Id: Button.java,v 1.14 2004-12-16 17:08:47 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,6 +36,7 @@ import org.xulux.gui.Widget;
 import org.xulux.swing.SwingWidget;
 import org.xulux.swing.listeners.DefaultButtonChangeListener;
 import org.xulux.swing.listeners.PrePostFieldListener;
+import org.xulux.swing.listeners.UpdateButtonsListener;
 import org.xulux.swing.listeners.WidgetFocusListener;
 import org.xulux.swing.util.SwingUtils;
 import org.xulux.utils.BooleanUtils;
@@ -44,7 +45,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.13 2004-12-01 11:37:04 mvdb Exp $
+ * @version $Id: Button.java,v 1.14 2004-12-16 17:08:47 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -309,6 +310,12 @@ public class Button extends SwingWidget {
                 this.button.addActionListener((ActionListener) listener);
             } else if (listener instanceof FocusListener) {
                 button.addFocusListener((FocusListener) listener);
+            }
+            if (listener instanceof UpdateButtonsListener) {
+            	// remove the pre/post listener.
+            	// don't make the listener null, since it will
+            	// reinit during a refresh..
+            	button.removeActionListener(this.actionListener);
             }
         }
     }
