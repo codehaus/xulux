@@ -9,9 +9,10 @@
 <body>
 
 <section name="Logo 1">
-
 <p>
   <img src="images/logo1.jpg" alt="logo 1"/>
+</p>
+<p>
   Erik Fransen designed this. His note : the logo needs to be 
   symmetric.
 </p>
@@ -19,9 +20,10 @@
 </section>
 
 <section name="Logo 2">
-
 <p>
   <img src="images/logo2.jpg" alt="logo 2"/>
+</p>
+<p>
   Erik Fransen designed this. His note : the logo needs to be 
   symmetric.
 </p>

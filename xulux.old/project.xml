@@ -12,7 +12,6 @@
   </organization>
   <inceptionYear>2002</inceptionYear>
   <package>org.xulux</package>
-  <logo>/images/xulux.jpg</logo>
   
   <!-- Gump integration -->
   <gumpRepositoryId>xulux</gumpRepositoryId>
