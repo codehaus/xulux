@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.17 2003-12-15 20:03:22 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.18 2003-12-15 20:05:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,10 +59,9 @@ import org.xulux.nyx.context.ApplicationContext;
  * Case insensitive processing of the guidefaults.
  *
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.17 2003-12-15 20:03:22 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.18 2003-12-15 20:05:05 mvdb Exp $
  */
-public class GuiDefaultsHandler extends DefaultHandler
-{
+public class GuiDefaultsHandler extends DefaultHandler {
 
     /*
      * Element and attribute statics
@@ -94,8 +93,7 @@ public class GuiDefaultsHandler extends DefaultHandler
     /**
      * Constructor for GuiDefaultsHandler.
      */
-    public GuiDefaultsHandler()
-    {
+    public GuiDefaultsHandler() {
     }
 
     /**
@@ -104,26 +102,19 @@ public class GuiDefaultsHandler extends DefaultHandler
      *
      * @param stream - the inputstream to read from
      */
-    public void read(InputStream stream)
-    {
+    public void read(InputStream stream) {
         SAXParser saxParser = null;
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setValidating(false);
-        try
-        {
+        try {
             saxParser = factory.newSAXParser();
-            try
-            {
+            try {
                 saxParser.parse(stream, this);
-            }
-            catch (SAXException se)
-            {
+            } catch (SAXException se) {
                 se.printStackTrace(System.out);
                 se.getException().printStackTrace(System.out);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace(System.out);
         }
         // and clean up..
@@ -135,54 +126,36 @@ public class GuiDefaultsHandler extends DefaultHandler
     /**
      * @see org.xml.sax.ContentHandler#startElement(String, String, String, Attributes)
      */
-    public void startElement(
-        String namespaceURI,
-        String localName,
-        String qName,
-        Attributes atts)
-        throws SAXException
-    {
+    public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
         qName = qName.toLowerCase();
-        if (qName.equals(ELEMENT_ROOT))
-        {
+        if (qName.equals(ELEMENT_ROOT)) {
             String defaultType = atts.getValue(ATTRIBUTE_DEFAULT);
-            if (defaultType != null)
-            {
+            if (defaultType != null) {
                 defaultType = defaultType.toLowerCase();
             }
             ApplicationContext.getInstance().setDefaultWidgetType(defaultType);
-        }
-        else if (qName.equals(ELEMENT_PARENTWIDGETHANDLER))
-        {
+        } else if (qName.equals(ELEMENT_PARENTWIDGETHANDLER)) {
             String type = getType(atts);
             if (type == null) {
                 type = ApplicationContext.getInstance().getDefaultWidgetType();
             }
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             ApplicationContext.getInstance().registerParentWidgetHandler(type, clazz);
-        }
-        else if (qName.equals(ELEMENT_NATIVEWIDGETHANDLER))
-        {
+        } else if (qName.equals(ELEMENT_NATIVEWIDGETHANDLER)) {
             String type = getType(atts);
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             ApplicationContext.getInstance().registerNativeWidgetHandler(type, clazz);
-        }
-        else if (qName.equals(ELEMENT_FIELDEVENTHANDLER)) {
+        } else if (qName.equals(ELEMENT_FIELDEVENTHANDLER)) {
             String type = getType(atts);
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             ApplicationContext.getInstance().registerFieldEventHandler(type, clazz);
-        }
-        else if (qName.equals(ELEMENT_NYXTOOLKIT)) {
+        } else if (qName.equals(ELEMENT_NYXTOOLKIT)) {
             String type = getType(atts);
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
-            ApplicationContext.getInstance().registerNYXToolkit(clazz,type);
-        }
-        else if (qName.equals(ELEMENT_WIDGETS))
-        {
+            ApplicationContext.getInstance().registerNYXToolkit(clazz, type);
+        } else if (qName.equals(ELEMENT_WIDGETS)) {
             widgetsStarted = true;
-        }
-        else if (qName.equals(ELEMENT_WIDGET) && widgetsStarted)
-        {
+        } else if (qName.equals(ELEMENT_WIDGET) && widgetsStarted) {
             String name = atts.getValue(ATTRIBUTE_NAME);
             if (name != null) {
                 name = name.toLowerCase();
@@ -193,7 +166,7 @@ public class GuiDefaultsHandler extends DefaultHandler
                 ApplicationContext.getInstance().registerWidget(name, clazz, type);
             }
             this.widgetName = name;
-        } else if(qName.equals(ELEMENT_INITIALIZER)) {
+        } else if (qName.equals(ELEMENT_INITIALIZER)) {
             this.initType = atts.getValue(ATTRIBUTE_TYPE);
             this.initClass = atts.getValue(ATTRIBUTE_CLASS);
         } else if (qName.equals(ELEMENT_CONTENTHANDLERS)) {
@@ -214,7 +187,7 @@ public class GuiDefaultsHandler extends DefaultHandler
     /**
      * Convenient method
      *
-     * @param atts
+     * @param atts the attributes
      * @return the type or the default type
      */
     private String getType(Attributes atts) {
@@ -228,15 +201,13 @@ public class GuiDefaultsHandler extends DefaultHandler
     /**
      * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
-    public void endElement(String namespaceURI, String localName, String qName)
-        throws SAXException
-    {
+    public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
         qName = qName.toLowerCase();
         if (qName.equals(ELEMENT_WIDGET)) {
             widgetName = null;
         } else if (qName.equals(ELEMENT_INITIALIZER)) {
             if (widgetName != null) {
-                ApplicationContext.getInstance().registerWidgetInitializer(initClass,widgetName,initType);
+                ApplicationContext.getInstance().registerWidgetInitializer(initClass, widgetName, initType);
                 this.initType = null;
                 this.initClass = null;
             }
