@@ -11,6 +11,7 @@
     <menu name="XULUX">
       <item name="Overview"                href="/index.html"/>
       <item name="Logos"                   href="/logo.html"/>
+      <item name="Links / Resources"       href="/resources.html"/>
       <item name="To Do List"              href="/todo.html"/>
     </menu>
   </body>

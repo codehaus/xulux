@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>XULUX - Links / Resources</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+  <body>
+    <section name="XUL Resources">
+     <ul>
+       <li><a href="http://www.mozilla.org/xpfe" target="_blank">XPToolkit</a> - The "home" of the XUL, which was created by mozilla for their webbrowser.</li>
+       <li><a href="http://developer.netscape.com/tech/xul/" target="_blank">XUL Developer Central</a> - Seems like the more official XUL spec site</li>
+       <li><a href="http://www.xulplanet.com" target="_blank">XUL Planet</a> - The mission of XulPlanet is to privide the most up to date, accurate infomation on XUL, the Extensible User interface language. XULPlanet also provides links to the best XUL applications and mozilla themes on the web.</li> 
+     </ul>
+    </section>
+
+    <section name="XUL implementations">
+      <ul>
+        <li><a href="http://luxor-xul.sourceforge.net" target="_blank">Luxor XUL</a> - Luxor is a free, open-source XML User Interface Language (XUL) toolkit in Java released under the GNU General Public License (GPL) that supports hand-picked Mozilla XUL goodies and also includes a ultra-light weight, multi-threaded web server, a portal engine and Apache Velocity  as its template engine.</li>
+      </ul>
+              
+    </section>
+
+    <section name="Other Gui Builder implementations">
+      <ul>
+        <li><a href="http://www.jcp.org/jsr/detail/127.jsp" target="_blank">JavaServer Faces (JSR 127)</a> - This specification defines an architecture and APIs which simplify the creation and maintainance of Java Server application GUIs. There is not a community draft available yet.  Xulux co-founder James Strachan is an expert group member.</li>
+        <li><a href="http://jakarta.apache.org/commons/sandbox/jelly" target="_blank">Jelly</a> - Jelly is a Java and XML based scripting and processing engine. Recently a swing tag libirary was added. Co-founder James Strachan is one of the creators of Jelly.</li>
+        <li><a href="http://sourceforge.net/projects/jgb" target="_blank">JGB</a> - Decouple your GUI building code from the rest of your application. Using an XML description, the Java Gui Builder will build appropriate windows, controls and objects for later retrieval by the mainstream code</li>
+      </ul>
+    </section>
+    
+    <section name="Articles on XUL">
+      <ul>
+        <li><a href="http://www.xml.com/pub/a/2000/03/15/xul/" target="_blank">Fooling with XUL</a></li>
+      </ul>
+    </section>
+  </body>
+</document>
