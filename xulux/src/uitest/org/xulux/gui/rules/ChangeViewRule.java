@@ -1,5 +1,5 @@
 /*
-   $Id: ChangeViewRule.java,v 1.2 2004-06-30 09:21:23 mvdb Exp $
+   $Id: ChangeViewRule.java,v 1.3 2004-10-20 17:30:20 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,19 +17,30 @@
 */
 package org.xulux.gui.rules;
 
+import java.util.Arrays;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.tree.TreePath;
+
 import org.xulux.core.PartRequest;
+import org.xulux.dataprovider.contenthandlers.ContentView;
 import org.xulux.dataprovider.contenthandlers.SimpleDOMView;
 import org.xulux.dataprovider.contenthandlers.ToStringView;
 import org.xulux.gui.IContentWidget;
 import org.xulux.gui.Widget;
 import org.xulux.rules.Rule;
+import org.xulux.swing.models.SwingTreeModel;
+import org.xulux.swing.widgets.Tree;
 
 /**
  * Changes the view of a domtree to a toStringview and back
  * This is to test if dynamic viewchanges actually work.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ChangeViewRule.java,v 1.2 2004-06-30 09:21:23 mvdb Exp $
+ * @version $Id: ChangeViewRule.java,v 1.3 2004-10-20 17:30:20 mvdb Exp $
  */
 public class ChangeViewRule extends Rule {
 
@@ -72,8 +83,61 @@ public class ChangeViewRule extends Rule {
             } else {
                 request.getWidget().setProperty("text", "Enable Tree");
             }
+        } else if (request.getWidget().getName().equals("expandall")) {
+            Tree w = (Tree) request.getWidget("DomTree");
+            System.out.println("w : " + w.getNativeWidget());
+            JTree tree = (JTree) ((JScrollPane)w.getNativeWidget()).getViewport().getView();
+            tree.addTreeExpansionListener(new TreeExpansionListener() {
+              public void treeCollapsed(TreeExpansionEvent event) {
+                System.out.println("Collapsed : " + event.getPath());
+              }
+
+              public void treeExpanded(TreeExpansionEvent event) {
+                System.out.println("Expanded : " + event.getPath());
+              }
+            });
+            SwingTreeModel model = w.getSwingModel();
+            System.err.println("class : " + model.getRoot().getClass()); 
+            expandAll(tree, new TreePath(((ContentView)model.getRoot()).getSource()), model, true);
+            System.out.println("RowCount : " + tree.getRowCount());
+//            tree.expandRow(3);
+//            w.setLazyProperty("expand", "true");
+//            w.setProperty("expand-untill", "all");
+            System.out.println("SelectionPath : " + tree.getSelectionPath());
         }
-//        w.refresh();
     }
+ 
+    private void expandAll(JTree tree, TreePath parent, SwingTreeModel model, boolean expand) {
+        // Traverse children
+        Object node = parent.getLastPathComponent();
+        int childCount = model.getChildCount(node);
+        if (childCount >= 0) {
+            for (int i = 0; i < childCount;i++) {
+              Object view =  model.getChild(node, i);
+              // we don't want any leafs
+              if (model.isLeaf(view)) {
+                continue;
+              }
+              TreePath path = parent.pathByAddingChild(view);
+              System.out.println("path : " + Arrays.asList(path.getPath()));
+              tree.expandPath(path);
+              expandAll(tree, path, model, expand);
+            }
+//            for (Enumeration e=model..children(); e.hasMoreElements(); ) {
+//                TreeNode n = (TreeNode)e.nextElement();
+//                TreePath path = parent.pathByAddingChild(n);
+//                expandAll(tree, path, expand);
+//            }
+        }
+//        System.out.println("Path : " + parent);
+//        System.out.println("isLeaf ? : " + model.isLeaf(parent.getLastPathComponent()));
+//    
+//        // Expansion or collapse must be done bottom-up
+//        if (expand) {
+//            tree.expandPath(parent);
+//        } else {
+//            tree.collapsePath(parent);
+//        }
+    }    
 
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: EntryComboTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
+<!-- $Id: EntryComboTest.xml,v 1.3 2004-10-20 17:30:20 mvdb Exp $ -->
 <part name="PersonBeanForm" prefix="Person">
   <rules>
     <rule>org.xulux.gui.rules.MainEntryComboRule</rule>
@@ -15,9 +15,7 @@
 	  </field>
 	  <field type="combo" name="PersonList">
 	    <combofields>fullname</combofields>
-	    <rules>
-	      <rule>org.xulux.gui.rules.EntryComboPersonListRule</rule>
-	    </rules>
+        <content type="field">org.xulux.gui.rules.MainEntryComboRule.createContent</content>
 	    <size>250,21</size>
 	    <position>125,10</position>
 	    <required>true</required>
