@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.7 2003-11-18 16:21:36 mvdb Exp $
+ $Id: SwingUtils.java,v 1.8 2003-11-24 15:00:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -63,9 +63,9 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * Contains several utilities to make life with swing easier.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.7 2003-11-18 16:21:36 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.8 2003-11-24 15:00:34 mvdb Exp $
  */
-public class SwingUtils
+public final class SwingUtils
 {
 
     /**
@@ -76,10 +76,13 @@ public class SwingUtils
     /**
      * The default custom images loader (uses jimi)
      */
-    private static String DEFAULT_CUSTOMIMAGELOADER =
+    private static final String DEFAULT_CUSTOMIMAGELOADER =
                     "org.xulux.nyx.swing.util.JimiImageLoader";
-                    
-    private static String JIMI_PRESENT_CLASS = "com.sun.jimi.core.Jimi";
+
+    /**
+     * The jimi class
+     */
+    private static final String JIMI_PRESENT_CLASS = "com.sun.jimi.core.Jimi";
 
     /**
      * Contains the custom image loader
@@ -93,21 +96,20 @@ public class SwingUtils
      * and image processing
      */
     static {
-        String il = System.getProperty("nyx.swing.imageloader",DEFAULT_CUSTOMIMAGELOADER);
+        String il = System.getProperty("nyx.swing.imageloader", DEFAULT_CUSTOMIMAGELOADER);
         try
         {
-            imageLoader = (ImageLoaderInterface)Class.forName(il).newInstance();
+            imageLoader = (ImageLoaderInterface) Class.forName(il).newInstance();
             if (!imageLoader.isUsable()) {
                 imageLoader = null;
                 throw new Exception();
-            } 
+            }
         }
         catch (Exception e)
         {
-            if (log.isWarnEnabled())
-            {
-                log.warn("Custom ImageLoader "+il+" could not be loaded." +
-                         "using swing imageloader");
+            if (log.isWarnEnabled()) {
+                log.warn("Custom ImageLoader " + il + " could not be loaded."
+                         + "using swing imageloader");
             }
         }
     }
@@ -116,7 +118,7 @@ public class SwingUtils
     /**
      * Constructor for SwingUtils.
      */
-    public SwingUtils()
+    private SwingUtils()
     {
     }
 
@@ -131,15 +133,14 @@ public class SwingUtils
      *                  At this time it cannot be null
      * @return the Image retrieved
      */
-    public static Image getImage(String resource, Object object)
-    {
-        return getIcon(resource,object).getImage();
+    public static Image getImage(String resource, Object object) {
+        return getIcon(resource, object).getImage();
     }
 
     /**
      *
-     * @param resource
-     * @param object
+     * @param resource the resource of the image
+     * @param object the object to get the classloader from
      * @return the imageIcon found or null if not found
      */
     public static ImageIcon getIcon(String resource, Object object) {
@@ -150,7 +151,7 @@ public class SwingUtils
         ImageIcon icon = new ImageIcon(imageURL);
         if (icon.getImageLoadStatus() == MediaTracker.ERRORED) {
             if (log.isWarnEnabled()) {
-                log.warn("Image type "+resource+" not supported by swing "
+                log.warn("Image type " + resource + " not supported by swing "
                      + "we advice you to add jimi to your classpath or convert your "
                      + "image to an image type supported by swing");
             }
@@ -160,7 +161,7 @@ public class SwingUtils
 
 
     /**
-     * @param rectangle
+     * @param rectangle the rectangle to get the dimensions for
      * @return the dimensions for the rectangle specified
      */
     public static Dimension getDimension(WidgetRectangle rectangle) {
@@ -183,12 +184,13 @@ public class SwingUtils
         Object[] ins = NyxCollectionUtils.getListFromCSV(margin).toArray();
         if (ins != null && ins.length == 4 ) {
             try {
-                int top = Integer.parseInt((String)ins[0]);
-                int left = Integer.parseInt((String)ins[1]);
-                int bottom = Integer.parseInt((String)ins[2]);
-                int right = Integer.parseInt((String)ins[3]);
-                return new Insets(top,left,bottom,right);
+                int top = Integer.parseInt((String) ins[0]);
+                int left = Integer.parseInt((String) ins[1]);
+                int bottom = Integer.parseInt((String) ins[2]);
+                int right = Integer.parseInt((String) ins[3]);
+                return new Insets(top, left, bottom, right);
             } catch (Exception e) {
+                return null;
             }
         }
         return null;
