@@ -1,5 +1,5 @@
 /*
- $Id: NyxJRadioButton.java,v 1.3 2003-11-06 19:53:13 mvdb Exp $
+ $Id: NyxJRadioButton.java,v 1.4 2003-11-24 16:22:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -49,18 +49,23 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 
-import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JRadioButton;
 
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJRadioButton.java,v 1.3 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: NyxJRadioButton.java,v 1.4 2003-11-24 16:22:17 mvdb Exp $
  */
 public class NyxJRadioButton extends JRadioButton {
 
+    /**
+     * The real background
+     */
     private Color realBg;
+    /**
+     * should we return the real background ?
+     */
     private boolean returnRealBackground;
 
     /**
@@ -71,62 +76,8 @@ public class NyxJRadioButton extends JRadioButton {
     }
 
     /**
-     * @param icon
-     */
-    public NyxJRadioButton(Icon icon) {
-        super(icon);
-    }
-
-    /**
-     * @param a
-     */
-    public NyxJRadioButton(Action a) {
-        super(a);
-    }
-
-    /**
-     * @param icon
-     * @param selected
-     */
-    public NyxJRadioButton(Icon icon, boolean selected) {
-        super(icon, selected);
-    }
-
-    /**
-     * @param text
-     */
-    public NyxJRadioButton(String text) {
-        super(text);
-    }
-
-    /**
-     * @param text
-     * @param selected
-     */
-    public NyxJRadioButton(String text, boolean selected) {
-        super(text, selected);
-    }
-
-    /**
-     * @param text
-     * @param icon
-     */
-    public NyxJRadioButton(String text, Icon icon) {
-        super(text, icon);
-    }
-
-    /**
-     * @param text
-     * @param icon
-     * @param selected
-     */
-    public NyxJRadioButton(String text, Icon icon, boolean selected) {
-        super(text, icon, selected);
-    }
-
-    /**
      * Set the real background for the icon.
-     * @param color
+     * @param color the real background color
      */
     public void setRealBackground(Color color) {
         this.realBg = color;
@@ -162,8 +113,15 @@ public class NyxJRadioButton extends JRadioButton {
      * with the correct background set in the widget
      */
     public class IconStub implements Icon {
+        /**
+         * the icon
+         */
         private Icon icon;
 
+        /**
+         *
+         * @param icon the icon
+         */
         public IconStub(Icon icon) {
             this.icon = icon;
         }
