@@ -1,5 +1,5 @@
 /*
-   $Id: NyxCombo.java,v 1.6 2004-04-13 17:43:02 mvdb Exp $
+   $Id: NyxCombo.java,v 1.7 2004-05-17 16:30:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,9 +22,11 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.Dictionary;
+import org.xulux.core.XuluxContext;
+import org.xulux.dataprovider.IDataProvider;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
+import org.xulux.dataprovider.InvalidValueException;
 import org.xulux.gui.events.NyxValueChangedEvent;
 import org.xulux.utils.ClassLoaderUtils;
 import org.xulux.utils.NyxCollectionUtils;
@@ -33,7 +35,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.6 2004-04-13 17:43:02 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.7 2004-05-17 16:30:22 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget implements IContentWidget {
 
@@ -134,7 +136,7 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
                     log.warn("content field " + content + " of widget " + getName() + " could not be found");
                 }
             }
-            IMapping mapping = Dictionary.getInstance().getMapping(clz);
+            IMapping mapping = XuluxContext.getDictionary().getMapping(clz);
             if (mapping != null) {
                 IField field = mapping.getField(content.substring(index + 1));
                 if (field != null) {
@@ -219,13 +221,18 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
      * @see org.xulux.nyx.gui.Widget#getValue()
      */
     public Object getValue() {
-        if (getField() == null) {
+        if (getProvider() != null) {
+            IDataProvider dp = XuluxContext.getDictionary().getProvider(getProvider());
+            IMapping mapping = dp.getMapping(this.value);
+            IField field = mapping.getField(this.value);
+            return this.value;
+        } else if (getField() == null) {
             if (this.value != null && getNotSelectedValue() != null && this.value.equals(getNotSelectedValue())) {
                 return null;
             }
             return this.value;
         } else {
-            IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IMapping map = XuluxContext.getDictionary().getMapping(getPart().getBean());
             if (map == null) {
                 return this.value;
             }
@@ -243,12 +250,14 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
     public void setValue(Object object) {
         setValue(object, true);
     }
+    protected boolean settingValue = false;
     /**
      * @todo Provide some tests to prove if this stuff actually works!
      * @param object the value to set
      * @param refresh should the widget be refreshed?
      */
     public void setValue(Object object, boolean refresh) {
+        settingValue = true;
         if (isUseIgnored()) {
             this.value = object;
             notifyListeners(new NyxValueChangedEvent() {
@@ -262,12 +271,31 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
                 }
             });
         }
-
-        if (getField() == null) {
+        if (getProvider() != null) {
+            IDataProvider pr = XuluxContext.getDictionary().getProvider(getProvider());
+            IMapping mapping = null;
+            IField field = null;
+            if (!(object instanceof String) && this.value == null) {
+              this.value = object;
+            } else {
+              mapping = pr.getMapping(this.value);
+              if (getField() != null) {
+                  field = mapping.getField(getField());
+              } else {
+                  field = mapping.getField(this.value);
+              }
+              try {
+                field.setValue(this.value, object);
+                setValidValue(true);
+              } catch(InvalidValueException ive) {
+                setValidValue(false);
+              }
+            }
+        } else if (getField() == null) {
             this.previousValue = this.value;
             this.value = object;
         } else {
-            IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IMapping map = XuluxContext.getDictionary().getMapping(getPart().getBean());
             IField field = map.getField(getField());
             if (field != null) {
                 Object currentValue = field.getValue(getPart().getBean());
@@ -281,6 +309,7 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
                 this.value = object;
             }
         }
+        settingValue = false;
         if (initialized && refresh) {
             refresh();
         }
@@ -297,7 +326,7 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#clear()
+     * @see org.xulux.gui.Widget#clear()
      */
     public void clear() {
         setValue(null);
@@ -318,40 +347,40 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#canContainValue()
+     * @see org.xulux.gui.Widget#canContainValue()
      */
     public boolean canContainValue() {
         return false;
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#focus()
+     * @see org.xulux.gui.Widget#focus()
      */
     public void focus() {
 
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     * @see org.xulux.gui.Widget#getGuiValue()
      */
     public Object getGuiValue() {
         return null;
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#isValueEmpty()
+     * 
+     * @see org.xulux.gui.Widget#isValueEmpty()
      */
     public boolean isValueEmpty() {
         return false;
     }
-
+    
     /**
      * We need to keep track of content changes
      * through the property system.
-     *
-     * @see org.xulux.nyx.gui.Widget#setProperty(java.lang.String, java.lang.String)
+     * @see org.xulux.gui.Widget#setProperty(java.lang.String, java.lang.Object)
      */
-    public void setProperty(String key, String value) {
+    public void setProperty(String key, Object value) {
         if (key != null) {
             if (key.startsWith("content")) {
                 contentChanged = true;

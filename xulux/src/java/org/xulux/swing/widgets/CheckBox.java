@@ -1,5 +1,5 @@
 /*
-   $Id: CheckBox.java,v 1.7 2004-04-27 11:01:36 mvdb Exp $
+   $Id: CheckBox.java,v 1.8 2004-05-17 16:30:21 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,11 +20,14 @@ package org.xulux.swing.widgets;
 import java.awt.Container;
 
 import javax.swing.Icon;
+import javax.swing.JCheckBox;
 import javax.swing.UIManager;
 
-import org.xulux.dataprovider.Dictionary;
+import org.xulux.core.XuluxContext;
+import org.xulux.dataprovider.IDataProvider;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
+import org.xulux.dataprovider.InvalidValueException;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.utils.ColorUtils;
 import org.xulux.swing.SwingWidget;
@@ -36,7 +39,7 @@ import org.xulux.utils.BooleanUtils;
  * The nyx to swing implementation of a checkbox
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.7 2004-04-27 11:01:36 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.8 2004-05-17 16:30:21 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
 
@@ -58,7 +61,7 @@ public class CheckBox extends SwingWidget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
         processDestroy();
@@ -80,7 +83,7 @@ public class CheckBox extends SwingWidget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
+     * @see org.xulux.gui.Widget#getNativeWidget()
      */
     public Object getNativeWidget() {
         initialize();
@@ -88,7 +91,7 @@ public class CheckBox extends SwingWidget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#initialize()
+     * @see org.xulux.gui.Widget#initialize()
      */
     public void initialize() {
         if (this.initialized) {
@@ -122,7 +125,7 @@ public class CheckBox extends SwingWidget {
         } else if (getValue() instanceof String) {
             checkBox.setSelected(BooleanUtils.toBoolean((String) getValue()));
         }
-        checkBox.setEnabled(isEnabled());
+        ((JCheckBox)getNativeWidget()).setEnabled(isEnabled());
         String backgroundColor = null;
         if (isRequired() && isEnabled()) {
             backgroundColor = getProperty("required-background-color");
@@ -132,7 +135,7 @@ public class CheckBox extends SwingWidget {
             backgroundColor = getProperty("default-background-color");
         }
         if (backgroundColor != null) {
-            checkBox.setRealBackground(ColorUtils.getSwingColor(backgroundColor));
+            ((NyxJCheckBox) getNativeWidget()).setRealBackground(ColorUtils.getSwingColor(backgroundColor));
         }
         isRefreshing = false;
     }
@@ -141,10 +144,12 @@ public class CheckBox extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#getValue()
      */
     public Object getValue() {
-        if (getPart().getBean() == null || getField() == null) {
+        if (getProvider() != null) {
+          return this.value;
+        } else  if (getPart().getBean() == null || getField() == null) {
             return super.getValue();
         }
-        IMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
+        IMapping map = XuluxContext.getDictionary().getMapping(getPart().getBean().getClass());
         if (map != null) {
             IField field = map.getField(getField());
             if (field != null) {
@@ -157,29 +162,53 @@ public class CheckBox extends SwingWidget {
     /**
      * @see org.xulux.nyx.gui.Widget#setValue(java.lang.Object)
      */
-    public void setValue(Object value) {
-        if (this.value == null) {
-            this.value = "false";
-        }
-        this.previousValue = this.value;
-        IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
-        if (map != null) {
+    public void setValue(Object object) {
+        if (getProvider() != null) {
+          IDataProvider pr = XuluxContext.getDictionary().getProvider(getProvider());
+          IMapping mapping = null;
+          IField field = null;
+          if (!(object instanceof String) && this.value == null) {
+            this.value = object;
+          } else {
+            //new Exception().printStackTrace();
+            System.err.println("This.value : " + this.value+"<=>"+this.value.getClass());
+            mapping = pr.getMapping(this.value);
             if (getField() != null) {
-                IField f = map.getField(getField());
-                Class cClass = f.getType();
-                if (cClass == Boolean.class || cClass == Boolean.TYPE) {
-                    if (value.getClass() == String.class) {
-                        value = BooleanUtils.toBooleanObject((String) value);
-                    }
-                } else if (cClass == String.class) {
-                    if (value.getClass() == Boolean.class) {
-                        value = BooleanUtils.toStringTrueFalse((Boolean) value);
-                    }
-                }
-                f.setValue(getPart().getBean(), value);
+                field = mapping.getField(getField());
+            } else {
+                field = mapping.getField(this.value);
             }
+            try {
+              field.setValue(this.value, object);
+              setValidValue(true);
+            } catch(InvalidValueException ive) {
+              setValidValue(false);
+            }
+          }
+        } else {
+            if (this.value == null) {
+                this.value = "false";
+            }
+            this.previousValue = this.value;
+            IMapping map = XuluxContext.getDictionary().getDefaultProvider().getMapping(getPart().getBean());
+            if (map != null) {
+                if (getField() != null) {
+                    IField f = map.getField(getField());
+                    Class cClass = f.getType();
+                    if (cClass == Boolean.class || cClass == Boolean.TYPE) {
+                        if (object.getClass() == String.class) {
+                            object = BooleanUtils.toBooleanObject((String) object);
+                        }
+                    } else if (cClass == String.class) {
+                        if (object.getClass() == Boolean.class) {
+                            object = BooleanUtils.toStringTrueFalse((Boolean) object);
+                        }
+                    }
+                    f.setValue(getPart().getBean(), object);
+                }
+            }
+            this.value = object;
         }
-        this.value = value;
         if (initialized) {
             refresh();
         }

@@ -1,5 +1,5 @@
 /*
-   $Id: MainComboRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+   $Id: MainComboRule.java,v 1.4 2004-05-17 16:30:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,7 +27,7 @@ import org.xulux.rules.Rule;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MainComboRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+ * @version $Id: MainComboRule.java,v 1.4 2004-05-17 16:30:22 mvdb Exp $
  */
 public class MainComboRule extends Rule {
 
@@ -54,8 +54,10 @@ public class MainComboRule extends Rule {
     public void setup3Persons(PartRequest request) {
         NyxCombo combo = (NyxCombo) request.getPart().getWidget("3PersonList");
         ArrayList threePersonContent = createContent();
-        combo.setValue(threePersonContent.get(2));
-        combo.setContent(threePersonContent);
+        if (combo != null) {
+          combo.setValue(threePersonContent.get(2));
+          combo.setContent(threePersonContent);
+        }
     }
 
     /**
@@ -65,9 +67,11 @@ public class MainComboRule extends Rule {
     public void setup3PersonsWithNotSelectedValue(PartRequest request) {
         NyxCombo combo = (NyxCombo) request.getPart().getWidget("3PersonListWithNotSelectedValue");
         ArrayList list = createContent();
-        combo.setValue(list.get(2));
-        combo.setContent(list);
-        combo.setNotSelectedValue("<nothing selected>");
+        if (combo != null) {
+            combo.setValue(list.get(2));
+            combo.setContent(list);
+            combo.setNotSelectedValue("<nothing selected>");
+        }
     }
 
     /**
@@ -77,8 +81,10 @@ public class MainComboRule extends Rule {
     public void setup1Person(PartRequest request) {
         NyxCombo combo = (NyxCombo) request.getPart().getWidget("1PersonList");
         ArrayList list = createSinglePerson();
-        combo.setContent(list);
-        combo.setValue(list.get(0));
+        if (combo != null) {
+            combo.setContent(list);
+            combo.setValue(list.get(0));
+        }
     }
 
     /**
@@ -88,9 +94,11 @@ public class MainComboRule extends Rule {
     public void setup1PersonWithNotSelectedValue(PartRequest request) {
         NyxCombo combo = (NyxCombo) request.getPart().getWidget("1PersonListWithNotSelectedValue");
         ArrayList list = createSinglePerson();
-        combo.setContent(list);
-        combo.setValue(list.get(0));
-        combo.setNotSelectedValue("<nothing selected>");
+        if (combo != null) {
+            combo.setContent(list);
+            combo.setValue(list.get(0));
+            combo.setNotSelectedValue("<nothing selected>");
+        }
     }
 
     /**

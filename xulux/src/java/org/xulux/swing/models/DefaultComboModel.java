@@ -1,5 +1,5 @@
 /*
-   $Id: DefaultComboModel.java,v 1.7 2004-05-10 09:45:41 mvdb Exp $
+   $Id: DefaultComboModel.java,v 1.8 2004-05-17 16:30:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 
-import org.xulux.dataprovider.Dictionary;
+import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
 import org.xulux.swing.widgets.Combo;
@@ -33,7 +33,7 @@ import org.xulux.swing.widgets.Combo;
  * The default combobox model.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.7 2004-05-10 09:45:41 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.8 2004-05-17 16:30:22 mvdb Exp $
  */
 public class DefaultComboModel extends AbstractListModel implements ComboBoxModel {
     /**
@@ -215,7 +215,7 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
             }
             if ((startMappingAt == 1 && original.size() > 1) || startMappingAt == 0) {
                 Class tmpClazz = original.get(startMappingAt).getClass();
-                mapping = Dictionary.getInstance().getMapping(tmpClazz);
+                mapping = XuluxContext.getDictionary().getMapping(tmpClazz);
             }
         }
         list = new ArrayList();

@@ -1,5 +1,5 @@
 /*
-   $Id: NyxComboTest.java,v 1.2 2004-01-28 15:22:08 mvdb Exp $
+   $Id: NyxComboTest.java,v 1.3 2004-05-17 16:30:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,7 +28,7 @@ import junit.framework.TestSuite;
  * Test the NyxCombo box.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxComboTest.java,v 1.2 2004-01-28 15:22:08 mvdb Exp $
+ * @version $Id: NyxComboTest.java,v 1.3 2004-05-17 16:30:22 mvdb Exp $
  */
 public class NyxComboTest extends TestCase {
 
@@ -48,6 +48,38 @@ public class NyxComboTest extends TestCase {
         return suite;
     }
 
+    /**
+     * Test the properties related to the content.
+     */
+    public void testContentProperties() {
+        System.out.println("testContentChangedProperties");
+        C combo = new C("combo");
+        assertEquals(false, combo.contentChanged);
+        combo.setProperty("content", "1,2,3,4,5");
+        assertEquals(true, combo.contentChanged);
+        combo.setProperty("content.type", "string");
+        assertEquals(true, combo.contentChanged);
+        assertEquals("1,2,3,4,5", combo.getProperty("content"));
+        assertEquals("string", combo.getProperty("content.type"));
+        assertNotNull(combo.getContent());
+    }
+    
+    public void testStringContentProperty() {
+        System.out.println("testStringContentProperty");
+        C combo = new C("combo");
+        assertEquals(false, combo.contentChanged);
+        combo.setProperty("content", "1,2,3,4,5");
+        assertEquals(true, combo.contentChanged);
+        combo.setProperty("content.type", "string");
+        assertEquals(true, combo.contentChanged);
+        assertEquals("1,2,3,4,5", combo.getProperty("content"));
+        assertEquals("string", combo.getProperty("content.type"));
+        assertNotNull(combo.getContent());
+        assertEquals(true, combo.getContent() instanceof List);
+        assertEquals(5, ((List) combo.getContent()).size());
+        assertEquals("5", ((List) combo.getContent()).get(4));
+    }
+    
     /**
      * Test the notSelectedvalue
      */

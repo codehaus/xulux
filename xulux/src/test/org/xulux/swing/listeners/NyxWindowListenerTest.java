@@ -1,5 +1,5 @@
 /*
-   $Id: NyxWindowListenerTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+   $Id: NyxWindowListenerTest.java,v 1.5 2004-05-17 16:30:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
  * Tests the nyxwindowlistener
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListenerTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: NyxWindowListenerTest.java,v 1.5 2004-05-17 16:30:22 mvdb Exp $
  */
 public class NyxWindowListenerTest extends TestCase {
 
@@ -89,19 +89,27 @@ public class NyxWindowListenerTest extends TestCase {
         XuluxContext.getInstance().register(part, true);
         l.windowClosing(null);
         // disallow System.exit(0)
-        System.setSecurityManager(new PreventSystemExit());
+        l.setWidget(widget);
+        PreventSystemExit pse = new PreventSystemExit();
+        System.setSecurityManager(pse);
+        MockWidget parent = new MockWidget("parent");
+        parent.setRootWidget(true);
+        widget.setParent(parent);
+        XuluxContext.getInstance().register(part, true);
+        l.windowClosing(null);
         try {
             l.windowDeactivated(null);
             fail("Expected system exit");
         } catch (SecurityException se) {
         }
-        System.setSecurityManager(null);
+        //System.setSecurityManager(null);
         widget.setRootWidget(false);
         assertFalse(widget.isRootWidget());
-        l.windowClosing(null);
+        l.setWidget(widget);
         l.windowDeactivated(null);
         assertNull(part.getWidget("mockwidget"));
         assertNull(widget.getNativeWidget());
+        pse.prevent = false;
     }
 
     /**
@@ -109,11 +117,14 @@ public class NyxWindowListenerTest extends TestCase {
      * Also allows setting of securitymanager to null.
      */
     public class PreventSystemExit extends SecurityManager {
+        public boolean prevent = true;
         /**
          * @see java.lang.SecurityManager#checkExit(int)
          */
         public void checkExit(int status) {
-            throw new SecurityException("Prevent system exit for test");
+            if (prevent) {
+              throw new SecurityException("Prevent system exit for test");
+            }
         }
         /**
          * @see java.lang.SecurityManager#checkPermission(java.security.Permission, java.lang.Object)

@@ -1,5 +1,5 @@
 /*
-   $Id: ComboTest.java,v 1.6 2004-05-10 15:03:56 mvdb Exp $
+   $Id: UIComboTest.java,v 1.1 2004-05-17 16:30:21 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,22 +25,22 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
+import org.xulux.core.XuluxContext;
 import org.xulux.gui.PartCreator;
 
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboTest.java,v 1.6 2004-05-10 15:03:56 mvdb Exp $
+ * @version $Id: UIComboTest.java,v 1.1 2004-05-17 16:30:21 mvdb Exp $
  */
-public class ComboTest extends TestCase {
+public class UIComboTest extends TestCase {
 
     /**
      * Constructor for ComboTest.
      * @param name the name of the test
      */
-    public ComboTest(String name) {
+    public UIComboTest(String name) {
         super(name);
     }
 
@@ -48,7 +48,7 @@ public class ComboTest extends TestCase {
      * @return the testsuite
      */
     public static Test suite() {
-        TestSuite suite = new TestSuite(ComboTest.class);
+        TestSuite suite = new TestSuite(UIComboTest.class);
         return suite;
     }
 
@@ -82,7 +82,7 @@ public class ComboTest extends TestCase {
      */
     public static void main(String[] args) {
         try {
-            new ComboTest("ComboTest").testSimpleComboSwing();
+            new UIComboTest("ComboTest").testSimpleComboSwing();
         } catch (Exception e) {
             e.printStackTrace(System.err);
             System.exit(0);
