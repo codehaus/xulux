@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.8 2002-11-29 01:05:53 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.9 2002-12-02 20:46:37 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.gui.Widget;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.8 2002-11-29 01:05:53 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.9 2002-12-02 20:46:37 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -73,6 +73,7 @@ public class DefaultComboModel implements ComboBoxModel
     private String field;
     private BeanMapping mapping;
     private Combo combo;
+    private boolean initialized;
     
     
     public DefaultComboModel()
@@ -97,7 +98,10 @@ public class DefaultComboModel implements ComboBoxModel
     public void setSelectedItem(Object anItem)
     {
         this.selectedItem = (ComboShowable)anItem;
-        combo.setLazyValue(getRealSelectedValue());
+        if (initialized && !combo.isRefreshing())
+        {
+            combo.setLazyValue(getRealSelectedValue());
+        }
     }
     
     public void setSelectedItem(int index)
@@ -175,21 +179,21 @@ public class DefaultComboModel implements ComboBoxModel
     
     private void initialize()
     {
-        
-        if (field != null && original.size() > 1)
+        if (field != null && original.size() > 0)
         {
-            Class tmpClazz = original.get(1).getClass();
-            if (tmpClazz != String.class)
+            int startMappingAt = 0;
+            if (original.get(0).equals(combo.getNotSelectedValue()))
             {
-                mapping = Dictionary.getInstance().getMapping(original.get(1).getClass());
+                startMappingAt = 1;
             }
+            Class tmpClazz = original.get(startMappingAt).getClass();
+            mapping = Dictionary.getInstance().getMapping(tmpClazz);
         }
         list = new ArrayList();
         for (int i=0; i < original.size(); i++)
         {
             Object object = original.get(i);
-            if (field == null || mapping == null || 
-                (i == 0 && object instanceof String))
+            if (object != null && (i == 0 && object.equals(combo.getNotSelectedValue())))
             {
                 list.add(new ComboShowable(i, object.toString()));
             }
@@ -201,10 +205,10 @@ public class DefaultComboModel implements ComboBoxModel
                 {
                     String token = stn.nextToken();
                     String strPart = "";
-                    IField field = mapping.getField(token);
-                    if (field != null)
+                    IField iField = mapping.getField(token);
+                    if (iField != null)
                     {
-                        strPart = field.getValue(object).toString();
+                        strPart = iField.getValue(object).toString();
                     }
                     else
                     {
@@ -216,6 +220,11 @@ public class DefaultComboModel implements ComboBoxModel
                 list.add(new ComboShowable(i, value));
             }
         }
+        if (combo.getValue()!=null)
+        {
+            setRealSelectedValue(combo.getValue());
+        }
+        initialized = true;
     }
     
     /**
@@ -262,5 +271,4 @@ public class DefaultComboModel implements ComboBoxModel
         }
         listeners = null;
     }
-    
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.19 2002-11-29 01:05:53 mvdb Exp $
+ $Id: Combo.java,v 1.20 2002-12-02 20:46:37 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.19 2002-11-29 01:05:53 mvdb Exp $
+ * @version $Id: Combo.java,v 1.20 2002-12-02 20:46:37 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -77,6 +77,7 @@ public class Combo extends Widget
     private boolean contentChanged;
     private DefaultComboModel model;
     private PrePostFieldListener actionListener;
+    private boolean notSelectedValueSet;
 
     /**
      * Constructor for Combo.
@@ -105,11 +106,6 @@ public class Combo extends Widget
     public void setContent(ArrayList list)
     {
         this.content = list;
-        if (notSelectedValue != null && 
-            this.content != null)
-        {
-            content.add(0,notSelectedValue);
-        }
         contentChanged = true;
         if (initialized)
         {
@@ -117,16 +113,17 @@ public class Combo extends Widget
         }
     }
     
-    /**
-     * Sets the not selected value.
-     * It will always be the first one in the list..
-     * Does nothing when value is null
-     * @param value - the text representing the notselected text.
-     */
-    public void setNotSelectedValue(String value)
+    private void initializeNotSelectedValue()
     {
-        if (value == null)
+        String nsv = getNotSelectedValue();
+        if (nsv== null)
         {
+            if (notSelectedValueSet)
+            {
+                this.content.remove(0);
+                notSelectedValueSet = false;
+                contentChanged = true;
+            }
             return;
         }
         if (this.content == null ||  content.size() == 0)
@@ -135,25 +132,44 @@ public class Combo extends Widget
             {
                 this.content = new ArrayList();
             }
-            this.content.add(value);
+            this.content.add(nsv);
         }
         else
         {
-            if (getNotSelectedValue() != null)
+            if (notSelectedValueSet)
             {
-                content.set(0,value);
+                String oldValue = (String)content.get(0);
+                if (oldValue.equals(getNotSelectedValue()))
+                {
+                    return;
+                }
+                content.set(0,nsv);
             }
             else
             {
                 ArrayList tmpContent = this.content;
                 content = new ArrayList();
-                content.add(value);
+                content.add(nsv);
                 content.addAll(tmpContent);
             }
         }
-        this.notSelectedValue = value;
+        this.notSelectedValue = nsv;
+        this.notSelectedValueSet = true;
         this.contentChanged = true;
-        refresh();
+    }
+    /**
+     * Sets the not selected value.
+     * It will always be the first one in the list..
+     * Does nothing when value is null
+     * @param nsv - the text representing the notselected text.
+     */
+    public void setNotSelectedValue(String notSelectedValue)
+    {
+        this.notSelectedValue = notSelectedValue;
+        if (initialized)
+        {
+            refresh();
+        }
     }
     
     /**
@@ -214,6 +230,7 @@ public class Combo extends Widget
      */
     public void refresh()
     {
+        isRefreshing = true;
         initialize();
         if (isImmidiate() && keyListener == null)
         {
@@ -229,7 +246,12 @@ public class Combo extends Widget
         if (contentChanged)
         {
             contentChanged = false;
+            initializeNotSelectedValue();
             String comboFields = getProperty("combofields");
+            if (this.model != null)
+            {
+                this.model.destroy();
+            }
             if (content != null)
             {
                 this.model = new DefaultComboModel(content, comboFields,this);
@@ -246,7 +268,7 @@ public class Combo extends Widget
                 combo.addActionListener(this.actionListener);
             }
         }
-        if (value instanceof DefaultComboModel.ComboShowable)
+        if (getValue() instanceof DefaultComboModel.ComboShowable)
         {
             model.setSelectedItem(value);
         }
@@ -275,13 +297,18 @@ public class Combo extends Widget
             combo.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
         combo.repaint();
+        isRefreshing = false;
     }
     /**
      * @see org.xulux.nyx.gui.Widget#getValue()
      */
     public Object getValue()
     {
-        if (content == null || combo == null || this.value == null
+        if ((content == null || combo == null) && this.value != null)
+        {
+            return this.value;
+        }
+        else if (this.value == null
             || this.value.equals(notSelectedValue))
         {
             return null;
@@ -290,20 +317,6 @@ public class Combo extends Widget
         {
             return this.value;
         }
-        /*
-            if (combo.getSelectedIndex() == -1 ||
-                content.size() == 0)
-            {
-                return null;
-            }
-            Object sel = content.get(combo.getSelectedIndex());
-            if (sel.equals(notSelectedValue))
-            {
-                return null;
-            }
-            return sel;
-        }
-        */
     }
     
     public void setValue(Object object)
@@ -362,5 +375,4 @@ public class Combo extends Widget
     {
         return content;
     }
-    
 }
