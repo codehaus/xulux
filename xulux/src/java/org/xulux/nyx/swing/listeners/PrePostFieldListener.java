@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.27 2003-08-29 01:02:21 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.28 2003-08-31 15:14:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.xulux.nyx.swing.widgets.CheckBox;
  * Also if a user closes the window, widget.destroy should be called
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.27 2003-08-29 01:02:21 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.28 2003-08-31 15:14:06 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -94,6 +94,7 @@ implements FocusListener, ActionListener, ItemListener
     {
         if (isProcessing())
         {
+            System.out.println("processing...");
             return;
         }
         if (e.getID() != FocusEvent.FOCUS_GAINED || e.isTemporary())
@@ -113,6 +114,7 @@ implements FocusListener, ActionListener, ItemListener
     {
         if (isProcessing())
         {
+            System.out.println("Processing lost...");
             return;
         }
         if (e.getID() != FocusEvent.FOCUS_LOST || e.isTemporary())
@@ -133,6 +135,7 @@ implements FocusListener, ActionListener, ItemListener
     {
         if (isProcessing())
         {
+            System.out.println("actionPreformed processing");
             return;
         }
         if (widget.isRefreshing()) {
@@ -174,7 +177,6 @@ implements FocusListener, ActionListener, ItemListener
         }
         boolean refresh = false;
         // reset the hold events to process previous events..
-        NyxEventQueue.getInstance().holdEvents(false);
         if (widget instanceof CheckBox) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 widget.setValue("true");
@@ -191,6 +193,7 @@ implements FocusListener, ActionListener, ItemListener
             }
         }
         if (refresh) {
+            NyxEventQueue.getInstance().holdEvents(false);
             widget.getPart().refreshFields(widget);
             widget.getPart().updateDependandWidgets(widget);
         }
