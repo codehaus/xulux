@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.10 2003-11-06 19:53:13 mvdb Exp $
+ $Id: XYLayout.java,v 1.11 2003-11-24 16:33:35 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -62,26 +62,31 @@ import org.xulux.nyx.gui.Widget;
  * A layout manager that positions it's controls
  * using the size and the position of the control
  *
- * TODO: Fix insets problem when more native components are present than 1
+ * @todo Fix insets problem when more native components are present than 1
  * The insets seems to tamper with the bounds of native components.
  * We should have a map or list to maintain processed components, so
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.10 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.11 2003-11-24 16:33:35 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
-    protected HashMap map;
+    /**
+     * the map with widgets
+     */
+    private HashMap map;
     /**
      * This is the widget that actually created the layout..
      */
-    protected Widget parentWidget;
-    protected boolean firstLayout = true;
+    private Widget parentWidget;
+    /**
+     * Is this the first time the gui is layout?
+     */
+    private boolean firstLayout = true;
 
     /**
      *
-     * @param parent the creator of the XYLayout
      */
     public XYLayout()
     {
@@ -100,7 +105,7 @@ public class XYLayout implements LayoutManager2, Serializable
 
     /**
      * Set the parent
-     * @param parent
+     * @param parent the parent widget
      */
     public void setParent(Widget parent) {
         this.parentWidget = parent;
@@ -177,7 +182,7 @@ public class XYLayout implements LayoutManager2, Serializable
             {
                 r = getRectangle(widget, component);
                 if (component instanceof JComponent) {
-                    ((JComponent)component).setPreferredSize(new Dimension(r.width, r.height));
+                    ((JComponent) component).setPreferredSize(new Dimension(r.width, r.height));
                 }
                 component.setSize(r.width, r.height);
             } else if (component != null) {
@@ -188,17 +193,17 @@ public class XYLayout implements LayoutManager2, Serializable
                 // to set sizes etc and handle all other
                 // logic.
 
-                if (parentWidget != null) {
-                    if (parent.equals(parentWidget.getNativeWidget())) {
-                        // this component has a nyx widget as parent
-//                        System.err.println("PARENT IS THE WIDGET");
-                        // first layout has been processed..
-                    } else {
-//                        System.err.println("REMOVING INSETS!");
-                    }
-                } else {
-//                    System.err.println("PARENT IS NOT THE WIDGET");
-                }
+//                if (parentWidget != null) {
+//                    if (parent.equals(parentWidget.getNativeWidget())) {
+//                        // this component has a nyx widget as parent
+////                        System.err.println("PARENT IS THE WIDGET");
+//                        // first layout has been processed..
+//                    } else {
+////                        System.err.println("REMOVING INSETS!");
+//                    }
+//                } else {
+////                    System.err.println("PARENT IS NOT THE WIDGET");
+//                }
                 r = getRectangle(component, insets);
             }
             if (r != null) {
@@ -211,11 +216,17 @@ public class XYLayout implements LayoutManager2, Serializable
         }
     }
 
+    /**
+     * The preferred size of the component is used, when the widget
+     * size isn't really useable...
+     *
+     * @param widget the widget to get the size from
+     * @param component the component to get the size from
+     * @return the rectangle of the component
+     */
     public Rectangle getRectangle(Widget widget, Component component)
     {
         Rectangle r = widget.getRectangle().getRectangle();
-        // we want the preferred size if
-        // size isn't really useable.
         if (r.width <= 0 && r.height <= 0) {
             Dimension d = component.getPreferredSize();
             r.width = d.width;
@@ -231,7 +242,8 @@ public class XYLayout implements LayoutManager2, Serializable
      * You should use setLocation(x,y) to position the
      * Swing component correctly.
      *
-     * @param component
+     * @param component the component
+     * @param insets the insets
      * @return the rectangle for a native swing component
      */
     public Rectangle getRectangle(Component component, Insets insets) {
@@ -268,10 +280,10 @@ public class XYLayout implements LayoutManager2, Serializable
     }
 
     /**
-     * Returns the layoutsize.
-     * is almost the same as layouContainer,
+     * is almost the same as layoutContainer,
      * except using setBounds
-     * @param parent
+     * @param parent the parent container
+     * @return the layoutsize
      */
     private Dimension getLayoutSize(Container parent)
     {
@@ -280,8 +292,7 @@ public class XYLayout implements LayoutManager2, Serializable
         {
             Component component = parent.getComponent(i);
             Widget widget = (Widget) map.get(component);
-            if (widget != null &&widget.isVisible())
-            {
+            if (widget != null && widget.isVisible()) {
                 Rectangle r = getRectangle(widget, component);
                 if (r.width <= 0 && r.height <= 0)
                 {
