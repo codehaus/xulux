@@ -103,6 +103,13 @@
           This will override the default used in the system and can be changed all the time.
         </td>
       </tr>
+      <tr>
+        <td>showroot</td>
+        <td>swing</td>
+        <td>
+          Specify it you want the root of the tree shown or not. Defaults to true.
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>
