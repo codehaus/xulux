@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+	"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg width="350" height="300">
+	<defs>
+		<marker id="Triangle" viewBox="0 0 10 10" refX="0" refY="5"
+			markerUnits="strokeWidth" markerWidth="4" markerHeight="3" orient="auto">
+			<path d="M0 0 L10 5 L0 10 z"/>
+		</marker>
+		<marker id="TriangleGreen" viewBox="0 0 10 10" refX="0" refY="5"
+			markerUnits="strokeWidth" markerWidth="4" markerHeight="3" orient="auto"
+			fill="#00c047">
+			<path d="M0 0 L10 5 L0 10 z"/>
+		</marker>
+		<marker id="TriangleBlue" viewBox="0 0 10 10" refX="0" refY="5"
+			markerUnits="strokeWidth" markerWidth="4" markerHeight="3" orient="auto"
+			fill="#0000ff">
+			<path d="M0 0 L10 5 L0 10 z"/>
+		</marker>
+	</defs>
+	<rect x="38" y="33" width="169" height="47"
+		transform="matrix(0.633136 0 0 0.723404 152.081 237.035) translate(-178.477 -170.029)"
+		 rx="10" ry="10" fill="#ffdd20" stroke="#000000" stroke-width="1"/>
+	<text x="51px" y="49px"
+		transform="matrix(1 0 0 1 130.233 237.493) translate(-113 -123)"
+		fill="#ffffff" font-size="24" font-family="Arial">Core Api</text>
+	<line id="x2" x1="228" y1="185" x2="228" y2="220" marker-end="url(#Triangle)"
+		marker-start="url(#Triangle)" fill="none" stroke="#000000" stroke-width="5"
+		transform="translate(0 110) translate(-113 -123)"/>
+	<line id="x1" x1="228" y1="260" x2="228" y2="222" marker-end="url(#Triangle)"
+		marker-start="url(#Triangle)" fill="none" stroke="#000000" stroke-width="5"
+		transform="translate(-113 -123)"/>
+	<rect x="38" y="33" width="169" height="47"
+		transform="matrix(0.633136 0 0 0.723404 173.081 175.035) translate(-25.271 -47) translate(-20.5327 -4.14706) translate(38 56.5) scale(1.14953 1) translate(-38 -56.5) translate(38 56.5) scale(1.29268 1) translate(-38 -56.5) translate(38 56.5) scale(1.2327 1) translate(-38 -56.5) translate(122.5 80) scale(1 1.14706) translate(-122.5 -80) translate(-27.5918 22.8974) translate(-5.17347 0) translate(0 -10.8462) translate(0 0) translate(-97.4345 -148.231)"
+		 rx="10" ry="10" fill="#ffdd20" stroke="#000000" stroke-width="1"/>
+	<text x="51px" y="49px"
+		transform="matrix(1 0 0 1 153.233 173.209) translate(-30 -39) translate(-32 19) translate(-6 0) translate(0 -9) translate(0 0) translate(-113 -123)"
+		 fill="#ffffff" font-size="24" font-family="Arial">DataProvider API</text>
+	<rect x="38" y="33" width="169" height="47"
+		transform="matrix(0.686391 0 0 0.723404 312.057 237.035) translate(-164.629 -170.029)"
+		 rx="10" ry="10" fill="#ffdd20" stroke="#000000" stroke-width="1"/>
+	<text x="51px" y="49px"
+		transform="matrix(1 0 0 1 292.233 236.229) translate(-113 -123)"
+		fill="#ffffff" font-size="24" font-family="Arial">Gui Layer</text>
+	<line id="x3" x1="228" y1="259" x2="228" y2="185"
+		transform="matrix(-1.83691e-016 -1 0.594595 -1.09222e-016 173 499) translate(-6 8.40909) translate(228 222) scale(1 1) translate(-228 -222) translate(0 1.68182) translate(0 1.68182) translate(0 1.68182) translate(0 1.68182) translate(0 1.68182) translate(123 -190.045)"
+		 marker-end="url(#Triangle)" marker-start="url(#Triangle)" fill="none"
+		stroke="#000000" stroke-width="5"/>
+	<rect x="38" y="33" width="169" height="47"
+		transform="matrix(0.686391 0 0 0.723404 166.057 175.035) translate(-27.681 178.324) translate(0 0) translate(38 56.5) scale(1.22414 1) translate(-38 -56.5) translate(-14.2817 0) translate(1.19014 24.8824) translate(-134.486 -170.029)"
+		 rx="10" ry="10" fill="#ffdd20" stroke="#000000" stroke-width="1"/>
+	<text x="51px" y="49px"
+		transform="matrix(1 0 0 1 146.233 172.229) translate(-19 130) translate(-12 0) translate(0 0) translate(1 16) translate(0 1) translate(0 1) translate(-113 -123)"
+		 fill="#ffffff" font-size="24" font-family="Arial">Rule Engine</text>
+	<line id="c1" fill="none" stroke="#00c047" stroke-width="5" x1="385" y1="362"
+		x2="319" y2="362" marker-end="url(#TriangleGreen)"
+		transform="translate(-113 -123)"/>
+	<line id="c2" stroke="#00c047" stroke-width="5" fill="none" x1="382.5" y1="295"
+		x2="382.5" y2="362" marker-start="url(#TriangleGreen)"
+		transform="translate(-113 -123)"/>
+	<line id="d1" fill="#00c047" stroke="#00c047" stroke-width="5" x1="385"
+		y1="183" x2="341" y2="183" marker-end="url(#TriangleGreen)"
+		transform="translate(-113 -123)"/>
+	<line id="d2" fill="none" stroke="#00c047" stroke-width="5" x1="382.5" y1="260"
+		x2="382.5" y2="183" marker-start="url(#TriangleGreen)"
+		transform="translate(-113 -123)"/>
+	<line id="a1" fill="none" stroke="#0000ff" stroke-width="5" x1="228" y1="166"
+		x2="228" y2="139" marker-start="url(#TriangleBlue)"
+		transform="translate(-113 -123)"/>
+	<line id="a2" fill="none" stroke="#0000ff" stroke-width="5" x1="225.5" y1="139"
+		x2="422" y2="139" transform="translate(-113 -123)"/>
+	<line id="a3" fill="none" stroke="#0000ff" stroke-width="5" x1="419.5" y1="139"
+		x2="419.5" y2="245" marker-end="url(#TriangleBlue)"
+		transform="translate(-113 -123)"/>
+	<line id="b1" fill="none" stroke="#0000ff" stroke-width="5" x1="228" y1="380"
+		x2="228" y2="408" marker-start="url(#TriangleBlue)"
+		transform="translate(-113 -123)"/>
+	<line id="b2" fill="none" stroke="#0000ff" stroke-width="5" x1="225.5" y1="407"
+		x2="422" y2="407" transform="translate(-113 -123)"/>
+	<line id="b3" stroke="#0000ff" stroke-width="5" x1="419.5" y1="407" x2="419.5"
+		y2="310" marker-end="url(#TriangleBlue)" transform="translate(-113 -123)"/>
+</svg>

@@ -10,25 +10,54 @@
 
 <section name="How NYX currently works">
   <p>
-    Not everything currently works the way I have in mind. See the features page, 
-    if you want to learn more about the goals. 
+   Although XULUX still needs a lot of work, the graph below gives you a global
+   overview of how the differnt XULUX parts work together.
   </p>
-    <subsection name="Core">
-      <p>
-        The core of the nyx system, only contains non gui layers specific code. 
-        (don't let the gui package fool you).
-        The core is devided into a couple of part :
-        - the context.
-        - global
-        - gui
-        - guidefaults
-        - rules
-        - utility classes
-        - NyxRunner
-      </p>
-    </subsection>
-    <subsection name="Swing">
-      <p>
+  <p><img src="images/coreapi.png"/></p>
+</section>
+
+<section name="Core API">
+  <p>
+    The core API is currently just the <code>ApplicationContext</code> 
+    (this will be renamed to XuluxContext after the move) and all the interfaces
+    defined to make the system as generic and pluggable as possible.
+  </p>
+</section>
+
+<section name="Gui Layer">
+  <p>
+    Since the full gui implementation (except for the Widget abstract itself), is
+    fully implemented in the layer itself, we currently depend currently on Swing
+    in the XULUX core. Since this gives problems with being fully gui independend,
+    the system is going to move some basic widgets to the core and there so called
+    <code>WidgetHandlers</code> take care of the specifics for that gui layer (eg
+    swing, swt, awt, html).
+    To be able to work with the system at all, at least one gui layer must be present.<br/>
+    The Rule Engine and Dataproviders are not necessary to have gui!
+  </p>
+</section>
+
+<section name="Rule Engine">
+  <p>
+    The rule engine is also currently part of the core of XULUX.<br/>
+    This engine is very simple and the core relies on it for eg initialization.
+    Since we want to have Rule Engine API available for custom implementation (eg drools), 
+    we have decided that the current rule engine will stay part of the core in future releases
+    and this way always available. The future implementation will also allow a mixture of rule
+    engines to be used in an application, applicationpart or even a field.
+    Other rule engines you can think of is eg a Scripting Rule Engine.
+  </p>
+</section>
+
+<section name="DataProvider API">
+  <p>
+    The DataProvider API is currently not a complete api. The DataProvider API will
+    take care of feeding data to the gui, storing data from the gui and other tasks
+    that the data provider may need. In short : XULUX just doesn't care how he gets
+    the data, it just wants to get it :).<br/>
+    For more information see the <a href="dictionary/index.html">Dictionary</a>
+    documentation.
+<!--
         This swing gui layer is currently provided as part of the core nyx jar.
         In a later stage this will be moved to a seperate jar. 
         A lot of the swing stuff is already documented. Internals are not yet important
@@ -36,9 +65,9 @@
         Expect changes in this area, so we can make more use of generics, so all gui layers
         can be based on the same api and rely on the same mechanismes. See gui for more info
         on this.
-      </p>
-    </subsection>
-  
+-->
+
+  </p>
 </section>
 
 </body>

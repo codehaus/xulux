@@ -15,26 +15,59 @@
     or using a bit more magic than that. 
     The dictionary should end up in a set of interfaces that together make
     the dataprovider part of the frontend API.
-    
-    <subsection name="The Dictionary class">
+    <p><img src="../images/dictionary.png"/></p>
+  </p>
+</section>
+
+<section name="Dictionary Creation">
+  <p>
+    The dictionary class is the main entry for connecting all magic that 
+    is related to dictionary processing. In the final version of the
+    dataprovider, the Dictionary class, will be the container for dictionary
+    processing.
+  </p>
+  <subsection name="The DictionaryHandler">
+    <p>
+      The dictionary handler is the xml parser that constructs a valid
+      dictionary out of that xml. You can already write your own handler,
+      but since no other means of customizing the workings of the 
+      dictionary system is yet available, it has no use to create your 
+      own handler yet. 
+    </p>
+  </subsection>
+  <subsection name="Custom XML">
+    <p>
+      You can create your own parser that will create dictionary entries. 
+    </p>
+  </subsection>
+  <subsection name="Java Code">
+    <p>
+      You can also drive the dictionary programatically, but this scebario
+      should be rare.
+    </p>
+  </subsection>
+</section>
+
+<section name="DataProvider API">
+    <p>
+      The lower part of the graphical overview is the actual DataProvider API.
+      Currently there is no support for customfields and mappings, at least
+      to the extend that they cannot be triggered from xulux.
+    </p>
+
+    <subsection name="The Mapping interface">
       <p>
-        The dictionary class is the main entry for connecting all magic that 
-        is related to dictionary processing. In the final version of the
-        dataprovider, the Dictionary class, will be the container for dictionary
-        processing.
+        The mapping groups fields together and gives information about how
+        to set and get data. Also it takes care of aliases, so you can limit 
+        the exposure of your data or make it different.<br/>
+        The current implementation of a Mapping is BeanMapping, which takes
+        care of storing and getting data from the specified bean(s).
+        Through the dictionary.xml you can currently specify how to get and
+        set the data in case there is no default constructor and no default
+        getters and setters.
       </p>
     </subsection>
-    
-    <subsection name="The dictionary handler">
-      <p>
-        The dictionary handler is the xml parser that constructs a valid
-        dictionary out of that xml. You can already write your own handler,
-        but since no other means of customizing the workings of the 
-        dictionary system is yet available, it has no use to create your 
-        own handler yet. 
-      </p>
-    </subsection>
-    
+
     <subsection name="The Field interface">
       <p>
         Nyx has a interface that represent fields, which to gui can use to 
@@ -49,15 +82,12 @@
     
     <subsection name="Converters">
       <p>
-        Converters are responsible for converting an object to a representable
-        format for the user. Converters also take care of converting the user input
-        back to the object in a bean. This used with objects like Date, Double and
-        Integer.
+        <a href="converters.html">Converters</a> are responsible for converting an object to 
+        a representable format for the user. Converters also take care of converting the user 
+        input back to the object in a bean. This used with objects like Date, Double and
+        Integer. 
       </p>
     </subsection>
-    
-    <a href="converters.html">Converters</a>
-  </p>
 </section>
 
 </body>

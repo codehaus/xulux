@@ -8,6 +8,17 @@
 
 <body>
 
+<section name="Attention!">
+  <p>
+    <b>
+      Soon (before the end of this year) NYX will be deprecated and moved to the main 
+      <a href="http://xulux.org">XULUX</a> project. Also still a lot of refactoring 
+      is going on, so for now, just use NYX to get to know it. Though the code is already
+      used in production systems with big install bases (500+ users), so should be ready for
+      release when the widgets are completed.
+    </b>
+  </p>
+</section>
 <section name="Introduction to NYX">
 <p>
   The main goals of NYX is to provide an easy way

@@ -2,21 +2,86 @@
 
 <document>
   <properties>
-    <title>NYX - Rules</title>
+    <title>NYX - Rules Engines</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
 <body>
 
-<section name="Rules FAQ">
-  <subsection name="Valid values">
+<section name="General">
+  <p>
+    As stated in the <a href="/howitallworks.html">howitallworks</a> document,
+    nyx always comes bundled with the internal rule engine, which is driven
+    from the XuluxContext. Work is being done to make create an easy to extend
+    API from the current rule processing paradigm.
+    The order of rule processing is the order in which rules are added
+    to a widget or part. This will make sure we can use the rules internally
+    and set a certain state before other rules are being processed.
+  </p>
+  <subsection name="Future">
     <p>
-      When using rules and you are checking valid values from within a pre
-      or post method, you can call the widgets setValidValue(boolean) to 
-      specify if the value was valid or not. Default will be that everything
-      is a valid value, so normal processing takes place by default.
-      If you call setValidValue(false) don't forget to set it back to true
-      when the value is Ok!
+      In the future there will be more rule engines to choose from.
+      The first one on the list is <a target="_blank" href="http://drools.codehaus.org">drools</a>,
+      make the rule engine <a target="_blank" 
+      href="http://www.jcp.org/aboutJava/communityprocess/review/jsr094/">JSR-94</a> compliant, so
+      other rule engines can be easily connected to XULUX.<br/>
+      Also a scripting rule engine will be created, so you can use eg Groovy, Jython, BeanShell or
+      other scripting engines that work with a Java environment.
+    </p>
+  </subsection>
+</section>
+
+<section name="The internal rule engine">
+  <p>
+    The internal rule engine is handled by the <code>XuluxContext</code>, which is the main
+    entry point for XULUX. (For a beginning of the API, see the 
+    <a href="xref/org/xulux/nyx/context/IRuleEngine.html">RuleEngine Interface</a> source.
+    The NyxRuleEngine is used internally by Xulux to initialize widgets and other purposes.
+    (eg the table needs to stop editing when a user leaves a cell in a table that is editable).
+    The next sections will go into more detail about when rules are processed on how they
+    are processed.
+  </p>
+  <subsection name="General">
+    <p>
+      Every rule must implement the <a href="xref/org/xulux/nyx/rules/IRule.html">IRule interface</a>
+      To make life easier, we also provided the <a href="xref/org/xulux/nyx/rules/Rule.html">Rule class</a>,
+      which is an abstract implementating not heavily used methods or generically used methods.
+      The explenation in the following section is assuming you extend Rule, 
+      since the experience is that no one has to overrideIRule directly for normal XULUX use, which
+      leaves us with two methods that need implementing : pre and post.
+    </p>
+  </subsection>
+  <subsection name="PartRules">
+    <p>
+      <b>pre</b> gets called when initializing the part<br/>
+      <b>post</b> gets called when destroying the part. A part will be destroyed when closing the window,
+      someone hit the ok or cancel button, or called the <code>destroy()</code> method on the part.
+    </p>
+  </subsection>
+  <subsection name="FieldRules">
+    <p>
+      <b>pre</b> gets called when entering a field or when another field has been edited.<br/>
+      <b>post</b> gets called when leaving a field, so when possibly data has changed.
+      This needs some attention, since a lot of rule processing is done unecessarily<br/>
+      So if you have a part with 10 fields, on startup all pre rules will be called of the 10 fields.
+      After the user edits a value, the post of that field will be called and the pre of the other 9
+      fields, so they can update their value accordingly.<br/>
+      <b>Note : </b>You can also specify dependencies, which will cause the value of the widget
+      to automatically be updated in case of a value changed. This way you don't have to create
+      rules for cases like this. (TODO : Link to other docs explaining this..)
+    </p>
+  </subsection>
+  <subsection name="Stopping rule processing">
+    <p>
+      Sometimes there is a need to stop the normal rule processing as explained in the FieldRules
+      section. You just don't want 9 pre rules fired, when eg there is an invalid value entered.
+      To solve this problem, you can call stopAllRules() to stop processing of any more rules after the current
+      rule has finished processing. The stopAllRules method can be called like this :
+      <source>
+         request.getPart().stopAllRules();
+      </source>
+      Which will send a message to the rule engine. The only one who can progammitcally stop all rules,
+      is the part.
     </p>
   </subsection>
 </section>

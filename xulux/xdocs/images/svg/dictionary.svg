@@ -8,7 +8,10 @@
 <svg
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   version="1">
+   version="1"
+   width="595"
+   height="520">
+
   <defs>
     <marker id="Triangle"
       viewBox="0 0 10 10" refX="0" refY="5" 

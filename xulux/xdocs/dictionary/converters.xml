@@ -24,7 +24,7 @@
   <subsection name="How to write converters">
     <p>
       You can create converters by implementing the interface 
-      <a href="/apidocs/org/xulux/nyx/global/IConverter.html"><b>IConverter</b></a>.
+      <a href="../apidocs/org/xulux/nyx/global/IConverter.html"><b><code>IConverter</code></b></a>
       The code speaks for itself. 
       For an example, have a look at the code of the default
       converters in the <b>org.xulux.nyx.global.converters</b> package.
