@@ -1,5 +1,5 @@
 /*
-   $Id: SplitPane.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
+   $Id: SplitPane.java,v 1.5 2004-11-15 20:53:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.gui.Widget;
  * The splitpane
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SplitPane.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
+ * @version $Id: SplitPane.java,v 1.5 2004-11-15 20:53:10 mvdb Exp $
  */
 public class SplitPane extends ContainerWidget {
 
@@ -97,6 +97,12 @@ public class SplitPane extends ContainerWidget {
                 pane.setOrientation(JSplitPane.VERTICAL_SPLIT);
             }
         }
+        int divLocation = pane.getDividerLocation();
+        try {
+          divLocation = Integer.parseInt(getProperty("dividerlocation"));
+        } catch(NumberFormatException nfe) {
+        }
+        pane.setDividerLocation(divLocation);
         isRefreshing = false;
     }
 
@@ -142,7 +148,13 @@ public class SplitPane extends ContainerWidget {
     public void addToParent(Widget widget) {
         String position = widget.getProperty("pane");
         JComponent comp = (JComponent) widget.getNativeWidget();
-        comp.setMinimumSize(new Dimension(10, 10));
+        int divLocation = 10;
+        try {
+          divLocation = Integer.parseInt(getProperty("dividerlocation"));
+        } catch(NumberFormatException nfe) {
+        }
+        pane.setDividerLocation(divLocation);
+        comp.setMinimumSize(new Dimension(divLocation, 10));
         if (position == null) {
             if (!topProcessed) {
                 topProcessed = true;
