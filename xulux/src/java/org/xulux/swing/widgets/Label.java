@@ -1,5 +1,5 @@
 /*
-   $Id: Label.java,v 1.8 2004-05-10 14:21:25 mvdb Exp $
+   $Id: Label.java,v 1.9 2004-06-23 10:44:25 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -33,7 +33,7 @@ import org.xulux.utils.BooleanUtils;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.8 2004-05-10 14:21:25 mvdb Exp $
+ * @version $Id: Label.java,v 1.9 2004-06-23 10:44:25 mvdb Exp $
  */
 public class Label extends SwingWidget {
 
@@ -93,6 +93,10 @@ public class Label extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public void refresh() {
+        if (isRefreshing()) {
+            return;
+        }
+        isRefreshing = true;
         initialize();
         initializeValue();
         if (getProperty("text") != null) {
@@ -146,6 +150,7 @@ public class Label extends SwingWidget {
         }
         label.setEnabled(isEnabled());
         label.setVisible(isVisible());
+        isRefreshing = false;
     }
 
     /**
