@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfigTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
+ $Id: WidgetConfigTest.java,v 1.3 2003-12-23 02:19:08 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.3 2003-12-23 02:19:08 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase {
 
@@ -147,7 +147,7 @@ public class WidgetConfigTest extends TestCase {
         assertNull(config.getContentHandler(String.class));
         config.addWidgetTool(null, (String) null);
         config.addWidgetTool(null, "bogus.class.name");
-        config.addWidgetTool(null, "org.xulux.nyx.global.contenthandlers.TreeNodeContentHandler");
+        config.addWidgetTool(null, "org.xulux.global.contenthandlers.TreeNodeContentHandler");
         assertNotNull(config.getContentHandler(TreeNode.class));
     }
 
