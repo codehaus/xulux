@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.11 2003-07-21 22:11:03 mvdb Exp $
+ $Id: Entry.java,v 1.12 2003-07-23 10:13:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.11 2003-07-21 22:11:03 mvdb Exp $
+ * @version $Id: Entry.java,v 1.12 2003-07-23 10:13:17 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -217,8 +217,12 @@ extends SwingWidget
      */
     protected void initializeValue()
     {
-        // TODO: Make sure when there is no field, it still works!!
         if (getField() == null) {
+            if (getValue() != null) {
+                textComponent.setText(String.valueOf(getValue()));
+            } else {
+                textComponent.setText("");
+            }
             return;
         }
         BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
@@ -265,8 +269,10 @@ extends SwingWidget
         if (getField() == null) {
             if (getValue() != null) {
                 if (getValue() != object) {
-                    // nothing changed, so return
+                    this.value = object;
                     this.previousValue = getValue();
+                } else {
+                    // nothing changed, so return
                     return;
                 }
             } else {

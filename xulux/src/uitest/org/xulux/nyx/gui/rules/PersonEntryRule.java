@@ -1,5 +1,5 @@
 /*
- $Id: PersonEntryRule.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
+ $Id: PersonEntryRule.java,v 1.5 2003-07-23 10:13:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PersonEntryRule.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
+ * @version $Id: PersonEntryRule.java,v 1.5 2003-07-23 10:13:17 mvdb Exp $
  */
 public class PersonEntryRule extends Rule
 {
@@ -88,6 +88,10 @@ public class PersonEntryRule extends Rule
      */
     public void post(PartRequest request)
     {
+        if (request.getWidget().getName().equals("PersonBeanEntry")) {
+            request.getPart().getWidget("String").setValue("HiHi");
+        }
+        
     }
 
 }
