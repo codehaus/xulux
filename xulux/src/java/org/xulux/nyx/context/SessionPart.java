@@ -1,7 +1,7 @@
 /*
- $Id: SessionPart.java,v 1.3 2002-11-19 23:00:38 mvdb Exp $
+ $Id: SessionPart.java,v 1.4 2003-05-20 16:10:04 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -51,7 +51,7 @@ import java.util.HashMap;
  * Contains application wide part data.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SessionPart.java,v 1.3 2002-11-19 23:00:38 mvdb Exp $
+ * @version $Id: SessionPart.java,v 1.4 2003-05-20 16:10:04 mvdb Exp $
  */
 public class SessionPart
 {

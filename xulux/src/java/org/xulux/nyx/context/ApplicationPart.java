@@ -1,7 +1,7 @@
 /*
- $Id: ApplicationPart.java,v 1.36 2003-05-06 12:40:28 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.37 2003-05-20 16:10:04 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -83,7 +83,7 @@ import org.xulux.nyx.rules.IRule;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.36 2003-05-06 12:40:28 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.37 2003-05-20 16:10:04 mvdb Exp $
  */
 public class ApplicationPart
 {

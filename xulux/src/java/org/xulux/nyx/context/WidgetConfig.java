@@ -1,7 +1,7 @@
 /*
- $Id: WidgetConfig.java,v 1.1 2002-12-22 22:27:13 mvdb Exp $
+ $Id: WidgetConfig.java,v 1.2 2003-05-20 16:10:04 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -54,7 +54,7 @@ import java.util.HashMap;
  * (eg swt, swing)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.1 2002-12-22 22:27:13 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.2 2003-05-20 16:10:04 mvdb Exp $
  */
 public class WidgetConfig
 {
