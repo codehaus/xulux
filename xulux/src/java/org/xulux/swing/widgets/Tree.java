@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.14 2004-07-14 15:05:31 mvdb Exp $
+   $Id: Tree.java,v 1.15 2004-08-19 16:29:13 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -48,7 +48,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.14 2004-07-14 15:05:31 mvdb Exp $
+ * @version $Id: Tree.java,v 1.15 2004-08-19 16:29:13 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -187,11 +187,11 @@ public class Tree extends ContainerWidget implements IContentWidget {
             lineStyle = "None";
         }
         jtree.putClientProperty("JTree.lineStyle", lineStyle);
-        boolean showRoot = true;
         if (getChildWidgets() != null) {
           // we need to set the cellrenderer..
           Widget child = (Widget) getChildWidgets().get(0);
         }
+        boolean showRoot = true;
         if (getProperty("showRoot") != null) {
             showRoot = BooleanUtils.toBoolean(getProperty("showRoot"));
         }
@@ -252,6 +252,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
             }
         }
         jtree.setEnabled(isEnabled());
+        jtree.setVisible(isVisible());
         initializePopupMenu();
         isRefreshing = false;
     }
@@ -426,12 +427,13 @@ public class Tree extends ContainerWidget implements IContentWidget {
                 WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(getWidgetType());
                 handler = (TreeContentHandler) config.getContentHandler(object.getClass());
             }
+            System.out.println("handler for tree : " + handler);
             if (handler == null) {
                 System.err.println("Handler for content " + object.getClass() + " not found");
             } else {
                 handler.setWidget(this);
                 handler.setContent(object);
-                //            System.err.println("handler content "+handler.getContent());
+                System.err.println("handler content "+handler.getContent());
                 this.contentHandler = new SwingTreeModel(handler);
                 this.contentHandler.setWidget(this);
                 this.contentHandler.setContent(object);

@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPartTest.java,v 1.6 2004-07-12 13:02:45 mvdb Exp $
+   $Id: ApplicationPartTest.java,v 1.7 2004-08-19 16:29:13 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import junit.framework.TestSuite;
  * The ApplicationPart test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartTest.java,v 1.6 2004-07-12 13:02:45 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.7 2004-08-19 16:29:13 mvdb Exp $
  */
 public class ApplicationPartTest extends TestCase {
 
@@ -128,6 +128,19 @@ public class ApplicationPartTest extends TestCase {
         ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes());
         part = driver.read(stream, new Object());
         assertEquals(true, part.getInvalidValueStrategy() instanceof MockInvalidValueStrategy);
+    }
+    
+    public void testBean() {
+        System.out.println("testBean");
+        String bean = new String("this is a bean");
+        ApplicationPart part = new ApplicationPart(bean);
+        assertEquals(bean, part.getBean());
+        String newBean = new String("this is a new bean");
+        part.setBean(newBean);
+        assertEquals(newBean, part.getBean());
+        part = new ApplicationPart();
+        part.setBean(bean);
+        assertEquals(bean, part.getBean());
     }
     
     public class MockInvalidValueStrategy implements IInvalidValueStrategy {
