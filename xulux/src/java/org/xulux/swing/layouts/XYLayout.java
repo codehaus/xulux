@@ -1,5 +1,5 @@
 /*
-   $Id: XYLayout.java,v 1.7 2004-05-25 16:06:44 mvdb Exp $
+   $Id: XYLayout.java,v 1.8 2004-10-14 14:34:20 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -40,7 +40,7 @@ import org.xulux.gui.Widget;
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.7 2004-05-25 16:06:44 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.8 2004-10-14 14:34:20 mvdb Exp $
  */
 public class XYLayout extends SwingLayoutAbstract implements LayoutManager2, Serializable {
     /**
@@ -117,10 +117,14 @@ public class XYLayout extends SwingLayoutAbstract implements LayoutManager2, Ser
         if (parent == null) {
             return;
         }
+        synchronized (parent.getTreeLock()) {
         Insets insets = parent.getInsets();
         int count = parent.getComponentCount();
         for (int i = 0; i < count; i++) {
             Component component = parent.getComponent(i);
+            if (!component.isVisible()) {
+                continue;
+            }
             Widget widget = (Widget) map.get(component);
             Rectangle r = null;
             if (widget != null && widget.isVisible()) {
@@ -131,8 +135,7 @@ public class XYLayout extends SwingLayoutAbstract implements LayoutManager2, Ser
                 component.setSize(r.width, r.height);
             } else {
                 // if component is not a widget
-                // so layed on top of nyx.
-                // try to get all the info from
+                // so layed on top of xulux, try to get all the info from
                 // the component. It's up to the component
                 // to set sizes etc and handle all other
                 // logic.
@@ -140,6 +143,7 @@ public class XYLayout extends SwingLayoutAbstract implements LayoutManager2, Ser
             }
             // r cannot be null in this scenario
             component.setBounds(insets.left + r.x, insets.top + r.y, r.width, r.height);
+        }
         }
     }
 
