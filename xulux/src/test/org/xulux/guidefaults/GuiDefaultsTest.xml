@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaultsTest.xml,v 1.1 2003-12-18 00:17:28 mvdb Exp $ -->
+<!-- $Id: GuiDefaultsTest.xml,v 1.2 2003-12-28 23:34:57 mvdb Exp $ -->
 <guidefaults defaultType="swing">
   <!-- invalid ... -->
   <contenthandlers>
-    <contenthandler class="org.xulux.nyx.global.contenthandlers.TreeNodeContentHandler"/>
+    <contenthandler class="org.xulux.global.contenthandlers.TreeNodeContentHandler"/>
   </contenthandlers>
   <widgets>
     <widget name="window">
-      <widgetInitializer class="org.xulux.nyx.guidefaults.BogusWindowInitializer"/>
+      <widgetInitializer class="org.xulux.guidefaults.BogusWindowInitializer"/>
     </widget>
     <widget name="bogus">
-      <widgetInitializer class="org.xulux.nyx.guidefaults.BogusWindowInitializer"/>
+      <widgetInitializer class="org.xulux.guidefaults.BogusWindowInitializer"/>
     </widget>
     <widget>
-      <widgetInitializer class="org.xulux.nyx.guidefaults.BogusWindowInitializer"/>
+      <widgetInitializer class="org.xulux.guidefaults.BogusWindowInitializer"/>
     </widget>
     <widget name="tree">
       <contenthandlers>
-        <contenthandler class="org.xulux.nyx.global.contenthandlers.TreeNodeContentHandler"/>
-        <contenthandler>org.xulux.nyx.global.contenthandlers.DOMTreeContentHandler</contenthandler>
+        <contenthandler class="org.xulux.global.contenthandlers.TreeNodeContentHandler"/>
+        <contenthandler>org.xulux.global.contenthandlers.DOMTreeContentHandler</contenthandler>
       </contenthandlers>
     </widget>
   </widgets>

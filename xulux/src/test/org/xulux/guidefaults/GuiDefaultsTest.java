@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
+ $Id: GuiDefaultsTest.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -64,7 +64,7 @@ import org.xulux.context.WidgetConfig;
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -95,7 +95,7 @@ public class GuiDefaultsTest extends TestCase {
         HashMap map = ApplicationContext.getInstance().getWidgets();
         WidgetConfig config = (WidgetConfig) map.get("combo");
         assertNotNull(config);
-        assertEquals(Class.forName("org.xulux.nyx.swing.widgets.Combo"), config.get("swing"));
+        assertEquals(Class.forName("org.xulux.swing.widgets.Combo"), config.get("swing"));
         assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
         assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler());
         assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler("swing"));
@@ -119,7 +119,7 @@ public class GuiDefaultsTest extends TestCase {
     public void testWithoutDefaultType() {
         System.out.println("testWithoutDefaultType");
         GuiDefaultsHandler handler = new GuiDefaultsHandler();
-        handler.read(getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/guidefaults/GuiDefaultsTest2.xml"));
+        handler.read(getClass().getClassLoader().getResourceAsStream("org/xulux/guidefaults/GuiDefaultsTest2.xml"));
         assertNotNull(ApplicationContext.getInstance().getWidgetConfig("testbutton"));
         assertTrue(ApplicationContext.getInstance().getParentWidgetHandler() instanceof BogusParentWidgetHandler);
     }
@@ -130,7 +130,7 @@ public class GuiDefaultsTest extends TestCase {
     public void testCustomGuiDefaults() {
         System.out.println("testCustomGuiDefaults");
         ApplicationContext.getInstance();
-        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/nyx/guidefaults/GuiDefaultsTest.xml");
+        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/guidefaults/GuiDefaultsTest.xml");
         HashMap map = ApplicationContext.getInstance().getWidgets();
         WidgetConfig config = (WidgetConfig) map.get("window");
         List list = config.getWidgetInitializers("swing");

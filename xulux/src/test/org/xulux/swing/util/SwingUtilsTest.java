@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtilsTest.java,v 1.2 2003-12-20 17:52:53 mvdb Exp $
+ $Id: SwingUtilsTest.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -67,7 +67,7 @@ import org.xulux.gui.WidgetRectangle;
  * Test the SwingUtils class
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtilsTest.java,v 1.2 2003-12-20 17:52:53 mvdb Exp $
+ * @version $Id: SwingUtilsTest.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
  */
 public class SwingUtilsTest extends TestCase {
 
@@ -82,7 +82,7 @@ public class SwingUtilsTest extends TestCase {
     /**
      * The resource root.. Saves us typing it..
      */
-    public static final String RESOURCEROOT = "org/xulux/nyx/swing/util/";
+    public static final String RESOURCEROOT = "org/xulux/swing/util/";
 
     /**
      * Constructor for SwingUtilsTest.
@@ -145,6 +145,23 @@ public class SwingUtilsTest extends TestCase {
         assertEquals(1, l.getIconCount);
     }
 
+    /**
+     * A nullpointer exception occurs when we have an file that
+     * does not exist
+     */
+    public void testSwingImageLoaderNPE() {
+        System.out.println("testSwingImageLoaderNPE");
+        System.setProperty("xulux.swing.imageloader", "bogus.class.name");
+        SwingUtils.initializeImageLoader();
+        Image image = SwingUtils.getImage("bogus/package/name/Car.gif", this);
+        assertNull(image);
+        // test without logging.
+        ((SimpleLog) LogFactory.getLog(SwingUtils.class)).setLevel(SimpleLog.LOG_LEVEL_OFF);
+        image = SwingUtils.getImage("bogus/package/name/Car.gif", this);
+        assertNull(image);
+        ((SimpleLog) LogFactory.getLog(SwingUtils.class)).setLevel(SimpleLog.LOG_LEVEL_ALL);
+        
+    }
     /**
      * Test the swing Image loader, by adding a bogus imageloader to the system properties.
      */
@@ -212,6 +229,14 @@ public class SwingUtilsTest extends TestCase {
         Dimension dim = SwingUtils.getDimension(r);
         assertEquals(r.getHeight(), dim.height);
         assertEquals(r.getWidth(), dim.width);
+    }
+
+    /**
+     * Test the constructor
+     */
+    public void testConstructor() {
+        System.out.println("testConstructor");
+        new SwingUtils();
     }
 
     /**

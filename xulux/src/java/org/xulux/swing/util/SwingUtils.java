@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.5 2003-12-23 02:00:06 mvdb Exp $
+ $Id: SwingUtils.java,v 1.6 2003-12-28 23:34:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,7 +63,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * Contains several utilities to make life with swing easier.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.5 2003-12-23 02:00:06 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.6 2003-12-28 23:34:57 mvdb Exp $
  */
 public class SwingUtils {
 
@@ -162,20 +162,28 @@ public class SwingUtils {
         if (object == null) {
             return null;
         }
+        ImageIcon icon = null;
         URL imageURL = object.getClass().getClassLoader().getResource(resource);
         if (imageLoader != null) {
-            return imageLoader.getIcon(imageURL);
-        }
-        ImageIcon icon = new ImageIcon(imageURL);
-        if (icon.getImageLoadStatus() == MediaTracker.ERRORED) {
-            icon = null;
-            if (log.isWarnEnabled()) {
-                log.warn(
-                    "Image type "
-                        + resource
-                        + " not supported by swing "
-                        + "we advice you to add jimi to your classpath or convert your "
-                        + "image to an image type supported by swing");
+            icon =  imageLoader.getIcon(imageURL);
+        } else {
+            if (imageURL != null) {
+                icon = new ImageIcon(imageURL);
+                if (icon.getImageLoadStatus() == MediaTracker.ERRORED) {
+                    icon = null;
+                    if (log.isWarnEnabled()) {
+                        log.warn(
+                            "Image type "
+                                + resource
+                                + " not supported by swing "
+                                + "we advice you to add jimi to your classpath or convert your "
+                                + "image to an image type supported by swing");
+                    }
+                }
+            } else {
+                if (log.isWarnEnabled()) {
+                    log.warn("Image " + resource + " cannot be found");
+                }
             }
         }
         return icon;

@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
+ $Id: Window.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -72,7 +72,7 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
+ * @version $Id: Window.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
  */
 public class Window extends NyxWindow {
     /**
@@ -160,6 +160,7 @@ public class Window extends NyxWindow {
         }
         initializeChildren();
         boolean autoSize = BooleanUtils.toBoolean(getProperty("autosize"));
+        System.out.println("autoSize : " + autoSize);
         if (autoSize) {
             Dimension dim = window.getContentPane().getLayout().preferredLayoutSize(window.getContentPane());
             window.pack();

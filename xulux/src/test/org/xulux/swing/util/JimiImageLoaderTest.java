@@ -1,5 +1,5 @@
 /*
- $Id: JimiImageLoaderTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
+ $Id: JimiImageLoaderTest.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,14 +57,14 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: JimiImageLoaderTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
+ * @version $Id: JimiImageLoaderTest.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
  */
 public class JimiImageLoaderTest extends TestCase {
 
     /**
      * The resource root.. Saves us typing it..
      */
-    public static final String RESOURCEROOT = "org/xulux/nyx/swing/util/";
+    public static final String RESOURCEROOT = "org/xulux/swing/util/";
 
     /**
      * Constructor for JimiImageLoaderTest.
@@ -90,7 +90,7 @@ public class JimiImageLoaderTest extends TestCase {
         System.out.println("testIsUsable");
         TestClassLoader loader = new TestClassLoader(getJimiUrl());
         URL jimUrl = loader.getResource(JimiImageLoader.class.getName());
-        Class clz = loader.loadClass("org.xulux.nyx.swing.util.JimiImageLoader");
+        Class clz = loader.loadClass("org.xulux.swing.util.JimiImageLoader");
         Object obj = clz.newInstance();
         ImageLoaderInterface ili = (ImageLoaderInterface) obj;
         assertFalse(ili.isUsable());

@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.1 2003-12-18 00:17:33 mvdb Exp $
+ $Id: XYLayout.java,v 1.2 2003-12-28 23:34:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,7 +68,7 @@ import org.xulux.gui.Widget;
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.1 2003-12-18 00:17:33 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.2 2003-12-28 23:34:57 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
@@ -291,12 +291,14 @@ public class XYLayout implements LayoutManager2, Serializable
      */
     protected Dimension getLayoutSize(Container parent)
     {
+        System.out.println("parent : " + parent+ " count  : "+parent.getComponentCount());
         Dimension dim = new Dimension(0, 0);
         for (int i = 0; i < parent.getComponentCount(); i++) {
             Component component = parent.getComponent(i);
             Widget widget = (Widget) map.get(component);
             if (widget != null && widget.isVisible()) {
                 Rectangle r = getRectangle(widget, component);
+                System.out.println("r : " + r);
                 dim.width += r.x + r.width;
                 dim.height += r.y + r.height;
             } else if (widget == null) { //if (widget == null) {
@@ -307,8 +309,10 @@ public class XYLayout implements LayoutManager2, Serializable
             }
         }
         Insets insets = parent.getInsets();
+        System.out.println("Insets : " + insets);
         dim.width += insets.left + insets.right;
         dim.height += insets.top + insets.bottom;
+        System.out.println("Returning dim : " + dim);
         return dim;
     }
 

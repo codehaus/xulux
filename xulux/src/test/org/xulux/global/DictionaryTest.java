@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.3 2003-12-23 01:20:31 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.4 2003-12-28 23:34:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.3 2003-12-23 01:20:31 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.4 2003-12-28 23:34:57 mvdb Exp $
  */
 public class DictionaryTest extends TestCase {
 
@@ -193,7 +193,8 @@ public class DictionaryTest extends TestCase {
         // cache should be cleared by dictionary.
         assertTrue(!d.isInCache(AnotherRecursiveBean.class));
         assertTrue(!d.isInCache(RecursiveBean.class));
-        assertEquals(6, mb.getFields().size());
+        System.out.println("Fields : " +mb.getFields());
+        assertEquals(7, mb.getFields().size());
         BeanMapping mbmain = d.getMapping(RecursiveBean.class);
         assertEquals(3, mbmain.getFields().size());
     }

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaultsTest2.xml,v 1.1 2003-12-18 00:17:28 mvdb Exp $ -->
+<!-- $Id: GuiDefaultsTest2.xml,v 1.2 2003-12-28 23:34:57 mvdb Exp $ -->
 <guidefaults>
-  <parentWidgetHandler class="org.xulux.nyx.guidefaults.BogusParentWidgetHandler"/>
+  <parentWidgetHandler class="org.xulux.guidefaults.BogusParentWidgetHandler"/>
   <widgets>
-    <widget name="testbutton" class="org.xulux.nyx.swing.widgets.Button"/>
-    <widget class="org.xulux.nyx.swing.widgets.Button"/>
+    <widget name="testbutton" class="org.xulux.swing.widgets.Button"/>
+    <widget class="org.xulux.swing.widgets.Button"/>
   </widgets>
   <boguselement/>
 </guidefaults>
