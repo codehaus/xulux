@@ -1,5 +1,5 @@
 /*
-   $Id: PropertyConfig.java,v 1.1 2004-03-16 14:35:15 mvdb Exp $
+   $Id: PropertyConfig.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.context;
+package org.xulux.core;
 
 import org.xulux.gui.IPropertyHandler;
 
@@ -25,7 +25,7 @@ import org.xulux.gui.IPropertyHandler;
  * using the setters.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PropertyConfig.java,v 1.1 2004-03-16 14:35:15 mvdb Exp $
+ * @version $Id: PropertyConfig.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
  */
 public class PropertyConfig {
 

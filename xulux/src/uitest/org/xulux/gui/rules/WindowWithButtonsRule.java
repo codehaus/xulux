@@ -1,5 +1,5 @@
 /*
-   $Id: WindowWithButtonsRule.java,v 1.2 2004-01-28 15:40:09 mvdb Exp $
+   $Id: WindowWithButtonsRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,13 +17,13 @@
 */
 package org.xulux.gui.rules;
 
-import org.xulux.context.PartRequest;
+import org.xulux.core.PartRequest;
 import org.xulux.rules.Rule;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowWithButtonsRule.java,v 1.2 2004-01-28 15:40:09 mvdb Exp $
+ * @version $Id: WindowWithButtonsRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
  */
 public class WindowWithButtonsRule extends Rule {
 
@@ -35,14 +35,14 @@ public class WindowWithButtonsRule extends Rule {
     }
 
     /**
-     * @see org.xulux.rules.IRule#pre(org.xulux.context.PartRequest)
+     * @see org.xulux.rules.IRule#pre(org.xulux.core.PartRequest)
      */
     public void pre(PartRequest request) {
 
     }
 
     /**
-     * @see org.xulux.rules.IRule#post(org.xulux.context.PartRequest)
+     * @see org.xulux.rules.IRule#post(org.xulux.core.PartRequest)
      */
     public void post(PartRequest request) {
         System.err.println("Executing post rule when action is save");

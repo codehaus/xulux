@@ -1,5 +1,5 @@
 /*
-   $Id: ImmidiateListener.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+   $Id: ImmidiateListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,9 +20,9 @@ package org.xulux.swing.listeners;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.ApplicationPart;
-import org.xulux.context.PartRequest;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.ApplicationPart;
+import org.xulux.core.PartRequest;
 import org.xulux.gui.Widget;
 import org.xulux.rules.impl.WidgetRequestImpl;
 
@@ -31,7 +31,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * For now only used for checkbox.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+ * @version $Id: ImmidiateListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
  */
 public class ImmidiateListener extends KeyAdapter {
     /**

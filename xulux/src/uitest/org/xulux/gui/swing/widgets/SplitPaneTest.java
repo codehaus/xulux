@@ -1,5 +1,5 @@
 /*
-   $Id: SplitPaneTest.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+   $Id: SplitPaneTest.java,v 1.5 2004-03-16 15:04:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.ApplicationPart;
-import org.xulux.context.WidgetConfig;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.ApplicationPart;
+import org.xulux.core.WidgetConfig;
 import org.xulux.dataprovider.contenthandlers.DOMTreeContentHandler;
 import org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler;
 import org.xulux.gui.PartCreator;
@@ -36,7 +36,7 @@ import junit.framework.TestCase;
  * A testcase for splitpanes.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SplitPaneTest.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: SplitPaneTest.java,v 1.5 2004-03-16 15:04:15 mvdb Exp $
  */
 public class SplitPaneTest extends TestCase {
 

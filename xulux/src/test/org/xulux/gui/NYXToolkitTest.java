@@ -1,5 +1,5 @@
 /*
-   $Id: NYXToolkitTest.java,v 1.2 2004-01-28 15:22:08 mvdb Exp $
+   $Id: NYXToolkitTest.java,v 1.3 2004-03-16 15:04:17 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,7 +19,7 @@ package org.xulux.gui;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.SimpleLog;
-import org.xulux.context.ApplicationContext;
+import org.xulux.core.ApplicationContext;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NYXToolkitTest.java,v 1.2 2004-01-28 15:22:08 mvdb Exp $
+ * @version $Id: NYXToolkitTest.java,v 1.3 2004-03-16 15:04:17 mvdb Exp $
  */
 public class NYXToolkitTest extends TestCase {
 

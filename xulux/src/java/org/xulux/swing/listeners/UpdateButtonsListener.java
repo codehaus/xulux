@@ -1,5 +1,5 @@
 /*
-   $Id: UpdateButtonsListener.java,v 1.4 2004-03-16 14:35:15 mvdb Exp $
+   $Id: UpdateButtonsListener.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,8 +27,8 @@ import javax.swing.event.ListSelectionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.context.ApplicationPart;
-import org.xulux.context.ApplicationPartHandler;
+import org.xulux.core.ApplicationPart;
+import org.xulux.core.ApplicationPartHandler;
 import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
@@ -44,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.4 2004-03-16 14:35:15 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener implements ActionListener, ListSelectionListener {
 

@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.2 2004-03-16 15:04:17 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,14 +25,14 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.WidgetConfig;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.WidgetConfig;
 
 /**
  * Case insensitive processing of the guidefaults.
  *
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.2 2004-03-16 15:04:17 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 

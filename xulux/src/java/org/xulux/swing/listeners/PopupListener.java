@@ -1,5 +1,5 @@
 /*
-   $Id: PopupListener.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+   $Id: PopupListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,8 +21,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.PartRequest;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.PartRequest;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
 import org.xulux.rules.impl.WidgetRequestImpl;
@@ -31,7 +31,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * A popuplistener. Shows the popup when the right mousebutton is clicked
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupListener.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+ * @version $Id: PopupListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
  */
 public class PopupListener extends NyxListener implements MouseListener {
 

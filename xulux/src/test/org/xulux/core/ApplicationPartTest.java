@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPartTest.java,v 1.5 2004-01-28 15:22:05 mvdb Exp $
+   $Id: ApplicationPartTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.context;
+package org.xulux.core;
 
 import org.xulux.gui.Widget;
 import org.xulux.swing.util.NyxEventQueue;
@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
  * The ApplicationPart test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartTest.java,v 1.5 2004-01-28 15:22:05 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
  */
 public class ApplicationPartTest extends TestCase {
 

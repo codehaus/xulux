@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetRequestImpl.java,v 1.2 2004-01-28 15:02:20 mvdb Exp $
+   $Id: WidgetRequestImpl.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,17 +17,17 @@
 */
 package org.xulux.rules.impl;
 
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.ApplicationPart;
-import org.xulux.context.PartRequest;
-import org.xulux.context.SessionPart;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.ApplicationPart;
+import org.xulux.core.PartRequest;
+import org.xulux.core.SessionPart;
 import org.xulux.gui.Widget;
 
 /**
  * This class should not be used directly, it is only for internal use.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetRequestImpl.java,v 1.2 2004-01-28 15:02:20 mvdb Exp $
+ * @version $Id: WidgetRequestImpl.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
  */
 public class WidgetRequestImpl implements PartRequest {
     /**

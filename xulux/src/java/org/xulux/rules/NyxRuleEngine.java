@@ -1,5 +1,5 @@
 /*
-   $Id: NyxRuleEngine.java,v 1.2 2004-01-28 15:02:20 mvdb Exp $
+   $Id: NyxRuleEngine.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,8 +20,8 @@ package org.xulux.rules;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.xulux.context.IRuleEngine;
-import org.xulux.context.PartRequest;
+import org.xulux.core.IRuleEngine;
+import org.xulux.core.PartRequest;
 import org.xulux.gui.Widget;
 
 /**
@@ -29,7 +29,7 @@ import org.xulux.gui.Widget;
  * you can actually plugin other rule engines. You are able to connect
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxRuleEngine.java,v 1.2 2004-01-28 15:02:20 mvdb Exp $
+ * @version $Id: NyxRuleEngine.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
  */
 public class NyxRuleEngine implements IRuleEngine {
 

@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetFactory.java,v 1.3 2004-01-28 15:00:23 mvdb Exp $
+   $Id: WidgetFactory.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,14 +22,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.xulux.context.ApplicationContext;
+import org.xulux.core.ApplicationContext;
 import org.xulux.rules.IRule;
 
 /**
  * Factory to create the widget class..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.3 2004-01-28 15:00:23 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
  */
 public class WidgetFactory {
 

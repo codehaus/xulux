@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.6 2004-03-16 14:35:15 mvdb Exp $
+   $Id: Widget.java,v 1.7 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,8 +26,8 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.ApplicationPart;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.ApplicationPart;
 import org.xulux.rules.IRule;
 import org.xulux.rules.Rule;
 import org.xulux.utils.NyxCollectionUtils;
@@ -41,7 +41,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.6 2004-03-16 14:35:15 mvdb Exp $
+ * @version $Id: Widget.java,v 1.7 2004-03-16 15:04:16 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {

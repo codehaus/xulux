@@ -1,5 +1,5 @@
 /*
-   $Id: CancelButtonRule.java,v 1.2 2004-01-28 15:40:09 mvdb Exp $
+   $Id: CancelButtonRule.java,v 1.3 2004-03-16 15:04:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,12 +17,12 @@
 */
 package org.xulux.gui.rules;
 
-import org.xulux.context.PartRequest;
+import org.xulux.core.PartRequest;
 import org.xulux.rules.Rule;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CancelButtonRule.java,v 1.2 2004-01-28 15:40:09 mvdb Exp $
+ * @version $Id: CancelButtonRule.java,v 1.3 2004-03-16 15:04:15 mvdb Exp $
  */
 public class CancelButtonRule extends Rule {
 

@@ -1,5 +1,5 @@
 /*
-   $Id: SessionPartTest.java,v 1.3 2004-01-28 15:22:05 mvdb Exp $
+   $Id: SessionPartTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.context;
+package org.xulux.core;
 
 import java.util.Iterator;
 
@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
  * The sessionpart test.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SessionPartTest.java,v 1.3 2004-01-28 15:22:05 mvdb Exp $
+ * @version $Id: SessionPartTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
  */
 public class SessionPartTest extends TestCase {
 

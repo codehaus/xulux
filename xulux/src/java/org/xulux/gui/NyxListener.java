@@ -1,5 +1,5 @@
 /*
-   $Id: NyxListener.java,v 1.4 2004-01-28 15:00:23 mvdb Exp $
+   $Id: NyxListener.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.PartRequest;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.PartRequest;
 import org.xulux.rules.impl.PartRequestImpl;
 import org.xulux.rules.impl.WidgetRequestImpl;
 import org.xulux.swing.widgets.Button;
@@ -36,7 +36,7 @@ import org.xulux.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.4 2004-01-28 15:00:23 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
  */
 public abstract class NyxListener {
     /**

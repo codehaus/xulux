@@ -1,5 +1,5 @@
 /*
-   $Id: DefaultPartRuleTest.java,v 1.2 2004-01-28 15:22:09 mvdb Exp $
+   $Id: DefaultPartRuleTest.java,v 1.3 2004-03-16 15:04:17 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,8 +17,8 @@
 */
 package org.xulux.rules;
 
-import org.xulux.context.ApplicationPart;
-import org.xulux.context.PartRequest;
+import org.xulux.core.ApplicationPart;
+import org.xulux.core.PartRequest;
 import org.xulux.rules.impl.PartRequestImpl;
 
 import junit.framework.Test;
@@ -29,7 +29,7 @@ import junit.framework.TestSuite;
  * Test the defaultpartrule
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultPartRuleTest.java,v 1.2 2004-01-28 15:22:09 mvdb Exp $
+ * @version $Id: DefaultPartRuleTest.java,v 1.3 2004-03-16 15:04:17 mvdb Exp $
  */
 public class DefaultPartRuleTest extends TestCase {
 

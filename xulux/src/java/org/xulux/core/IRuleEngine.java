@@ -1,5 +1,5 @@
 /*
-   $Id: IRuleEngine.java,v 1.3 2004-01-28 14:57:03 mvdb Exp $
+   $Id: IRuleEngine.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.context;
+package org.xulux.core;
 
 import org.xulux.gui.Widget;
 
@@ -30,7 +30,7 @@ import org.xulux.gui.Widget;
  * after that the internal rule system.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IRuleEngine.java,v 1.3 2004-01-28 14:57:03 mvdb Exp $
+ * @version $Id: IRuleEngine.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
  */
 public interface IRuleEngine {
 

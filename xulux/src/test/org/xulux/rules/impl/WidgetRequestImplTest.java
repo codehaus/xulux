@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetRequestImplTest.java,v 1.2 2004-01-28 15:22:04 mvdb Exp $
+   $Id: WidgetRequestImplTest.java,v 1.3 2004-03-16 15:04:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,17 +21,17 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.ApplicationPart;
-import org.xulux.context.PartRequest;
-import org.xulux.context.SessionPart;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.ApplicationPart;
+import org.xulux.core.PartRequest;
+import org.xulux.core.SessionPart;
 import org.xulux.swing.layouts.MockWidget;
 
 /**
  * The widgetRequestImplementation
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetRequestImplTest.java,v 1.2 2004-01-28 15:22:04 mvdb Exp $
+ * @version $Id: WidgetRequestImplTest.java,v 1.3 2004-03-16 15:04:15 mvdb Exp $
  */
 public class WidgetRequestImplTest extends TestCase {
 

@@ -1,5 +1,5 @@
 /*
-   $Id: NYXToolkit.java,v 1.2 2004-01-28 15:00:23 mvdb Exp $
+   $Id: NYXToolkit.java,v 1.3 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,7 +19,7 @@ package org.xulux.gui;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.context.ApplicationContext;
+import org.xulux.core.ApplicationContext;
 
 /**
  * The toolkit class is a class that takes care
@@ -29,7 +29,7 @@ import org.xulux.context.ApplicationContext;
  * (didn't check yet if swt uses something different though)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NYXToolkit.java,v 1.2 2004-01-28 15:00:23 mvdb Exp $
+ * @version $Id: NYXToolkit.java,v 1.3 2004-03-16 15:04:16 mvdb Exp $
  */
 public abstract class NYXToolkit {
 

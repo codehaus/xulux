@@ -1,5 +1,5 @@
 /*
-   $Id: GuiUtilsTest.java,v 1.3 2004-01-28 15:22:08 mvdb Exp $
+   $Id: GuiUtilsTest.java,v 1.4 2004-03-16 15:04:17 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,8 +19,8 @@ package org.xulux.gui;
 
 import java.util.List;
 
-import org.xulux.context.ApplicationPart;
-import org.xulux.context.PartRequest;
+import org.xulux.core.ApplicationPart;
+import org.xulux.core.PartRequest;
 import org.xulux.rules.Rule;
 import org.xulux.swing.layouts.MockWidget;
 
@@ -32,7 +32,7 @@ import junit.framework.TestSuite;
  * Test case for the GuiUtils.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtilsTest.java,v 1.3 2004-01-28 15:22:08 mvdb Exp $
+ * @version $Id: GuiUtilsTest.java,v 1.4 2004-03-16 15:04:17 mvdb Exp $
  */
 public class GuiUtilsTest extends TestCase {
 

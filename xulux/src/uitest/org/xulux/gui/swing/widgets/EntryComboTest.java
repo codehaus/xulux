@@ -1,5 +1,5 @@
 /*
-   $Id: EntryComboTest.java,v 1.3 2004-01-28 15:40:08 mvdb Exp $
+   $Id: EntryComboTest.java,v 1.4 2004-03-16 15:04:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,14 +23,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.context.ApplicationPart;
+import org.xulux.core.ApplicationPart;
 import org.xulux.gui.PartCreator;
 
 /**
  * Tests combination of entry and combo
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: EntryComboTest.java,v 1.3 2004-01-28 15:40:08 mvdb Exp $
+ * @version $Id: EntryComboTest.java,v 1.4 2004-03-16 15:04:15 mvdb Exp $
  */
 public class EntryComboTest extends TestCase {
 

@@ -1,5 +1,5 @@
 /*
-   $Id: ButtonTest.java,v 1.3 2004-01-28 15:40:08 mvdb Exp $
+   $Id: ButtonTest.java,v 1.4 2004-03-16 15:04:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,7 +19,7 @@ package org.xulux.gui.swing.widgets;
 
 import java.io.InputStream;
 
-import org.xulux.context.ApplicationPart;
+import org.xulux.core.ApplicationPart;
 import org.xulux.gui.PartCreator;
 
 import junit.framework.TestCase;
@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  * A testcase for buttons.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ButtonTest.java,v 1.3 2004-01-28 15:40:08 mvdb Exp $
+ * @version $Id: ButtonTest.java,v 1.4 2004-03-16 15:04:15 mvdb Exp $
  */
 public class ButtonTest extends TestCase {
 

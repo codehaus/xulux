@@ -1,5 +1,5 @@
 /*
-   $Id: ImmidiateTreeSelectionListener.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+   $Id: ImmidiateTreeSelectionListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,7 +22,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
-import org.xulux.context.PartRequest;
+import org.xulux.core.PartRequest;
 import org.xulux.gui.GuiUtils;
 import org.xulux.gui.Widget;
 
@@ -32,7 +32,7 @@ import org.xulux.gui.Widget;
  * are being called.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateTreeSelectionListener.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+ * @version $Id: ImmidiateTreeSelectionListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
  */
 public class ImmidiateTreeSelectionListener implements ListSelectionListener, TreeSelectionListener {
 

@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.5 2004-03-16 14:35:15 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.context;
+package org.xulux.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,7 +56,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.5 2004-03-16 14:35:15 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
  */
 public class ApplicationPart {
 

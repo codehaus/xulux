@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+   $Id: Tree.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,8 +27,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.WidgetConfig;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.WidgetConfig;
 import org.xulux.dataprovider.contenthandlers.TreeContentHandler;
 import org.xulux.gui.ContainerWidget;
 import org.xulux.gui.IContentWidget;
@@ -45,7 +45,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: Tree.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 

@@ -1,5 +1,5 @@
 /*
-   $Id: GuiUtils.java,v 1.6 2004-01-28 15:00:22 mvdb Exp $
+   $Id: GuiUtils.java,v 1.7 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.ApplicationPart;
-import org.xulux.context.PartRequest;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.ApplicationPart;
+import org.xulux.core.PartRequest;
 import org.xulux.rules.impl.WidgetRequestImpl;
 
 /**
@@ -31,7 +31,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * Like firing rules when the cancel button is pressed or the window is closed.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtils.java,v 1.6 2004-01-28 15:00:22 mvdb Exp $
+ * @version $Id: GuiUtils.java,v 1.7 2004-03-16 15:04:16 mvdb Exp $
  */
 public class GuiUtils {
 

@@ -1,5 +1,5 @@
 /*
-   $Id: NyxWindowListenerTest.java,v 1.2 2004-01-28 15:22:02 mvdb Exp $
+   $Id: NyxWindowListenerTest.java,v 1.3 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,8 +19,8 @@ package org.xulux.swing.listeners;
 
 import java.security.Permission;
 
-import org.xulux.context.ApplicationContext;
-import org.xulux.context.ApplicationPart;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.ApplicationPart;
 import org.xulux.swing.layouts.MockWidget;
 
 import junit.framework.Test;
@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
  * Tests the nyxwindowlistener
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListenerTest.java,v 1.2 2004-01-28 15:22:02 mvdb Exp $
+ * @version $Id: NyxWindowListenerTest.java,v 1.3 2004-03-16 15:04:16 mvdb Exp $
  */
 public class NyxWindowListenerTest extends TestCase {
 

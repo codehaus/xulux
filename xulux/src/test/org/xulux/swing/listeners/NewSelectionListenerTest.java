@@ -1,5 +1,5 @@
 /*
-   $Id: NewSelectionListenerTest.java,v 1.3 2004-01-28 15:22:02 mvdb Exp $
+   $Id: NewSelectionListenerTest.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,7 +20,7 @@ package org.xulux.swing.listeners;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TreeSelectionEvent;
 
-import org.xulux.context.ApplicationPart;
+import org.xulux.core.ApplicationPart;
 import org.xulux.gui.Widget;
 import org.xulux.swing.layouts.MockWidget;
 
@@ -30,7 +30,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NewSelectionListenerTest.java,v 1.3 2004-01-28 15:22:02 mvdb Exp $
+ * @version $Id: NewSelectionListenerTest.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
  */
 public class NewSelectionListenerTest extends TestCase {
 

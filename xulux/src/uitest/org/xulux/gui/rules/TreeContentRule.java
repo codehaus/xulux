@@ -1,5 +1,5 @@
 /*
-   $Id: TreeContentRule.java,v 1.2 2004-01-28 15:40:09 mvdb Exp $
+   $Id: TreeContentRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,7 +17,7 @@
 */
 package org.xulux.gui.rules;
 
-import org.xulux.context.PartRequest;
+import org.xulux.core.PartRequest;
 import org.xulux.gui.IContentWidget;
 import org.xulux.gui.swing.widgets.TreeTest;
 import org.xulux.rules.Rule;
@@ -25,7 +25,7 @@ import org.xulux.rules.Rule;
 /**
  * Sets the content from a rule..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeContentRule.java,v 1.2 2004-01-28 15:40:09 mvdb Exp $
+ * @version $Id: TreeContentRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
  */
 public class TreeContentRule extends Rule {
 

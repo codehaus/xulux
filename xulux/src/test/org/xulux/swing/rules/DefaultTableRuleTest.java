@@ -1,5 +1,5 @@
 /*
-   $Id: DefaultTableRuleTest.java,v 1.2 2004-01-28 15:22:09 mvdb Exp $
+   $Id: DefaultTableRuleTest.java,v 1.3 2004-03-16 15:04:17 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,7 +17,7 @@
 */
 package org.xulux.swing.rules;
 
-import org.xulux.context.PartRequest;
+import org.xulux.core.PartRequest;
 import org.xulux.rules.impl.WidgetRequestImpl;
 import org.xulux.swing.widgets.Table;
 
@@ -29,7 +29,7 @@ import junit.framework.TestSuite;
  * The defaultTableRule test.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultTableRuleTest.java,v 1.2 2004-01-28 15:22:09 mvdb Exp $
+ * @version $Id: DefaultTableRuleTest.java,v 1.3 2004-03-16 15:04:17 mvdb Exp $
  */
 public class DefaultTableRuleTest extends TestCase {
 

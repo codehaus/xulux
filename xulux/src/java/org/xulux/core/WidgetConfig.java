@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfig.java,v 1.4 2004-03-16 14:35:15 mvdb Exp $
+   $Id: WidgetConfig.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.context;
+package org.xulux.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.4 2004-03-16 14:35:15 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
  */
 public class WidgetConfig {
 
