@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.4 2003-08-03 20:53:03 mvdb Exp $
+ $Id: TabPanel.java,v 1.5 2003-08-03 22:48:49 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * 
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.4 2003-08-03 20:53:03 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.5 2003-08-03 22:48:49 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
     
@@ -91,6 +91,9 @@ public class TabPanel extends ContainerWidget {
     public void destroy() {
         processDestroy();
         super.destroy();
+        if (tabPanel == null) {
+            return;
+        }
         Container container = tabPanel.getParent();
         tabPanel.setVisible(false);
         tabPanel.removeAll();

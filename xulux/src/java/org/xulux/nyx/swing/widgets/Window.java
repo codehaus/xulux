@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.7 2003-08-03 20:53:03 mvdb Exp $
+ $Id: Window.java,v 1.8 2003-08-03 22:48:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -70,7 +70,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.7 2003-08-03 20:53:03 mvdb Exp $
+ * @version $Id: Window.java,v 1.8 2003-08-03 22:48:49 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
@@ -114,7 +114,12 @@ public class Window extends NyxWindow
         Container container = window.getParent();
         if (container != null) 
         {
+            System.out.println("window container is not null");
             container.remove(window);
+        } else {
+            // we can assume that this is the only window..
+            System.out.println("window container is null");
+            System.exit(0);
         }
         window.dispose();
         window = null;
@@ -174,8 +179,8 @@ public class Window extends NyxWindow
         {
             refresh();
         }
-        new Thread(new RepaintComponent()).start();
         processInit();    
+        new Thread(new RepaintComponent()).start();
     }
 
     /**
@@ -238,7 +243,6 @@ public class Window extends NyxWindow
          */
         public void run() {
             while (getPart().isActivating());
-            System.out.println("**** REPAINTING ****");
             try {
             SwingUtilities.invokeAndWait(new Runnable() {
                 /**
@@ -248,7 +252,7 @@ public class Window extends NyxWindow
                     // TODO : Look at painting problem
                     // we for now rerun the rules, so
                     // the window will show correctly.
-                    getPart().runPreRules();
+                    window.repaint();
                 }
             });
             }catch(Exception e) {
