@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.3 2002-11-05 01:11:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.IRule;
 
 /**
@@ -57,7 +58,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.3 2002-11-05 01:11:12 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -68,17 +69,17 @@ public class ApplicationContext
      * that aren't disposed
      */
     private ArrayList registry;
-    
+
     /** 
      * The listeners that are added to components
      */
     private ArrayList listeners;
-    
+
     /** 
      * The currently registered rules
      */
     private ArrayList rules;
-    
+
     /**
      * Request types..
      */
@@ -87,7 +88,7 @@ public class ApplicationContext
     public static final int POST_REQUEST = 2;
     public static final int INIT_REQUEST = 3;
     public static final int DESTROY_REQUEST = 4;
-    
+
     /**
      * Constructor for GuiContext.
      */
@@ -95,7 +96,7 @@ public class ApplicationContext
     {
         super();
     }
-    
+
     public static ApplicationContext getInstance()
     {
         if (instance == null)
@@ -104,7 +105,7 @@ public class ApplicationContext
         }
         return instance;
     }
-    
+
     /** 
      * Register applicationpart
      */
@@ -116,7 +117,7 @@ public class ApplicationContext
         }
         registry.add(part);
     }
-    
+
     /** 
      * Register a certain rule to a certain part.
      * If the rulecount is zero, it will add it by default..
@@ -142,7 +143,7 @@ public class ApplicationContext
             rule.registerPartName(partName);
         }
     }
-    
+
     /**
      * Deregister everything connected to the partname.
      * It will remove the rule when the useCount is 0.
@@ -155,12 +156,11 @@ public class ApplicationContext
         Iterator it = rules.iterator();
         while (it.hasNext())
         {
-            IRule rule = (IRule)it.next();
+            IRule rule = (IRule) it.next();
             rule.deregisterPartName(partName);
         }
     }
-    
-    
+
     /**
      * Adds default listeners to a certain component
      */
@@ -169,7 +169,7 @@ public class ApplicationContext
         initializeListeners();
         // TODO ;((
     }
-    
+
     /**
      * Initializes the default listeners
      */
@@ -181,7 +181,7 @@ public class ApplicationContext
         }
         listeners = new ArrayList();
     }
-    
+
     /** 
      * Fires a request of a certain type.
      */
@@ -189,21 +189,56 @@ public class ApplicationContext
     {
         ApplicationPart part = request.getPart();
         ArrayList rules = part.getRules();
+        System.out.println("Rules : " + rules);
         synchronized (rules)
         {
-            Iterator iterator = rules.iterator();
-            while (iterator.hasNext())
+            Iterator it = rules.iterator();
+            while (it.hasNext())
             {
-                IRule rule = (IRule) iterator.next();
+                IRule rule = (IRule) it.next();
+                System.out.println("Processing rule : " + rule.getUseCount());
                 switch (type)
                 {
-                    case PRE_REQUEST:
-                    rule.pre(request);
-                    case EXECUTE_REQUEST:
-                    rule.execute(request);
-                    case POST_REQUEST:
-                    rule.post(request);
+                    case PRE_REQUEST :
+                        rule.pre(request);
+                        continue;
+                    case EXECUTE_REQUEST :
+                        rule.execute(request);
+                        continue;
+                    case POST_REQUEST :
+                        rule.post(request);
+                        continue;
                 }
+            }
+        }
+    }
+
+    public static void fireFieldRequest(
+        Widget widget,
+        PartRequest request,
+        int type)
+    {
+        ArrayList rules = widget.getRules();
+        if (rules == null)
+        {
+            return;
+        }
+        Iterator it = rules.iterator();
+        while (it.hasNext())
+        {
+            IRule rule = (IRule) it.next();
+            System.out.println("Processing rule : " + rule.getUseCount());
+            switch (type)
+            {
+                case PRE_REQUEST :
+                    rule.pre(request);
+                    continue;
+                case EXECUTE_REQUEST :
+                    rule.execute(request);
+                    continue;
+                case POST_REQUEST :
+                    rule.post(request);
+                    continue;
             }
         }
     }

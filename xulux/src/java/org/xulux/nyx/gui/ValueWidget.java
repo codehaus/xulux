@@ -1,5 +1,5 @@
 /*
- $Id: TestFactory.java,v 1.4 2002-11-05 01:11:12 mvdb Exp $
+ $Id: ValueWidget.java,v 1.1 2002-11-05 01:11:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,74 +43,19 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.factories;
-
-import java.util.Iterator;
-
-import javax.swing.JPanel;
-
-import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.global.BeanField;
-import org.xulux.nyx.global.BeanMapping;
-import org.xulux.nyx.global.Dictionary;
-import org.xulux.nyx.global.IField;
-import org.xulux.nyx.gui.Entry;
-import org.xulux.nyx.rules.DefaultPartRule;
-import org.xulux.nyx.swing.BaseForm;
-import org.xulux.nyx.swing.NewForm;
+package org.xulux.nyx.gui;
 
 /**
- * A testFactory, which just contains some experimenting code, to end up with the
- * "ideal" situation. Will be deleted / moved to examples or test in
- * a later stage.
+ * Specifies the widget has a value to share with us.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.4 2002-11-05 01:11:12 mvdb Exp $
+ * @version $Id: ValueWidget.java,v 1.1 2002-11-05 01:11:12 mvdb Exp $
  */
-public class TestFactory
+public interface ValueWidget 
 {
-
-    private static TestFactory instance;
-    /**
-     * Constructor for TestFactory.
-     */
-    public TestFactory()
-    {
-    }
     
-    public static TestFactory getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new TestFactory();
-        }
-        return instance;
-    }
+    public Object getValue();
     
-    
-    /** 
-     * Creates a ApplicationPart form
-     */
-    public static ApplicationPart getForm(String form, Object bean)
-    {
-        ApplicationPart part = new ApplicationPart(bean);
-        Dictionary d = Dictionary.getInstance();
-        BeanMapping mapping = d.getMapping(bean.getClass());
-        System.out.println("fields : "+mapping.getFields());
-        Iterator iterator = mapping.getFields().iterator();
-        while (iterator.hasNext())
-        {
-            IField field = (IField) iterator.next();
-            Entry entry = new Entry(field.getAlias());
-            entry.setEnable(true);
-            entry.setVisible(true);
-            entry.initialize();
-            entry.setValue(field.getValue(bean));
-            part.setParentWidget(new JPanel());
-            part.addWidget(entry, field.getName());
-        }
-        return part;
-    }
-            
+    public void setValue(Object value);
 
 }

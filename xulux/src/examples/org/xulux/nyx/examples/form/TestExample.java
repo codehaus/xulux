@@ -1,5 +1,5 @@
 /*
- $Id: TestExample.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
+ $Id: TestExample.java,v 1.3 2002-11-05 01:11:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.utils.Resources;
  * A simple example of a form
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestExample.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
+ * @version $Id: TestExample.java,v 1.3 2002-11-05 01:11:12 mvdb Exp $
  */
 public class TestExample
 {
@@ -92,7 +92,7 @@ public class TestExample
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("dictionary.xml"));
         // TODO: set some defaults (should be in GuiDefaults.xml...)
         ApplicationPart part = TestFactory.getForm("TestForm", createDefaultTestObject());
-        part.get
+        part.activate();
         System.out.println("Form : "+part);
         JFrame frame = new JFrame("FormExample");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ $Id: Entry.java,v 1.2 2002-11-05 01:11:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,9 +52,11 @@ import javax.swing.JTextField;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ * @version $Id: Entry.java,v 1.2 2002-11-05 01:11:12 mvdb Exp $
  */
-public class Entry extends Widget
+public class Entry 
+extends Widget
+implements ValueWidget
 {
     private boolean initialized;
     private Dimension size;
@@ -90,14 +92,6 @@ public class Entry extends Widget
         return textField;
     }
     
-    /** 
-     * Should not be called before initialization of widget..
-     */
-    public void setText(String text)
-    {
-        textField.setText(text);
-    }
-        
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
@@ -142,6 +136,33 @@ public class Entry extends Widget
         textField.setEnabled(isEnabled());
         textField.setVisible(isVisible());
         textField.setPreferredSize(this.size);
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.ValueWidget#getValue()
+     */
+    public Object getValue()
+    {
+        return textField.getText();
+    }
+    
+
+    /**
+     * @see org.xulux.nyx.gui.ValueWidget#setValue(Object)
+     */
+    public void setValue(Object value)
+    {
+        boolean update = true;
+        if (value.equals(getValue()))
+        {
+            update = false;
+        }
+        textField.setText(value.toString());
+        
+        if (update)
+        {
+            refresh();
+        }
     }
 
 }

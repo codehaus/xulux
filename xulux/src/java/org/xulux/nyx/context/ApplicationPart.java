@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.5 2002-11-04 21:40:57 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.6 2002-11-05 01:11:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,14 +45,19 @@
  */
 package org.xulux.nyx.context;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.swing.JPanel;
+
+import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.global.BeanField;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.ValueWidget;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
@@ -75,7 +80,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.5 2002-11-04 21:40:57 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.6 2002-11-05 01:11:12 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -89,9 +94,13 @@ public class ApplicationPart
     
     private Object parentWidget;
     
-    private HashMap widgets;
+    private WidgetList widgets;
     
     private ArrayList partRules;
+    
+    private boolean activated;
+    
+    public static int runIndex = 0;
     
     /**
      * Constructor for GuiPart.
@@ -164,6 +173,11 @@ public class ApplicationPart
     
     public void setGuiValue(String field, Object value)
     {
+        Widget widget = (Widget) widgets.get(field);
+        if (widget instanceof ValueWidget)
+        {
+            ((ValueWidget)widget).setValue(value);
+        }
     }
     
     /** 
@@ -172,6 +186,11 @@ public class ApplicationPart
      */
     public Object getGuiValue(String field)
     {
+        Widget widget = (Widget)widgets.get(field);
+        if (widget instanceof ValueWidget)
+        {
+          return ((ValueWidget)widget).getValue();
+        }
         return null;
     }
     
@@ -180,23 +199,25 @@ public class ApplicationPart
      */
     public Object getBeanValue(String field)
     {
-        return null;
+        return mapping.getField(field).getValue(getBean());
+    }
+    
+    public IField getField(String name)
+    {
+        return mapping.getField(name);
     }
     
     /**
-     * Specifies if this application is gui related.
-     * For now all parts are.
+     * Returns the widget that is connected to the field
      */
-    public boolean isGui()
+    public Widget getWidget(String field)
     {
-        return true;
+        return (Widget)widgets.get(field);
     }
     
-    public BeanField getField(String name)
-    {
-        return null;
-    }
-    
+    /**
+     * Returns the plain bean
+     */
     public Object getBean()
     {
         return this.bean;
@@ -210,20 +231,6 @@ public class ApplicationPart
         return null;
     }
     
-    /** 
-     * Adds lookup data to the specified field.
-     * 
-     * @param field - the field to connect the data to.
-     * @param data - the arraylist containing the data.
-     * @param type - what type of lookup component it will be, (see GuiDefaults)
-     * @param whichFields - which fields to show in the lookup type.
-     */
-    public void addLookupData(String field, ArrayList data, 
-                                int type, String whichFields)
-    {
-        
-    }
-    
     /**
      * The parent widget for all child widgets to be added
      * @param widget 
@@ -232,6 +239,7 @@ public class ApplicationPart
     {
         this.parentWidget = widget;
     }
+    
     /**
      * Adds a widget to the parent
      * Also replaces it, but it is cleaner to have a seperate 
@@ -245,9 +253,9 @@ public class ApplicationPart
     {
         if (widgets == null)
         {
-            widgets = new HashMap();
+            widgets = new WidgetList();
         }
-        widgets.put(field, widget);
+        widgets.add(widget);
     }
     
     /** 
@@ -257,7 +265,15 @@ public class ApplicationPart
      */
     public void setWidget(Object widget, String field)
     {
-        widgets.put(field, widget);
+        int index = widgets.indexOf(field);
+        if (index != -1)
+        {
+            widgets.set(index, widget);
+        }
+        else
+        {
+            widgets.add(widget);
+        }
     }
     
     public Object getRootWidget()
@@ -275,17 +291,20 @@ public class ApplicationPart
      */
     public void initialize(Object caller)
     {
+        System.err.println("Initialize is called..");
         if (!(caller instanceof DefaultPartRule))
         {
             return;
         }
-        for (Iterator it = widgets.keySet().iterator();it.hasNext();)
+        Iterator it = widgets.iterator();
+        while (it.hasNext())
         {
-            String name = (String) it.next();
-            System.out.println("Next ; "+name);
+            Widget widget = (Widget) it.next();
+            System.out.println("Next ; "+widget.getField());
             // getting widget..
-            Widget widget = (Widget) widgets.get(name);
         }
+        if (runIndex == 2) throw new RuntimeException("Hoi");
+        runIndex++;
         
     }
     
@@ -294,11 +313,8 @@ public class ApplicationPart
      */
     public void registerRule(IRule rule)
     {
-        if (partRules == null)
-        {
-            partRules = new ArrayList();
-        }
-        partRules.add(rule);
+        // the defaultrule should stay last..
+        partRules.add(partRules.size(), rule);
         rule.registerPartName(this.getName());
     }
     
@@ -319,11 +335,99 @@ public class ApplicationPart
      */
     public void activate()
     {
-        
+        if (activated)
+        {
+            return;
+        }
+        activated = true;
+        if (getRules() == null)
+        {
+            System.err.println("No part rules to process");
+        }
+        Iterator it = widgets.iterator();
+        System.out.println("Rules : "+getRules());
+        while (it.hasNext())
+        {
+            Widget widget = (Widget) it.next();
+            if (getRootWidget() instanceof JPanel)
+            {
+                ((JPanel)parentWidget).add((Component)widget.getNativeWidget());
+                PartRequestImpl req = new PartRequestImpl(widget.getField(), this, PartRequest.NO_ACTION);
+                ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
+            }
+        }
     }
     
+    /**
+     * Returns the part rules
+     */
     public ArrayList getRules()
     {
+        initializePartRules();
         return partRules;
     }
+    
+    /** 
+     * Initializes the partrules
+     * and adds the defaultrule.
+     */
+    private void initializePartRules()
+    {
+        if (partRules == null)
+        {
+            partRules = new ArrayList();
+            // add the default rule..
+            partRules.add(new DefaultPartRule());
+        }
+    }
+        
+    
+    public ArrayList getRules(String field)
+    {
+        return null;
+    }
+    
+    /**
+     * Override arraylist so equals actually works..
+     */
+    public class WidgetList extends ArrayList
+    {
+        
+            /**
+         * @see java.util.List#indexOf(Object)
+         */
+        public int indexOf(Object elem)
+        {
+            if (elem == null)
+            {
+                return -1;
+            }
+            for (int i = 0; i < size(); i++)
+            {
+                Object data = get(i);
+                if (data != null && data.equals(elem))
+                {
+                    return i;
+                }
+            }
+            return -1;
+            
+        }
+        
+        public Widget get(String field)
+        {
+            int index = indexOf(field);
+            if (index != -1)
+            {
+                return (Widget) get(index);
+            }
+            return null;
+        }
+    }
+    
+    public WidgetList getWidgets()
+    {
+        return widgets;
+    }
+    
 }

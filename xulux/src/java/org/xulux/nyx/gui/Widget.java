@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ $Id: Widget.java,v 1.2 2002-11-05 01:11:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.xulux.nyx.rules.IRule;
  * to say how we should initialize it, etc.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ * @version $Id: Widget.java,v 1.2 2002-11-05 01:11:12 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -215,9 +215,25 @@ public abstract class Widget
         rules.add(rule);
     }
     
-    protected ArrayList getRules()
+    public ArrayList getRules()
     {
         return rules;
     }
-
+    
+    /** 
+     * To make equals checking a bit easier
+     * @param object (normally a string)
+     */
+    public boolean equals(Object object)
+    {
+        if (object instanceof String)
+        {
+            return getField().equals(object.toString());
+        }
+        else
+        {
+            // if not a string, we want the exact same object given to us.
+            return object == this;
+        }
+    }
 }
