@@ -1,5 +1,5 @@
 /*
- $Id: NyxFocusManager.java,v 1.1.2.3 2003-05-04 18:06:20 mvdb Exp $
+ $Id: NyxFocusManager.java,v 1.1.2.4 2003-05-05 07:15:29 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,8 +46,6 @@
 package org.xulux.nyx.swing.layouts;
 
 import java.awt.Component;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -65,7 +63,7 @@ import org.xulux.nyx.gui.Widget;
  * In the xml definition this corresponds to the order element
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxFocusManager.java,v 1.1.2.3 2003-05-04 18:06:20 mvdb Exp $
+ * @version $Id: NyxFocusManager.java,v 1.1.2.4 2003-05-05 07:15:29 mvdb Exp $
  */
 public class NyxFocusManager extends DefaultFocusManager {
 
@@ -128,7 +126,14 @@ public class NyxFocusManager extends DefaultFocusManager {
             return;
         }
         boolean enabledWidgetFound = false;
-        int widgetIndex = aComponent==null?0:part.getTabOrder().indexOf((String)part.getWidgets().findWithNative(aComponent).getName());
+        int widgetIndex = 0;
+        if (aComponent != null) {
+            Widget tmpW = part.getWidgets().findWithNative(aComponent);
+            String widgetName = tmpW.getName(); 
+            widgetIndex = part.getTabOrder().indexOf(widgetName);
+        }   
+        // we want to select the next component
+        widgetIndex++;
         while (true) {
             // when we moved to the last widget,
             // we reset the widgetIndex to 0..
@@ -146,10 +151,10 @@ public class NyxFocusManager extends DefaultFocusManager {
             widgetIndex++;
         }
         Widget widget = part.getWidgets().get((String)part.getTabOrder().get(widgetIndex));
-        System.out.println("Setting focus to widget "+widget);
-        if (widget != null) {
-            System.out.println("with name :"+widget.getName());
-        }
+//        System.out.println("Setting focus to widget "+widget);
+//        if (widget != null) {
+//            System.out.println("with name :"+widget.getName());
+//        }
         setFocus(widget);
     }
     
@@ -160,7 +165,7 @@ public class NyxFocusManager extends DefaultFocusManager {
     private void setFocus(Widget widget) {
         
         Object comp = widget.getNativeWidget();
-        System.out.println("comp : "+comp);
+//        System.out.println("comp : "+comp);
         if (comp instanceof JComponent) {
             ((JComponent)comp).grabFocus();
         }
@@ -216,56 +221,6 @@ public class NyxFocusManager extends DefaultFocusManager {
                     focusNextComponent(null);                    
                 }
             });
-        }
-    }
-    
-    /**
-     * Since the FocusToFirstWidget scenario isn't always
-     * working correctly, we'll try to use a listener
-     */
-    private class FocusManagerListener implements WindowListener
-    {
-        /* (non-Javadoc)
-         * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
-         */
-        public void windowActivated(WindowEvent e) {
-        }
-
-        /* (non-Javadoc)
-         * @see java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
-         */
-        public void windowClosed(WindowEvent e) {
-        }
-
-        /* (non-Javadoc)
-         * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
-         */
-        public void windowClosing(WindowEvent e) {
-        }
-
-        /* (non-Javadoc)
-         * @see java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent)
-         */
-        public void windowDeactivated(WindowEvent e) {
-        }
-
-        /* (non-Javadoc)
-         * @see java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent)
-         */
-        public void windowDeiconified(WindowEvent e) {
-        }
-
-        /* (non-Javadoc)
-         * @see java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
-         */
-        public void windowIconified(WindowEvent e) {
-        }
-
-        /* (non-Javadoc)
-         * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
-         */
-        public void windowOpened(WindowEvent e) {
-            focusNextComponent(null);
         }
     }
     

@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.24.2.3 2003-05-04 15:31:07 mvdb Exp $
+ $Id: Combo.java,v 1.24.2.4 2003-05-05 07:15:29 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,9 @@ import java.awt.Container;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.swing.NyxComboBox;
@@ -61,7 +64,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.24.2.3 2003-05-04 15:31:07 mvdb Exp $
+ * @version $Id: Combo.java,v 1.24.2.4 2003-05-05 07:15:29 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -90,6 +93,35 @@ public class Combo extends Widget
     {
         initialize();
         return combo;
+    }
+    
+    /** 
+     * Since a combo seems to tend to be exposed
+     * as a ComboBoxButtonUI we need to figure out if the 
+     * requested comboUI is actually the concerning
+     * widget
+     * 
+     * @param object
+     * @return
+     */
+    public boolean equalsNativeWidget(Object object) {
+        JComboBox component = null;
+        if (object instanceof JComboBox) {
+            component = (JComboBox)object;
+        }
+        if (combo.equals(component)) {
+            return true;
+        }
+        if (object instanceof JButton) {
+            JButton button = (JButton)object;
+            if (combo.equals(button.getParent())) {
+                return true;
+            }
+        }
+        if (combo.getUI().equals(component)) {
+            return true;
+        }
+        return false;
     }
     
     /**

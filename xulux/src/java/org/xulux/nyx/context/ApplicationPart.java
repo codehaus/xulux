@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.30.2.4 2003-05-04 18:06:20 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.30.2.5 2003-05-05 07:15:29 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,6 +64,7 @@ import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.Combo;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
@@ -87,7 +88,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.30.2.4 2003-05-04 18:06:20 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.30.2.5 2003-05-05 07:15:29 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -564,11 +565,17 @@ public class ApplicationPart
             if (object == null) {
                 return null;
             }
+            System.err.println(object.getClass());
             Widget retValue = null;
             for (int i = 0; i < size(); i++)
             {
                 Object data = get(i);
-                if (data instanceof Widget) {
+                if (data instanceof Combo) {
+                    if (((Combo)data).equalsNativeWidget(object)) {
+                        retValue = (Widget)data;
+                        break;
+                    }
+                }else if (data instanceof Widget) {
                     if (object.equals(((Widget)data).getNativeWidget())) {
                         retValue = (Widget)data;
                         break;
