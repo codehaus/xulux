@@ -1,5 +1,5 @@
 /*
- $Id: UpdateButtonsListener.java,v 1.4 2003-08-20 01:12:37 mvdb Exp $
+ $Id: UpdateButtonsListener.java,v 1.5 2003-08-31 15:03:49 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,6 +63,7 @@ import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.IContentWidget;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.util.NyxEventQueue;
 import org.xulux.nyx.swing.widgets.Table;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 
@@ -71,7 +72,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.4 2003-08-20 01:12:37 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.5 2003-08-31 15:03:49 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener
 implements ActionListener, ListSelectionListener
@@ -110,6 +111,7 @@ implements ActionListener, ListSelectionListener
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent e) {
+        NyxEventQueue.getInstance().holdEvents(false);
         String actionType = source.getProperty("action.type");
         if (actionType == null) {
             return;
