@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.6 2003-01-26 01:35:10 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.7 2003-01-26 01:35:37 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.context.ApplicationContext;
  * It should be case insensitive, but isn't really ;)
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.6 2003-01-26 01:35:10 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.7 2003-01-26 01:35:37 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
@@ -88,6 +88,8 @@ public class GuiDefaultsHandler extends DefaultHandler
     /**
      * Reads the ApplicationPart from a stream and 
      * initializes it.
+     * 
+     * @param stream - the inputstream to read from
      */
     public void read(InputStream stream)
     {
