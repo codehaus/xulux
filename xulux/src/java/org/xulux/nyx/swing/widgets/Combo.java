@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.25 2003-11-25 19:23:54 mvdb Exp $
+ $Id: Combo.java,v 1.26 2003-12-11 20:02:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.util.NyxEventQueue;
  * The swing combo widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.25 2003-11-25 19:23:54 mvdb Exp $
+ * @version $Id: Combo.java,v 1.26 2003-12-11 20:02:14 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -190,34 +190,23 @@ public class Combo extends NyxCombo
         //combo.setEditable(BooleanUtils.toBoolean(getProperty("editable")));
         combo.setEnabled(isEnabled());
         combo.setVisible(isVisible());
-        //installFocusListeners();
-        if (contentChanged)
-        {
+        if (contentChanged) {
             initializeContent();
             initializeNotSelectedValue();
-            String comboFields = getProperty("combofields");
-            if (this.model != null)
-            {
+            if (this.model != null) {
                 this.model.destroy();
             }
-            if (content != null)
-            {
-                this.model = new DefaultComboModel(content, comboFields, this);
-            }
-            else
-            {
+            if (content != null) {
+                this.model = new DefaultComboModel(content, getProperty("combofields"), this);
+            } else {
                 this.model = new DefaultComboModel();
             }
             combo.setModel(this.model);
-            if (this.actionListener == null)
-            {
+            if (this.actionListener == null) {
                 NyxListener listener = getPart().getFieldEventHandler(this);
-                if (listener != null)
-                {
+                if (listener != null) {
                     this.actionListener = (PrePostFieldListener) listener;
-                }
-                else
-                {
+                } else {
                     this.actionListener = new PrePostFieldListener(this);
                 }
                 combo.addActionListener(this.actionListener);
@@ -226,24 +215,19 @@ public class Combo extends NyxCombo
         }
         if (getValue() instanceof DefaultComboModel.ComboShowable) {
             model.setSelectedItem(value);
-        }
-        else
-        {
-            if (content != null && getValue() != null)
-            {
+        } else {
+            if (content != null && getValue() != null) {
                 if (log.isTraceEnabled()) {
                     log.trace("Setting value to : " + getValue());
                 }
                 model.setRealSelectedValue(getValue());
-            }
-            else if (model != null && content != null && getValue() == null) {
+            } else if (model != null && content != null && getValue() == null) {
                 // if we don't have a value select
                 // the first one in the list
                 if (log.isTraceEnabled()) {
                     log.trace("Select the first one in the list");
                 }
-                if (!content.isEmpty())
-                {
+                if (!content.isEmpty()) {
                     model.setSelectedItem(0);
                     if (getField() == null) {
                         this.value = model.getRealSelectedValue();
@@ -253,26 +237,20 @@ public class Combo extends NyxCombo
                 }
             }
             if (model != null && model.getSelectedIndex() == 0
-                && contentChanged)
-            {
+                && contentChanged) {
                 this.value = model.getRealSelectedValue();
             }
         }
         String backgroundColor = null;
-        if (isRequired() && isEnabled())
-        {
+        if (isRequired() && isEnabled()) {
             backgroundColor = getProperty("required-background-color");
         }
-        else if (!isEnabled())
-        {
+        else if (!isEnabled()) {
             backgroundColor = getProperty("disabled-background-color");
-        }
-        else
-        {
+        } else {
             backgroundColor = getProperty("default-background-color");
         }
-        if (backgroundColor != null)
-        {
+        if (backgroundColor != null) {
             combo.setBackground(ColorUtils.getSwingColor(backgroundColor));
         }
         isRefreshing = false;
