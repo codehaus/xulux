@@ -1,5 +1,5 @@
 /*
-   $Id: IInvalidValueStrategy.java,v 1.3 2004-07-12 13:00:38 mvdb Exp $
+   $Id: IInvalidValueStrategy.java,v 1.4 2004-07-12 13:02:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.dataprovider.InvalidValueException;
  * a checking on a form level, just return true form that method.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IInvalidValueStrategy.java,v 1.3 2004-07-12 13:00:38 mvdb Exp $
+ * @version $Id: IInvalidValueStrategy.java,v 1.4 2004-07-12 13:02:42 mvdb Exp $
  */
 public interface IInvalidValueStrategy {
     
@@ -57,6 +57,6 @@ public interface IInvalidValueStrategy {
      * @param exception the exception
      * @return
      */
-    boolean handleInvalidValueExction(Widget widget, InvalidValueException exception);
+    boolean handleInvalidValueException(Widget widget, InvalidValueException exception);
 
 }

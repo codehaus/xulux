@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPartTest.java,v 1.5 2004-07-12 13:00:38 mvdb Exp $
+   $Id: ApplicationPartTest.java,v 1.6 2004-07-12 13:02:45 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import junit.framework.TestSuite;
  * The ApplicationPart test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartTest.java,v 1.5 2004-07-12 13:00:38 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.6 2004-07-12 13:02:45 mvdb Exp $
  */
 public class ApplicationPartTest extends TestCase {
 
@@ -147,9 +147,9 @@ public class ApplicationPartTest extends TestCase {
         }
 
         /**
-         * @see org.xulux.gui.IInvalidValueStrategy#handleInvalidValueExction(org.xulux.gui.Widget, org.xulux.dataprovider.InvalidValueException)
+         * @see org.xulux.gui.IInvalidValueStrategy#handleInvalidValueException(org.xulux.gui.Widget, org.xulux.dataprovider.InvalidValueException)
          */
-        public boolean handleInvalidValueExction(Widget widget, InvalidValueException exception) {
+        public boolean handleInvalidValueException(Widget widget, InvalidValueException exception) {
             return false;
         }
     }

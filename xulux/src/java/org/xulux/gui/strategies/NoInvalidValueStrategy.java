@@ -1,5 +1,5 @@
 /*
-   $Id: NoInvalidValueStrategy.java,v 1.2 2004-07-12 13:00:38 mvdb Exp $
+   $Id: NoInvalidValueStrategy.java,v 1.3 2004-07-12 13:02:41 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,7 +26,7 @@ import org.xulux.gui.Widget;
  * Every value is ok for when you use this strategy..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NoInvalidValueStrategy.java,v 1.2 2004-07-12 13:00:38 mvdb Exp $
+ * @version $Id: NoInvalidValueStrategy.java,v 1.3 2004-07-12 13:02:41 mvdb Exp $
  */
 public class NoInvalidValueStrategy implements IInvalidValueStrategy {
 
@@ -52,9 +52,9 @@ public class NoInvalidValueStrategy implements IInvalidValueStrategy {
     }
 
     /**
-     * @see org.xulux.gui.IInvalidValueStrategy#handleInvalidValueExction(org.xulux.gui.Widget, org.xulux.dataprovider.InvalidValueException)
+     * @see org.xulux.gui.IInvalidValueStrategy#handleInvalidValueException(org.xulux.gui.Widget, org.xulux.dataprovider.InvalidValueException)
      */
-    public boolean handleInvalidValueExction(Widget widget, InvalidValueException exception) {
+    public boolean handleInvalidValueException(Widget widget, InvalidValueException exception) {
       return true;
     }
 
