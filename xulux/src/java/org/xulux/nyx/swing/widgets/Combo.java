@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.18 2003-08-11 00:37:10 mvdb Exp $
+ $Id: Combo.java,v 1.19 2003-08-31 15:12:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,20 +47,24 @@ package org.xulux.nyx.swing.widgets;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.swing.NyxJComboBox;
 import org.xulux.nyx.swing.listeners.ImmidiateListener;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 import org.xulux.nyx.swing.models.DefaultComboModel;
+import org.xulux.nyx.swing.util.NyxEventQueue;
 
 /**
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.18 2003-08-11 00:37:10 mvdb Exp $
+ * @version $Id: Combo.java,v 1.19 2003-08-31 15:12:10 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -68,6 +72,13 @@ public class Combo extends NyxCombo
     private KeyListener keyListener;
     private DefaultComboModel model;
     private PrePostFieldListener actionListener;
+    /**
+     * The focus event listener. We cannot use
+     * the prepostlistener, since that would trigger
+     * field processing code, we just need to release
+     * the queue when focus is gained.
+     */
+    private FocusEventListener focusEventListener;
 
     /**
      * Constructor for NyxCombo.
@@ -104,6 +115,10 @@ public class Combo extends NyxCombo
                 combo.removeKeyListener(keyListener);
                 keyListener = null;
             }
+            if (focusEventListener != null) {
+                combo.removeFocusListener(focusEventListener);
+                focusEventListener = null;
+            }
             combo.removeAll();
             Container container = combo.getParent();
             if (container != null)
@@ -133,6 +148,9 @@ public class Combo extends NyxCombo
             this.notSelectedValue = nsv;
         }
         combo = new NyxJComboBox();
+        // add a focuslistener to be able to free the eventqueue..
+        this.focusEventListener = new FocusEventListener();
+        combo.addFocusListener(this.focusEventListener);
         refresh();
         processInit();
     }
@@ -156,8 +174,10 @@ public class Combo extends NyxCombo
         {
             combo.removeKeyListener(keyListener);
         }
+        combo.setEditable(BooleanUtils.toBoolean(getProperty("editable")));
         combo.setEnabled(isEnabled());
         combo.setVisible(isVisible());
+        //installFocusListeners();
         if (contentChanged)
         {
             initializeContent();
@@ -286,6 +306,28 @@ public class Combo extends NyxCombo
      */
     public void addNyxListener(NyxListener listener) {
         // TODO
+    }
+    
+    /**
+     * This is a hack to get a focusevent for the combobox.
+     * I need to handle post rules correctly..  
+     */
+    public final class FocusEventListener extends NyxListener implements FocusListener {
+        /**
+         * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+         */
+        public void focusGained(FocusEvent e) {
+            // free up the eventqueue when combo gains focus..
+            NyxEventQueue q = NyxEventQueue.getInstance();
+            q.holdEvents(false);
+        }
+
+        /**
+         * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+         */
+        public void focusLost(FocusEvent e) {
+        }
+
     }
 
 }
