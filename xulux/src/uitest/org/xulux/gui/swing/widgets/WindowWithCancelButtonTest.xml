@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- $Id: WindowWithCancelButtonTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<part name="WindowTest1" prefix="window" application="true">
+  <field type="window" name="Window">
+    <title>WindowTest1</title>
+    <icon>resources/Car.ico</icon>
+    <size>300,300</size>
+    <autosize>true</autosize>
+    <field type="button" name="Button:Cancel">
+	  <size>120,21</size>
+	  <position>4,10</position>
+	  <text>Cancel</text>
+	  <defaultbutton>true</defaultbutton>
+	  <defaultaction>cancel</defaultaction>
+	  <rules>
+	    <rule>org.xulux.nyx.gui.rules.CancelButtonRule</rule>
+	  </rules>
+    </field>
+  </field>
+</part>

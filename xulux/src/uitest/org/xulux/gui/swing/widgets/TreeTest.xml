@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!-- $Id: TreeTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<part name="LabelTestForm" prefix="Person">
+  <rules>
+    <rule>org.xulux.gui.rules.TreeContentRule</rule>
+  </rules>
+  <field type="window" name="Window">
+    <title>TreeTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>740,450</size>
+    <!--
+    <field type="label" name="Label:SimpleTree">
+      <text>SimpleTree</text>
+      <position>10,0</position>
+      <size>100,21</size>
+    </field>
+    <field type="tree" name="SimpleTree">
+     <treefield class="org.xulux.nyx.gui.swing.widgets.ExampleTreeNode" use="getString"/>
+     <position>10,21</position>
+     <size>300,400</size>
+    </field> -->
+    <field type="label" name="Label:DomTree">
+      <text>DOMTree</text>
+      <position>310,0</position>
+      <size>100,21</size>
+    </field>
+    <field type="tree" name="DomTree">
+     <position>310,21</position>
+     <size>400,400</size>
+    </field>
+  </field>
+</part>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!-- $Id: EntryTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<part name="PersonBeanForm" prefix="Person">
+  <rules>
+    <rule>org.xulux.nyx.gui.rules.MainEntryRule</rule>
+  </rules>
+  <field type="window" name="Window">
+    <title>EntryTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>300,300</size>
+    <autosize>true</autosize>
+	  <field type="label" name="Label:PersonBean">
+	    <text>PersonBean:</text>
+	    <size>120,21</size>
+	    <position>4,10</position>
+	  </field>
+	  <field type="entry" name="PersonBeanEntry" use="fullname">
+	    <rules>
+	      <rule>org.xulux.nyx.gui.rules.PersonEntryRule</rule>
+	    </rules>
+	    <size>250,21</size>
+	    <position>125,10</position>
+	    <required>true</required>
+	    <required-background-color>FFFFB6</required-background-color>
+	    <default-background-color>FFFFFF</default-background-color>
+	    <disabled-background-color>CCCCCC</disabled-background-color>
+	  </field>
+	  <field type="label" name="Label:String">
+	    <text>String:</text>
+	    <size>120,21</size>
+	    <position>4,40</position>
+	  </field>
+	  <field type="entry" name="String">
+	    <rules>
+	      <rule>org.xulux.nyx.gui.rules.PersonEntryRule</rule>
+	    </rules>
+	    <size>250,21</size>
+	    <position>125,40</position>
+	    <required>true</required>
+	    <required-background-color>FFFFB6</required-background-color>
+	    <default-background-color>FFFFFF</default-background-color>
+	    <disabled-background-color>CCCCCC</disabled-background-color>
+	  </field>
+  </field>
+</part>

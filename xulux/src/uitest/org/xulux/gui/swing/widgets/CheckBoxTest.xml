@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!-- $Id: CheckBoxTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<part name="CheckBoxForm" prefix="CheckBoxBean">
+  <field type="window" name="Window">
+    <title>CheckboxTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>300,300</size>
+    <autosize>true</autosize>
+    <field type="checkbox" name="foo" use="foo">
+      <size>100,21</size>
+      <position>10,10</position>
+      <text>Foo</text>
+    </field>
+    <field type="checkbox" name="bar" use="bar">
+       <size>100,21</size>
+       <position>10, 40</position>
+       <text>Bar</text>
+    </field>
+    <field type="checkbox" name="strfoo" use="strfoo">
+      <size>100,21</size>
+      <position>10,70</position>
+      <text>strFoo</text>
+      <rules>
+        <rule>org.xulux.nyx.gui.rules.CheckBoxTestRule</rule>
+      </rules>
+    </field>
+    <field type="checkbox" name="strbar" use="strbar">
+       <size>100,21</size>
+       <position>10,100</position>
+       <text>strBar</text>
+    </field>
+  </field>
+</part>
