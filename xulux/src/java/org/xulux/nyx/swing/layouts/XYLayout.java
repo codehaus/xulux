@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.11 2003-11-24 16:33:35 mvdb Exp $
+ $Id: XYLayout.java,v 1.12 2003-11-24 18:21:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,14 +68,14 @@ import org.xulux.nyx.gui.Widget;
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.11 2003-11-24 16:33:35 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.12 2003-11-24 18:21:18 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
     /**
      * the map with widgets
      */
-    private HashMap map;
+    protected HashMap map;
     /**
      * This is the widget that actually created the layout..
      */

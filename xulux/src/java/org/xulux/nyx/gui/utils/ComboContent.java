@@ -1,5 +1,5 @@
 /*
- $Id: ComboContent.java,v 1.5 2003-11-06 19:53:13 mvdb Exp $
+ $Id: ComboContent.java,v 1.6 2003-11-24 18:25:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -56,18 +56,34 @@ import org.xulux.nyx.gui.NyxCombo;
  * creating combo data.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboContent.java,v 1.5 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: ComboContent.java,v 1.6 2003-11-24 18:25:41 mvdb Exp $
  */
 public class ComboContent
 {
-
-    public static String[] getStringArray(List content, String comboFields, NyxCombo combo)
-    {
+    /**
+     * allow override
+     */
+    protected ComboContent() {
+    }
+    /**
+     *
+     * @param content the content
+     * @param comboFields the fields
+     * @param combo the combo
+     * @return the array containing values
+     */
+    public static String[] getStringArray(List content, String comboFields, NyxCombo combo) {
         return null;
     }
 
-    public static List getArrayList(ArrayList content, String comboFields, NyxCombo combo)
-    {
+    /**
+     *
+     * @param content the content
+     * @param comboFields the fields
+     * @param combo the combo
+     * @return the list containg the value
+     */
+    public static List getArrayList(ArrayList content, String comboFields, NyxCombo combo) {
         return null;
     }
 

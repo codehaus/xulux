@@ -1,7 +1,7 @@
 /*
- $Id: NyxCollectionUtils.java,v 1.3 2003-11-06 19:53:10 mvdb Exp $
+ $Id: NyxCollectionUtils.java,v 1.4 2003-11-24 18:19:41 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -55,19 +55,19 @@ import java.util.StringTokenizer;
  * Collection utilities to do conversions for nyx.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCollectionUtils.java,v 1.3 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: NyxCollectionUtils.java,v 1.4 2003-11-24 18:19:41 mvdb Exp $
  */
 public class NyxCollectionUtils {
 
     /**
      *
      */
-    public NyxCollectionUtils() {
+    protected NyxCollectionUtils() {
     }
 
     /**
      * Tries to figure out the seperator used
-     * TODO: Make it automatic, now uses comma as seperator
+     * @todo Make it automatic, now uses comma as seperator
      * @param values - the seper
      * @return a list from seperated values or null when values is null
      */
@@ -77,16 +77,16 @@ public class NyxCollectionUtils {
 
     /**
      *
-     * @param value
-     * @param delim - seperator
+     * @param values the values
+     * @param delim seperator
      * @return a list from seperated values or null when values is null
      */
     public static List getListFromCSV(String values, String delim) {
-        if (values == null || values.length()==0) {
+        if (values == null || values.length() == 0) {
             return null;
         }
         ArrayList list = new ArrayList();
-        StringTokenizer tokenizer = new StringTokenizer(values,delim);
+        StringTokenizer tokenizer = new StringTokenizer(values, delim);
         while (tokenizer.hasMoreTokens()) {
             list.add(tokenizer.nextToken());
         }
@@ -96,7 +96,7 @@ public class NyxCollectionUtils {
     /**
      * Currently supports lists, collections and arrays
      *
-     * @param object
+     * @param object the object to create the list from
      * @return A list from the specified object. If the object
      *          is already a list, it will return with the list passed in.
      *          If it is not a collection, array or list, it will just
@@ -108,13 +108,13 @@ public class NyxCollectionUtils {
             return null;
         }
         if (object instanceof List) {
-            return (List)object;
+            return (List) object;
         }
         if (object instanceof Collection) {
-            return new ArrayList((Collection)object);
+            return new ArrayList((Collection) object);
         }
         if (object.getClass().isArray()) {
-            return Arrays.asList((Object[])object);
+            return Arrays.asList((Object[]) object);
         }
         // we just add the value to a new list..
         ArrayList list = new ArrayList();

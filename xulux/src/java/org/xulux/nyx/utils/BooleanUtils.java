@@ -1,3 +1,48 @@
+/*
+ $Id: BooleanUtils.java,v 1.2 2003-11-24 18:19:41 mvdb Exp $
+
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+
+ Redistribution and use of this software and associated documentation
+ ("Software"), with or without modification, are permitted provided
+ that the following conditions are met:
+
+ 1. Redistributions of source code must retain copyright
+    statements and notices.  Redistributions must also contain a
+    copy of this document.
+
+ 2. Redistributions in binary form must reproduce the
+    above copyright notice, this list of conditions and the
+    following disclaimer in the documentation and/or other
+    materials provided with the distribution.
+
+ 3. The name "xulux" must not be used to endorse or promote
+    products derived from this Software without prior written
+    permission of The Xulux Project. For written permission,
+    please contact martin@mvdb.net.
+
+ 4. Products derived from this Software may not be called "xulux"
+    nor may "xulux" appear in their names without prior written
+    permission of the Xulux Project. "xulux" is a registered
+    trademark of the Xulux Project.
+
+ 5. Due credit should be given to the Xulux Project
+    (http://xulux.org/).
+
+ THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
+ ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
+ NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ */
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -57,19 +102,19 @@ package org.xulux.nyx.utils;
  * This class is a copy of BooleanUtils from jakarta commons lang, version
  * 1.17. This is to replace the dependency of complete jakarta commons lang
  * see http://jakarta.apache.org/commons/lang for the complete lang package.
- * 
+ *
  * <p>Operations on boolean primitives and Boolean objects.</p>
  *
  * <p>This class tries to handle <code>null</code> input gracefully.
  * An exception will not be thrown for a <code>null</code> input.
  * Each method documents its behaviour in more detail.</p>
- * 
+ *
  * @author Stephen Colebourne
  * @author Matthew Hawthorne
  * @author Gary Gregory
  * @author Martin van den Bemt
  * @since 2.0
- * @version $Id: BooleanUtils.java,v 1.1 2003-11-17 14:00:21 mvdb Exp $
+ * @version $Id: BooleanUtils.java,v 1.2 2003-11-24 18:19:41 mvdb Exp $
  */
 public class BooleanUtils {
 
@@ -92,7 +137,7 @@ public class BooleanUtils {
     //--------------------------------------------------------------------------
     /**
      * <p>Negates the specified boolean.</p>
-     * 
+     *
      * <p>If <code>null</code> is passed in, <code>null</code> will be returned.</p>
      *
      * <pre>
@@ -100,7 +145,7 @@ public class BooleanUtils {
      *   BooleanUtils.negate(Boolean.FALSE) = Boolean.TRUE;
      *   BooleanUtils.negate(null)          = null;
      * </pre>
-     * 
+     *
      * @param bool  the Boolean to negate, may be null
      * @return the negated Boolean, or <code>null</code> if <code>null</code> input
      */
@@ -110,12 +155,12 @@ public class BooleanUtils {
         }
         return (bool.booleanValue() ? Boolean.FALSE : Boolean.TRUE);
     }
-    
+
     // boolean Boolean methods
     //-----------------------------------------------------------------------
     /**
      * <p>Boolean factory that avoids creating new Boolean objecs all the time.</p>
-     * 
+     *
      * <p>This method was added to JDK1.4 but is available here for earlier JDKs.</p>
      *
      * <pre>
@@ -129,7 +174,7 @@ public class BooleanUtils {
     public static Boolean toBooleanObject(boolean bool) {
         return (bool ? Boolean.TRUE : Boolean.FALSE);
     }
-    
+
     /**
      * <p>Converts a Boolean to a boolean handling <code>null</code>
      * by returning <code>false</code>.</p>
@@ -141,7 +186,7 @@ public class BooleanUtils {
      * </pre>
      *
      * @param bool  the boolean to convert
-     * @return <code>true</code> or <code>false</code>, 
+     * @return <code>true</code> or <code>false</code>,
      *  <code>null</code> returns <code>false</code>
      */
     public static boolean toBoolean(Boolean bool) {
@@ -150,10 +195,10 @@ public class BooleanUtils {
         }
         return (bool.booleanValue() ? true : false);
     }
-    
+
     /**
      * <p>Converts a Boolean to a boolean handling <code>null</code>.</p>
-     * 
+     *
      * <pre>
      *   BooleanUtils.toBooleanDefaultIfNull(Boolean.TRUE, false) = true
      *   BooleanUtils.toBooleanDefaultIfNull(Boolean.FALSE, true) = false
@@ -170,7 +215,7 @@ public class BooleanUtils {
         }
         return (bool.booleanValue() ? true : false);
     }
-    
+
     // Integer to Boolean methods
     //-----------------------------------------------------------------------
     /**

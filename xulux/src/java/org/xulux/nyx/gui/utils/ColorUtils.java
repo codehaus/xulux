@@ -1,5 +1,5 @@
 /*
- $Id: ColorUtils.java,v 1.6 2003-11-06 19:53:13 mvdb Exp $
+ $Id: ColorUtils.java,v 1.7 2003-11-24 18:25:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,7 +52,7 @@ import java.util.Arrays;
  * Color utils to make parsing easier
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ColorUtils.java,v 1.6 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: ColorUtils.java,v 1.7 2003-11-24 18:25:41 mvdb Exp $
  */
 public class ColorUtils
 {
@@ -60,7 +60,7 @@ public class ColorUtils
     /**
      * Constructor for ColorUtils.
      */
-    public ColorUtils()
+    protected ColorUtils()
     {
     }
 
@@ -70,40 +70,35 @@ public class ColorUtils
      * Three is the format ABC, which resolves to AABBCC
      * If you pass in an invalid string, the rgb values will
      * all be zero
+     * @param hex the hex string for the golor
      * @return an array with the rgb values.
      */
     public static int[] getRGBFromHex(String hex)
     {
-        int result[] = new int[3];
-        try
-        {
-        if (hex.length() == 6)
-        {
-            result[0] = Integer.parseInt(hex.substring(0,2),16);
-            result[1] = Integer.parseInt(hex.substring(2,4),16);
-            result[2] = Integer.parseInt(hex.substring(4,6),16);
-        }
-        else if (hex.length() == 3)
-        {
-            result[0] = Integer.parseInt(hex.substring(0,1)+hex.substring(0,1),16);
-            result[1] = Integer.parseInt(hex.substring(1,2)+hex.substring(1,2),16);
-            result[2] = Integer.parseInt(hex.substring(2,3)+hex.substring(2,3),16);
-        }
-        }
-        catch(NumberFormatException nfe)
-        {
+        int[] result = new int[3];
+        try {
+            if (hex.length() == 6)  {
+                result[0] = Integer.parseInt(hex.substring(0, 2), 16);
+                result[1] = Integer.parseInt(hex.substring(2, 4), 16);
+                result[2] = Integer.parseInt(hex.substring(4, 6), 16);
+            } else if (hex.length() == 3) {
+                result[0] = Integer.parseInt(hex.substring(0, 1) + hex.substring(0, 1), 16);
+                result[1] = Integer.parseInt(hex.substring(1, 2) + hex.substring(1, 2), 16);
+                result[2] = Integer.parseInt(hex.substring(2, 3) + hex.substring(2, 3), 16);
+            }
+        } catch (NumberFormatException nfe) {
             Arrays.fill(result, 0);
         }
         return result;
     }
 
     /**
-     * TODO: TestCase + errorhandling
+     * @todo TestCase + errorhandling
      * @param color eg COCOCO
      * @return the color object
      */
     public static Color getSwingColor(String color) {
-        return new Color(Integer.parseInt(color,16));
+        return new Color(Integer.parseInt(color, 16));
     }
 
 }

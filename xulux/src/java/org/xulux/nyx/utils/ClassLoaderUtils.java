@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtils.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
+ $Id: ClassLoaderUtils.java,v 1.9 2003-11-24 18:19:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -59,21 +59,24 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.9 2003-11-24 18:19:41 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
+    /**
+     * the log instance
+     */
     private static Log log = LogFactory.getLog(ClassLoaderUtils.class);
 
     /**
      * Make it possible to extend..
      */
-    public ClassLoaderUtils() {
+    protected ClassLoaderUtils() {
     }
 
     /**
      *
-     * @param classString
+     * @param classString the class
      * @return an object from the specified classString or null when errors occur
      */
     public static Object getObjectFromClassString(String classString) {
@@ -84,7 +87,7 @@ public class ClassLoaderUtils {
      * Also instantiates static AND non static innerclasses.
      * The parent class needs to have an empty constructor!
      * You can overcome this problem by adding this to the paramlist!
-     * @param clazz
+     * @param clazz the class
      * @return an object from the specified class or null when errors occur
      */
     public static Object getObjectFromClass(Class clazz) {
@@ -106,56 +109,57 @@ public class ClassLoaderUtils {
             return object;
         }
         catch (InvocationTargetException e) {
-            log.warn("Cannot invocate target on "+clazz.getName());
+            log.warn("Cannot invocate target on " + clazz.getName());
         }
         catch (NoSuchMethodException e) {
-            log.warn("Cannot find method on "+clazz.getName());
+            log.warn("Cannot find method on " + clazz.getName());
         }
         catch (InstantiationException e) {
-            log.warn("Cannot instantiate class "+clazz.getName());
+            log.warn("Cannot instantiate class " + clazz.getName());
         }
         catch (IllegalAccessException e) {
-            log.warn("Cannot access class "+clazz.getName());
+            log.warn("Cannot access class " + clazz.getName());
         }
         return null;
     }
 
     /**
      * Instantiates the parent object of an inner class.
-     * @param class
+     * @param clazz the class
      * @return the instance of the inner class
      */
     protected static Object getParentObjectForInnerClass(Class clazz) {
         String name = clazz.getName();
         int index = name.indexOf("$");
         if (index != -1 ) {
-            name = name.substring(0,index);
-            Class clz = getClass(name.substring(0,index));
+            name = name.substring(0, index);
+            Class clz = getClass(name.substring(0, index));
             if (clz != null) {
                 ArrayList parms = new ArrayList();
                 boolean hasEmptyConstructor = false;
                 Constructor[] css = clz.getConstructors();
-                for (int i = 0; i < css.length;i++) {
+                for (int i = 0; i < css.length; i++) {
                     Constructor cs = css[i];
                     if (cs.getParameterTypes().length == 0) {
                         hasEmptyConstructor = true;
                         parms = new ArrayList();
                         break;
                     } else {
-                        for (int j = 0; j < cs.getParameterTypes().length ; j++) {
+                        for (int j = 0; j < cs.getParameterTypes().length; j++) {
                             Class c = cs.getParameterTypes()[j];
                             Object object = null;
                             try {
                                 object = c.newInstance();
                             }
-                            catch(Exception e) {
+                            catch (Exception e) {
+                                // eat it..
                             } finally {
                                 parms.add(object);
                             }
                         }
                     }
                 }
-                return getObjectFromClass(getClass(name.substring(0,index)),parms);
+                return getObjectFromClass(getClass(name.substring(0, index)), parms);
             }
 
         }
@@ -164,7 +168,7 @@ public class ClassLoaderUtils {
 
     /**
      *
-     * @param clazz
+     * @param clazz the class
      * @return if the class is an inner class
      */
     public static boolean isInner(Class clazz) {
@@ -178,7 +182,7 @@ public class ClassLoaderUtils {
      * Tries to find a constructor with the parameters specified in the list
      * If it cannot it will return the empty constructor.
      *
-     * @param clazz
+     * @param clazz the class
      * @param parms the list of parameters as classes
      * @return the instantiated object
      */
@@ -195,7 +199,7 @@ public class ClassLoaderUtils {
                 try {
                     Constructor constructor = clazz.getConstructor(clzList);
                     return constructor.newInstance(parms.toArray());
-                }catch(NoSuchMethodException nsme) {
+                } catch (NoSuchMethodException nsme) {
                     // eat me
                 }
             }
@@ -208,7 +212,7 @@ public class ClassLoaderUtils {
 
     /**
      *
-     * @param clazzString
+     * @param clazzString the class
      * @return the clazz created from the specified String or null
      *          when it could not be created
      */
@@ -222,13 +226,13 @@ public class ClassLoaderUtils {
         }
         catch (ClassNotFoundException e) {
             if (log.isWarnEnabled()) {
-                log.warn("Cannot find class "+clazzString);
+                log.warn("Cannot find class " + clazzString);
             }
         }
-        catch(NoClassDefFoundError ncdfe) {
+        catch (NoClassDefFoundError ncdfe) {
             if (log.isWarnEnabled()) {
-                log.warn("Using wrong name for class "+clazzString+ "\n" +
-                    ncdfe.getLocalizedMessage());
+                log.warn("Using wrong name for class " + clazzString + "\n"
+                    + ncdfe.getLocalizedMessage());
             }
         }
         return null;
