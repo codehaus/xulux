@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.3 2002-11-08 00:08:36 mvdb Exp $
+ $Id: Dictionary.java,v 1.4 2002-11-12 17:16:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.3 2002-11-08 00:08:36 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.4 2002-11-12 17:16:42 mvdb Exp $
  */
 public class Dictionary
 {
@@ -122,6 +122,7 @@ public class Dictionary
 
     public BeanMapping getMapping(Class clazz)
     {
+        //System.out.println("Trying to get mapping for class "+clazz.getName());
         return getMapping(clazz, false);
     }
     
@@ -143,6 +144,7 @@ public class Dictionary
         {
             name = getPlainBeanName(clazz);
         }
+//        System.out.println("mapping name : "+name);
         return getMapping(clazz, name);
     }
     /**
@@ -218,7 +220,7 @@ public class Dictionary
     {
         if (stream == null)
         {
-            System.out.println("Stream is null");
+//            System.out.println("Stream is null");
             return;
         }
         new DictionaryHandler().read(stream);

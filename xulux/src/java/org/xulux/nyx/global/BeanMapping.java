@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.4 2002-11-04 21:40:57 mvdb Exp $
+ $Id: BeanMapping.java,v 1.5 2002-11-12 17:16:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import java.util.HashMap;
  * of concept I am reinventing the wheel a bit..;)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.4 2002-11-04 21:40:57 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.5 2002-11-12 17:16:42 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -72,6 +72,7 @@ public class BeanMapping
     private boolean discovery;
     private boolean isDiscovered;
     private FieldList fields;
+    private static int fail = 0;
 
     /**
      * Constructor for BeanMapping.
@@ -196,11 +197,16 @@ public class BeanMapping
         if (f instanceof BeanField)
         {
             BeanField field = (BeanField) f;
+            //System.out.println("Name : "+f.getName());
 
             Class clazz = field.getMethod().getReturnType();
             Class baseClass = Dictionary.getInstance().getBaseClass();
             boolean discoverNestedBean = false;
             boolean isBaseTypeField = false;
+            //System.out.println("clazz : "+clazz);
+            //System.out.println("baseClass : "+baseClass);
+            
+            //System.exit(0);
             if (baseClass != null)
             {
                 //System.out.println("baseclass is interface ? "+baseClass.isInterface());
@@ -219,31 +225,58 @@ public class BeanMapping
                 else
                 {
                     Class tmpClass = clazz;
+                    //System.err.println("tmpClass : "+tmpClass);
                     // discover if the baseclass is the superclazz...
-                    while (tmpClass != Object.class)
+                    if (baseClass == tmpClass)
                     {
-
-                        if (baseClass == tmpClass.getSuperclass())
+                        //System.err.println("baseclass is tmpClass");
+                        discoverNestedBean = false;
+                    }
+                    else
+                    {
+                        while (tmpClass != null && tmpClass != Object.class)
                         {
-                            discoverNestedBean = true;
-                            isBaseTypeField = true;
-                            break;
+                            if (baseClass == tmpClass.getSuperclass())
+                            {
+                                discoverNestedBean = true;
+                                isBaseTypeField = true;
+                                break;
+                            }
+                            tmpClass = tmpClass.getSuperclass();
                         }
-                        tmpClass = tmpClass.getSuperclass();
                     }
                 }
             }
-            //System.out.println("WE need to discover nestedbean ? "+discoverNestedBean);
             if (discoverNestedBean)
             {
+                //System.out.println("WE need to discover nestedbean!");
                 Dictionary d = Dictionary.getInstance();
                 //System.out.println("PlainbeanName : "+d.getPlainBeanName(clazz));
-                if (d.getMapping(d.getPossibleMappingName(clazz)) == null)
+//                System.exit(0);
+                //System.err.println("Mapping : "+d.getMapping("Qualifier")+ " for class "+clazz.getName());
+                //System.out.println("Possible mapping : "+d.getPossibleMappingName(clazz));
+                //System.out.println("f "+field.getMethod().getDeclaringClass());
+                if (d.getMapping(d.getPossibleMappingName(clazz)) == null &&
+                    d.getMapping(d.getPlainBeanName(clazz)) == null  &&
+                    field.getMethod().getDeclaringClass() != clazz)
                 {
+                    //System.err.println("getting mapping..");
+                    if (fail == 1130) 
+                    {
+                        System.out.println("1) fail is 5");
+                        System.exit(0);
+                    }
+                    fail++;
                     d.getMapping(clazz);
                 }
             }
             field.setBaseType(isBaseTypeField);
+                    if (fail == 1130) 
+                    {
+                        System.out.println("2)fail is 5");
+                        System.exit(0);
+                    }
+                    fail++;
         }
         else
         {

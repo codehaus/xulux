@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.4 2002-11-12 12:36:05 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.5 2002-11-12 17:16:43 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,12 +54,13 @@ import javax.swing.event.ListDataListener;
 
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
 
 /**
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.4 2002-11-12 12:36:05 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.5 2002-11-12 17:16:43 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -185,9 +186,10 @@ public class DefaultComboModel implements ComboBoxModel
                 {
                     String token = stn.nextToken();
                     String strPart = "";
-                    if (!token.trim().equals(""))
+                    IField field = mapping.getField(token);
+                    if (field != null)
                     {
-                        strPart = mapping.getField(token).getValue(object).toString();
+                        strPart = field.getValue(object).toString();
                     }
                     else
                     {

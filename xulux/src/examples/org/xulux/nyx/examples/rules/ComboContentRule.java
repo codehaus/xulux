@@ -10,7 +10,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: ComboContentRule.java,v 1.2 2002-11-12 00:55:42 mvdb Exp $
+ * @version $Id: ComboContentRule.java,v 1.3 2002-11-12 17:16:42 mvdb Exp $
  */
 public class ComboContentRule extends Rule
 {
@@ -31,9 +31,9 @@ public class ComboContentRule extends Rule
         Combo combo = (Combo)request.getWidget();
         String name = "("+combo.getName()+")";
         ArrayList data = new ArrayList();
-        data.add("martin "+name);
-        data.add("misja "+name);
-        data.add("maarten "+name);
+        data.add(new Person("martin", "van den Bemt"));
+        data.add(new Person("misja","Alma"));
+        data.add(new Person("maarten", "Spook"));
         combo.setContent(data);
         combo.setNotSelectedValue("<nothing selected>");
     }
@@ -44,5 +44,52 @@ public class ComboContentRule extends Rule
     public void post(PartRequest request)
     {
     }
+    
+    public class Person
+    {
+        private String firstName;
+        private String lastName;
+        
+        public Person(String firstName, String lastName)
+        {
+            setFirstName(firstName);
+            setLastName(lastName);
+        }
+        /**
+         * Returns the firstName.
+         * @return String
+         */
+        public String getFirstName()
+        {
+            return firstName;
+        }
 
+        /**
+         * Returns the lastName.
+         * @return String
+         */
+        public String getLastName()
+        {
+            return lastName;
+        }
+
+        /**
+         * Sets the firstName.
+         * @param firstName The firstName to set
+         */
+        public void setFirstName(String firstName)
+        {
+            this.firstName = firstName;
+        }
+
+        /**
+         * Sets the lastName.
+         * @param lastName The lastName to set
+         */
+        public void setLastName(String lastName)
+        {
+            this.lastName = lastName;
+        }
+        
+    }
 }

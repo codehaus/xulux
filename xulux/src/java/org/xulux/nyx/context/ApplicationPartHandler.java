@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.5 2002-11-12 00:55:42 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.6 2002-11-12 17:16:43 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.rules.IRule;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.5 2002-11-12 00:55:42 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.6 2002-11-12 17:16:43 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -316,6 +316,19 @@ public class ApplicationPartHandler extends DefaultHandler
                 processPosition = false;
             }
         }
+        else if (processValue)
+        {
+            String value = new String(arg0, arg1, arg2);
+            ((Widget) stack.get(stack.size())).setText(value);
+            processValue = false;
+        }
+        else if(processUnknown && currentqName!=null)
+        {
+            Widget widget = (Widget) stack.get(stack.size()-1);
+            widget.setProperty(currentqName, new String(arg0, arg1, arg2));
+            currentqName = null;
+            processUnknown = false;
+        }
         else if (processRule)
         {
             String ruleClass = new String(arg0, arg1, arg2);
@@ -330,19 +343,6 @@ public class ApplicationPartHandler extends DefaultHandler
                 addRule(null, ruleClass);
             }
             processRule = false;
-        }
-        else if (processValue)
-        {
-            String value = new String(arg0, arg1, arg2);
-            ((Widget) stack.get(stack.size())).setText(value);
-            processValue = false;
-        }
-        else if(processUnknown && currentqName!=null)
-        {
-            Widget widget = (Widget) stack.get(stack.size()-1);
-            widget.setProperty(currentqName, new String(arg0, arg1, arg2));
-            currentqName = null;
-            processUnknown = false;
         }
     }
     
