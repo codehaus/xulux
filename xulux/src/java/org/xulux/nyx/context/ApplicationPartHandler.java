@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.19 2003-07-14 01:39:39 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.20 2003-07-14 15:49:00 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.19 2003-07-14 01:39:39 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.20 2003-07-14 15:49:00 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -539,12 +539,10 @@ public class ApplicationPartHandler extends DefaultHandler
             IRule rule = (IRule)clazz.newInstance();
             if (widget != null)
             {
-                System.out.println("Registring rule with widget");
                 widget.registerRule(rule);
             }
             else
             {
-                System.out.println("Not Registring rule with widget");
                 part.registerRule(rule);
             }
         }

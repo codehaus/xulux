@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.4 2003-07-14 01:39:39 mvdb Exp $
+ $Id: Entry.java,v 1.5 2003-07-14 15:49:00 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.4 2003-07-14 01:39:39 mvdb Exp $
+ * @version $Id: Entry.java,v 1.5 2003-07-14 15:49:00 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -150,10 +150,8 @@ extends Widget
         }
         if (isVisible())
         {
-            System.out.println("Entry Focuslistener init");
             if (focusListener == null)
             {
-                System.out.println("Entry Focuslistener init");
                 NyxListener listener = getPart().getFieldEventHandler(this);
                 if (listener == null)
                 {
@@ -163,7 +161,6 @@ extends Widget
                 {
                     focusListener = new PrePostFieldListener(this);
                 }
-                System.out.println("focusListener : "+focusListener);
                 textField.addFocusListener(focusListener);
             }
         }
@@ -249,9 +246,6 @@ extends Widget
         if (!setValueCalled)
         {
             return;
-        }
-        if (getName().equals("city")) {
-            System.out.println("city!");
         }
         Object val = this.value;
         if (!(val instanceof String) && getField()!=null)
