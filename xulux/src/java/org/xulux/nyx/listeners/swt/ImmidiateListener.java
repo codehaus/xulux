@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.2 2003-05-21 11:12:59 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,12 +47,12 @@ package org.xulux.nyx.listeners.swt;
 
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.xulux.nyx.gui.swt.Combo;
+import org.xulux.nyx.swt.Combo;
 
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: ImmidiateListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ * @version $Id: ImmidiateListener.java,v 1.2 2003-05-21 11:12:59 mvdb Exp $
  */
 public class ImmidiateListener implements KeyListener
 {
