@@ -14,5 +14,8 @@
       <item name="Links / Resources"       href="/resources.html"/>
       <item name="To Do List"              href="/todo.html"/>
     </menu>
+    <menu name="Sub projects">
+      <item name="NYX"                     href="http://nyx.xulux.org"/>
+    </menu>
   </body>
 </project>
