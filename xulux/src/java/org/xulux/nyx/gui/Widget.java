@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.10 2002-11-12 00:55:42 mvdb Exp $
+ $Id: Widget.java,v 1.11 2002-11-12 18:20:16 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.10 2002-11-12 00:55:42 mvdb Exp $
+ * @version $Id: Widget.java,v 1.11 2002-11-12 18:20:16 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -72,6 +72,8 @@ public abstract class Widget
     private boolean immidiate = false;
     protected boolean initialized = false;
     private boolean skip = false;
+    
+    protected Object value;
     
     private ArrayList rules;
     private ApplicationPart part;
@@ -383,11 +385,12 @@ public abstract class Widget
     
     public Object getValue()
     {
-        return null;
+        return this.value;
     }
     
-    public void setValue(Object object)
+    public void setValue(Object value)
     {
+        this.value = value;
     }
     
     /**

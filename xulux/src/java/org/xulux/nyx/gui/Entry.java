@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.12 2002-11-12 17:16:43 mvdb Exp $
+ $Id: Entry.java,v 1.13 2002-11-12 18:16:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,7 +56,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.12 2002-11-12 17:16:43 mvdb Exp $
+ * @version $Id: Entry.java,v 1.13 2002-11-12 18:16:11 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -119,6 +119,10 @@ extends Widget
         }
         this.initialized = true;
         textField = new JTextField();
+        if (value != null)
+        {
+            textField.setText(value.toString());
+        }
         if (isImmidiate())
         {
             textField.addKeyListener(new ImmidiateListener(this));
@@ -159,10 +163,16 @@ extends Widget
      */
     public Object getValue()
     {
-        System.err.println("returning value : "+textField.getText());
-        return textField.getText();
+        if (textField != null)
+        {
+            return textField.getText();
+        }
+        else if (this.value != null)
+        {
+            return this.value;
+        }
+        return null;
     }
-    
 
     /**
      * @see org.xulux.nyx.gui.ValueWidget#setValue(Object)
@@ -174,14 +184,22 @@ extends Widget
         {
             update = false;
         }
-        String text = new String("");
+        String text = "";
         if (value != null)
         {
             text = value.toString();
+            this.value = value;
         }
-        textField.setText(text);
+        if (initialized)
+        {
+            textField.setText(text);
+        }
+        else
+        {
+            this.value = value;
+        }
         
-        if (update)
+        if (update && initialized)
         {
             refresh();
         }
