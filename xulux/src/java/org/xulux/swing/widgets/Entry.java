@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.18 2004-09-30 21:25:39 mvdb Exp $
+   $Id: Entry.java,v 1.19 2004-10-05 10:10:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -45,7 +45,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.18 2004-09-30 21:25:39 mvdb Exp $
+ * @version $Id: Entry.java,v 1.19 2004-10-05 10:10:59 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -287,15 +287,30 @@ public class Entry extends SwingWidget {
         if (getProvider() != null) {
             IDataProvider pr = XuluxContext.getDictionary().getProvider(getProvider());
             IMapping mapping = null;
-            mapping = pr.getMapping(this.value);
-            IField field = null;
-            if (getField() != null) {
-                field = mapping.getField(getField());
+            if (pr.needsPartValue()) {
+                if (getField() != null) {
+              		mapping = pr.getMapping(getPart().getBean());
+                }
             } else {
-                field = mapping.getField(this.value);
+              	mapping = pr.getMapping(this.value);
             }
-            System.out.println("this value : " + this.value);
-            textComponent.setText((String) field.getValue(this.value));
+            IField field = null;
+            if (mapping != null) {
+	            if (getField() != null) {
+	                field = mapping.getField(getField());
+	            } else {
+                    field = mapping.getField(this.value);
+	            }
+            }
+            if (field != null) {
+              if (pr.needsPartValue()) {
+                textComponent.setText((String) field.getValue(getPart().getBean()));
+              } else {
+                textComponent.setText((String) field.getValue(this.value));
+              }
+            } else {
+              textComponent.setText("");
+            }
             return;
         } else if (getField() == null) {
             if (getValue() != null) {

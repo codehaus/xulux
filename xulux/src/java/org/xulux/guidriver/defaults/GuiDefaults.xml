@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-   $Id: GuiDefaults.xml,v 1.9 2004-06-30 11:59:00 mvdb Exp $
+   $Id: GuiDefaults.xml,v 1.10 2004-10-05 10:11:01 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -69,6 +69,7 @@
     <widget name="window" class="org.xulux.swing.widgets.Window"/>
     <widget name="window" type="swt" class="org.xulux.swt.widgets.Window"/>
     <widget name="textarea" class="org.xulux.swing.widgets.TextArea"/>
+    <widget name="textpane" class="org.xulux.swing.widgets.TextPane"/>
     <widget name="table" class="org.xulux.swing.widgets.Table"/>
     <widget name="popupmenu" class="org.xulux.swing.widgets.PopupMenu"/>
     <widget name="menuitem" class="org.xulux.swing.widgets.MenuItem"/>

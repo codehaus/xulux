@@ -1,5 +1,5 @@
 /*
-   $Id: IDataProvider.java,v 1.4 2004-09-30 21:25:39 mvdb Exp $
+   $Id: IDataProvider.java,v 1.5 2004-10-05 10:11:06 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ import java.util.Map;
  * The dataprovider interface.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IDataProvider.java,v 1.4 2004-09-30 21:25:39 mvdb Exp $
+ * @version $Id: IDataProvider.java,v 1.5 2004-10-05 10:11:06 mvdb Exp $
  */
 public interface IDataProvider {
 
@@ -94,5 +94,10 @@ public interface IDataProvider {
    * @return the object, or nul when an error occurred or the value is null.
    */
   Object getValue(Object mapping, String field, Object object);
+  
+  /**
+   * @return Specifies if the dataprovider needs the partvalue to function correctly
+   */
+  boolean needsPartValue();
   
 }

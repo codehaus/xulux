@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.19 2004-09-30 21:25:39 mvdb Exp $
+   $Id: Widget.java,v 1.20 2004-10-05 10:11:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.19 2004-09-30 21:25:39 mvdb Exp $
+ * @version $Id: Widget.java,v 1.20 2004-10-05 10:11:04 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -1019,13 +1019,16 @@ public abstract class Widget implements Serializable
     /**
      * 
      * @return the provider name for this widget. If the provider is not set, it will
-     *         return the provider of the part.
+     *         return the provider of the part. If the provider name is none, it will return null.
      */
     public String getProvider() {
         if (this.provider == null) {
           if (getPart() != null) {
             return getPart().getProvider();
           }
+        }
+        if ("none".equals(this.provider)) {
+          return null;
         }
         return this.provider;
     }

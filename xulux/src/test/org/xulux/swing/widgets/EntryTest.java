@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  * Testcase for the entry widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: EntryTest.java,v 1.4 2004-06-29 13:09:34 mvdb Exp $
+ * @version $Id: EntryTest.java,v 1.5 2004-10-05 10:11:05 mvdb Exp $
  */
 public class EntryTest extends TestCase {
 
@@ -315,6 +315,13 @@ public class EntryTest extends TestCase {
          */
         public Object getValue(Object mapping, String field, Object object) {
           return null;
+        }
+
+        /**
+         * @see org.xulux.dataprovider.IDataProvider#needsPartValue()
+         */
+        public boolean needsPartValue() {
+          return false;
         }
     }
 }

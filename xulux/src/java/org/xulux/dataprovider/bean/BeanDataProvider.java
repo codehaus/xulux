@@ -1,5 +1,5 @@
 /*
-   $Id: BeanDataProvider.java,v 1.3 2004-04-22 12:59:03 mvdb Exp $
+   $Id: BeanDataProvider.java,v 1.4 2004-10-05 10:11:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -39,7 +39,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * It is the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanDataProvider.java,v 1.3 2004-04-22 12:59:03 mvdb Exp $
+ * @version $Id: BeanDataProvider.java,v 1.4 2004-10-05 10:11:03 mvdb Exp $
  */
 public final class BeanDataProvider implements IDataProvider {
     /**
@@ -431,6 +431,13 @@ public final class BeanDataProvider implements IDataProvider {
      */
     public Object getValue(Object mapping, String field, Object object) {
       return null;
+    }
+
+    /**
+     * @see org.xulux.dataprovider.IDataProvider#needsPartValue()
+     */
+    public boolean needsPartValue() {
+      	return false;
     }
 
 }
