@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPartHandler.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
+   $Id: ApplicationPartHandler.java,v 1.1 2004-03-16 15:08:25 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.core;
+package org.xulux.guidriver;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -31,6 +31,8 @@ import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xulux.core.ApplicationContext;
+import org.xulux.core.ApplicationPart;
 import org.xulux.gui.INativeWidgetHandler;
 import org.xulux.gui.Widget;
 import org.xulux.gui.WidgetFactory;
@@ -47,7 +49,7 @@ import org.xulux.utils.Translator;
  * @todo Move out "generic" code, so we can have a helper class to do all the nyx magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.1 2004-03-16 15:08:25 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler {
 

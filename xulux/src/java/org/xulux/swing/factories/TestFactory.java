@@ -1,5 +1,5 @@
 /*
-   $Id: TestFactory.java,v 1.4 2004-03-16 15:04:17 mvdb Exp $
+   $Id: TestFactory.java,v 1.5 2004-03-16 15:08:25 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,12 +24,12 @@ import javax.swing.JPanel;
 
 import org.xulux.core.ApplicationContext;
 import org.xulux.core.ApplicationPart;
-import org.xulux.core.ApplicationPartHandler;
 import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
 import org.xulux.gui.Widget;
 import org.xulux.gui.WidgetFactory;
+import org.xulux.guidriver.ApplicationPartHandler;
 import org.xulux.swing.layouts.XYLayout;
 
 /**
@@ -38,7 +38,7 @@ import org.xulux.swing.layouts.XYLayout;
  * a later stage.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.4 2004-03-16 15:04:17 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.5 2004-03-16 15:08:25 mvdb Exp $
  */
 public final class TestFactory
 {
