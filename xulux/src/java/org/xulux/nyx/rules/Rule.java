@@ -1,5 +1,5 @@
 /*
- $Id: Rule.java,v 1.5 2003-05-21 11:34:48 mvdb Exp $
+ $Id: Rule.java,v 1.6 2003-07-21 21:21:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.context.PartRequest;
  * makes pre and post mandatory.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Rule.java,v 1.5 2003-05-21 11:34:48 mvdb Exp $
+ * @version $Id: Rule.java,v 1.6 2003-07-21 21:21:17 mvdb Exp $
  */
 public abstract class Rule implements IRule
 {
@@ -93,7 +93,7 @@ public abstract class Rule implements IRule
     /**
      * @see org.xulux.nyx.rules.IRule#post()
      */
-    public abstract void post(PartRequest part);
+    public abstract void post(PartRequest request);
 
     /**
      * @see org.xulux.nyx.rules.IRule#destroy()
