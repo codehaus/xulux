@@ -1,5 +1,5 @@
 /*
- $Id: TextArea.java,v 1.3 2003-07-17 01:09:33 mvdb Exp $
+ $Id: TextArea.java,v 1.4 2003-07-21 22:11:03 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,26 +56,20 @@ import javax.swing.border.LineBorder;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.nyx.global.BeanMapping;
-import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.gui.NyxListener;
-import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * The swing textare widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.3 2003-07-17 01:09:33 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.4 2003-07-21 22:11:03 mvdb Exp $
  */
-public class TextArea extends SwingWidget {
+public class TextArea extends Entry {
     
-    private JTextArea textArea;
     private PrePostFieldListener focusListener;
     private PrePostFieldListener immidiateListener;
     private Dimension size;
-    private String text;
-    private boolean setValueCalled = false;
     private Log log = LogFactory.getLog(TextArea.class);
     
 
@@ -86,21 +80,20 @@ public class TextArea extends SwingWidget {
         super(name);
     }
 
-
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
     public void destroy()
     {
-        if (textArea != null)
+        if (textComponent != null)
         {
-            textArea.removeAll();
-            Container container = textArea.getParent();
+            textComponent.removeAll();
+            Container container = textComponent.getParent();
             if (container != null)
             {
-                container.remove(textArea);
+                container.remove(textComponent);
             }
-            textArea = null;
+            textComponent = null;
         }
         removeAllRules();
         getPart().removeWidget(this,this);
@@ -115,7 +108,7 @@ public class TextArea extends SwingWidget {
         {
             initialize();
         }
-        return textArea;
+        return textComponent;
     }
     
     /**
@@ -129,7 +122,7 @@ public class TextArea extends SwingWidget {
         }
         this.initialized = true;
         this.setValueCalled = true;
-        textArea = new JTextArea();
+        textComponent = new JTextArea();
         if (isImmidiate())
         {
             if (this.immidiateListener == null)
@@ -158,7 +151,7 @@ public class TextArea extends SwingWidget {
                 {
                     focusListener = new PrePostFieldListener(this);
                 }
-                textArea.addFocusListener(focusListener);
+                textComponent.addFocusListener(focusListener);
             }
         }
         refresh();
@@ -172,9 +165,9 @@ public class TextArea extends SwingWidget {
     {
         isRefreshing = true;
         initialize();
-        textArea.setEnabled(isEnabled());
-        textArea.setVisible(isVisible());
-        textArea.setPreferredSize(this.size);
+        textComponent.setEnabled(isEnabled());
+        textComponent.setVisible(isVisible());
+        textComponent.setPreferredSize(this.size);
         initializeValue();
         String backgroundColor = null;
         if (isRequired()  && isEnabled())
@@ -191,7 +184,7 @@ public class TextArea extends SwingWidget {
         }
         if (backgroundColor != null)
         {
-            textArea.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
+            textComponent.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
         String border = getProperty("border");
         if (border != null) {
@@ -220,144 +213,11 @@ public class TextArea extends SwingWidget {
                 }
             }
             if (border.equalsIgnoreCase("line")) {
-                textArea.setBorder(new LineBorder(bColor,thickness));
+                textComponent.setBorder(new LineBorder(bColor,thickness));
             }
         }
-        textArea.setLineWrap(BooleanUtils.toBoolean(getProperty("linewrap")));
-        textArea.repaint();
+        ((JTextArea)textComponent).setLineWrap(BooleanUtils.toBoolean(getProperty("linewrap")));
+        textComponent.repaint();
         isRefreshing = false;
     }
-
-    /**
-     * @see org.xulux.nyx.gui.ValueWidget#getValue()
-     */
-    public Object getValue()
-    {
-        Object retValue = null;
-        if (textArea != null)
-        {
-            text = textArea.getText();
-        }
-        if ((text!=null && !"".equals(text)) && getField()!= null && this.value != null)
-        {
-            String text2 = null;
-            // we ignore multiple values for now.. 
-            BeanMapping map = Dictionary.getInstance().getMapping(this.value.getClass());
-            if (map != null)
-            {
-                text2 = (String)map.getField(getField()).getValue(this.value);
-            }
-            if (text.equals(text2))
-            {
-                retValue = this.value;
-            }
-        }
-        else if ("".equals(text) )
-        {
-            retValue = "";
-        }
-        else if (text == null)
-        {
-            return this.value;
-        }
-        else
-        {
-            retValue = text;
-        }
-
-        return retValue;
-    }
-    
-    private void initializeValue()
-    {
-        // Don't do anything if setValue isn't called
-        if (!setValueCalled)
-        {
-            return;
-        }
-        Object val = this.value;
-        if (!(val instanceof String) && getField()!=null)
-        {
-            val = this.value;
-        }
-        if (getField()!= null && val != null && getValue() != null)
-        {
-            // we ignore multiple values for now.. 
-            BeanMapping map = Dictionary.getInstance().getMapping(val.getClass());
-            if (map != null)
-            {
-                val = map.getField(getField()).getValue(this.value);
-            }
-        }
-        
-        if (val != null)
-        {
-            textArea.setText(String.valueOf(val));
-        }
-        else
-        {
-            textArea.setText("");
-        }
-    }
-    /**
-     * @see org.xulux.nyx.gui.ValueWidget#setValue(Object)
-     * @param val
-     */
-    public void setValue(Object val)
-    {
-        this.previousValue = getValue();
-        this.value = val;
-        if (initialized)
-        {
-            setValueCalled = true;
-            refresh();
-            setValueCalled = false;
-        }
-    }
-    /**
-     * @see org.xulux.nyx.gui.Widget#clear()
-     */
-    public void clear()
-    {
-        if (textArea == null)
-        {
-            this.value = null;
-        }
-        else
-        {
-            this.value = null;
-            textArea.setText("");
-        }
-        if (initialized)
-        {
-            refresh();
-        }
-    }
-
-    /**
-     * Returns the text.
-     * @return String
-     */
-    public String getText()
-    {
-        return text;
-    }
-
-    /**
-     * Sets the text.
-     * @param text The text to set
-     */
-    public void setText(String text)
-    {
-        this.text = text;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#getGuiValue()
-     */
-    public Object getGuiValue() {
-        return null;
-    }
-
-
 }

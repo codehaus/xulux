@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.18 2003-07-21 21:04:18 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.19 2003-07-21 22:11:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,11 +59,12 @@ import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.CheckBox;
 import org.xulux.nyx.swing.widgets.Entry;
+import org.xulux.nyx.swing.widgets.TextArea;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.18 2003-07-21 21:04:18 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.19 2003-07-21 22:11:03 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -113,8 +114,12 @@ implements FocusListener, ActionListener, ItemListener
         {
             return;
         }
-        if (widget instanceof Entry)
+        if (widget instanceof Entry ||
+            widget instanceof TextArea )
         {
+            if (widget instanceof TextArea) {
+                System.err.println("particluar : "+widget.getGuiValue());
+            }
             widget.setValue(widget.getGuiValue());
         }
         completed();

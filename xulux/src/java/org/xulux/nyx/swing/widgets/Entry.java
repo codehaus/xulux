@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.10 2003-07-17 06:29:24 mvdb Exp $
+ $Id: Entry.java,v 1.11 2003-07-21 22:11:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,20 +65,21 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.10 2003-07-17 06:29:24 mvdb Exp $
+ * @version $Id: Entry.java,v 1.11 2003-07-21 22:11:03 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
 {
     private static Log log = LogFactory.getLog(Entry.class);
     private Dimension size;
-    private String text;
-    private boolean setValueCalled = false;
+//    private String text;
+    protected boolean setValueCalled = false;
     
     /** 
-     * For now internally very swing specific
+     * A textcomponentallows overriding by
+     * similar classes.
      */
-    JTextField textField;
+    protected JTextComponent textComponent;
     
     PrePostFieldListener focusListener;
     PrePostFieldListener immidiateListener;
@@ -96,15 +98,15 @@ extends SwingWidget
      */
     public void destroy()
     {
-        if (textField != null)
+        if (textComponent != null)
         {
-            textField.removeAll();
-            Container container = textField.getParent();
+            textComponent.removeAll();
+            Container container = textComponent.getParent();
             if (container != null)
             {
-                container.remove(textField);
+                container.remove(textComponent);
             }
-            textField = null;
+            textComponent = null;
         }
         removeAllRules();
         getPart().removeWidget(this,this);
@@ -119,7 +121,7 @@ extends SwingWidget
         {
             initialize();
         }
-        return textField;
+        return textComponent;
     }
     
     /**
@@ -133,7 +135,7 @@ extends SwingWidget
         }
         this.initialized = true;
         this.setValueCalled = true;
-        textField = new JTextField();
+        textComponent = new JTextField();
         if (isImmidiate())
         {
             if (this.immidiateListener == null)
@@ -162,7 +164,7 @@ extends SwingWidget
                 {
                     focusListener = new PrePostFieldListener(this);
                 }
-                textField.addFocusListener(focusListener);
+                textComponent.addFocusListener(focusListener);
             }
         }
         initializeValue();
@@ -177,9 +179,9 @@ extends SwingWidget
     {
         isRefreshing = true;
         initialize();
-        textField.setEnabled(isEnabled());
-        textField.setVisible(isVisible());
-        textField.setPreferredSize(this.size);
+        textComponent.setEnabled(isEnabled());
+        textComponent.setVisible(isVisible());
+        textComponent.setPreferredSize(this.size);
         String backgroundColor = null;
         if (isRequired()  && isEnabled())
         {
@@ -195,9 +197,9 @@ extends SwingWidget
         }
         if (backgroundColor != null)
         {
-            textField.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
+            textComponent.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
-        textField.repaint();
+        textComponent.repaint();
         isRefreshing = false;
     }
 
@@ -213,7 +215,7 @@ extends SwingWidget
      * Lets changes reflect onscreen.
      * @param value
      */
-    private void initializeValue()
+    protected void initializeValue()
     {
         // TODO: Make sure when there is no field, it still works!!
         if (getField() == null) {
@@ -221,7 +223,7 @@ extends SwingWidget
         }
         BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
         if (map == null) {
-            textField.setText("");
+            textComponent.setText("");
             return;
         }
         IField field = map.getField(getField());
@@ -229,13 +231,13 @@ extends SwingWidget
             if (log.isWarnEnabled()) {
                 log.warn("Field "+getField()+" is not present in the dictionary");
             }
-            textField.setText("");
+            textComponent.setText("");
             return;
         }
         Object beanValue = field.getValue(getPart().getBean());
         this.value = beanValue;
         if (this.value == null) {
-            textField.setText("");
+            textComponent.setText("");
         } else {
             // we assume toString method here.
             // TODO: Implement fields some more
@@ -244,9 +246,9 @@ extends SwingWidget
             
             // If this is not an array, do a toString
             if (!this.value.getClass().isArray()) { 
-                textField.setText(this.value.toString());
+                textComponent.setText(this.value.toString());
             } else {
-                textField.setText("Invalid : Array");
+                textComponent.setText("Invalid : Array");
             }
         }
     }
@@ -273,7 +275,10 @@ extends SwingWidget
         } else {
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             IField field = map.getField(getField());
+            // set the previous value
+            this.previousValue = field.getValue(getPart().getBean());
             field.setValue(getPart().getBean(), object);
+            
         }
         if (initialized)
         {
@@ -285,14 +290,14 @@ extends SwingWidget
      */
     public void clear()
     {
-        if (textField == null)
+        if (textComponent == null)
         {
             this.value = null;
         }
         else
         {
             this.value = null;
-            textField.setText("");
+            textComponent.setText("");
         }
         if (initialized)
         {
@@ -301,27 +306,10 @@ extends SwingWidget
     }
 
     /**
-     * Returns the text.
-     * @return String
-     */
-    public String getText()
-    {
-        return text;
-    }
-
-    /**
-     * Sets the text.
-     * @param text The text to set
-     */
-    public void setText(String text)
-    {
-        this.text = text;
-    }
-    /**
      * @see org.xulux.nyx.gui.Widget#getGuiValue()
      */
     public Object getGuiValue() {
-        return textField.getText();
+        return textComponent.getText();
     }
     
 }
