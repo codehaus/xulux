@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.6 2004-06-24 21:33:03 mvdb Exp $
+   $Id: Table.java,v 1.7 2004-06-28 11:50:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -56,7 +56,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.6 2004-06-24 21:33:03 mvdb Exp $
+ * @version $Id: Table.java,v 1.7 2004-06-28 11:50:00 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -301,7 +301,9 @@ public class Table extends ContainerWidget implements IContentWidget {
             if (refreshModel) {
                 // null means everything changed..
                 table.tableChanged(null);
-                lockedTable.tableChanged(null);
+                if (lockedTable != null) {
+                    lockedTable.tableChanged(null);
+                }
 //                table.tableChanged(new TableModelEvent(this.model, TableModelEvent.ALL_COLUMNS));
 //                lockedTable.tableChanged(new TableModelEvent(this.model, TableModelEvent.ALL_COLUMNS));
             }
