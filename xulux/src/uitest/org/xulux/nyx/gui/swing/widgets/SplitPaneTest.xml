@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!-- $Id: SplitPaneTest.xml,v 1.1 2003-12-16 02:27:17 mvdb Exp $ -->
+<part name="LabelTestForm" prefix="Person">
+  <rules>
+    <rule>org.xulux.nyx.gui.rules.TreeContentRule</rule>
+  </rules>
+  <field type="window" name="Window">
+    <title>SplitPaneTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>740,500</size>
+    <field type="splitpane" name="Pane:Split">
+      <orientation>horizontal</orientation>
+      <field type="panel" name="Panel:DomTree">
+        <pane>top</pane>
+        <size>250,400</size>
+        <field type="label" name="Label:DomTree">
+          <text>DOMTree</text>
+          <position>10,0</position>
+          <size>100,21</size>
+        </field>
+        <field type="tree" name="DomTree">
+          <position>10,31</position>
+          <size>300,400</size>
+        </field>
+      </field>
+      <field type="panel" name="Panel:Table">
+        <pane>bottom</pane>
+        <size>300,100</size>
+    <field type="table" name="SimpleTable">
+     <initialselection>first</initialselection>
+     <position>10,21</position>
+     <size>300,100</size>
+     <field type="label" name="FirstName" use="firstName">
+       <text>firstname</text>
+       <size>100,0</size>
+     </field>
+     <field type="label" name="LastName" use="lastName">
+       <text>lastname</text>
+       <size>100,0</size>
+     </field>
+    </field>
+    <field type="label" name="Label:FullName">
+      <position>320,21</position>
+      <size>100,21</size>
+      <text>FullName:</text>
+    </field>
+    <field type="entry" name="FullName" use="?SimpleTable.fullname">
+      <position>320,50</position>
+      <size>200,21</size>
+      <enabled>false</enabled>
+      <disabled-background-color>CCCCCC</disabled-background-color>
+    </field>
+    <field type="button" name="ContentButton">
+      <position>320,80</position>
+      <size>125,31</size>
+      <text>Set Content</text>
+      <rules>
+        <rule>org.xulux.nyx.gui.rules.TableContentRule</rule>
+      </rules>
+    </field>
+      </field>
+    </field>
+  </field>
+</part>

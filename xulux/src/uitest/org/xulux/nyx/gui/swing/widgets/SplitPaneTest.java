@@ -1,5 +1,5 @@
 /*
- $Id: TableTest.java,v 1.4 2003-12-16 02:27:17 mvdb Exp $
+ $Id: SplitPaneTest.java,v 1.1 2003-12-16 02:27:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -48,54 +48,55 @@ package org.xulux.nyx.gui.swing.widgets;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.SAXReader;
+import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.context.WidgetConfig;
+import org.xulux.nyx.global.contenthandlers.DOMTreeContentHandler;
+import org.xulux.nyx.global.contenthandlers.TreeNodeContentHandler;
 import org.xulux.nyx.gui.PartCreator;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
- * Testcase for the table..
- * We keep it simple for now.
+ * A testcase for splitpanes.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TableTest.java,v 1.4 2003-12-16 02:27:17 mvdb Exp $
+ * @version $Id: SplitPaneTest.java,v 1.1 2003-12-16 02:27:17 mvdb Exp $
  */
-public class TableTest extends TestCase {
+public class SplitPaneTest extends TestCase {
 
     /**
-     * Constructor for TableTest.
+     * Constructor for SplitPaneTest.
      * @param name the name of the test
      */
-    public TableTest(String name) {
+    public SplitPaneTest(String name) {
         super(name);
     }
+
     /**
-     * @return the testsuite
+     * Shows the splitpane xml.
+     *
      */
-    public static Test suite() {
-        TestSuite suite = new TestSuite(TableTest.class);
-        return suite;
+    public void show() {
+        String xml = "org/xulux/nyx/gui/swing/widgets/SplitPaneTest.xml";
+        WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig("tree");
+        config.addWidgetTool("swing", TreeNodeContentHandler.class);
+        config.addWidgetTool(null, DOMTreeContentHandler.class);
+        PersonCollection persons = new PersonCollection();
+        persons.setPersonList(getData());
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        ApplicationPart part = PartCreator.createPart(persons, stream);
+        part.activate();
     }
 
     /**
      * @param args the arguments
      */
     public static void main(String[] args) {
-        new TableTest("TableTest").showSimpleTable();
-    }
-
-    /**
-     * Show the simple table
-     */
-    public void showSimpleTable() {
-        PersonCollection persons = new PersonCollection();
-        persons.setPersonList(getData());
-        String xml = "org/xulux/nyx/gui/swing/widgets/TableTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(persons, stream);
-        part.activate();
+        new SplitPaneTest("SplitPaneTest").show();
     }
 
     /**
@@ -110,4 +111,24 @@ public class TableTest extends TestCase {
         list.add(new PersonBean("Maarten", "Spook"));
         return list;
     }
+
+    /**
+     * @param caller the caller
+     * @param xml the xml docment
+     * @return the document
+     */
+    public static Document getDocument(Object caller, String xml) {
+        // use the same classloader as the caller..
+        InputStream stream = caller.getClass().getClassLoader().getResourceAsStream(xml);
+        Document document = null;
+        SAXReader reader = new SAXReader();
+        try {
+            document = reader.read(stream);
+        } catch (DocumentException de) {
+            de.printStackTrace();
+        }
+        System.out.println("document : " + document);
+        return document;
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- $Id: ButtonTest.java,v 1.2 2003-12-15 19:36:49 mvdb Exp $
+ $Id: ButtonTest.java,v 1.3 2003-12-16 02:27:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -54,20 +54,20 @@ import junit.framework.TestCase;
 
 /**
  * A testcase for buttons.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ButtonTest.java,v 1.2 2003-12-15 19:36:49 mvdb Exp $
+ * @version $Id: ButtonTest.java,v 1.3 2003-12-16 02:27:17 mvdb Exp $
  */
 public class ButtonTest extends TestCase {
 
     /**
      * Constructor for ButtonTest.
-     * @param name
+     * @param name the name of the test
      */
     public ButtonTest(String name) {
         super(name);
     }
-    
+
     /**
      * Shows the button xml.
      *
@@ -79,8 +79,11 @@ public class ButtonTest extends TestCase {
         part.activate();
     }
 
+    /**
+     * @param args the arguments
+     */
     public static void main(String[] args) {
-        new ButtonTest("ButtonText").show();
+        new ButtonTest("ButtonTest").show();
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: TreeTest.java,v 1.5 2003-12-15 19:36:49 mvdb Exp $
+ $Id: TreeTest.java,v 1.6 2003-12-16 02:27:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -66,33 +66,43 @@ import org.xulux.nyx.gui.PartCreator;
 /**
  * Testcase for the tree
  * We keep it simple for now.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeTest.java,v 1.5 2003-12-15 19:36:49 mvdb Exp $
+ * @version $Id: TreeTest.java,v 1.6 2003-12-16 02:27:17 mvdb Exp $
  */
 public class TreeTest extends TestCase {
 
+    /**
+     * the xml
+     */
     public static String xml = "org/xulux/nyx/gui/swing/widgets/TreeTest.xml";
 
     /**
      * Constructor for TableTest.
-     * @param name
+     * @param name the name of the test
      */
     public TreeTest(String name) {
         super(name);
     }
-    
-    public static Test suite()
-    {
+
+    /**
+     * @return the testsuite
+     */
+    public static Test suite() {
         TestSuite suite = new TestSuite(TreeTest.class);
         return suite;
     }
 
+    /**
+     * @param args the arguments
+     */
     public static void main(String[] args) {
         new TreeTest("TreeTest").showSimpleTree();
     }
-    
-    
+
+    /**
+     * Show the tree
+     */
     public void showSimpleTree() {
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig("tree");
@@ -101,10 +111,10 @@ public class TreeTest extends TestCase {
         ApplicationPart part = PartCreator.createPart(null, stream);
         part.activate();
     }
-    
+
     /**
      * Creates a simple dataset (treenode that is..
-     * @return the treenode.. 
+     * @return the treenode..
      */
     public static TreeNode getData() {
         TreeTest tt = new TreeTest("TreeTest");
@@ -114,13 +124,13 @@ public class TreeTest extends TestCase {
         ExampleTreeNode child12 = new ExampleTreeNode("Child12");
         child10.insert(child11, 0);
         child10.insert(child12, 1);
-        root.insert(child10,0);
+        root.insert(child10, 0);
         ExampleTreeNode child20 = new ExampleTreeNode("Child20");
         ExampleTreeNode child21 = new ExampleTreeNode("Child21");
         ExampleTreeNode child22 = new ExampleTreeNode("Child22");
         child20.insert(child21, 0);
         child20.insert(child22, 1);
-        root.insert(child20,1);
+        root.insert(child20, 1);
         ExampleTreeNode child30 = new ExampleTreeNode("Child30");
         ExampleTreeNode child31 = new ExampleTreeNode("Child31");
         ExampleTreeNode child32 = new ExampleTreeNode("Child32");
@@ -129,19 +139,22 @@ public class TreeTest extends TestCase {
         root.insert(child30, 2);
         return root;
     }
-    
+
+    /**
+     * @param caller the caller
+     * @return the document
+     */
     public static Document getDocument(Object caller) {
         // use the same classloader as the caller..
         InputStream stream = caller.getClass().getClassLoader().getResourceAsStream(xml);
         Document document = null;
         SAXReader reader = new SAXReader();
         try {
-            document =  reader.read(stream);
-        }catch(DocumentException de) {
+            document = reader.read(stream);
+        } catch (DocumentException de) {
             de.printStackTrace();
         }
-        System.out.println("document : "+document);
-        
+        System.out.println("document : " + document);
         return document;
     }
 }
