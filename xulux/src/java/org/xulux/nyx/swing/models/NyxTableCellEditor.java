@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableCellEditor.java,v 1.2 2003-08-11 00:33:49 mvdb Exp $
+ $Id: NyxTableCellEditor.java,v 1.3 2003-08-26 00:40:44 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.gui.Widget;
  * A table cell editor for nyx
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellEditor.java,v 1.2 2003-08-11 00:33:49 mvdb Exp $
+ * @version $Id: NyxTableCellEditor.java,v 1.3 2003-08-26 00:40:44 mvdb Exp $
  */
 public class NyxTableCellEditor extends AbstractCellEditor
 implements TableCellEditor
@@ -74,7 +74,11 @@ implements TableCellEditor
      * @see javax.swing.CellEditor#getCellEditorValue()
      */
     public Object getCellEditorValue() {
-        return widget.getValue();
+        System.out.println("getCellEditorValue");
+        System.out.println("Widget value : "+widget.getValue());
+        System.out.println("widget gui value : "+widget.getGuiValue());
+        System.out.println("widget name "+widget.getName());
+        return widget.getGuiValue();
     }
     /**
      * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(javax.swing.JTable, java.lang.Object, boolean, int, int)
@@ -87,7 +91,6 @@ implements TableCellEditor
      * @see javax.swing.CellEditor#isCellEditable(java.util.EventObject)
      */
     public boolean isCellEditable(EventObject e) {
-        System.out.println("Source of isCellEditable : "+e.getSource());
         return super.isCellEditable(e);
     }
 

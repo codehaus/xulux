@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableModel.java,v 1.6 2003-08-25 17:37:59 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.7 2003-08-26 00:40:44 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.swing.widgets.Table;
  * The nyx tablemodel contains all magic for tables.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.6 2003-08-25 17:37:59 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.7 2003-08-26 00:40:44 mvdb Exp $
  */
 public class NyxTableModel implements TableModel {
     
@@ -167,6 +167,8 @@ public class NyxTableModel implements TableModel {
             BeanMapping map = Dictionary.getInstance().getMapping(table.getContent().get(rowIndex));
             IField field = map.getField(w.getField());
             if (field != null) {
+                System.out.println("aValue : "+aValue);
+                System.out.println("widget value : "+w.getValue());
                 field.setValue(table.getContent().get(rowIndex), aValue);
                 System.out.println("Setting value on field : "+field.getValue(table.getContent().get(rowIndex)));
             }
