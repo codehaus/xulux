@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.43 2003-07-17 01:09:34 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.44 2003-07-22 16:13:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -80,7 +80,7 @@ import org.xulux.nyx.utils.Translation;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.43 2003-07-17 01:09:34 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.44 2003-07-22 16:13:46 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -331,6 +331,9 @@ public class ApplicationPart
         widgets.add(widget);
     }
     
+    public void addWidget(Widget widget, String prefix) {
+    }
+    
     /**
      * Removes a widget. It will call the destroy
      * method on the widget and if the widget
@@ -562,7 +565,7 @@ public class ApplicationPart
                 Object data = get(i);
                 if (data instanceof Widget && elem instanceof String)
                 {
-                    if (data != null && ((Widget)data).getName().equalsIgnoreCase((String)elem))
+                    if (data != null && ((Widget)data).equals(elem))
                     {
                         return i;
                     }

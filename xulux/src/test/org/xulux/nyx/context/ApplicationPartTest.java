@@ -1,5 +1,5 @@
 /*
- $Id: INativeWidgetHandler.java,v 1.2 2003-07-22 16:13:46 mvdb Exp $
+ $Id: ApplicationPartTest.java,v 1.1 2003-07-22 16:13:46 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,33 +43,58 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.context;
+
+import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.widgets.CheckBox;
+import org.xulux.nyx.swing.widgets.Combo;
+import org.xulux.nyx.swing.widgets.Entry;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
- * Interface to handle native widgets.
- * You should register the implementation
- * via eg the guidefaults xml file.
- * 
+ * The ApplicationPart test
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: INativeWidgetHandler.java,v 1.2 2003-07-22 16:13:46 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.1 2003-07-22 16:13:46 mvdb Exp $
  */
-public interface INativeWidgetHandler {
-    
+public class ApplicationPartTest extends TestCase {
+
     /**
-     * Return a widget with the specified 
-     * nativewidget added.
-     * 
-     * @param part
-     * @param nativeWidget
+     * Constructor for ApplicationPartTest.
+     * @param name
      */
-    public Widget getWidget(String clazz, Widget parent);
+    public ApplicationPartTest(String name) {
+        super(name);
+    }
     
-    /**
-     * Set the location on the native widget
-     * 
-     * @param x
-     * @param y
-     */
-    public void setLocationOnWidget(Widget parent, int x, int y);
+    public static Test suite() {
+        TestSuite suite = new TestSuite(ApplicationPartTest.class);
+        return suite;
+    }
+    
+    public void testGetWidget() {
+        Widget entry = new Entry("Entry");
+        entry.setPrefix("Test");
+        Widget combo = new Combo("Combo");
+        Widget checkBox = new CheckBox("CheckBox");
+        Widget checkBox1 = new CheckBox("CheckBox");
+        checkBox1.setPrefix("Test");
+        ApplicationPart part = new ApplicationPart();
+        part.addWidget(entry);
+        part.addWidget(combo);
+        part.addWidget(checkBox);
+        part.addWidget(checkBox1);
+        assertNull(part.getWidget("entry"));
+        assertEquals(entry, part.getWidget("Test.Entry"));
+        assertEquals(combo, part.getWidget("Combo"));
+        assertEquals(checkBox, part.getWidget("CheckBox"));
+        assertEquals(checkBox1, part.getWidget("test.checkbox"));
+        
+        
+    }
+    
 
 }

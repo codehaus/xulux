@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.29 2003-07-17 01:09:34 mvdb Exp $
+ $Id: Widget.java,v 1.30 2003-07-22 16:13:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.29 2003-07-17 01:09:34 mvdb Exp $
+ * @version $Id: Widget.java,v 1.30 2003-07-22 16:13:46 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -105,6 +105,11 @@ public abstract class Widget implements Serializable
      * without getting in an infinite loop 
      */
     protected boolean isRefreshing;
+    
+    /**
+     * Holds the prefix of the field
+     */
+    private String prefix;
     
         
     public Widget(String name)
@@ -319,7 +324,7 @@ public abstract class Widget implements Serializable
      * To make equals checking a bit easier.
      * This checks to see if the passed in object
      * is the same widget as this one, based on naming
-     * If you pass in a string with the correct name,
+     * If you pass in a string with the correct name and prefix,
      * it will return true, else there must be an exact
      * object match.
      * 
@@ -327,9 +332,35 @@ public abstract class Widget implements Serializable
      */
     public boolean equals(Object object)
     {
+        if (object == null) {
+            return false;
+        }
         if (object instanceof String)
         {
-            return getName().equals(object.toString());
+            String val = ((String)object).toLowerCase();
+            int dotIndex = val.indexOf('.');
+            String oPrefix = null;
+            String oName = null; 
+            if (dotIndex != -1) {
+                oPrefix = val.substring(0,dotIndex);
+                oName = val.substring(dotIndex+1);
+            } else {
+                oName = val;
+            }
+            if (getName().toLowerCase().equals(oName)) {
+                if (oPrefix != null) {
+                    // if oPrefix is present,
+                    // see if it is equals to.
+                    if (getPrefix() != null) {
+                        return oPrefix.equals(getPrefix().toLowerCase());
+                    }
+                } else  {
+                    // if oPrefix is null getPrefix should
+                    // return null too.
+                    return getPrefix() == null;
+                }
+            }
+            return false;
         }
         else
         {
@@ -426,6 +457,24 @@ public abstract class Widget implements Serializable
     public String getName()
     {
         return this.name;
+    }
+    
+    /**
+     * 
+     * @return The prefix of the field or null
+     *          when there is no prefix
+     */
+    public String getPrefix() {
+        return this.prefix;
+    }
+    
+    /**
+     * Set the prefix of the widget
+     * 
+     * @param prefix
+     */
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
     
     /** 

@@ -1,5 +1,5 @@
 /*
- $Id: LocalField.java,v 1.3 2003-07-17 01:09:34 mvdb Exp $
+ $Id: LocalField.java,v 1.4 2003-07-22 16:13:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,11 +48,9 @@ package org.xulux.nyx.global;
 
 /**
  * A localfield. 
- * TODO: Make a field interface, so eg order can be preserved and there is one
- *       way of dealing with fields.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LocalField.java,v 1.3 2003-07-17 01:09:34 mvdb Exp $
+ * @version $Id: LocalField.java,v 1.4 2003-07-22 16:13:46 mvdb Exp $
  */
 public class LocalField implements IField
 {

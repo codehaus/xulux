@@ -1,5 +1,5 @@
 /*
- $Id: INativeWidgetHandler.java,v 1.2 2003-07-22 16:13:46 mvdb Exp $
+ $Id: WidgetTest.java,v 1.1 2003-07-22 16:13:46 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,31 +45,51 @@
  */
 package org.xulux.nyx.gui;
 
+import org.xulux.nyx.swing.widgets.Entry;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
 /**
- * Interface to handle native widgets.
- * You should register the implementation
- * via eg the guidefaults xml file.
+ * Test of widget class.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: INativeWidgetHandler.java,v 1.2 2003-07-22 16:13:46 mvdb Exp $
+ * @version $Id: WidgetTest.java,v 1.1 2003-07-22 16:13:46 mvdb Exp $
  */
-public interface INativeWidgetHandler {
-    
-    /**
-     * Return a widget with the specified 
-     * nativewidget added.
-     * 
-     * @param part
-     * @param nativeWidget
-     */
-    public Widget getWidget(String clazz, Widget parent);
-    
-    /**
-     * Set the location on the native widget
-     * 
-     * @param x
-     * @param y
-     */
-    public void setLocationOnWidget(Widget parent, int x, int y);
+public class WidgetTest extends TestCase {
 
+    /**
+     * Constructor for WidgetTest.
+     * @param name
+     */
+    public WidgetTest(String name) {
+        super(name);
+    }
+    
+    public static Test suite()
+    {
+        TestSuite suite = new TestSuite(WidgetTest.class);
+        return suite;
+    }
+    
+    /**
+     * Test the Widget.equals(Object)
+     */
+    public void testEquals() {
+        System.out.println("testEquals");
+        Entry entry = new Entry("Name");
+        entry.setPrefix("Prefix");
+        assertTrue(entry.equals("Prefix.Name"));
+        assertFalse(entry.equals("Name"));
+        assertTrue(entry.equals(entry));
+        Entry entry1 = new Entry("Test");
+        assertTrue(entry1.equals("Test"));
+        assertFalse(entry1.equals("Test.Test"));
+        assertTrue(entry1.equals(entry1));
+        assertFalse(entry1.equals(entry));
+        assertFalse(entry1.equals(null));
+        
+    }
+    
 }

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.23 2003-07-16 13:57:46 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.24 2003-07-22 16:13:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,7 +50,6 @@ import java.util.NoSuchElementException;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-import javax.swing.JComponent;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -75,7 +74,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.23 2003-07-16 13:57:46 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.24 2003-07-22 16:13:46 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -153,11 +152,16 @@ public class ApplicationPartHandler extends DefaultHandler
      * parsing use fields.
      */
     private String fieldPrefix;
+    /**
+     * The widget prefix
+     */
+    private String prefix;
     
     /** 
      * Temporary holds the prefix 
      * value untill done calling includePart 
      */
+    private String tempFieldPrefix;
     private String tempPrefix;
     
     private static SAXParserFactory factory;
@@ -279,8 +283,10 @@ public class ApplicationPartHandler extends DefaultHandler
             processListener = true;
         }
         else if (qName.equals(INCLUDE_ELEMENT)) {
-            this.tempPrefix = this.fieldPrefix;
+            this.tempFieldPrefix = this.fieldPrefix;
+            this.tempPrefix = this.prefix;
             this.fieldPrefix = atts.getValue(FIELDPREFIX_ATTRIBUTE);
+            this.prefix = atts.getValue(PREFIX_ATTRIBUTE);
             processIncludePart = true;
         }
         else
@@ -318,6 +324,7 @@ public class ApplicationPartHandler extends DefaultHandler
                     {
                         parentWidget.addChildWidget(widget);
                         widget.setParent(parentWidget);
+                        widget.setPrefix(this.prefix);
                         part.addWidget(widget);
                     }
                 }
@@ -396,10 +403,8 @@ public class ApplicationPartHandler extends DefaultHandler
             {
                 try {
                 if (processingNative) {
-                    // TODO: move this code out!! it's swing specific
-                    Widget wt = (Widget) stack.peek();
-                    JComponent comp = (JComponent)wt.getNativeWidget();
-                    comp.getComponent(comp.getComponentCount()-1).setLocation(x,y);
+                    INativeWidgetHandler nativeHandler = ApplicationContext.getInstance().getNativeWidgetHandler();
+                    nativeHandler.setLocationOnWidget((Widget) stack.peek(), x, y);
                 } else {
                     widget.setPosition(x, y);
                     processPosition = false;
@@ -449,8 +454,10 @@ public class ApplicationPartHandler extends DefaultHandler
                     log.debug("Starting processing of include "+currentValue);                }
                 ApplicationPartHandler handler = new ApplicationPartHandler(this.part);
                 handler.setFieldPrefix(this.fieldPrefix);
-                // set to null..
-                this.fieldPrefix = this.tempPrefix;
+                handler.setPrefix(this.prefix);
+                // set back to original value (could be null)
+                this.fieldPrefix = this.tempFieldPrefix;
+                this.prefix = this.tempPrefix;
                 InputStream stream = getClass().getClassLoader().getResourceAsStream(currentValue.trim());
                 handler.setStack(this.stack);
                 handler.read(stream);
@@ -472,6 +479,10 @@ public class ApplicationPartHandler extends DefaultHandler
     
     public void setFieldPrefix(String fieldPrefix) {
         this.fieldPrefix = fieldPrefix;
+    }
+    
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
     
     public void setStack(Stack stack) {
