@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.23 2002-11-19 20:45:06 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.24 2002-11-19 23:54:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -83,7 +83,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.23 2002-11-19 20:45:06 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.24 2002-11-19 23:54:57 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -622,6 +622,7 @@ public class ApplicationPart
             Container container = ((Component)parentWidget).getParent();
             container.remove((Component)parentWidget);
         }
+        ApplicationContext.getInstance().removePart(getName());
     }
     
     /**

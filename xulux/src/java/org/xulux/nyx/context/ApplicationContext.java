@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.12 2002-11-16 14:23:43 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.13 2002-11-19 23:54:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.12 2002-11-16 14:23:43 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.13 2002-11-19 23:54:57 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -369,22 +369,25 @@ public class ApplicationContext
     
     public ApplicationPart getPart(String name)
     {
-        System.err.println("Requesting part : "+name);
         if (parts == null)
         {
             return null;
         }
         ApplicationPart part = (ApplicationPart)parts.get(name);
-        if (part!=null)
-        {
-            System.err.println("Returning part with name : "+part.getName());
-        }
-        else
-        {
-            System.err.println("Returning null part");
-        }
         return part;
     }
+    
+    /** 
+     * Removes parts from the context
+     */
+    public void removePart(String name)
+    {
+        if (parts != null)
+        {
+            parts.remove(name);
+        }
+    }
+            
     
     public Collection getParts()
     {
