@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.62 2003-11-13 02:45:39 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.63 2003-11-17 10:33:48 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -83,7 +83,7 @@ import org.xulux.nyx.utils.Translation;
  * TODO: Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.62 2003-11-13 02:45:39 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.63 2003-11-17 10:33:48 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -287,9 +287,16 @@ public class ApplicationPart {
     public String getName() {
         return this.name;
     }
-
+    
+    /**
+     * Sets the name and registers the part.. 
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
+        // TODO : This is buggy, since a part doesn't have to have
+        // a unique name..
+        ApplicationContext.getInstance().registerPart(this);
     }
 
     /**
