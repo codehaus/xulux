@@ -6,7 +6,7 @@ import org.xulux.rules.Rule;
 /**
  *
  * @author Martin van den Bemt
- * @version $Id: DefaultButtonRule.java,v 1.1 2004-05-03 23:46:23 mvdb Exp $
+ * @version $Id: DefaultButtonRule.java,v 1.2 2004-05-04 12:04:42 mvdb Exp $
  */
 public class DefaultButtonRule extends Rule {
 
@@ -28,7 +28,7 @@ public class DefaultButtonRule extends Rule {
    * @see org.xulux.rules.IRule#post(org.xulux.core.PartRequest)
    */
   public void post(PartRequest request) {
-    System.out.println("post rule..");
+    System.out.println("post rule.."+request.getWidget().getName());
 
   }
 

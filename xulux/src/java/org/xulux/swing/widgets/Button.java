@@ -1,5 +1,5 @@
 /*
-   $Id: Button.java,v 1.6 2004-05-03 23:46:22 mvdb Exp $
+   $Id: Button.java,v 1.7 2004-05-04 12:04:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,12 +30,11 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JRootPane;
-import javax.swing.KeyStroke;
-import javax.swing.event.ChangeListener;
 
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
 import org.xulux.swing.SwingWidget;
+import org.xulux.swing.listeners.DefaultButtonChangeListener;
 import org.xulux.swing.listeners.PrePostFieldListener;
 import org.xulux.swing.util.SwingUtils;
 import org.xulux.utils.BooleanUtils;
@@ -44,7 +43,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.6 2004-05-03 23:46:22 mvdb Exp $
+ * @version $Id: Button.java,v 1.7 2004-05-04 12:04:42 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -61,6 +60,7 @@ public class Button extends SwingWidget {
      */
     private FocusListener imageFocusListener;
     
+    private DefaultButtonChangeListener changeListener;
     /**
      * the nyx listeners
      */
@@ -173,7 +173,6 @@ public class Button extends SwingWidget {
                 actionListener = (PrePostFieldListener) listener;
             }
             button.addActionListener(actionListener);
-            button.addFocusListener(actionListener);
         }
         String alignment = getProperty("alignment");
         if (alignment != null) {
@@ -202,11 +201,15 @@ public class Button extends SwingWidget {
             JRootPane pane = button.getRootPane();
             if (pane != null) {
                 pane.setDefaultButton(button);
-                button.addChangeListener(this.actionListener);
+                if (changeListener == null) {
+                  changeListener = new DefaultButtonChangeListener();
+                }
+                button.addChangeListener(changeListener);
             }
         } else {
           // remove the changelistener, if we are not using it.
-          button.removeChangeListener(actionListener);
+          button.removeChangeListener(changeListener);
+          changeListener = null;
         }
         button.setEnabled(isEnabled());
         isRefreshing = false;
@@ -229,6 +232,10 @@ public class Button extends SwingWidget {
         if (imageFocusListener != null) {
             button.removeFocusListener(imageFocusListener);
         }
+        if (changeListener != null) {
+          button.removeChangeListener(changeListener);
+          changeListener = null;
+        }
         imageFocusListener = null;
         if (listenerList != null) {
             for (Iterator it = listenerList.iterator(); it.hasNext();) {
@@ -237,8 +244,6 @@ public class Button extends SwingWidget {
                     button.removeActionListener((ActionListener) l);
                 } else if (l instanceof FocusListener) {
                     button.removeFocusListener((FocusListener) l);
-                } else if (l instanceof ChangeListener) {
-                    button.removeChangeListener((ChangeListener) l);
                 }
             }
         }

@@ -1,5 +1,5 @@
 /*
-   $Id: PrePostFieldListener.java,v 1.4 2004-05-03 23:46:23 mvdb Exp $
+   $Id: PrePostFieldListener.java,v 1.5 2004-05-04 12:04:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,10 +24,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.JButton;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.gui.GuiUtils;
@@ -47,9 +43,9 @@ import org.xulux.swing.widgets.ToggleButton;
  * 
  * @todo Find a better way to handle the concel button.
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.4 2004-05-03 23:46:23 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.5 2004-05-04 12:04:42 mvdb Exp $
  */
-public class PrePostFieldListener extends NyxListener implements FocusListener, ActionListener, ItemListener, ChangeListener {
+public class PrePostFieldListener extends NyxListener implements FocusListener, ActionListener, ItemListener {
 
     /**
      * The log instance
@@ -169,21 +165,4 @@ public class PrePostFieldListener extends NyxListener implements FocusListener, 
         completed();
     }
 
-    /**
-     * Mainly used to release any pending events when the defaultbutton is used by
-     * eg hitting the enter key.
-     *
-     * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-     */
-    public void stateChanged(ChangeEvent e) {
-        if (isProcessing()) {
-            return;
-        }
-        if (e.getSource() instanceof JButton) {
-            JButton button = (JButton) e.getSource();
-            if (button.getModel().isArmed() && button.getModel().isPressed()) {
-                button.requestFocus();
-            }
-        }
-    }
 }

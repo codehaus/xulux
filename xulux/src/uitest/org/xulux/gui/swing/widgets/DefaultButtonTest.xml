@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- 
-   $Id: DefaultButtonTest.xml,v 1.1 2004-05-03 23:46:22 mvdb Exp $
+   $Id: DefaultButtonTest.xml,v 1.2 2004-05-04 12:04:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,7 +22,7 @@
     <icon>resources/Car.ico</icon>
     <size>auto</size>
     <autosize>true</autosize>
-<!--    <field type="panel" name="testPanel"> -->
+    <field type="panel" name="testPanel">
        <field type="entry" name="testEntry">
          <position>1,1</position>
          <size>100,21</size>
@@ -30,7 +30,7 @@
            <rule>org.xulux.gui.rules.DefaultButtonRule</rule>
          </rules>
        </field>
-<!--    </field> -->
+    </field>
     <field type="button" name="ButtonImageText">
       <image>resources/Car.ico</image>
       <size>150,31</size>
@@ -39,15 +39,18 @@
     </field>
     <!-- this was added since the system doesn't show
          any gui at all in this scenario -->
-<!--    <field type="panel" name="defbuttonPanel">
+    <field type="panel" name="defbuttonPanel">
       <size>170,41</size>
-      <position>1,60</position> -->
+      <position>1,60</position>
       <field type="button" name="DefaultButton">
         <size>150,31</size>
-        <position>1,60</position>
+        <position>1,1</position>
         <defaultbutton>true</defaultbutton>
         <text>DefaultButton in Panel</text>
+        <rules>
+          <rule>org.xulux.gui.rules.DefaultButtonRule</rule>
+        </rules>
       </field>
-<!--    </field> -->
+    </field>
   </field>
 </part>
