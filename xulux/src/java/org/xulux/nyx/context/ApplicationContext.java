@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.31 2003-08-03 21:41:03 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.32 2003-08-09 00:58:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.31 2003-08-03 21:41:03 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.32 2003-08-09 00:58:19 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -324,11 +324,13 @@ public class ApplicationContext
     /**
      * Convenience method so I don't have to replicate
      * code
+     * @param it
+     * @param request
+     * @param type
      * @return true if all rules need to be stopped..
      */
     private static boolean fireRequests(Iterator it, PartRequest request, int type)
     {
-        Widget widget = request.getWidget();        
         boolean stopAllRules = false;
         while (it.hasNext() && !stopAllRules)
         {

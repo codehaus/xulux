@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.46 2003-07-31 14:09:49 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.47 2003-08-09 00:58:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,8 +52,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.nyx.context.impl.PartRequestImpl;
-import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
@@ -62,6 +60,8 @@ import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
+import org.xulux.nyx.rules.impl.PartRequestImpl;
+import org.xulux.nyx.rules.impl.WidgetRequestImpl;
 import org.xulux.nyx.utils.Translation;
 
 /**
@@ -82,7 +82,7 @@ import org.xulux.nyx.utils.Translation;
  * TODO: Fix naming of field. It is used everywhere with different meanings.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.46 2003-07-31 14:09:49 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.47 2003-08-09 00:58:19 mvdb Exp $
  */
 public class ApplicationPart
 {
