@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<part name="WindowTest1" prefix="window">
+  <field type="window" name="WindowTest1">
+    <title>WindowTest1</title>
+    <size>300,300</size>
+    <field type="combo" name="Combo:Window">
+	  <size>120,21</size>
+	  <position>4,10</position>
+    </field>
+  </field>
+</part>

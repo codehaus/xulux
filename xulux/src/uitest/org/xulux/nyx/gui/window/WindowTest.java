@@ -1,5 +1,5 @@
 /*
- $Id: PartCreator.java,v 1.4 2003-01-25 23:18:52 mvdb Exp $
+ $Id: WindowTest.java,v 1.1 2003-01-25 23:18:52 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,56 +43,68 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.gui.window;
 
-import java.awt.Component;
-import java.awt.Dimension;
 import java.io.InputStream;
 
-import javax.swing.JFrame;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
-import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.context.ApplicationPartHandler;
+import org.xulux.nyx.gui.PartCreator;
+import org.xulux.nyx.gui.Widget;
+import sun.awt.AppContext;
 
 /**
- * Creates a gui representation of a part
+ * Testcase for an entry field
  * 
  * @author Martin van den Bemt
- * @version $Id: PartCreator.java,v 1.4 2003-01-25 23:18:52 mvdb Exp $
+ * @version $Id: WindowTest.java,v 1.1 2003-01-25 23:18:52 mvdb Exp $
  */
-public class PartCreator
+public class WindowTest extends TestCase
 {
-    
-    PartCreator instance = new PartCreator();
 
     /**
-     * Constructor for PartCreator.
+     * Constructor for EntryTest.
      */
-    public PartCreator()
+    public WindowTest(String name)
     {
+        super(name);
+    }
+    public static Test suite()
+    {
+        TestSuite suite = new TestSuite(WindowTest.class);
+        return suite;
     }
     
-    public static ApplicationPart createPart(Object object, InputStream stream)
+    public void testSimpleWindow()
     {
-        // this is bad, but for now mandatory...
-        ApplicationContext.getInstance();
-        return new ApplicationPartHandler().read(stream, object);
-        // first initialize the dictionary (not really necessary though)
+//        PersonBean person = new PersonBean("Martin", "van den Bemt");
+        String xml = "org/xulux/nyx/gui/window/WindowTest1.xml";
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        ApplicationPart part = PartCreator.createPart(null, stream);
+        part.activate();
+        Widget widget = part.getWidget("WindowTest1");
+        widget.setVisible(true);
     }
     
-    public static void addToFrame(ApplicationPart part)
+    public static void main(String args[])
     {
-        JFrame frame = new JFrame("TEST");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.show();
-        Dimension dim = ((Component) part.getRootWidget()).getPreferredSize();
-        dim.width += frame.getBounds().getWidth();
-        dim.height += frame.getBounds().getHeight();
-        frame.setSize(dim.width, dim.height);
-        frame.getContentPane().add((Component) part.getRootWidget());
-        frame.pack();        
+        System.out.println("hoi");
+        try
+        {
+            new WindowTest("WindowTest").testSimpleWindow();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace(System.err);
+            System.exit(0);
+        }
+        System.out.println(AppContext.getAppContext().toString());
+        AppContext.getAppContext().remove(AppContext.getAppContext().getThreadGroup());
+        AppContext.getAppContext().dispose();
+        System.out.println("hoi");
     }
-    
 
 }
