@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.26 2003-07-31 13:00:29 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.27 2003-08-11 03:33:42 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,7 +48,6 @@ package org.xulux.nyx.context;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -76,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.26 2003-07-31 13:00:29 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.27 2003-08-11 03:33:42 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -398,7 +397,7 @@ public class ApplicationPartHandler extends DefaultHandler
                     y = Integer.parseInt(yStr);
                 }
             }
-            catch(NoSuchElementException nse)
+            catch(Exception nse)
             {
                 if (log.isWarnEnabled())
                 {
