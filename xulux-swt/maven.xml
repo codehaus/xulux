@@ -1,0 +1,80 @@
+<project default="jar" xmlns:j="jelly:core" xmlns:maven="jelly:maven" xmlns:util="jelly:util">
+
+  <goal name="uitest:run" description="Run the specified uitest" prereqs="uitest:jar">
+    <echo>Target directory : ${maven.build.dest}</echo>
+    <java classname="${app}" fork="true">
+      <classpath>
+        <pathelement path="target/uitest-classes/"/>
+        <pathelement path="${maven.build.dest}"/>
+        <path refid="maven.dependency.classpath"/>
+      </classpath>
+    </java>
+  </goal>
+
+  <goal name="uitest:jar" description="Create a jar for the uitests" prereqs="uitest:compile">
+    <jar
+      jarfile="${maven.build.dir}/${maven.final.name}-uitest.jar"
+      basedir="target/uitest-classes"/>
+  </goal>
+
+  <goal name="uitest:compile" description="Compile the uitests" 
+        prereqs="java:compile,java:jar-resources,test:prepare-filesystem,uitest:test-resources">
+      
+      <javac 
+        destdir="target/uitest-classes"
+        excludes="**/package.html"
+        debug="${maven.compile.debug}"
+        deprecation="${maven.compile.deprecation}"
+        optimize="${maven.compile.optimize}">
+        <classpath>
+          <pathelement path="src/uitest"/>
+          <pathelement path="${maven.build.dest}"/>
+          <path refid="maven.dependency.classpath"/>
+        </classpath>
+        <src path="src/uitest"/>
+        <j:if test="${context.getVariable('maven.compile.compilerargs') != null}">
+          <compilerarg line="${maven.compile.compilerargs}" />
+        </j:if>
+           
+        <j:if test="${context.getVariable('maven.compile.encoding') != null}">
+          <setProperty name="encoding" value="${maven.compile.encoding}" />
+        </j:if>
+             
+        <j:if test="${context.getVariable('maven.compile.executable') != null}">
+          <setProperty name="executable" value="${maven.compile.executable}" />
+        </j:if>
+            
+        <j:if test="${context.getVariable('maven.compile.fork') != null}">
+          <setProperty name="fork" value="${maven.compile.fork}" />
+        </j:if>
+
+        <j:if test="${context.getVariable('maven.compile.source') != null}">
+          <setProperty name="source" value="${maven.compile.source}" />
+        </j:if>
+            
+        <j:if test="${context.getVariable('maven.compile.verbose') != null}">
+          <setProperty name="verbose" value="${maven.compile.verbose}" />
+        </j:if>
+      </javac>
+  </goal>
+
+  <goal name="uitest:test-resources"
+        description="Copy any resources that must be present to run the uitests"
+        prereqs="uitest:prepare-filesystem">
+
+    <copy todir="target/uitest-classes/" overwite="true">
+      <fileset dir="src/uitest">
+        <include name="**/*.properties"/>
+        <include name="**/*.xml"/>
+        <include name="resources/**"/>
+      </fileset>
+    </copy>
+  </goal>
+
+  <goal name="uitest:prepare-filesystem"
+        description="Create the needed directory structure">
+    <mkdir dir="target/uitest-classes"/>
+  </goal>
+
+
+</project>

@@ -1,0 +1,11 @@
+target
+.classpath
+.project
+*.log
+junit*.properties
+nyx.manifest
+nyx.jardesc
+.clover
+.checkstyle
+.jetproperties
+jcoverage.ser

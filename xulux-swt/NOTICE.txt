@@ -1,0 +1,4 @@
+This Software contains software developed by the Apache Software Foundation.
+You can download the original version of the software at http://jakarta.apache.org/commons/lang.html
+
+
