@@ -1,5 +1,5 @@
 /*
-   $Id: SwingBorderLayout.java,v 1.2 2004-11-15 20:51:45 mvdb Exp $
+   $Id: SwingBorderLayout.java,v 1.3 2004-11-29 13:26:51 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.utils.StringUtils;
  * The border layout. This is a wrapper around the swing border layout
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingBorderLayout.java,v 1.2 2004-11-15 20:51:45 mvdb Exp $
+ * @version $Id: SwingBorderLayout.java,v 1.3 2004-11-29 13:26:51 mvdb Exp $
  */
 public class SwingBorderLayout extends SwingLayoutAbstract implements LayoutManager2 {
 
@@ -46,9 +46,7 @@ public class SwingBorderLayout extends SwingLayoutAbstract implements LayoutMana
      * @widgetProprety layout-orientation
      */
     public void addWidget(Widget widget) {
-        if (layout == null) {
-          layout = new BorderLayout(); 
-        }
+        createLayout();
         String constraint = widget.getProperty("layout-constraint");
         constraint = StringUtils.capitalize(constraint);
         if (constraint == null) {
@@ -75,7 +73,17 @@ public class SwingBorderLayout extends SwingLayoutAbstract implements LayoutMana
      * @see java.awt.LayoutManager2#addLayoutComponent(java.awt.Component, java.lang.Object)
      */
     public void addLayoutComponent(Component comp, Object constraints) {
-        addWidget((Widget) constraints);
+        if (constraints == null || !(constraints instanceof Widget)) {
+          // assume a native widget..
+          createLayout();
+          if (constraints != null) {
+            addLayoutComponent(comp, constraints);
+          } else {
+            layout.addLayoutComponent(comp, BorderLayout.CENTER);
+          }
+        } else {
+          addWidget((Widget) constraints);
+        }
     }
     /**
      * @see java.awt.LayoutManager2#maximumLayoutSize(java.awt.Container)
@@ -131,10 +139,14 @@ public class SwingBorderLayout extends SwingLayoutAbstract implements LayoutMana
      * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
      */
     public void layoutContainer(Container parent) {
-        if (layout == null) {
-          layout = new BorderLayout();
-        }
+        createLayout();
         layout.layoutContainer(parent);
+    }
+    
+    protected void createLayout() {
+      if (layout == null) {
+        layout = new BorderLayout();
+      }
     }
 
 }
