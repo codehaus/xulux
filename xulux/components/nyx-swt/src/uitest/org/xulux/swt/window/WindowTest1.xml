@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: WindowTest1.xml,v 1.1 2003-05-21 11:17:31 mvdb Exp $ -->
+<!-- $Id: WindowTest1.xml,v 1.1 2003-12-18 00:37:13 mvdb Exp $ -->
 <part name="WindowTest1" prefix="window" application="true">
   <field type="window" name="WindowTest1">
     <title>WindowTest1</title>
