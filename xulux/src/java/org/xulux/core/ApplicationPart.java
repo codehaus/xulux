@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.8 2004-06-09 14:02:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -55,7 +55,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.8 2004-06-09 14:02:22 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -452,8 +452,7 @@ public class ApplicationPart {
             if (log.isDebugEnabled()) {
                 log.debug("No part rules to process");
             }
-        }
-        else {
+        } else {
             PartRequestImpl req = new PartRequestImpl(this, PartRequest.NO_ACTION);
             XuluxContext.fireRequest(req, XuluxContext.PRE_REQUEST);
         }

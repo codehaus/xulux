@@ -1,5 +1,5 @@
 /*
-   $Id: RadioButton.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
+   $Id: RadioButton.java,v 1.7 2004-06-09 14:02:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a radiobutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButton.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.7 2004-06-09 14:02:22 mvdb Exp $
  */
 public class RadioButton extends Widget {
 
@@ -100,6 +100,7 @@ public class RadioButton extends Widget {
         radioButton.setSelectedIcon((Icon) UIManager.get("RadioButton.icon"));
         itemListener = new PrePostFieldListener(this);
         radioButton.addItemListener(this.itemListener);
+        radioButton.setSelected(BooleanUtils.toBoolean(getValue()));
         initialized = true;
         refresh();
         processInit();
