@@ -1,5 +1,5 @@
 /*
- $Id: NyxTreeCellRenderer.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
+ $Id: NyxTreeCellRenderer.java,v 1.3 2003-10-30 15:13:00 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,7 +53,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
-import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.Tree;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 
@@ -61,7 +60,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * For now extends the defaultreeCellRenderer. 
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTreeCellRenderer.java,v 1.2 2003-10-27 17:14:28 mvdb Exp $
+ * @version $Id: NyxTreeCellRenderer.java,v 1.3 2003-10-30 15:13:00 mvdb Exp $
  */
 public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
 
@@ -85,11 +84,7 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
         boolean leaf,
         int row,
         boolean hasFocus) {
-//        System.out.println("Content : "+widget.getSwingModel().getContent().getClass());
-//        System.out.println("Swing tree model : "+tree.getModel().getClass());
-        System.out.println("NYXTreeCellRenderer : "+value.getClass()+"<===>"+value);
         String clazz = widget.getProperty("treefield.class");
-        System.out.println("clazz : "+clazz); 
         if (value != null && clazz != null) {
             if (ClassLoaderUtils.getClass(clazz) == value.getClass()) {
                 BeanMapping mapping = Dictionary.getInstance().getMapping(value);
