@@ -30,7 +30,7 @@
 
   <repository>
     <connection>scm:cvs:pserver:anoncvs@eng.werken.com:/cvsroot/xulux:xulux</connection>
-    <url>http://cvs.werken.com/viewcvs.cgi/xulux/</url>
+    <url>http://cvs.werken.com/viewcvs.cgi/xulux/xulux/</url>
   </repository>
 
   <versions>
