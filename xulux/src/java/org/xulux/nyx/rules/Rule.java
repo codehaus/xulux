@@ -1,5 +1,5 @@
 /*
- $Id: Rule.java,v 1.3 2002-11-03 13:31:02 mvdb Exp $
+ $Id: Rule.java,v 1.4 2003-05-21 11:31:39 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,10 +52,10 @@ import org.xulux.nyx.context.PartRequest;
 
 /**
  * A convenient abstract for the rule, which only
- * makes executer mandatory.
+ * makes pre and post mandatory.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Rule.java,v 1.3 2002-11-03 13:31:02 mvdb Exp $
+ * @version $Id: Rule.java,v 1.4 2003-05-21 11:31:39 mvdb Exp $
  */
 public abstract class Rule implements IRule
 {
