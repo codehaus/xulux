@@ -1,7 +1,7 @@
 /*
- $Id: WindowTest.java,v 1.2 2003-01-26 00:41:45 mvdb Exp $
+ $Id: WindowTest.java,v 1.3 2003-01-26 02:43:34 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -51,16 +51,20 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.impl.SimpleLog;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.gui.PartCreator;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.listeners.swing.NyxWindowListener;
+
 import sun.awt.AppContext;
 
 /**
  * Testcase for an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowTest.java,v 1.2 2003-01-26 00:41:45 mvdb Exp $
+ * @version $Id: WindowTest.java,v 1.3 2003-01-26 02:43:34 mvdb Exp $
  */
 public class WindowTest extends TestCase
 {
@@ -80,8 +84,8 @@ public class WindowTest extends TestCase
     
     public void testSimpleWindow()
     {
-//        PersonBean person = new PersonBean("Martin", "van den Bemt");
         String xml = "org/xulux/nyx/gui/window/WindowTest1.xml";
+        ((SimpleLog)LogFactory.getLog(NyxWindowListener.class)).setLevel(SimpleLog.LOG_LEVEL_TRACE);
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(null, stream);
         part.activate();
@@ -91,7 +95,6 @@ public class WindowTest extends TestCase
     
     public static void main(String args[])
     {
-        System.out.println("hoi");
         try
         {
             new WindowTest("WindowTest").testSimpleWindow();

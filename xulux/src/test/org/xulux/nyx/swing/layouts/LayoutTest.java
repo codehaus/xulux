@@ -1,7 +1,7 @@
 /*
- $Id: LayoutTest.java,v 1.4 2003-01-08 02:37:08 mvdb Exp $
+ $Id: LayoutTest.java,v 1.5 2003-01-26 02:43:34 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -57,14 +57,16 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xulux.nyx.gui.swing.Combo;
 import org.xulux.nyx.gui.swing.Label;
+import org.xulux.nyx.gui.swing.Window;
 
 
 /**
  * A class to to test the layoutmanagers for swing
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.4 2003-01-08 02:37:08 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.5 2003-01-26 02:43:34 mvdb Exp $
  */
 public class LayoutTest extends TestCase
 {
@@ -123,5 +125,20 @@ public class LayoutTest extends TestCase
         frame.dispose();
         panel.removeAll();
         assertTrue(xy.map.isEmpty());
+    }
+    
+    public void testXYWithWidgets()
+    {
+        System.out.println("testXYWithWidgets");
+        Window window = new Window("Window");
+        Combo combo = new Combo("Combo");
+        combo.setSize(120,21);
+        combo.setPosition(4,10);
+        window.addChildWidget(combo);
+        window.initialize();
+        XYLayout xy = (XYLayout)((JFrame)window.getNativeWidget()).getContentPane().getLayout();
+        Dimension dim = xy.preferredLayoutSize(((JFrame)window.getNativeWidget()).getContentPane());
+        assertEquals(124, dim.width);
+        assertEquals(31, dim.height);
     }
 }

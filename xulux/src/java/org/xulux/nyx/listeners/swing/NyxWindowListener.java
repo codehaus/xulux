@@ -1,5 +1,5 @@
 /*
- $Id: NyxWindowListener.java,v 1.2 2003-01-26 00:41:45 mvdb Exp $
+ $Id: NyxWindowListener.java,v 1.3 2003-01-26 02:43:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,12 +60,18 @@ import org.xulux.nyx.listeners.NyxListener;
  * the X button.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListener.java,v 1.2 2003-01-26 00:41:45 mvdb Exp $
+ * @version $Id: NyxWindowListener.java,v 1.3 2003-01-26 02:43:34 mvdb Exp $
  */
 public class NyxWindowListener extends NyxListener
 implements WindowListener
 {
     private static Log log = LogFactory.getLog(NyxWindowListener.class);
+    
+    /**
+     * Specifies if the window should be destroyed when 
+     * the window is deactived
+     */
+    private boolean shouldDestroy = false;
     
     /**
      * Constructor for NyxWindowListener.
@@ -98,10 +104,6 @@ implements WindowListener
     public void windowClosed(WindowEvent e)
     {
         log.trace("Window closed : "+e);
-        if (getWidget().isRootWidget())
-        {
-            getWidget().destroy();
-        }
     }
 
     /**
@@ -110,6 +112,7 @@ implements WindowListener
     public void windowClosing(WindowEvent e)
     {
         log.trace("Window closing : "+e);
+        shouldDestroy = true;
     }
 
     /**
@@ -118,16 +121,19 @@ implements WindowListener
     public void windowDeactivated(WindowEvent e)
     {
         log.trace("Window deactivated: "+e);
+        if (!shouldDestroy)
+        {
+            return;
+        }
+        completed();
         if (getWidget().isRootWidget())
         {
-            completed();
             if (ApplicationContext.isPartApplication(getWidget().getPart()))
             {
                 ApplicationContext.exitApplication();
             }
-            getWidget().destroy();
-            
         }
+        getWidget().destroy();
     }
 
     /**

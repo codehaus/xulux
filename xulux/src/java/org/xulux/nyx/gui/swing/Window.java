@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.2 2003-01-26 00:41:45 mvdb Exp $
+ $Id: Window.java,v 1.3 2003-01-26 02:43:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,29 +46,25 @@
 package org.xulux.nyx.gui.swing;
 
 import java.awt.Container;
-import java.awt.event.WindowEvent;
+import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JWindow;
-import javax.swing.WindowConstants;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.listeners.swing.NyxWindowListener;
 import org.xulux.nyx.swing.layouts.XYLayout;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
 
 /**
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.2 2003-01-26 00:41:45 mvdb Exp $
+ * @version $Id: Window.java,v 1.3 2003-01-26 02:43:34 mvdb Exp $
  */
 public class Window extends org.xulux.nyx.gui.Window
 {
@@ -152,9 +148,19 @@ public class Window extends org.xulux.nyx.gui.Window
         {
             // mdi is the default. 
         }
-        window.setSize(getRectangle().getWidth(), 
-                        getRectangle().getHeight());
         initializeChildren();
+        boolean autoSize = BooleanUtils.toBoolean(getProperty("autosize"));
+        if (autoSize)
+        {
+            Dimension dim = window.getContentPane().getLayout().preferredLayoutSize(window.getContentPane());
+            window.pack();
+        }
+        else
+        {
+            window.setSize(getRectangle().getWidth(), 
+                            getRectangle().getHeight());
+        }
+        
         if (!isRefreshing())
         {
             refresh();
