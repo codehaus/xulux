@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.24.2.2 2003-05-04 15:27:40 mvdb Exp $
+ $Id: Combo.java,v 1.24.2.3 2003-05-04 15:31:07 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.24.2.2 2003-05-04 15:27:40 mvdb Exp $
+ * @version $Id: Combo.java,v 1.24.2.3 2003-05-04 15:31:07 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -346,11 +346,11 @@ public class Combo extends Widget
     public Object getValue()
     {
         if (getName().equalsIgnoreCase("careTypeList")) {
-            System.err.println("*******************");
-            System.err.println("content : "+content);
-            System.err.println("combo : "+combo);
-            System.err.println("value  : "+this.value);
-            System.err.println("*******************");
+//            System.err.println("*******************");
+//            System.err.println("content : "+content);
+//            System.err.println("combo : "+combo);
+//            System.err.println("value  : "+this.value);
+//            System.err.println("*******************");
         }
         if ((content == null || combo == null) && this.value != null)
         {

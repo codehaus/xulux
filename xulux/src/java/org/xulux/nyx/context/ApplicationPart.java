@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.30.2.2 2003-05-04 15:27:41 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.30.2.3 2003-05-04 15:31:07 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -86,7 +86,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.30.2.2 2003-05-04 15:27:41 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.30.2.3 2003-05-04 15:31:07 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -475,32 +475,9 @@ public class ApplicationPart
         NyxFocusManager manager = new NyxFocusManager(this);
         FocusManager.setCurrentManager(manager);
         if (getRootWidget() instanceof JPanel) {
-            System.out.println("rootwidget is jpane");
             JPanel panel = (JPanel)getRootWidget();
-            System.out.println("visible ? "+panel.isVisible());
             manager.setFocusToFirstWidget(panel);
-            System.out.println("Panel parent : "+panel.getParent());
         }
-//        if (order != null && order.size() > 0)
-//        {
-//            Iterator oit = order.iterator();
-//            String previousName = null;
-//            while (oit.hasNext())
-//            {
-//                String name = (String)oit.next();
-//                if (previousName != null) {
-//                    Widget widget = getWidget(previousName);
-//                    widget.setNextWidget(name);
-//                }else{
-//                    // TODO: set this one to the first one in the taborder...
-//                    JComponent rootw = (JComponent)getRootWidget();
-//                    if (rootw != null) {
-//                        System.out.println("ROOTW IS NOT NULL");
-//                    }
-//                }
-//                previousName = name;
-//            }
-//        }
     }
     
     /**
