@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.13 2003-08-20 01:12:37 mvdb Exp $
+ $Id: Table.java,v 1.14 2003-08-20 12:34:48 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -79,7 +79,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.13 2003-08-20 01:12:37 mvdb Exp $
+ * @version $Id: Table.java,v 1.14 2003-08-20 12:34:48 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -530,6 +530,8 @@ implements IContentWidget
             // select the row found
             table.setRowSelectionInterval(index,index);
         }
+        getPart().refreshFields(this);
+        getPart().updateDependandWidgets(this);
     }
 
     /**

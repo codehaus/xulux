@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.14 2003-08-20 01:12:37 mvdb Exp $
+ $Id: NyxListener.java,v 1.15 2003-08-20 12:34:48 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.14 2003-08-20 01:12:37 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.15 2003-08-20 12:34:48 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -122,6 +122,18 @@ public abstract class NyxListener
     }
     
     /**
+     * Refreshes the fields that have dependencies on the
+     * caller widget
+     * 
+     * @param widget
+     */
+    private void refreshFields(Widget widget) {
+        widget.getPart().refreshFields(widget);
+        widget.getPart().updateDependandWidgets(widget);
+    }
+            
+            
+    /**
      * If a value is "accepted" (eg entry filled in
      * , button clicked, etc preform this code.
      * 
@@ -134,8 +146,7 @@ public abstract class NyxListener
             log.warn("COMBO GUI VALUE : "+widget.getName()+":"+widget.getGuiValue());
             ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
             // refresh fields that use the same functionality
-            widget.getPart().refreshFields(widget);
-            widget.getPart().updateDependandWidgets(widget);
+            refreshFields(widget);
             return true;
         }
         
@@ -157,8 +168,7 @@ public abstract class NyxListener
 //            }
             widget.setValue(widget.getGuiValue());
             // refresh the all widgets who references this field
-            widget.getPart().refreshFields(widget);
-            widget.getPart().updateDependandWidgets(widget);
+            refreshFields(widget);
             return true;
         }
         
@@ -215,6 +225,7 @@ public abstract class NyxListener
                     
             }
         }
+        refreshFields(widget);
         return true;
     }
     
