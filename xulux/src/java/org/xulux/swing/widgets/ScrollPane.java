@@ -1,5 +1,5 @@
 /*
-   $Id: ScrollPane.java,v 1.6 2005-01-12 18:39:30 mvdb Exp $
+   $Id: ScrollPane.java,v 1.7 2005-01-13 08:32:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,6 +19,7 @@ package org.xulux.swing.widgets;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,7 +37,7 @@ import org.xulux.gui.Widget;
  * of the widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ScrollPane.java,v 1.6 2005-01-12 18:39:30 mvdb Exp $
+ * @version $Id: ScrollPane.java,v 1.7 2005-01-13 08:32:59 mvdb Exp $
  */
 public class ScrollPane extends ContainerWidget {
 
@@ -155,11 +156,13 @@ public class ScrollPane extends ContainerWidget {
         if (!initialized) {
           initialize();
         }
-        System.err.println("Size : " +pane.getSize());
-        System.err.println("view size : " + pane.getViewport().getSize());
-        System.err.println("view pref size : " + pane.getViewport().getPreferredSize());
         pane.setVisible(isVisible());
         pane.setViewportView(pane.getViewport().getView());
+        Dimension viewSize = (Dimension) getRealProperty("viewSize");
+        if (viewSize != null) {
+          pane.getViewport().setViewSize(viewSize);
+        }
+        isRefreshing = false;
         pane.revalidate();
         isRefreshing = false;
     }
