@@ -2,13 +2,13 @@
 
 <document>
   <properties>
-    <title>NYX - How NYX currently works</title>
+    <title>NYX - How Xulux currently works</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
 <body>
 
-<section name="How NYX currently works">
+<section name="How Xulux currently works">
   <p>
    Although XULUX still needs a lot of work, the graph below gives you a global
    overview of how the differnt XULUX parts work together.
@@ -18,8 +18,8 @@
 
 <section name="Core API">
   <p>
-    The core API is currently just the <code>ApplicationContext</code> 
-    (this will be renamed to XuluxContext after the move) and all the interfaces
+    The core API is currently just the <code>XuluxContext</code> 
+    and all the interfaces
     defined to make the system as generic and pluggable as possible.
   </p>
 </section>
@@ -58,7 +58,7 @@
     For more information see the <a href="dictionary/index.html">Dictionary</a>
     documentation.
 <!--
-        This swing gui layer is currently provided as part of the core nyx jar.
+        This swing gui layer is currently provided as part of the core Xulux jar.
         In a later stage this will be moved to a seperate jar. 
         A lot of the swing stuff is already documented. Internals are not yet important
         to document, so I will do that when there is need for it. 

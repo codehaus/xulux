@@ -2,7 +2,7 @@
 
 <document>
   <properties>
-    <title>NYX - Internals - ApplicationContext</title>
+    <title>NYX - Internals - XuluxContext</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
@@ -10,10 +10,10 @@
 
 <section name="ApplicationContext">
   <p>
-    The applicationContext is the main entry for the nyx system. 
+    The XuluxContext is the main entry for the Xulux system. 
     It is a singleton system in which you can register implemented 
-    interfaces that nyx provides. Like fieldeventhandlers, nativewidgethandlers,
-    the nyxtoolkit and parentwidgethandlers. 
+    interfaces that Xulux provides. Like fieldeventhandlers, nativewidgethandlers,
+    the Xuluxtoolkits and parentwidgethandlers. 
   </p>
   <subsection name="Blah blah">
   <p>

@@ -12,7 +12,6 @@
           via xml or programmatically. The default layout for swing
           that is used is the XYLayout. This is mostly used for eg
           business applications that have to run on a specific client
-          (only tested under win32 btw).
           In ApplicationPart in the method activate() the widget is 
           added to a swing JPanel and this will call the XYLayout 
           manager. Setting sizes will not refresh the widget on the screen
