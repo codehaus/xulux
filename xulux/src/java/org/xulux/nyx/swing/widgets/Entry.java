@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.9 2003-07-17 02:49:00 mvdb Exp $
+ $Id: Entry.java,v 1.10 2003-07-17 06:29:24 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.9 2003-07-17 02:49:00 mvdb Exp $
+ * @version $Id: Entry.java,v 1.10 2003-07-17 06:29:24 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -207,42 +207,6 @@ extends SwingWidget
     public Object getValue()
     {
         return this.value;
-//        
-//        Object retValue = null;
-//        if (textField != null)
-//        {
-//            text = textField.getText();
-//        }
-//        if ((text!=null && !"".equals(text)) && getField()!= null && this.value != null)
-//        {
-//            String text2 = null;
-//            // we ignore multiple values for now.. 
-//            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
-//            if (map != null)
-//            {
-////                System.err.println("Map : "+map.getFields());
-////                System.err.println("getField : "+getField());
-//                text2 = (String)map.getField(getField()).getValue(this.value);
-//            }
-//            if (text.equals(text2))
-//            {
-//                retValue = this.value;
-//            }
-//        }
-//        else if ("".equals(text) )
-//        {
-//            retValue = "";
-//        }
-//        else if (text == null)
-//        {
-//            return this.value;
-//        }
-//        else
-//        {
-//            retValue = text;
-//        }
-//
-//        return retValue;
     }
     
     /**
@@ -256,7 +220,18 @@ extends SwingWidget
             return;
         }
         BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+        if (map == null) {
+            textField.setText("");
+            return;
+        }
         IField field = map.getField(getField());
+        if (field == null) {
+            if (log.isWarnEnabled()) {
+                log.warn("Field "+getField()+" is not present in the dictionary");
+            }
+            textField.setText("");
+            return;
+        }
         Object beanValue = field.getValue(getPart().getBean());
         this.value = beanValue;
         if (this.value == null) {
@@ -274,43 +249,6 @@ extends SwingWidget
                 textField.setText("Invalid : Array");
             }
         }
-        
-//        Object val = this.value;
-//        if (!(val instanceof String) && getField()!=null)
-//        {
-//            val = this.value;
-//        }
-//        if (getField()!= null && val != null && getValue() != null)
-//        {
-//            // we ignore multiple values for now.. 
-//            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
-//            if (map != null)
-//            {
-//                val = map.getField(getField()).getValue(this.value);
-//            }
-//        }else if (getField() != null && val == null) {
-//            
-//            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
-//            try {
-//                //System.out.println("getField : "+getField());
-//                //System.out.println("map : "+map.getFields());
-//                //System.out.println("value : "+getField.getValue(
-//                val = map.getField(getField()).getValue(getPart().getBean());
-//            }catch(Exception e) {
-//                // we have to catch exceptions, since there
-//                // could be a null somewhere, if there is no data..
-//                e.printStackTrace(System.out);
-//            }
-//        }
-//        
-//        if (val != null)
-//        {
-//            textField.setText(String.valueOf(val));
-//        }
-//        else
-//        {
-//            textField.setText("");
-//        }
     }
     /**
      * @see org.xulux.nyx.gui.ValueWidget#setValue(Object)

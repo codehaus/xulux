@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.6 2003-07-17 01:58:28 mvdb Exp $
+ $Id: Combo.java,v 1.7 2003-07-17 06:29:24 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.KeyListener;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
@@ -63,7 +65,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.6 2003-07-17 01:58:28 mvdb Exp $
+ * @version $Id: Combo.java,v 1.7 2003-07-17 06:29:24 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -71,6 +73,7 @@ public class Combo extends NyxCombo
     private KeyListener keyListener;
     private DefaultComboModel model;
     private PrePostFieldListener actionListener;
+    private static Log log = LogFactory.getLog(Combo.class);
 
     /**
      * Constructor for NyxCombo.
@@ -140,13 +143,22 @@ public class Combo extends NyxCombo
         BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
         // if the field is null, we should try to get a value
         // for it..
-        if (getField() == null) {
+        if (getField() == null || map == null) {
             return;
         }
         IField field = map.getField(getField());
+        if (field == null) {
+            if (log.isWarnEnabled()) {
+                log.warn("Field "+getField()+" is not present in the dictionary");
+            }
+            return;
+        }
         System.out.println("*********");
         System.out.println("Field :"+field);
-        System.out.println("Value : "+field.getValue(getPart().getBean()));
+        // prevent npe..
+        if (field != null) {
+            System.out.println("Value : "+field.getValue(getPart().getBean()));
+        }
         setValue(field.getValue(getPart().getBean()));
     }
 
