@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.1 2003-06-17 13:55:15 mvdb Exp $
+ $Id: Window.java,v 1.2 2003-06-17 14:06:52 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,7 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.xulux.nyx.gui.NyxWindow;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swt.SWTWidget;
 import org.xulux.nyx.swt.util.SWTUtil;
@@ -58,9 +59,9 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * The SWT window
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.1 2003-06-17 13:55:15 mvdb Exp $
+ * @version $Id: Window.java,v 1.2 2003-06-17 14:06:52 mvdb Exp $
  */
-public class Window extends org.xulux.nyx.gui.NyxWindow
+public class Window extends NyxWindow
 implements SWTWidget
 {
     
@@ -164,12 +165,12 @@ implements SWTWidget
         window.setEnabled(isEnabled());
         window.setVisible(isVisible());
         window.open();
+        isRefreshing = false;
         while (!window.isDisposed())
         {
             if (!display.readAndDispatch())
                 display.sleep();
         }
-        isRefreshing = false;
     }
     
     /**
