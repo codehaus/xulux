@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableCellEditor.java,v 1.4 2004-06-22 22:51:23 mvdb Exp $
+   $Id: NyxTableCellEditor.java,v 1.5 2004-06-24 21:49:20 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,7 +18,6 @@
 package org.xulux.swing.models;
 
 import java.awt.Component;
-import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
@@ -31,7 +30,7 @@ import org.xulux.gui.Widget;
  * A table cell editor for Xulux
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellEditor.java,v 1.4 2004-06-22 22:51:23 mvdb Exp $
+ * @version $Id: NyxTableCellEditor.java,v 1.5 2004-06-24 21:49:20 mvdb Exp $
  */
 public class NyxTableCellEditor extends AbstractCellEditor implements TableCellEditor {
 
