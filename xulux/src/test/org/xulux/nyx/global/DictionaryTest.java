@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.15 2003-09-08 12:13:37 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.16 2003-10-27 11:22:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.15 2003-09-08 12:13:37 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.16 2003-10-27 11:22:58 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -277,11 +277,10 @@ public class DictionaryTest extends TestCase
     }
         
     /**
-     * Clean up the dictionary..
+     * @see junit.framework.TestCase#setUp()
      */
-    protected void tearDown() throws Exception
-    {
-        Dictionary.getInstance().clearMappings();
+    protected void setUp() throws Exception {
+        Dictionary.reset();
     }
 
 }

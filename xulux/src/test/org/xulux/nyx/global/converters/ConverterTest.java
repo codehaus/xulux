@@ -1,7 +1,7 @@
 /*
- $Id: ConverterTest.java,v 1.1 2003-07-24 16:01:51 mvdb Exp $
+ $Id: ConverterTest.java,v 1.2 2003-10-27 11:22:58 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -53,7 +53,7 @@ import junit.framework.TestSuite;
  * Tests the default converters.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ConverterTest.java,v 1.1 2003-07-24 16:01:51 mvdb Exp $
+ * @version $Id: ConverterTest.java,v 1.2 2003-10-27 11:22:58 mvdb Exp $
  */
 public class ConverterTest extends TestCase {
 
