@@ -1,5 +1,5 @@
 /*
- $Id: WidgetRequestImpl.java,v 1.2 2002-11-16 14:23:43 mvdb Exp $
+ $Id: WidgetRequestImpl.java,v 1.3 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,12 +55,13 @@ import org.xulux.nyx.rules.IRule;
  * This class should not be used directly, it is only for internal use.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetRequestImpl.java,v 1.2 2002-11-16 14:23:43 mvdb Exp $
+ * @version $Id: WidgetRequestImpl.java,v 1.3 2002-11-27 02:33:44 mvdb Exp $
  */
 public class WidgetRequestImpl implements PartRequest
 {
     private Widget widget;
     private int action;
+    private ApplicationPart part;
     
     
     public WidgetRequestImpl(Widget widget, int action)
@@ -74,6 +75,10 @@ public class WidgetRequestImpl implements PartRequest
      */
     public ApplicationPart getPart()
     {
+        if (this.part != null)
+        {
+            return part;
+        }
         return getWidget().getPart();
     }
 
@@ -125,6 +130,11 @@ public class WidgetRequestImpl implements PartRequest
     public Widget getWidget()
     {
         return this.widget;
+    }
+    
+    public void setPart(ApplicationPart part)
+    {
+        this.part = part;
     }
 
 

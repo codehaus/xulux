@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.15 2002-11-19 23:19:24 mvdb Exp $
+ $Id: Combo.java,v 1.16 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.15 2002-11-19 23:19:24 mvdb Exp $
+ * @version $Id: Combo.java,v 1.16 2002-11-27 02:33:44 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -213,7 +213,6 @@ public class Combo extends Widget
      */
     public void refresh()
     {
-        System.err.println("Refreshing Combo...");
         initialize();
         if (isImmidiate() && keyListener == null)
         {
@@ -241,7 +240,8 @@ public class Combo extends Widget
             combo.setModel(this.model);
             if (this.actionListener == null)
             {
-                this.actionListener = new PrePostFieldListener(this);
+                this.actionListener = getPart().getFieldEventHandler();
+                actionListener.setWidget(this);
                 combo.addActionListener(this.actionListener);
             }
         }
@@ -254,22 +254,6 @@ public class Combo extends Widget
             if (content != null && value != null)
             {
                 model.setRealSelectedValue(this.value);
-            }
-            
-            //Ideal for debugging...
-            if (getName().equalsIgnoreCase("authorList"))
-            {
-                System.err.println("***************************************");
-                System.err.println("name : "+getName());
-                //System.err.println("Index : "+model.getSelectedItem());
-                System.err.println("content : "+content);
-                System.err.println("this.value : "+value);
-                if (value != null)
-                {
-                    System.err.println("this.value class: "+value.getClass());
-                    //System.exit(0);
-                }
-                System.err.println("***************************************");
             }
         }
         String backgroundColor = null;

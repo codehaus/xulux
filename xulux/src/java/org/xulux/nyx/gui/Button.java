@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.7 2002-11-16 14:23:42 mvdb Exp $
+ $Id: Button.java,v 1.8 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.7 2002-11-16 14:23:42 mvdb Exp $
+ * @version $Id: Button.java,v 1.8 2002-11-27 02:33:44 mvdb Exp $
  */
 public class Button extends Widget
 {
@@ -107,7 +107,8 @@ public class Button extends Widget
         }
         if (actionListener == null && getRules()!=null)
         {
-            actionListener = new PrePostFieldListener(this);
+            actionListener = getPart().getFieldEventHandler();
+            actionListener.setWidget(this);
             button.addActionListener(actionListener);
         }
         String image = getProperty("image");

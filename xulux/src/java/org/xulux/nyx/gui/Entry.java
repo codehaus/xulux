@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.16 2002-11-16 14:23:42 mvdb Exp $
+ $Id: Entry.java,v 1.17 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.16 2002-11-16 14:23:42 mvdb Exp $
+ * @version $Id: Entry.java,v 1.17 2002-11-27 02:33:44 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -70,6 +70,9 @@ extends Widget
      * For now internally very swing specific
      */
     JTextField textField;
+    
+    PrePostFieldListener focusListener;
+    PrePostFieldListener immidiateListener;
     
     
     /**
@@ -128,11 +131,21 @@ extends Widget
         }
         if (isImmidiate())
         {
-            textField.addKeyListener(new ImmidiateListener(this));
+            if (this.immidiateListener == null)
+            {
+                this.immidiateListener = getPart().getFieldEventHandler();
+                this.immidiateListener.setWidget(this);
+             //   textField.addKeyListener(this.immidiateListener);
+            }
         }
         if (isVisible())
         {
-            textField.addFocusListener(new PrePostFieldListener(this));
+            if (focusListener == null)
+            {
+                focusListener = getPart().getFieldEventHandler();
+                focusListener.setWidget(this);
+                textField.addFocusListener(focusListener);
+            }
         }
         refresh();
     }

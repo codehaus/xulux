@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.24 2002-11-19 23:54:57 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.25 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,6 +65,7 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
 import org.xulux.nyx.swing.factories.GuiField;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * An Application is a part of the application
@@ -83,7 +84,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.24 2002-11-19 23:54:57 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.25 2002-11-27 02:33:44 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -116,6 +117,7 @@ public class ApplicationPart
     public final static int INVALID_STATE = 1;
     public final static int OK_STATE =2;
     private int state = NO_STATE;
+    private PrePostFieldListener fieldEventHandler;
     
     /**
      * Constructor for GuiPart.
@@ -189,10 +191,14 @@ public class ApplicationPart
     public void setGuiValue(String name, Object value)
     {
         Widget widget = (Widget) widgets.get(name);
-        //System.out.println("Widget : "+widget.getName());
-        //System.out.println("Widget class : "+widget.getClass());
-        //System.out.println("value : "+value);
-        widget.setValue(value);
+        if (widget == null)
+        {
+            System.err.println("Cannot find widget "+name+" to set value on");
+        }
+        else
+        {
+            widget.setValue(value);
+        }
     }
     
     /** 
@@ -204,8 +210,8 @@ public class ApplicationPart
         Widget widget = (Widget)widgets.get(name);
         if (widget == null)
         {
-            //System.out.println("WIDGET NOT FOUND");
-            //System.out.println("WIDGETS : "+widgets);
+            System.err.println("Cannot find widget "+name+" to get value from");
+            return null;
         }
         return widget.getValue();
     }
@@ -386,10 +392,8 @@ public class ApplicationPart
      */
     public void activate()
     {
-//        System.out.println("Activating part");
         if (activated)
         {
-//            System.out.println("already activated");
             return;
         }
         activated = true;
@@ -679,6 +683,49 @@ public class ApplicationPart
     public void setState(int state)
     {
         this.state = state;
+    }
+
+    /**
+     * Returns a new instance of the fieldEventHandler.
+     * @return Object
+     */
+    public PrePostFieldListener getFieldEventHandler()
+    {
+        PrePostFieldListener listener = null;
+        if (fieldEventHandler != null)
+        {
+            try
+            {
+                listener = (PrePostFieldListener)fieldEventHandler.getClass().newInstance();
+            }
+            catch (Exception e)
+            {
+            }
+        }
+        if (listener == null)
+        {
+            listener = new PrePostFieldListener();
+        }
+            
+        return listener;
+    }
+
+    /**
+     * Sets the fieldEventHandler.
+     * @param fieldEventHandler The fieldEventHandler to set
+     */
+    public void setFieldEventHandler(PrePostFieldListener fieldEventHandler)
+    {
+        this.fieldEventHandler = fieldEventHandler;
+    }
+    
+    /**
+     * A more representable way of showing the part
+     * @return 
+     */
+    public String toString()
+    {
+        return "Name : "+getName()+" "+super.toString();
     }
 
 }

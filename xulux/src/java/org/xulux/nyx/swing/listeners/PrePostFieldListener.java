@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.7 2002-11-16 14:23:43 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.8 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.7 2002-11-16 14:23:43 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.8 2002-11-27 02:33:44 mvdb Exp $
  */
 public class PrePostFieldListener 
 implements FocusListener, ActionListener
@@ -72,6 +72,11 @@ implements FocusListener, ActionListener
     Widget widget;
     
     private static boolean processing = false;
+    
+    
+    public PrePostFieldListener()
+    {
+    }
     
     /**
      * Constructor for PrePostFieldListener.
@@ -139,4 +144,31 @@ implements FocusListener, ActionListener
         processing = false;
     }
     
+    /**
+     * Returns the widget.
+     * @return Widget
+     */
+    public Widget getWidget()
+    {
+        return widget;
+    }
+
+    /**
+     * Sets the widget.
+     * @param widget The widget to set
+     */
+    public void setWidget(Widget widget)
+    {
+        this.widget = widget;
+    }
+
+    /**
+     * Returns the processing.
+     * @return boolean
+     */
+    public static boolean isProcessing()
+    {
+        return processing;
+    }
+
 }

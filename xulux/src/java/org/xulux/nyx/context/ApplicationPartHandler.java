@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.9 2002-11-22 20:01:35 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.10 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,13 +59,14 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.rules.IRule;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * Reads in a part definition and creates an ApplicationPart
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.9 2002-11-22 20:01:35 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.10 2002-11-27 02:33:44 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -79,6 +80,7 @@ public class ApplicationPartHandler extends DefaultHandler
     private static String TEXT_ELEMENT = "text";
     private static String RULES_ELEMENT = "rules";
     private static String RULE_ELEMENT = "rule";
+    private static String LISTENER_ELEMENT = "listener";
     private static String TYPE_ATTRIBUTE = "type";
     private static String NAME_ATTRIBUTE = "name";
     private static String USE_ATTRIBUTE = "use";
@@ -97,6 +99,7 @@ public class ApplicationPartHandler extends DefaultHandler
     private boolean processUnknown = false;
     private boolean rulesStarted = false;
     private boolean processRule = false;
+    private boolean processListener = false;
     
     private String currentqName;
     
@@ -206,6 +209,10 @@ public class ApplicationPartHandler extends DefaultHandler
         {
             processValue = true;
         }
+        else if (qName.equals(LISTENER_ELEMENT))
+        {
+            processListener = true;
+        }
         else
         {
             currentqName = qName;
@@ -300,6 +307,28 @@ public class ApplicationPartHandler extends DefaultHandler
             ((Widget) stack.get(stack.size())).setText(currentValue);
             currentValue = null;
         }
+        else if (qName.equals(LISTENER_ELEMENT))
+        {
+            processListener = false;
+            PrePostFieldListener listener = null;
+            try
+            {
+                Class clazz = Class.forName(currentValue);
+                listener = (PrePostFieldListener)clazz.newInstance();
+            }
+            catch(Exception e)
+            {
+            }
+            if (listener != null)
+            {
+                part.setFieldEventHandler(listener);
+            }
+            else
+            {
+                System.err.println("Listener "+currentValue+" not found");
+            }
+            currentValue = null;
+        }
         else if (processUnknown && currentqName != null)
         {
             processUnknown = false;
@@ -332,7 +361,7 @@ public class ApplicationPartHandler extends DefaultHandler
     {
         if (processText || (processPosition || processSize) || 
             processValue || (processUnknown && currentqName!=null) ||
-            processRule)
+            processRule || processListener)
         {
             if (currentValue == null)
             {

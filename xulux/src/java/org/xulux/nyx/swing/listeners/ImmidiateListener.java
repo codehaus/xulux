@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.4 2002-11-12 00:55:41 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.5 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,16 +55,20 @@ import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.gui.Widget;
 
 /**
- * The immidiate listeners fires events based on the 
+ * The immidiate listeners fires events based on typed keys.
+ * For now unsupported
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.4 2002-11-12 00:55:41 mvdb Exp $
+ * @version $Id: ImmidiateListener.java,v 1.5 2002-11-27 02:33:44 mvdb Exp $
  */
 public class ImmidiateListener extends KeyAdapter
 {
     Widget widget;
     ApplicationPart part;
 
+    public ImmidiateListener()
+    {
+    }
     /**
      * Constructor for ImmidiateListener.
      */
@@ -81,6 +85,24 @@ public class ImmidiateListener extends KeyAdapter
     {
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequests(impl, ApplicationContext.EXECUTE_REQUEST);
+    }
+
+    /**
+     * Returns the widget.
+     * @return Widget
+     */
+    public Widget getWidget()
+    {
+        return widget;
+    }
+
+    /**
+     * Sets the widget.
+     * @param widget The widget to set
+     */
+    public void setWidget(Widget widget)
+    {
+        this.widget = widget;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.16 2002-11-22 20:01:35 mvdb Exp $
+ $Id: Widget.java,v 1.17 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.16 2002-11-22 20:01:35 mvdb Exp $
+ * @version $Id: Widget.java,v 1.17 2002-11-27 02:33:44 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -123,7 +123,10 @@ public abstract class Widget
         if (this.enabled != enable)
         {
             this.enabled = enable;
-            refresh();
+            if (initialized)
+            {
+                refresh();
+            }
         }
         this.enabled = enable;
     }
@@ -145,7 +148,10 @@ public abstract class Widget
         if (this.visible != visible)
         {
             this.visible = visible;
-            refresh();
+            if (initialized)
+            {
+                refresh();
+            }
         }
         this.visible = visible;
     }
@@ -168,7 +174,10 @@ public abstract class Widget
         if (this.immidiate != immidiate)
         {
             this.immidiate = immidiate;
-            refresh();
+            if (initialized)
+            {
+                refresh();
+            }
         }
         this.immidiate = immidiate;
     }
@@ -199,7 +208,10 @@ public abstract class Widget
         if (this.skip != skip)
         {
             this.skip = skip;
-            refresh();
+            if (initialized)
+            {
+                refresh();
+            }
         }
         this.skip = skip;
     }

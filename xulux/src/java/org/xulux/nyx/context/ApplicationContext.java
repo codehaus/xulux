@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.13 2002-11-19 23:54:57 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.14 2002-11-27 02:33:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.13 2002-11-19 23:54:57 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.14 2002-11-27 02:33:44 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -242,7 +242,6 @@ public class ApplicationContext
             return;
         }
         ArrayList currentWidgets = (ArrayList)widgets.clone();
-        //System.err.println("pre fieldRequests : "+currentWidgets);
         Iterator wit = currentWidgets.iterator();
         boolean stopAllRules = false;
         while (wit.hasNext() && !stopAllRules)
@@ -251,7 +250,6 @@ public class ApplicationContext
             if (request.getWidget()!=null && widget.equals(request.getWidget()))
             {
                 // don't process the caller again..
-//                System.out.println("*********************  "+widget.getName()+","+request.getWidget().getName());
                 continue;
             }
             stopAllRules = request.getPart().needToStopAllRules(getInstance());
@@ -292,15 +290,15 @@ public class ApplicationContext
                 switch (type)
                 {
                     case PRE_REQUEST :
-                        System.err.println("Processing pre rule : " + rule.getClass().getName());
+                        System.out.println("Processing pre rule : " + rule.getClass().getName());
                         rule.pre(request);
                         continue;
                     case EXECUTE_REQUEST :
-                        System.err.println("Processing execute rule : " + rule.getClass().getName());
+                        System.out.println("Processing execute rule : " + rule.getClass().getName());
                         rule.execute(request);
                         continue;
                     case POST_REQUEST :
-                        System.err.println("Processing post rule : " + rule.getClass().getName());
+                        System.out.println("Processing post rule : " + rule.getClass().getName());
                         rule.post(request);
                         continue;
                 }
