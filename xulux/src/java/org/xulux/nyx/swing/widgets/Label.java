@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.17 2003-09-01 09:38:15 mvdb Exp $
+ $Id: Label.java,v 1.18 2003-09-01 12:04:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.17 2003-09-01 09:38:15 mvdb Exp $
+ * @version $Id: Label.java,v 1.18 2003-09-01 12:04:20 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -209,7 +209,6 @@ public class Label extends SwingWidget
      * @see org.xulux.nyx.gui.Widget#setValue(java.lang.Object)
      */
     public void setValue(Object value) {
-        System.out.println("Value : "+value);
         if (value == null) {
             value = "";
         }

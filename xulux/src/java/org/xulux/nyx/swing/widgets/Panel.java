@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
+ $Id: Panel.java,v 1.10 2003-09-01 12:04:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
+ * @version $Id: Panel.java,v 1.10 2003-09-01 12:04:20 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -181,7 +181,6 @@ public class Panel extends ContainerWidget
             // if widget is not showing we have
             // to make it showing..
             if (!panel.isShowing() && getParent() != null) {
-                System.out.println("NAME OF PARENT : "+getParent().getName());
                 getParent().focus();
                 panel.requestFocus();
             }

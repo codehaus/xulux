@@ -1,5 +1,5 @@
 /*
- $Id: UpdateButtonsListener.java,v 1.5 2003-08-31 15:03:49 mvdb Exp $
+ $Id: UpdateButtonsListener.java,v 1.6 2003-09-01 12:04:20 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -72,7 +72,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.5 2003-08-31 15:03:49 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.6 2003-09-01 12:04:20 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener
 implements ActionListener, ListSelectionListener
@@ -118,7 +118,6 @@ implements ActionListener, ListSelectionListener
         }
         Object partBean = parent.getGuiValue();
         if (actionType.equals("add")) {
-            System.out.println("Adding");
             completed(true);
             Object value = partBean;
             if (value == null) {
@@ -151,7 +150,6 @@ implements ActionListener, ListSelectionListener
         } else if (actionType.equals("update")) {
             completed(true);
             log.warn("Updating");
-            System.out.println("parent : "+parent.getName());
         } else {
             completed(true);
             return;
@@ -164,7 +162,6 @@ implements ActionListener, ListSelectionListener
             }
             return;
         }
-        System.out.println("PartBean : "+partBean);
         ApplicationPartHandler handler = new ApplicationPartHandler();
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = handler.read(stream,partBean);

@@ -1,5 +1,5 @@
 /*
- $Id: DefaultTableRule.java,v 1.1 2003-09-01 09:38:14 mvdb Exp $
+ $Id: DefaultTableRule.java,v 1.2 2003-09-01 12:04:20 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.swing.widgets.Table;
  * Else the edited data will get lost..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultTableRule.java,v 1.1 2003-09-01 09:38:14 mvdb Exp $
+ * @version $Id: DefaultTableRule.java,v 1.2 2003-09-01 12:04:20 mvdb Exp $
  */
 public class DefaultTableRule extends Rule {
 
@@ -64,7 +64,6 @@ public class DefaultTableRule extends Rule {
      */
     public DefaultTableRule() {
         super();
-        System.out.println("Creating table rule..");
     }
 
     /**
@@ -73,8 +72,6 @@ public class DefaultTableRule extends Rule {
     public void pre(PartRequest request) {
         
         String action = request.getWidget().getProperty("defaultaction");
-        System.out.println(request.getWidget());
-        System.out.println("Action : "+action);
         if (action != null && action.equalsIgnoreCase("save")) {
             // get the owner of this rule..
             Table table = (Table)getOwner();

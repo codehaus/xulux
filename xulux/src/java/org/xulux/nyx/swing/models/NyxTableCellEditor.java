@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableCellEditor.java,v 1.5 2003-09-01 09:38:14 mvdb Exp $
+ $Id: NyxTableCellEditor.java,v 1.6 2003-09-01 12:04:20 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.gui.Widget;
  * A table cell editor for nyx
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellEditor.java,v 1.5 2003-09-01 09:38:14 mvdb Exp $
+ * @version $Id: NyxTableCellEditor.java,v 1.6 2003-09-01 12:04:20 mvdb Exp $
  */
 public class NyxTableCellEditor extends AbstractCellEditor
 implements TableCellEditor
@@ -95,12 +95,10 @@ implements TableCellEditor
      * @see javax.swing.CellEditor#stopCellEditing()
      */
     public boolean stopCellEditing() {
-        System.out.println("stopCellEditing");
         return super.stopCellEditing();
     }
     
     public void stopCellEditing(JTable table) {
-        System.out.println("Editing component : "+table.getEditorComponent());
         Component component = table.getEditorComponent();
         if (component instanceof JTextField) {
             table.getModel().setValueAt(((JTextField)component).getText(),table.getEditingRow(), table.getEditingColumn());
@@ -112,7 +110,6 @@ implements TableCellEditor
      * @see javax.swing.CellEditor#cancelCellEditing()
      */
     public void cancelCellEditing() {
-        System.out.println("cancelCellEditing");
         super.cancelCellEditing();
     }
     

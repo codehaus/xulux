@@ -1,5 +1,5 @@
 /*
- $Id: TestFactory.java,v 1.15 2003-07-10 22:40:22 mvdb Exp $
+ $Id: TestFactory.java,v 1.16 2003-09-01 12:04:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -66,7 +66,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * a later stage.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.15 2003-07-10 22:40:22 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.16 2003-09-01 12:04:20 mvdb Exp $
  */
 public class TestFactory
 {
@@ -97,7 +97,6 @@ public class TestFactory
         ApplicationPart part = new ApplicationPart(bean);
         Dictionary d = Dictionary.getInstance();
         BeanMapping mapping = d.getMapping(bean.getClass());
-        System.out.println("fields : "+mapping.getFields());
         Iterator iterator = mapping.getFields().iterator();
         XYLayout layout = new XYLayout();
         JPanel panel = new JPanel(layout);
