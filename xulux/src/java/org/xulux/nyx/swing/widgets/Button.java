@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.14 2003-09-29 00:02:24 mvdb Exp $
+ $Id: Button.java,v 1.15 2003-09-29 02:02:24 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -68,7 +68,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.14 2003-09-29 00:02:24 mvdb Exp $
+ * @version $Id: Button.java,v 1.15 2003-09-29 02:02:24 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
@@ -199,7 +199,6 @@ public class Button extends SwingWidget
         }
         String alignment = getProperty("alignment");
         if (alignment != null) {
-            System.err.println("BUTTON ALIGNMENT : "+alignment); 
             // defaults to center..
             int align = JButton.CENTER;;
             if (alignment.equalsIgnoreCase("left")) {
