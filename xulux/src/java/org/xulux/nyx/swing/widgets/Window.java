@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.17 2003-11-24 16:06:58 mvdb Exp $
+ $Id: Window.java,v 1.18 2003-12-15 20:15:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -72,7 +72,7 @@ import org.xulux.nyx.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.17 2003-11-24 16:06:58 mvdb Exp $
+ * @version $Id: Window.java,v 1.18 2003-12-15 20:15:27 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
@@ -240,6 +240,7 @@ public class Window extends NyxWindow
             }
         } else {
             window.getContentPane().add((JComponent) widget.getNativeWidget(), widget);
+            widget.refresh();
         }
     }
 

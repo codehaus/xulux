@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.19 2003-12-15 18:16:09 mvdb Exp $
+ $Id: Button.java,v 1.20 2003-12-15 20:15:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,18 +57,20 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 import org.xulux.nyx.swing.util.SwingUtils;
+import org.xulux.nyx.utils.BooleanUtils;
 
 /**
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.19 2003-12-15 18:16:09 mvdb Exp $
+ * @version $Id: Button.java,v 1.20 2003-12-15 20:15:27 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -217,6 +219,12 @@ public class Button extends SwingWidget {
         String tooltip = getProperty("tooltip");
         if (tooltip != null) {
             button.setToolTipText(tooltip);
+        }
+        if (BooleanUtils.toBoolean(getProperty("defaultbutton"))) {
+            button.setDefaultCapable(true);
+            if (button.getParent() != null) {
+                ((JComponent) button.getParent()).getRootPane().setDefaultButton(button);
+            }
         }
         button.setEnabled(isEnabled());
         isRefreshing = false;

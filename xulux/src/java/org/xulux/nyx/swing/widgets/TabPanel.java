@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.20 2003-11-24 16:06:58 mvdb Exp $
+ $Id: TabPanel.java,v 1.21 2003-12-15 20:15:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  *
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.20 2003-11-24 16:06:58 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.21 2003-12-15 20:15:27 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
 
@@ -246,6 +246,7 @@ public class TabPanel extends ContainerWidget {
                 initialFocus = String.valueOf(tabCount);
                 tabPanel.setSelectedIndex(tabCount);
             }
+            widget.refresh();
             tabCount++;
         } else {
             // do not yet allow any addition of other widgets.
