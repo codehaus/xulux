@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.16 2003-09-08 12:13:37 mvdb Exp $
+ $Id: Dictionary.java,v 1.17 2003-10-27 11:23:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.16 2003-09-08 12:13:37 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.17 2003-10-27 11:23:49 mvdb Exp $
  */
 public class Dictionary
 {
@@ -308,6 +308,18 @@ public class Dictionary
             mappings.clear();
         }
     }
+    
+    /**
+     * Reset all dictionary settings..
+     *
+     */
+    public static void reset() {
+        Dictionary d = Dictionary.getInstance();
+        d.clearMappings();
+        if (converters != null) {
+            converters.clear();
+        }
+    }
 
     /**
      * Checks to see if this class is currently being 
@@ -347,7 +359,7 @@ public class Dictionary
             converters.put(c.getType(),c);
         } else {
             if (log.isWarnEnabled()) {
-                log.warn(clazz.getName()+" does not implement IConverter, not registering object");
+                log.warn((clazz!=null)?clazz.getName():"null"+" class does not implement IConverter, not registering object");
             }
         }
     }
