@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.40 2003-11-18 17:25:17 mvdb Exp $
+ $Id: Entry.java,v 1.41 2003-11-18 18:13:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.40 2003-11-18 17:25:17 mvdb Exp $
+ * @version $Id: Entry.java,v 1.41 2003-11-18 18:13:33 mvdb Exp $
  */
 public class Entry
 extends SwingWidget
@@ -79,7 +79,7 @@ extends SwingWidget
     protected boolean setValueCalled = false;
 
     /**
-     * A textcomponentallows overriding by
+     * A textcomponent allows overriding by
      * similar classes.
      */
     protected JTextComponent textComponent;
@@ -248,6 +248,7 @@ extends SwingWidget
             }
         }
         textComponent.repaint();
+        textComponent.setCaretPosition(0);
         isRefreshing = false;
     }
 
