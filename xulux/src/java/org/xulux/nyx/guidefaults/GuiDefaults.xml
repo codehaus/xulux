@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaults.xml,v 1.19 2003-11-10 11:07:29 mvdb Exp $ -->
+<!-- $Id: GuiDefaults.xml,v 1.20 2003-12-16 02:27:51 mvdb Exp $ -->
 <!-- 
     Where no type is specified, it will default
     to defaultType.
@@ -34,6 +34,7 @@
     <widget name="radiobutton" class="org.xulux.nyx.swing.widgets.RadioButton"/>
     <widget name="togglebutton" class="org.xulux.nyx.swing.widgets.ToggleButton"/>
     <widget name="buttongroup" class="org.xulux.nyx.swing.widgets.ButtonGroup"/>
+    <widget name="splitpane" class="org.xulux.nyx.swing.widgets.SplitPane"/>
   </widgets>
   <!-- register the property handlers -->
 <!--  <propertyHandlers>
