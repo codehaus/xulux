@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.9 2004-09-30 21:25:39 mvdb Exp $
+   $Id: Table.java,v 1.10 2004-10-11 19:14:19 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -56,7 +56,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.9 2004-09-30 21:25:39 mvdb Exp $
+ * @version $Id: Table.java,v 1.10 2004-10-11 19:14:19 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -566,7 +566,11 @@ public class Table extends ContainerWidget implements IContentWidget {
                 }
             }
             addChildWidget(menu);
+            System.out.println("ADDING MENU ITEM TO SYSTEM");
             table.addMouseListener(new PopupListener(this.menu));
+            if (this.lockedTable != null) {
+              this.lockedTable.addMouseListener(new PopupListener(this.menu));
+            }
         }
         // we also add UpdateButtonsListener here..
         if (!childPopupsChecked) {

@@ -1,5 +1,5 @@
 /*
-   $Id: Button.java,v 1.9 2004-07-19 22:07:32 mvdb Exp $
+   $Id: Button.java,v 1.10 2004-10-11 19:14:19 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.9 2004-07-19 22:07:32 mvdb Exp $
+ * @version $Id: Button.java,v 1.10 2004-10-11 19:14:19 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -116,6 +116,7 @@ public class Button extends SwingWidget {
     public void refresh() {
         isRefreshing = true;
         initialize();
+        button.setVisible(isVisible());
         String image = getProperty("image");
         if (image != null) {
             ImageIcon icon = SwingUtils.getIcon(image, this);

@@ -1,5 +1,5 @@
 /*
-   $Id: PartRequestImpl.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+   $Id: PartRequestImpl.java,v 1.5 2004-10-11 19:14:21 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,7 +28,7 @@ import org.xulux.rules.IRule;
  * This class should not be used directly, it is only for internal use.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequestImpl.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: PartRequestImpl.java,v 1.5 2004-10-11 19:14:21 mvdb Exp $
  */
 public class PartRequestImpl implements PartRequest {
     /**
@@ -64,7 +64,7 @@ public class PartRequestImpl implements PartRequest {
      * @see org.xulux.nyx.context.PartRequest#getType()
      */
     public int getType() {
-        return NO_ACTION;
+        return action;
     }
 
     /**

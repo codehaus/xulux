@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: LabelTest.xml,v 1.3 2004-05-10 14:21:25 mvdb Exp $ -->
+<!-- $Id: LabelTest.xml,v 1.4 2004-10-11 19:14:20 mvdb Exp $ -->
 <part name="LabelTestForm" prefix="Person">
   <field type="window" name="Window">
     <title>LabelTest</title>
@@ -11,6 +11,7 @@
 	    <position>4,10</position>
 	    <foreground-color-enabled>000000</foreground-color-enabled>
 	    <foreground-color-disabled>FFFFFF</foreground-color-disabled>
+	    <tooltip>A fixed label</tooltip>
 	  </field>
 	  <field type="button" name="switch">
 	    <text>disable</text>

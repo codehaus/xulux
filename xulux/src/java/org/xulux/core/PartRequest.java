@@ -1,5 +1,5 @@
 /*
-   $Id: PartRequest.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
+   $Id: PartRequest.java,v 1.2 2004-10-11 19:14:20 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,7 +24,7 @@ import org.xulux.gui.Widget;
  * field or action (action not in the Swing sence)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequest.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: PartRequest.java,v 1.2 2004-10-11 19:14:20 mvdb Exp $
  */
 public interface PartRequest extends Cloneable {
     /**
@@ -43,6 +43,11 @@ public interface PartRequest extends Cloneable {
      * Field changed
      */
     int ACTION_VALUE_CHANGED = 3;
+    
+    /**
+     * The part value has changed
+     */
+    int NEW_PART_VALUE = 4;
 
     /**
      * Returns the current value of the part

@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.12 2004-08-19 16:29:14 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.13 2004-10-11 19:14:20 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -56,7 +56,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.12 2004-08-19 16:29:14 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.13 2004-10-11 19:14:20 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -285,11 +285,14 @@ public class ApplicationPart {
     }
     
     /**
-     * Set the bean value
+     * Set the bean value. This will notify all widgets in this part
+     * that a new bean has been set.
      * @param bean the bean value
      */
     public void setBean(Object bean) {
         this.bean = bean;
+        PartRequestImpl req = new PartRequestImpl(this, PartRequest.NEW_PART_VALUE);
+        XuluxContext.fireRequest(req, XuluxContext.PRE_REQUEST);
     }
 
     /**

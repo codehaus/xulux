@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetFactory.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
+   $Id: WidgetFactory.java,v 1.8 2004-10-11 19:14:21 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -32,7 +32,7 @@ import org.xulux.rules.IRule;
  * Factory to create the widget class..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.8 2004-10-11 19:14:21 mvdb Exp $
  */
 public class WidgetFactory {
 
@@ -105,6 +105,8 @@ public class WidgetFactory {
             if (widget.getClass().isAssignableFrom(clazz)) {
                 Widget item = getWidget("menuitem", "menuItem:" + widget.getName());
                 cloneWidget(widget, item);
+                item.setVisible(true);
+                item.setPosition(0,0);
                 menu.addChildWidget(item);
             }
         }

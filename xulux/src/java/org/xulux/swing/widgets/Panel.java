@@ -1,5 +1,5 @@
 /*
-   $Id: Panel.java,v 1.6 2004-07-19 09:37:09 mvdb Exp $
+   $Id: Panel.java,v 1.7 2004-10-11 19:14:19 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -47,7 +47,7 @@ import org.xulux.swing.util.SwingUtils;
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.6 2004-07-19 09:37:09 mvdb Exp $
+ * @version $Id: Panel.java,v 1.7 2004-10-11 19:14:19 mvdb Exp $
  */
 public class Panel extends ContainerWidget {
 
@@ -150,7 +150,6 @@ public class Panel extends ContainerWidget {
                 Color titleColor = null;
                 if (getProperty("border-title-color") != null) {
                     titleColor = ColorUtils.getSwingColor(getProperty("border-title-color"));
-                    System.out.println("title color : " + titleColor);
                 }
                 int borderSize = 1;
                 if (getProperty("border-size") != null) {
@@ -162,7 +161,7 @@ public class Panel extends ContainerWidget {
                 }
                 //TitledBorder titledBorder = BorderFactory.createTitledBorder(new LineBorder(color,borderSize),borderTitle);
                 NyxTitledBorder titledBorder = new NyxTitledBorder(borderTitle);
-                if (titleColor == null) {
+                if (titleColor != null) {
                     titledBorder.setTitleColor(titleColor);
                 }
                 panel.setBorder(titledBorder);

@@ -1,5 +1,5 @@
 /*
-   $Id: TextPane.java,v 1.1 2004-10-05 10:10:59 mvdb Exp $
+   $Id: TextPane.java,v 1.2 2004-10-11 19:14:19 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,12 +31,13 @@ import org.apache.commons.logging.LogFactory;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.utils.ColorUtils;
 import org.xulux.swing.listeners.PrePostFieldListener;
+import org.xulux.utils.BooleanUtils;
 
 /**
  * The swing textare widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextPane.java,v 1.1 2004-10-05 10:10:59 mvdb Exp $
+ * @version $Id: TextPane.java,v 1.2 2004-10-11 19:14:19 mvdb Exp $
  */
 public class TextPane extends Entry {
 
@@ -182,6 +183,9 @@ public class TextPane extends Entry {
         textComponent.setEnabled(isEnabled());
         textComponent.setVisible(isVisible());
         textComponent.setPreferredSize(this.size);
+        if (getProperty("editable") != null) {
+          textComponent.setEditable(BooleanUtils.toBoolean(getProperty("editable")));
+        }
         initializeValue();
         String backgroundColor = null;
         if (isRequired() && isEnabled()) {

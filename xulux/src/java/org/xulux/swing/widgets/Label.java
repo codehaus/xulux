@@ -1,5 +1,5 @@
 /*
-   $Id: Label.java,v 1.10 2004-09-30 21:25:39 mvdb Exp $
+   $Id: Label.java,v 1.11 2004-10-11 19:14:19 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.10 2004-09-30 21:25:39 mvdb Exp $
+ * @version $Id: Label.java,v 1.11 2004-10-11 19:14:19 mvdb Exp $
  */
 public class Label extends SwingWidget {
 
@@ -98,6 +98,7 @@ public class Label extends SwingWidget {
         if (isRefreshing()) {
             return;
         }
+        System.out.println("getName : " + getName()+ " rule " + getRules());
         isRefreshing = true;
         initialize();
         initializeValue();
@@ -152,6 +153,9 @@ public class Label extends SwingWidget {
         }
         label.setEnabled(isEnabled());
         label.setVisible(isVisible());
+        if (getProperty("tooltip") != null) {
+          	label.setToolTipText(getProperty("tooltip"));
+        }
         isRefreshing = false;
     }
 
@@ -170,6 +174,9 @@ public class Label extends SwingWidget {
 	        //System.out.println("bean class : " + bean.getClass());
 	        Object value = provider.getValue(bean, getField(), bean);
 	        System.out.println("value : " + value);
+	        if (value == null) {
+	          value = "";
+	        }
 	        setProperty("text", String.valueOf(value));
 	      }
         if (getField() != null) {
