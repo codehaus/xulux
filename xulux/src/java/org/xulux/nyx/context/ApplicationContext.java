@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.18 2002-12-12 14:41:12 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.18.2.1 2003-02-20 13:31:28 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.18 2002-12-12 14:41:12 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.18.2.1 2003-02-20 13:31:28 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -288,7 +288,7 @@ public class ApplicationContext
      */
     private static boolean fireRequests(Iterator it, PartRequest request, int type)
     {
-        Widget widget = request.getWidget();        
+//        Widget widget = request.getWidget();        
         boolean stopAllRules = false;
         while (it.hasNext() && !stopAllRules)
         {
