@@ -1,5 +1,5 @@
 /*
- $Id: NativeWidgetHandler.java,v 1.9 2003-11-06 19:53:10 mvdb Exp $
+ $Id: NativeWidgetHandler.java,v 1.10 2003-11-11 11:04:30 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * The native widgets handler for swing.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeWidgetHandler.java,v 1.9 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: NativeWidgetHandler.java,v 1.10 2003-11-11 11:04:30 mvdb Exp $
  */
 public class NativeWidgetHandler implements INativeWidgetHandler {
 
@@ -122,7 +122,10 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
             return;
         }
         JComponent comp = (JComponent)parentWidget;
-        comp.add((Component)widget.getNativeWidget(), widget);
+        Object nativeWidget = widget.getNativeWidget();
+        if (nativeWidget instanceof Component) { 
+            comp.add((Component)widget.getNativeWidget(), widget);
+        }
     }
 
 }
