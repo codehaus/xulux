@@ -1,5 +1,5 @@
 /*
-   $Id: IContentHandler.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: IContentHandler.java,v 1.1 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.dataprovider;
+package org.xulux.dataprovider.contenthandlers;
 
 /**
  * The content handler interface. A contenthandler is used for widgets
@@ -27,7 +27,7 @@ package org.xulux.dataprovider;
  * of a widget can specify which content is supported.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentHandler.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: IContentHandler.java,v 1.1 2004-03-23 08:42:23 mvdb Exp $
  */
 public interface IContentHandler {
 
@@ -56,5 +56,16 @@ public interface IContentHandler {
      *
      */
     void refresh();
+    
+    /**
+     * Set the view of this contenthandler
+     * @param view the view class of the contenthandler
+     */
+    void setView(Class view);
+    
+    /**
+     * @return the view class
+     */
+    Class getViewClass();
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtils.java,v 1.3 2004-01-28 15:10:40 mvdb Exp $
+   $Id: ClassLoaderUtils.java,v 1.4 2004-03-23 08:42:24 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.3 2004-01-28 15:10:40 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.4 2004-03-23 08:42:24 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -159,8 +159,10 @@ public class ClassLoaderUtils {
     public static Object getObjectFromClass(Class clazz, List parms) {
         try {
             if (parms != null && parms.size() > 0) {
+                boolean cleanUp = false;
                 if (isInner(clazz) && !Modifier.isStatic(clazz.getModifiers())) {
                     parms.add(0, getParentObjectForInnerClass(clazz));
+                    cleanUp = true;
                 }
                 Class[] clzList = new Class[parms.size()];
                 for (int i = 0; i < parms.size(); i++) {
@@ -168,9 +170,38 @@ public class ClassLoaderUtils {
                 }
                 try {
                     Constructor constructor = clazz.getConstructor(clzList);
-                    return constructor.newInstance(parms.toArray());
+                    // clean up list..
+                    Object retValue = constructor.newInstance(parms.toArray());
+                    if (cleanUp) {
+                        parms.remove(0);
+                    }
+                    return retValue;
                 } catch (NoSuchMethodException nsme) {
-                    // eat me
+                    // we should check alternative constructors
+                    // eg new ObjectImpl(Object object) is an ok constructor
+                    // when there is a String parameter.
+                    Constructor[] constructors = clazz.getConstructors();
+                    for (int c = 0; c < constructors.length; c++) {
+                        Constructor constructor = constructors[c];
+                        Class[] cclz = constructor.getParameterTypes();
+                        boolean cStatus = true;
+                        for (int cc = 0; cc < cclz.length; cc++) {
+                            if (!cclz[cc].isAssignableFrom(clzList[cc])) {
+                                cStatus = false;
+                            }
+                        }
+                        if (cStatus) {
+                            Object retValue = constructor.newInstance(parms.toArray());
+                            if (cleanUp) {
+                                parms.remove(0);
+                            }
+                            return retValue;
+                        }
+                    }
+                    if (cleanUp) {
+                        parms.remove(0);
+                    }
+                    return null;
                 }
             }
         }

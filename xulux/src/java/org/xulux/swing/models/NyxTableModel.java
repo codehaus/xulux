@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableModel.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
+   $Id: NyxTableModel.java,v 1.5 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,8 +24,8 @@ import javax.swing.table.TableModel;
 
 import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
-import org.xulux.dataprovider.IConverter;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
 import org.xulux.swing.widgets.Table;
@@ -35,7 +35,7 @@ import org.xulux.swing.widgets.Table;
  * @todo Assumes lists right now.. Should support more probably..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.5 2004-03-23 08:42:23 mvdb Exp $
  */
 public class NyxTableModel extends NyxListener implements TableModel {
 

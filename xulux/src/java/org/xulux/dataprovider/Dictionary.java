@@ -1,5 +1,5 @@
 /*
-   $Id: Dictionary.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: Dictionary.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,17 +26,19 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.dataprovider.converters.*;
 import org.xulux.dataprovider.converters.DoubleConverter;
 import org.xulux.dataprovider.converters.IntegerConverter;
 import org.xulux.utils.ClassLoaderUtils;
 
 /**
- * A static applcation dictionary context
+ * The BeanDictionary is the main entry point for the dataprovider.
+ * It behaves like the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
  */
-public final class Dictionary {
+public final class Dictionary implements IDictionary {
     /**
      * The log instance
      */
@@ -76,21 +78,17 @@ public final class Dictionary {
         addConverter(IntegerConverter.class);
     }
 
-
     /**
      * Constructor for Dictionary.
      */
-    private Dictionary()
-    {
+    private Dictionary() {
     }
 
     /**
      * @return the one and only instance of the dictionary.
      */
-    public static Dictionary getInstance()
-    {
-        if (instance == null)
-        {
+    public static Dictionary getInstance() {
+        if (instance == null) {
             instance = new Dictionary();
         }
         return instance;
@@ -124,8 +122,7 @@ public final class Dictionary {
      * add the specified beanmapping
      * @param beanMapping the mapping
      */
-    public void addMapping(BeanMapping beanMapping)
-    {
+    public void addMapping(BeanMapping beanMapping) {
         if (mappings == null) {
             mappings = new HashMap();
         }
@@ -137,8 +134,7 @@ public final class Dictionary {
         beanMapping.discover();
         mappings.put(beanMapping.getName(), beanMapping);
         mappingDepth--;
-        if (mappingDepth == 0)
-        {
+        if (mappingDepth == 0) {
             mappingCache = null;
         }
     }
@@ -170,7 +166,6 @@ public final class Dictionary {
         return getMapping(object.getClass());
     }
 
-
     /**
      * @param clazz the class to get the mapping for
      * @param newMapping if true it creates the mapping and adds
@@ -178,8 +173,7 @@ public final class Dictionary {
      *                      yet known.
      * @return the beanmapping or null when no mapping could be created
      */
-    public BeanMapping getMapping(Class clazz, boolean newMapping)
-    {
+    public BeanMapping getMapping(Class clazz, boolean newMapping) {
         String name = null;
         if (newMapping) {
             name = getPossibleMappingName(clazz);
@@ -195,8 +189,7 @@ public final class Dictionary {
      *                         if it needs to be created
      * @return the beanmapping found
      */
-    public BeanMapping getMapping(Class clazz, String preferredName)
-    {
+    public BeanMapping getMapping(Class clazz, String preferredName) {
         if (getBaseClass() == null) {
             if (log.isInfoEnabled()) {
                 log.info("Base class is not set Nyx will possibly not be able to disover data beans correctly");
@@ -219,8 +212,7 @@ public final class Dictionary {
      * @param name the name of the mapping
      * @return the newly creating mapping.
      */
-    private BeanMapping createMapping(Object bean, String name)
-    {
+    private BeanMapping createMapping(Object bean, String name) {
         // first
         BeanMapping mapping = new BeanMapping(name);
         return mapping;
@@ -230,8 +222,7 @@ public final class Dictionary {
      * @param clazz the class
      * @return the plaing bean name for the specified class
      */
-    public String getPlainBeanName(Class clazz)
-    {
+    public String getPlainBeanName(Class clazz) {
         int pLength = clazz.getPackage().getName().length();
         String mapName = clazz.getName().substring(pLength + 1);
         return mapName;
@@ -241,8 +232,7 @@ public final class Dictionary {
      * @param clazz the class to investigate
      * @return the possible mapping name
      */
-    public String getPossibleMappingName(Class clazz)
-    {
+    public String getPossibleMappingName(Class clazz) {
         String mapName = getPlainBeanName(clazz);
         int i = 1;
         if (getMapping(mapName) != null) {
@@ -258,24 +248,29 @@ public final class Dictionary {
     }
 
     /**
+     * @see org.xulux.dataprovider.IDictionary#initialize(java.lang.Object)
+     */
+    public void initialize(Object object) {
+        if (object instanceof InputStream) {
+            initialize((InputStream) object);
+        } else {
+            System.out.println("Cannot initialize dictionary, object is not an InputStream");
+        }
+    }
+
+    /**
      * Initializes the dictionary from a stream
      * The stream will be closed.
      * @param stream - a stream with the dictionary.xml
      */
-    public void initialize(InputStream stream)
-    {
-        if (stream == null)
-        {
-//            System.out.println("Stream is null");
+    public void initialize(InputStream stream) {
+        if (stream == null) {
             return;
         }
         new DictionaryHandler().read(stream);
-        try
-        {
+        try {
             stream.close();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -283,8 +278,7 @@ public final class Dictionary {
      * Returns the baseClass.
      * @return Class
      */
-    public Class getBaseClass()
-    {
+    public Class getBaseClass() {
         return baseClass;
     }
 
@@ -292,8 +286,7 @@ public final class Dictionary {
      * Sets the baseClass.
      * @param baseClass The baseClass to set
      */
-    public void setBaseClass(Class baseClass)
-    {
+    public void setBaseClass(Class baseClass) {
         this.baseClass = baseClass;
     }
 
@@ -354,7 +347,7 @@ public final class Dictionary {
         Object object = ClassLoaderUtils.getObjectFromClass(clazz);
         if (object instanceof IConverter) {
             IConverter c = (IConverter) object;
-            converters.put(c.getType() , c);
+            converters.put(c.getType(), c);
         } else {
             if (log.isWarnEnabled()) {
                 String clazzName = "null";
@@ -414,12 +407,10 @@ public final class Dictionary {
      *          when no converter is present
      */
     public static IConverter getConverter(Class clazz) {
-        if (clazz != null && converters != null)  {
+        if (clazz != null && converters != null) {
             return (IConverter) converters.get(clazz);
         }
         return null;
     }
-
-
 
 }

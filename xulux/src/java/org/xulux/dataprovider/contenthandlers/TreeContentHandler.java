@@ -1,5 +1,5 @@
 /*
-   $Id: TreeContentHandler.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+   $Id: TreeContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,10 +24,9 @@ import org.xulux.gui.IContentWidget;
  * trees at all in default java, it will be located in the global package.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeContentHandler.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: TreeContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
  */
-public abstract class TreeContentHandler extends ContentHandlerAbstract
-{
+public abstract class TreeContentHandler extends ContentHandlerAbstract {
 
     /**
      * The widget to get the content from
@@ -49,7 +48,7 @@ public abstract class TreeContentHandler extends ContentHandlerAbstract
     }
 
     /**
-     * @see org.xulux.nyx.global.IContentHandler#getContent()
+     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getContent()
      * @return the content of the widget passed in and if not not set, it will return
      *         the content set by setContent.
      */

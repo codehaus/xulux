@@ -1,5 +1,5 @@
 /*
-   $Id: ListContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
+   $Id: ToStringView.java,v 1.1 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -7,7 +7,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+	   http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,35 +17,29 @@
 */
 package org.xulux.dataprovider.contenthandlers;
 
-import java.util.List;
-
 /**
- * A content handler for a list.
+ * The default view, which does a toString on the data
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ListContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
+ * @version $Id: ToStringView.java,v 1.1 2004-03-23 08:42:23 mvdb Exp $
  */
-public class ListContentHandler extends ContentHandlerAbstract {
+public class ToStringView extends ContentView {
 
     /**
-     *
+     * @param data
      */
-    public ListContentHandler() {
-        super();
+    public ToStringView(Object data) {
+        super(data);
     }
 
     /**
-     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getContent()
+     * @see java.lang.Object#toString()
      */
-    public Object getContent() {
-        return null;
-    }
-
-    /**
-     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getType()
-     */
-    public Class getType() {
-        return List.class;
+    public String toString() {
+        if (data == null) {
+            return null;
+        }
+        return data.toString();
     }
 
 }

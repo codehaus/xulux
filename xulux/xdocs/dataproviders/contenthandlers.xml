@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>XULUX - DataProviders - ContentHandlers</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="ContentHandlers">
+  <p>
+  </p>
+  <subsection name="How to write ContentHandlers">
+    <p>
+      <a href="../apidocs/org/xulux/dataprovider/contenthandlers/IContentHandler.html"><b><code>IConverter</code></b></a>
+    </p>
+  </subsection>
+  <subsection name="How to add ContentHandlers">
+    <p>
+      You can add converters via the dictionary xml file 
+      in the format
+      <source>
+      <![CDATA[
+      <converters>
+        <converter class="org.xulux.nyx.converters.IntegerConverter"/>
+      </converters>
+      ]]>
+      </source>
+      or by calling 
+      <source>
+        Dictionary.addConverter(ConvertClass);
+      </source>
+      in your code.
+    </p>
+  </subsection>
+</section>
+
+</body>
+
+</document>

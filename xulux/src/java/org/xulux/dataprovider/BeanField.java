@@ -1,5 +1,5 @@
 /*
-   $Id: BeanField.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: BeanField.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.dataprovider.converters.*;
 import org.xulux.utils.ClassLoaderUtils;
 
 /**
@@ -40,7 +41,7 @@ import org.xulux.utils.ClassLoaderUtils;
  *       to primitive types.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
  */
 public class BeanField implements IField
 {

@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtilsTest.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
+   $Id: ClassLoaderUtilsTest.java,v 1.5 2004-03-23 08:42:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -34,7 +34,7 @@ import org.xulux.dataprovider.Dictionary;
  * Test for the classLoaderUtils
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtilsTest.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: ClassLoaderUtilsTest.java,v 1.5 2004-03-23 08:42:22 mvdb Exp $
  */
 public class ClassLoaderUtilsTest extends TestCase {
     /**
@@ -146,7 +146,62 @@ public class ClassLoaderUtilsTest extends TestCase {
         assertTrue(ClassLoaderUtils.isInner(StaticInner.class));
         assertTrue(ClassLoaderUtils.isInner(NormalInner.class));
     }
+    
+    /**
+     * Test the scenario where there is an object constructor
+     * It should check the clas it's hierarchy when finding
+     * the constructor..
+     */
+    public void testObjectContstructor() {
+        System.out.println("testObjectConstructor");
+        List list = new ArrayList(1);
+        list.add("Test");
+        Object obj = ClassLoaderUtils.getObjectFromClass(OC.class, list);
+        assertNotNull("Object should be instanceof OC", obj);
+        assertTrue("Object should be instanceof OC", obj instanceof OC);
+        // since it is an inner class, the parm list, will have an instance
+        // of the testcases loaded, it should be removed from the list after
+        // processing. That is the thing being tested here..
+        assertEquals(1, list.size());
+        list.add("Test1");
+        obj = ClassLoaderUtils.getObjectFromClass(OC2.class, list);
+        assertNotNull("Object should be instanceof OC2", obj);
+        assertTrue("Object should be instanceof OC2", obj instanceof OC2);
+        assertEquals(2, list.size());
+        list.set(1, new Object());
+        obj = ClassLoaderUtils.getObjectFromClass(OC3.class, list);
+        assertNull(obj);
+        obj = ClassLoaderUtils.getObjectFromClass(ClassLoaderTestObject.class, list);
+        assertNotNull("Object should be instanceof ClassLoaderTestObject", obj);
+        assertTrue("Object should be instanceof ClassLoaderTestObject", obj instanceof ClassLoaderTestObject);
+        assertEquals(2, list.size());
+        list.set(0, new Object());
+        obj = ClassLoaderUtils.getObjectFromClass(ClassLoaderTestObject.class, list);
+        assertNull(obj);
+    }
 
+    /**
+     * Test class for the ObjectConstructor test
+     */
+    public class OC {
+        public OC(Object object) {
+        }
+    }
+    /**
+     * Test class for the ObjectConstructor test
+     */
+    public class OC2 {
+        public OC2(Object object1, Object object2) {
+        }
+    }
+    /**
+     * Test class for the ObjectConstructor test
+     */
+    public class OC3 {
+        public OC3(Object object, String string) {
+        }
+    }
+     
     /**
      * Test the constructor
      */

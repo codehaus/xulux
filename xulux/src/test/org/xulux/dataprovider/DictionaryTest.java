@@ -1,5 +1,5 @@
 /*
-   $Id: DictionaryTest.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+   $Id: DictionaryTest.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,10 +17,13 @@
 */
 package org.xulux.dataprovider;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.xulux.dataprovider.converters.DoubleConverter;
+import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.dataprovider.converters.IntegerConverter;
 
 import junit.framework.Test;
@@ -33,7 +36,7 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
  */
 public class DictionaryTest extends TestCase {
 
@@ -63,14 +66,37 @@ public class DictionaryTest extends TestCase {
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
         assertEquals("Test", Dictionary.getInstance().getMapping("Test").getName());
         assertEquals(DictionaryBean.class, dictionary.getMapping("Test").getBean());
-        ArrayList list = dictionary.getMapping("Test").getFields();
+        List list = dictionary.getMapping("Test").getFields();
         assertEquals(4, list.size());
         assertNotNull(list.get(list.indexOf("name")));
         assertNotNull(list.get(list.indexOf("city")));
         assertNotNull(list.get(list.indexOf("street")));
         assertNotNull(list.get(list.indexOf("subBean")));
+        dictionary.initialize((Object) new Integer(0));
+        dictionary.initialize((Object) null);
+        dictionary.initialize((InputStream) null);
     }
 
+    /**
+     * Test resetting the dictionary
+     */
+    public void testReset() {
+        System.out.println("testReset");
+        Dictionary.reset();
+        Dictionary.reset();
+    }
+        
+    /**
+     * Test getMapping
+     */
+    public void testGetMapping() {
+        System.out.println("testGetMapping");
+        // just a null test..
+        BeanMapping mapping = Dictionary.getInstance().getMapping((Class)null);
+        assertNull(mapping);
+        mapping = Dictionary.getInstance().getMapping((Object) null);
+        assertNull(mapping);
+    }
     /**
      * Tests for dynamic mapping
      */
@@ -141,7 +167,7 @@ public class DictionaryTest extends TestCase {
     public void testFieldElements() {
         System.out.println("testFieldElements");
         Dictionary d = Dictionary.getInstance();
-        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
+        d.initialize((Object) this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
         BeanMapping mapping = d.getMapping("Manual");
         assertNotNull(mapping.getField("straat"));
         assertNull(mapping.getField("street"));

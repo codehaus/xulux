@@ -1,5 +1,5 @@
 /*
-   $Id: ListContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
+   $Id: BogusContentView.java,v 1.1 2004-03-23 08:42:24 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -7,7 +7,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+	   http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,37 +15,29 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.dataprovider.contenthandlers;
+package org.xulux.guidriver.defaults;
 
-import java.util.List;
+import org.xulux.dataprovider.contenthandlers.ContentView;
 
 /**
- * A content handler for a list.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ListContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
+ * @version $Id: BogusContentView.java,v 1.1 2004-03-23 08:42:24 mvdb Exp $
  */
-public class ListContentHandler extends ContentHandlerAbstract {
+public class BogusContentView extends ContentView {
 
     /**
-     *
+     * @param data
      */
-    public ListContentHandler() {
-        super();
+    public BogusContentView(Object data) {
+        super(data);
     }
 
     /**
-     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getContent()
+     * @see java.lang.Object#toString()
      */
-    public Object getContent() {
+    public String toString() {
         return null;
-    }
-
-    /**
-     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getType()
-     */
-    public Class getType() {
-        return List.class;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: DOMTreeContentHandler.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+   $Id: DOMTreeContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,12 +31,13 @@ import org.xulux.gui.IContentWidget;
  * A dom contenthandler for a tree..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DOMTreeContentHandler.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: DOMTreeContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
  */
 public class DOMTreeContentHandler extends TreeContentHandler {
 
     /**
-     *
+     * This constructor sets the default view
+     * to the SimpleDOMView
      */
     public DOMTreeContentHandler() {
         super();
@@ -50,15 +51,15 @@ public class DOMTreeContentHandler extends TreeContentHandler {
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChild(java.lang.Object, int)
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#getChild(java.lang.Object, int)
      */
     public Object getChild(Object parent, int index) {
-        if (parent instanceof DOMWrapper) {
-            parent = ((DOMWrapper) parent).getSource();
+        if (parent instanceof ContentView) {
+            parent = ((ContentView) parent).getSource();
         }
         if (parent instanceof Document) {
             List list = ((Document) parent).content();
-            return new DOMWrapper(list.get(index));
+            return ContentView.createView(view, list.get(index));
         } else if (parent instanceof Element) {
             Element element = (Element) parent;
             List list = getRealContent(element.content());
@@ -66,17 +67,17 @@ public class DOMTreeContentHandler extends TreeContentHandler {
                 //System.err.println("Attributes : " + element.attributes());
             }
             list.addAll(element.attributes());
-            return new DOMWrapper(list.get(index));
+            return ContentView.createView(view, list.get(index));
         }
         return null;
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChildCount(java.lang.Object)
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#getChildCount(java.lang.Object)
      */
     public int getChildCount(Object parent) {
-        if (parent instanceof DOMWrapper) {
-            parent = ((DOMWrapper) parent).getSource();
+        if (parent instanceof ContentView) {
+            parent = ((ContentView) parent).getSource();
         }
         int children = 0;
         if (parent instanceof Document) {
@@ -115,7 +116,7 @@ public class DOMTreeContentHandler extends TreeContentHandler {
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getIndexOfChild(java.lang.Object, java.lang.Object)
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#getIndexOfChild(java.lang.Object, java.lang.Object)
      */
     public int getIndexOfChild(Object parent, Object child) {
 //        System.out.println("getIndexOfChild");
@@ -125,18 +126,18 @@ public class DOMTreeContentHandler extends TreeContentHandler {
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getRoot()
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#getRoot()
      */
     public Object getRoot() {
-        return new DOMWrapper(widget.getContent());
+        return ContentView.createView(getViewClass(), widget.getContent());
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#isLeaf(java.lang.Object)
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#isLeaf(java.lang.Object)
      */
     public boolean isLeaf(Object node) {
-        if (node instanceof DOMWrapper) {
-            node = ((DOMWrapper) node).getSource();
+        if (node instanceof ContentView) {
+            node = ((ContentView) node).getSource();
         }
         //System.out.println("Node : " + node.getClass());
         if (node instanceof Comment) {
@@ -154,60 +155,9 @@ public class DOMTreeContentHandler extends TreeContentHandler {
     }
 
     /**
-     * @see org.xulux.nyx.global.IContentHandler#getType()
+     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getType()
      */
     public Class getType() {
         return Document.class;
     }
-
-    /**
-     * The domwrapper takes care of showing the correct toString
-     * to the tree..
-     *
-     */
-    public class DOMWrapper {
-        /**
-         * The object
-         */
-        private Object object;
-
-        /**
-         * The DomWrapper constructor
-         * @param object the object to wrap
-         */
-        public DOMWrapper(Object object) {
-            this.object = object;
-        }
-
-        /**
-         * @return the source of the DOM
-         */
-        public Object getSource() {
-            return this.object;
-        }
-
-        /**
-         * @see java.lang.Object#toString()
-         */
-        public String toString() {
-            if (object instanceof Element) {
-                return ((Element) object).getName();
-            } else if (object instanceof Document) {
-                String name = ((Document) object).getName();
-                if (name == null || "null".equals(name)) {
-                    return "Unkown document type";
-                }
-            } else if (object instanceof Comment) {
-                return "Comment: " + ((Comment) object).getText();
-                //return ((Comment)object).getName();
-            } else if (object instanceof Text) {
-                return "Text: " + ((Text) object).getText();
-            } else if (object instanceof Attribute) {
-                Attribute attribute = (Attribute) object;
-                return attribute.getName() + "=" + attribute.getValue();
-            }
-            return object.toString();
-        }
-    }
-
 }

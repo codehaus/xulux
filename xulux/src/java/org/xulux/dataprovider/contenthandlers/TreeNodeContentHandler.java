@@ -1,5 +1,5 @@
 /*
-   $Id: TreeNodeContentHandler.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+   $Id: TreeNodeContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,7 +25,7 @@ import org.xulux.gui.IContentWidget;
  * A tree content handler using a TreeNode.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeNodeContentHandler.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: TreeNodeContentHandler.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
  */
 public class TreeNodeContentHandler extends TreeContentHandler {
 
@@ -44,35 +44,35 @@ public class TreeNodeContentHandler extends TreeContentHandler {
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChild(java.lang.Object, int)
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#getChild(java.lang.Object, int)
      */
     public Object getChild(Object parent, int index) {
         return ((TreeNode) parent).getChildAt(index);
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChildCount(java.lang.Object)
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#getChildCount(java.lang.Object)
      */
     public int getChildCount(Object parent) {
         return ((TreeNode) parent).getChildCount();
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getIndexOfChild(java.lang.Object, java.lang.Object)
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#getIndexOfChild(java.lang.Object, java.lang.Object)
      */
     public int getIndexOfChild(Object parent, Object child) {
         return ((TreeNode) parent).getIndex((TreeNode) child);
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getRoot()
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#getRoot()
      */
     public Object getRoot() {
         return (TreeNode) getWidget().getContent();
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#isLeaf(java.lang.Object)
+     * @see org.xulux.dataprovider.contenthandlers.TreeContentHandler#isLeaf(java.lang.Object)
      */
     public boolean isLeaf(Object node) {
         boolean isLeaf = ((TreeNode) node).isLeaf();
@@ -85,7 +85,7 @@ public class TreeNodeContentHandler extends TreeContentHandler {
     }
 
     /**
-     * @see org.xulux.nyx.global.IContentHandler#getType()
+     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getType()
      */
     public Class getType() {
         return TreeNode.class;

@@ -1,5 +1,5 @@
 /*
-   $Id: IConverter.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: IConverter.java,v 1.1 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.dataprovider;
+package org.xulux.dataprovider.converters;
 
 /**
  * A converter for data.
@@ -24,7 +24,7 @@ package org.xulux.dataprovider;
  * @todo Default converters.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IConverter.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: IConverter.java,v 1.1 2004-03-23 08:42:23 mvdb Exp $
  */
 public interface IConverter {
 

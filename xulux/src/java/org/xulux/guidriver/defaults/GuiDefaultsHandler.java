@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.2 2004-03-16 15:04:17 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.3 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,8 +31,9 @@ import org.xulux.core.WidgetConfig;
 /**
  * Case insensitive processing of the guidefaults.
  *
+ * @todo move the contenthandlers to the dataprovider API.
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.2 2004-03-16 15:04:17 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.3 2004-03-23 08:42:23 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 
@@ -56,6 +57,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private static final String ATTRIBUTE_CLASS = "class";
     private static final String ATTRIBUTE_NAME = "name";
     private static final String ATTRIBUTE_DEFAULT = "defaultType";
+    private static final String ATTRIBUTE_DEFAULTVIEW = "defaultView";
     private static final String ATTRIBUTE_USE = "use";
     private static boolean superDefaultsProcessed = false;
 
@@ -160,12 +162,14 @@ public class GuiDefaultsHandler extends DefaultHandler {
         } else if (qName.equals(ELEMENT_CONTENTHANDLER)) {
             if (this.contentHandlersStarted && widgetsStarted) {
                 String clazz = atts.getValue(ATTRIBUTE_CLASS);
+                String defaultView = atts.getValue(ATTRIBUTE_DEFAULTVIEW);
                 // @todo better logging and error trapping!
                 if (clazz == null) {
                     System.out.println("Clazz attribute should not be null");
                     return;
                 }
-                ApplicationContext.getInstance().registerWidgetTool(clazz, widgetName);
+                WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(widgetName);
+                config.addContentHandler(clazz, defaultView); 
             }
         }
     }
@@ -191,8 +195,6 @@ public class GuiDefaultsHandler extends DefaultHandler {
         qName = qName.toLowerCase();
         if (qName.equals(ELEMENT_WIDGET)) {
             widgetName = null;
-        } else if (qName.equals(ELEMENT_PROPERTIES)) {
-        	propertiesStarted = false;
         } else if (qName.equals(ELEMENT_INITIALIZER)) {
             if (widgetName != null) {
                 ApplicationContext.getInstance().registerWidgetInitializer(initClass, widgetName, initType);

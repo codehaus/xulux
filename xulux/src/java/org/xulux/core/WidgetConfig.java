@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfig.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
+   $Id: WidgetConfig.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.xulux.dataprovider.IContentHandler;
+import org.xulux.dataprovider.contenthandlers.ContentView;
+import org.xulux.dataprovider.contenthandlers.IContentHandler;
 import org.xulux.gui.IPropertyHandler;
 import org.xulux.utils.ClassLoaderUtils;
 
@@ -34,7 +35,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
  */
 public class WidgetConfig {
 
@@ -54,6 +55,12 @@ public class WidgetConfig {
      * the map of contenthandlers
      */
     private HashMap contentHandlers;
+
+    /**
+     * The map of contenthandler views.
+     * It only registers the default one!
+     */
+    private HashMap contentHandlerViews;
 
 	/**
 	 * the list Property handlers
@@ -170,12 +177,43 @@ public class WidgetConfig {
     }
 
     /**
+     * Adds a contenthandler to a widgetconfiguration.
+     * @param clz the clazz of the contenthandler
+     * @param view the clazz of the view. If none specified toString handling will be used
+     */
+    public void addContentHandler(String clz, String view) {
+        if (clz == null) {
+            return;
+        }
+        if (getContentHandlers() == null) {
+            contentHandlers = new HashMap();
+        }
+        if (contentHandlerViews == null) {
+            contentHandlerViews = new HashMap();
+        }
+        Class clazz = ClassLoaderUtils.getClass(clz);
+        if (clazz == null) {
+            return;
+        }
+        if (IContentHandler.class.isAssignableFrom(clazz)) {
+            Class clzType = ((IContentHandler) ClassLoaderUtils.getObjectFromClass(clazz)).getType();
+            getContentHandlers().put(clzType, clazz);
+            if (view != null) {
+                Class viewClass = ClassLoaderUtils.getClass(view);
+                if (viewClass != null && ContentView.class.isAssignableFrom(viewClass)) {
+                    contentHandlerViews.put(clzType, viewClass);
+                }
+            }
+        }
+    }
+    /**
      * @param clazz the className to get the contenthandler for.
      * @return the contenthandler found.
      */
     public IContentHandler getContentHandler(Class clazz) {
         if (getContentHandlers() != null) {
             Class clz = (Class) getContentHandlers().get(clazz);
+            Class finalClass = clazz;
             if (clz == null) {
                 // try to find a contenthandler that is of the same basetype (except Object).
                 Iterator it = getContentHandlers().keySet().iterator();
@@ -183,11 +221,16 @@ public class WidgetConfig {
                     Class tmpClass = (Class) it.next();
                     if (tmpClass.isAssignableFrom(clazz)) {
                         clz = (Class) getContentHandlers().get(tmpClass);
+                        finalClass = tmpClass;
                         break;
                     }
                 }
             }
-            return (IContentHandler) ClassLoaderUtils.getObjectFromClass(clz);
+            IContentHandler retValue = (IContentHandler) ClassLoaderUtils.getObjectFromClass(clz);
+            if (contentHandlerViews != null) {
+                retValue.setView((Class) contentHandlerViews.get(finalClass));
+            }
+            return retValue; 
         }
         return null;
     }

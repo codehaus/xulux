@@ -1,5 +1,5 @@
 /*
-   $Id: IntegerConverter.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: IntegerConverter.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,14 +17,13 @@
 */
 package org.xulux.dataprovider.converters;
 
-import org.xulux.dataprovider.IConverter;
 
 /**
  * Converts an Integer to a String or an String to an Integer
  * It will return null when none of the above is possible.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IntegerConverter.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: IntegerConverter.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
  */
 public class IntegerConverter implements IConverter {
 

@@ -1,5 +1,5 @@
 /*
-   $Id: ContentHandlerAbstract.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+   $Id: ContentHandlerAbstract.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,15 +19,19 @@ package org.xulux.dataprovider.contenthandlers;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.IContentHandler;
 
 /**
  * An absract for the content handler.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ContentHandlerAbstract.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: ContentHandlerAbstract.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
  */
 public abstract class ContentHandlerAbstract implements IContentHandler {
+
+    /**
+     * The view class to use for this instance
+     */
+    protected Class view;
 
     /**
      * Contains the conent
@@ -47,19 +51,19 @@ public abstract class ContentHandlerAbstract implements IContentHandler {
     }
 
     /**
-     * @see org.xulux.nyx.global.IContentHandler#setContent(java.lang.Object)
+     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#setContent(java.lang.Object)
      */
     public void setContent(Object content) {
         this.content = content;
     }
 
     /**
-     * @see org.xulux.nyx.global.IContentHandler#getContent()
+     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getContent()
      */
     public abstract Object getContent();
 
     /**
-     * @see org.xulux.nyx.global.IContentHandler#getType()
+     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getType()
      */
     public abstract Class getType();
 
@@ -69,10 +73,22 @@ public abstract class ContentHandlerAbstract implements IContentHandler {
      * Please override this if your contenthandler can have
      * content changed without a call to setConent
      *
-     * @see org.xulux.nyx.global.IContentHandler#refresh()
+     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#refresh()
      */
     public void refresh() {
 
     }
+    
+    public void setView(Class view) {
+        this.view = view;
+    }
+    
+    /**
+     * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getViewClass()
+     */
+    public Class getViewClass() {
+        return this.view;
+    }
+        
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+   $Id: Entry.java,v 1.5 2004-03-23 08:42:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,8 +28,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
-import org.xulux.dataprovider.IConverter;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.utils.ColorUtils;
 import org.xulux.swing.SwingWidget;
@@ -41,7 +41,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: Entry.java,v 1.5 2004-03-23 08:42:22 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**

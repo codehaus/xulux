@@ -1,5 +1,5 @@
 /*
-   $Id: BeanMapping.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: BeanMapping.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,6 +20,7 @@ package org.xulux.dataprovider;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,9 +35,9 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
  */
-public class BeanMapping
+public class BeanMapping implements IMapping
 {
 
     /**
@@ -277,7 +278,7 @@ public class BeanMapping
     /**
      * @return all the fields in an arraylist
      */
-    public ArrayList getFields()
+    public List getFields()
     {
         return fields;
     }
@@ -285,16 +286,14 @@ public class BeanMapping
     /**
      * This method will also search aliases
      * of the field.
-     *
-     * @param name the name of the field
-     * @return the beanfield for the specified
-     * field or null when no field is present
+     * @see org.xulux.dataprovider.IMapping#getField(java.lang.Object)
      */
-    public IField getField(String name)
+    public IField getField(Object f)
     {
-        if (fields == null || name == null) {
+        if (fields == null || f == null) {
             return null;
         }
+        String name = f.toString();
         // we by default strip out the widget pointer
         if (name.startsWith("?")) {
             int dotIndex = name.indexOf('.');
@@ -435,7 +434,6 @@ public class BeanMapping
             }
             return -1;
         }
-
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: ContentHandlerAbstractTest.java,v 1.1 2004-03-16 14:35:12 mvdb Exp $
+   $Id: ContentHandlerAbstractTest.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ContentHandlerAbstractTest.java,v 1.1 2004-03-16 14:35:12 mvdb Exp $
+ * @version $Id: ContentHandlerAbstractTest.java,v 1.2 2004-03-23 08:42:23 mvdb Exp $
  */
 public class ContentHandlerAbstractTest extends TestCase {
 
@@ -56,6 +56,9 @@ public class ContentHandlerAbstractTest extends TestCase {
         assertNull(basic.getType());
         // doesn't do anything and should'nt probably.
         basic.refresh();
+        // check if setting the view works
+        basic.setView(String.class);
+        assertEquals(String.class, basic.view);
 
     }
     /**

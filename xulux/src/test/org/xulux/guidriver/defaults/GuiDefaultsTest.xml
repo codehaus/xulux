@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaultsTest.xml,v 1.1 2004-03-16 14:52:00 mvdb Exp $ -->
+<!-- $Id: GuiDefaultsTest.xml,v 1.2 2004-03-23 08:42:24 mvdb Exp $ -->
 <guidefaults defaultType="swing">
   <!-- invalid ... -->
   <contenthandlers>
@@ -17,7 +17,8 @@
     </widget>
     <widget name="tree">
       <contenthandlers>
-        <contenthandler class="org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler"/>
+        <contenthandler class="org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler"
+                        defaultView="org.xulux.guidriver.defaults.BogusContentView"/>
         <contenthandler>org.xulux.dataprovider.contenthandlers.DOMTreeContentHandler</contenthandler>
       </contenthandlers>
     </widget>

@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfigTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
+   $Id: WidgetConfigTest.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,7 +19,10 @@ package org.xulux.core;
 
 import javax.swing.tree.TreeNode;
 
-import org.xulux.dataprovider.IContentHandler;
+import org.dom4j.Document;
+import org.dom4j.tree.DefaultDocument;
+import org.xulux.dataprovider.contenthandlers.IContentHandler;
+import org.xulux.dataprovider.contenthandlers.SimpleDOMView;
 import org.xulux.gui.IPropertyHandler;
 import org.xulux.gui.IWidgetInitializer;
 import org.xulux.gui.Widget;
@@ -32,7 +35,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase {
 
@@ -107,11 +110,16 @@ public class WidgetConfigTest extends TestCase {
 	public void testPropertyHandlers() {
 		System.out.println("testPropertyHandlers");
 		WidgetConfig config = new WidgetConfig();
+        config.addPropertyHandler(null, null, null, null);
 		config.addPropertyHandler("java.lang.Integer", IPropertyHandler.NORMAL,"bogus", "swing");
         assertEquals(null, config.getPropertyHandlers("swing"));
         config.addPropertyHandler(PropHandler.class.getName(), IPropertyHandler.NORMAL, "prop", "swing");
         assertEquals(1, config.getPropertyHandlers("swing").size());
         assertNull(null, config.getPropertyHandlers("swt"));
+        config.addPropertyHandler(PropHandler2.class.getName(), IPropertyHandler.NORMAL, "prop2", "swing");
+        assertEquals(2, config.getPropertyHandlers("swing").size());
+        assertNull(null, config.getPropertyHandlers("swt"));
+        
 	}
     /**
      * Test the contenthandlers
@@ -134,6 +142,31 @@ public class WidgetConfigTest extends TestCase {
         config.addWidgetTool(null, "bogus.class.name");
         config.addWidgetTool(null, "org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler");
         assertNotNull(config.getContentHandler(TreeNode.class));
+        config = new WidgetConfig();
+        config.addContentHandler("org.xulux.dataprovider.contenthandlers.DOMTreeContentHandler", 
+                                  "org.xulux.dataprovider.contenthandlers.SimpleDOMView");
+        IContentHandler handler = config.getContentHandler(Document.class);
+        assertNotNull(handler);
+        assertEquals(SimpleDOMView.class, handler.getViewClass());
+        // subclass of Document. It should also return the correct viewclass
+        handler = config.getContentHandler(DefaultDocument.class);
+        assertNotNull(handler);
+        assertEquals(SimpleDOMView.class, handler.getViewClass());
+        config.addContentHandler("org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler", null);
+        handler = config.getContentHandler(TreeNode.class);
+        assertNotNull(handler);
+        assertNull(handler.getViewClass());
+        // see what happens when passing in nulls..
+        config = new WidgetConfig();
+        config.addContentHandler(null, null);
+        // test a bogus class name..
+        config.addContentHandler("bogus.contenthandler", null);
+        // set a bogus view class...
+        config.addContentHandler("org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler", "bogus.view");
+        assertNull(config.getContentHandler(TreeNode.class).getViewClass());
+        config.addContentHandler("org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler", "java.lang.String");
+        assertNull(config.getContentHandler(TreeNode.class).getViewClass());
+        config.addContentHandler("java.lang.String", "java.lang.String");
     }
 
     public class Content2 extends Content1 {
@@ -172,6 +205,17 @@ public class WidgetConfigTest extends TestCase {
          */
         public void setContent(Object content) {
 
+        }
+        /**
+         * @see org.xulux.dataprovider.contenthandlers.IContentHandler#setView(java.lang.Class)
+         */
+        public void setView(Class view) {
+        }
+        /**
+         * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getViewClass()
+         */
+        public Class getViewClass() {
+            return null;
         }
     }
 
@@ -228,5 +272,8 @@ public class WidgetConfigTest extends TestCase {
          */
         public void destroy() {
         }
+    }
+    
+    public class PropHandler2 extends PropHandler {
     }
 }

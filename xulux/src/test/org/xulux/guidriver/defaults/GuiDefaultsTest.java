@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsTest.java,v 1.2 2004-03-16 15:04:17 mvdb Exp $
+   $Id: GuiDefaultsTest.java,v 1.3 2004-03-23 08:42:24 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,7 +18,6 @@
 package org.xulux.guidriver.defaults;
 
 import java.io.ByteArrayInputStream;
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,12 +30,14 @@ import junit.framework.TestSuite;
 import org.dom4j.Document;
 import org.xulux.core.ApplicationContext;
 import org.xulux.core.WidgetConfig;
+import org.xulux.dataprovider.contenthandlers.IContentHandler;
+import org.xulux.dataprovider.contenthandlers.SimpleDOMView;
 
 /**
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.2 2004-03-16 15:04:17 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.3 2004-03-23 08:42:24 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -82,8 +83,8 @@ public class GuiDefaultsTest extends TestCase {
         System.out.println("testRead");
         GuiDefaultsHandler handler = new GuiDefaultsHandler();
         handler.read(null);
-        StringReader reader = new StringReader("<guidefaults defaultType=\"swing\">");
-        handler.read(new ByteArrayInputStream("<guidefaults defaultType=\"swing\">".getBytes()));
+        //StringReader reader = new StringReader("<guidefaults defaultType=\"swing\">");
+        handler.read(new ByteArrayInputStream("<guidefaults defaultType=\"swing\"/>".getBytes()));
     }
     /**
      * Test an xml interface without defaulttype
@@ -108,8 +109,13 @@ public class GuiDefaultsTest extends TestCase {
         List list = config.getWidgetInitializers("swing");
         assertEquals(1, list.size());
         config = ApplicationContext.getInstance().getWidgetConfig("tree");
-        assertNull(config.getContentHandler(Document.class));
-        assertNotNull(config.getContentHandler(TreeNode.class));
+        IContentHandler handler = config.getContentHandler(Document.class);
+        assertNotNull(handler);
+        assertEquals(SimpleDOMView.class, handler.getViewClass());
+        handler = config.getContentHandler(TreeNode.class);
+        assertNotNull(handler);
+        // overriding the view and setting it to bogus..
+        assertEquals(BogusContentView.class, handler.getViewClass());
     }
 
 }
