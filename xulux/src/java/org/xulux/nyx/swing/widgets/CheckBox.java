@@ -1,5 +1,5 @@
 /*
- $Id: CheckBox.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
+ $Id: CheckBox.java,v 1.2 2003-07-11 00:06:34 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,16 +51,18 @@ import javax.swing.JCheckBox;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * The nyx to swing implementation of a checkbox
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.2 2003-07-11 00:06:34 mvdb Exp $
  */
 public class CheckBox extends Widget {
     
     private JCheckBox checkBox;
+    private PrePostFieldListener itemListener;
     /**
      * @param name
      */
@@ -80,6 +82,10 @@ public class CheckBox extends Widget {
             {
                 container.remove(checkBox);
             }
+            if (itemListener != null) {
+                checkBox.removeItemListener(itemListener);
+            }
+            itemListener = null;
             checkBox = null;
         }
         removeAllRules();
@@ -104,6 +110,10 @@ public class CheckBox extends Widget {
         }
         this.initialized = true;
         this.checkBox = new JCheckBox();
+        this.itemListener = new PrePostFieldListener(this);
+        // we always need to add a itemlistener to change
+        // the value..
+        checkBox.addItemListener(this.itemListener);
         refresh();
 
     }
@@ -112,9 +122,10 @@ public class CheckBox extends Widget {
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public void refresh() {
+        isRefreshing = true;
         initialize();
         checkBox.setSelected(BooleanUtils.toBoolean((String)getValue()));
-        checkBox.repaint();
+        isRefreshing = false;
     }
 
     /**
@@ -123,5 +134,4 @@ public class CheckBox extends Widget {
     public void focus() {
         checkBox.requestFocus();
     }
-
 }

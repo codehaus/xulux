@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.13 2003-06-17 17:30:07 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.14 2003-07-11 00:06:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,19 +49,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.widgets.CheckBox;
 import org.xulux.nyx.swing.widgets.Entry;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.13 2003-06-17 17:30:07 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.14 2003-07-11 00:06:34 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
-implements FocusListener, ActionListener
+implements FocusListener, ActionListener, ItemListener
 {
+    
+    private static Log log = LogFactory.getLog(PrePostFieldListener.class);
     
     /**
      * Constructor for PrePostFieldListener.
@@ -122,5 +129,29 @@ implements FocusListener, ActionListener
         completed();
     }
     
-
+    /**
+     * Sets the correct value when a checkbox is 
+     * clicked. It will call the post after the 
+     * value is adjusted.
+     * 
+     * TODO: optimize this using native boolean ??
+     * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+     */
+    public void itemStateChanged(ItemEvent e) {
+        // make sure we don't end up in a loop by checking
+        // the fact if the widget is currently refreshing or not..
+        if (widget instanceof CheckBox && !widget.isRefreshing()) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                widget.setValue("true");
+            }else if(e.getStateChange() == ItemEvent.DESELECTED) {
+                widget.setValue("false");
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("Checkbox clicked on Widget : "+
+                   widget.getName()+" value: "+
+                       widget.getValue());
+            }
+        }
+        completed();
+    }
 }

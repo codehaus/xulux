@@ -1,7 +1,7 @@
 /*
- $Id: ImmidiateListener.java,v 1.7 2003-06-17 12:09:22 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.8 2003-07-11 00:06:34 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -56,10 +56,10 @@ import org.xulux.nyx.gui.Widget;
 
 /**
  * The immidiate listeners fires events based on typed keys.
- * For now unsupported
+ * For now only used for checkbox.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.7 2003-06-17 12:09:22 mvdb Exp $
+ * @version $Id: ImmidiateListener.java,v 1.8 2003-07-11 00:06:34 mvdb Exp $
  */
 public class ImmidiateListener extends KeyAdapter
 {
@@ -104,5 +104,6 @@ public class ImmidiateListener extends KeyAdapter
     {
         this.widget = widget;
     }
+
 
 }
