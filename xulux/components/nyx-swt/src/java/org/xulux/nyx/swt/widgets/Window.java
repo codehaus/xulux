@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.3 2003-06-17 17:01:20 mvdb Exp $
+ $Id: Window.java,v 1.4 2003-07-16 19:50:53 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * The SWT window
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.3 2003-06-17 17:01:20 mvdb Exp $
+ * @version $Id: Window.java,v 1.4 2003-07-16 19:50:53 mvdb Exp $
  */
 public class Window extends NyxWindow
 implements SWTWidget
@@ -214,6 +214,13 @@ implements SWTWidget
      */
     public void focus() {
         window.setFocus();
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     */
+    public Object getGuiValue() {
+        return null;
     }
 
 }
