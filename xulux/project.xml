@@ -151,9 +151,15 @@
 
 
   <build>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <!-- Unit test cases -->
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
 
-    <nagEmailAddress>xulux-interest@lists.codehaus.org</nagEmailAddress>
-
+    <nagEmailAddress>xulux-dev@lists.codehaus.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
 
     <jars>
