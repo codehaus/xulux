@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtilsTest.java,v 1.5 2004-03-23 08:42:22 mvdb Exp $
+   $Id: ClassLoaderUtilsTest.java,v 1.6 2004-03-25 00:48:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,8 +17,11 @@
 */
 package org.xulux.utils;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -34,7 +37,7 @@ import org.xulux.dataprovider.Dictionary;
  * Test for the classLoaderUtils
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtilsTest.java,v 1.5 2004-03-23 08:42:22 mvdb Exp $
+ * @version $Id: ClassLoaderUtilsTest.java,v 1.6 2004-03-25 00:48:09 mvdb Exp $
  */
 public class ClassLoaderUtilsTest extends TestCase {
     /**
@@ -64,7 +67,7 @@ public class ClassLoaderUtilsTest extends TestCase {
      * Test the objectFromClass
      * and the objectFromClassString
      */
-    public void testObjectFromClass() {
+    public void testObjectFromClass() throws Exception {
         System.out.println("testObjectFromClass");
         assertEquals(new String(), ClassLoaderUtils.getObjectFromClassString("java.lang.String"));
         assertEquals(new String(), ClassLoaderUtils.getObjectFromClass(String.class));
@@ -84,6 +87,22 @@ public class ClassLoaderUtilsTest extends TestCase {
         assertEquals(PublicInnerClassObject.class,
             ClassLoaderUtils.getObjectFromClass(PublicInnerClassObject.class, list).getClass());
         ((SimpleLog) LogFactory.getFactory().getInstance(ClassLoaderUtils.class)).setLevel(SimpleLog.LOG_LEVEL_WARN);
+    }
+    
+    public URL[] getClassPathUrl() {
+        String jcp = System.getProperty("java.class.path");
+        StringTokenizer stn = new StringTokenizer(jcp, File.pathSeparator);
+        URL[] urls = new URL[stn.countTokens()];
+        int i = 0;
+        while (stn.hasMoreTokens()) {
+            try {
+                urls[i] = new URL("file", null, -1, stn.nextToken());
+                i++;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return urls;
     }
 
     /**
@@ -146,6 +165,15 @@ public class ClassLoaderUtilsTest extends TestCase {
         assertTrue(ClassLoaderUtils.isInner(StaticInner.class));
         assertTrue(ClassLoaderUtils.isInner(NormalInner.class));
     }
+
+    /**
+     * Test the constructor
+     */
+    public void testConstructor() {
+        System.out.println("testConstructor");
+        new ClassLoaderUtils();
+    }
+
     
     /**
      * Test the scenario where there is an object constructor
@@ -202,13 +230,6 @@ public class ClassLoaderUtilsTest extends TestCase {
         }
     }
      
-    /**
-     * Test the constructor
-     */
-    public void testConstructor() {
-        new ClassLoaderUtils();
-    }
-
     /**
      * The static inner class
      */
@@ -300,4 +321,5 @@ public class ClassLoaderUtilsTest extends TestCase {
         public AbstractInner() {
         }
     }
+
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtils.java,v 1.4 2004-03-23 08:42:24 mvdb Exp $
+   $Id: ClassLoaderUtils.java,v 1.5 2004-03-25 00:48:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.4 2004-03-23 08:42:24 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.5 2004-03-25 00:48:09 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -91,6 +91,8 @@ public class ClassLoaderUtils {
         }
         catch (IllegalAccessException e) {
             log.warn("Cannot access class " + clazz.getName());
+        } catch (NoClassDefFoundError e) {
+            log.warn("Cannot find class definition for class " + clazz.getName());
         }
         return null;
     }

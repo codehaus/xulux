@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfigTest.java,v 1.3 2004-03-23 16:16:21 mvdb Exp $
+   $Id: WidgetConfigTest.java,v 1.4 2004-03-25 00:48:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.3 2004-03-23 16:16:21 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.4 2004-03-25 00:48:09 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase {
 
@@ -167,6 +167,8 @@ public class WidgetConfigTest extends TestCase {
         config.addContentHandler("org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler", "java.lang.String");
         assertNull(config.getContentHandler(TreeNode.class).getViewClass());
         config.addContentHandler("java.lang.String", "java.lang.String");
+        // test where the contenthandler fails to instantiate the handler..
+        config.addContentHandler(FailInstantiateHandler.class.getName(), "java.lang.String");
     }
 
     public class Content2 extends Content1 {
@@ -282,5 +284,52 @@ public class WidgetConfigTest extends TestCase {
     }
     
     public class PropHandler2 extends PropHandler {
+    }
+    
+    public class FailInstantiateHandler implements IContentHandler {
+        
+        public FailInstantiateHandler() {
+            throw new RuntimeException();
+        }
+
+        /**
+         * @see org.xulux.dataprovider.contenthandlers.IContentHandler#setContent(java.lang.Object)
+         */
+        public void setContent(Object content) {
+        }
+
+        /**
+         * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getContent()
+         */
+        public Object getContent() {
+            return null;
+        }
+
+        /**
+         * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getType()
+         */
+        public Class getType() {
+            return null;
+        }
+
+        /**
+         * @see org.xulux.dataprovider.contenthandlers.IContentHandler#refresh()
+         */
+        public void refresh() {
+        }
+
+        /**
+         * @see org.xulux.dataprovider.contenthandlers.IContentHandler#setView(java.lang.Class)
+         */
+        public void setView(Class view) {
+        }
+
+        /**
+         * @see org.xulux.dataprovider.contenthandlers.IContentHandler#getViewClass()
+         */
+        public Class getViewClass() {
+            return null;
+        }
+
     }
 }
