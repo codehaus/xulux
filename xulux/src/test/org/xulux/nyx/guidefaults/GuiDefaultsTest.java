@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.2 2003-05-21 10:00:14 mvdb Exp $
+ $Id: GuiDefaultsTest.java,v 1.3 2003-06-17 17:27:45 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import junit.framework.TestSuite;
  * Tests processing of guiDefaults.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.2 2003-05-21 10:00:14 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.3 2003-06-17 17:27:45 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase
 {
@@ -88,9 +88,8 @@ public class GuiDefaultsTest extends TestCase
         HashMap map = ApplicationContext.getInstance().getWidgets();
         WidgetConfig config = (WidgetConfig)map.get("combo");
         assertNotNull(config);
-        assertEquals(Class.forName("org.xulux.nyx.gui.swing.Combo"),config.get("swing"));
-        assertEquals(Class.forName("org.xulux.nyx.gui.swt.Combo"),config.get("swt"));
-        assertEquals(Class.forName("org.xulux.nyx.gui.Combo"),config.get("core"));
+        assertEquals(Class.forName("org.xulux.nyx.swing.widgets.Combo"),config.get("swing"));
+        assertEquals(Class.forName("org.xulux.nyx.swt.widgets.SWTCombo"),config.get("swt"));
     }
 
 }

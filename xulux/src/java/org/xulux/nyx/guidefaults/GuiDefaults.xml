@@ -8,11 +8,11 @@
   <widgets>
     <widget name="button" class="org.xulux.nyx.swing.widgets.Button"/>
     <widget name="combo" type="swing" class="org.xulux.nyx.swing.widgets.Combo"/>
-    <widget name="combo" type="swt" class="org.xulux.nyx.swt.Combo"/>
+    <widget name="combo" type="swt" class="org.xulux.nyx.swt.widgets.SWTCombo"/>
     <widget name="entry" class="org.xulux.nyx.swing.widgets.Entry"/>
     <widget name="label" class="org.xulux.nyx.swing.widgets.Label"/>
     <widget name="panel" class="org.xulux.nyx.swing.widgets.Panel"/>
     <widget name="window" type="swing" class="org.xulux.nyx.swing.widgets.Window"/>
-    <widget name="window" type="swt" class="org.xulux.nyx.swt.Window"/>
+    <widget name="window" type="swt" class="org.xulux.nyx.swt.widgets.Window"/>
   </widgets>
 </guidefaults>
