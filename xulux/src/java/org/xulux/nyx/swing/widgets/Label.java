@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.15 2003-08-20 01:12:37 mvdb Exp $
+ $Id: Label.java,v 1.16 2003-08-25 17:37:59 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,6 +53,7 @@ import javax.swing.JLabel;
 import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IConverter;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.utils.ColorUtils;
@@ -61,7 +62,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.15 2003-08-20 01:12:37 mvdb Exp $
+ * @version $Id: Label.java,v 1.16 2003-08-25 17:37:59 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -188,6 +189,10 @@ public class Label extends SwingWidget
                 Object value = field.getValue(getPart().getBean());
                 if (value == null) {
                     value = "";
+                }
+                IConverter converter = Dictionary.getConverter(getValue());
+                if (converter != null) {
+                    value = converter.getGuiValue(value);
                 }
                 setProperty("text", String.valueOf(value));
             }

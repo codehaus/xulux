@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.12 2003-08-11 00:37:10 mvdb Exp $
+ $Id: NyxCombo.java,v 1.13 2003-08-25 17:37:59 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.12 2003-08-11 00:37:10 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.13 2003-08-25 17:37:59 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 implements IContentWidget
@@ -140,7 +140,13 @@ implements IContentWidget
             this.content = NyxCollectionUtils.getListFromCSV(content);
         }else if (contentType.equalsIgnoreCase("field")) {
             int index = content.lastIndexOf(".");
-            BeanMapping mapping = Dictionary.getInstance().getMapping(ClassLoaderUtils.getClass(content.substring(0,index)));
+            Class clz = ClassLoaderUtils.getClass(content.substring(0,index));
+            if (clz == null) {
+                if (log.isWarnEnabled()) {
+                    log.warn("content field "+content+" of widget "+getName()+" could not be found");
+                }
+            }
+            BeanMapping mapping = Dictionary.getInstance().getMapping(clz);
             if (mapping != null) {
                 IField field = mapping.getField(content.substring(index+1));
                 if (field != null) {
