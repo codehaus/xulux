@@ -74,7 +74,14 @@
           Specifies the height of a row
         </td>
       </tr>
-      
+      <tr>
+        <td>locked</td>
+        <td>swing</td>
+        <td>
+          This is not an actual table property, but only works on widgets which are shown in tables.
+          This property specifies if a column should be locked (so not included in the scrollable area)
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>
