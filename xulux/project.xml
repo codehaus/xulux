@@ -24,7 +24,7 @@
   <shortDescription>NYX data driven gui's</shortDescription>
 
   <url>http://nyx.xulux.org/</url>
-  <issueTrackingUrl>http://www.xulux.org</issueTrackingUrl>
+  <issueTrackingUrl>http://jira.werken.com</issueTrackingUrl>
   <siteAddress>eng.werken.com</siteAddress>
   <siteDirectory>/www/nyx.xulux.org/</siteDirectory>
   <distributionDirectory>/www/nyx.xulux.org/builds/nyx/</distributionDirectory>
