@@ -1,5 +1,5 @@
 /*
-   $Id: PopupListener.java,v 1.6 2004-10-11 19:14:20 mvdb Exp $
+   $Id: PopupListener.java,v 1.7 2004-11-16 11:13:19 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,6 +17,7 @@
 */
 package org.xulux.swing.listeners;
 
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
@@ -34,7 +35,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * A popuplistener. Shows the popup when the right mousebutton is clicked
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupListener.java,v 1.6 2004-10-11 19:14:20 mvdb Exp $
+ * @version $Id: PopupListener.java,v 1.7 2004-11-16 11:13:19 mvdb Exp $
  */
 public class PopupListener extends NyxListener implements MouseListener {
 
@@ -56,43 +57,19 @@ public class PopupListener extends NyxListener implements MouseListener {
      * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
      */
     public void mousePressed(MouseEvent e) {
-      WidgetRequestImpl impl = new WidgetRequestImpl(getWidget().getParent(), PartRequest.ACTION_VALUE_CHANGED);
-      //        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
-      //        // preform all pre rules if postOnly is false
-      //            ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
-      ////        fi
-      XuluxContext.fireFieldRequest(getWidget(), impl, XuluxContext.PRE_REQUEST);
-      List list = getWidget().getChildWidgets();
-      if (list != null) {
-          for (int i = 0; i < list.size(); i++) {
-              Widget widget = (Widget) list.get(i);
-              XuluxContext.fireFieldRequest(widget, impl, XuluxContext.PRE_REQUEST);
-          }
-      }
-        if (e.isPopupTrigger()) {
-          //System.out.println("widget parent : " +
-//          ((JComponent) getWidget().getNativeWidget()).setLocation(e.getX(), e.getY());
-          ((JComponent) getWidget().getNativeWidget()).setVisible(true);
-//	      getWidget().setPosition(e.getX(), e.getY());
-//          getWidget().setVisible(true);
-//          getWidget().refresh();
-//          JComponent comp = (JComponent) getWidget().getNativeWidget();
-//          if (comp instanceof JPopupMenu) {
-//            ((JPopupMenu) comp).setVisible(true);
-//          }
-        }
+      showPopup(e);
     }
 
     /**
      * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
      */
     public void mouseReleased(MouseEvent e) {
-        // fire pre rules of menuitems..
+        showPopup(e);
+    }
+    
+    public void showPopup(MouseEvent e) {
+      if (e.isPopupTrigger()) {
         WidgetRequestImpl impl = new WidgetRequestImpl(getWidget().getParent(), PartRequest.ACTION_VALUE_CHANGED);
-        //        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
-        //        // preform all pre rules if postOnly is false
-        //            ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
-        ////        fi
         XuluxContext.fireFieldRequest(getWidget(), impl, XuluxContext.PRE_REQUEST);
         List list = getWidget().getChildWidgets();
         if (list != null) {
@@ -101,26 +78,18 @@ public class PopupListener extends NyxListener implements MouseListener {
                 XuluxContext.fireFieldRequest(widget, impl, XuluxContext.PRE_REQUEST);
             }
         }
-        if (e.isPopupTrigger()) {
-        ((JComponent) getWidget().getNativeWidget()).setLocation(e.getX(), e.getY());
-          ((JComponent) getWidget().getNativeWidget()).setVisible(true);
-          JComponent comp = (JComponent) getWidget().getNativeWidget();
-          if (comp instanceof JPopupMenu) {
-            ((JPopupMenu) comp).setVisible(true);
-//            getWidget().setPosition(e.getX(), e.getY());
-//            getWidget().setVisible(true);
-          }
+        JComponent comp = (JComponent) getWidget().getNativeWidget();
+        if (comp instanceof JPopupMenu) {
+          ((JPopupMenu) comp).show((Component) e.getSource(), e.getX(), e.getY());
         }
+        
+      }
     }
     /**
      * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
      */
     public void mouseClicked(MouseEvent e) {
-      if (e.getClickCount() == 2) {
-        if ("update".equals(getWidget().getProperty("action"))) {
-        }
-      }
-
+      showPopup(e);
     }
 
     /**
