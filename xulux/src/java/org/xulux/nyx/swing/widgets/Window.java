@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ $Id: Window.java,v 1.4 2003-07-11 01:13:25 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,6 +59,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.gui.NyxWindow;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.layouts.XYLayout;
 import org.xulux.nyx.swing.listeners.NyxWindowListener;
@@ -68,9 +69,9 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ * @version $Id: Window.java,v 1.4 2003-07-11 01:13:25 mvdb Exp $
  */
-public class Window extends org.xulux.nyx.gui.NyxWindow
+public class Window extends NyxWindow
 {
     JFrame window;
     WindowListener windowListener;
