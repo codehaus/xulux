@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.14 2003-07-17 01:09:34 mvdb Exp $
+ $Id: BeanField.java,v 1.15 2003-07-17 02:50:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -68,7 +68,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.14 2003-07-17 01:09:34 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.15 2003-07-17 02:50:13 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -182,8 +182,32 @@ public class BeanField implements IField
             } else {
                 System.err.println("changeMethod : "+changeMethod);
                 System.err.println("Value : "+value.getClass());
+                Class valClass = value.getClass();
                 List parmList = Arrays.asList(changeMethod.getParameterTypes());
-                this.changeMethod.invoke(bean, new Object[]{value});
+                // TODO: Support multiple parameters when setting..
+                if (parmList.size() > 0 ) {
+                    Class cl = (Class) parmList.get(0);
+                    // TODO: Error prone probably...
+                    // What this does is if the object set as value
+                    // is not a String and the parameter that needs
+                    // to be used is a string, it will try to  
+                    // invoke the toString method on the value.
+                    if (cl == String.class) {
+                        // try a toString..
+                        if (value != null) {
+                            value = value.toString();
+                        }
+                    }
+                }
+                try {
+                    this.changeMethod.invoke(bean, new Object[]{value});
+                }catch(IllegalArgumentException iae) {
+                    if (log.isWarnEnabled()) {
+                        log.warn("Invalid argument "+value.getClass().getName()+" for method "+this.changeMethod);
+                    }
+                    success = false;
+                }
+                    
             }
             success = true;
         }
