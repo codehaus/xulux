@@ -24,6 +24,6 @@
     <widget name="window" class="org.xulux.nyx.swing.widgets.Window"/>
     <widget name="window" type="swt" class="org.xulux.nyx.swt.widgets.Window"/>
     <widget name="textarea" class="org.xulux.nyx.swing.widgets.TextArea"/>
-    <widget name="table" class="org.xulux.nyx.swing.widgets.TextArea"/>
+    <widget name="table" class="org.xulux.nyx.swing.widgets.Table"/>
   </widgets>
 </guidefaults>

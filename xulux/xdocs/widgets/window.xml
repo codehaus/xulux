@@ -120,8 +120,17 @@
         <td>autosize</td>
         <td>all</td>
         <td>
+          <b>deprecated. use auto</b> 
           Specify true or false. If this is false,
           it will not autosize the window
+        </td>
+      </tr>
+      <tr>
+        <td>size</td>
+        <td>all</td>
+        <td>
+          format is x,y or specify auto if you want
+          to autosize the window
         </td>
       </tr>
     </table>

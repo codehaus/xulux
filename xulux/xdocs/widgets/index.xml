@@ -11,7 +11,53 @@
 <section name="The Widget">
   <subsection name="General">
     <p>
-      Explain what a widget is
+      A widget is a class that represents a control on the screen
+      NYX contains a default set of widgets, which can be expanded
+      and replaced by using an xml file. Currently these widgets
+      are present :
+     <table>
+      <tr><th>Widget</th><th>supported</th></tr>
+      <tr>
+        <td><a href="window.html">Window</a></td>
+        <td>swing,swt</td>
+      </tr>
+      <tr>
+        <td><a href="label.html">Label</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="entry.html">Entry</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="panel.html">Panel</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="button.html">Button</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="checkbox.html">Checkbox</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="native.html">Native</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="tabpanel.html">TabPanel</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="textarea.html">TextArea</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="table.html">table</a></td>
+        <td>swing</td>
+      </tr>
+      </table>
     </p>
   </subsection>
   <subsection name="Behaviour">

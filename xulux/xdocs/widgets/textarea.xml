@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The TextArea Widget</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The TextArea Widget">
+  <subsection name="General">
+    <p>
+      Explain..
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      Description
+    </p>
+    <table>
+      <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
+      <tr>
+        <td>xxx</td>
+        <td>swing</td>
+        <td>xxx</td>
+      </tr>
+    </table>
+  </subsection>
+</section>
+
+</body>
+
+</document>

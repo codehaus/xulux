@@ -1,7 +1,7 @@
 /*
- $Id: NyxComboBox.java,v 1.4 2003-05-21 11:24:19 mvdb Exp $
+ $Id: PersonCollection.java,v 1.1 2003-07-29 09:17:37 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,61 +43,41 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing;
+package org.xulux.nyx.gui.swing.widgets;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.JComboBox;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This overrides the default JComboBox.
- * The problem it solves is that when setting
- * a new model in the NyxCombo class, it would fire
- * an action event, which would trigger another
- * firing of all pre requests (and possibly nulling values!)
- * This prevents that situation.
+ * A collection class for eg a table.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxComboBox.java,v 1.4 2003-05-21 11:24:19 mvdb Exp $
+ * @version $Id: PersonCollection.java,v 1.1 2003-07-29 09:17:37 mvdb Exp $
  */
-public class NyxComboBox extends JComboBox
-{
+public class PersonCollection {
 
-    private static boolean newModelIsSet = false;
-
+    List list;
+    
     /**
-     * Constructor for NyxComboBox.
+     * 
      */
-    public NyxComboBox()
-    {
-        super();
+    public PersonCollection() {
     }
-
-    /**
-     * Set a setting so that we now a new model is set
-     * and no action events should be fired
-     * @param model - the model
-     */
-    public void setModel(ComboBoxModel model)
-    {
-        newModelIsSet = true;
-        super.setModel(model);
-        newModelIsSet = false;
-    }
-    /**
-     * Only calls the selectedItem when we are not
-     * setting a new model
-     * @param object - the selectedItem
-     */
-    public void setSelectedItem(Object object)
-    {
-        if (newModelIsSet)
-        {
-            Object selectedItem = getModel().getSelectedItem();
+    
+    public void addPerson(PersonBean person) {
+        if (list == null) {
+            list = new ArrayList();
         }
-        if (!newModelIsSet)
-        {
-            super.setSelectedItem(object);
-        }
+        list.add(person);
     }
+    
+    public List getPersons() {
+        return this.list;
+    }
+    
+    public void setPersonList(List list) {
+        this.list = list;
+    }
+        
 
 }

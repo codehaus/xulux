@@ -24,14 +24,14 @@
   <shortDescription>NYX data driven gui's</shortDescription>
 
   <url>http://nyx.xulux.org/</url>
-  <issueTrackingUrl>http://jira.werken.com</issueTrackingUrl>
-  <siteAddress>eng.werken.com</siteAddress>
+  <issueTrackingUrl>http://jira.codehaus.org</issueTrackingUrl>
+  <siteAddress>codehaus.org</siteAddress>
   <siteDirectory>/www/nyx.xulux.org/</siteDirectory>
   <distributionDirectory>/www/nyx.xulux.org/builds/nyx/</distributionDirectory>
 
   <repository>
-    <connection>scm:cvs:pserver:anoncvs@eng.werken.com:/cvsroot/xulux:nyx</connection>
-    <url>http://cvs.werken.com/viewcvs.cgi/nyx/?cvsroot=xulux</url>
+    <connection>scm:cvs:pserver:anoncvs@codehaus.org:/cvsroot/xulux:nyx</connection>
+    <url>http://cvs.codehaus.org/viewcvs.cgi/nyx/?cvsroot=xulux</url>
   </repository>
 
   <versions>
@@ -69,7 +69,8 @@
       <organization>mvdb.com</organization>
       <roles>
         <role>Founder</role>
-        <role>Java Developer</role>
+        <role>Architect</role>
+        <role>Idiot</role>
       </roles>
     </developer>
   </developers>

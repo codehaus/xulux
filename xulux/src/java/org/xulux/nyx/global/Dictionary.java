@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.12 2003-07-24 16:01:51 mvdb Exp $
+ $Id: Dictionary.java,v 1.13 2003-07-29 09:17:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.12 2003-07-24 16:01:51 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.13 2003-07-29 09:17:37 mvdb Exp $
  */
 public class Dictionary
 {
@@ -337,10 +337,43 @@ public class Dictionary
         }
     }
     
+    /**
+     * Convenience method. see addConverter(Class) for more
+     * details.
+     * 
+     * @param clazz
+     */
+    public static void addConverter(String clazz) {
+        if (clazz == null) {
+            return;
+        }
+        Class clz = ClassLoaderUtils.getClass(clazz);
+        if (clz == null) {
+            if (log.isWarnEnabled()) {
+                log.warn(clz +" does not exists or could not be loaded");
+            }
+        } else {
+            addConverter(clz);
+        }
+            
+        addConverter(ClassLoaderUtils.getClass(clazz));
+    }
+    
+    /**
+     * 
+     * @param object 
+     * @return the converter for the object specified or 
+     *          null when no converter is present
+     */
     public static IConverter getConverter(Object object) {
         return getConverter(object!=null?object.getClass():null);
     }
-    
+    /**
+     * 
+     * @param clazz
+     * @return the coverter for the clazz specified or null
+     *          when no converter is present
+     */
     public static IConverter getConverter(Class clazz) {
         if (clazz != null && converters != null)  {
             return (IConverter)converters.get(clazz);

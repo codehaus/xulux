@@ -43,8 +43,9 @@
   This way you can add new functionality in a new tag,
   without too much problems. Nyx is property based,
   which means if it encounters a property that it doesn't
-  know by default, it will add it is a property, which in your
-  turn you can request from the widget and do your magic.
+  know by default, it will add it as a property, which in your
+  turn you can request from the widget (getProperty(key)) and do 
+  your magic.
 </p>
 
   <subsection name="Creating the xml">

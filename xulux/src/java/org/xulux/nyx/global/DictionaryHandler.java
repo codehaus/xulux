@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryHandler.java,v 1.8 2003-07-24 01:20:03 mvdb Exp $
+ $Id: DictionaryHandler.java,v 1.9 2003-07-29 09:17:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * The default dictionary.xml reader
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.8 2003-07-24 01:20:03 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.9 2003-07-29 09:17:37 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {
@@ -73,10 +73,13 @@ public class DictionaryHandler extends DefaultHandler
     private static String FIELD_ELEMENT = "field";
     private static String PARAMETER_ELEMENT = "parameter";
     private static String SETMETHOD_ELEMENT = "setmethod";
+    private static String CONVERTERS_ELEMENT = "converters";
+    private static String CONVERTER_ELEMENT = "converter";
     private static String NAME_ATTRIBUTE = "name";
     private static String DISCOVERY_ATTRIBUTE = "discovery";
     private static String ALIAS_ATTRIBUTE = "alias";
     private static String TYPE_ATTRIBUTE = "type";
+    private static String CLASS_ATTRIBUTE = "class";
     private static String VALUE_ATTRIBUTE = "value";
     
     private static Log log = LogFactory.getLog(DictionaryHandler.class);
@@ -85,6 +88,7 @@ public class DictionaryHandler extends DefaultHandler
     private boolean inBeanElement;
     private boolean inBaseElement;
     private boolean inParameterElement;
+    private boolean inConvertersElement;
     private String currentValue;
     BeanField currentField;
     /**
@@ -139,6 +143,9 @@ public class DictionaryHandler extends DefaultHandler
         if (qName.equals(PREFIX_ELEMENT))
         {
             Dictionary.getInstance().addMapping(currentMapping);
+        }
+        else if (qName.equals(CONVERTERS_ELEMENT)) {
+            inConvertersElement = false;
         }
         else if (qName.equals(BEAN_ELEMENT))
         {
@@ -203,6 +210,13 @@ public class DictionaryHandler extends DefaultHandler
         if (qName.equals(PREFIX_ELEMENT))
         {
             currentMapping = new BeanMapping(atts.getValue(NAME_ATTRIBUTE));
+        }
+        else if (qName.equals(CONVERTERS_ELEMENT)) {
+            inConvertersElement = true;
+        }
+        else if (qName.equals(CONVERTER_ELEMENT)) {
+            String clazz = atts.getValue(CLASS_ATTRIBUTE);
+            Dictionary.addConverter(clazz);
         }
         else if (qName.equals(BEAN_ELEMENT))
         {
