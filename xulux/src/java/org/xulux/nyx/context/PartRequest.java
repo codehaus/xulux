@@ -1,5 +1,5 @@
 /*
- $Id: PartRequest.java,v 1.1 2002-11-04 09:29:03 mvdb Exp $
+ $Id: PartRequest.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,12 +45,14 @@
  */
 package org.xulux.nyx.context;
 
+import org.xulux.nyx.gui.Widget;
+
 /**
  * The partRequest contains the direct connection to the current processed 
  * field or action (action not in the Swing sence)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequest.java,v 1.1 2002-11-04 09:29:03 mvdb Exp $
+ * @version $Id: PartRequest.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
  */
 public interface PartRequest
 {
@@ -93,5 +95,10 @@ public interface PartRequest
      * Returns the name of the field
      */
     public String getName();
+    
+    /**
+     * Returns the widget
+     */
+    public Widget getWidget();
     
 }

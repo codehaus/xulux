@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.2 2002-11-05 01:37:45 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.3 2002-11-11 01:45:39 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.xulux.nyx.gui.Widget;
  * The immidiate listeners fires events based on the 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.2 2002-11-05 01:37:45 mvdb Exp $
+ * @version $Id: ImmidiateListener.java,v 1.3 2002-11-11 01:45:39 mvdb Exp $
  */
 public class ImmidiateListener extends KeyAdapter
 {
@@ -79,7 +79,7 @@ public class ImmidiateListener extends KeyAdapter
      */
     public void keyTyped(KeyEvent e)
     {
-        PartRequestImpl impl = new PartRequestImpl(widget.getField(), widget.getPart(), PartRequest.ACTION_VALUE_CHANGED);
+        PartRequestImpl impl = new PartRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequests(impl, ApplicationContext.EXECUTE_REQUEST);
     }
 

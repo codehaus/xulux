@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.14 2002-11-10 21:44:11 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.15 2002-11-11 01:45:40 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -83,7 +83,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.14 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.15 2002-11-11 01:45:40 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -216,9 +216,10 @@ public class ApplicationPart
     /**
      * Returns the widget that is connected to the field
      */
-    public Widget getWidget(String field)
+    public Widget getWidget(String name)
     {
-        return (Widget)widgets.get(field);
+        System.out.println("Widgets  :"+widgets);
+        return (Widget)widgets.get(name);
     }
     
     /**
@@ -379,7 +380,7 @@ public class ApplicationPart
                 try
                 {
                     ((JPanel)parentWidget).add((Component)widget.getNativeWidget(),widget);
-                    PartRequestImpl req = new PartRequestImpl(widget.getField(), this, PartRequest.NO_ACTION);
+                    PartRequestImpl req = new PartRequestImpl(widget,PartRequest.NO_ACTION);
                     ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
                 }
                 catch(NullPointerException npe)

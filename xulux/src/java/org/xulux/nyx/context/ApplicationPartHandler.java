@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.4 2002-11-11 01:45:40 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.context;
 
 import java.io.InputStream;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -64,7 +65,7 @@ import org.xulux.nyx.rules.IRule;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.4 2002-11-11 01:45:40 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -288,11 +289,20 @@ public class ApplicationPartHandler extends DefaultHandler
         }
         else if (processPosition || processSize)
         {
-            // not really fail safe!
-            StringTokenizer stn =
+            int x = 0;
+            int y = 0;
+            try
+            {
+                StringTokenizer stn =
                 new StringTokenizer(new String(arg0, arg1, arg2), ",");
-            int x = Integer.parseInt(stn.nextToken());
-            int y = Integer.parseInt(stn.nextToken());
+                x = Integer.parseInt(stn.nextToken());
+                y = Integer.parseInt(stn.nextToken());
+            }
+            catch(NoSuchElementException nse)
+            {
+                System.err.println("Parsing error with text : "+new String(arg0,arg1,arg2));
+                System.err.println("with widget : "+((Widget) stack.get(stack.size()-1)).getName());
+            }
             Widget widget = (Widget) stack.get(stack.size()-1);
             if (processSize)
             {

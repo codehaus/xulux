@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.5 2002-11-10 21:44:11 mvdb Exp $
+ $Id: Combo.java,v 1.6 2002-11-11 01:45:39 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,12 +56,13 @@ import javax.swing.JComboBox;
 
 import org.xulux.nyx.swing.listeners.ImmidiateListener;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.swing.models.DefaultComboModel;
 
 /**
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.5 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: Combo.java,v 1.6 2002-11-11 01:45:39 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -70,8 +71,9 @@ public class Combo extends Widget
     private JComboBox combo;
     private String notSelectedValue;
     private KeyListener keyListener;
-    private FocusListener focusListener;
     private boolean contentChanged;
+    private DefaultComboModel model;
+    private PrePostFieldListener actionListener;
 
     /**
      * Constructor for Combo.
@@ -101,6 +103,7 @@ public class Combo extends Widget
     {
         this.content = list;
         contentChanged = true;
+        refresh();
     }
     
     /**
@@ -135,6 +138,8 @@ public class Combo extends Widget
             }
         }
         this.notSelectedValue = value;
+        this.contentChanged = true;
+        refresh();
     }
     
     /**
@@ -152,10 +157,10 @@ public class Combo extends Widget
     {
         if (combo != null)
         {
-            if (focusListener != null)
+            if (actionListener != null)
             {
-                combo.removeFocusListener(focusListener);
-                focusListener = null;
+                combo.removeActionListener(actionListener);
+                actionListener = null;
             }
             if (keyListener != null)
             {
@@ -204,19 +209,25 @@ public class Combo extends Widget
         {
             combo.removeKeyListener(keyListener);
         }
-        if (isVisible() && focusListener == null)
-        {
-            focusListener = new PrePostFieldListener(this);
-            combo.addFocusListener(focusListener);
-        }
-        else if (!isVisible() && focusListener != null)
-        {
-            combo.removeFocusListener(focusListener);
-        }
         if (contentChanged)
         {
             contentChanged = false;
+            this.model = new DefaultComboModel(content, null);
+            combo.setModel(this.model);
+            if (this.actionListener == null)
+            {
+                this.actionListener = new PrePostFieldListener(this);
+                combo.addActionListener(this.actionListener);
+            }
         }
             
     }
+    /**
+     * @see org.xulux.nyx.gui.Widget#getValue()
+     */
+    public Object getValue()
+    {
+        return content.get(combo.getSelectedIndex());
+    }
+
 }

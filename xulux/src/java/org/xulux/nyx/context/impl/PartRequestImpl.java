@@ -1,5 +1,5 @@
 /*
- $Id: PartRequestImpl.java,v 1.1 2002-11-04 21:46:09 mvdb Exp $
+ $Id: PartRequestImpl.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,24 +48,23 @@ package org.xulux.nyx.context.impl;
 
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.gui.Widget;
 
 /**
  * This class should not be used directly, it is only for internal use.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequestImpl.java,v 1.1 2002-11-04 21:46:09 mvdb Exp $
+ * @version $Id: PartRequestImpl.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
  */
 public class PartRequestImpl implements PartRequest
 {
-    private String name;
-    private ApplicationPart part;
+    private Widget widget;
     private int action;
     
     
-    public PartRequestImpl(String name, ApplicationPart part, int action)
+    public PartRequestImpl(Widget widget, int action)
     {
-        setName(name);
-        setPart(part);
+        setWidget(widget);
         setAction(action);
     }
     
@@ -74,7 +73,7 @@ public class PartRequestImpl implements PartRequest
      */
     public ApplicationPart getPart()
     {
-        return this.part;
+        return getWidget().getPart();
     }
 
     /**
@@ -90,7 +89,7 @@ public class PartRequestImpl implements PartRequest
      */
     public Object getValue()
     {
-        return getPart().getGuiValue(getName());
+        return widget.getValue();
     }
 
     /**
@@ -106,21 +105,25 @@ public class PartRequestImpl implements PartRequest
      */
     public String getName()
     {
-        return this.name;
+        return widget.getName();
     }
     
-    private void setName(String name)
+    private void setWidget(Widget widget)
     {
-        this.name = name;
-    }
-    
-    private void setPart(ApplicationPart part)
-    {
-        this.part = part;
+        this.widget = widget;
     }
     
     private void setAction(int action)
     {
         this.action = action;
     }
+    
+    /**
+     * @see org.xulux.nyx.context.PartRequest#getWidget()
+     */
+    public Widget getWidget()
+    {
+        return this.widget;
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.1 2002-11-10 01:32:57 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import javax.swing.event.ListDataListener;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.1 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -72,7 +72,7 @@ public class DefaultComboModel implements ComboBoxModel
     {
         this.field = field;
         this.original = list;
-        initialize(list);
+        initialize();
     }
 
     /**
@@ -146,12 +146,12 @@ public class DefaultComboModel implements ComboBoxModel
         }
     }
     
-    private void initialize(ArrayList list)
+    private void initialize()
     {
         list = new ArrayList();
-        for (int i=0; i < list.size(); i++)
+        for (int i=0; i < original.size(); i++)
         {
-            Object object = list.get(i);
+            Object object = original.get(i);
             list.add(new ComboShowable(i, object.toString()));
         }
     }

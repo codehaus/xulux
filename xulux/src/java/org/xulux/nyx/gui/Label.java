@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.4 2002-11-10 21:44:11 mvdb Exp $
+ $Id: Label.java,v 1.5 2002-11-11 01:45:39 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import javax.swing.JLabel;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.4 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: Label.java,v 1.5 2002-11-11 01:45:39 mvdb Exp $
  */
 public class Label extends Widget
 {
@@ -106,6 +106,8 @@ public class Label extends Widget
         refresh();
     }
     /**
+     * For now aligns to the right by default.
+     * 
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public void refresh()
@@ -114,6 +116,7 @@ public class Label extends Widget
         label.setText(getText());
         if (getProperties() == null)
         {
+            label.setHorizontalAlignment(JLabel.RIGHT);
             return;
         }
         String ha = (String)getProperties().get("horizontalalignment");

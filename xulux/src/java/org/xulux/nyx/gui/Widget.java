@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.7 2002-11-10 21:44:11 mvdb Exp $
+ $Id: Widget.java,v 1.8 2002-11-11 01:45:39 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,9 +46,6 @@
 
 package org.xulux.nyx.gui;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -64,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.7 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: Widget.java,v 1.8 2002-11-11 01:45:39 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -86,6 +83,13 @@ public abstract class Widget
     private String text;
     
     protected HashMap properties;
+    
+    /**
+     * Specfies if the widget is refreshing
+     * so you call setter from refresh
+     * without getting in an infinite loop 
+     */
+    protected boolean isRefreshing;
     
         
     public Widget(String name)
@@ -278,7 +282,7 @@ public abstract class Widget
     {
         if (object instanceof String)
         {
-            return getField().equals(object.toString());
+            return getName().equals(object.toString());
         }
         else
         {
@@ -363,6 +367,19 @@ public abstract class Widget
         {
             rules.clear();
         }
+    }
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    public String toString()
+    {
+        return getName();
+    }
+    
+    public Object getValue()
+    {
+        return null;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.8 2002-11-10 21:44:11 mvdb Exp $
+ $Id: Entry.java,v 1.9 2002-11-11 01:45:39 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,7 +56,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.8 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: Entry.java,v 1.9 2002-11-11 01:45:39 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -128,6 +128,7 @@ implements ValueWidget
         {
             textField.addFocusListener(new PrePostFieldListener(this));
         }
+        refresh();
     }
 
     /**
@@ -135,13 +136,23 @@ implements ValueWidget
      */
     public void refresh()
     {
-        if (!initialized)
-        {
-            return;
-        }
+        isRefreshing = true;
+        initialize();
         textField.setEnabled(isEnabled());
         textField.setVisible(isVisible());
         textField.setPreferredSize(this.size);
+        if (getProperties() == null)
+        {
+            isRefreshing = false;
+            return;
+        }
+        String enabled = (String)properties.get("enabled");
+        if (enabled != null)
+        {
+            setEnable((enabled.equalsIgnoreCase("true")?true:false));
+            textField.setEditable(isEnabled());
+        }
+        isRefreshing = false;
     }
 
     /**
