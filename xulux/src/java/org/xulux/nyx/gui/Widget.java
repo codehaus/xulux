@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.41 2003-11-06 19:53:11 mvdb Exp $
+ $Id: Widget.java,v 1.42 2003-11-11 14:46:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,7 +50,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.rules.IRule;
@@ -66,7 +69,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.41 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: Widget.java,v 1.42 2003-11-11 14:46:15 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -107,6 +110,8 @@ public abstract class Widget implements Serializable
      * , not when getting values.
      */
     private boolean ignoreUse = false;
+    
+    protected Log log = LogFactory.getLog(Widget.class);
 
 
     /**
@@ -276,10 +281,8 @@ public abstract class Widget implements Serializable
      * sets the position of the current widget
      * (on the parent..)
      */
-    public void setPosition(int x, int y)
-    {
-        if (rectangle == null)
-        {
+    public void setPosition(int x, int y) {
+        if (rectangle == null) {
             rectangle = new WidgetRectangle();
         }
         rectangle.setPosition(x,y);
@@ -287,10 +290,8 @@ public abstract class Widget implements Serializable
     /**
      * Sets the size of the current widget
      */
-    public void setSize(int width, int height)
-    {
-        if (rectangle == null)
-        {
+    public void setSize(int width, int height) {
+        if (rectangle == null) {
             rectangle = new WidgetRectangle();
         }
         rectangle.setSize(width, height);
@@ -300,8 +301,7 @@ public abstract class Widget implements Serializable
      *
      * @return the rectangle for the widget
      */
-    public WidgetRectangle getRectangle()
-    {
+    public WidgetRectangle getRectangle() {
         if (this.rectangle == null)
         {
             this.rectangle = new WidgetRectangle();
@@ -556,14 +556,50 @@ public abstract class Widget implements Serializable
             setEnable((value.equalsIgnoreCase("true")?true:false));
         } else if (key.equals("use")) {
             setField(value);
+        } else if (key.equals("position")) {
+            int x = -1;
+            int y = -1;
+            try {
+                StringTokenizer stn = new StringTokenizer(value, ",");
+                String xStr = stn.nextToken().trim();
+                String yStr = stn.nextToken().trim();
+                x = Integer.parseInt(xStr);
+                y = Integer.parseInt(yStr);
+            }
+            catch (Exception nse) {
+                if (log.isWarnEnabled()) {
+                    log.warn("Parsing error with property "+key+" with value " + value);
+                    log.warn("Widget : " + this.getName());
+                }
+                return;
+            }
+            setPosition(x,y);
+            
+        } else if (key.equals("size")) {
+            int width = -1;
+            int height = -1;
+            try {
+                StringTokenizer stn = new StringTokenizer(value, ",");
+                String xStr = stn.nextToken().trim();
+                String yStr = stn.nextToken().trim();
+                width = Integer.parseInt(xStr);
+                height = Integer.parseInt(yStr);
+            }
+            catch (Exception nse) {
+                if (log.isWarnEnabled()) {
+                    log.warn("Parsing error with property "+key+" with value " + value);
+                    log.warn("Widget : " + this.getName());
+                }
+                return;
+            }
+            setSize(width,height);
         }
         // refresh the widget when it is initialized
-        if (initialized)
-        {
+        if (initialized) {
             refresh();
         }
     }
-
+    
     /**
      * You can not use this HashMap to change properties,
      * since it is a clone.

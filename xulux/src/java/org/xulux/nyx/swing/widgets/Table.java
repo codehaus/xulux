@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.21 2003-11-11 10:27:44 mvdb Exp $
+ $Id: Table.java,v 1.22 2003-11-11 14:46:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -81,7 +81,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.21 2003-11-11 10:27:44 mvdb Exp $
+ * @version $Id: Table.java,v 1.22 2003-11-11 14:46:15 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -208,6 +208,9 @@ implements IContentWidget
      */
     private void processIgnoreUse() {
         List list = getChildWidgets();
+        if (list == null) {
+            return;
+        }
         Iterator it = list.iterator();
         ValueChangedListener vcl = new ValueChangedListener(this);
         while (it.hasNext()) {
@@ -255,6 +258,8 @@ implements IContentWidget
                 table.setRowHeight(Integer.valueOf(height).intValue());
             }
         }
+        scrollPane.setVisible(isVisible());
+        //scrollPane.invalidate();
         isRefreshing = false;
     }
 

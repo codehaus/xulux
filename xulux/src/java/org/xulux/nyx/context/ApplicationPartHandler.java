@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.32 2003-11-06 19:53:10 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.33 2003-11-11 14:46:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.32 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.33 2003-11-11 14:46:15 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler {
 
@@ -356,39 +356,41 @@ public class ApplicationPartHandler extends DefaultHandler {
                 // we seem to want to autosize this widget
                 autoSize = true;
             }
-            try {
-                if (!autoSize) {
-                    StringTokenizer stn = new StringTokenizer(currentValue, ",");
-                    String xStr = stn.nextToken().trim();
-                    String yStr = stn.nextToken().trim();
-                    x = Integer.parseInt(xStr);
-                    y = Integer.parseInt(yStr);
-                }
-            }
-            catch (Exception nse) {
-                if (log.isWarnEnabled()) {
-                    log.warn("Parsing error with text : " + currentValue);
-                    log.warn("with widget : " + ((Widget) stack.get(stack.size() - 1)).getName());
-                }
-            }
             Widget widget = (Widget) stack.get(stack.size() - 1);
             if (processSize) {
                 if (autoSize) {
                     widget.setProperty("autosize", "true");
                 }
                 else {
-                    widget.setSize(x, y);
+                    //widget.setSize(x, y);
+                    widget.setProperty("size", currentValue);
                 }
                 processSize = false;
             }
             else if (processPosition) {
                 try {
                     if (processingNative) {
+                        try {
+                            if (!autoSize) {
+                                StringTokenizer stn = new StringTokenizer(currentValue, ",");
+                                String xStr = stn.nextToken().trim();
+                                String yStr = stn.nextToken().trim();
+                                x = Integer.parseInt(xStr);
+                                y = Integer.parseInt(yStr);
+                            }
+                        }
+                        catch (Exception nse) {
+                            if (log.isWarnEnabled()) {
+                                log.warn("Parsing error with text : " + currentValue);
+                                log.warn("with widget : " + ((Widget) stack.get(stack.size() - 1)).getName());
+                            }
+                        }
                         INativeWidgetHandler nativeHandler = ApplicationContext.getInstance().getNativeWidgetHandler();
                         nativeHandler.setLocationOnWidget((Widget) stack.peek(), x, y);
                     }
                     else {
-                        widget.setPosition(x, y);
+                        //widget.setPosition(x, y);
+                        widget.setProperty("position", currentValue);
                         processPosition = false;
                     }
                 }

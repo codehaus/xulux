@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.14 2003-11-06 19:53:12 mvdb Exp $
+ $Id: Window.java,v 1.15 2003-11-11 14:46:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -73,7 +73,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.14 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: Window.java,v 1.15 2003-11-11 14:46:15 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
@@ -251,19 +251,22 @@ public class Window extends NyxWindow
          * @see java.lang.Runnable#run()
          */
         public void run() {
+            if (getPart() == null) {
+                return;
+            }
             while (getPart().isActivating());
             try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                /**
-                 * @see java.lang.Runnable#run()
-                 */
-                public void run() {
-                    // TODO : Look at painting problem
-                    // we for now rerun the rules, so
-                    // the window will show correctly.
-                    window.repaint();
-                }
-            });
+                SwingUtilities.invokeAndWait(new Runnable() {
+                    /**
+                     * @see java.lang.Runnable#run()
+                     */
+                    public void run() {
+                        // TODO : Look at painting problem
+                        // we for now rerun the rules, so
+                        // the window will show correctly.
+                        window.repaint();
+                    }
+                });
             }catch(Exception e) {
                 e.printStackTrace(System.out);
             }
