@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.14 2002-11-19 20:45:06 mvdb Exp $
+ $Id: Combo.java,v 1.15 2002-11-19 23:19:24 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.14 2002-11-19 20:45:06 mvdb Exp $
+ * @version $Id: Combo.java,v 1.15 2002-11-19 23:19:24 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -273,7 +273,7 @@ public class Combo extends Widget
             }
         }
         String backgroundColor = null;
-        if (isRequired())
+        if (isRequired() && isEnabled())
         {
             backgroundColor = getProperty("required-background-color");
         }
