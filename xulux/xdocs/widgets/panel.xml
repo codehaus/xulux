@@ -21,9 +21,29 @@
     <table>
       <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
       <tr>
-        <td>xxx</td>
+        <td>border</td>
         <td>swing</td>
-        <td>xxx</td>
+        <td>bevel, titled and line are supported</td>
+      </tr>
+      <tr>
+        <td>border-size</td>
+        <td>swing</td>
+        <td>The size of the border. This value must be a valid int</td>
+      </tr>
+      <tr>
+        <td>border-title</td>
+        <td>swing</td>
+        <td>The title of the border</td>
+      </tr>
+      <tr>
+        <td>border-title-color</td>
+        <td>swing</td>
+        <td>The color of the title, if not present, it will default to border-color</td>
+      </tr>
+      <tr>
+        <td>border-color</td>
+        <td>swing</td>
+        <td>The color of the border, it defaults to the current forground color.</td>
       </tr>
     </table>
   </subsection>
