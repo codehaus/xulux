@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.32 2003-10-23 13:39:09 mvdb Exp $
+ $Id: Entry.java,v 1.33 2003-10-23 13:42:09 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.32 2003-10-23 13:39:09 mvdb Exp $
+ * @version $Id: Entry.java,v 1.33 2003-10-23 13:42:09 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -116,6 +116,7 @@ extends SwingWidget
         }
         removeAllRules();
         getPart().removeWidget(this,this);
+        initialized = false;
     }
 
     /**
