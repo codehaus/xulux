@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!-- 
+   $Id: DefaultButtonTest.xml,v 1.1 2004-05-03 23:46:22 mvdb Exp $
+   
+   Copyright 2002-2004 The Xulux Project
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<part name="DefaultButtonForm" prefix="ButtonBean">
+  <field type="window" name="Window">
+    <title>ButtonTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>auto</size>
+    <autosize>true</autosize>
+<!--    <field type="panel" name="testPanel"> -->
+       <field type="entry" name="testEntry">
+         <position>1,1</position>
+         <size>100,21</size>
+         <rules>
+           <rule>org.xulux.gui.rules.DefaultButtonRule</rule>
+         </rules>
+       </field>
+<!--    </field> -->
+    <field type="button" name="ButtonImageText">
+      <image>resources/Car.ico</image>
+      <size>150,31</size>
+      <position>1,30</position>
+      <text>A long Text</text>
+    </field>
+    <!-- this was added since the system doesn't show
+         any gui at all in this scenario -->
+<!--    <field type="panel" name="defbuttonPanel">
+      <size>170,41</size>
+      <position>1,60</position> -->
+      <field type="button" name="DefaultButton">
+        <size>150,31</size>
+        <position>1,60</position>
+        <defaultbutton>true</defaultbutton>
+        <text>DefaultButton in Panel</text>
+      </field>
+<!--    </field> -->
+  </field>
+</part>

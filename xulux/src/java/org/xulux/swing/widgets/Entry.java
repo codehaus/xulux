@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.9 2004-04-27 11:01:36 mvdb Exp $
+   $Id: Entry.java,v 1.10 2004-05-03 23:46:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.9 2004-04-27 11:01:36 mvdb Exp $
+ * @version $Id: Entry.java,v 1.10 2004-05-03 23:46:22 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -289,8 +289,14 @@ public class Entry extends SwingWidget {
     protected void initializeValue() {
         if (getProvider() != null) {
             IDataProvider pr = XuluxContext.getDictionary().getProvider(getProvider());
-            IMapping mapping = pr.getMapping(this.value);
-            IField field = mapping.getField(this.value);
+            IMapping mapping = null;
+            mapping = pr.getMapping(this.value);
+            IField field = null;
+            if (getField() != null) {
+                field = mapping.getField(getField());
+            } else {
+                field = mapping.getField(this.value);
+            }
             textComponent.setText((String) field.getValue(this.value));
             return;
         } else if (getField() == null) {
@@ -403,7 +409,11 @@ public class Entry extends SwingWidget {
           } else {
             System.err.println("This.value : " + this.value.getClass());
             mapping = pr.getMapping(this.value);
-            field = mapping.getField(this.value);
+            if (getField() != null) {
+                field = mapping.getField(getField());
+            } else {
+                field = mapping.getField(this.value);
+            }
             try {
               field.setValue(this.value, object);
               setValidValue(true);
