@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.11 2003-09-17 11:37:31 mvdb Exp $
+ $Id: Window.java,v 1.12 2003-09-25 17:11:40 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,7 @@ import java.awt.Dimension;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -60,6 +61,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.gui.IShowChildWidgets;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.NyxWindow;
 import org.xulux.nyx.gui.Widget;
@@ -71,7 +73,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.11 2003-09-17 11:37:31 mvdb Exp $
+ * @version $Id: Window.java,v 1.12 2003-09-25 17:11:40 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
@@ -216,7 +218,18 @@ public class Window extends NyxWindow
      */
     public void addToParent(Widget widget)
     {
-        window.getContentPane().add((JComponent)widget.getNativeWidget(), widget);
+        if (widget instanceof IShowChildWidgets) {
+            List children = widget.getChildWidgets();
+            if (children != null && children.size() > 0) {
+                Iterator it = children.iterator();
+                while (it.hasNext()) {
+                    Widget w = (Widget) it.next();
+                    window.getContentPane().add((JComponent)w.getNativeWidget(), w);
+                }
+            }
+        } else {
+            window.getContentPane().add((JComponent)widget.getNativeWidget(), widget);
+        }
     }
 
     /**

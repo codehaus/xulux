@@ -1,5 +1,5 @@
 /*
- $Id: RadioButton.java,v 1.1 2003-09-24 11:10:21 mvdb Exp $
+ $Id: RadioButton.java,v 1.2 2003-09-25 17:11:40 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,7 +53,7 @@ import org.xulux.nyx.gui.Widget;
  * Represents a radiobutton in the gui.
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButton.java,v 1.1 2003-09-24 11:10:21 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.2 2003-09-25 17:11:40 mvdb Exp $
  */
 public class RadioButton extends Widget {
     
@@ -77,7 +77,8 @@ public class RadioButton extends Widget {
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
     public Object getNativeWidget() {
-        return null;
+        initialize();
+        return this.radioButton;
     }
 
     /**
@@ -102,6 +103,11 @@ public class RadioButton extends Widget {
         }
         isRefreshing = true;
         initialize();
+        String text = getProperty("text");
+        if (text != null) {
+            radioButton.setText(text);
+        }
+        radioButton.setEnabled(isEnabled());
         isRefreshing = false;
     }
 

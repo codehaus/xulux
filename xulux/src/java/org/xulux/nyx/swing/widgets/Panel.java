@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.18 2003-09-25 15:50:20 mvdb Exp $
+ $Id: Panel.java,v 1.19 2003-09-25 17:11:40 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,7 +49,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
@@ -58,6 +61,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import org.xulux.nyx.gui.ContainerWidget;
+import org.xulux.nyx.gui.IShowChildWidgets;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.utils.ColorUtils;
@@ -68,7 +72,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.18 2003-09-25 15:50:20 mvdb Exp $
+ * @version $Id: Panel.java,v 1.19 2003-09-25 17:11:40 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -236,7 +240,18 @@ public class Panel extends ContainerWidget
      * @see org.xulux.nyx.gui.ContainerWidget#addToParent(Widget)
      */
     public void addToParent(Widget widget) {
-        panel.add((Component)widget.getNativeWidget(), widget);
+        if (widget instanceof IShowChildWidgets) {
+            List children = widget.getChildWidgets();
+            if (children != null && children.size() > 0) {
+                Iterator it = children.iterator();
+                while (it.hasNext()) {
+                    Widget w = (Widget) it.next();
+                    panel.add((JComponent)w.getNativeWidget(), w);
+                }
+            }
+        } else {
+            panel.add((Component)widget.getNativeWidget(), widget);
+        }
     }
 
     /**
