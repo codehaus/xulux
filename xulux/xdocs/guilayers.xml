@@ -33,7 +33,7 @@
   <subsection name="SWT">
     <p>
       Started on SWT and had the nice plan to implement Widgets immidiately after
-      implementing the Swing Widget. However because of time contrains, I could
+      implementing the Swing Widget. However because of time constrains, I could
       not handle that. If I have more time and the core (the frontend API) 
       of nyx has been finished, I will start programming SWT support.
       See the <a href="swt/index.html">SWT Pages</a> for more information about

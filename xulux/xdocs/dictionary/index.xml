@@ -10,6 +10,52 @@
 
 <section name="Dictionary">
   <p>
+    The dictionary is the core that connects gui fields to data. 
+    For now it is based on setting values in beans using getters and setters
+    or using a bit more magic than that. 
+    The dictionary should end up in a set of interfaces that together make
+    the dataprovider part of the frontend API.
+    
+    <subsection name="The Dictionary class">
+      <p>
+        The dictionary class is the main entry for connecting all magic that 
+        is related to dictionary processing. In the final version of the
+        dataprovider, the Dictionary class, will be the container for dictionary
+        processing.
+      </p>
+    </subsection>
+    
+    <subsection name="The dictionary handler">
+      <p>
+        The dictionary handler is the xml parser that constructs a valid
+        dictionary out of that xml. You can already write your own handler,
+        but since no other means of customizing the workings of the 
+        dictionary system is yet available, it has no use to create your 
+        own handler yet. 
+      </p>
+    </subsection>
+    
+    <subsection name="The Field interface">
+      <p>
+        Nyx has a interface that represent fields, which to gui can use to 
+        get and set data through. The IField interface already represents
+        partially what the dataprovider API will consist off. 
+        Currently there is only one implementation of the IField interface used 
+        and that is BeanField, which handles setting and getting data in beans.
+        Since the dataprovider API still needs to be defined, not storage of 
+        the actual beans is done. You have to handle that manually in form rules.
+      </p>
+    </subsection>
+    
+    <subsection name="Converters">
+      <p>
+        Converters are responsible for converting an object to a representable
+        format for the user. Converters also take care of converting the user input
+        back to the object in a bean. This used with objects like Date, Double and
+        Integer.
+      </p>
+    </subsection>
+    
     <a href="converters.html">Converters</a>
   </p>
 </section>

@@ -7,7 +7,7 @@
   <body>
     <links>
       <item name="xulux.org" href="http://www.xulux.org/"/>
-      <item name="The Werken Company" href="http://www.werken.com/"/>
+      <item name="codehaus" href="http://www.codehaus.org/"/>
     </links>
     <menu name="NYX">
       <item name="Overview" href="/index.html"/>
@@ -22,7 +22,12 @@
       <item name="Notes" href="/notes.html"/>
       <item name="ToDo" href="/tasks.html"/>
       <item name="ApplicationParts" href="/applicationpart.html"/>
-      <item name="How it all works" href="/howitallworks.html"/>
+      <item name="How it all works" href="/howitallworks.html">
+        <item name="ApplicationContext" href="/internals/applicationcontext.html"/>
+        <item name="ApplicationHandlers" href="/internals/applicationhandlers.html"/>
+        <item name="Dictionary" href="/dictionary/dictionary.html"/>
+        
+      </item>
     </menu>
   </body>
 </project>

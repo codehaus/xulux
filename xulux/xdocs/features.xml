@@ -88,6 +88,15 @@
         of nyx that is usefull for the public.
       </p>
     </subsection>
+
+    <subsection name="Test Engine">
+      <p>
+        For easy testing of rules, nyx will provide a test engine, build
+        on top of jUnit. This will probably be solved via a mock gui layer
+        implementation. The goal is to be able to test rules, without the need
+        to see have a gui present. 
+      </p>
+    </subsection>
     
   </p>
 </section>
