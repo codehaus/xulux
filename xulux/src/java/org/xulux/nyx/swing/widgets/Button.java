@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.13 2003-09-28 23:27:54 mvdb Exp $
+ $Id: Button.java,v 1.14 2003-09-29 00:02:24 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -68,7 +68,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.13 2003-09-28 23:27:54 mvdb Exp $
+ * @version $Id: Button.java,v 1.14 2003-09-29 00:02:24 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
@@ -215,6 +215,10 @@ public class Button extends SwingWidget
             if (insets != null) {
                 button.setMargin(insets);
             }
+        }
+        String tooltip = getProperty("tooltip");
+        if (tooltip != null) {
+            button.setToolTipText(tooltip);
         }
         button.setEnabled(isEnabled());
         isRefreshing = false;

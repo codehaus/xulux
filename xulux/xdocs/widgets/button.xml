@@ -92,6 +92,13 @@
           The textual label of the button
         </td>
       </tr>
+      <tr>
+        <td>tooltip</td>
+        <td>swing</td>
+        <td>
+          The tooltip for the button.
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>
