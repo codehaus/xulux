@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.9 2003-12-14 22:43:45 mvdb Exp $
+ $Id: SwingUtils.java,v 1.10 2003-12-15 03:28:53 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -56,17 +56,16 @@ import javax.swing.ImageIcon;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.WidgetRectangle;
+import org.xulux.nyx.utils.ClassLoaderUtils;
 import org.xulux.nyx.utils.NyxCollectionUtils;
-
 
 /**
  * Contains several utilities to make life with swing easier.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.9 2003-12-14 22:43:45 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.10 2003-12-15 03:28:53 mvdb Exp $
  */
-public final class SwingUtils
-{
+public final class SwingUtils {
 
     /**
      * The log factory, so we can log the necssary information
@@ -76,19 +75,12 @@ public final class SwingUtils
     /**
      * The default custom images loader (uses jimi)
      */
-    private static final String DEFAULT_CUSTOMIMAGELOADER =
-                    "org.xulux.nyx.swing.util.JimiImageLoader";
-
-    /**
-     * The jimi class
-     */
-    private static final String JIMI_PRESENT_CLASS = "com.sun.jimi.core.Jimi";
+    private static final String DEFAULT_CUSTOMIMAGELOADER = "org.xulux.nyx.swing.util.JimiImageLoader";
 
     /**
      * Contains the custom image loader
      */
     private static ImageLoaderInterface imageLoader = null;
-
 
     /**
      * Static initializer to check if jimi is present
@@ -96,30 +88,35 @@ public final class SwingUtils
      * and image processing
      */
     static {
+        initializeImageLoader();
+    }
+
+    /**
+     * Initializes the imageloader from system properties.
+     */
+    protected static void initializeImageLoader() {
         String il = System.getProperty("nyx.swing.imageloader", DEFAULT_CUSTOMIMAGELOADER);
-        try
-        {
-            imageLoader = (ImageLoaderInterface) Class.forName(il).newInstance();
+        try {
+            imageLoader = (ImageLoaderInterface) ClassLoaderUtils.getObjectFromClassString(il);
+            //imageLoader = (ImageLoaderInterface) Class.forName(il).newInstance();
             if (!imageLoader.isUsable()) {
                 imageLoader = null;
                 throw new Exception();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             if (log.isWarnEnabled()) {
-                log.warn("Custom ImageLoader " + il + " could not be loaded."
-                         + "using swing imageloader");
+                log.warn("Custom ImageLoader " + il + " could not be loaded. Using Swing imageloader");
             }
         }
     }
 
-
     /**
-     * Constructor for SwingUtils.
+     * 
+     * @return the imagelaoder that was initialized. If the default is used (swing) than null
+     *         is returned
      */
-    private SwingUtils()
-    {
+    protected static ImageLoaderInterface getImageLoader() {
+        return imageLoader;
     }
 
     /**
@@ -134,7 +131,19 @@ public final class SwingUtils
      * @return the Image retrieved
      */
     public static Image getImage(String resource, Object object) {
-        return getIcon(resource, object).getImage();
+        if (resource == null || object == null) {
+            return null;
+        }
+        if (imageLoader != null) {
+            URL imageURL = object.getClass().getClassLoader().getResource(resource);
+            return imageLoader.getImage(imageURL);
+        } else {
+            ImageIcon icon = getIcon(resource, object);
+            if (icon != null) {
+                return icon.getImage();
+            }
+        }
+        return null; 
     }
 
     /**
@@ -144,21 +153,27 @@ public final class SwingUtils
      * @return the imageIcon found or null if not found
      */
     public static ImageIcon getIcon(String resource, Object object) {
+        if (object == null) {
+            return null;
+        }
         URL imageURL = object.getClass().getClassLoader().getResource(resource);
         if (imageLoader != null) {
             return imageLoader.getIcon(imageURL);
         }
         ImageIcon icon = new ImageIcon(imageURL);
         if (icon.getImageLoadStatus() == MediaTracker.ERRORED) {
+            icon = null;
             if (log.isWarnEnabled()) {
-                log.warn("Image type " + resource + " not supported by swing "
-                     + "we advice you to add jimi to your classpath or convert your "
-                     + "image to an image type supported by swing");
+                log.warn(
+                    "Image type "
+                        + resource
+                        + " not supported by swing "
+                        + "we advice you to add jimi to your classpath or convert your "
+                        + "image to an image type supported by swing");
             }
         }
         return icon;
     }
-
 
     /**
      * @param rectangle the rectangle to get the dimensions for
@@ -185,12 +200,12 @@ public final class SwingUtils
             return null;
         }
         Object[] ins = NyxCollectionUtils.getListFromCSV(margin).toArray();
-        if (ins.length == 4 ) {
+        if (ins.length == 4) {
             try {
-                int top = Integer.parseInt((String) ins[0]);
-                int left = Integer.parseInt((String) ins[1]);
-                int bottom = Integer.parseInt((String) ins[2]);
-                int right = Integer.parseInt((String) ins[3]);
+                int top = Integer.parseInt(((String) ins[0]).trim());
+                int left = Integer.parseInt(((String) ins[1]).trim());
+                int bottom = Integer.parseInt(((String) ins[2]).trim());
+                int right = Integer.parseInt(((String) ins[3]).trim());
                 return new Insets(top, left, bottom, right);
             } catch (Exception e) {
                 return null;
