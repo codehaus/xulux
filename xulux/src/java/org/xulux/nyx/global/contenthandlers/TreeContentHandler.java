@@ -1,8 +1,8 @@
 /*
- $Id: TreeContentHandler.java,v 1.3 2003-10-27 15:35:49 mvdb Exp $
+ $Id: TreeContentHandler.java,v 1.4 2003-11-06 16:57:53 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.global.contenthandlers;
 
@@ -52,7 +52,7 @@ import org.xulux.nyx.gui.IContentWidget;
  * trees at all in default java, it will be located in the global package.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeContentHandler.java,v 1.3 2003-10-27 15:35:49 mvdb Exp $
+ * @version $Id: TreeContentHandler.java,v 1.4 2003-11-06 16:57:53 mvdb Exp $
  */
 public abstract class TreeContentHandler extends ContentHandlerAbstract
 {
@@ -70,9 +70,8 @@ public abstract class TreeContentHandler extends ContentHandlerAbstract
     }
 
     /**
-     * Just returns the content. No conversions yet.
-     * 
      * @see org.xulux.nyx.global.IContentHandler#getContent()
+     * @return the content. No conversions yet.
      */
     public Object getContent() {
         return this.content;
@@ -95,37 +94,32 @@ public abstract class TreeContentHandler extends ContentHandlerAbstract
     }
 
     /**
-     * Returns the child at the index of the parent
-     * 
      * @param parent
      * @param index
+     * @return the child at the index of the parent 
      */
     public abstract Object getChild(Object parent, int index);
     
     /**
-     * Returns the number of children the parent has
      * @param parent
-     * @return
+     * @return the number of children the parent has 
      */
     public abstract int getChildCount(Object parent);
     
     /**
-     * Return the index of the specified child.
      * 
      * @param parent
      * @param child
-     * @return
+     * @return the index of the specified child.
      */
     public abstract int getIndexOfChild(Object parent, Object child);
     
     /**
-     * 
      * @return the root of the tree.
      */
     public abstract Object getRoot();
     
     /**
-     * 
      * @param node
      * @return checks if the node is a leaf or not.
      */

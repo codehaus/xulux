@@ -1,5 +1,5 @@
 /*
- $Id: PartRequest.java,v 1.9 2003-08-11 00:33:49 mvdb Exp $
+ $Id: PartRequest.java,v 1.10 2003-11-06 16:57:53 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import org.xulux.nyx.gui.Widget;
  * field or action (action not in the Swing sence)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequest.java,v 1.9 2003-08-11 00:33:49 mvdb Exp $
+ * @version $Id: PartRequest.java,v 1.10 2003-11-06 16:57:53 mvdb Exp $
  */
 public interface PartRequest extends Cloneable
 {
@@ -122,7 +122,7 @@ public interface PartRequest extends Cloneable
     /**
      * Returns the session of the originating part
      * (the part which you can acquire by using getPart()
-     * @return
+     * @return the session.
      */
     public SessionPart getSession();
 }

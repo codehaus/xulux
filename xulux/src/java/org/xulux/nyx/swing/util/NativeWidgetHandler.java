@@ -1,8 +1,8 @@
 /*
- $Id: NativeWidgetHandler.java,v 1.7 2003-09-29 02:21:05 mvdb Exp $
+ $Id: NativeWidgetHandler.java,v 1.8 2003-11-06 16:57:54 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
- 
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.swing.util;
 
@@ -59,7 +59,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * The native widgets handler for swing.
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeWidgetHandler.java,v 1.7 2003-09-29 02:21:05 mvdb Exp $
+ * @version $Id: NativeWidgetHandler.java,v 1.8 2003-11-06 16:57:54 mvdb Exp $
  */
 public class NativeWidgetHandler implements INativeWidgetHandler {
     
@@ -96,8 +96,8 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
 
     /**
      * Adds a JComponent to the widget specified as parent
-     * @see org.xulux.nyx.gui.INativeWidgetHandler#addNativeWidget(java.lang.Object, org.xulux.nyx.context.ApplicationPart)
-     */
+     * @see org.xulux.nyx.gui.INativeWidgetHandler#getWidget(java.lang.String, org.xulux.nyx.gui.Widget)
+     */    
     public Widget getWidget(String clazz, Widget parent) {
         Object nativeWidget = ClassLoaderUtils.getObjectFromClassString(clazz);
         return getWidget(nativeWidget, parent);
@@ -115,7 +115,7 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
     }
 
     /**
-     * @see org.xulux.nyx.gui.INativeWidgetHandler#addWidgetsToParent(java.util.List, java.lang.Object)
+     * @see org.xulux.nyx.gui.INativeWidgetHandler#addWidgetToParent(org.xulux.nyx.gui.Widget, java.lang.Object)
      */
     public void addWidgetToParent(Widget widget, Object parentWidget) {
         if (!(parentWidget instanceof JComponent)) {
