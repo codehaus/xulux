@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.21 2002-12-02 22:06:58 mvdb Exp $
+ $Id: Combo.java,v 1.22 2002-12-03 17:12:01 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,17 +46,11 @@
 package org.xulux.nyx.gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Image;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.EventListener;
 
-import javax.swing.JComboBox;
-import javax.swing.event.ListDataListener;
-
+import org.xulux.nyx.swing.NyxComboBox;
 import org.xulux.nyx.swing.listeners.ImmidiateListener;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 import org.xulux.nyx.swing.models.DefaultComboModel;
@@ -65,13 +59,13 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.21 2002-12-02 22:06:58 mvdb Exp $
+ * @version $Id: Combo.java,v 1.22 2002-12-03 17:12:01 mvdb Exp $
  */
 public class Combo extends Widget
 {
     
     private ArrayList content;
-    private JComboBox combo;
+    private NyxComboBox combo;
     private String notSelectedValue;
     private KeyListener keyListener;
     private boolean contentChanged;
@@ -229,7 +223,7 @@ public class Combo extends Widget
             return;
         }
         this.initialized = true;
-        combo = new JComboBox();
+        combo = new NyxComboBox();
         refresh();
     }
 
@@ -238,7 +232,10 @@ public class Combo extends Widget
      */
     public void refresh()
     {
-        isRefreshing = true;
+        if (!initialized)
+        {
+            isRefreshing = true;
+        }
         initialize();
         if (isImmidiate() && keyListener == null)
         {

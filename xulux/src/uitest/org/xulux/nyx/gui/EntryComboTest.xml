@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<part name="PersonBeanForm" prefix="Person">
+  <rules>
+    <rule>org.xulux.nyx.gui.rules.MainEntryComboRule</rule>
+  </rules>
+  <field type="label" name="Label:PersonList">
+    <text>Person:</text>
+    <size>120,21</size>
+    <position>4,10</position>
+  </field>
+  <field type="combo" name="PersonList">
+    <combofields>fullname</combofields>
+    <rules>
+      <rule>org.xulux.nyx.gui.rules.EntryComboPersonListRule</rule>
+    </rules>
+    <size>250,21</size>
+    <position>125,10</position>
+    <required>true</required>
+    <required-background-color>FFFFB6</required-background-color>
+    <default-background-color>FFFFFF</default-background-color>
+    <disabled-background-color>CCCCCC</disabled-background-color>
+  </field>
+  <field type="label" name="Label:PersonEntry">
+    <text>Person Entry</text>
+    <size>120,21</size>
+    <position>4,40</position>
+  </field>
+  <field type="entry" name="PersonEntry">
+    <combofields>fullname</combofields>
+    <rules>
+      <rule>org.xulux.nyx.gui.rules.EntryComboPersonEntryRule</rule>
+    </rules>
+    <size>250,21</size>
+    <position>125,40</position>
+    <required>true</required>
+    <required-background-color>FFFFB6</required-background-color>
+    <default-background-color>FFFFFF</default-background-color>
+    <disabled-background-color>CCCCCC</disabled-background-color>
+  </field>
+</part>

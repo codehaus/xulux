@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.25 2002-12-03 02:19:08 mvdb Exp $
+ $Id: Entry.java,v 1.26 2002-12-03 17:12:01 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.25 2002-12-03 02:19:08 mvdb Exp $
+ * @version $Id: Entry.java,v 1.26 2002-12-03 17:12:01 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -252,13 +252,13 @@ extends Widget
     
     private void initializeValue()
     {
-        Object val = getValue();
+        Object val = this.value;
         if (!(val instanceof String) && getField()!=null)
         {
             val = this.value;
         }
-        System.out.println("Val : "+val);
-        System.out.println("this.value : "+this.value);
+        System.out.println(getName()+" Val : "+val);
+        System.out.println(getName()+" this.value : "+this.value);
         if (getField()!= null && getValue() != null)
         {
             // we ignore multiple values for now.. 
