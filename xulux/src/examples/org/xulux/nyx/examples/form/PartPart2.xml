@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<part name="OkCancel" prefix="DBC">
+  <field type="button" name="Button:OK">
+    <text>Ok</text>
+    <size>135,31</size>
+    <position>460,180</position>
+    <rules>
+      <rule>rules.dbc.OkButtonRule</rule>
+    </rules>
+  </field>
+  <field type="button" name="Button:Cancel">
+    <text>Annuleren</text>
+    <size>135,31</size>
+    <position>600,180</position>
+    <rules>
+      <rule>rules.dbc.CancelButtonRule</rule>
+    </rules>
+  </field>
+</part>

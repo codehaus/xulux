@@ -1,7 +1,7 @@
 /*
- $Id: BeanField.java,v 1.6 2003-01-26 02:01:08 mvdb Exp $
+ $Id: BeanField.java,v 1.4 2002-11-03 14:29:21 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -49,22 +49,15 @@ package org.xulux.nyx.global;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * This class contains all the symantics for working
- * on a bean.
+ * on a bean. 
+ * TODO: investigate if this can be "static" (or registered
+ * via a registry), since there aren't unlimited data beans
+ * normally. Also need to check thread safety.
  * 
- * @todo investigate if this can be "static" (or registered
- *       via a registry), since there aren't unlimited data beans
- *       normally. 
- * @todo Need to check need to check thread safety.
- * @todo This class should contain all the logic for conversion
- *       to primitive types.
- * 
- * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.6 2003-01-26 02:01:08 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net>Martin van den Bemt</a>
+ * @version $Id: BeanField.java,v 1.4 2002-11-03 14:29:21 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -73,34 +66,21 @@ public class BeanField implements IField
      * The official name of the field
      */
     private String name;
-    
     /**
      * The method of the field
      */
     private Method method;
-    
     /**
      * The alias of the field, 
      * This is the name to call this field.
      */
     private String alias;
-    
     /**
      * Place holder for the setter
      * associated with the get method
      */
     private Method changeMethod;
-    
-    /**
-     * Specifies if this beanField is derived form a
-     * baseType or not
-     */
     private boolean baseType;
-    
-    /**
-     * the logger
-     */
-    private Log log = LogFactory.getLog(BeanField.class);
     
 
     /**
@@ -110,11 +90,6 @@ public class BeanField implements IField
     {
     }
     
-    /**
-     * Contructor that takes a method
-     * 
-     * @param method - the method to use for reading the value
-     */
     public BeanField(Method method)
     {
         setMethod(method);
@@ -131,7 +106,8 @@ public class BeanField implements IField
     
     /** 
      * Sets a new value in the field
-     * Exceptions will be eaten.
+     * The (should) contain all the logic for conversio
+     * of primitive types.
      * 
      * @param bean - the bean to set the value on
      * @param value - the value to set to the bean
@@ -151,26 +127,16 @@ public class BeanField implements IField
         }
         catch (IllegalAccessException e)
         {
-            if (log.isTraceEnabled())
-            {
-                log.trace("Exception occured ",e);
-            }
         }
         catch (InvocationTargetException e)
         {
-            if (log.isTraceEnabled())
-            {
-                log.trace("Exception occured ",e);
-            }
         }
         return success;
     }
     
     /**
-     * Get the value from the specified bean.
-     * Exceptions will be eaten.
-     * 
-     * @param bean - the bean to get the value from
+     * Will return 
+     * @param bean
      * @return the value of the field
      * or null when an error has happened or no value exists
      *  
@@ -183,25 +149,17 @@ public class BeanField implements IField
         }
         catch (IllegalAccessException e)
         {
-            if (log.isTraceEnabled())
-            {
-                log.trace("Exception occured ",e);
-            }
         }
         catch (InvocationTargetException e)
         {
-            if (log.isTraceEnabled())
-            {
-                log.trace("Exception occured ",e);
-            }
         }
         return null;
     }
     
+    
 
     /**
      * Returns the name.
-     * 
      * @return String
      */
     public String getName()
@@ -211,7 +169,6 @@ public class BeanField implements IField
 
     /**
      * Returns the method.
-     * 
      * @return Method
      */
     public Method getMethod()
@@ -221,7 +178,6 @@ public class BeanField implements IField
 
     /**
      * Sets the method.
-     * 
      * @param method The method to set
      */
     public void setMethod(Method method)
@@ -231,8 +187,7 @@ public class BeanField implements IField
     }
     
     /**
-     * 
-     * @return String representation of the beanField
+     * String representation of the beanField
      */
     public String toString()
     {
@@ -241,13 +196,8 @@ public class BeanField implements IField
     
     /**
      * Checks if we are taling about the same field..
-     * 
-     * @param object - the obejct to perform the equals on
-     * @return If the object is a String it will compare it with
-     *          withe tha Alias (case insensitive).
-     *          If the object is another BeanField, it will see
-     *          if the declaringclass and the methodname is the same
-     *          In all other cases it will return false
+     * @param object should be a beanField
+     * @return 
      */
     public boolean equals(Object object)
     {
@@ -261,8 +211,8 @@ public class BeanField implements IField
         else if (object instanceof BeanField)
         {
             Method method = ((BeanField)object).getMethod();
-            if (method.getDeclaringClass().equals(this.getMethod().getDeclaringClass()) 
-                 && method.getName().equals(this.getMethod().getName()))
+            if (method.getDeclaringClass().equals(this.getMethod().getDeclaringClass()) &&
+                method.getName().equals(this.getMethod().getName()))
             {
                 return true;
             }
@@ -272,7 +222,6 @@ public class BeanField implements IField
 
     /**
      * Returns the baseType.
-     * 
      * @return boolean
      */
     public boolean isBaseType()
@@ -282,7 +231,6 @@ public class BeanField implements IField
 
     /**
      * Sets the baseType.
-     * 
      * @param baseType The baseType to set
      */
     public void setBaseType(boolean baseType)
@@ -290,9 +238,6 @@ public class BeanField implements IField
         this.baseType = baseType;
     }
     
-    /**
-     * @param method - the change method for this field.
-     */
     public void setChangeMethod(Method method)
     {
         this.changeMethod = method;
@@ -300,7 +245,6 @@ public class BeanField implements IField
 
     /**
      * Returns the alias.
-     * 
      * @return String
      */
     public String getAlias()
@@ -314,7 +258,6 @@ public class BeanField implements IField
 
     /**
      * Sets the alias.
-     * 
      * @param alias The alias to set
      */
     public void setAlias(String alias)

@@ -1,7 +1,7 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.8 2003-01-26 02:43:34 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -46,7 +46,6 @@
 package org.xulux.nyx.guidefaults;
 
 import java.io.InputStream;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -59,22 +58,15 @@ import org.xulux.nyx.context.ApplicationContext;
  * It should be case insensitive, but isn't really ;)
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.8 2003-01-26 02:43:34 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
     
-    /*
-     * Element and attribute statics
-     */
-    private static final String ELEMENT_WIDGETS = "widgets";
-    private static final String ELEMENT_WIDGET = "widget";
-    private static final String ELEMENT_GUI = "gui";
-    private static final String ELEMENT_ROOT = "guidefaults";
-    private static final String ATTRIBUTE_TYPE = "type";
-    private static final String ATTRIBUTE_CLASS = "class";
-    private static final String ATTRIBUTE_NAME = "name";
-    private static final String ATTRIBUTE_DEFAULT = "defaultType";
+    public static String ELEMENT_WIDGETS = "widgets";
+    public static String ELEMENT_WIDGET = "widget";
+    public static String ATTRIBUTE_CLASS = "class";
+    public static String ATTRIBUTE_NAME = "name";
     
     private boolean widgetsStarted = false;
 
@@ -85,12 +77,6 @@ public class GuiDefaultsHandler extends DefaultHandler
     {
     }
     
-    /**
-     * Reads the ApplicationPart from a stream and 
-     * initializes it.
-     * 
-     * @param stream - the inputstream to read from
-     */
     public void read(InputStream stream)
     {
         SAXParser saxParser = null;
@@ -129,16 +115,7 @@ public class GuiDefaultsHandler extends DefaultHandler
         throws SAXException
     {
         qName = qName.toLowerCase();
-        if (qName.equals(ELEMENT_ROOT))
-        {
-            String defaultType = atts.getValue(ATTRIBUTE_DEFAULT);
-            if (defaultType != null)
-            {
-                defaultType = defaultType.toLowerCase();
-            }
-            ApplicationContext.getInstance().setDefaultWidgetType(defaultType);
-        }
-        else if (qName.equals(ELEMENT_WIDGETS))
+        if (qName.equals(ELEMENT_WIDGETS))
         {
             widgetsStarted = true;
         }
@@ -146,8 +123,7 @@ public class GuiDefaultsHandler extends DefaultHandler
         {
             String name = atts.getValue(ATTRIBUTE_NAME).toLowerCase();
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
-            String type = atts.getValue(ATTRIBUTE_TYPE);
-            ApplicationContext.getInstance().registerWidget(name, clazz, type);
+            ApplicationContext.getInstance().registerWidget(name, clazz);
         }
     }
 

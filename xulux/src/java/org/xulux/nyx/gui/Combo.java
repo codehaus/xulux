@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.26 2003-01-08 02:37:07 mvdb Exp $
+ $Id: Combo.java,v 1.24 2002-12-05 14:50:17 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,58 +45,52 @@
  */
 package org.xulux.nyx.gui;
 
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.swing.NyxComboBox;
+import org.xulux.nyx.swing.listeners.ImmidiateListener;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.swing.models.DefaultComboModel;
+
 /**
- * The combo abstract. This will contain the combo generics
+ * The combo widget.
  * 
- * @author Martin van den Bemt
- * @version $Id: Combo.java,v 1.26 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: Combo.java,v 1.24 2002-12-05 14:50:17 mvdb Exp $
  */
-public abstract class Combo extends Widget
+public class Combo extends Widget
 {
-    
-    protected ArrayList content;
-    protected String notSelectedValue;
-    protected boolean contentChanged;
-    protected boolean notSelectedValueSet;
+    private static Log log = LogFactory.getLog(Combo.class);
+    private ArrayList content;
+    private NyxComboBox combo;
+    private String notSelectedValue;
+    private KeyListener keyListener;
+    private boolean contentChanged;
+    private DefaultComboModel model;
+    private PrePostFieldListener actionListener;
+    private boolean notSelectedValueSet;
 
     /**
      * Constructor for Combo.
-     * @param name
      */
-    public Combo(String name)
+    public Combo(String field)
     {
-        super(name);
+        super(field);
     }
-
-    /**
-     * This just disposes of references to combo
-     * and doesn't get rid of native resource
-     * allocated. You have to override this
-     * and call super for this to work
-     * @see org.xulux.nyx.gui.Widget#destroy()
-     */
-    public void destroy()
-    {
-        getPart().removeWidget(this, this);
-        removeAllRules();
-    }
-
+    
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
-    public abstract Object getNativeWidget();
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#initialize()
-     */
-    public abstract void initialize();
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#refresh()
-     */
-    public abstract void refresh();
+    public Object getNativeWidget()
+    {
+        initialize();
+        return combo;
+    }
     
     /**
      * Sets the content of the combo.
@@ -115,7 +109,7 @@ public abstract class Combo extends Widget
         }
     }
     
-    protected void initializeNotSelectedValue()
+    private void initializeNotSelectedValue()
     {
         String nsv = getNotSelectedValue();
         if (nsv== null)
@@ -200,11 +194,158 @@ public abstract class Combo extends Widget
     }
 
     /**
+     * @see org.xulux.nyx.gui.Widget#destroy()
+     */
+    public void destroy()
+    {
+        if (combo != null)
+        {
+            if (actionListener != null)
+            {
+                combo.removeActionListener(actionListener);
+                actionListener = null;
+            }
+            if (keyListener != null)
+            {
+                combo.removeKeyListener(keyListener);
+                keyListener = null;
+            }
+            combo.removeAll();
+            Container container = combo.getParent();
+            if (container != null)
+            {
+                container.remove(combo);
+            }
+            combo = null;
+        }
+        getPart().removeWidget(this, this);
+        removeAllRules();
+    }
+    
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#initialize()
+     */
+    public void initialize()
+    {
+        
+        if (this.initialized)
+        {
+            return;
+        }
+        this.initialized = true;
+        String nsv = getProperty("notselectedvalue");
+        if (nsv != null)
+        {
+            this.notSelectedValue = nsv;
+        }
+        combo = new NyxComboBox();
+        if (!isRefreshing())
+        {
+            refresh();
+        }
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#refresh()
+     */
+    public void refresh()
+    {
+        isRefreshing = true;
+        initialize();
+        if (isImmidiate() && keyListener == null)
+        {
+            keyListener = new ImmidiateListener(this);
+            combo.addKeyListener(keyListener);
+        }
+        else if (!isImmidiate() && keyListener != null)
+        {
+            combo.removeKeyListener(keyListener);
+        }
+        combo.setEnabled(isEnabled());
+        combo.setVisible(isVisible());
+        if (contentChanged)
+        {
+            initializeNotSelectedValue();
+            String comboFields = getProperty("combofields");
+            if (this.model != null)
+            {
+                this.model.destroy();
+            }
+            if (content != null)
+            {
+                this.model = new DefaultComboModel(content, comboFields,this);
+            }
+            else
+            {
+                this.model = new DefaultComboModel();
+            }
+            combo.setModel(this.model);
+            if (this.actionListener == null)
+            {
+                this.actionListener = getPart().getFieldEventHandler();
+                actionListener.setWidget(this);
+                combo.addActionListener(this.actionListener);
+            }
+        }
+        if (getValue() instanceof DefaultComboModel.ComboShowable)
+        {
+            
+            model.setSelectedItem(value);
+        }
+        else
+        {
+            if (content != null && value != null)
+            {
+                model.setRealSelectedValue(getValue());
+            }
+            else if (model!=null && content != null &&
+                       value == null)
+            {
+                // if we don't have a value select
+                // the first one in the list
+                if (!content.isEmpty())
+                {
+                    model.setSelectedItem(0);
+                    this.value = model.getRealSelectedValue();
+                }
+            }
+            if (model != null && model.getSelectedIndex() == 0
+                && contentChanged)
+            {
+                this.value = model.getRealSelectedValue();
+            }
+        }
+        if (contentChanged)
+        {
+            contentChanged = false;
+        }
+        String backgroundColor = null;
+        if (isRequired() && isEnabled())
+        {
+            backgroundColor = getProperty("required-background-color");
+        }
+        else if (!isEnabled())
+        {
+            backgroundColor = getProperty("disabled-background-color");
+        }
+        else
+        {
+            backgroundColor = getProperty("default-background-color");
+        }
+        if (backgroundColor != null)
+        {
+            combo.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
+        }
+        combo.repaint();
+        isRefreshing = false;
+    }
+    /**
      * @see org.xulux.nyx.gui.Widget#getValue()
      */
     public Object getValue()
     {
-        if ((content == null || getNativeWidget() == null) && this.value != null)
+        if ((content == null || combo == null) && this.value != null)
         {
             return this.value;
         }
@@ -261,7 +402,4 @@ public abstract class Combo extends Widget
     {
         return content;
     }
-
-    
-
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.23 2003-01-25 23:17:57 mvdb Exp $
+ $Id: Widget.java,v 1.21 2002-12-03 02:19:08 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,7 +46,6 @@
 
 package org.xulux.nyx.gui;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -62,9 +61,9 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.23 2003-01-25 23:17:57 mvdb Exp $
+ * @version $Id: Widget.java,v 1.21 2002-12-03 02:19:08 mvdb Exp $
  */
-public abstract class Widget implements Serializable
+public abstract class Widget
 {
     
     private String field;
@@ -91,8 +90,6 @@ public abstract class Widget implements Serializable
     protected HashMap properties;
     
     private boolean required = false;
-    
-    private boolean isRootWidget = false;
     
     /**
      * Specfies if the widget is refreshing
@@ -314,51 +311,10 @@ public abstract class Widget implements Serializable
     }
     
     /**
-     * Override this method when the widget can 
-     * contains child widgets.
-     * You don't have to override this one when
-     * the widget can be a root widgets, sicne that
-     * assumes it can contain children.
-     * 
+     * Override this method when the widget can contains child widgets
      * @return
      */
     public boolean canContainChildren()
-    {
-        return canBeRootWidget();
-    }
-    
-    /**
-     * Checks if this widgets is defined in the root
-     * of the part.
-     * eg those are elements that are directly under
-     * the the main part.
-     */
-    public boolean isRootWidget()
-    {
-        return this.isRootWidget;
-    }
-    
-    /**
-     * Specifies if this widget is a part rootWidget
-     * 
-     * @param isRootWidget
-     */
-    public void setRootWidget(boolean isRootWidget)
-    {
-        this.isRootWidget = true;
-    }
-    
-    /**
-     * Specifies if this widget can be a root
-     * widget, which means it can live on it's
-     * own without any parent.
-     * Returns false by default, so you have to 
-     * override it when it can (normally only
-     * windows can though)
-     * 
-     * @return true when it can
-     */
-    public boolean canBeRootWidget()
     {
         return false;
     }

@@ -1,7 +1,7 @@
 /*
- $Id: ApplicationContext.java,v 1.22 2003-01-26 00:41:45 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.18 2002-12-12 14:41:12 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -46,7 +46,9 @@
 package org.xulux.nyx.context;
 
 import java.awt.Component;
+import java.io.IOException;
 import java.io.InputStream;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,7 +56,6 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.internal.ole.win32.ISpecifyPropertyPages;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.guidefaults.GuiDefaultsHandler;
 import org.xulux.nyx.rules.IRule;
@@ -64,12 +65,12 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.22 2003-01-26 00:41:45 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.18 2002-12-12 14:41:12 mvdb Exp $
  */
 public class ApplicationContext
 {
     
-    public static String GUIDEFAULTS_XML = "org/xulux/nyx/guidefaults/GuiDefaults.xml";
+    private static String GUIDEFAULTS_XML = "org/xulux/nyx/guidefaults/GuiDefaults.xml";
     private static ApplicationContext instance;
     private static Log log = LogFactory.getLog(ApplicationContext.class);
     
@@ -99,8 +100,6 @@ public class ApplicationContext
      * The currently registered rules
      */
     private ArrayList rules;
-    
-    private ApplicationPart isApplication;
 
     /**
      * Request types..
@@ -112,36 +111,13 @@ public class ApplicationContext
     public static final int DESTROY_REQUEST = 4;
 
     /**
-     * The default widgetType for the system
-     * (eg swt, swing)
-     */
-    private String defaultType;
-
-    /**
      * Constructor for GuiContext.
      */
     public ApplicationContext()
     {
         super();
     }
-    
-    /**
-     * Checks to see if this part is the application
-     */
-    public static boolean isPartApplication(ApplicationPart part)
-    {
-        return (part == getInstance().isApplication);
-    }
-    
-    /**
-     * Exits the application
-     */
-    public static void exitApplication()
-    {
-        System.exit(0);
-    }
-    
-    
+
     public static ApplicationContext getInstance()
     {
         if (instance == null)
@@ -157,19 +133,11 @@ public class ApplicationContext
      */
     public void register(ApplicationPart part)
     {
-    }
-    
-    public void register(ApplicationPart part, boolean isApplication)
-    {
         if (registry == null)
         {
             registry = new ArrayList();
         }
         registry.add(part);
-        if (isApplication) 
-        {
-            this.isApplication = part;
-        }
     }
 
     /** 
@@ -365,17 +333,7 @@ public class ApplicationContext
         return false;
     }
     
-    /**
-     * Registers a widget that can be used to construct
-     * an ui.
-     * @param name - the widget name (eg combo)
-     * @param clazz - the class that needs to be used
-     * @param type - the widget type (eg swt, core, swing)
-     *                core is used for later. Most of the time
-     *                the coretype represent an generic extension
-     *                of widget for eg a combo)
-     */
-    public void registerWidget(String name, String clazz, String type)
+    public void registerWidget(String name, String clazz)
     {
         if (this.widgets == null)
         {
@@ -384,28 +342,11 @@ public class ApplicationContext
         try
         {
             Class widgetClass = Class.forName(clazz);
-            WidgetConfig config = (WidgetConfig)widgets.get(name);
-            if (config == null)
-            {
-                config = new WidgetConfig();
-            }
-            if (type == null)
-            {
-                type = defaultType;
-            }
-            if ("core".equals(type))
-            {
-                config.setCoreClass(widgetClass);
-            }
-            else
-            {
-                config.add(type, widgetClass);
-            }
-            widgets.put(name, config);
+            widgets.put(name, widgetClass);
         }
         catch (ClassNotFoundException e)
         {
-            log.warn("Could not find "+clazz+" for widget named "+name+" and type "+type);
+            log.warn("Could not find "+clazz+" for widget named "+name);
         }
     }
     
@@ -420,7 +361,7 @@ public class ApplicationContext
         InputStream stream = this.getClass().getClassLoader().getResourceAsStream(GUIDEFAULTS_XML);
         handler.read(stream);
     }
-
+    
     /**
      * Returns the class that corresponds to the name or null
      * when not found
@@ -428,33 +369,11 @@ public class ApplicationContext
      * call registerWidget(name, clazz) to register one yourself..
      * 
      * @param name - the widget
-     * @param type - the type of widget
-     */
-    public Class getWidget(String name, String type)
-    {
-        name = name.toLowerCase();
-        WidgetConfig config =  (WidgetConfig)widgets.get(name);
-        if (config == null)
-        {
-            return null;
-        }
-        Class clazz = config.get(type);
-        
-        return config.get(type);
-    }
-    
-    /**
-     * Returns the class that corresponds to the name or null
-     * when not found
-     * See GuiDefaults.xml for more info on defining widgets or 
-     * call registerWidget(name, clazz) to register one yourself..
-     * This will return the widget from the set defaulttype
-     * (system default is swing).
-     * @param name - the widget
      */
     public Class getWidget(String name)
     {
-        return getWidget(name, getDefaultWidgetType());
+        name = name.toLowerCase();
+        return (Class)widgets.get(name);
     }
     
     public void registerPart(ApplicationPart part)
@@ -505,27 +424,4 @@ public class ApplicationContext
     {
         test = testMode;
     }
-    /**
-     * Sets the application wide default widget type
-     * (eg. swt, core, swing)
-     * @param defaultType
-     */
-    public void setDefaultWidgetType(String defaultType)
-    {
-        this.defaultType = defaultType;
-    }
-    
-    public String getDefaultWidgetType()
-    {
-        return this.defaultType;
-    }
-
-    /**
-     * Method getWidgets.
-     */
-    public HashMap getWidgets()
-    {
-        return this.widgets;
-    }
-
 }

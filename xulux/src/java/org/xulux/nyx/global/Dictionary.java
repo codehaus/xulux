@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.5 2002-12-22 23:32:05 mvdb Exp $
+ $Id: Dictionary.java,v 1.4 2002-11-12 17:16:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,21 +57,15 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.5 2002-12-22 23:32:05 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.4 2002-11-12 17:16:42 mvdb Exp $
  */
 public class Dictionary
 {
-    private static Log log = LogFactory.getLog(Dictionary.class);
+
     private HashMap mappings;
     private static Dictionary instance;
     private Class baseClass;
-    /**
-     * A mappingcache is used temporarily to add
-     * classes that have been discovered, this way
-     * we can test for infinite loop troubles
-     */
-    private ArrayList mappingCache;
-    private int mappingDepth = 0;
+    private static Log log = LogFactory.getLog(Dictionary.class);
 
     /**
      * Constructor for Dictionary.
@@ -114,23 +108,16 @@ public class Dictionary
 
     public void addMapping(BeanMapping beanMapping)
     {
+        if (beanMapping.isDiscovery())
+        {
+            // we have to set the fields
+        }
         if (mappings == null)
         {
             mappings = new HashMap();
         }
-        if (mappingCache == null)
-        {
-            mappingCache = new ArrayList();
-        }
-        mappingCache.add(beanMapping.getBean());
-        mappingDepth++;
         beanMapping.discover();
         mappings.put(beanMapping.getName(), beanMapping);
-        mappingDepth--; 
-        if (mappingDepth == 0)
-        {
-            mappingCache = null;
-        }
     }
 
     public BeanMapping getMapping(Class clazz)
@@ -270,23 +257,6 @@ public class Dictionary
         {
             mappings.clear();
         }
-    }
-
-    /**
-     * Checks to see if this class is currently being 
-     * discovered. This is a nice way to prevent 
-     * infinite loops.
-     * 
-     * @param clazz
-     * @return boolean
-     */
-    public boolean isInCache(Class clazz)
-    {
-        if (mappingCache == null)
-        {
-            return false;
-        }
-        return (mappingCache.indexOf(clazz)==-1)?false:true;
     }
 
 }

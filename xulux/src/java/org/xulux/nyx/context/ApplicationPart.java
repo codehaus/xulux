@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.34 2003-01-25 23:17:57 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.30 2002-11-28 21:45:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,23 +49,25 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.LayoutManager2;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
+import org.xulux.nyx.global.BeanField;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
-import org.xulux.nyx.listeners.NyxListener;
-import org.xulux.nyx.listeners.swing.PrePostFieldListener;
+import org.xulux.nyx.swing.factories.GuiField;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * An Application is a part of the application
@@ -84,7 +86,7 @@ import org.xulux.nyx.listeners.swing.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.34 2003-01-25 23:17:57 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.30 2002-11-28 21:45:07 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -119,7 +121,7 @@ public class ApplicationPart
     public final static int INVALID_STATE = 1;
     public final static int OK_STATE =2;
     private int state = NO_STATE;
-    private NyxListener fieldEventHandler;
+    private PrePostFieldListener fieldEventHandler;
     
     /**
      * Constructor for GuiPart.
@@ -135,10 +137,7 @@ public class ApplicationPart
     {
         this();
         this.bean = bean;
-        if (bean != null) 
-        {
-            this.mapping = Dictionary.getInstance().getMapping(bean.getClass());
-        }
+        this.mapping = Dictionary.getInstance().getMapping(bean.getClass());
     }
         
     
@@ -314,7 +313,6 @@ public class ApplicationPart
             widgets = new WidgetList();
         }
         ((Widget)widget).setPart(this);
-        ((Widget)widget).setRootWidget(true);
         widgets.add(widget);
     }
     
@@ -357,18 +355,13 @@ public class ApplicationPart
             widgets.add(widget);
         }
     }
-    /**
-     * If the root widget is null,
-     * the part is contained in itself
-     */
+    
     public Object getRootWidget()
     {
         return parentWidget;
     }
     
     /**
-     * NOTE : Is actually not ding anything
-     * 
      * Initialize the part, which makes the gui visible,
      * processes fields, etc.
      * Can only be called from the DefaultPartRule
@@ -394,9 +387,6 @@ public class ApplicationPart
         runIndex++;
     }
     
-    /**
-     * Refreshes all widgets
-     */
     public void refreshAllWidgets()
     {
         Iterator it = widgets.iterator();
@@ -457,15 +447,23 @@ public class ApplicationPart
         while (it.hasNext())
         {
             Widget widget = (Widget) it.next();
-            if (widget.canBeRootWidget() || 
-                 widget.canContainChildren())
+            if (getRootWidget() instanceof JPanel)
             {
-                widget.initialize();
-                WidgetRequestImpl req = new WidgetRequestImpl(widget,PartRequest.NO_ACTION);
-                ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
+                try
+                {
+                    ((JPanel)parentWidget).add((Component)widget.getNativeWidget(),widget);
+                    WidgetRequestImpl req = new WidgetRequestImpl(widget,PartRequest.NO_ACTION);
+                    ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
+                }
+                catch(NullPointerException npe)
+                {
+                    if (log.isWarnEnabled())
+                    {
+                        log.warn("Problems getting native widget for widget "+widget.getName());
+                    }
+                    throw npe;
+                }
             }
-            
-            
         }
     }
     
@@ -668,7 +666,6 @@ public class ApplicationPart
         if (parentWidget != null)
         {
             Container container = ((Component)parentWidget).getParent();
-            container.removeAll();
             container.remove((Component)parentWidget);
         }
         ApplicationContext.getInstance().removePart(getName());
@@ -742,25 +739,26 @@ public class ApplicationPart
 
     /**
      * Returns a new instance of the fieldEventHandler.
-     * You can override this in the applicationpart
-     * xml by adding the listener tag with the class
-     * specified.
-     * @return PrePostFieldListener
+     * @return Object
      */
-    public NyxListener getFieldEventHandler(Widget widget)
+    public PrePostFieldListener getFieldEventHandler()
     {
-        NyxListener listener = null;
+        PrePostFieldListener listener = null;
         if (fieldEventHandler != null)
         {
             try
             {
-                listener = (NyxListener)fieldEventHandler.getClass().newInstance();
-                listener.setWidget(widget);
+                listener = (PrePostFieldListener)fieldEventHandler.getClass().newInstance();
             }
             catch (Exception e)
             {
             }
         }
+        if (listener == null)
+        {
+            listener = new PrePostFieldListener();
+        }
+            
         return listener;
     }
 

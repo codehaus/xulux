@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.13 2003-01-08 02:37:07 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.11 2002-12-05 14:50:18 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.swing.models;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import javax.swing.ComboBoxModel;
@@ -54,13 +55,14 @@ import javax.swing.event.ListDataListener;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
-import org.xulux.nyx.gui.swing.Combo;
+import org.xulux.nyx.gui.Combo;
+import org.xulux.nyx.gui.Widget;
 
 /**
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.13 2003-01-08 02:37:07 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.11 2002-12-05 14:50:18 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -95,17 +97,10 @@ public class DefaultComboModel implements ComboBoxModel
      */
     public void setSelectedItem(Object anItem)
     {
-        if (anItem instanceof ComboShowable)
+        this.selectedItem = (ComboShowable)anItem;
+        if (initialized && !combo.isRefreshing())
         {
-            this.selectedItem = (ComboShowable)anItem;
-            if (initialized && !combo.isRefreshing())
-            {
-                combo.setLazyValue(getRealSelectedValue());
-            }
-        }
-        else
-        {
-            setRealSelectedValue(anItem);
+            combo.setLazyValue(getRealSelectedValue());
         }
     }
     
@@ -127,10 +122,6 @@ public class DefaultComboModel implements ComboBoxModel
      */
     public int getSize()
     {
-        if (list == null)
-        {
-            return 0;
-        }
         return list.size();
     }
 
@@ -301,15 +292,16 @@ public class DefaultComboModel implements ComboBoxModel
         this.combo = null;
         if (this.list != null)
         {
+            this.list.clear();
             this.list = null;
         }
         this.mapping = null;
         this.original = null;
         this.field = null;
-        if (listeners != null)
+        if (listeners != null || listeners.size() > 0)
         {
-            listeners = null;
+            listeners.clear();
         }
-        this.selectedItem = null;
+        listeners = null;
     }
 }

@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: ComboTest.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,7 +47,6 @@ package org.xulux.nyx.gui;
 
 import java.io.InputStream;
 
-import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 
 import junit.framework.Test;
@@ -57,7 +56,7 @@ import junit.framework.TestSuite;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @version $Id: ComboTest.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
  */
 public class ComboTest extends TestCase
 {
@@ -76,18 +75,8 @@ public class ComboTest extends TestCase
         return suite;
     }
     
-    public void testSimpleComboSwing()
+    public void testSimpleCombo()
     {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
         PersonBean person = new PersonBean("Martin", "van den Bemt");
         String xml = "org/xulux/nyx/gui/ComboTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
@@ -98,7 +87,7 @@ public class ComboTest extends TestCase
     {
         try
         {
-            new ComboTest("ComboTest").testSimpleComboSwt();
+            new ComboTest("ComboTest").testSimpleCombo();
         }
         catch(Exception e)
         {

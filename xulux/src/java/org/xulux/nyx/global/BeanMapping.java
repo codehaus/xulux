@@ -1,7 +1,7 @@
 /*
- $Id: BeanMapping.java,v 1.8 2003-01-26 02:43:34 mvdb Exp $
+ $Id: BeanMapping.java,v 1.6 2002-12-02 20:46:10 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -49,17 +49,20 @@ package org.xulux.nyx.global;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 
 /**
  * Contains the the Bean to Name mapping
  * Every field in the mapping is represented by a BeanField
  * 
- * @todo Probably should use some kind of discovery / bean 
- *       package to handle basic bean patterns. Just for Proof
- *       of concept I am reinventing the wheel a bit..;)
+ * TODO: Probably should use some kind of discovery / bean 
+ * package to handle basic bean patterns. Just for Proof
+ * of concept I am reinventing the wheel a bit..;)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.8 2003-01-26 02:43:34 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.6 2002-12-02 20:46:10 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -77,19 +80,15 @@ public class BeanMapping
     public BeanMapping()
     {
     }
-    /**
-     * Creates a BeanMapping with the specified name
-     * 
-     * @param name - the beanMapping name
-     */
+
     public BeanMapping(String name)
     {
         setName(name);
     }
 
     /**
-     * 
-     * @return the name of the beanMapping
+     * Returns the name.
+     * @return String
      */
     public String getName()
     {
@@ -97,8 +96,7 @@ public class BeanMapping
     }
 
     /**
-     * Sets the BeanMapping name.
-     * 
+     * Sets the name.
      * @param name The name to set
      */
     public void setName(String name)
@@ -108,7 +106,6 @@ public class BeanMapping
 
     /**
      * Returns the bean.
-     * 
      * @return Class
      */
     public Class getBean()
@@ -118,7 +115,6 @@ public class BeanMapping
 
     /**
      * Sets the bean.
-     * 
      * @param bean The bean to set
      */
     public void setBean(Class bean)
@@ -128,7 +124,6 @@ public class BeanMapping
 
     /**
      * Returns the discovery.
-     * 
      * @return boolean
      */
     public boolean isDiscovery()
@@ -138,7 +133,6 @@ public class BeanMapping
 
     /**
      * Sets the discovery.
-     * 
      * @param discovery The discovery to set
      */
     public void setDiscovery(boolean discovery)
@@ -170,7 +164,6 @@ public class BeanMapping
     }
     
     /**
-     * 
      * @param name - the name the is contained in the method..getXXX/setXXX where XXX is the name 
      *                (case insensitive..)
      * @param setMethod - discover the setMethod (true) or the getMethod (false)
@@ -192,7 +185,6 @@ public class BeanMapping
     
     /**
      * Adds a field to the mapping
-     * 
      * @param f - the field
      */
     public void addField(IField f)
@@ -264,14 +256,11 @@ public class BeanMapping
                 //System.err.println("Mapping : "+d.getMapping("Qualifier")+ " for class "+clazz.getName());
                 //System.out.println("Possible mapping : "+d.getPossibleMappingName(clazz));
                 //System.out.println("f "+field.getMethod().getDeclaringClass());
-                if (d.getMapping(d.getPossibleMappingName(clazz)) == null 
-                    && d.getMapping(d.getPlainBeanName(clazz)) == null  
-                    && field.getMethod().getDeclaringClass() != clazz)
+                if (d.getMapping(d.getPossibleMappingName(clazz)) == null &&
+                    d.getMapping(d.getPlainBeanName(clazz)) == null  &&
+                    field.getMethod().getDeclaringClass() != clazz)
                 {
-                    if (!d.isInCache(clazz))
-                    {
-                        d.getMapping(clazz);
-                    }
+                    d.getMapping(clazz);
                 }
             }
             field.setBaseType(isBaseTypeField);
@@ -284,7 +273,7 @@ public class BeanMapping
     }
     
     /**
-     * @return all the fields in an arraylist
+     * Returns all the fields in an arraylist
      */
     public ArrayList getFields()
     {

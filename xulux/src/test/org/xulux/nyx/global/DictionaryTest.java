@@ -1,6 +1,6 @@
 
 /*
- $Id: DictionaryTest.java,v 1.5 2002-12-22 23:31:18 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.4 2002-11-03 15:17:49 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.5 2002-12-22 23:31:18 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.4 2002-11-03 15:17:49 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -154,19 +154,6 @@ public class DictionaryTest extends TestCase
         assertEquals("street", mapping.getField("straat").getName());
         assertEquals("plaats", mapping.getField("plaats").getAlias());
         assertEquals("city", mapping.getField("plaats").getName());
-    }
-    
-    public void testInfiniteLoop()
-    {
-        System.out.println("testInfiniteLoop");
-        Dictionary d = Dictionary.getInstance();
-        BeanMapping mb = d.getMapping(AnotherRecursiveBean.class);
-        // cache should be cleared by dictionary.
-        assertTrue(!d.isInCache(AnotherRecursiveBean.class));
-        assertTrue(!d.isInCache(RecursiveBean.class));
-        assertEquals(6,mb.getFields().size());
-        BeanMapping mbmain = d.getMapping(RecursiveBean.class);
-        assertEquals(3, mbmain.getFields().size());
     }
     /**
      * Clean up the dictionary..

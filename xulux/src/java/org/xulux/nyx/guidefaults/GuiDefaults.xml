@@ -1,17 +1,11 @@
 <?xml version="1.0"?>
-<!-- 
-    Where no type is specified, it will default
-    to defaultType.
--->
-<guidefaults defaultType="swing">
+<guidefaults>
   <widgets>
     <widget name="button" class="org.xulux.nyx.gui.Button"/>
-    <widget name="combo" type="swing" class="org.xulux.nyx.gui.swing.Combo"/>
-    <widget name="combo" type="swt" class="org.xulux.nyx.gui.swt.Combo"/>
+    <widget name="combo" class="org.xulux.nyx.gui.Combo"/>
     <widget name="entry" class="org.xulux.nyx.gui.Entry"/>
     <widget name="label" class="org.xulux.nyx.gui.Label"/>
+    <widget name="window" class="org.xulux.nyx.gui.Window"/>
     <widget name="panel" class="org.xulux.nyx.gui.Panel"/>
-    <widget name="window" type="swing" class="org.xulux.nyx.gui.swing.Window"/>
-    <widget name="window" type="swt" class="org.xulux.nyx.gui.swt.Window"/>
   </widgets>
 </guidefaults>

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.gui.Combo;
+import org.xulux.nyx.gui.Entry;
 import org.xulux.nyx.gui.PersonBean;
-import org.xulux.nyx.gui.swing.Entry;
 import org.xulux.nyx.rules.Rule;
 
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: MainEntryComboRule.java,v 1.2 2003-01-08 02:37:06 mvdb Exp $
+ * @version $Id: MainEntryComboRule.java,v 1.1 2002-12-03 17:12:01 mvdb Exp $
  */
 public class MainEntryComboRule extends Rule
 {
