@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.8 2004-09-23 07:41:26 mvdb Exp $
+   $Id: Table.java,v 1.9 2004-09-30 21:25:39 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,7 +28,7 @@ import javax.swing.table.TableModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.Dictionary;
+import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
 import org.xulux.gui.ContainerWidget;
@@ -56,7 +56,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.8 2004-09-23 07:41:26 mvdb Exp $
+ * @version $Id: Table.java,v 1.9 2004-09-30 21:25:39 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -280,8 +280,10 @@ public class Table extends ContainerWidget implements IContentWidget {
                 table.setCellEditor(this.editor);
                 table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
                 table.getSelectionModel().addListSelectionListener(new NewSelectionListener(this));
+                table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 scrollPane.setViewportView(table);
                 scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             }
             if (hasLockedColumns && table.getSiblingTable() == null) {
                 table.setSiblingTable(lockedTable);
@@ -319,6 +321,9 @@ public class Table extends ContainerWidget implements IContentWidget {
             int rowHeight = Integer.valueOf(height).intValue();
             if (rowHeight > 0) {
                 table.setRowHeight(Integer.valueOf(height).intValue());
+                if (lockedTable != null) {
+                  lockedTable.setRowHeight(Integer.valueOf(height).intValue());
+                }
             }
         }
         // we want to set some things on initialization of the widget..
@@ -456,10 +461,10 @@ public class Table extends ContainerWidget implements IContentWidget {
             IMapping mapping = null;
             IField field = null;
             if (index == -1) {
-                mapping = Dictionary.getInstance().getMapping(getPart().getBean());
+                mapping = XuluxContext.getDictionary().getMapping(getPart().getBean());
                 field = mapping.getField(contentProp);
             } else {
-                mapping = Dictionary.getInstance().getMapping(ClassLoaderUtils.getClass(contentProp.substring(0, index)));
+                mapping = XuluxContext.getDictionary().getMapping(ClassLoaderUtils.getClass(contentProp.substring(0, index)));
                 field = mapping.getField(contentProp.substring(index + 1));
             }
             if (field != null) {
@@ -474,7 +479,11 @@ public class Table extends ContainerWidget implements IContentWidget {
                 }
             }
         } else if (contentType.equalsIgnoreCase("bean")) {
-            this.content = NyxCollectionUtils.getList(getPart().getBean());
+            if ("raw".equalsIgnoreCase(contentProp)) {
+              this.content = getPart().getBean();
+            } else {
+              this.content = NyxCollectionUtils.getList(getPart().getBean());
+            }
             contentChanged = true;
         }
     }
@@ -658,7 +667,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             this.previousValue = getGuiValue();
             this.value = value;
         } else {
-            IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IMapping map = XuluxContext.getDictionary().getMapping(getPart().getBean());
             IField field = map.getField(getField());
             if (field != null) {
                 Object currentValue = field.getValue(getPart().getBean());
@@ -692,13 +701,6 @@ public class Table extends ContainerWidget implements IContentWidget {
      */
     public Object getValue() {
         return getGuiValue();
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#setProperty(java.lang.String, java.lang.String)
-     */
-    public void setProperty(String key, String value) {
-        super.setProperty(key, value);
     }
 
     /**

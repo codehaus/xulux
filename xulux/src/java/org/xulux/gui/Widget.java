@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.18 2004-07-12 11:20:21 mvdb Exp $
+   $Id: Widget.java,v 1.19 2004-09-30 21:25:39 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.18 2004-07-12 11:20:21 mvdb Exp $
+ * @version $Id: Widget.java,v 1.19 2004-09-30 21:25:39 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -597,6 +597,7 @@ public abstract class Widget implements Serializable
         if (properties == null) {
           properties = new HashMap();
         }
+        key = key.toLowerCase();
         if (value == null) {
             properties.remove(key);
         } else {
@@ -737,6 +738,13 @@ public abstract class Widget implements Serializable
             }
         }
         return null;
+    }
+    
+    public Object getRealProperty(String key) {
+      if (properties != null && key != null) {
+          return properties.get(key.toLowerCase());
+      }
+      return null;
     }
 
     /**

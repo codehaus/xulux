@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableCellRenderer.java,v 1.11 2004-09-23 08:11:22 mvdb Exp $
+   $Id: NyxTableCellRenderer.java,v 1.12 2004-09-30 21:25:39 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -34,7 +34,7 @@ import org.xulux.swing.widgets.Table;
  * We should make our own cellRenderer probably, so we can use the functionalily of widgets..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellRenderer.java,v 1.11 2004-09-23 08:11:22 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.12 2004-09-30 21:25:39 mvdb Exp $
  */
 public class NyxTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -73,10 +73,20 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
         boolean hasFocus,
         int row,
         int column) {
-        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         request.setValue(value);
-        widget.getPart().getSession().setValue("cellvalue", value);
+        widget.setLazyProperty("cellvalue", value);
+        widget.setLazyProperty("rowValue", table.getModel().getValueAt(row, -1));
         XuluxContext.fireFieldRequest(widget, request, XuluxContext.PRE_REQUEST);
+        // check to see if a rule had a different value in mind
+        Object newValue = widget.getProperty("value");
+        if (newValue != null) {
+          value = newValue;
+          // clear the value property
+          widget.setLazyProperty("value", null);
+        }
+        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        widget.setLazyProperty("cellvalue", null);
+        widget.setLazyProperty("rowvalue", null);
         // refresh widget so gui changes can propegate.
         //Component comp = (Component) widget.getNativeWidget();
         if (!isSelected) {
@@ -100,7 +110,7 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
         }
         String tooltipText = widget.getProperty("tooltip");
         if (tooltipText != null) {
-          	setToolTipText(tooltipText+"-"+row+":"+column);
+          	setToolTipText(tooltipText);
         }
         return this;
     }

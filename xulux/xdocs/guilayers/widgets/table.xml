@@ -100,6 +100,19 @@
     </table>
   </subsection>
 </section>
+<section name="FAQ">
+  <subsection name="How do I change the value of a table cell ?">
+   <p>
+    Add a rule to the widget for the cell and call setLazyProperty("value", the new value);
+    To get the value that is destined for the ceel use widget.getRealProperty("cellvalue");
+   </p>
+  </subsection>
+  <subsection name="How can I get the data from a row?">
+    <p>
+      Add a rule to the widget for the cell and call widget.getRealProperty("rowvalue").
+    </p>
+  </subsection>
+</section>
 
 </body>
 

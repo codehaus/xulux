@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.17 2004-07-12 13:44:14 mvdb Exp $
+   $Id: Entry.java,v 1.18 2004-09-30 21:25:39 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -45,7 +45,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.17 2004-07-12 13:44:14 mvdb Exp $
+ * @version $Id: Entry.java,v 1.18 2004-09-30 21:25:39 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -190,7 +190,7 @@ public class Entry extends SwingWidget {
         if (iv != null) {
             String ivType = getProperty("initialvalue.type");
             if (ivType != null && ivType.equals("field")) {
-                IMapping mapping = Dictionary.getInstance().getMapping(getPart().getBean());
+                IMapping mapping = XuluxContext.getDictionary().getMapping(getPart().getBean());
                 if (mapping != null) {
                     IField field = mapping.getField(iv);
                     if (field != null) {
@@ -294,6 +294,7 @@ public class Entry extends SwingWidget {
             } else {
                 field = mapping.getField(this.value);
             }
+            System.out.println("this value : " + this.value);
             textComponent.setText((String) field.getValue(this.value));
             return;
         } else if (getField() == null) {
@@ -301,7 +302,7 @@ public class Entry extends SwingWidget {
                 if (getProperty("entryfields") != null) {
                     String entryFields = getProperty("entryfields");
                     String entryValue = "";
-                    IMapping mapping = Dictionary.getInstance().getMapping(getValue());
+                    IMapping mapping = XuluxContext.getDictionary().getMapping(getValue());
                     StringTokenizer stn = new StringTokenizer(entryFields, ",");
                     while (stn.hasMoreTokens()) {
                         String token = stn.nextToken();
@@ -351,7 +352,7 @@ public class Entry extends SwingWidget {
         if (bean == null) {
             bean = getPart().getBean();
         }
-        IMapping map = Dictionary.getInstance().getMapping(bean);
+        IMapping map = XuluxContext.getDictionary().getMapping(bean);
         if (map == null) {
             textComponent.setText("");
             return;
@@ -376,9 +377,7 @@ public class Entry extends SwingWidget {
             textComponent.setText("");
         } else {
             // we assume toString method here.
-            // Implement fields some more
-            // so it can be a comination of fields
-            // that turn up here.
+            // @todo Implement fields some more so it can be a combination of fields that turn up here.
 
             // If this is not an array, do a toString
             if (!this.value.getClass().isArray()) {
@@ -398,10 +397,11 @@ public class Entry extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#setValue(Object)
      */
     public void setValue(Object object) {
+      System.out.println("Called setValue : " + object);
         if (this.valueClass == null && getProperty("valueclass") != null) {
             this.valueClass = ClassLoaderUtils.getClass(getProperty("valueclass"));
         }
-        // if there is not field present
+        // if there is no field present
         // we set the value passed in
         // and check to see if the field
         // needs updating or not.
@@ -448,7 +448,7 @@ public class Entry extends SwingWidget {
             }
             this.value = object;
         } else {
-            IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IMapping map = XuluxContext.getDictionary().getMapping(getPart().getBean());
             if (map != null) {
                 IField field = map.getField(getField());
                 // set the previous value

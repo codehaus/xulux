@@ -1,5 +1,5 @@
 /*
-$Id: MultipleLineHeaderRenderer.java,v 1.1 2004-09-23 07:41:26 mvdb Exp $
+$Id: MultipleLineHeaderRenderer.java,v 1.2 2004-09-30 21:25:39 mvdb Exp $
 
 Copyright 2002-2004 The Xulux Project
 
@@ -28,7 +28,7 @@ import org.xulux.utils.StringUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MultipleLineHeaderRenderer.java,v 1.1 2004-09-23 07:41:26 mvdb Exp $
+ * @version $Id: MultipleLineHeaderRenderer.java,v 1.2 2004-09-30 21:25:39 mvdb Exp $
  */
 public class MultipleLineHeaderRenderer implements TableCellRenderer {
 
@@ -37,9 +37,9 @@ public class MultipleLineHeaderRenderer implements TableCellRenderer {
   
   public MultipleLineHeaderRenderer(String title) {
     mlh = new MultipleLineHeader(title);
-    scrollPane = new JScrollPane(mlh);
-    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+//    scrollPane = new JScrollPane(mlh);
+//    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+//    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
   }
   /**
    * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
@@ -47,7 +47,7 @@ public class MultipleLineHeaderRenderer implements TableCellRenderer {
   public Component getTableCellRendererComponent(JTable table, Object value,
       boolean isSelected, boolean hasFocus, int row, int column) {
     mlh.setText(StringUtils.replace((String) value, "\\n", '\n'));
-    return scrollPane;
+    return mlh;
   }
 
 }

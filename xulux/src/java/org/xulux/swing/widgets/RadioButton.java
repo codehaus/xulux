@@ -1,5 +1,5 @@
 /*
-   $Id: RadioButton.java,v 1.7 2004-06-09 14:02:22 mvdb Exp $
+   $Id: RadioButton.java,v 1.8 2004-09-30 21:25:39 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,7 +22,7 @@ import java.awt.Container;
 import javax.swing.Icon;
 import javax.swing.UIManager;
 
-import org.xulux.dataprovider.Dictionary;
+import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
 import org.xulux.gui.Widget;
@@ -35,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a radiobutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButton.java,v 1.7 2004-06-09 14:02:22 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.8 2004-09-30 21:25:39 mvdb Exp $
  */
 public class RadioButton extends Widget {
 
@@ -183,7 +183,7 @@ public class RadioButton extends Widget {
             }
             return retValue;
         }
-        IMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
+        IMapping map = XuluxContext.getDictionary().getMapping(getPart().getBean().getClass());
         if (map != null) {
             IField field = map.getField(getField());
             if (field != null) {
@@ -201,7 +201,7 @@ public class RadioButton extends Widget {
             this.value = "false";
         }
         this.previousValue = this.value;
-        IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+        IMapping map = XuluxContext.getDictionary().getMapping(getPart().getBean());
         if (map != null) {
             if (getField() != null) {
                 IField f = map.getField(getField());

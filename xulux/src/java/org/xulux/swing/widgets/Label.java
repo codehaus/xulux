@@ -1,5 +1,5 @@
 /*
-   $Id: Label.java,v 1.9 2004-06-23 10:44:25 mvdb Exp $
+   $Id: Label.java,v 1.10 2004-09-30 21:25:39 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,7 +21,9 @@ import java.awt.Container;
 
 import javax.swing.JLabel;
 
+import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.Dictionary;
+import org.xulux.dataprovider.IDataProvider;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.converters.IConverter;
@@ -33,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.9 2004-06-23 10:44:25 mvdb Exp $
+ * @version $Id: Label.java,v 1.10 2004-09-30 21:25:39 mvdb Exp $
  */
 public class Label extends SwingWidget {
 
@@ -161,8 +163,17 @@ public class Label extends SwingWidget {
     protected void initializeValue() {
         // only do a set text when there is a field,
         // else leave it alone..
+	      if (getProvider() != null && getField() != null) {
+	        IDataProvider provider = XuluxContext.getDictionary().getProvider(getProvider());
+	        Object bean = getPart().getBean();
+	        System.out.println("bean : " + bean);
+	        //System.out.println("bean class : " + bean.getClass());
+	        Object value = provider.getValue(bean, getField(), bean);
+	        System.out.println("value : " + value);
+	        setProperty("text", String.valueOf(value));
+	      }
         if (getField() != null) {
-            IMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IMapping map = XuluxContext.getDictionary().getMapping(getPart().getBean());
             if (map == null) {
                 return;
             }
