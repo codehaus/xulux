@@ -1,5 +1,5 @@
 /*
-   $Id: Dictionary.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+   $Id: Dictionary.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,10 +26,9 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.bean.*;
-import org.xulux.dataprovider.converters.*;
-import org.xulux.dataprovider.converters.DoubleConverter;
-import org.xulux.dataprovider.converters.IntegerConverter;
+import org.xulux.dataprovider.bean.BeanDataProvider;
+import org.xulux.dataprovider.bean.BeanMapping;
+import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.utils.ClassLoaderUtils;
 
 /**
@@ -37,13 +36,15 @@ import org.xulux.utils.ClassLoaderUtils;
  * It is the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
  */
 public final class Dictionary {
     /**
      * The log instance
      */
     private static Log log = LogFactory.getLog(Dictionary.class);
+    
+    public static final String DEFAULT_PROVIDER = "bean";
     /**
      * The map containing all the mappings
      */
@@ -52,6 +53,11 @@ public final class Dictionary {
      * the dictionary instance
      */
     private static Dictionary instance;
+    /**
+     * A map with the registered providers.
+     * Contains instances.
+     */
+    private Map providers;
     /**
      * the baseclass of all the mappings
      */
@@ -71,18 +77,50 @@ public final class Dictionary {
      * A map containg the converters
      */
     private static HashMap converters;
-    /**
-     * @todo Move this to xml!!
-     */
-    static {
-        addConverter(DoubleConverter.class);
-        addConverter(IntegerConverter.class);
-    }
 
     /**
      * Constructor for BeanDataProvider.
      */
     public Dictionary() {
+      registerProvider("bean", new BeanDataProvider());
+    }
+
+    /**
+     * NOTE: this method will overwrite a provider with the same name!
+     *
+     * @param name the name of the provider
+     * @param provider the provider instance. When provider is null, it will not register
+     *        the provider (or reserve the name).
+     */
+    public void registerProvider(String name, IDataProvider provider) {
+      if (provider == null) {
+        return;
+      }
+      if (providers == null) {
+        providers = new HashMap();
+      }
+      providers.put(name, provider);
+    }
+
+    /**
+     * @param name the name of the providers.
+     * @return the provider instance with the specified name
+     */
+    public IDataProvider getProvider(String name) {
+      return (IDataProvider) providers.get(name);
+    }
+    /**
+     * @return a map with the registered providers (key = providername, value is the provider instance)
+     */
+    public Map getProviders() {
+      return providers;
+    }
+
+    /**
+     * @return the default xulux dataproviders, which is bean.
+     */
+    public IDataProvider getDefaultProvider() {
+      return (IDataProvider) providers.get(DEFAULT_PROVIDER);
     }
 
     /**
@@ -305,9 +343,8 @@ public final class Dictionary {
      * Reset all dictionary settings..
      *
      */
-    public static void reset() {
-        Dictionary d = Dictionary.getInstance();
-        d.clearMappings();
+    public void reset() {
+        clearMappings();
         if (converters != null) {
             converters.clear();
         }

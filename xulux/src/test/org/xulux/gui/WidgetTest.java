@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetTest.java,v 1.2 2004-01-28 15:22:08 mvdb Exp $
+   $Id: WidgetTest.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,6 +17,7 @@
 */
 package org.xulux.gui;
 
+import org.xulux.core.ApplicationPart;
 import org.xulux.swing.widgets.Entry;
 
 import junit.framework.Test;
@@ -27,7 +28,7 @@ import junit.framework.TestSuite;
  * Test of widget class.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetTest.java,v 1.2 2004-01-28 15:22:08 mvdb Exp $
+ * @version $Id: WidgetTest.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
  */
 public class WidgetTest extends TestCase {
 
@@ -65,6 +66,21 @@ public class WidgetTest extends TestCase {
         assertFalse(entry1.equals(entry));
         assertFalse(entry1.equals(null));
 
+    }
+    /**
+     * Test the provider functionaliyu
+     */
+    public void testProvider() {
+        System.out.println("testProvider");
+        Entry entry = new Entry("test");
+        assertNull(entry.getProvider());
+        ApplicationPart part = new ApplicationPart();
+        part.setProvider("partProvider");
+        part.addWidget(entry);
+        entry.setProvider("provider");
+        assertEquals("provider", entry.getProvider());
+        entry.setProvider(null);
+        assertEquals("partProvider", entry.getProvider());
     }
 
 }

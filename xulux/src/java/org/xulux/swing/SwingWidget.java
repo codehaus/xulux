@@ -1,5 +1,5 @@
 /*
-   $Id: SwingWidget.java,v 1.2 2004-01-28 15:09:24 mvdb Exp $
+   $Id: SwingWidget.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,7 +25,7 @@ import org.xulux.gui.Widget;
  * A convenience class for swing widgets to override..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingWidget.java,v 1.2 2004-01-28 15:09:24 mvdb Exp $
+ * @version $Id: SwingWidget.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
  */
 public abstract class SwingWidget extends Widget {
 
@@ -70,10 +70,10 @@ public abstract class SwingWidget extends Widget {
             // can look who requested focus..
             getPart().getSession().setValue("nyx.focusrequest", this);
             getParent().focus();
+            // remove session variable again.
+            getPart().getSession().remove("nyx.focusrequest");
+            j.requestFocus();
         }
-        // remove session variable again.
-        getPart().getSession().remove("nyx.focusrequest");
-        j.requestFocus();
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtils.java,v 1.5 2004-03-25 00:48:09 mvdb Exp $
+   $Id: ClassLoaderUtils.java,v 1.6 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.5 2004-03-25 00:48:09 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.6 2004-04-15 00:05:04 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -79,17 +79,13 @@ public class ClassLoaderUtils {
                 object = clazz.newInstance();
             }
             return object;
-        }
-        catch (InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             log.warn("Cannot invocate target on " + clazz.getName());
-        }
-        catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             log.warn("Cannot find method on " + clazz.getName());
-        }
-        catch (InstantiationException e) {
+        } catch (InstantiationException e) {
             log.warn("Cannot instantiate class " + clazz.getName());
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             log.warn("Cannot access class " + clazz.getName());
         } catch (NoClassDefFoundError e) {
             log.warn("Cannot find class definition for class " + clazz.getName());

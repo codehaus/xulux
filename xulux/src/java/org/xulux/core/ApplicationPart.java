@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -55,7 +55,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -151,6 +151,11 @@ public class ApplicationPart {
      *
      */
     private ApplicationPart parentPart;
+
+    /**
+     * The provider for the part
+     */
+    private String provider;
 
     /**
      * Constructor for GuiPart.
@@ -930,5 +935,19 @@ public class ApplicationPart {
      */
     public boolean isPartDestroyed() {
         return destroyed;
+    }
+    /**
+     * Set the provider by name
+     * @param provider the provider name
+     */
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+    
+    /**
+     * @return the provider name
+     */
+    public String getProvider() {
+        return this.provider;
     }
 }

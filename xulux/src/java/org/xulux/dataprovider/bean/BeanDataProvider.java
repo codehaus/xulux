@@ -1,5 +1,5 @@
 /*
-   $Id: BeanDataProvider.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+   $Id: BeanDataProvider.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -39,7 +39,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * It is the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanDataProvider.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: BeanDataProvider.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
  */
 public final class BeanDataProvider implements IDataProvider {
     /**
@@ -50,10 +50,7 @@ public final class BeanDataProvider implements IDataProvider {
      * The map containing all the mappings
      */
     private HashMap mappings;
-    /**
-     * the dictionary instance
-     */
-    private static BeanDataProvider instance;
+
     /**
      * the baseclass of all the mappings
      */
@@ -72,29 +69,14 @@ public final class BeanDataProvider implements IDataProvider {
     /**
      * A map containg the converters
      */
-    private static HashMap converters;
-    /**
-     * @todo Move this to xml!!
-     */
-    static {
-        addConverter(DoubleConverter.class);
-        addConverter(IntegerConverter.class);
-    }
+    private HashMap converters;
 
     /**
      * Constructor for BeanDataProvider.
      */
-    private BeanDataProvider() {
-    }
-
-    /**
-     * @return the one and only instance of the dictionary.
-     */
-    public static BeanDataProvider getInstance() {
-        if (instance == null) {
-            instance = new BeanDataProvider();
-        }
-        return instance;
+    public BeanDataProvider() {
+      addConverter(DoubleConverter.class);
+      addConverter(IntegerConverter.class);
     }
 
     /**
@@ -112,9 +94,10 @@ public final class BeanDataProvider implements IDataProvider {
      * Returns a clone of the original mapping
      * map, so alteration doesn't effect the
      * registry..
-     * @return the mappings in an HashMap
+     *
+     * @return the mappings in a Map
      */
-    public HashMap getMappings() {
+    public Map getMappings() {
         if (mappings == null) {
             return new HashMap();
         }
@@ -122,16 +105,16 @@ public final class BeanDataProvider implements IDataProvider {
     }
 
     /**
-     * add the specified beanmapping
-     * @param beanMapping the mapping
+     * @see org.xulux.dataprovider.IDataProvider#addMapping(org.xulux.dataprovider.IMapping)
      */
-    public void addMapping(BeanMapping beanMapping) {
+    public void addMapping(IMapping mapping) {
         if (mappings == null) {
             mappings = new HashMap();
         }
         if (mappingCache == null) {
             mappingCache = new ArrayList();
         }
+        BeanMapping beanMapping = (BeanMapping) mapping;
         mappingCache.add(beanMapping.getBean());
         mappingDepth++;
         beanMapping.discover();
@@ -165,6 +148,11 @@ public final class BeanDataProvider implements IDataProvider {
     public IMapping getMapping(Object object) {
         if (object == null) {
             return null;
+        }
+        if (object instanceof String) {
+          return getMapping((String) object);
+        } else if (object instanceof Class) {
+          return getMapping((Class) object);
         }
         return getMapping(object.getClass());
     }
@@ -306,9 +294,8 @@ public final class BeanDataProvider implements IDataProvider {
      * Reset all dictionary settings..
      *
      */
-    public static void reset() {
-        BeanDataProvider d = BeanDataProvider.getInstance();
-        d.clearMappings();
+    public void reset() {
+        clearMappings();
         if (converters != null) {
             converters.clear();
         }
@@ -343,7 +330,7 @@ public final class BeanDataProvider implements IDataProvider {
     /**
      * @param clazz - the class of the converter.
      */
-    public static void addConverter(Class clazz) {
+    public void addConverter(Class clazz) {
         if (converters == null) {
             converters = new HashMap();
         }
@@ -368,7 +355,7 @@ public final class BeanDataProvider implements IDataProvider {
      *
      * @param clazz the clazz to add the converter for
      */
-    public static void addConverter(String clazz) {
+    public void addConverter(String clazz) {
         if (clazz == null) {
             return;
         }
@@ -390,7 +377,7 @@ public final class BeanDataProvider implements IDataProvider {
      * @return the converter for the object specified or
      *          null when no converter is present
      */
-    public static IConverter getConverter(Object object) {
+    public IConverter getConverter(Object object) {
         if (object != null) {
             return getConverter(object.getClass());
         }
@@ -400,7 +387,7 @@ public final class BeanDataProvider implements IDataProvider {
      *
      * @return all registered converters
      */
-    public static Map getConverters() {
+    public Map getConverters() {
         return converters;
     }
     /**
@@ -409,11 +396,23 @@ public final class BeanDataProvider implements IDataProvider {
      * @return the coverter for the clazz specified or null
      *          when no converter is present
      */
-    public static IConverter getConverter(Class clazz) {
+    public IConverter getConverter(Class clazz) {
         if (clazz != null && converters != null) {
             return (IConverter) converters.get(clazz);
         }
         return null;
+    }
+
+    /**
+     * @see org.xulux.dataprovider.IDataProvider#setProperty(java.lang.String, java.lang.String)
+     */
+    public void setProperty(String key, String value) {
+    }
+
+    /**
+     * @see org.xulux.dataprovider.IDataProvider#initialize()
+     */
+    public void initialize() {
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxGuiDriver.java,v 1.2 2004-04-14 14:16:12 mvdb Exp $
+   $Id: XuluxGuiDriver.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -49,7 +49,7 @@ import org.xulux.utils.Translator;
  * @todo Move out "generic" code, so we can have a helper class to do all the nyx magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxGuiDriver.java,v 1.2 2004-04-14 14:16:12 mvdb Exp $
+ * @version $Id: XuluxGuiDriver.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
  */
 public class XuluxGuiDriver extends DefaultHandler {
 
@@ -136,6 +136,11 @@ public class XuluxGuiDriver extends DefaultHandler {
      * the fieldprefix attribute
      */
     private static final String FIELDPREFIX_ATTRIBUTE = "fieldPrefix";
+
+    /**
+     * The provider attribute. Used in the part element and the widget element
+     */
+    private static final String PROVIDER_ATTRIBUTE = "provider";
 
     /**
      * is processing a field ?
@@ -331,22 +336,18 @@ public class XuluxGuiDriver extends DefaultHandler {
                 // makes no sense, so not processing it here.
                 this.part = new ApplicationPart(this.bean);
                 part.setName(atts.getValue(NAME_ATTRIBUTE));
+                part.setProvider(atts.getValue(PROVIDER_ATTRIBUTE));
                 isApplication = BooleanUtils.toBoolean(atts.getValue(APPLICATION_ATTRIBUTE));
             }
-        }
-        else if (qName.equals(TRANSLATION_ELEMENT)) {
+        } else if (qName.equals(TRANSLATION_ELEMENT)) {
             processingTranslation = true;
-        }
-        else if (qName.equals(FIELD_ELEMENT)) {
+        } else if (qName.equals(FIELD_ELEMENT)) {
             processField(atts);
-        }
-        else if (qName.equals(RULES_ELEMENT)) {
+        } else if (qName.equals(RULES_ELEMENT)) {
             rulesStarted = true;
-        }
-        else if (qName.equals(RULE_ELEMENT)) {
+        } else if (qName.equals(RULE_ELEMENT)) {
             processRule = true;
-        }
-        else if (qName.equals(POSITION_ELEMENT)) {
+        } else if (qName.equals(POSITION_ELEMENT)) {
             processPosition = true;
         }
         else if (qName.equals(SIZE_ELEMENT)) {
@@ -611,6 +612,7 @@ public class XuluxGuiDriver extends DefaultHandler {
         String type = atts.getValue(TYPE_ATTRIBUTE);
         String name = atts.getValue(NAME_ATTRIBUTE);
         String use = atts.getValue(USE_ATTRIBUTE);
+        String provider = atts.getValue(PROVIDER_ATTRIBUTE);
         if (this.fieldPrefix != null) {
             if (use != null) {
                 use = fieldPrefix + "." + use;
@@ -629,6 +631,7 @@ public class XuluxGuiDriver extends DefaultHandler {
         Widget widget = WidgetFactory.getWidget(type, name);
         if (widget != null) {
             widget.setField(use);
+            widget.setProvider(provider);
             stack.push(widget);
             this.lastField = name;
             if (log.isTraceEnabled()) {

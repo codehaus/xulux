@@ -1,5 +1,5 @@
 /*
-   $Id: DictionaryTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+   $Id: DictionaryTest.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,17 +18,18 @@
 package org.xulux.dataprovider;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.xulux.dataprovider.converters.DoubleConverter;
-import org.xulux.dataprovider.converters.IConverter;
-import org.xulux.dataprovider.converters.IntegerConverter;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.xulux.core.XuluxContext;
+import org.xulux.dataprovider.bean.BeanDataProvider;
+import org.xulux.dataprovider.converters.DoubleConverter;
+import org.xulux.dataprovider.converters.IConverter;
+import org.xulux.dataprovider.converters.IntegerConverter;
 
 /**
  * Tests the initialization of the dictionary.
@@ -36,12 +37,12 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
  */
 public class DictionaryTest extends TestCase {
 
     /**
-     * Constructor for DictionaryTest.
+     * Constructor for BeanDataProviderTest.
      * @param name the test name
      */
     public DictionaryTest(String name) {
@@ -67,9 +68,9 @@ public class DictionaryTest extends TestCase {
      */
     public void testInitialize() {
         System.out.println("testInitialize");
-        Dictionary dictionary = Dictionary.getInstance();
+        Dictionary dictionary = new Dictionary();
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
-        assertEquals("Test", Dictionary.getInstance().getMapping("Test").getName());
+        assertEquals("Test", dictionary.getMapping("Test").getName());
         assertEquals(DictionaryBean.class, dictionary.getMapping("Test").getBean());
         List list = dictionary.getMapping("Test").getFields();
         assertEquals(4, list.size());
@@ -87,185 +88,11 @@ public class DictionaryTest extends TestCase {
      */
     public void testReset() {
         System.out.println("testReset");
-        Dictionary.reset();
-        Dictionary.reset();
+        Dictionary dictionary = new Dictionary();
+        dictionary.reset();
+        dictionary.reset();
     }
         
-    /**
-     * Test getMapping
-     */
-    public void testGetMapping() {
-        System.out.println("testGetMapping");
-        // just a null test..
-        IMapping mapping = Dictionary.getInstance().getMapping((Class)null);
-        assertNull(mapping);
-        mapping = Dictionary.getInstance().getMapping((Object) null);
-        assertNull(mapping);
-    }
-    /**
-     * Tests for dynamic mapping
-     */
-    public void testEasyMapping() {
-        System.out.println("testEasyMapping");
-        Dictionary d = Dictionary.getInstance();
-        DictionaryBean bean = new DictionaryBean();
-        IMapping mapping = d.getMapping(bean.getClass());
-        assertEquals("DictionaryBean", mapping.getName());
-        // Testing setting a new value on the bean..
-        IField field = mapping.getField("name");
-        field.setValue(bean, "name");
-        assertEquals("name", field.getValue(bean));
-        // test if the widget pointer is actually stripped..
-        field = mapping.getField("?Prefix:Table.name");
-        assertNotNull(field);
-        // a bad name, we shouldn't crash!
-        field = mapping.getField("?Prefix:Table.");
-        assertNull(field);
-        // another bad name, we shouldn't crash!
-        field = mapping.getField("?Prefix:Table");
-        assertNull(field);
-        mapping = d.getMapping(bean.getClass(), true);
-        assertEquals("DictionaryBean1", mapping.getName());
-        mapping = d.getMapping(bean.getClass(), true);
-        assertEquals("DictionaryBean2", mapping.getName());
-        // this one is here, since I got a nullpointer exception
-        // which wasn't handled..
-        mapping = d.getMapping("Idontexist");
-        assertNull(mapping);
-    }
-
-    /**
-     * Tests if everything works ok when overriding
-     * of a bean is used.
-     * Also test if booleans are working correctly.
-     */
-    public void testNestedDataBean() {
-        System.out.println("testNestedDataBean");
-        Dictionary d = Dictionary.getInstance();
-        d.setBaseClass(DictionaryBaseBean.class);
-        DictionaryBean bean = new DictionaryBean();
-        IMapping mapping = d.getMapping(bean.getClass());
-        IMapping subBean = d.getMapping("DictionarySubSubBean");
-        IField field = subBean.getField("nice");
-    }
-
-    /**
-     * Test if boolean data is handled correctly
-     */
-    public void testBooleanData() {
-        System.out.println("testBooleanData");
-        Dictionary d = Dictionary.getInstance();
-        d.setBaseClass(DictionaryBaseBean.class);
-        IMapping subBean = d.getMapping(DictionarySubBean.class, true);
-        IField field = subBean.getField("nice");
-        assertNotNull(field);
-        DictionarySubBean bean = new DictionarySubBean();
-        bean.setNice(true);
-        assertTrue(bean.isNice());
-        bean.setNice(false);
-        assertFalse(bean.isNice());
-    }
-
-    /**
-     * Test the Fields/field (non autodiscovery) mechanisme
-     */
-    public void testFieldElements() {
-        System.out.println("testFieldElements");
-        Dictionary d = Dictionary.getInstance();
-        d.initialize((Object) this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
-        IMapping mapping = d.getMapping("Manual");
-        assertNotNull(mapping.getField("straat"));
-        assertNull(mapping.getField("street"));
-        assertNotNull(mapping.getField("plaats"));
-        assertNull(mapping.getField("city"));
-        assertEquals("name", mapping.getField("name").getAlias());
-        assertEquals("name", mapping.getField("name").getName());
-        assertEquals("straat", mapping.getField("straat").getAlias());
-        assertEquals("street", mapping.getField("straat").getName());
-        assertEquals("plaats", mapping.getField("plaats").getAlias());
-        assertEquals("city", mapping.getField("plaats").getName());
-    }
-
-    /**
-     * Test to see if infinite looping is preventing
-     */
-    public void testInfiniteLoop() {
-        System.out.println("testInfiniteLoop");
-        Dictionary d = Dictionary.getInstance();
-        IMapping mb = d.getMapping(AnotherRecursiveBean.class);
-        // cache should be cleared by dictionary.
-        assertTrue(!d.isInCache(AnotherRecursiveBean.class));
-        assertTrue(!d.isInCache(RecursiveBean.class));
-        System.out.println("Fields : " +mb.getFields());
-        assertEquals(7, mb.getFields().size());
-        IMapping mbmain = d.getMapping(RecursiveBean.class);
-        assertEquals(3, mbmain.getFields().size());
-    }
-
-    /**
-     * Test parameter processing
-     */
-    public void testParameters() {
-        System.out.println("testParameters");
-        Dictionary d = Dictionary.getInstance();
-        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
-        ParameteredBean bean = new ParameteredBean();
-        IMapping mapping = d.getMapping("pb");
-        assertEquals("pb", mapping.getName());
-        // Testing setting a new value on the bean..
-        assertNull(bean.getParameter("BOGUS"));
-        assertEquals("parameter", mapping.getField("tp").getName());
-        assertEquals("sp", mapping.getField("sp").getAlias());
-        assertEquals("fp", mapping.getField("fp").getAlias());
-    }
-
-    /**
-     * Test if setter like (String, String)
-     * work under nyx.
-     * Basic assumption is that if there is a
-     * getXXX(String), there will be a setXX(String,String)
-     * where the first String is the string passed into
-     * the getter.
-     *
-     */
-    public void testDoubleParameters() {
-        System.out.println("testDoubleParameters");
-        Dictionary d = Dictionary.getInstance();
-        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
-        ParameteredBean bean = new ParameteredBean();
-        IMapping mapping = d.getMapping("db");
-        IField fieldno1 = mapping.getField("no1");
-        IField fieldno2 = mapping.getField("no2");
-        IField fieldno3 = mapping.getField("no3");
-        assertEquals(bean.getDouble(ParameteredBean.NO1), fieldno1.getValue(bean));
-        assertEquals(bean.getDouble(ParameteredBean.NO2), fieldno2.getValue(bean));
-        assertEquals(bean.getDouble(ParameteredBean.NO3), fieldno3.getValue(bean));
-        fieldno1.setValue(bean, "NO1NewValue");
-        assertEquals("NO1NewValue", fieldno1.getValue(bean));
-        fieldno2.setValue(bean, "NO2NewValue");
-        assertEquals("NO2NewValue", fieldno2.getValue(bean));
-        fieldno3.setValue(bean, "NO3NewValue");
-        assertEquals("NO3NewValue", fieldno3.getValue(bean));
-    }
-
-    /**
-     * Test the setting of the setmethod in the
-     * dictionary.
-     */
-    public void testSetMethod() {
-        System.out.println("testSetMethod");
-        Dictionary d = Dictionary.getInstance();
-        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
-        ParameteredBean bean = new ParameteredBean();
-        IMapping mapping = d.getMapping("set");
-        IField fieldno1 = mapping.getField("no1");
-        IField fieldno2 = mapping.getField("no2");
-        IField fieldno3 = mapping.getField("no3");
-        assertEquals(bean.getDouble(ParameteredBean.NO1), fieldno1.getValue(bean));
-        assertEquals(bean.getDouble(ParameteredBean.NO2), fieldno2.getValue(bean));
-        assertEquals(bean.getDouble(ParameteredBean.NO3), fieldno3.getValue(bean));
-    }
-
     /**
      * Test the converter functionality in the registry.
      */
@@ -286,7 +113,7 @@ public class DictionaryTest extends TestCase {
      */
     public void testConverterXml() {
         System.out.println("testConvertersXml");
-        Dictionary dictionary = Dictionary.getInstance();
+        Dictionary dictionary = new Dictionary();
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/dataprovider/dictionary.xml"));
         Map converters = Dictionary.getConverters();
         assertEquals(2, converters.size());
@@ -295,48 +122,25 @@ public class DictionaryTest extends TestCase {
     }
 
     /**
-     * If the bean (in this case a list) contains the method get(int) or any
-     * other get, it would crash.
+     * Test provider functionality.
      */
-    public void testGetMappingWithGetMethod() {
-        System.out.println("testGetMappingWithGetMethod");
-        ArrayList list = new ArrayList();
-        IMapping mapping = Dictionary.getInstance().getMapping(list.getClass());
-        assertNotNull(mapping.getField("get"));
-        mapping = Dictionary.getInstance().getMapping(new InnerBean());
-        assertNotNull(mapping.getField("x"));
+    public void testProviders() {
+        System.out.println("testProviders");
+        assertNotNull(Dictionary.DEFAULT_PROVIDER);
+        Dictionary dictionary = new Dictionary();
+        IDataProvider provider = dictionary.getDefaultProvider();
+        assertNotNull(provider);
+        assertEquals(true, provider instanceof BeanDataProvider);
+        dictionary.registerProvider("test", null);
+        assertNull(dictionary.getProvider("test"));
+        assertEquals(1, dictionary.getProviders().size());
     }
 
     /**
      * @see junit.framework.TestCase#setUp()
      */
     protected void setUp() throws Exception {
-        Dictionary.reset();
-    }
-
-    /**
-     * The innerbean
-     */
-    public class InnerBean {
-
-        /**
-         * Constructor
-         */
-        public InnerBean() {
-        }
-
-        /**
-         * @return X
-         */
-        public String getX() {
-            return "X";
-        }
-
-        /**
-         * @param x x
-         */
-        public void setX(String x) {
-        }
+        XuluxContext.getDictionary().reset();
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPartTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
+   $Id: ApplicationPartTest.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
  * The ApplicationPart test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
  */
 public class ApplicationPartTest extends TestCase {
 
@@ -98,5 +98,16 @@ public class ApplicationPartTest extends TestCase {
         ApplicationPart part = new ApplicationPart("part");
         SessionPart session = part.getSession();
         assertEquals(session, part.getSession());
+    }
+    
+    /**
+     * test the provider
+     */
+    public void testProvider() {
+        System.out.println("testProvider");
+        ApplicationPart part = new ApplicationPart();
+        assertNull(part.getProvider());
+        part.setProvider("partProvider");
+        assertEquals("partProvider", part.getProvider());
     }
 }

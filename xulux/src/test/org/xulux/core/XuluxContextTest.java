@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxContextTest.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+   $Id: XuluxContextTest.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
  * The applicationContext test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxContextTest.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: XuluxContextTest.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
  */
 public class XuluxContextTest extends TestCase {
 
@@ -66,7 +66,11 @@ public class XuluxContextTest extends TestCase {
      */
     public void testGetDictionary() {
       System.out.println("testGetDictionary");
-      Dictionary dictionary = new Dictionary();    
+      //Dictionary dictionary = new Dictionary();
+      Dictionary dictionary = XuluxContext.getDictionary();
+      assertNotNull(dictionary);
+      // we should get the same instance back..
+      assertEquals(dictionary, XuluxContext.getDictionary());
     }
 
 }

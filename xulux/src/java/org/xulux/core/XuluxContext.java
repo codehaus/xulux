@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxContext.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+   $Id: XuluxContext.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.dataprovider.Dictionary;
 import org.xulux.gui.INativeWidgetHandler;
 import org.xulux.gui.IParentWidgetHandler;
 import org.xulux.gui.IWidgetInitializer;
@@ -41,7 +42,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * known to the system.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxContext.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: XuluxContext.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
  */
 public class XuluxContext {
     /**
@@ -149,6 +150,8 @@ public class XuluxContext {
      */
     private String defaultType;
 
+    private static Dictionary dictionary;
+
     /**
      * Constructor for GuiContext.
      */
@@ -192,6 +195,13 @@ public class XuluxContext {
         register(part, false);
     }
 
+    public static Dictionary getDictionary() {
+      if (dictionary == null) {
+        dictionary = new Dictionary();
+      }
+      return dictionary;
+    }
+        
     /**
      * Register an applicationpart.
      *

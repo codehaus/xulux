@@ -1,5 +1,5 @@
 /*
-   $Id: IDataProvider.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+   $Id: IDataProvider.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,13 +17,58 @@
 */
 package org.xulux.dataprovider;
 
+import java.util.Map;
+
 /**
  * The dataprovider interface.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IDataProvider.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: IDataProvider.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
  */
 public interface IDataProvider {
 
+    /**
+     * @return the current mappings (in cache) that are known to the dataprovider
+     */
+    Map getMappings();
+    
+    /**
+     * @param object the object. The dataprovider should determine what it accepts.
+     * @return the mapping for the specified object
+     */
+    IMapping getMapping(Object object);
 
+    /**
+     * Sets the properties of the driver.
+     * All elements in the properties element in the dictionary xml.
+     * eg.
+     * <pre>
+     * &lt;properties&gt;
+     *   &lt;bean&gt;org.xulux.dataprovider.ParameteredBean&lt;/bean&gt;
+     *    &lt;fields&gt;
+     *      &lt;field name="value"/&gt;
+     *    &lt;/fields&gt;
+     * &lt;/properties&gt;
+     * </pre>
+     *
+     * This xml will result in calls to setProperty like this :
+     * setProperty("bean", "org.xulux.dataprovider.ParameteredBean");
+     * setProperty("fields.field.name", "value");
+     *
+     * @param key the key
+     * @param value the value
+     */
+    void setProperty(String key, String value);
+
+    /**
+     * After processing the dictionary xml files (so if all properties are set
+     * initialize is called to interpret the properties.
+     */
+    void initialize();
+
+    /**
+     * Add a mapping to the dataprovider
+     * @param mapping
+     */
+    void addMapping(IMapping mapping);
 }
