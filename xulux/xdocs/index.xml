@@ -2,29 +2,18 @@
 
 <document>
   <properties>
-    <title>NYX - "Not Yet Xulux"</title>
+    <title>XULUX - "ZooLLooks"</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
 <body>
 
-<section name="Attention!">
-  <p>
-    <b>
-      Soon (before the end of this year) NYX will be deprecated and moved to the main 
-      <a href="http://xulux.org">XULUX</a> project. Also still a lot of refactoring 
-      is going on, so for now, just use NYX to get to know it. Though the code is already
-      used in production systems with big install bases (500+ users), so should be ready for
-      release when the widgets are completed.
-    </b>
-  </p>
-</section>
-<section name="Introduction to NYX">
+<section name="Introduction to XULUX">
 <p>
-  The main goals of NYX is to provide an easy way
+  The main goals of XULUX is to provide an easy way
   to create frontends. The Frontend API that will
-  result from the development of NYX will provide
-  an easy way to migrate current application to NYX and
+  result from the development of XULUX will provide
+  an easy way to migrate current applications to XULUX and
   reuse the components that are already created or used
   by that application.
   The API allows easy integration of widgets and gui
@@ -32,7 +21,7 @@
   We aim to provide a default set of implementations
   to get a professional frontend up and running in no time
   and this way provide an easy look into the workings
-  of NYX.
+  of XULUX.
   Please understand that this is a work in progress and 
   by far doesn't yet offer the functionality specified 
   above. Also much of the documentation that is provided
@@ -41,27 +30,59 @@
   page to see in more detail what we are going to provide.
 </p>
 </section>
-<section name="What's up with the name??">
+<section name="NYX and XULUX">
   <p>
-  My main goal (not in life btw ;) is to get xulux up and running, 
-  but I just haven't found the time yet to make time available
-  to make the "perfect" solution, I started to solve some immediate 
-  problems. Since the project could be usefull for the xulux project 
-  in terms of learning experience (at least for me), it just isn't 
-  xulux yet. To not mess up a project with higher goals, my opinion
-  is that it also doesn't belong at that codebase.
-  So there was the name <b>Not Yet Xulux</b>, in short <b>NYX</b>.<br/>
-  NYX, pronounced with a dutch tongue in Holland, actually translates
-  to the enlgish word <b>nothing</b> (which I hope this will not end up 
-  as that ;)).
-  According to the website <a href="http://homepage.mac.com/cparada/GML/Nyx.html" target="new">Greek Methology Link</a> Nyx is this :
+    The previous version of XULUX was called NYX, which is now obsoleted. 
+    You will still encounter the name NYX a lot of times in code and docs, but
+    these will slowly migrate to be called XULUX or will be named differently
+    in case of class names.
   </p>
+</section>
+<section name="Releases">
   <p>
-  <b>Nyx is Night, a powerful goddess whose dark light falls from the stars, and who dictates not only to men but also to gods. Even Zeus does not wish to upset Night</b>
-  </p>
-  <p> 
-    Very appropiate I must say ;) I refrain myself from explenation of this
-    appropiate statement for now ;)
+   Currently there are no releases of XULUX. Not even an alpha release.
+   Since XULUX currrently still is a moving target, I think it is best to 
+   not have any releases, until the API stabelises. There are still some major 
+   things on the list to get done :
+   <ul>
+    <li>
+       Finalize the dataprovider API and add some examples / dataproviders 
+       besides the current bean implementation.
+    </li>
+    <li>
+       Refactor of widgets. All widgets should be constructed out of eg 
+       PropertyHandlers, that handle all construction of widgets dynamically.
+       Currently it is impossible to extend widgets without a lot of code
+       duplication. Also changing the way the widget looks dynamically (eg
+       background color, etc) is far from efficient.
+    </li>
+    <li>
+       Move out the rule engine functionality from the core and start using
+       interfaces and make the rule engine flexible.
+    </li>
+    <li>
+       XULUX needs a lot of profiling to get it faster and more efficient.
+       A lot of effort is currently in profiling, but currently not efficient
+       enough.
+    </li>
+    <li>
+      Add more testing. The current test coverage is about 50%, which should
+      be more than 80% as far as I am concerned.
+    </li>
+    <li>
+      Start removing the really old stuff in xulux that is holding back a big
+      cleanup of code. 
+    </li>
+    <li>
+      Write huge amounts of docs and write some nice examples. Currently it can
+      be hard to start with xulux and although src/iutest gives some pointers
+      on how to use xulux, it is hardly comparable with a real world example.
+    </li>
+    <li>
+      A nice Xulux IDE to make xulux application. Preferrably build in XULUX
+      , but an Eclipse plugin would be nice too..
+    </li>
+   </ul>
   </p>
 </section>
 </body>

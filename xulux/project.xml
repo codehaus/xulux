@@ -4,7 +4,7 @@
   <pomVersion>3</pomVersion>
   <id>xulux</id>
   <name>xulux</name>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.0-dev</currentVersion>
   <organization>
     <name>xulux.org</name>
     <url>http://www.xulux.org/</url>
@@ -23,7 +23,7 @@
 
   <shortDescription>Xulux Gui Independend Framework</shortDescription>
 
-  <url>http://nyx.xulux.org/</url>
+  <url>http://www.xulux.org/</url>
   <issueTrackingUrl>http://jira.codehaus.org</issueTrackingUrl>
   <siteAddress>codehaus.org</siteAddress>
   <siteDirectory>/home/projects/xulux/public_html/</siteDirectory>
@@ -31,7 +31,7 @@
 
   <repository>
     <connection>scm:cvs:pserver:anoncvs@codehaus.org:/home/projects/scm/xulux:xulux</connection>
-    <url>http://cvs.xulux.org</url>
+    <url>http://cvs.xulux.org/xulux</url>
   </repository>
 
   <versions>
@@ -49,26 +49,26 @@
     <mailingList>
       <name>XULUX User list</name>
       <archive>http://archive.xulux.org/user</archive>
-      <subscribe>user-subsribe@xulux.org</subscribe>
-      <unsubscribe>user-unsubscribe@xulux.org</unsubscribe>
+      <subscribe>user-subscribe@xulux.codehaus.org</subscribe>
+      <unsubscribe>user-unsubscribe@xulux.codehaus.org</unsubscribe>
     </mailingList>
     <mailingList>
       <name>XULUX dev list</name>
       <archive>http://archive.xulux.org/dev</archive>
-      <subscribe>dev-subsribe@xulux.org</subscribe>
-      <unsubscribe>dev-unsubscribe@xulux.org</unsubscribe>
+      <subscribe>dev-subscribe@xulux.codehaus.org</subscribe>
+      <unsubscribe>dev-unsubscribe@xulux.codehaus.org</unsubscribe>
     </mailingList>
     <mailingList>
       <name>XULUX scm list</name>
       <archive>http://archive.xulux.org/scm</archive>
-      <subscribe>scm-subscribe@xulux.org</subscribe>
-      <unsubscribe>scm-unsubscribe@xulux.org</unsubscribe>
+      <subscribe>scm-subscribe@xulux.codehaus.org</subscribe>
+      <unsubscribe>scm-unsubscribe@xulux.codehaus.org</unsubscribe>
     </mailingList>
     <mailingList>
       <name>XULUX announcement list</name>
       <archive>http://archive.xulux.org/announce</archive>
-      <subscribe>announce-subscribe@xulux.org</subscribe>
-      <unsubscribe>announce-unsubscribe@xulux.org</unsubscribe>
+      <subscribe>announce-subscribe@xulux.codehaus.org</subscribe>
+      <unsubscribe>announce-unsubscribe@xulux.codehaus.org</unsubscribe>
     </mailingList>
   </mailingLists>
 
@@ -82,7 +82,6 @@
       <roles>
         <role>Founder</role>
         <role>Architect</role>
-        <role>Idiot</role>
       </roles>
     </developer>
   </developers>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="XULUX">
  
-  <title>NYX</title>
-  <organizationLogo href="/images/logo1.jpg">nyx.xulux.org</organizationLogo>
+  <title>XULUX</title>
+  <organizationLogo href="/images/logo1.jpg">xulux.org</organizationLogo>
  
   <body>
     <links>
-      <item name="xulux.org" href="http://www.xulux.org/"/>
+      <item name="mvdb" href="http://www.mvdb.org/"/>
       <item name="codehaus" href="http://www.codehaus.org/"/>
     </links>
     <menu name="XULUX">
@@ -32,7 +32,7 @@
         <item name="SWT" href="/guilayers/index.html"/>
       </item>
       <item name="Gui Drivers" href="/guidrivers/index.html">
-        <item name="XuluxHandler" href="/guidrivers/xuluxhandler.html"/>
+        <item name="Xulux" href="/guidrivers/xuluxguidriver.html"/>
         <item name="XUL" href="/guidrivers/xul.html"/>
         <item name="HowTo" href="/guidrivers/howto.html"/>
       </item>

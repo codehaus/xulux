@@ -19,9 +19,9 @@
 </section>
 <section name="How to use">
   <p>
-   The <a href="../apidocs/org/xulux/core/pplicationPartHandler.html">
+   The <a href="../apidocs/org/xulux/guidriver/XuluxGuiDriver.html">
    XuluxHandler</a> is the parser to create 
-   <a href="../apidocs/org\xulux\nyx\context\ApplicationPart.html">XuluxParts</a>
+   <a href="../apidocs/org/xulux/core/ApplicationPart.html">XuluxParts</a>
    from xml. You can just call the handler with an inpustream to get a part
    back to be used in an application. The part you get back, just needs
    a call to <code>part.activate()</code> to show the gui and do it's magic.

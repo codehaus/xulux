@@ -2,7 +2,7 @@
 
 <document>
   <properties>
-    <title>NYX - Features</title>
+    <title>XULUX - Features</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
@@ -10,7 +10,7 @@
 
 <section name="Features">
   <p>
-    This page will describe the features that NYX will have.
+    This page will describe the features that XULUX will have.
     None of the features are in a ready state at the moment, since
     we are in a big refactor of the core to seperate out all 
     components that should be pluggable.

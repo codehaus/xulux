@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<faqs title="Frequently Askes Rule Engine Questions">
+<faqs title="Frequently Asked Rule Engine Questions">
   <part id="general" title="General">
     <faq id="invalid-value">
       <question>
@@ -15,8 +15,8 @@
         If you call setValidValue(false) don't forget to set it back to true
         when the value is Ok!
         The setting of this value, will prevent the user from leaving the form
-        through the specified ok (or save) button and select the fields with
-        invalid values.
+        through the specified ok (or save) button and select the first field 
+        with invalid values.
         </p>
      </answer>
     </faq>

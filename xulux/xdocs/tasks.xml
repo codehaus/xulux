@@ -2,7 +2,7 @@
 
 <document>
   <properties>
-    <title>NYX - Tasks</title>
+    <title>XULUX - Tasks</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
@@ -12,7 +12,7 @@
 <p>
 <ul>
   <li>
-    Let nyx run in it's own thread if NYX is THE application
+    Let XULUX run in it's own thread if XULUX is THE application
     The goal is to give control back to the jvm and have 
     the swing thread dispose of. The main should be stalled
     and not continue the code.

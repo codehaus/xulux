@@ -2,19 +2,19 @@
 
 <document>
   <properties>
-    <title>Powered by NYX</title>
+    <title>Powered by XULUX</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
   <body>
-    <section name="Powered By NYX">
+    <section name="Powered By XULUX">
       <p>
-        This page contains a list of known projects successfully using
-        NYX.  We would be very interested if you would drop us a note
-        if you are using NYX with your project and would like to be
+        This page contains a list of known projects/companies successfully using
+        XULUX.  We would be very interested if you would drop us a note
+        if you are using XULUX with your project and would like to be
         added to this list.
       </p>
-      <subsection name="Projects Using NYX">
+      <subsection name="Projects Using XUlux">
       <table>
         <tr><th>Project</th><th>Overview</th></tr>
         <tr>
@@ -22,8 +22,8 @@
           <td>
             An electronic patient record to be used by all professionals associated 
             with the patient care process. It's goal is to replace hospitals paper 
-            records. Also a great sponsor for nyx, since part of my work time is 
-            devoted to nyx programming..
+            records. Also a great sponsor for XULUX, since part of my work time is 
+            devoted to XULUX programming..
           </td>
         </tr>
       </table>
