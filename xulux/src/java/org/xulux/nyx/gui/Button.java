@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ $Id: Button.java,v 1.2 2002-11-09 17:08:05 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,12 +51,13 @@ import javax.swing.JButton;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ * @version $Id: Button.java,v 1.2 2002-11-09 17:08:05 mvdb Exp $
  */
 public class Button extends Widget
 {
     
-    JButton button;
+    private JButton button;
+    private boolean initialized = false;
 
     /**
      * Constructor for Button.
@@ -72,6 +73,7 @@ public class Button extends Widget
      */
     public Object getNativeWidget()
     {
+        initialize();
         return button;
     }
     
@@ -84,7 +86,12 @@ public class Button extends Widget
      */
     public void initialize()
     {
+        if (initialized)
+        {
+            return;
+        }
         button = new JButton(); 
+        initialized = true;
     }
 
     /**
