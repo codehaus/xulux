@@ -1,5 +1,5 @@
 /*
- $Id: Rule.java,v 1.2 2002-10-31 01:44:26 mvdb Exp $
+ $Id: Rule.java,v 1.3 2002-11-03 13:31:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,14 +48,14 @@ package org.xulux.nyx.rules;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.context.PartRequest;
 
 /**
  * A convenient abstract for the rule, which only
  * makes executer mandatory.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Rule.java,v 1.2 2002-10-31 01:44:26 mvdb Exp $
+ * @version $Id: Rule.java,v 1.3 2002-11-03 13:31:02 mvdb Exp $
  */
 public abstract class Rule implements IRule
 {
@@ -77,24 +77,23 @@ public abstract class Rule implements IRule
     }
 
     /**
+     * Pre processing of the part.
      * @see org.xulux.nyx.rules.IRule#pre()
      */
-    public void pre(ApplicationPart part)
-    {
-    }
+    public abstract void pre(PartRequest request);
 
     /**
-     * This method has to be implemented.
+     * During processesing of the part 
      * @see org.xulux.nyx.rules.IRule#execute()
      */
-    public abstract void execute(ApplicationPart part);
+    public void execute(PartRequest request)
+    {
+    }
 
     /**
      * @see org.xulux.nyx.rules.IRule#post()
      */
-    public void post(ApplicationPart part)
-    {
-    }
+    public abstract void post(PartRequest part);
 
     /**
      * @see org.xulux.nyx.rules.IRule#destroy()

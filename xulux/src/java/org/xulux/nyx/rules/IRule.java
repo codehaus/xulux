@@ -1,5 +1,5 @@
 /*
- $Id: IRule.java,v 1.2 2002-10-31 01:44:26 mvdb Exp $
+ $Id: IRule.java,v 1.3 2002-11-03 13:31:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,13 +45,13 @@
  */
 package org.xulux.nyx.rules;
 
-import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.context.PartRequest;
 
 /**
  * All rules must implement this interfaces.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IRule.java,v 1.2 2002-10-31 01:44:26 mvdb Exp $
+ * @version $Id: IRule.java,v 1.3 2002-11-03 13:31:02 mvdb Exp $
  */
 public interface IRule
 {
@@ -73,23 +73,19 @@ public interface IRule
      * This is mainly changes state of eg the current
      * component that is about to process
      */
-    public void pre(ApplicationPart part);
+    public void pre(PartRequest request);
     
     /**
      * The actual rule will be processed here.
      */
-    public void execute(ApplicationPart part);
+    public void execute(PartRequest request);
     
-    /**
-     * Method post.
-     * @param part
-     */
     /**
      * Post processing of the rule
      * This is mainly changing states in eg components
      * after the executer has been process.
      */
-    public void post(ApplicationPart part);
+    public void post(PartRequest request);
     
     /**
      * Destroys the rule when removed from 
