@@ -1,5 +1,5 @@
 /*
- $Id: TestExample.java,v 1.4 2002-11-05 01:37:45 mvdb Exp $
+ $Id: TestExample.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,8 @@
 package org.xulux.nyx.examples.form;
 
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -70,7 +72,7 @@ import org.xulux.nyx.utils.Resources;
  * A simple example of a form
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestExample.java,v 1.4 2002-11-05 01:37:45 mvdb Exp $
+ * @version $Id: TestExample.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
  */
 public class TestExample
 {
@@ -109,9 +111,15 @@ public class TestExample
         System.out.println("Form : "+part);
         JFrame frame = new JFrame("FormExample");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add((Component)part.getRootWidget());
-        frame.setSize(frame.getPreferredSize());
         frame.show();
+        System.out.println("frame size : "+frame.getBounds());
+        Dimension dim = ((Component)part.getRootWidget()).getPreferredSize();
+        dim.width += frame.getBounds().getWidth();
+        dim.height += frame.getBounds().getHeight();
+        frame.setSize(dim.width,dim.height);
+        frame.getContentPane().add((Component)part.getRootWidget());
+        System.out.println("Frame size : "+dim);
+        frame.pack();
     }
     
     /** 

@@ -1,5 +1,5 @@
 /*
- $Id: TestFactory.java,v 1.4 2002-11-05 01:11:12 mvdb Exp $
+ $Id: TestFactory.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,9 @@
  */
 package org.xulux.nyx.swing.factories;
 
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
@@ -58,6 +61,7 @@ import org.xulux.nyx.gui.Entry;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.swing.BaseForm;
 import org.xulux.nyx.swing.NewForm;
+import org.xulux.nyx.swing.layouts.XYLayout;
 
 /**
  * A testFactory, which just contains some experimenting code, to end up with the
@@ -65,7 +69,7 @@ import org.xulux.nyx.swing.NewForm;
  * a later stage.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.4 2002-11-05 01:11:12 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
  */
 public class TestFactory
 {
@@ -98,6 +102,10 @@ public class TestFactory
         BeanMapping mapping = d.getMapping(bean.getClass());
         System.out.println("fields : "+mapping.getFields());
         Iterator iterator = mapping.getFields().iterator();
+        XYLayout layout = new XYLayout();
+        JPanel panel = new JPanel(layout);
+        part.setLayoutManager(layout);
+        part.setParentWidget(panel);
         while (iterator.hasNext())
         {
             IField field = (IField) iterator.next();
@@ -106,7 +114,6 @@ public class TestFactory
             entry.setVisible(true);
             entry.initialize();
             entry.setValue(field.getValue(bean));
-            part.setParentWidget(new JPanel());
             part.addWidget(entry, field.getName());
         }
         return part;

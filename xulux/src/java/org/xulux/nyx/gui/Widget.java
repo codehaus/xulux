@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.3 2002-11-05 01:37:45 mvdb Exp $
+ $Id: Widget.java,v 1.4 2002-11-05 17:11:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,8 @@
 
 package org.xulux.nyx.gui;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -58,21 +60,23 @@ import org.xulux.nyx.rules.IRule;
  * to say how we should initialize it, etc.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.3 2002-11-05 01:37:45 mvdb Exp $
+ * @version $Id: Widget.java,v 1.4 2002-11-05 17:11:26 mvdb Exp $
  */
 public abstract class Widget
 {
     
     private String field;
-    private boolean enabled;
-    private boolean visible;
-    private boolean immidiate;
-    private boolean initialized;
-    private boolean skip;
+    private boolean enabled = true;
+    private boolean visible = true;
+    private boolean immidiate = false;
+    private boolean initialized = false;
+    private boolean skip = false;
     
     private ArrayList rules;
     private ApplicationPart part;
     
+    private WidgetRectangle rectangle;
+        
     public Widget(String field)
     {
         this.field = field;
@@ -198,11 +202,34 @@ public abstract class Widget
      * sets the position of the current widget
      * (on the parent..)
      */
-    public abstract void setPosition(int x, int y);
+    public void setPosition(int x, int y)
+    {
+        if (rectangle == null)
+        {
+            rectangle = new WidgetRectangle();
+        }
+        rectangle.setPosition(x,y);
+    }
     /**
      * Sets the size of the current widget
      */
-    public abstract void setSize(int width, int height);
+    public void setSize(int width, int height)
+    {
+        if (rectangle == null)
+        {
+            rectangle = new WidgetRectangle();
+        }
+        rectangle.setSize(width, height);
+    }
+    
+    public WidgetRectangle getRectangle()
+    {
+        if (this.rectangle == null)
+        {
+            this.rectangle = new WidgetRectangle();
+        }
+        return this.rectangle;
+    }
     
     /**
      * refreshes the widget.

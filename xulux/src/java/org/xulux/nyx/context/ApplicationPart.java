@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.10 2002-11-05 14:32:46 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.11 2002-11-05 17:11:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,10 +46,12 @@
 package org.xulux.nyx.context;
 
 import java.awt.Component;
+import java.awt.LayoutManager2;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.xulux.nyx.context.impl.PartRequestImpl;
@@ -80,7 +82,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.10 2002-11-05 14:32:46 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.11 2002-11-05 17:11:26 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -103,6 +105,7 @@ public class ApplicationPart
     public static int runIndex = 0;
     
     private SessionPart session;
+    private LayoutManager2 layout;
     
     /**
      * Constructor for GuiPart.
@@ -354,7 +357,7 @@ public class ApplicationPart
             Widget widget = (Widget) it.next();
             if (getRootWidget() instanceof JPanel)
             {
-                ((JPanel)parentWidget).add((Component)widget.getNativeWidget());
+                ((JPanel)parentWidget).add((Component)widget.getNativeWidget(),widget);
                 PartRequestImpl req = new PartRequestImpl(widget.getField(), this, PartRequest.NO_ACTION);
                 ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
             }
@@ -491,6 +494,15 @@ public class ApplicationPart
         if (widget instanceof ValueWidget)
         {
             ((ValueWidget)widget).setValue(null);
+        }
+    }
+    
+    public void setLayoutManager(LayoutManager2 layout)
+    {
+        this.layout = layout;
+        if (parentWidget != null)
+        {
+            ((JComponent)parentWidget).setLayout(layout);
         }
     }
         

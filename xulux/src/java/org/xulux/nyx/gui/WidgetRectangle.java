@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
+ $Id: WidgetRectangle.java,v 1.1 2002-11-05 17:11:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,120 +45,123 @@
  */
 package org.xulux.nyx.gui;
 
-import java.awt.Dimension;
-import javax.swing.JTextField;
-
-import org.xulux.nyx.swing.listeners.ImmidiateListener;
-import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import java.awt.Rectangle;
 
 /**
- * Represents an entry field
+ * Placeholder for position and for width and heigth
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
+ * @version $Id: WidgetRectangle.java,v 1.1 2002-11-05 17:11:26 mvdb Exp $
  */
-public class Entry 
-extends Widget
-implements ValueWidget
+public class WidgetRectangle
 {
-    private boolean initialized;
-    private Dimension size;
-    
-    /** 
-     * For now internally very swing specific
-     */
-    JTextField textField;
-    
-    
-    /**
-     * Constructor for Entry.
-     */
-    public Entry(String field)
+    private int x=0;
+    private int y=0;
+    private int width=0;
+    private int height=0;
+
+    public WidgetRectangle()
     {
-        super(field);
+    }
+    /**
+     * Constructor for WidgetRectangle.
+     */
+    public WidgetRectangle(int x, int y, int width,int height)
+    {
+        setX(x);
+        setY(y);
+        setWidth(width);
+        setHeight(height);
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * Returns the height.
+     * @return int
      */
-    public void destroy()
+    public int getHeight()
     {
-        textField.removeAll();
-        // remove all listeners too..
+        return height;
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
+     * Returns the width.
+     * @return int
      */
-    public Object getNativeWidget()
+    public int getWidth()
     {
-        return textField;
+        return width;
+    }
+
+    /**
+     * Returns the x.
+     * @return int
+     */
+    public int getX()
+    {
+        return x;
+    }
+
+    /**
+     * Returns the y.
+     * @return int
+     */
+    public int getY()
+    {
+        return y;
+    }
+
+    /**
+     * Sets the height.
+     * @param height The height to set
+     */
+    public void setHeight(int height)
+    {
+        this.height = height;
+    }
+
+    /**
+     * Sets the width.
+     * @param width The width to set
+     */
+    public void setWidth(int width)
+    {
+        this.width = width;
+    }
+
+    /**
+     * Sets the x.
+     * @param x The x to set
+     */
+    public void setX(int x)
+    {
+        this.x = x;
     }
     
-    /**
-     * @see org.xulux.nyx.gui.Widget#initialize()
-     */
-    public void initialize()
+    public void setSize(int width, int height)
     {
-        if (this.initialized)
-        {
-            return;
-        }
-        this.initialized = true;
-        textField = new JTextField();
-        if (isImmidiate())
-        {
-            textField.addKeyListener(new ImmidiateListener(this));
-        }
-        if (isVisible())
-        {
-            textField.addFocusListener(new PrePostFieldListener(this));
-        }
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#refresh()
-     */
-    public void refresh()
-    {
-        if (!initialized)
-        {
-            return;
-        }
-        textField.setEnabled(isEnabled());
-        textField.setVisible(isVisible());
-        textField.setPreferredSize(this.size);
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.ValueWidget#getValue()
-     */
-    public Object getValue()
-    {
-        return textField.getText();
+        setWidth(width);
+        setHeight(height);
     }
     
+    public void setPosition(int x, int y)
+    {
+        setX(x);
+        setY(y);
+    }
 
     /**
-     * @see org.xulux.nyx.gui.ValueWidget#setValue(Object)
+     * Sets the y.
+     * @param y The y to set
      */
-    public void setValue(Object value)
+    public void setY(int y)
     {
-        boolean update = true;
-        if (value!=null && value.equals(getValue()))
-        {
-            update = false;
-        }
-        String text = new String();
-        if (value != null)
-        {
-            text = value.toString();
-        }
-        textField.setText(text);
-        
-        if (update)
-        {
-            refresh();
-        }
+        this.y = y;
     }
+    
+    public Rectangle getRectangle()
+    {
+        Rectangle rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        return rect;
+    }
+
 }
