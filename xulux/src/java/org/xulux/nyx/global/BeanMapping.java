@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.9 2003-07-14 03:37:36 mvdb Exp $
+ $Id: BeanMapping.java,v 1.10 2003-07-15 00:55:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,9 +60,10 @@ import org.apache.commons.logging.LogFactory;
  * @todo Probably should use some kind of discovery / bean 
  *       package to handle basic bean patterns. Just for Proof
  *       of concept I am reinventing the wheel a bit..;)
+ * @todo Also fix the set when realField is used.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.9 2003-07-14 03:37:36 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.10 2003-07-15 00:55:14 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -180,6 +181,12 @@ public class BeanMapping
      */
     private Method findMethod(String name, boolean setMethod)
     {
+        if (getBean() == null) {
+            if (log.isWarnEnabled()) {
+                log.warn("No Bean specified");
+            }
+            return null;
+        } 
         Method[] methods = getBean().getMethods();
         String pre = (setMethod)?"set":"get";
         for (int i = 0; i < methods.length; i++)
@@ -208,19 +215,12 @@ public class BeanMapping
         if (f instanceof BeanField)
         {
             BeanField field = (BeanField) f;
-            //System.out.println("Name : "+f.getName());
-
             Class clazz = field.getMethod().getReturnType();
             Class baseClass = Dictionary.getInstance().getBaseClass();
             boolean discoverNestedBean = false;
             boolean isBaseTypeField = false;
-            //System.out.println("clazz : "+clazz);
-            //System.out.println("baseClass : "+baseClass);
-            
-            //System.exit(0);
             if (baseClass != null)
             {
-                //System.out.println("baseclass is interface ? "+baseClass.isInterface());
                 if (baseClass.isInterface())
                 {
                     Class[] ifaces = clazz.getInterfaces();
@@ -236,11 +236,9 @@ public class BeanMapping
                 else
                 {
                     Class tmpClass = clazz;
-                    //System.err.println("tmpClass : "+tmpClass);
                     // discover if the baseclass is the superclazz...
                     if (baseClass == tmpClass)
                     {
-                        //System.err.println("baseclass is tmpClass");
                         discoverNestedBean = false;
                     }
                     else
@@ -260,13 +258,7 @@ public class BeanMapping
             }
             if (discoverNestedBean)
             {
-                //System.out.println("We need to discover nestedbean!");
                 Dictionary d = Dictionary.getInstance();
-                //System.out.println("PlainbeanName : "+d.getPlainBeanName(clazz));
-//                System.exit(0);
-                //System.err.println("Mapping : "+d.getMapping("Qualifier")+ " for class "+clazz.getName());
-                //System.out.println("Possible mapping : "+d.getPossibleMappingName(clazz));
-                //System.out.println("f "+field.getMethod().getDeclaringClass());
                 if (d.getMapping(d.getPossibleMappingName(clazz)) == null 
                     && d.getMapping(d.getPlainBeanName(clazz)) == null  
                     && field.getMethod().getDeclaringClass() != clazz)
@@ -299,16 +291,32 @@ public class BeanMapping
      * This method will also search aliases
      * of the field.
      * 
+     * 
      * @param name
      * @return the beanfield for the specified 
      * field or null when no field is present
      */
     public IField getField(String name)
     {
+        if (fields == null) {
+            return null;
+        }
+        int dotIndex = name.indexOf(".");
+        String realField = null;        
+        if (dotIndex != -1) {
+            String field = name.substring(0,dotIndex);
+            realField = name.substring(dotIndex+1);
+            name = field;
+        }
         int index = fields.indexOf(name);
         if (index != -1)
         {
-            return (BeanField) fields.get(index);
+            BeanField bf =  (BeanField) fields.get(index);
+            // set the real field if there is one..
+            if (realField != null) {
+                bf.setRealField(realField);
+            }
+            return bf;
         }
         return null;
     }
@@ -341,10 +349,7 @@ public class BeanMapping
                     try
                     {
                         String fieldName = field.getName().substring(0,1).toUpperCase()+field.getName().substring(1);
-                        //System.out.print("Looking up :"+fieldName);
-                        //System.out.println(" with type : "+method.getReturnType());
                         Method setMethod = bean.getMethod("set"+fieldName, new Class[]{method.getReturnType()});
-                        //System.out.println("setMethod : "+setMethod.getName());
                         field.setChangeMethod(setMethod);
                     }
                     catch (NoSuchMethodException e)

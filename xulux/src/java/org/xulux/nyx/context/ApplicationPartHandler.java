@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.20 2003-07-14 15:49:00 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.21 2003-07-15 00:55:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.20 2003-07-14 15:49:00 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.21 2003-07-15 00:55:14 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -117,6 +117,7 @@ public class ApplicationPartHandler extends DefaultHandler
      */
     private static String CLAZZ_ATTRIBUTE = "class";
     private static String APPLICATION_ATTRIBUTE = "application";
+    private static String FIELDPREFIX_ATTRIBUTE = "fieldPrefix";
     
     private boolean processingField = false;
     
@@ -149,6 +150,17 @@ public class ApplicationPartHandler extends DefaultHandler
     private String currentqName;
     private String currentValue;
     private String lastField;
+    /**
+     * Contains the prefix to be used when 
+     * parsing use fields.
+     */
+    private String fieldPrefix;
+    
+    /** 
+     * Temporary holds the prefix 
+     * value untill done calling includePart 
+     */
+    private String tempPrefix;
     
     private static SAXParserFactory factory;
 
@@ -273,6 +285,8 @@ public class ApplicationPartHandler extends DefaultHandler
             processListener = true;
         }
         else if (qName.equals(INCLUDE_ELEMENT)) {
+            this.tempPrefix = this.fieldPrefix;
+            this.fieldPrefix = atts.getValue(FIELDPREFIX_ATTRIBUTE);
             processIncludePart = true;
         }
         else
@@ -319,7 +333,6 @@ public class ApplicationPartHandler extends DefaultHandler
                 }
             }
         }
-        // TODO: Finish up on translations...
         else if (qName.equals(TRANSLATION_ELEMENT)) {
             processingTranslation = false;
             part.addTranslation(currentValue,null);
@@ -447,6 +460,9 @@ public class ApplicationPartHandler extends DefaultHandler
                 if (log.isDebugEnabled()) {
                     log.debug("Starting processing of include "+currentValue);                }
                 ApplicationPartHandler handler = new ApplicationPartHandler(this.part);
+                handler.setFieldPrefix(this.fieldPrefix);
+                // set to null..
+                this.fieldPrefix = this.tempPrefix;
                 InputStream stream = getClass().getClassLoader().getResourceAsStream(currentValue.trim());
                 handler.setStack(this.stack);
                 handler.read(stream);
@@ -466,6 +482,10 @@ public class ApplicationPartHandler extends DefaultHandler
         }
     }
     
+    public void setFieldPrefix(String fieldPrefix) {
+        this.fieldPrefix = fieldPrefix;
+    }
+    
     public void setStack(Stack stack) {
         this.stack = stack;
     }
@@ -483,6 +503,11 @@ public class ApplicationPartHandler extends DefaultHandler
         String type = atts.getValue(TYPE_ATTRIBUTE);
         String name = atts.getValue(NAME_ATTRIBUTE);
         String use = atts.getValue(USE_ATTRIBUTE);
+        if (this.fieldPrefix != null) {
+            if (use != null) {
+                use = fieldPrefix+"."+use;
+            }
+        }
         // 
         // TODO : Move the logic for native handling somewhere else
         if (type.equalsIgnoreCase("native")) {
@@ -569,7 +594,7 @@ public class ApplicationPartHandler extends DefaultHandler
      */
     public void endDocument() throws SAXException
     {
-        if (ignorePart) {
+        if (!ignorePart) {
             ApplicationContext.getInstance().register(this.part, isApplication);
         }
     }

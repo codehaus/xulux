@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.8 2003-07-14 15:50:43 mvdb Exp $
+ $Id: Dictionary.java,v 1.9 2003-07-15 00:55:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.8 2003-07-14 15:50:43 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.9 2003-07-15 00:55:14 mvdb Exp $
  */
 public class Dictionary
 {
@@ -115,12 +115,10 @@ public class Dictionary
 
     public void addMapping(BeanMapping beanMapping)
     {
-        if (mappings == null)
-        {
+        if (mappings == null) {
             mappings = new HashMap();
         }
-        if (mappingCache == null)
-        {
+        if (mappingCache == null) {
             mappingCache = new ArrayList();
         }
         mappingCache.add(beanMapping.getBean());
@@ -136,7 +134,6 @@ public class Dictionary
 
     public BeanMapping getMapping(Class clazz)
     {
-        //System.out.println("Trying to get mapping for class "+clazz.getName());
         return getMapping(clazz, false);
     }
     

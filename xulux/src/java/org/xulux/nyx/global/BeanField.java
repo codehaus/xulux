@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.8 2003-07-14 03:37:36 mvdb Exp $
+ $Id: BeanField.java,v 1.9 2003-07-15 00:55:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,7 @@ package org.xulux.nyx.global;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -66,7 +67,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.8 2003-07-14 03:37:36 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.9 2003-07-15 00:55:14 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -104,6 +105,17 @@ public class BeanField implements IField
      */
     private List parameterList;
     
+    /**
+     * Temporary container for args.
+     * Needs to be removed when we switch
+     * to non fixed arguments.
+     */
+    private Object[] args;
+    
+    /**
+     * Holds the real field.
+     */
+    private String realField;
     
     /**
      * the logger
@@ -187,7 +199,17 @@ public class BeanField implements IField
     {
         try
         {
-            return this.method.invoke(bean, null);
+            if (this.realField != null) {
+                // gets the real value to get
+                // since this field is just the parent..
+                Class retType = getMethod().getReturnType();
+                BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
+                IField field = mapping.getField(realField);
+                return field.getValue(this.method.invoke(bean, getArgs()));
+            }
+            else {
+                return this.method.invoke(bean, getArgs());
+            }
         }
         catch (IllegalAccessException e)
         {
@@ -204,6 +226,30 @@ public class BeanField implements IField
             }
         }
         return null;
+    }
+    
+    /**
+     * TODO: for now we assume all is hardcoded data fix that..
+     * @return the list of parameters to pass into
+     *          the method.
+     */
+    protected Object[] getArgs() {
+        if (this.args != null) {
+            return this.args;
+        }
+        if (parameterList == null) {
+            return null;
+        }
+        int listCounter = parameterList.size();
+        this.args = new Object[listCounter];
+        Iterator it = parameterList.iterator();
+        listCounter = 0;
+        while (it.hasNext()) {
+            BeanParameter parm = (BeanParameter) it.next();
+            this.args[listCounter] = parm.getObject();
+            listCounter++;
+        }
+        return this.args;
     }
     
 
@@ -359,6 +405,13 @@ public class BeanField implements IField
             parameterList = new ArrayList();
         }
         parameterList.add(parameter);
+    }
+
+    /**
+     * @param realField
+     */
+    public void setRealField(String realField) {
+        this.realField = realField;
     }
 
 }

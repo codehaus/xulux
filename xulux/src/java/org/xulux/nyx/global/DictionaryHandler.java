@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryHandler.java,v 1.6 2003-07-14 03:37:36 mvdb Exp $
+ $Id: DictionaryHandler.java,v 1.7 2003-07-15 00:55:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * The default dictionary.xml reader
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.6 2003-07-14 03:37:36 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.7 2003-07-15 00:55:14 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {
@@ -75,13 +75,16 @@ public class DictionaryHandler extends DefaultHandler
     private static String NAME_ATTRIBUTE = "name";
     private static String DISCOVERY_ATTRIBUTE = "discovery";
     private static String ALIAS_ATTRIBUTE = "alias";
-    
+    private static String TYPE_ATTRIBUTE = "type";
+    private static String VALUE_ATTRIBUTE = "value";    
     private static Log log = LogFactory.getLog(DictionaryHandler.class);
 
     private BeanMapping currentMapping;
     private boolean inBeanElement;
     private boolean inBaseElement;
+    private boolean inParameterElement;
     private String currentValue;
+    BeanField currentField;
     /**
      * A list of parameters
      */
@@ -150,6 +153,7 @@ public class DictionaryHandler extends DefaultHandler
                         + " for beanMapping "
                         + currentMapping.getName());
             }
+            currentValue = null;
             inBeanElement = false;
         }
         else if (qName.equals(BASE_ELEMENT))
@@ -165,11 +169,21 @@ public class DictionaryHandler extends DefaultHandler
                 log.error(
                     "Could not find dictionary base "
                         + currentValue+"\n"+
-                    "Nyx will possibly not be able to disover data beasn correctly");
+                    "Nyx will possibly not be able to disover data beans correctly");
             }
+            currentValue = null;
             inBaseElement = false;
         }
+        else if (qName.equals(FIELD_ELEMENT)) {
+            if (parameters != null) {
+                this.currentField.setParameters(parameters);
+            }
+            parameters = null;
+            currentMapping.addField(this.currentField);
+            this.currentField = null;
+        }
         else if (qName.equals(PARAMETER_ELEMENT)) {
+            currentValue = null;
         }
     }
 
@@ -209,18 +223,16 @@ public class DictionaryHandler extends DefaultHandler
             String alias = atts.getValue(ALIAS_ATTRIBUTE);
             if (name!=null)
             {
-                BeanField field = currentMapping.createBeanField(name);
-                if (field == null)
+                this.currentField = currentMapping.createBeanField(name);
+                if (this.currentField == null)
                 {
                     log.warn("could not discover getter for field with name "+name);
                     return;
                 }
                 if (alias != null)
                 {
-                    field.setAlias(alias);
+                    this.currentField.setAlias(alias);
                 }
-                field.setParameters(parameters);
-                currentMapping.addField(field);
             }
             else
             {
@@ -229,6 +241,12 @@ public class DictionaryHandler extends DefaultHandler
             
         }
         else if (qName.equals(PARAMETER_ELEMENT)) {
+            if (parameters == null) {
+                parameters = new ArrayList();
+            }
+            String type = atts.getValue(TYPE_ATTRIBUTE);
+            String value = atts.getValue(VALUE_ATTRIBUTE);
+            parameters.add(new BeanParameter(type, value));
         }
     }
 
