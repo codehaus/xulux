@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfigTest.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
+   $Id: WidgetConfigTest.java,v 1.3 2004-03-23 16:16:21 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.3 2004-03-23 16:16:21 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase {
 
@@ -251,7 +251,7 @@ public class WidgetConfigTest extends TestCase {
         }
 
     }
-    
+
     public class PropHandler implements IPropertyHandler {
 
         /**
@@ -271,6 +271,13 @@ public class WidgetConfigTest extends TestCase {
          * @see org.xulux.gui.IPropertyHandler#destroy()
          */
         public void destroy() {
+        }
+
+        /**
+         * @see org.xulux.gui.IPropertyHandler#getValue()
+         */
+        public Object getValue() {
+            return null;
         }
     }
     

@@ -1,5 +1,5 @@
 /*
-   $Id: IPropertyHandler.java,v 1.3 2004-03-16 14:35:15 mvdb Exp $
+   $Id: IPropertyHandler.java,v 1.4 2004-03-23 16:16:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,7 +22,7 @@ package org.xulux.gui;
  * The interface for propertyhandlers..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IPropertyHandler.java,v 1.3 2004-03-16 14:35:15 mvdb Exp $
+ * @version $Id: IPropertyHandler.java,v 1.4 2004-03-23 16:16:22 mvdb Exp $
  */
 public interface IPropertyHandler {
 
@@ -50,10 +50,16 @@ public interface IPropertyHandler {
      *
      * @param widget - the widget to handle the property for.
      * @param property - the property to handle
-     * @return true when the property has been succesfully handles
+     * @return true when the property has been succesfully handled
      */
     boolean handleProperty(Widget widget, String property);
 
+    /**
+     * @return the value that is associated with propertyhandler.
+     *         If this is not used, it will just return null. Normally
+     *         this is a value that is needed across properties and within the widget
+     */
+    Object getValue();
     /**
      * Destroys the property handler and all it's resources
      */

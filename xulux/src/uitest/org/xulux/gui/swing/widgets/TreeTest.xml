@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: TreeTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
+<!-- $Id: TreeTest.xml,v 1.3 2004-03-23 16:16:21 mvdb Exp $ -->
 <part name="LabelTestForm" prefix="Person">
   <rules>
     <rule>org.xulux.gui.rules.TreeContentRule</rule>
@@ -7,7 +7,7 @@
   <field type="window" name="Window">
     <title>TreeTest</title>
     <icon>resources/Car.ico</icon>
-    <size>740,450</size>
+    <size>740,500</size>
     <!--
     <field type="label" name="Label:SimpleTree">
       <text>SimpleTree</text>
@@ -27,6 +27,14 @@
     <field type="tree" name="DomTree">
      <position>310,21</position>
      <size>400,400</size>
+    </field>
+    <field type="button" name="ChangeView">
+      <position>310,430</position>
+      <size>150,31</size>
+      <text>ToStringView</text>
+      <rules>
+        <rule>org.xulux.gui.rules.ChangeViewRule</rule>
+      </rules>
     </field>
   </field>
 </part>

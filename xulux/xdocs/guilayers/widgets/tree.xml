@@ -2,7 +2,7 @@
 <document>
 
   <properties>
-    <title>NYX - The Tree Widget</title>
+    <title>XULUX - GuiLayers - Widgets - Tree </title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
@@ -93,6 +93,14 @@
         <td>swing</td>
         <td>
           The field on the specified class that must be used.
+        </td>
+      </tr>
+      <tr>
+        <td>contentview</td>
+        <td>swing</td>
+        <td>
+          The contentview is there to modify the text that a user sees in the tree.
+          This will override the default used in the system and can be changed all the time.
         </td>
       </tr>
     </table>

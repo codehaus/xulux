@@ -1,5 +1,5 @@
 /*
-   $Id: IconHandler.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: ContentProperty.java,v 1.1 2004-03-23 16:16:21 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,18 +17,23 @@
 */
 package org.xulux.swing.widgets.handlers;
 
-import javax.swing.JLabel;
-
 import org.xulux.gui.IPropertyHandler;
 import org.xulux.gui.Widget;
-import org.xulux.swing.util.SwingUtils;
 
 /**
- * Handles the setting of an icon.
+ * The contentProperty..
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IconHandler.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: ContentProperty.java,v 1.1 2004-03-23 16:16:21 mvdb Exp $
  */
-public class IconHandler implements IPropertyHandler {
+public class ContentProperty implements IPropertyHandler {
+
+    /**
+     * 
+     */
+    public ContentProperty() {
+        super();
+    }
 
     /**
      * @see org.xulux.gui.IPropertyHandler#init()
@@ -38,16 +43,19 @@ public class IconHandler implements IPropertyHandler {
     }
 
     /**
-     * @see org.xulux.gui.IPropertyHandler#handleProperty(org.xulux.gui.Widget, java.lang.String, java.util.List)
+     * @see org.xulux.gui.IPropertyHandler#handleProperty(org.xulux.gui.Widget, java.lang.String)
      */
     public boolean handleProperty(Widget widget, String property) {
-    	Object nativeComponent = widget.getNativeWidget();
-    	if (widget.getNativeWidget() instanceof JLabel) {
-    		JLabel label = (JLabel) widget.getNativeWidget();
-    		label.setIcon(SwingUtils.getIcon(widget.getProperty(property), widget));
-    		return true;
-    	}
+        Object content = widget.getProperty(property);
+        
         return false;
+    }
+
+    /**
+     * @see org.xulux.gui.IPropertyHandler#getValue()
+     */
+    public Object getValue() {
+        return null;
     }
 
     /**

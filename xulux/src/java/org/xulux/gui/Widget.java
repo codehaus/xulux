@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.7 2004-03-16 15:04:16 mvdb Exp $
+   $Id: Widget.java,v 1.8 2004-03-23 16:16:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -41,7 +41,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.7 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: Widget.java,v 1.8 2004-03-23 16:16:22 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -496,7 +496,7 @@ public abstract class Widget implements Serializable
      * @param key  - case insensitive value
      * @param value - case insensitive value
      */
-    public void setProperty(String key, String value)
+    public void setProperty(String key, Object value)
     {
         if (key == null) {
             return;
@@ -511,34 +511,34 @@ public abstract class Widget implements Serializable
         //System.out.println(getName()+"key : "+key+"  value : "+value);
         String oldValue = (String)properties.get(key);
         if (oldValue != null) {
-            if (oldValue.equalsIgnoreCase(value)) {
+            if (oldValue.equalsIgnoreCase((String) value)) {
                 // nothing has changed, so we'll return
                 return;
             }
         }
         properties.put(key.toLowerCase(), value);
         if (key.equals("depends")) {
-            List depList = NyxCollectionUtils.getListFromCSV(value);
+            List depList = NyxCollectionUtils.getListFromCSV((String) value);
             if (this.dependencies == null) {
                 this.dependencies = depList;
             } else {
                 this.dependencies.add(depList);
             }
         } else if (key.equals("enabled.depends")) {
-            addDependency(value);
+            addDependency((String) value);
         } else if (key.equals("required"))  {
-            setRequired((value.equalsIgnoreCase("true")?true:false));
+            setRequired((value.toString().equalsIgnoreCase("true")?true:false));
         } else if (key.equals("enabled")) {
-            setEnable((value.equalsIgnoreCase("true")?true:false));
+            setEnable((value.toString().equalsIgnoreCase("true")?true:false));
         } else if (key.equals("visible")) {
-            setVisible((value.equalsIgnoreCase("true")?true:false));
+            setVisible((value.toString().equalsIgnoreCase("true")?true:false));
         } else if (key.equals("use")) {
-            setField(value);
+            setField((String) value);
         } else if (key.equals("position")) {
             int x = -1;
             int y = -1;
             try {
-                StringTokenizer stn = new StringTokenizer(value, ",");
+                StringTokenizer stn = new StringTokenizer((String)value, ",");
                 String xStr = stn.nextToken().trim();
                 String yStr = stn.nextToken().trim();
                 x = Integer.parseInt(xStr);
@@ -556,7 +556,7 @@ public abstract class Widget implements Serializable
             int width = -1;
             int height = -1;
             try {
-                StringTokenizer stn = new StringTokenizer(value, ",");
+                StringTokenizer stn = new StringTokenizer((String) value, ",");
                 String xStr = stn.nextToken().trim();
                 String yStr = stn.nextToken().trim();
                 width = Integer.parseInt(xStr);
@@ -578,6 +578,19 @@ public abstract class Widget implements Serializable
     }
     
     /**
+     * Set a property and call refresh manually..
+     * @param key the key
+     * @param value the object
+     */
+    public void setLazyProperty(String key, Object value) {
+        if (value == null) {
+            properties.remove(key);
+        } else {
+            properties.put(key, value);
+        }
+        
+    }
+    /**
      * You can not use this HashMap to change properties,
      * since it is a clone.
      * You need to use setProperty for that.
@@ -587,6 +600,16 @@ public abstract class Widget implements Serializable
     public HashMap getProperties()
     {
         return (properties!=null)?(HashMap)properties.clone():new HashMap();
+    }
+    /**
+     * Utility method to handle properties
+     *
+     * @param property
+     * @return
+     */
+    public boolean handleProperty(String property) {
+        
+        return false;
     }
 
     /**

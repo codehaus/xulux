@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
+   $Id: Tree.java,v 1.6 2004-03-23 16:16:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -45,7 +45,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: Tree.java,v 1.6 2004-03-23 16:16:22 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -186,6 +186,12 @@ public class Tree extends ContainerWidget implements IContentWidget {
 
         if (contentChanged) {
             //            System.err.println("setting model to : "+contentHandler);
+            System.out.println("CONTENTVIEW : " + getProperty("contentview"));
+            new Exception().printStackTrace(System.out);
+            if (getProperty("contentview") != null) {
+                contentHandler.setView(ClassLoaderUtils.getClass((String)getProperty("contentview")));
+            }
+            contentHandler.refresh();
             jtree.setModel(contentHandler);
             //            System.err.println("Content : "+contentHandler.getContent());
             contentChanged = false;
@@ -391,6 +397,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
      */
     public void setContent(Object object) {
         //        System.err.println("setContent called");
+        //setProperty("content", content);
         this.content = object;
         if (object != null) {
             //            System.err.println("Content object : "+object.getClass());
@@ -406,7 +413,10 @@ public class Tree extends ContainerWidget implements IContentWidget {
                 this.contentHandler = new SwingTreeModel(handler);
                 this.contentHandler.setWidget(this);
                 this.contentHandler.setContent(object);
-                //            System.err.println("contentHandler content : "+contentHandler.getContent());
+                if (getProperty("contentview") != null) {
+                    Class contentView = ClassLoaderUtils.getClass(getProperty("contentview"));
+                    this.contentHandler.setView(contentView);
+                }
             }
         }
         contentChanged = true;
@@ -425,6 +435,10 @@ public class Tree extends ContainerWidget implements IContentWidget {
      */
     public void contentChanged() {
         if (contentHandler != null) {
+            if (getProperty("contentview") != null) {
+                //contentHandler.get
+                contentHandler.getInnerContentHandler().setView(ClassLoaderUtils.getClass((String)getProperty("contentview")));
+            }
             contentHandler.refresh();
         }
     }

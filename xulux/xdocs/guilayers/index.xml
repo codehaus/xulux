@@ -2,7 +2,7 @@
 
 <document>
   <properties>
-    <title>NYX - Gui Layers</title>
+    <title>XULUX- Gui Layers</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
@@ -10,7 +10,7 @@
 
 <section name="Gui Layers">
   <p>
-    NYX is a framework to be able to build gui layer independent application.
+    XULUX is a framework to be able to build gui layer independent application.
     Every GuiLayer is pluggable and work is under way to combine different
     gui layers in one application. 
   </p>

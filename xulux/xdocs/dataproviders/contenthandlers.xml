@@ -13,7 +13,7 @@
   </p>
   <subsection name="How to write ContentHandlers">
     <p>
-      <a href="../apidocs/org/xulux/dataprovider/contenthandlers/IContentHandler.html"><b><code>IConverter</code></b></a>
+      <a href="../apidocs/org/xulux/dataprovider/contenthandlers/IContentHandler.html"><b><code>IContentHandler</code></b></a>
     </p>
   </subsection>
   <subsection name="How to add ContentHandlers">
