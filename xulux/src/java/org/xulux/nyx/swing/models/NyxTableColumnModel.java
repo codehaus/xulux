@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableColumnModel.java,v 1.7 2003-11-12 02:53:34 mvdb Exp $
+ $Id: NyxTableColumnModel.java,v 1.8 2003-11-13 00:20:48 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.nyx.swing.widgets.Table;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumnModel.java,v 1.7 2003-11-12 02:53:34 mvdb Exp $
+ * @version $Id: NyxTableColumnModel.java,v 1.8 2003-11-13 00:20:48 mvdb Exp $
  */
 public class NyxTableColumnModel extends DefaultTableColumnModel
 {
@@ -102,6 +102,7 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
             }
             NyxTableColumn column = new NyxTableColumn(widget);
             column.setModelIndex(i);
+            column.setCellRenderer(new NyxTableCellRenderer(widget,table));
             //column.setPreferredWidth(100);
             //System.out.println("Setting width to : "+widget.getRectangle().getWidth());
             int height = widget.getRectangle().getHeight();

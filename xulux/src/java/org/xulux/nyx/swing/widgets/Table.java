@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.23 2003-11-12 02:53:34 mvdb Exp $
+ $Id: Table.java,v 1.24 2003-11-13 00:20:48 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,6 +63,7 @@ import org.xulux.nyx.gui.IContentWidget;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
+import org.xulux.nyx.swing.extensions.NyxJTable;
 import org.xulux.nyx.swing.listeners.LockedColumnSelectionListener;
 import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
@@ -82,7 +83,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.23 2003-11-12 02:53:34 mvdb Exp $
+ * @version $Id: Table.java,v 1.24 2003-11-13 00:20:48 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
         
@@ -255,7 +256,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             this.destroyTable();
             if (this.columnModel == null) {
                 this.columnModel = new NyxTableColumnModel(this);
-                System.out.println("hasLockedColumns : "+this.columnModel.hasLockedColumns());
+//                System.out.println("hasLockedColumns : "+this.columnModel.hasLockedColumns());
             }
             if (this.model == null) {
                 this.model = new NyxTableModel(this);
@@ -265,11 +266,11 @@ public class Table extends ContainerWidget implements IContentWidget {
             }
             boolean hasLockedColumns = columnModel.hasLockedColumns();
             if (hasLockedColumns) {
-                lockedTable = new JTable(model, columnModel.getLockedColumnModel());
+                lockedTable = new NyxJTable(model, columnModel.getLockedColumnModel());
                 lockedTable.setCellEditor(editor);
                 lockedTable.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
             }
-            table = new JTable(this.model,this.columnModel);
+            table = new NyxJTable(this.model,this.columnModel);
             table.setCellEditor(this.editor);
             table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
             scrollPane.setViewportView(table);
@@ -280,7 +281,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                 lockedTable.getTableHeader().setReorderingAllowed(false);
                 ((NyxTableColumnModel)table.getColumnModel()).removeLockedColumns();
                 lockedTable.setPreferredScrollableViewportSize(columnModel.getLockedColumnWidth());
-                System.out.println("ColumnModel : "+columnModel.getLockedColumnWidth());
+//                System.out.println("ColumnModel : "+columnModel.getLockedColumnWidth());
                 scrollPane.setRowHeaderView(lockedTable);
                 scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, lockedTable.getTableHeader());
                 // add the listeners.. 
@@ -416,8 +417,8 @@ public class Table extends ContainerWidget implements IContentWidget {
             if (field != null) {
                 //System.out.println("Field : "+field);
                 this.content = NyxCollectionUtils.getList(field.getValue(getPart().getBean()));
-                System.err.println("CONTENT : "+this.content);
-                System.err.println("field : "+((List)field.getValue(getPart().getBean())).size());
+//                System.err.println("CONTENT : "+this.content);
+//                System.err.println("field : "+((List)field.getValue(getPart().getBean())).size());
                 contentChanged = true;
             } else {
                 if (log.isWarnEnabled()) {
