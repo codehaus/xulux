@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ $Id: BeanMapping.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import java.util.HashMap;
  * of concept I am reinventing the wheel a bit..;)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -138,7 +138,53 @@ public class BeanMapping
     {
         this.discovery = discovery;
     }
-
+    
+    /**
+     * Creates a beanfield based on the passed name
+     * If no beanField can be created based on the name
+     * null will be returned.
+     * 
+     * @param name - the name of the field methods to discover.
+     */
+    public BeanField createBeanField(String name)
+    {
+        Method method = findMethod(name, false);
+        Method setMethod = findMethod(name, true);
+        if (method != null)
+        {
+            BeanField field = new BeanField(method);
+            if (setMethod != null)
+            {
+                field.setChangeMethod(setMethod);
+            }
+            return field;
+        }
+        return null;
+    }
+    
+    /**
+     * @param name - the name the is contained in the method..getXXX/setXXX where XXX is the name 
+     *                (case insensitive..)
+     * @param setMethod - discover the setMethod (true) or the getMethod (false)
+     */
+    private Method findMethod(String name, boolean setMethod)
+    {
+        Method[] methods = getBean().getMethods();
+        String pre = (setMethod)?"set":"get";
+        for (int i = 0; i < methods.length; i++)
+        {
+            Method method = methods[i];
+            if (method.getName().equalsIgnoreCase(pre+name))
+            {
+                return method;
+            }
+        }
+        return null;
+    }
+    /**
+     * Adds a field to the mapping
+     * @param field
+     */
     public void addField(BeanField field)
     {
         if (fields == null)
@@ -166,12 +212,18 @@ public class BeanMapping
             }
             else
             {
-                System.out.println("superclass : "+clazz.getSuperclass());
-                System.out.println("clazz : "+clazz);
-                if (baseClass == clazz.getSuperclass())
+                Class tmpClass = clazz;
+                // discover if the baseclass is the superclazz...
+                while (tmpClass != Object.class)
                 {
-                    discoverNestedBean = true;
-                    isBaseTypeField = true;
+                    
+                    if (baseClass == tmpClass.getSuperclass())
+                    {
+                        discoverNestedBean = true;
+                        isBaseTypeField = true;
+                        break;
+                    }
+                    tmpClass = tmpClass.getSuperclass();
                 }
             }
         }
@@ -179,7 +231,7 @@ public class BeanMapping
         if (discoverNestedBean)
         {
             Dictionary d = Dictionary.getInstance();
-            System.out.println("PlainbeanName : "+d.getPlainBeanName(clazz));
+            //System.out.println("PlainbeanName : "+d.getPlainBeanName(clazz));
             if (d.getMapping(d.getPossibleMappingName(clazz)) == null)
             {
                 d.getMapping(clazz);
@@ -188,7 +240,10 @@ public class BeanMapping
         field.setBaseType(isBaseTypeField);
         fields.add(field);
     }
-
+    
+    /**
+     * Returns all the fields in an arraylist
+     */
     public ArrayList getFields()
     {
         return fields;
@@ -302,5 +357,10 @@ public class BeanMapping
             return -1;
         }
 
+    }
+    
+    public String toString()
+    {
+        return getName();
     }
 }

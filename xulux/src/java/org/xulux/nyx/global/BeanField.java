@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ $Id: BeanField.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,13 +57,24 @@ import java.lang.reflect.Method;
  * normally. Also need to check thread safety.
  * 
  * @author <a href="mailto:martin@mvdb.net>Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
  */
 public class BeanField
 {
     
+    /**
+     * The official name of the field
+     */
     private String name;
+    /**
+     * The method of the field
+     */
     private Method method;
+    /**
+     * The alias of the field, 
+     * This is the name to call this field.
+     */
+    private String alias;
     /**
      * Place holder for the setter
      * associated with the get method
@@ -180,7 +191,7 @@ public class BeanField
      */
     public String toString()
     {
-        return getMethod().getName();
+        return getMethod().getName()+"["+getAlias()+","+getName()+"]";
     }
     
     /**
@@ -192,7 +203,7 @@ public class BeanField
     {
         if (object instanceof String)
         {
-            if (this.getName().equals(object))
+            if (this.getAlias().equalsIgnoreCase(object.toString()))
             {
                 return true;
             }
@@ -230,6 +241,28 @@ public class BeanField
     public void setChangeMethod(Method method)
     {
         this.changeMethod = method;
+    }
+
+    /**
+     * Returns the alias.
+     * @return String
+     */
+    public String getAlias()
+    {
+        if (alias == null)
+        {
+            return getName();
+        }
+        return alias;
+    }
+
+    /**
+     * Sets the alias.
+     * @param alias The alias to set
+     */
+    public void setAlias(String alias)
+    {
+        this.alias = alias;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryHandler.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ $Id: DictionaryHandler.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.global;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -60,7 +61,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * The default dictionary.xml reader
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {
@@ -68,8 +69,11 @@ public class DictionaryHandler extends DefaultHandler
     private static String PREFIX_ELEMENT = "prefix";
     private static String BEAN_ELEMENT = "bean";
     private static String BASE_ELEMENT = "base";
+    private static String FIELDS_ELEMENT = "fields";
+    private static String FIELD_ELEMENT = "field";
     private static String NAME_ATTRIBUTE = "name";
     private static String DISCOVERY_ATTRIBUTE = "discovery";
+    private static String ALIAS_ATTRIBUTE = "alias";
     
     private static Log log = LogFactory.getLog(DictionaryHandler.class);
 
@@ -98,6 +102,7 @@ public class DictionaryHandler extends DefaultHandler
             }
             catch (SAXException se)
             {
+                se.printStackTrace(System.err);
                 se.getException().printStackTrace(System.err);
             }
         }
@@ -123,7 +128,8 @@ public class DictionaryHandler extends DefaultHandler
         else if (qName.toLowerCase().equals(BEAN_ELEMENT))
         {
             inBeanElement = false;
-        }else if (qName.toLowerCase().equals(BASE_ELEMENT))
+        }
+        else if (qName.toLowerCase().equals(BASE_ELEMENT))
         {
             inBaseElement = false;
         }
@@ -157,6 +163,30 @@ public class DictionaryHandler extends DefaultHandler
         else if (qName.toLowerCase().equals(BASE_ELEMENT))
         {
             inBaseElement = true;
+        }
+        else if (qName.toLowerCase().equals(FIELD_ELEMENT))
+        {
+            String name = atts.getValue(NAME_ATTRIBUTE);
+            String alias = atts.getValue(ALIAS_ATTRIBUTE);
+            if (name!=null)
+            {
+                BeanField field = currentMapping.createBeanField(name);
+                if (field == null)
+                {
+                    log.warn("could not discover getter for field with name "+name);
+                    return;
+                }
+                if (alias != null)
+                {
+                    field.setAlias(alias);
+                }
+                currentMapping.addField(field);
+            }
+            else
+            {
+                log.warn("Invalid field element encountered, name should not be null");
+            }
+            
         }
     }
 

@@ -1,6 +1,6 @@
 
 /*
- $Id: DictionaryTest.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,6 +48,7 @@ package org.xulux.nyx.global;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -57,7 +58,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -89,7 +90,6 @@ public class DictionaryTest extends TestCase
         assertEquals("Test", dictionary.getInstance().getMapping("Test").getName());
         assertEquals(DictionaryBean.class, dictionary.getMapping("Test").getBean());
         ArrayList list = dictionary.getMapping("Test").getFields();
-        System.out.println("list : "+list);
         assertEquals(4, list.size());
         assertNotNull(list.get(list.indexOf("name")));
         assertNotNull(list.get(list.indexOf("city")));
@@ -127,15 +127,34 @@ public class DictionaryTest extends TestCase
      */
     public void testNestedDataBean()
     {
+        System.out.println("testNestedDataBean");
         Dictionary d = Dictionary.getInstance();
         d.setBaseClass(DictionaryBaseBean.class);
         DictionaryBean bean = new DictionaryBean();
         BeanMapping mapping = d.getMapping(bean.getClass());
-        System.out.println("mappings : "+d.getMappings());
         BeanMapping subBean = d.getMapping("DictionarySubSubBean");
-        System.out.println("subBean :"+subBean);
     }
     
+    /**
+     * Test the Fields/field (non autodiscovery) mechanisme
+     */
+    public void testFieldElements()
+    {
+        System.out.println("testFieldElements");
+        Dictionary d = Dictionary.getInstance();
+        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        BeanMapping mapping = d.getMapping("Manual");
+        assertNotNull(mapping.getField("straat"));
+        assertNull(mapping.getField("street"));
+        assertNotNull(mapping.getField("plaats"));
+        assertNull(mapping.getField("city"));
+        assertEquals("name", mapping.getField("name").getAlias());
+        assertEquals("name", mapping.getField("name").getName());
+        assertEquals("straat", mapping.getField("straat").getAlias());
+        assertEquals("street", mapping.getField("straat").getName());
+        assertEquals("plaats", mapping.getField("plaats").getAlias());
+        assertEquals("city", mapping.getField("plaats").getName());
+    }
     /**
      * Clean up the dictionary..
      */
