@@ -29,6 +29,38 @@
         <td>Possible values are None, Horizontal or Angled. Defaults to none<br/>
             NOTE: These properties are case sensitive!</td>
       </tr>
+      <tr>
+        <td>expand</td>
+        <td>swing</td>
+        <td>
+          Expands the complete tree 
+        </td>
+      </tr>
+      <tr>
+        <td>expand-untill</td>
+        <td>swing</td>
+        <td>
+          Expand the tree untill an insetnace of the specified object is encountered.
+          The content of the parameter should be the full qualified classname.
+          If you specify leaf as the value, it will expand untill the leaf 
+          (meaning NOT including the leafs)
+          If it is null, it just expands using the gui layer defaults.
+        </td>
+      </tr>
+      <tr>
+        <td>collapse</td>
+        <td>swing</td>
+        <td>
+          Collapses the tree to the root object.
+        </td>
+      </tr>
+      <tr>
+        <td>showicons</td>
+        <td>swing</td>
+        <td>
+          true or false. Defaults to true.
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>
