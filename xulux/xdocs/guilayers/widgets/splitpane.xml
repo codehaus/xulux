@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The SplitPane Widget</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The SplitPane Widget">
+  <subsection name="General">
+    <p>
+      The splitpane can contain two other widgets, on the bottom
+      and on the top. You can set the property pane with the values
+      top and bottom. If you don't specify the property it will first add one 
+      to top and after that to the bottom. Xulux will set the properties 
+      for you on the widgets in that case.
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      Description
+    </p>
+    <table>
+      <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
+      <tr>
+        <td>orientation</td>
+        <td>swing</td>
+        <td>
+          Values can be horizontal or vertical
+        </td>
+      </tr>
+      <tr>
+        <td>pane</td>
+        <td>swing</td>
+        <td>
+          This property can be used on childwidgets (can be a splitpane
+          too) to specify where they should end up. Valid values are
+          <code>bottom</code> and <code>top</code>
+        </td>
+      </tr>
+    </table>
+  </subsection>
+</section>
+
+</body>
+
+</document>

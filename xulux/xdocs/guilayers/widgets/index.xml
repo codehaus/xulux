@@ -73,6 +73,10 @@
         <td><a href="buttongroup.html">buttongroup</a></td>
         <td>swing</td>
       </tr>
+      <tr>
+        <td><a href="splitpane.html">splitpane</a></td>
+        <td>swing</td>
+      </tr>
       </table>
     </p>
   </subsection>
