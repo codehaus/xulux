@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.25 2004-12-01 13:02:39 mvdb Exp $
+   $Id: Widget.java,v 1.26 2004-12-01 13:06:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.25 2004-12-01 13:02:39 mvdb Exp $
+ * @version $Id: Widget.java,v 1.26 2004-12-01 13:06:09 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -325,7 +325,7 @@ public abstract class Widget implements Serializable
             try {
               ((Rule)rule).init();
             } catch(Throwable t) {
-              log.info("Exception calling init method of widget " + getName(), t);
+              log.info("Exception calling init method on rule of widget " + getName(), t);
             }
         }
         rules.add(rule);
@@ -643,7 +643,7 @@ public abstract class Widget implements Serializable
                 try {
               		((Rule)rules.get(i)).destroy();
                 } catch(Throwable t) {
-                  	log.info("Exception calling init method of widget " + getName(), t);
+                  	log.info("Exception calling destroy method on rule of widget " + getName(), t);
                 }
             }
             rules.clear();
