@@ -1,5 +1,5 @@
 /*
-   $Id: LabelRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+   $Id: LabelRule.java,v 1.4 2004-05-10 14:21:25 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,7 +24,7 @@ import org.xulux.rules.Rule;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LabelRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+ * @version $Id: LabelRule.java,v 1.4 2004-05-10 14:21:25 mvdb Exp $
  */
 public class LabelRule extends Rule {
 
@@ -62,6 +62,8 @@ public class LabelRule extends Rule {
             processButton(request);
         } else if (request.getWidget().equals("switch")) {
             processSwitch(request);
+        } else if (request.getWidget().equals("hidelabel")) {
+          processHide(request);
         }
     }
 
@@ -93,5 +95,20 @@ public class LabelRule extends Rule {
             button.setProperty("text", "Enable");
         }
     }
+
+  /**
+   *
+   * @param request the request object
+   */
+  public void processHide(PartRequest request) {
+      Widget button = request.getWidget();
+      Widget hideLabel = request.getPart().getWidget("Label:Hide");
+      hideLabel.setVisible(!hideLabel.isVisible());
+      if (hideLabel.isVisible()) {
+          button.setProperty("text", "Hide");
+      } else {
+          button.setProperty("text", "UnHide");
+      }
+  }
 
 }

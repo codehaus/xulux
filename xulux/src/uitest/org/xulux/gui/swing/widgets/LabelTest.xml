@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: LabelTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
+<!-- $Id: LabelTest.xml,v 1.3 2004-05-10 14:21:25 mvdb Exp $ -->
 <part name="LabelTestForm" prefix="Person">
   <field type="window" name="Window">
     <title>LabelTest</title>
@@ -66,6 +66,19 @@
 	     <size>100,32</size>
 	     <text>Disable</text>
 	     <position>240,90</position>
+	     <rules>
+	      <rule>org.xulux.gui.rules.LabelRule</rule>
+	     </rules>
+	  </field>
+	  <field type="label" name="Label:Hide">
+	    <text>Hide me!</text>
+	    <size>120,32</size>
+	    <position>4,125</position>
+	  </field>
+	  <field type="button" name="hidelabel">
+	     <size>100,32</size>
+	     <text>Hide</text>
+	     <position>120,125</position>
 	     <rules>
 	      <rule>org.xulux.gui.rules.LabelRule</rule>
 	     </rules>
