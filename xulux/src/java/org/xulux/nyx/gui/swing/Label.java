@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.1 2003-01-08 02:37:06 mvdb Exp $
+ $Id: Label.java,v 1.2 2003-05-06 12:39:19 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,6 +47,7 @@
 package org.xulux.nyx.gui.swing;
 
 import java.awt.Container;
+
 import javax.swing.JLabel;
 
 import org.xulux.nyx.gui.Widget;
@@ -54,7 +55,7 @@ import org.xulux.nyx.gui.Widget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.1 2003-01-08 02:37:06 mvdb Exp $
+ * @version $Id: Label.java,v 1.2 2003-05-06 12:39:19 mvdb Exp $
  */
 public class Label extends Widget
 {

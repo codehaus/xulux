@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.2 2003-01-25 23:17:57 mvdb Exp $
+ $Id: Panel.java,v 1.3 2003-05-06 12:39:19 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,7 +48,6 @@ package org.xulux.nyx.gui.swing;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -56,13 +55,12 @@ import javax.swing.border.BevelBorder;
 import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.layouts.XYLayout;
-import sun.security.action.GetPropertyAction;
 
 /**
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.2 2003-01-25 23:17:57 mvdb Exp $
+ * @version $Id: Panel.java,v 1.3 2003-05-06 12:39:19 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {

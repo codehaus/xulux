@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.1 2003-01-26 18:28:50 mvdb Exp $
+ $Id: SwingUtils.java,v 1.2 2003-05-06 12:39:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,10 +47,8 @@ package org.xulux.nyx.gui.swing.util;
 
 import java.awt.Image;
 import java.awt.MediaTracker;
-import java.awt.image.ImageObserver;
 import java.net.URL;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.logging.Log;
@@ -61,7 +59,7 @@ import org.apache.commons.logging.LogFactory;
  * Contains several utilities to make life with swing easier.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.1 2003-01-26 18:28:50 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.2 2003-05-06 12:39:19 mvdb Exp $
  */
 public class SwingUtils
 {

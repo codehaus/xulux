@@ -1,6 +1,5 @@
 package org.xulux.nyx.utils;
 
-import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -10,7 +9,6 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -18,7 +16,7 @@ import javax.swing.ImageIcon;
  * files
  * 
  * @author Martin van den Bemt
- * @version $Id: Resources.java,v 1.1 2002-10-23 00:28:44 mvdb Exp $
+ * @version $Id: Resources.java,v 1.2 2003-05-06 12:39:19 mvdb Exp $
  */
 public class Resources
 {

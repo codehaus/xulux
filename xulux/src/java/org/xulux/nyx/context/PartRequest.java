@@ -1,5 +1,5 @@
 /*
- $Id: PartRequest.java,v 1.5 2002-12-12 14:41:12 mvdb Exp $
+ $Id: PartRequest.java,v 1.6 2003-05-06 12:39:19 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,14 +46,13 @@
 package org.xulux.nyx.context;
 
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.rules.IRule;
 
 /**
  * The partRequest contains the direct connection to the current processed 
  * field or action (action not in the Swing sence)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequest.java,v 1.5 2002-12-12 14:41:12 mvdb Exp $
+ * @version $Id: PartRequest.java,v 1.6 2003-05-06 12:39:19 mvdb Exp $
  */
 public interface PartRequest extends Cloneable
 {

@@ -1,5 +1,5 @@
 /*
- $Id: SWTUtil.java,v 1.2 2003-01-27 00:35:51 mvdb Exp $
+ $Id: SWTUtil.java,v 1.3 2003-05-06 12:39:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,7 +53,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Widget;
 import org.xulux.nyx.gui.WidgetRectangle;
 import org.xulux.nyx.gui.utils.ColorUtils;
@@ -67,7 +66,7 @@ import org.xulux.nyx.gui.utils.ColorUtils;
  *       types
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTUtil.java,v 1.2 2003-01-27 00:35:51 mvdb Exp $
+ * @version $Id: SWTUtil.java,v 1.3 2003-05-06 12:39:20 mvdb Exp $
  */
 public class SWTUtil
 {

@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.2 2003-01-26 18:28:50 mvdb Exp $
+ $Id: Button.java,v 1.3 2003-05-06 12:39:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,7 +46,6 @@
 package org.xulux.nyx.gui.swing;
 
 import java.awt.Container;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -64,7 +63,7 @@ import org.xulux.nyx.listeners.swing.PrePostFieldListener;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.2 2003-01-26 18:28:50 mvdb Exp $
+ * @version $Id: Button.java,v 1.3 2003-05-06 12:39:19 mvdb Exp $
  */
 public class Button extends Widget
 {
