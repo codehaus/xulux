@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.22 2003-08-28 23:36:35 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.23 2003-08-28 23:37:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,14 +61,13 @@ import org.xulux.nyx.swing.widgets.Combo;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.22 2003-08-28 23:36:35 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.23 2003-08-28 23:37:21 mvdb Exp $
  */
 public class DefaultComboModel extends AbstractListModel 
 implements ComboBoxModel
 {
     private List original;
     private ArrayList list;
-//    private ArrayList listeners;
     private ComboShowable selectedItem;
     private String field;
     private BeanMapping mapping;
@@ -155,28 +154,6 @@ implements ComboBoxModel
         return list.get(index);
     }
 
-//    /**
-//     * @see javax.swing.ListModel#addListDataListener(ListDataListener)
-//     */
-//    public void addListDataListener(ListDataListener l)
-//    {
-//        if (listeners == null)
-//        {
-//            listeners = new ArrayList();
-//        }
-//        listeners.add(l);
-//    }
-//
-//    /**
-//     * @see javax.swing.ListModel#removeListDataListener(ListDataListener)
-//     */
-//    public void removeListDataListener(ListDataListener l)
-//    {
-//        if (listeners != null)
-//        {
-//            listeners.remove(l);
-//        }
-//    }
     
     public Object getRealSelectedValue()
     {
@@ -321,10 +298,6 @@ implements ComboBoxModel
         this.mapping = null;
         this.original = null;
         this.field = null;
-//        if (listeners != null)
-//        {
-//            listeners = null;
-//        }
         this.selectedItem = null;
     }
 }
