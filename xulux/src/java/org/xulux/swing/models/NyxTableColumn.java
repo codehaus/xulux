@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableColumn.java,v 1.3 2004-06-23 10:52:21 mvdb Exp $
+   $Id: NyxTableColumn.java,v 1.4 2004-11-18 23:24:46 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,6 +20,7 @@ package org.xulux.swing.models;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JComponent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -34,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
  * , instead of dynamically creating them all the time.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumn.java,v 1.3 2004-06-23 10:52:21 mvdb Exp $
+ * @version $Id: NyxTableColumn.java,v 1.4 2004-11-18 23:24:46 mvdb Exp $
  */
 public class NyxTableColumn extends TableColumn {
 
@@ -87,8 +88,12 @@ public class NyxTableColumn extends TableColumn {
             setResizable(true);
         }
         setHeaderValue(widget.getProperty("text"));
-        setPreferredWidth(widget.getRectangle().getWidth());
-        setWidth(widget.getRectangle().getWidth());
+        int width = widget.getRectangle().getWidth();
+        if (width == 0) {
+            width = ((JComponent)widget.getNativeWidget()).getPreferredSize().width;
+        }
+        setPreferredWidth(width);
+        setWidth(width);
         if (widget instanceof NyxCombo) {
             setCellEditor(new NyxTableCellEditor(widget));
         }
