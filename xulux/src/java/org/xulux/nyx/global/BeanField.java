@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.11 2003-07-15 01:28:51 mvdb Exp $
+ $Id: BeanField.java,v 1.12 2003-07-15 21:36:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.11 2003-07-15 01:28:51 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.12 2003-07-15 21:36:21 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -204,6 +204,14 @@ public class BeanField implements IField
      */
     public Object getValue(Object bean)
     {
+        System.err.println("*****"+getName()+"*****");
+        if (getName().equals("contactoftype")) {
+            System.err.println("field : "+getName());
+            System.err.println("bean :"+bean);
+            System.err.println("parameters : "+getParameters());
+            System.err.println("realField : "+this.realField);
+        }
+            
         try
         {
             if (this.realField != null) {
@@ -215,7 +223,17 @@ public class BeanField implements IField
                 return field.getValue(getMethod().invoke(bean, getArgs()));
             }
             else {
-                return this.method.invoke(bean, getArgs());
+                System.err.println("field : "+getName());
+                System.err.println("bean :"+bean);
+                if (bean != null) {
+                    System.err.println("Method "+getMethod().getName());
+                    return this.method.invoke(bean, getArgs());
+                } else {
+                    if (log.isDebugEnabled()) {
+                        log.debug("no data found for "+getName()+", alias "+getAlias()+", realfield "+realField);
+                        
+                    }
+                }
             }
         }
         catch (IllegalAccessException e)
@@ -227,9 +245,9 @@ public class BeanField implements IField
         }
         catch (InvocationTargetException e)
         {
-            if (log.isTraceEnabled())
+            if (log.isWarnEnabled())
             {
-                log.trace("Exception occured ",e);
+                log.warn("Exception occured ",e.getTargetException());
             }
         }
         return null;

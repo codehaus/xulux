@@ -1,5 +1,5 @@
 /*
- $Id: BeanParameter.java,v 1.2 2003-07-14 14:49:51 mvdb Exp $
+ $Id: BeanParameter.java,v 1.3 2003-07-15 21:36:21 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * that a method may need to get or set appropiate data.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanParameter.java,v 1.2 2003-07-14 14:49:51 mvdb Exp $
+ * @version $Id: BeanParameter.java,v 1.3 2003-07-15 21:36:21 mvdb Exp $
  */
 public class BeanParameter {
     
@@ -136,11 +136,15 @@ public class BeanParameter {
                     }
                 }
                 catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.out);
                 }
             }
         }
         return this.object;
+    }
+    
+    public String toString() {
+        return getType()+":"+getValue();
     }
 
 }
