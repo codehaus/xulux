@@ -1,5 +1,5 @@
 /*
- $Id: NyxWindowListener.java,v 1.2 2003-11-06 19:53:12 mvdb Exp $
+ $Id: NyxWindowListener.java,v 1.3 2003-12-11 20:04:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -60,11 +60,12 @@ import org.xulux.nyx.gui.Widget;
  * the X button.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListener.java,v 1.2 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: NyxWindowListener.java,v 1.3 2003-12-11 20:04:04 mvdb Exp $
  */
-public class NyxWindowListener extends NyxListener
-implements WindowListener
-{
+public class NyxWindowListener extends NyxListener implements WindowListener {
+    /**
+     * The log instance
+     */
     private static Log log = LogFactory.getLog(NyxWindowListener.class);
 
     /**
@@ -76,60 +77,56 @@ implements WindowListener
     /**
      * Constructor for NyxWindowListener.
      */
-    public NyxWindowListener()
-    {
+    public NyxWindowListener() {
         super();
     }
 
     /**
      * Constructor for NyxWindowListener.
-     * @param widget
+     * @param widget the widget
      */
-    public NyxWindowListener(Widget widget)
-    {
+    public NyxWindowListener(Widget widget) {
         super(widget);
     }
 
     /**
      * @see java.awt.event.WindowListener#windowActivated(WindowEvent)
      */
-    public void windowActivated(WindowEvent e)
-    {
-        log.trace("Window activated : "+e);
+    public void windowActivated(WindowEvent e) {
+        log.trace("Window activated : " + e);
     }
 
     /**
      * @see java.awt.event.WindowListener#windowClosed(WindowEvent)
      */
-    public void windowClosed(WindowEvent e)
-    {
-        log.trace("Window closed : "+e);
+    public void windowClosed(WindowEvent e) {
+        log.trace("Window closed : " + e);
     }
 
     /**
+     * Specifies that the window should be destroyed, if followed
+     * by a windowDeactivated event.
+     *
      * @see java.awt.event.WindowListener#windowClosing(WindowEvent)
      */
-    public void windowClosing(WindowEvent e)
-    {
-        log.trace("Window closing : "+e);
+    public void windowClosing(WindowEvent e) {
+        log.trace("Window closing : " + e);
         shouldDestroy = true;
     }
 
     /**
+     * If the window was previously closing, complete and destroy
+     * the widget
+     *
      * @see java.awt.event.WindowListener#windowDeactivated(WindowEvent)
      */
-    public void windowDeactivated(WindowEvent e)
-    {
-        log.trace("Window deactivated: "+e);
-        if (!shouldDestroy)
-        {
+    public void windowDeactivated(WindowEvent e) {
+        if (!shouldDestroy) {
             return;
         }
         completed();
-        if (getWidget().isRootWidget())
-        {
-            if (ApplicationContext.isPartApplication(getWidget().getPart()))
-            {
+        if (getWidget().isRootWidget()) {
+            if (ApplicationContext.isPartApplication(getWidget().getPart())) {
                 ApplicationContext.exitApplication();
             }
         }
@@ -139,25 +136,22 @@ implements WindowListener
     /**
      * @see java.awt.event.WindowListener#windowDeiconified(WindowEvent)
      */
-    public void windowDeiconified(WindowEvent e)
-    {
-        log.trace("Window deIconified : "+e);
+    public void windowDeiconified(WindowEvent e) {
+        log.trace("Window deIconified : " + e);
     }
 
     /**
      * @see java.awt.event.WindowListener#windowIconified(WindowEvent)
      */
-    public void windowIconified(WindowEvent e)
-    {
-        log.trace("Window iconified: "+e);
+    public void windowIconified(WindowEvent e) {
+        log.trace("Window iconified: " + e);
     }
 
     /**
      * @see java.awt.event.WindowListener#windowOpened(WindowEvent)
      */
-    public void windowOpened(WindowEvent e)
-    {
-        log.trace("Window opened : "+e);
+    public void windowOpened(WindowEvent e) {
+        log.trace("Window opened : " + e);
     }
 
 }
