@@ -1,0 +1,4 @@
+.project
+.classpath
+*.log
+junit*.properties
