@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryHandler.java,v 1.9 2003-07-29 09:17:37 mvdb Exp $
+ $Id: DictionaryHandler.java,v 1.10 2003-09-08 12:13:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * The default dictionary.xml reader
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.9 2003-07-29 09:17:37 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.10 2003-09-08 12:13:37 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {
@@ -215,8 +215,10 @@ public class DictionaryHandler extends DefaultHandler
             inConvertersElement = true;
         }
         else if (qName.equals(CONVERTER_ELEMENT)) {
-            String clazz = atts.getValue(CLASS_ATTRIBUTE);
-            Dictionary.addConverter(clazz);
+            if (inConvertersElement) {
+                String clazz = atts.getValue(CLASS_ATTRIBUTE);
+                Dictionary.addConverter(clazz);
+            }
         }
         else if (qName.equals(BEAN_ELEMENT))
         {

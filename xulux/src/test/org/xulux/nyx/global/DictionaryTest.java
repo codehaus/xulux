@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.14 2003-09-08 10:44:41 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.15 2003-09-08 12:13:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,7 +46,9 @@
 package org.xulux.nyx.global;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import org.xulux.nyx.global.converters.DoubleConverter;
 import org.xulux.nyx.global.converters.IntegerConverter;
 
 import junit.framework.Test;
@@ -57,7 +59,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.14 2003-09-08 10:44:41 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.15 2003-09-08 12:13:37 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -266,7 +268,12 @@ public class DictionaryTest extends TestCase
      */
     public void testConverterXml() {
         System.out.println("testConvertersXml");
-        fail("Test case todo");
+        Dictionary dictionary = Dictionary.getInstance();
+        dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        Map converters = Dictionary.getConverters();
+        assertEquals(2,converters.size());
+        assertEquals(IntegerConverter.class,Dictionary.getConverter(Integer.class).getClass());
+        assertEquals(DoubleConverter.class,Dictionary.getConverter(Double.class).getClass());
     }
         
     /**

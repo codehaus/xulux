@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.15 2003-08-25 08:10:05 mvdb Exp $
+ $Id: Dictionary.java,v 1.16 2003-09-08 12:13:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,7 +62,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.15 2003-08-25 08:10:05 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.16 2003-09-08 12:13:37 mvdb Exp $
  */
 public class Dictionary
 {
@@ -381,6 +382,13 @@ public class Dictionary
      */
     public static IConverter getConverter(Object object) {
         return getConverter(object!=null?object.getClass():null);
+    }
+    /**
+     * 
+     * @return all registered converters
+     */
+    public static Map getConverters() {
+        return converters;
     }
     /**
      * 
