@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ $Id: GuiDefaultsTest.java,v 1.7 2003-12-01 02:08:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,21 +45,27 @@
  */
 package org.xulux.nyx.guidefaults;
 
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.swing.tree.TreeNode;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.dom4j.Document;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.WidgetConfig;
+import org.xulux.nyx.global.contenthandlers.TreeNodeContentHandler;
 
 /**
  * Tests processing of guiDefaults.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.6 2003-11-28 02:37:56 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.7 2003-12-01 02:08:21 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -82,20 +88,41 @@ public class GuiDefaultsTest extends TestCase {
     /**
      * Test some basic things about gui defaults.
      * @throws Exception just in case
+     * @todo make everything bogus, also the widgets!
      */
     public void testGuiDefaults() throws Exception {
+        GuiDefaults defaults = new GuiDefaults();
         System.out.println("testGuiDefaults");
         HashMap map = ApplicationContext.getInstance().getWidgets();
         WidgetConfig config = (WidgetConfig) map.get("combo");
         assertNotNull(config);
         assertEquals(Class.forName("org.xulux.nyx.swing.widgets.Combo"), config.get("swing"));
-        assertEquals(Class.forName("org.xulux.nyx.swt.widgets.SWTCombo"), config.get("swt"));
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
         assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
         assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler());
         assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler("swing"));
         assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler());
         assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler("swing"));
+    }
+
+    /**
+     * Test the exceptions in read..
+     */
+    public void testRead() {
+        System.out.println("testRead");
+        GuiDefaultsHandler handler = new GuiDefaultsHandler();
+        handler.read(null);
+        StringReader reader = new StringReader("<guidefaults defaultType=\"swing\">");
+        handler.read(new ByteArrayInputStream("<guidefaults defaultType=\"swing\">".getBytes()));
+    }
+    /**
+     * Test an xml interface without defaulttype
+     */
+    public void testWithoutDefaultType() {
+        System.out.println("testWithoutDefaultType");
+        GuiDefaultsHandler handler = new GuiDefaultsHandler();
+        handler.read(getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/guidefaults/GuiDefaultsTest2.xml"));
+        assertNotNull(ApplicationContext.getInstance().getWidgetConfig("testbutton"));
+        assertTrue( ApplicationContext.getInstance().getParentWidgetHandler() instanceof BogusParentWidgetHandler);
     }
 
     /**
@@ -109,6 +136,9 @@ public class GuiDefaultsTest extends TestCase {
         WidgetConfig config = (WidgetConfig) map.get("window");
         List list = config.getWidgetInitializers("swing");
         assertEquals(1, list.size());
+        config = ApplicationContext.getInstance().getWidgetConfig("tree");
+        assertNull(config.getContentHandler(Document.class));
+        assertNotNull(config.getContentHandler(TreeNode.class));
     }
 
 }

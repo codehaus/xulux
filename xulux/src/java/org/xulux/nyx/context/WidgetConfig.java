@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfig.java,v 1.10 2003-11-28 02:37:56 mvdb Exp $
+ $Id: WidgetConfig.java,v 1.11 2003-12-01 02:08:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.xulux.nyx.global.IContentHandler;
 import org.xulux.nyx.utils.ClassLoaderUtils;
@@ -60,7 +61,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.10 2003-11-28 02:37:56 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.11 2003-12-01 02:08:21 mvdb Exp $
  */
 public class WidgetConfig {
 
@@ -182,12 +183,12 @@ public class WidgetConfig {
         if (clazz == null) {
             return;
         }
-        if (contentHandlers == null) {
+        if (getContentHandlers() == null) {
             contentHandlers = new HashMap();
         }
         if (IContentHandler.class.isAssignableFrom(clazz)) {
             Class clzType = ((IContentHandler) ClassLoaderUtils.getObjectFromClass(clazz)).getType();
-            contentHandlers.put(clzType, clazz);
+            getContentHandlers().put(clzType, clazz);
         }
     }
 
@@ -196,15 +197,15 @@ public class WidgetConfig {
      * @return the contenthandler found.
      */
     public IContentHandler getContentHandler(Class clazz) {
-        if (contentHandlers != null) {
-            Class clz = (Class) contentHandlers.get(clazz);
+        if (getContentHandlers() != null) {
+            Class clz = (Class) getContentHandlers().get(clazz);
             if (clz == null) {
                 // try to find a contenthandler that is of the same basetype (except Object).
-                Iterator it = contentHandlers.keySet().iterator();
+                Iterator it = getContentHandlers().keySet().iterator();
                 while (it.hasNext()) {
                     Class tmpClass = (Class) it.next();
                     if (tmpClass.isAssignableFrom(clazz)) {
-                        clz = (Class) contentHandlers.get(tmpClass);
+                        clz = (Class) getContentHandlers().get(tmpClass);
                         break;
                     }
                 }
@@ -214,4 +215,10 @@ public class WidgetConfig {
         return null;
     }
 
+    /**
+     * @return the contenthandlers map or null if no contenthandlers are present 
+     */
+    public Map getContentHandlers() {
+        return contentHandlers;
+    }
 }

@@ -1,5 +1,5 @@
 /*
- $Id: BeanParameter.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
+ $Id: BeanParameter.java,v 1.8 2003-12-01 02:08:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -55,7 +55,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * that a method may need to get or set appropiate data.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanParameter.java,v 1.7 2003-11-24 11:47:19 mvdb Exp $
+ * @version $Id: BeanParameter.java,v 1.8 2003-12-01 02:08:21 mvdb Exp $
  */
 public class BeanParameter {
 
@@ -134,8 +134,15 @@ public class BeanParameter {
             } else if (getType().equalsIgnoreCase("static")) {
                 // static format is like package.Class.Field, so first
                 // the class needs processing.
+                int lastIndex = getValue().lastIndexOf(".");
                 String field = getValue().substring(getValue().lastIndexOf('.') + 1);
-                String classString = getValue().substring(0, getValue().lastIndexOf("."));
+                String classString = null;
+                if (lastIndex != -1) {
+                    classString = getValue().substring(0, getValue().lastIndexOf("."));
+                } else {
+                    // fall back to the value..
+                    classString = getValue();
+                }
                 Class clazz = ClassLoaderUtils.getClass(classString);
                 if (clazz != null) {
                     try {

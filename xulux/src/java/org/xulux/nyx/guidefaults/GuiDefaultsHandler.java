@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.15 2003-11-06 19:53:11 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.16 2003-12-01 02:08:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.nyx.context.ApplicationContext;
  * Case insensitive processing of the guidefaults.
  *
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.15 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.16 2003-12-01 02:08:21 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
@@ -118,8 +118,8 @@ public class GuiDefaultsHandler extends DefaultHandler
             }
             catch (SAXException se)
             {
-                se.printStackTrace(System.err);
-                se.getException().printStackTrace(System.err);
+                se.printStackTrace(System.out);
+                se.getException().printStackTrace(System.out);
             }
         }
         catch (Exception e)
@@ -183,7 +183,10 @@ public class GuiDefaultsHandler extends DefaultHandler
         }
         else if (qName.equals(ELEMENT_WIDGET) && widgetsStarted)
         {
-            String name = atts.getValue(ATTRIBUTE_NAME).toLowerCase();
+            String name = atts.getValue(ATTRIBUTE_NAME);
+            if (name != null) {
+                name = name.toLowerCase();
+            }
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             String type = getType(atts);
             if (clazz != null) {
@@ -198,7 +201,12 @@ public class GuiDefaultsHandler extends DefaultHandler
         } else if (qName.equals(ELEMENT_CONTENTHANDLER)) {
             if (this.contentHandlersStarted && widgetsStarted) {
                 String clazz = atts.getValue(ATTRIBUTE_CLASS);
-                ApplicationContext.getInstance().registerWidgetTool(clazz,widgetName);
+                // @todo better logging and error trapping!
+                if (clazz == null) {
+                    System.out.println("Clazz attribute should not be null");
+                    return;
+                }
+                ApplicationContext.getInstance().registerWidgetTool(clazz, widgetName);
             }
         }
     }
