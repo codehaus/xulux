@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.7 2003-07-17 06:29:24 mvdb Exp $
+ $Id: Combo.java,v 1.8 2003-07-21 21:04:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.7 2003-07-17 06:29:24 mvdb Exp $
+ * @version $Id: Combo.java,v 1.8 2003-07-21 21:04:18 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -73,7 +73,6 @@ public class Combo extends NyxCombo
     private KeyListener keyListener;
     private DefaultComboModel model;
     private PrePostFieldListener actionListener;
-    private static Log log = LogFactory.getLog(Combo.class);
 
     /**
      * Constructor for NyxCombo.
@@ -138,28 +137,29 @@ public class Combo extends NyxCombo
             this.notSelectedValue = nsv;
         }
         combo = new NyxComboBox();
+        //initializeValue();
         refresh();
-        // setValue refreshes the widget again..
-        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
-        // if the field is null, we should try to get a value
-        // for it..
-        if (getField() == null || map == null) {
-            return;
-        }
-        IField field = map.getField(getField());
-        if (field == null) {
-            if (log.isWarnEnabled()) {
-                log.warn("Field "+getField()+" is not present in the dictionary");
-            }
-            return;
-        }
-        System.out.println("*********");
-        System.out.println("Field :"+field);
-        // prevent npe..
-        if (field != null) {
-            System.out.println("Value : "+field.getValue(getPart().getBean()));
-        }
-        setValue(field.getValue(getPart().getBean()));
+//        // setValue refreshes the widget again..
+//        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+//        // if the field is null, we should try to get a value
+//        // for it..
+//        if (getField() == null || map == null) {
+//            return;
+//        }
+//        IField field = map.getField(getField());
+//        if (field == null) {
+//            if (log.isWarnEnabled()) {
+//                log.warn("Field "+getField()+" is not present in the dictionary");
+//            }
+//            return;
+//        }
+//        log.warn("*********");
+//        log.warn("Field :"+field);
+//        if (field != null) {
+//            log.warn("field value : "+field.getValue(getPart().getBean()).getClass());
+//        }
+//        setValue(field.getValue(getPart().getBean()));
+//        log.warn("Value of combo itself : "+this.combo.getSelectedItem());
     }
 
     /**
@@ -221,15 +221,17 @@ public class Combo extends NyxCombo
         }
         else
         {
-            if (content != null && value != null)
+            if (content != null && getValue() != null)
             {
+                log.warn("Setting value to : "+getValue());
                 model.setRealSelectedValue(getValue());
             }
             else if (model!=null && content != null &&
-                       value == null)
+                       getValue() == null)
             {
                 // if we don't have a value select
                 // the first one in the list
+                log.warn("Select the first one in the list");
                 if (!content.isEmpty())
                 {
                     model.setSelectedItem(0);
@@ -276,7 +278,7 @@ public class Combo extends NyxCombo
      */
     public Object getGuiValue() {
         Object object = this.model.getRealSelectedValue();
-        System.out.println("Object : "+object.getClass());
+        log.warn("Object : "+object.getClass());
         return this.model.getRealSelectedValue();
     }
 

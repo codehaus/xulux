@@ -1,5 +1,5 @@
 /*
- $Id: ParameteredBean.java,v 1.2 2003-07-16 15:40:38 mvdb Exp $
+ $Id: ParameteredBean.java,v 1.3 2003-07-21 21:04:18 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,7 @@ import java.util.Iterator;
  * constructed data structures.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ParameteredBean.java,v 1.2 2003-07-16 15:40:38 mvdb Exp $
+ * @version $Id: ParameteredBean.java,v 1.3 2003-07-21 21:04:18 mvdb Exp $
  */
 public class ParameteredBean extends DictionaryBaseBean {
 
@@ -62,6 +62,14 @@ public class ParameteredBean extends DictionaryBaseBean {
     private String value;
     private String anotherValue;
     private ArrayList list;
+    /** Definitiation for the double parameters */
+    public static String NO1 = "NO1";
+    public static String NO2 = "NO2";
+    public static String NO3 = "NO3";
+    private String NO1Value = NO1+"Value";
+    private String NO2Value = NO2+"Value";
+    private String NO3Value = NO3+"Value";
+    
     
     /**
      * 
@@ -111,6 +119,27 @@ public class ParameteredBean extends DictionaryBaseBean {
      */
     public void setValue(String string) {
         value = string;
+    }
+    
+    public String getDouble(String No) {
+        if (NO1.equals(No)) {
+            return NO1Value;
+        }else if (NO2.equals(No)) {
+            return NO2Value;
+        }else if (NO3.equals(No)) {
+            return NO3Value;
+        } 
+        return null;
+    }
+    
+    public void setDouble(String No, String value) {
+        if (NO1.equals(No)) {
+            NO1Value = value;
+        }else if (NO2.equals(No)) {
+            NO2Value = value;
+        }else if (NO3.equals(No)) {
+            NO3Value = value;
+        } 
     }
 
 }

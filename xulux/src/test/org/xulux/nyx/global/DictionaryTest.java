@@ -1,6 +1,6 @@
 
 /*
- $Id: DictionaryTest.java,v 1.10 2003-07-16 15:40:38 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.11 2003-07-21 21:04:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,7 +56,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.10 2003-07-16 15:40:38 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.11 2003-07-21 21:04:18 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -140,12 +140,13 @@ public class DictionaryTest extends TestCase
         Dictionary d = Dictionary.getInstance();
         d.setBaseClass(DictionaryBaseBean.class);
         BeanMapping subBean = d.getMapping(DictionarySubBean.class,true);
-        System.out.println("subBean fields : "+subBean.getFields());
         IField field = subBean.getField("nice");
+        assertNotNull(field);
         DictionarySubBean bean = new DictionarySubBean();
         bean.setNice(true);
-        assertNotNull(field);
-        System.out.println("boolean : "+field.getValue(bean));
+        assertTrue(bean.isNice());
+        bean.setNice(false);
+        assertFalse(bean.isNice());
     }
     
     /**
@@ -195,6 +196,37 @@ public class DictionaryTest extends TestCase
         assertEquals("sp",mapping.getField("sp").getAlias());
         assertEquals("fp",mapping.getField("fp").getAlias());
     }
+    
+    /**
+     * Test if setter like (String, String) 
+     * work under nyx.
+     * Basic assumption is that if there is a
+     * getXXX(String), there will be a setXX(String,String)
+     * where the first String is the string passed into
+     * the getter.
+     *
+     */
+    public void testDoubleParameters() {
+        System.out.println("testDoubleParameters");
+        Dictionary d = Dictionary.getInstance();
+        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        ParameteredBean bean = new ParameteredBean();
+        BeanMapping mapping = d.getMapping("db");
+        IField fieldno1 = mapping.getField("no1");
+        IField fieldno2 = mapping.getField("no2");
+        IField fieldno3 = mapping.getField("no3");
+        assertEquals(bean.getDouble(ParameteredBean.NO1), fieldno1.getValue(bean));
+        assertEquals(bean.getDouble(ParameteredBean.NO2), fieldno2.getValue(bean));
+        assertEquals(bean.getDouble(ParameteredBean.NO3), fieldno3.getValue(bean));
+        fieldno1.setValue(bean,"NO1NewValue");
+        assertEquals("NO1NewValue",fieldno1.getValue(bean));
+        fieldno2.setValue(bean,"NO2NewValue");
+        assertEquals("NO2NewValue",fieldno2.getValue(bean));
+        fieldno3.setValue(bean,"NO3NewValue");
+        assertEquals("NO3NewValue",fieldno3.getValue(bean));
+        
+    }
+    
     
     /**
      * Clean up the dictionary..

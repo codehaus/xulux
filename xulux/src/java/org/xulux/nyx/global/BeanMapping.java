@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.13 2003-07-17 01:09:34 mvdb Exp $
+ $Id: BeanMapping.java,v 1.14 2003-07-21 21:04:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.13 2003-07-17 01:09:34 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.14 2003-07-21 21:04:18 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -187,24 +187,15 @@ public class BeanMapping
             }
             return null;
         }
-        System.out.println("Name : "+name);
-        if(name.equals("strfoo")) {
-            System.out.println("strfoo");
-        }
         Method[] methods = getBean().getMethods();
         String pre = (setMethod)?"set":"get";
         for (int i = 0; i < methods.length; i++)
         {
             Method method = methods[i];
-            if (method.getName().equalsIgnoreCase(pre+name))
-            {
+            if (method.getName().equalsIgnoreCase(pre+name)) {
                 return method;
-            }else if (!setMethod) {
-                if (method.getReturnType() == Boolean.TYPE) {
-                    if(method.getName().equalsIgnoreCase("is"+name)) {
-                        return method;
-                    }
-                }
+            } else if (!setMethod && method.getName().equalsIgnoreCase("is"+name)) {
+                return method;
             }
         }
         return null;
@@ -336,8 +327,8 @@ public class BeanMapping
      * if discovery is set and discovery has not yet taken
      * place. Discovery will ignore getters which are private
      * or protected.
-     * It will also discover the set method that is connected
-     * to the getter (assuming it is not a read only field.
+     * It will also try to discover the set method that is connected
+     * to the getter (assuming it is not a read only field).
      * 
      */
     public void discover()
@@ -348,17 +339,17 @@ public class BeanMapping
             for (int i = 0; i < methods.length; i++)
             {
                 Method method = methods[i];
-                if (method.getName().toLowerCase().startsWith("get")
+                if ((method.getName().toLowerCase().startsWith("get") ||
+                     method.getName().toLowerCase().startsWith("is"))
                     && !method.getName().equals("getClass")
                     && method.getModifiers() != Modifier.PRIVATE
                     && method.getModifiers() != Modifier.PROTECTED)
                 {
-
                     BeanField field = new BeanField(method);
                     // try to find the setter..
-                    String fieldName = field.getName().substring(0,1).toUpperCase()+field.getName().substring(1);
+                    String fieldName = field.getName();
+                    fieldName = field.getName().substring(0,1).toUpperCase()+field.getName().substring(1);
                     Method setMethod = findMethod(fieldName, true);
-                    System.out.println("found setmethod : "+setMethod);
                     field.setChangeMethod(setMethod);
                     addField(field);
                 }

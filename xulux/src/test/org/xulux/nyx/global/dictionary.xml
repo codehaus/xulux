@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: dictionary.xml,v 1.4 2003-07-14 03:37:36 mvdb Exp $ -->
+<!-- $Id: dictionary.xml,v 1.5 2003-07-21 21:04:18 mvdb Exp $ -->
 <dictionary>
    <prefix-mappings>
      <prefix name="Test">
@@ -46,5 +46,22 @@
          </field>
        </fields>
      </prefix>
+     
+     <!-- The double parameter test -->
+     <prefix name="db">
+       <bean>org.xulux.nyx.global.ParameteredBean</bean>
+       <fields>
+         <field name="double" alias="no1">
+           <parameter type="static" value="org.xulux.nyx.global.ParameteredBean.NO1"/>
+         </field>
+         <field name="double" alias="no2">
+           <parameter type="static" value="org.xulux.nyx.global.ParameteredBean.NO2"/>
+	     </field>           
+         <field name="double" alias="no3">
+           <parameter type="static" value="org.xulux.nyx.global.ParameteredBean.NO3"/>
+         </field>
+       </fields>
+     </prefix>
+     
    </prefix-mappings>
 </dictionary>

@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.17 2003-07-17 02:49:00 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.18 2003-07-21 21:04:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.widgets.Entry;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.17 2003-07-17 02:49:00 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.18 2003-07-21 21:04:18 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -133,7 +133,8 @@ implements FocusListener, ActionListener, ItemListener
             return;
         }
         if (widget instanceof NyxCombo) {
-            ((NyxCombo)widget).setValue(widget.getGuiValue());
+            // set the value, but do not refresh the gui.
+            ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
         }
         completed();
     }

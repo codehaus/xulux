@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.2 2003-07-17 02:49:51 mvdb Exp $
+ $Id: NyxCombo.java,v 1.3 2003-07-21 21:04:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,6 +47,8 @@ package org.xulux.nyx.gui;
 
 import java.util.ArrayList;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
@@ -55,7 +57,7 @@ import org.xulux.nyx.global.IField;
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.2 2003-07-17 02:49:51 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.3 2003-07-21 21:04:18 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 {
@@ -64,6 +66,7 @@ public abstract class NyxCombo extends Widget
     protected String notSelectedValue;
     protected boolean contentChanged;
     protected boolean notSelectedValueSet;
+    protected static Log log = LogFactory.getLog(NyxCombo.class);
 
     /**
      * Constructor for NyxCombo.
@@ -208,23 +211,21 @@ public abstract class NyxCombo extends Widget
      */
     public Object getValue()
     {
-        if ((content == null || getNativeWidget() == null) && this.value != null)
-        {
+        if (getField() == null) {
             return this.value;
-        }
-        else if (this.value == null
-            || this.value.equals(notSelectedValue))
-        {
-            return null;
-        }
-        else
-        {
-            return this.value;
+        } else {
+            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IField field = map.getField(getField());
+            return field.getValue(getPart().getBean());
         }
     }
     
     public void setValue(Object object)
     {
+        setValue(object, true);
+    }
+    
+    public void setValue(Object object, boolean refresh) {
         if (getField() == null) {
             this.previousValue = this.value;
             this.value = object;
@@ -241,7 +242,7 @@ public abstract class NyxCombo extends Widget
                 this.value = object;
             }
         }
-        if (initialized)
+        if (initialized && refresh)
         {
             refresh();
         }
@@ -250,14 +251,15 @@ public abstract class NyxCombo extends Widget
     /**
      * Sets the value without updating the screen
      * Normally only called by the classes that handle
-     * the combo box.
+     * the combo box, like combo listeners.
      * @param object
      */
     public void setLazyValue(Object object)
     {
-        this.previousValue = this.value;
-        this.value = object;
+        log.warn("SetLazyValue called");
+        setValue(object, false);
     }
+    
     /**
      * @see org.xulux.nyx.gui.Widget#clear()
      */

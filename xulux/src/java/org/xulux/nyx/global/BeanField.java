@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.15 2003-07-17 02:50:13 mvdb Exp $
+ $Id: BeanField.java,v 1.16 2003-07-21 21:04:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,7 +49,6 @@ package org.xulux.nyx.global;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -68,7 +67,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.15 2003-07-17 02:50:13 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.16 2003-07-21 21:04:18 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -105,6 +104,12 @@ public class BeanField implements IField
      * The parameterlist
      */
     private List parameterList;
+    
+    /**
+     * Parameterlist for the setmethod.
+     * is null when equal to the parameterList
+     */
+    private List setParameterList;
     
     /**
      * Temporary container for args.
@@ -170,7 +175,7 @@ public class BeanField implements IField
         }
         try
         {
-            System.err.println("changeMethod : "+changeMethod);
+            //System.err.println("changeMethod : "+changeMethod);
             //System.err.println("Value : "+value.getClass());
             if (this.realField != null) {
                 // set the real value..
@@ -179,35 +184,36 @@ public class BeanField implements IField
                 Object realBean = getMethod().invoke(bean, getArgs());
                 IField field = mapping.getField(realField);
                 field.setValue(realBean, value);
-            } else {
-                System.err.println("changeMethod : "+changeMethod);
-                System.err.println("Value : "+value.getClass());
-                Class valClass = value.getClass();
-                List parmList = Arrays.asList(changeMethod.getParameterTypes());
-                // TODO: Support multiple parameters when setting..
-                if (parmList.size() > 0 ) {
-                    Class cl = (Class) parmList.get(0);
-                    // TODO: Error prone probably...
-                    // What this does is if the object set as value
-                    // is not a String and the parameter that needs
-                    // to be used is a string, it will try to  
-                    // invoke the toString method on the value.
-                    if (cl == String.class) {
-                        // try a toString..
-                        if (value != null) {
-                            value = value.toString();
-                        }
-                    }
+            }
+//            } else {
+//                System.err.println("changeMethod : "+changeMethod);
+//                System.err.println("Value : "+value.getClass());
+//                Class valClass = value.getClass();
+//                List parmList = Arrays.asList(changeMethod.getParameterTypes());
+//                System.err.println("parmList : "+parmList);
+//                // TODO: Support multiple parameters when setting..
+//                if (parmList.size() > 0 ) {
+//                    Class cl = (Class) parmList.get(0);
+//                    // TODO: Error prone probably...
+//                    // What this does is if the object set as value
+//                    // is not a String and the parameter that needs
+//                    // to be used is a string, it will try to  
+//                    // invoke the toString method on the value.
+//                    if (cl == String.class) {
+//                        // try a toString..
+//                        if (value != null) {
+//                            value = value.toString();
+//                        }
+//                    }
+//                }
+            try {
+                //System.err.println("getSetMethodArgs :"+Arrays.asList( getSetMethodArgs(value)));
+                this.changeMethod.invoke(bean, getSetMethodArgs(value));
+            }catch(IllegalArgumentException iae) {
+                if (log.isWarnEnabled()) {
+                    log.warn("Invalid argument "+value.getClass().getName()+" for method "+this.changeMethod);
                 }
-                try {
-                    this.changeMethod.invoke(bean, new Object[]{value});
-                }catch(IllegalArgumentException iae) {
-                    if (log.isWarnEnabled()) {
-                        log.warn("Invalid argument "+value.getClass().getName()+" for method "+this.changeMethod);
-                    }
-                    success = false;
-                }
-                    
+                success = false;
             }
             success = true;
         }
@@ -248,12 +254,7 @@ public class BeanField implements IField
                 return field.getValue(getMethod().invoke(bean, getArgs()));
             }
             else {
-//                System.err.println("field : "+getName());
-//                System.err.println("bean :"+bean);
                 if (bean != null) {
-//                    System.err.println("Method "+getMethod().getName());
-//                    System.err.println("method parameters : "+getParameters()); 
-//                    System.err.println("Args "+Arrays.asList(getMethod().getParameterTypes()));
                     return this.method.invoke(bean, getArgs());
                 } else {
                     if (log.isDebugEnabled()) {
@@ -281,7 +282,7 @@ public class BeanField implements IField
     }
     
     /**
-     * TODO: for now we assume all is hardcoded data fix that..
+     * TODO: for now we assume all is hardcoded data need to fix that..
      * @return the list of parameters to pass into
      *          the method.
      */
@@ -302,6 +303,61 @@ public class BeanField implements IField
             listCounter++;
         }
         return this.args;
+    }
+    
+    /**
+     * No nullchecking is done in this method,
+     * the caller should check if it can correctly
+     * call this method.
+     * (eg isReadOnly should be false)
+     * 
+     * @return the list of methods to pass into a 
+     *          setmethod to correctly set a value.
+     */
+    protected Object[] getSetMethodArgs(Object value) {
+        ArrayList parms = new ArrayList();
+        Class[] clz = this.changeMethod.getParameterTypes();
+        int parmSize = (parameterList!=null)?parameterList.size():0;
+        int clzSize = clz.length;
+        // actually always the case I guess??
+        if (parmSize < clzSize) {
+            // TODO: Parameter conversion checking..
+            // normal get / set method system
+            if (parmSize == 0 && clzSize == 1) {
+                return new Object[] { value };
+            }
+            /* simple logistics :
+             * eg getXXX(String) should have a setXXX(Strint, Value);
+             * TODO: Make more advanced, or look at externa package
+             *        to hande this.
+             */
+            
+            if (parmSize == 1 && clzSize == 2) {
+                Object[] retValue = new Object[clzSize];
+                retValue[0] = ((BeanParameter)parameterList.get(0)).getObject();
+                if (clz[1] == String.class) {
+                    retValue[1] = value.toString();
+                } else {
+                    /* We should try to make the type the same 
+                     * so if the value is a string and the type
+                     * an integer, some conversion needs to take
+                     * place
+                     * TODO: Fix this :)
+                     */
+                     if (clz[1] == value.getClass()) {
+                        retValue[1] = value;
+                     } else {
+                         log.warn("Cannot set value of type "+value.getClass().getName()+" for the parameter "+clz[1]);
+                         // we are hardheaded and set it anyway, so we can 
+                         // get some kind of exception.
+                         // TODO: FIX!!
+                         retValue[1] = value;
+                     }
+                }
+                return retValue;
+            }
+        }
+        return null;
     }
     
 
@@ -333,7 +389,12 @@ public class BeanField implements IField
     public void setMethod(Method method)
     {
         this.method = method;
-        this.name = method.getName().substring("get".length());
+        this.name = method.getName().toLowerCase();
+        if (this.name.startsWith("get")) {
+            this.name = this.name.substring("get".length());
+        } else if (this.name.startsWith("is")) {
+            this.name = this.name.substring("is".length());
+        }
     }
     
     /**
