@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.10 2002-12-02 22:06:58 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.11 2002-12-05 14:50:18 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.gui.Widget;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.10 2002-12-02 22:06:58 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.11 2002-12-05 14:50:18 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -158,13 +158,41 @@ public class DefaultComboModel implements ComboBoxModel
     
     public Object getRealSelectedValue()
     {
-        return original.get(selectedItem.getIndex());
+        if (original != null && selectedItem != null)
+        {
+            return original.get(selectedItem.getIndex());
+        }
+        else if (selectedItem == null && list != null)
+        {
+            return list.get(0);
+        }
+        else
+        {
+            return null;
+        }
     }
     
     public Object getComboObject(int index)
     {
         return list.get(index);
     }
+    
+    /**
+     * Returns the selected index in the model
+     * If the selection is null, it will return -1
+     */
+    public int getSelectedIndex()
+    {
+        if (selectedItem == null)
+        {
+            return -1;
+        }
+        else
+        {
+            return selectedItem.getIndex();
+        }
+    }
+        
         
     
     public void setRealSelectedValue(Object selectedItem)
@@ -173,7 +201,11 @@ public class DefaultComboModel implements ComboBoxModel
         if (index != -1)
         {
             setSelectedItem(list.get(index));
-            // probably need to fire some events here !
+        }
+        else
+        {
+            setSelectedItem(0);
+            combo.setLazyValue(getRealSelectedValue());
         }
     }
     
@@ -224,10 +256,6 @@ public class DefaultComboModel implements ComboBoxModel
                     }
                 list.add(new ComboShowable(i, value));
             }
-        }
-        if (combo.getValue()!=null)
-        {
-            setRealSelectedValue(combo.getValue());
         }
         initialized = true;
     }

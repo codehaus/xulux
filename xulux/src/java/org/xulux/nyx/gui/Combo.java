@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.23 2002-12-03 19:05:15 mvdb Exp $
+ $Id: Combo.java,v 1.24 2002-12-05 14:50:17 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,8 @@ import java.awt.Container;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.swing.NyxComboBox;
 import org.xulux.nyx.swing.listeners.ImmidiateListener;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
@@ -59,11 +61,11 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.23 2002-12-03 19:05:15 mvdb Exp $
+ * @version $Id: Combo.java,v 1.24 2002-12-05 14:50:17 mvdb Exp $
  */
 public class Combo extends Widget
 {
-    
+    private static Log log = LogFactory.getLog(Combo.class);
     private ArrayList content;
     private NyxComboBox combo;
     private String notSelectedValue;
@@ -167,6 +169,15 @@ public class Combo extends Widget
      */
     public void setNotSelectedValue(String notSelectedValue)
     {
+        if (notSelectedValueSet)
+        {
+            // we don't want to do anything when 
+            // the not selected value is the same
+            if (this.notSelectedValue.equals(notSelectedValue))
+            {
+                return;
+            }
+        }
         this.notSelectedValue = notSelectedValue;
         if (initialized)
         {
@@ -229,7 +240,10 @@ public class Combo extends Widget
             this.notSelectedValue = nsv;
         }
         combo = new NyxComboBox();
-        refresh();
+        if (!isRefreshing())
+        {
+            refresh();
+        }
     }
 
     /**
@@ -237,10 +251,7 @@ public class Combo extends Widget
      */
     public void refresh()
     {
-        if (!initialized)
-        {
-            isRefreshing = true;
-        }
+        isRefreshing = true;
         initialize();
         if (isImmidiate() && keyListener == null)
         {
@@ -255,7 +266,6 @@ public class Combo extends Widget
         combo.setVisible(isVisible());
         if (contentChanged)
         {
-            contentChanged = false;
             initializeNotSelectedValue();
             String comboFields = getProperty("combofields");
             if (this.model != null)
@@ -280,6 +290,7 @@ public class Combo extends Widget
         }
         if (getValue() instanceof DefaultComboModel.ComboShowable)
         {
+            
             model.setSelectedItem(value);
         }
         else
@@ -288,7 +299,7 @@ public class Combo extends Widget
             {
                 model.setRealSelectedValue(getValue());
             }
-            else if (content != null &&
+            else if (model!=null && content != null &&
                        value == null)
             {
                 // if we don't have a value select
@@ -299,6 +310,15 @@ public class Combo extends Widget
                     this.value = model.getRealSelectedValue();
                 }
             }
+            if (model != null && model.getSelectedIndex() == 0
+                && contentChanged)
+            {
+                this.value = model.getRealSelectedValue();
+            }
+        }
+        if (contentChanged)
+        {
+            contentChanged = false;
         }
         String backgroundColor = null;
         if (isRequired() && isEnabled())

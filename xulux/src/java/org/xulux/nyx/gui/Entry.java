@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.27 2002-12-03 19:05:15 mvdb Exp $
+ $Id: Entry.java,v 1.28 2002-12-05 14:50:17 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.27 2002-12-03 19:05:15 mvdb Exp $
+ * @version $Id: Entry.java,v 1.28 2002-12-05 14:50:17 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -177,7 +177,7 @@ extends Widget
         }
         */
         String backgroundColor = null;
-        if (isRequired())
+        if (isRequired()  && isEnabled())
         {
             backgroundColor = getProperty("required-background-color");
         }
@@ -221,20 +221,13 @@ extends Widget
                 retValue = this.value;
             }
         }
-        else if ("".equals(text))
+        else if ("".equals(text) )
         {
-            if (this.value == null)
-            {
-                retValue = "";
-            }
-            else
-            {
-                retValue = this.value;
-            }
+            retValue = "";
         }
         else if (text == null)
         {
-            retValue = "";
+            return this.value;
         }
         else
         {

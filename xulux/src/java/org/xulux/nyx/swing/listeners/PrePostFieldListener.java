@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.8 2002-11-27 02:33:44 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.9 2002-12-05 14:50:18 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,6 +56,7 @@ import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
+import org.xulux.nyx.gui.Entry;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.IRule;
 import org.xulux.nyx.rules.Rule;
@@ -63,7 +64,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.8 2002-11-27 02:33:44 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.9 2002-12-05 14:50:18 mvdb Exp $
  */
 public class PrePostFieldListener 
 implements FocusListener, ActionListener
@@ -119,6 +120,11 @@ implements FocusListener, ActionListener
         if (e.getID() != FocusEvent.FOCUS_LOST || e.isTemporary())
         {
             return;
+        }
+        System.out.println("Widget clazz : "+widget.getClass().getName());
+        if (widget instanceof Entry)
+        {
+            System.out.println("Widget value : "+widget.getValue());
         }
         processing = true;
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
