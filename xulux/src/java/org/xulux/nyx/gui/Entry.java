@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.22 2002-11-29 01:05:53 mvdb Exp $
+ $Id: Entry.java,v 1.23 2002-11-29 01:37:54 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.22 2002-11-29 01:05:53 mvdb Exp $
+ * @version $Id: Entry.java,v 1.23 2002-11-29 01:37:54 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -243,7 +243,6 @@ extends Widget
     public void setValue(Object val)
     {
         this.previousValue = this.value;
-        boolean update = true;
         String text = null;
         this.value = val;
         if (getField()!= null && val != null)
@@ -258,13 +257,21 @@ extends Widget
         if (val != null)
         {
             text = val.toString();
+            if (textField != null)
+            {
+                textField.setText(text);
+            }
             setText(text);
         }
         else
         {
+            if (textField != null)
+            {
+                textField.setText(text);
+            }
             setText("");
         }
-        if (update && initialized)
+        if (initialized)
         {
             refresh();
         }
