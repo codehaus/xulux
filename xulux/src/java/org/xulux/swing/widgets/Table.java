@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.7 2004-06-28 11:50:00 mvdb Exp $
+   $Id: Table.java,v 1.8 2004-09-23 07:41:26 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -56,7 +56,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.7 2004-06-28 11:50:00 mvdb Exp $
+ * @version $Id: Table.java,v 1.8 2004-09-23 07:41:26 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -298,6 +298,8 @@ public class Table extends ContainerWidget implements IContentWidget {
             }
             scrollPane.setVisible(true);
             table.setVisible(true);
+            table.setVisible(false);
+            table.setVisible(true);
             if (refreshModel) {
                 // null means everything changed..
                 table.tableChanged(null);
@@ -374,6 +376,22 @@ public class Table extends ContainerWidget implements IContentWidget {
             return table.getModel().getValueAt(selectedRow, table.getSelectedColumn());
         }
         return null;
+    }
+    
+    public Object getMouseOverValue() {
+       if (table == null) {
+           return null;
+       }
+       int selectedRow = table.getSelectedRow();
+       if (selectedRow == -1) {
+           return null;
+       	}
+   	   if (table.getRowSelectionAllowed() && !table.getCellSelectionEnabled()) {
+		   return table.getModel().getValueAt(selectedRow, -1);
+	   } else if (!table.getRowSelectionAllowed() && table.getCellSelectionEnabled()) {
+	       return table.getModel().getValueAt(selectedRow, table.getSelectedColumn());
+	   }
+	   return null;
     }
 
     /**

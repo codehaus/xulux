@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableCellRenderer.java,v 1.8 2004-07-14 15:05:31 mvdb Exp $
+   $Id: NyxTableCellRenderer.java,v 1.9 2004-09-23 07:41:26 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -33,7 +33,7 @@ import org.xulux.swing.widgets.Table;
  * We should make our own cellRenderer probably, so we can use the functionalily of widgets..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellRenderer.java,v 1.8 2004-07-14 15:05:31 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.9 2004-09-23 07:41:26 mvdb Exp $
  */
 public class NyxTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -74,6 +74,7 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
         int column) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         request.setValue(value);
+        widget.getPart().getSession().setValue("cellvalue", value);
         XuluxContext.fireFieldRequest(widget, request, XuluxContext.PRE_REQUEST);
         // refresh widget so gui changes can propegate.
         //Component comp = (Component) widget.getNativeWidget();
@@ -85,6 +86,10 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
                 // should be a lot easier in the new widget structure..
                 setBackground(ColorUtils.getSwingColor(bgColor));
             }
+        }
+        String tooltipText = widget.getProperty("tooltip");
+        if (tooltipText != null) {
+          	setToolTipText(tooltipText+"-"+row+":"+column);
         }
         return this;
     }
