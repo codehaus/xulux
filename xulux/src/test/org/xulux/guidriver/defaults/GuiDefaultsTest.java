@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsTest.java,v 1.9 2004-05-11 14:58:07 mvdb Exp $
+   $Id: GuiDefaultsTest.java,v 1.10 2004-05-17 22:58:06 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.swing.widgets.Combo;
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.9 2004-05-11 14:58:07 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.10 2004-05-17 22:58:06 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -73,13 +73,18 @@ public class GuiDefaultsTest extends TestCase {
         WidgetConfig config = (WidgetConfig) map.get("combo");
         assertNotNull(config);
         assertEquals(Class.forName("org.xulux.swing.widgets.Combo"), config.get("swing"));
-        assertEquals("swing", XuluxContext.getGuiDefaults().getDefaultWidgetType());
+        assertEquals("swing", XuluxContext.getGuiDefaults().getDefaultGuiLayer());
         assertNotNull(XuluxContext.getGuiDefaults().getParentWidgetHandler());
         assertNotNull(XuluxContext.getGuiDefaults().getParentWidgetHandler("swing"));
         assertNotNull(XuluxContext.getGuiDefaults().getNativeWidgetHandler());
         assertNotNull(XuluxContext.getGuiDefaults().getNativeWidgetHandler("swing"));
     }
 
+    public void testBogusGuiDefaults() {
+        System.out.println("testBogusGuiDefaults");
+        // silently fail..
+        XuluxContext.getInstance().initializeGuiDefaults("org/xulux/guidriver/defaults/BogusGuiDefaults.xml");
+    }
     /**
      * Test the exceptions in read..
      */
@@ -149,9 +154,9 @@ public class GuiDefaultsTest extends TestCase {
     public void testDefaultWidgetType() {
         System.out.println("testDefaultWidgetType");
         GuiDefaults defaults = new GuiDefaults();
-        assertEquals(null, defaults.getDefaultWidgetType());
-        defaults.setDefaultWidgetType("default");
-        assertEquals("default", defaults.getDefaultWidgetType());
+        assertEquals(null, defaults.getDefaultGuiLayer());
+        defaults.setDefaultGuiLayer("default");
+        assertEquals("default", defaults.getDefaultGuiLayer());
     }
     
     public void testXuluxToolkit() {
@@ -164,7 +169,7 @@ public class GuiDefaultsTest extends TestCase {
         assertEquals(null, defaults.getXuluxToolkit());
         defaults.registerXuluxToolkit(TempXuluxToolkit.class.getName(), "temp");
         assertEquals(TempXuluxToolkit.class, defaults.getXuluxToolkit("temp").getClass());
-        defaults.setDefaultWidgetType("temp");
+        defaults.setDefaultGuiLayer("temp");
         assertEquals(TempXuluxToolkit.class, defaults.getXuluxToolkit().getClass());
         defaults.registerXuluxToolkit(Temp2XuluxToolkit.class.getName(), "temp2");
         assertEquals(Temp2XuluxToolkit.class, defaults.getXuluxToolkit("temp2").getClass());
@@ -181,7 +186,7 @@ public class GuiDefaultsTest extends TestCase {
         defaults.registerWidget("combo", Combo.class.getName(), "swing");
         assertNull(defaults.getWidget("combo"));
         assertNotNull(defaults.getWidget("combo", "swing"));
-        defaults.setDefaultWidgetType("swing");
+        defaults.setDefaultGuiLayer("swing");
         assertNotNull(defaults.getWidget("combo"));
         defaults.registerWidget("combo", Combo.class.getName(), "alsoswing");
         assertNotNull(defaults.getWidget("combo", "alsoswing"));
@@ -197,7 +202,7 @@ public class GuiDefaultsTest extends TestCase {
         TempNyxListener listener = new TempNyxListener();
         defaults.registerFieldEventHandler("swing", TempNyxListener.class.getName());
         assertNotNull(defaults.getFieldEventHandler("swing"));
-        defaults.setDefaultWidgetType("swing");
+        defaults.setDefaultGuiLayer("swing");
         assertNotNull(defaults.getFieldEventHandler(null));
         defaults.registerFieldEventHandler("swing", getClass().getName());
         assertEquals(1, defaults.fieldEventHandlerMap.size());
@@ -215,7 +220,7 @@ public class GuiDefaultsTest extends TestCase {
         defaults.registerNativeWidgetHandler("swing", NativeWidgetHandler.class.getName());
         assertEquals(null, defaults.getNativeWidgetHandler());
         assertNotNull(defaults.getNativeWidgetHandler("swing"));
-        defaults.setDefaultWidgetType("swing");
+        defaults.setDefaultGuiLayer("swing");
         assertNotNull(defaults.getNativeWidgetHandler());
         assertEquals(1, defaults.nativeWidgetHandlerMap.size());
         defaults.registerNativeWidgetHandler("swt", NativeWidgetHandler.class.getName());
@@ -238,7 +243,7 @@ public class GuiDefaultsTest extends TestCase {
         defaults.registerParentWidgetHandler("swing", BogusParentWidgetHandler.class.getName());
         assertEquals(null, defaults.getParentWidgetHandler());
         assertNotNull(defaults.getParentWidgetHandler("swing"));
-        defaults.setDefaultWidgetType("swing");
+        defaults.setDefaultGuiLayer("swing");
         assertNotNull(defaults.getParentWidgetHandler());
         defaults.registerParentWidgetHandler("swt", this.getClass().getName());
         assertEquals(null, defaults.getParentWidgetHandler("swt"));
@@ -270,10 +275,11 @@ public class GuiDefaultsTest extends TestCase {
         defaults.registerLayout("layout", true, XYLayout.class.getName(), "swing");
         assertEquals("layout", defaults.defaultLayout);
         assertNotNull(defaults.getDefaultLayout("swing"));
-        defaults.setDefaultWidgetType("swing");
+        defaults.setDefaultGuiLayer("swing");
         assertNotNull(defaults.getDefaultLayout());
         assertEquals(true, defaults.getDefaultLayout() instanceof XYLayout);
-        // an npe exeption..
+        assertEquals(true, defaults.getLayout(null, "layout") instanceof XYLayout);
+        // an npe exeption when an invalid class was passed....
         defaults = new GuiDefaults();
         defaults.registerLayout("xylayout", true, "org.xulux.swing.layout.XYLayout", "swing");
     }

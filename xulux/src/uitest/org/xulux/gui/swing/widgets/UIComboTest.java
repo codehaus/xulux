@@ -1,5 +1,5 @@
 /*
-   $Id: UIComboTest.java,v 1.1 2004-05-17 16:30:21 mvdb Exp $
+   $Id: UIComboTest.java,v 1.2 2004-05-17 22:58:06 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -32,7 +32,7 @@ import org.xulux.gui.PartCreator;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UIComboTest.java,v 1.1 2004-05-17 16:30:21 mvdb Exp $
+ * @version $Id: UIComboTest.java,v 1.2 2004-05-17 22:58:06 mvdb Exp $
  */
 public class UIComboTest extends TestCase {
 
@@ -69,7 +69,7 @@ public class UIComboTest extends TestCase {
      */
     public void testSimpleComboSwt() {
         XuluxContext.getInstance();
-        XuluxContext.getGuiDefaults().setDefaultWidgetType("swt");
+        XuluxContext.getGuiDefaults().setDefaultGuiLayer("swt");
         PersonBean person = new PersonBean("Martin", "van den Bemt");
         String xml = "org/xulux/gui/swing/widgets/ComboTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);

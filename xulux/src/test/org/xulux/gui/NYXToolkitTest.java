@@ -1,5 +1,5 @@
 /*
-   $Id: NYXToolkitTest.java,v 1.6 2004-05-11 11:50:00 mvdb Exp $
+   $Id: NYXToolkitTest.java,v 1.7 2004-05-17 22:58:06 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NYXToolkitTest.java,v 1.6 2004-05-11 11:50:00 mvdb Exp $
+ * @version $Id: NYXToolkitTest.java,v 1.7 2004-05-17 22:58:06 mvdb Exp $
  */
 public class NYXToolkitTest extends TestCase {
 
@@ -62,13 +62,13 @@ public class NYXToolkitTest extends TestCase {
         XuluxContext c = XuluxContext.getInstance();
         // by default it is the swing toolkit that shows up
         // so before getting it, set it to something bogus
-        String def = XuluxContext.getGuiDefaults().getDefaultWidgetType();
-        XuluxContext.getGuiDefaults().setDefaultWidgetType("bogus");
+        String def = XuluxContext.getGuiDefaults().getDefaultGuiLayer();
+        XuluxContext.getGuiDefaults().setDefaultGuiLayer("bogus");
         assertNull(XuluxToolkit.getInstance());
         ((SimpleLog) LogFactory.getLog(XuluxToolkit.class)).setLevel(SimpleLog.LOG_LEVEL_OFF);
         assertNull(XuluxToolkit.getInstance());
         ((SimpleLog) LogFactory.getFactory().getInstance(XuluxToolkit.class)).setLevel(SimpleLog.LOG_LEVEL_WARN);
-        XuluxContext.getGuiDefaults().setDefaultWidgetType(def);
+        XuluxContext.getGuiDefaults().setDefaultGuiLayer(def);
         XuluxToolkit kit = XuluxToolkit.getInstance();
         assertNotNull(kit);
         assertEquals(kit, XuluxToolkit.getInstance());

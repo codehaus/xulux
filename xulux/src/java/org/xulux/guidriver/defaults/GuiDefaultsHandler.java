@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.9 2004-05-11 14:58:06 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.10 2004-05-17 22:58:05 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -38,7 +38,7 @@ import org.xulux.utils.BooleanUtils;
  * @todo move the contenthandlers to the dataprovider API.
  * @todo do some code reuse of setting the properties.. eg util method or something
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.9 2004-05-11 14:58:06 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.10 2004-05-17 22:58:05 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 
@@ -145,11 +145,11 @@ public class GuiDefaultsHandler extends DefaultHandler {
             if (defaultType != null) {
                 defaultType = defaultType.toLowerCase();
             }
-            XuluxContext.getGuiDefaults().setDefaultWidgetType(defaultType);
+            XuluxContext.getGuiDefaults().setDefaultGuiLayer(defaultType);
         } else if (qName.equals(ELEMENT_PARENTWIDGETHANDLER)) {
             String type = getType(atts);
             if (type == null) {
-                type = XuluxContext.getGuiDefaults().getDefaultWidgetType();
+                type = XuluxContext.getGuiDefaults().getDefaultGuiLayer();
             }
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             XuluxContext.getGuiDefaults().registerParentWidgetHandler(type, clazz);
@@ -214,7 +214,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             String type = atts.getValue(ATTRIBUTE_TYPE);
             if (type == null) {
-                type = XuluxContext.getGuiDefaults().getDefaultWidgetType();
+                type = XuluxContext.getGuiDefaults().getDefaultGuiLayer();
             }
             XuluxContext.getGuiDefaults().registerLayout(name, isDefault, clazz, type);
         }
@@ -229,7 +229,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private String getType(Attributes atts) {
         String type = atts.getValue(ATTRIBUTE_TYPE);
         if (type == null) {
-            type = XuluxContext.getGuiDefaults().getDefaultWidgetType();
+            type = XuluxContext.getGuiDefaults().getDefaultGuiLayer();
         }
         return type;
     }
@@ -260,7 +260,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
                 WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(widgetName);
                 if (config != null) {
                   if (initType == null) {
-                    initType = XuluxContext.getGuiDefaults().getDefaultWidgetType();
+                    initType = XuluxContext.getGuiDefaults().getDefaultGuiLayer();
                   }
                   config.addWidgetTool(initType, initClass);
                 }

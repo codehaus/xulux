@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaults.java,v 1.5 2004-05-11 14:58:06 mvdb Exp $
+   $Id: GuiDefaults.java,v 1.6 2004-05-17 22:58:05 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * properties.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaults.java,v 1.5 2004-05-11 14:58:06 mvdb Exp $
+ * @version $Id: GuiDefaults.java,v 1.6 2004-05-17 22:58:05 mvdb Exp $
  */
 public class GuiDefaults {
 
@@ -43,7 +43,7 @@ public class GuiDefaults {
      * The default widgetType for the system
      * (eg swt, swing)
      */
-    String defaultType;
+    String defaultGuiLayer;
 
     /**
      * Container for the nyx toolkits
@@ -96,10 +96,10 @@ public class GuiDefaults {
     }
 
     /**
-     * @return the default widget type.
+     * @return the default gui layer.
      */
-    public String getDefaultWidgetType() {
-        return this.defaultType;
+    public String getDefaultGuiLayer() {
+        return this.defaultGuiLayer;
     }
 
     /**
@@ -108,21 +108,18 @@ public class GuiDefaults {
      *
      * @param type the default gui type for this application
      */
-    public void setDefaultWidgetType(String type) {
-        this.defaultType = type;
+    public void setDefaultGuiLayer(String guiLayer) {
+        this.defaultGuiLayer = guiLayer;
     }
 
     /**
      * Registers a widget that can be used to construct
      * an ui.
-     * @param name - the widget name (eg combo)
-     * @param clazz - the class that needs to be used
-     * @param type - the widget type (eg swt, core, swing)
-     *                core is used for later. Most of the time
-     *                the coretype represent an generic extension
-     *                of widget for eg a combo)
+     * @param name the widget name (eg combo)
+     * @param clazz the class that needs to be used
+     * @param guiLayer the guiLayer to use
      */
-    public void registerWidget(String name, String clazz, String type) {
+    public void registerWidget(String name, String clazz, String guiLayer) {
         if (this.widgets == null) {
             widgets = new HashMap();
         }
@@ -132,14 +129,14 @@ public class GuiDefaults {
             if (config == null) {
                 config = new WidgetConfig();
             }
-            if (type == null) {
-                type = getDefaultWidgetType();
+            if (guiLayer == null) {
+                guiLayer = getDefaultGuiLayer();
             } else {
-                config.add(type, widgetClass);
+                config.add(guiLayer, widgetClass);
             }
             widgets.put(name, config);
         } else {
-            log.warn("Could not find " + clazz + " for widget named " + name + " and type " + type);
+            log.warn("Could not find " + clazz + " for widget named " + name + " and guiLayer " + guiLayer);
         }
     }
 
@@ -163,10 +160,10 @@ public class GuiDefaults {
      * call registerWidget(name, clazz) to register one yourself..
      *
      * @param name the widget
-     * @param type specifies the gui type to get widgetclass for.
+     * @param guiLayer specifies the gui layer
      * @return the class for the widget
      */
-    public Class getWidget(String name, String type) {
+    public Class getWidget(String name, String guiLayer) {
         if (name == null) {
           return null;
         }
@@ -175,7 +172,7 @@ public class GuiDefaults {
         if (config == null) {
             return null;
         }
-        return config.get(type);
+        return config.get(guiLayer);
     }
 
     /**
@@ -190,7 +187,7 @@ public class GuiDefaults {
      * @return the class for the widget
      */
     public Class getWidget(String name) {
-        return getWidget(name, getDefaultWidgetType());
+        return getWidget(name, getDefaultGuiLayer());
     }
 
     /**
@@ -205,7 +202,7 @@ public class GuiDefaults {
      *          when not present
      */
     public XuluxToolkit getXuluxToolkit() {
-        return getXuluxToolkit(getDefaultWidgetType());
+        return getXuluxToolkit(getDefaultGuiLayer());
     }
   
     /**
@@ -224,18 +221,18 @@ public class GuiDefaults {
      * Add a toolkit of specified type
      *
      * @param clazz the toolkit class
-     * @param type if the type is null, it deaults to getDefaultWidgetType
+     * @param guiLayer if the guiLayer is null, it defaults to the default guiLayer
      */
-    public void registerXuluxToolkit(String clazz, String type) {
-        if (type == null) {
-            type = getDefaultWidgetType();
+    public void registerXuluxToolkit(String clazz, String guiLayer) {
+        if (guiLayer == null) {
+            guiLayer = getDefaultGuiLayer();
         }
         Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
         if (object instanceof XuluxToolkit) {
             if (this.xuluxToolkits == null) {
                 this.xuluxToolkits = new HashMap();
             }
-            this.xuluxToolkits.put(type, object);
+            this.xuluxToolkits.put(guiLayer, object);
         } else {
             log.warn("XuluxToolkit class " + clazz + " is not of type XuluxToolkit or cannot be instantiated");
         }
@@ -243,12 +240,12 @@ public class GuiDefaults {
 
     /**
      *
-     * @param type specifies the gui type to register the field event handler for
+     * @param guiLayer the guilayer to register the field eventhandler for
      * @param clazz the class name of the field event handler.
      */
-    public void registerFieldEventHandler(String type, String clazz) {
-        if (type == null) {
-            type = getDefaultWidgetType();
+    public void registerFieldEventHandler(String guiLayer, String clazz) {
+        if (guiLayer == null) {
+            guiLayer = getDefaultGuiLayer();
         }
         Class clz = ClassLoaderUtils.getClass(clazz);
         if (clz == null || !(NyxListener.class.isAssignableFrom(clz))) {
@@ -258,19 +255,19 @@ public class GuiDefaults {
         if (fieldEventHandlerMap == null) {
             fieldEventHandlerMap = new HashMap();
         }
-        fieldEventHandlerMap.put(type, clz);
+        fieldEventHandlerMap.put(guiLayer, clz);
     }
 
     /**
-     * @param type specifies the gui type to get the eventhandler for
+     * @param guiLayer specifies the guiLayer to get the eventhandler for
      * @return a new instance of the event Handler or null when not found
      */
-    public NyxListener getFieldEventHandler(String type) {
+    public NyxListener getFieldEventHandler(String guiLayer) {
         if (fieldEventHandlerMap != null) {
-            if (type == null) {
-                type = getDefaultWidgetType();
+            if (guiLayer == null) {
+                guiLayer = getDefaultGuiLayer();
             }
-            return (NyxListener) ClassLoaderUtils.getObjectFromClass((Class) fieldEventHandlerMap.get(type));
+            return (NyxListener) ClassLoaderUtils.getObjectFromClass((Class) fieldEventHandlerMap.get(guiLayer));
         }
         return null;
     }
@@ -280,31 +277,31 @@ public class GuiDefaults {
      * The handler will contain all logic to be able
      * to use native widgets on top of the nyx widgets
      *
-     * @param type specifies the gui type to register the native handler for
+     * @param guiLayer specifies the gui type to register the native handler for
      * @param clazz the classname of the nativehandler.
      */
-    public void registerNativeWidgetHandler(String type, String clazz) {
+    public void registerNativeWidgetHandler(String guiLayer, String clazz) {
         if (nativeWidgetHandlerMap == null) {
             nativeWidgetHandlerMap = new HashMap();
         }
-        if (type == null) {
-            type = getDefaultWidgetType();
+        if (guiLayer == null) {
+            guiLayer = getDefaultGuiLayer();
         }
         Object object  = ClassLoaderUtils.getObjectFromClassString(clazz);
         if (!(object instanceof INativeWidgetHandler)) {
             log.warn(clazz + " is not an instance of INativeWidgetHandler");
             return;
         }
-        nativeWidgetHandlerMap.put(type, object);
+        nativeWidgetHandlerMap.put(guiLayer, object);
     }
 
     /**
-     * @param type specifies the gui type to get the native widget handler for
+     * @param guiLayer specifies the guiLayer to get the native widget handler for
      * @return the native widget handler for the specified type
      */
-    public INativeWidgetHandler getNativeWidgetHandler(String type) {
+    public INativeWidgetHandler getNativeWidgetHandler(String guiLayer) {
         if (nativeWidgetHandlerMap != null) {
-            return (INativeWidgetHandler) nativeWidgetHandlerMap.get(type);
+            return (INativeWidgetHandler) nativeWidgetHandlerMap.get(guiLayer);
         }
         return null;
     }
@@ -313,7 +310,7 @@ public class GuiDefaults {
      * @return the native widgets handler for the defaulttype
      */
     public INativeWidgetHandler getNativeWidgetHandler() {
-        return getNativeWidgetHandler(getDefaultWidgetType());
+        return getNativeWidgetHandler(getDefaultGuiLayer());
     }
 
     /**
@@ -322,12 +319,12 @@ public class GuiDefaults {
      * to eg remove all widgets from the parent in one go.
      * Initially it will be read from the default GuiDefaults.xml
      * and can be overriden.
-     * @param type specifies the gui type to register the parent handler for
+     * @param guiLayer specifies the guiLayer to register the parent handler for
      * @param clazz the class name of the parenthandler.
      */
-    public void registerParentWidgetHandler(String type, String clazz) {
-        if (type == null) {
-            type = getDefaultWidgetType();
+    public void registerParentWidgetHandler(String guiLayer, String clazz) {
+        if (guiLayer == null) {
+            guiLayer = getDefaultGuiLayer();
         }
         Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
         if (!(object instanceof IParentWidgetHandler)) {
@@ -337,16 +334,16 @@ public class GuiDefaults {
         if (parentWidgetHandlerMap == null) {
             parentWidgetHandlerMap = new HashMap();
         }
-        parentWidgetHandlerMap.put(type, object);
+        parentWidgetHandlerMap.put(guiLayer, object);
     }
 
     /**
-     * @param type specifies the gui type to get the parent widget handler for
+     * @param guiLayer specifies the guiLayer to get the parent widget handler for
      * @return the handler of parent widgets, or null when not found
      */
-    public IParentWidgetHandler getParentWidgetHandler(String type) {
+    public IParentWidgetHandler getParentWidgetHandler(String guiLayer) {
         if (parentWidgetHandlerMap != null) {
-            return (IParentWidgetHandler) parentWidgetHandlerMap.get(type);
+            return (IParentWidgetHandler) parentWidgetHandlerMap.get(guiLayer);
         }
         return null;
     }
@@ -356,7 +353,7 @@ public class GuiDefaults {
      *          or null if not found
      */
     public IParentWidgetHandler getParentWidgetHandler() {
-        return getParentWidgetHandler(getDefaultWidgetType());
+        return getParentWidgetHandler(getDefaultGuiLayer());
     }
     
     /**
@@ -368,9 +365,9 @@ public class GuiDefaults {
      * @param name the name of the layout
      * @param isDefault is this layout the default
      * @param clazz the class of the layout
-     * @param type the gui layer type
+     * @param guiLayer the gui layer
      */
-    public void registerLayout(String name, boolean isDefault, String clazz, String type) {
+    public void registerLayout(String name, boolean isDefault, String clazz, String guiLayer) {
         if (name == null) {
             return;
         }
@@ -381,11 +378,11 @@ public class GuiDefaults {
         if (map == null) {
             map = new HashMap();
         }
-        if (type != null) {
+        if (guiLayer != null) {
             Class clz = ClassLoaderUtils.getClass(clazz);
             if (clz != null) {
               if (IXuluxLayout.class.isAssignableFrom(clz)) {
-                  map.put(type, ClassLoaderUtils.getClass(clazz));
+                  map.put(guiLayer, ClassLoaderUtils.getClass(clazz));
                   if (isDefault) {
                       defaultLayout = name;
                   }
@@ -400,15 +397,18 @@ public class GuiDefaults {
     }
 
     /**
-     * @param type the gui layer type
+     * @param guiLayer the gui layer type. If null, it will use the default gui layer.
      * @param name the name of the layout
      * @return the layout specified or null if not found
      */
-    public IXuluxLayout getLayout(String type, String name) {
+    public IXuluxLayout getLayout(String guiLayer, String name) {
         if (layoutMap != null) {
             Map map = (Map) layoutMap.get(name);
             if (map != null) {
-                Class clz = (Class) map.get(type);
+                if (guiLayer == null) {
+                    guiLayer = getDefaultGuiLayer();
+                }
+                Class clz = (Class) map.get(guiLayer);
                 return (IXuluxLayout) ClassLoaderUtils.getObjectFromClass(clz);
             }
         }
@@ -421,17 +421,17 @@ public class GuiDefaults {
      * @return the default layout if one is set
      */
     public IXuluxLayout getDefaultLayout() {
-        return getLayout(getDefaultWidgetType(), defaultLayout);
+        return getLayout(getDefaultGuiLayer(), defaultLayout);
     }
 
     /**
      * The defaultwidget type needs to be set for this method to work.
      *
-     * @param type the gui layer type
+     * @param guiLayer the gui layer type
      * @return the default layout if one is set
      */
-    public IXuluxLayout getDefaultLayout(String type) {
-        return getLayout(type, defaultLayout);
+    public IXuluxLayout getDefaultLayout(String guiLayer) {
+        return getLayout(guiLayer, defaultLayout);
     }
 
 }

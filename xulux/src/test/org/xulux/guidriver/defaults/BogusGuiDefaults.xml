@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<!-- $Id: BogusGuiDefaults.xml,v 1.1 2004-05-17 22:58:06 mvdb Exp $ -->
+<guidefaults defaultType="swing">
+  this is a very <bad> xml <file>> or <NOT??>
+</guidefaults>
