@@ -8,7 +8,7 @@ import java.util.Iterator;
  * It makes overriding a bit easier.
  * 
  * @author Martin van den Bemt
- * @version $Id: ContainerWidget.java,v 1.4 2003-09-23 12:29:16 mvdb Exp $
+ * @version $Id: ContainerWidget.java,v 1.5 2003-09-25 17:10:35 mvdb Exp $
  */
 public abstract class ContainerWidget extends Widget
 {
@@ -38,6 +38,7 @@ public abstract class ContainerWidget extends Widget
             // add to the parent if the parent is already
             // initialized..
             if (initialized) {
+                widget.setParent(this);
                 addToParent(widget);
             }
         }
