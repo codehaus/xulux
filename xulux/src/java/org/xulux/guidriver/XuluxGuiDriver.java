@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxGuiDriver.java,v 1.8 2004-10-18 14:10:47 mvdb Exp $
+   $Id: XuluxGuiDriver.java,v 1.9 2005-01-10 18:16:33 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -39,6 +39,7 @@ import org.xulux.gui.WidgetFactory;
 import org.xulux.rules.IRule;
 import org.xulux.swing.listeners.PrePostFieldListener;
 import org.xulux.utils.BooleanUtils;
+import org.xulux.utils.ClassLoaderUtils;
 import org.xulux.utils.Translator;
 
 /**
@@ -49,7 +50,7 @@ import org.xulux.utils.Translator;
  * @todo Move out "generic" code, so we can have a helper class to do all the xulux magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxGuiDriver.java,v 1.8 2004-10-18 14:10:47 mvdb Exp $
+ * @version $Id: XuluxGuiDriver.java,v 1.9 2005-01-10 18:16:33 mvdb Exp $
  */
 public class XuluxGuiDriver extends DefaultHandler {
 
@@ -680,12 +681,10 @@ public class XuluxGuiDriver extends DefaultHandler {
      */
     private void addRule(Widget widget, String ruleClass) {
         try {
-            Class clazz = Class.forName(ruleClass);
-            IRule rule = (IRule) clazz.newInstance();
+            IRule rule = (IRule) ClassLoaderUtils.getObjectFromClassString(ruleClass);
             if (widget != null) {
                 widget.registerRule(rule);
-            }
-            else {
+            } else {
                 part.registerRule(rule);
             }
         }

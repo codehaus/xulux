@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.18 2004-12-01 11:37:03 mvdb Exp $
+   $Id: Tree.java,v 1.19 2005-01-10 18:16:33 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -38,6 +38,7 @@ import org.xulux.gui.IContentWidget;
 import org.xulux.gui.Widget;
 import org.xulux.gui.WidgetFactory;
 import org.xulux.swing.listeners.ImmidiateTreeSelectionListener;
+import org.xulux.swing.listeners.MouseDoubleClickTreeListener;
 import org.xulux.swing.listeners.NewSelectionListener;
 import org.xulux.swing.listeners.PopupListener;
 import org.xulux.swing.listeners.UpdateButtonsListener;
@@ -48,7 +49,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.18 2004-12-01 11:37:03 mvdb Exp $
+ * @version $Id: Tree.java,v 1.19 2005-01-10 18:16:33 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -92,6 +93,8 @@ public class Tree extends ContainerWidget implements IContentWidget {
      * the immidiatelistener
      */
     protected ImmidiateTreeSelectionListener immidiateListener;
+    
+    protected MouseDoubleClickTreeListener mdcListener;
 
     /**
      * @param name the name of the tree
@@ -110,6 +113,10 @@ public class Tree extends ContainerWidget implements IContentWidget {
         }
         super.destroy();
         cellRenderer = null;
+        if (mdcListener != null) {
+        	jtree.removeMouseListener(mdcListener);
+        	mdcListener = null;
+        }
         if (selectionListener != null) {
             jtree.removeTreeSelectionListener(selectionListener);
             selectionListener = null;
@@ -240,6 +247,8 @@ public class Tree extends ContainerWidget implements IContentWidget {
                 expandTree(expandUntill);
             }
         }
+        jtree.setShowsRootHandles(true);
+        
         // default is on, so we only process if the value is false.
         if (!BooleanUtils.toBoolean(getProperty("showicons"))) {
             if (jtree != null) {
@@ -250,6 +259,11 @@ public class Tree extends ContainerWidget implements IContentWidget {
                     renderer.setLeafIcon(null);
                 }
             }
+        }
+        
+        if (mdcListener == null && getProperty("doubleclick") != null) {
+        	mdcListener = new MouseDoubleClickTreeListener(this);
+        	jtree.addMouseListener(mdcListener);
         }
         jtree.setEnabled(isEnabled());
         jtree.setVisible(isVisible());

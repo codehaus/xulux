@@ -1,5 +1,5 @@
 /*
-   $Id: Dialog.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
+   $Id: Dialog.java,v 1.4 2005-01-10 18:16:33 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,7 +22,6 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.LayoutManager;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,7 +41,7 @@ import org.xulux.utils.BooleanUtils;
  * A dialog
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dialog.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
+ * @version $Id: Dialog.java,v 1.4 2005-01-10 18:16:33 mvdb Exp $
  */
 public class Dialog extends NyxWindow {
   
