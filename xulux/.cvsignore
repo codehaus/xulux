@@ -5,3 +5,5 @@ target
 
 nyx.manifest
 nyx.jardesc
+.clover
+.checkstyle

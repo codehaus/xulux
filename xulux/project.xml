@@ -151,11 +151,28 @@
       <includes>
         <include>**/*Test.java</include>
       </includes>
+      <resources>
+         <resource>
+           <directory>src/test</directory>
+           <includes>
+             <include>**/*.properties</include>
+             <include>**/*.xml</include>
+           </includes>
+         </resource>
+      </resources>
     </unitTest>
 
     <nagEmailAddress>xulux-dev@lists.codehaus.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
-
+    <resources>
+       <resource>
+        <directory>src/java</directory>
+         <includes>
+           <include>**/*.properties</include>
+           <include>**/*.xml</include>
+         </includes>
+       </resource>
+    </resources>
     <jars>
     </jars>
   </build>
