@@ -1,5 +1,5 @@
 /*
-   $Id: RadioButton.java,v 1.8 2004-09-30 21:25:39 mvdb Exp $
+   $Id: RadioButton.java,v 1.9 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a radiobutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButton.java,v 1.8 2004-09-30 21:25:39 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.9 2004-12-01 11:37:04 mvdb Exp $
  */
 public class RadioButton extends Widget {
 
@@ -56,13 +56,14 @@ public class RadioButton extends Widget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
         if (!initialized) {
             return;
         }
         processDestroy();
+        removeAllRules();
         if (radioButton != null) {
             if (itemListener != null) {
                 radioButton.removeItemListener(itemListener);

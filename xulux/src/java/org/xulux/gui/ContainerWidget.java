@@ -1,5 +1,5 @@
 /*
-   $Id: ContainerWidget.java,v 1.4 2004-11-29 17:34:26 mvdb Exp $
+   $Id: ContainerWidget.java,v 1.5 2004-12-01 11:37:27 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,7 +25,7 @@ import java.util.Iterator;
  * It makes overriding a bit easier.
  *
  * @author Martin van den Bemt
- * @version $Id: ContainerWidget.java,v 1.4 2004-11-29 17:34:26 mvdb Exp $
+ * @version $Id: ContainerWidget.java,v 1.5 2004-12-01 11:37:27 mvdb Exp $
  */
 public abstract class ContainerWidget extends Widget {
     /**
@@ -111,9 +111,11 @@ public abstract class ContainerWidget extends Widget {
      * and doesn't cleanup the parent
      * object, since it doesn't know about it.
      *
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
+      removeAllRules();
+      processDestroy();
       destroyChildren();
     }
     

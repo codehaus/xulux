@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.22 2004-10-19 13:46:55 mvdb Exp $
+   $Id: Widget.java,v 1.23 2004-12-01 11:37:27 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.22 2004-10-19 13:46:55 mvdb Exp $
+ * @version $Id: Widget.java,v 1.23 2004-12-01 11:37:27 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -632,8 +632,11 @@ public abstract class Widget implements Serializable
      */
     protected void removeAllRules()
     {
-        if (rules != null)
-        {
+        if (rules != null) {
+            // call the destroy of the rules..
+            for (int i = 0; i < rules.size(); i++) {
+              	((Rule)rules.get(i)).destroy();
+            }
             rules.clear();
         }
     }

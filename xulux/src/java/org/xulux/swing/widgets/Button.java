@@ -1,5 +1,5 @@
 /*
-   $Id: Button.java,v 1.12 2004-10-20 17:33:31 mvdb Exp $
+   $Id: Button.java,v 1.13 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.12 2004-10-20 17:33:31 mvdb Exp $
+ * @version $Id: Button.java,v 1.13 2004-12-01 11:37:04 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -230,10 +230,11 @@ public class Button extends SwingWidget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
         processDestroy();
+        removeAllRules();
         if (button == null) {
             getPart().removeWidget(this, this);
             return;
@@ -265,7 +266,6 @@ public class Button extends SwingWidget {
                 }
             }
         }
-        removeAllRules();
         button.setVisible(false);
         if (container != null) {
             container.remove(button);

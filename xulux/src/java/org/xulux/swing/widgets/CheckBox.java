@@ -1,5 +1,5 @@
 /*
-   $Id: CheckBox.java,v 1.9 2004-05-24 15:19:59 mvdb Exp $
+   $Id: CheckBox.java,v 1.10 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -39,7 +39,7 @@ import org.xulux.utils.BooleanUtils;
  * The nyx to swing implementation of a checkbox
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.9 2004-05-24 15:19:59 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.10 2004-12-01 11:37:04 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
 
@@ -65,6 +65,7 @@ public class CheckBox extends SwingWidget {
      */
     public void destroy() {
         processDestroy();
+        removeAllRules();
         if (checkBox != null) {
             Container container = checkBox.getParent();
             checkBox.setVisible(false);

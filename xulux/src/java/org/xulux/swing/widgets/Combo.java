@@ -1,5 +1,5 @@
 /*
-   $Id: Combo.java,v 1.8 2004-11-30 14:28:01 mvdb Exp $
+   $Id: Combo.java,v 1.9 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.swing.util.NyxEventQueue;
  * The swing combo widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.8 2004-11-30 14:28:01 mvdb Exp $
+ * @version $Id: Combo.java,v 1.9 2004-12-01 11:37:04 mvdb Exp $
  */
 public class Combo extends NyxCombo {
     /**
@@ -79,10 +79,11 @@ public class Combo extends NyxCombo {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
         processDestroy();
+        removeAllRules();
         if (combo != null) {
             if (actionListener != null) {
                 combo.removeActionListener(actionListener);

@@ -1,5 +1,5 @@
 /*
-   $Id: PopupMenu.java,v 1.4 2004-11-18 23:15:55 mvdb Exp $
+   $Id: PopupMenu.java,v 1.5 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,7 +29,7 @@ import org.xulux.gui.Widget;
  * A popopmenu
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupMenu.java,v 1.4 2004-11-18 23:15:55 mvdb Exp $
+ * @version $Id: PopupMenu.java,v 1.5 2004-12-01 11:37:04 mvdb Exp $
  */
 public class PopupMenu extends ContainerWidget {
 
@@ -43,14 +43,6 @@ public class PopupMenu extends ContainerWidget {
      */
     public PopupMenu(String name) {
         super(name);
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
-     */
-    public void destroy() {
-        processDestroy();
-
     }
 
     /**

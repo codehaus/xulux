@@ -1,5 +1,5 @@
 /*
-   $Id: SplitPane.java,v 1.5 2004-11-15 20:53:10 mvdb Exp $
+   $Id: SplitPane.java,v 1.6 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.gui.Widget;
  * The splitpane
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SplitPane.java,v 1.5 2004-11-15 20:53:10 mvdb Exp $
+ * @version $Id: SplitPane.java,v 1.6 2004-12-01 11:37:04 mvdb Exp $
  */
 public class SplitPane extends ContainerWidget {
 
@@ -44,13 +44,6 @@ public class SplitPane extends ContainerWidget {
      */
     public SplitPane(String name) {
         super(name);
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
-     */
-    public void destroy() {
-
     }
 
     /**

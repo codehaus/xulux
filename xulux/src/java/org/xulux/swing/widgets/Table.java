@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.16 2004-11-25 09:49:45 mvdb Exp $
+   $Id: Table.java,v 1.17 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -59,7 +59,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.16 2004-11-25 09:49:45 mvdb Exp $
+ * @version $Id: Table.java,v 1.17 2004-12-01 11:37:04 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -170,13 +170,13 @@ public class Table extends ContainerWidget implements IContentWidget {
         this.lockedTable = null;
     }
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
         if (!initialized) {
             return;
         }
-        processDestroy();
+        super.destroy();
         destroyTable();
         if (this.scrollPane == null) {
             return;

@@ -1,5 +1,5 @@
 /*
-   $Id: ToggleButton.java,v 1.9 2004-10-20 17:33:31 mvdb Exp $
+   $Id: ToggleButton.java,v 1.10 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -40,7 +40,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a togglebutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ToggleButton.java,v 1.9 2004-10-20 17:33:31 mvdb Exp $
+ * @version $Id: ToggleButton.java,v 1.10 2004-12-01 11:37:04 mvdb Exp $
  */
 public class ToggleButton extends Widget {
 
@@ -65,13 +65,14 @@ public class ToggleButton extends Widget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
         if (!initialized) {
             return;
         }
         processDestroy();
+        removeAllRules();
         if (toggleButton != null) {
             if (itemListener != null) {
                 toggleButton.removeItemListener(itemListener);
@@ -83,7 +84,6 @@ public class ToggleButton extends Widget {
             }
             toggleButton = null;
         }
-        removeAllRules();
         getPart().removeWidget(this, this);
 
     }

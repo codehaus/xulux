@@ -1,5 +1,5 @@
 /*
-   $Id: ScrollPane.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
+   $Id: ScrollPane.java,v 1.5 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.gui.Widget;
  * of the widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ScrollPane.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
+ * @version $Id: ScrollPane.java,v 1.5 2004-12-01 11:37:04 mvdb Exp $
  */
 public class ScrollPane extends ContainerWidget {
 
@@ -53,7 +53,6 @@ public class ScrollPane extends ContainerWidget {
      * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
-        processDestroy();
         super.destroy();
         if (pane == null) {
             return;

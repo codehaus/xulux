@@ -1,5 +1,5 @@
 /*
-   $Id: MenuBar.java,v 1.2 2004-01-28 15:09:23 mvdb Exp $
+   $Id: MenuBar.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,7 +27,7 @@ import org.xulux.gui.Widget;
  * The menubar widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MenuBar.java,v 1.2 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: MenuBar.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
  */
 public class MenuBar extends ContainerWidget {
 
@@ -38,13 +38,6 @@ public class MenuBar extends ContainerWidget {
      */
     public MenuBar(String name) {
         super(name);
-    }
-
-    /**
-     * @see org.xulux.gui.Widget#destroy()
-     */
-    public void destroy() {
-
     }
 
     /**

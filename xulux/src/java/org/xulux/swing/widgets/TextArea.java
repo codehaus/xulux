@@ -1,5 +1,5 @@
 /*
-   $Id: TextArea.java,v 1.7 2004-08-17 00:23:07 mvdb Exp $
+   $Id: TextArea.java,v 1.8 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import org.xulux.utils.BooleanUtils;
  * The swing textare widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.7 2004-08-17 00:23:07 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.8 2004-12-01 11:37:04 mvdb Exp $
  */
 public class TextArea extends Entry {
 
@@ -71,10 +71,11 @@ public class TextArea extends Entry {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
         processDestroy();
+        removeAllRules();
         if (textComponent != null) {
             textComponent.removeAll();
             Container container = textComponent.getParent();
@@ -90,7 +91,6 @@ public class TextArea extends Entry {
               }
             }
         }
-        removeAllRules();
         getPart().removeWidget(this, this);
     }
 

@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.17 2004-11-25 09:49:45 mvdb Exp $
+   $Id: Tree.java,v 1.18 2004-12-01 11:37:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -48,7 +48,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.17 2004-11-25 09:49:45 mvdb Exp $
+ * @version $Id: Tree.java,v 1.18 2004-12-01 11:37:03 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -101,14 +101,14 @@ public class Tree extends ContainerWidget implements IContentWidget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      * @todo Destroy it better than now!
      */
     public void destroy() {
         if (!initialized) {
             return;
         }
-        processDestroy();
+        super.destroy();
         cellRenderer = null;
         if (selectionListener != null) {
             jtree.removeTreeSelectionListener(selectionListener);

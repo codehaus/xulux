@@ -1,5 +1,5 @@
 /*
-   $Id: TextPane.java,v 1.2 2004-10-11 19:14:19 mvdb Exp $
+   $Id: TextPane.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import org.xulux.utils.BooleanUtils;
  * The swing textare widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextPane.java,v 1.2 2004-10-11 19:14:19 mvdb Exp $
+ * @version $Id: TextPane.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
  */
 public class TextPane extends Entry {
 
@@ -75,6 +75,7 @@ public class TextPane extends Entry {
      */
     public void destroy() {
         processDestroy();
+        removeAllRules();
         if (textComponent != null) {
             textComponent.removeAll();
             Container container = textComponent.getParent();
@@ -90,7 +91,6 @@ public class TextPane extends Entry {
               }
             }
         }
-        removeAllRules();
         getPart().removeWidget(this, this);
     }
 

@@ -1,5 +1,5 @@
 /*
-   $Id: Label.java,v 1.15 2004-10-20 17:33:31 mvdb Exp $
+   $Id: Label.java,v 1.16 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.15 2004-10-20 17:33:31 mvdb Exp $
+ * @version $Id: Label.java,v 1.16 2004-12-01 11:37:04 mvdb Exp $
  */
 public class Label extends SwingWidget {
 
@@ -57,6 +57,7 @@ public class Label extends SwingWidget {
      */
     public void destroy() {
         processDestroy();
+        removeAllRules();
         if (label != null) {
             Container container = label.getParent();
             label.setVisible(false);
@@ -65,7 +66,6 @@ public class Label extends SwingWidget {
             }
             label = null;
         }
-        removeAllRules();
         getPart().removeWidget(this, this);
     }
 

@@ -1,5 +1,5 @@
 /*
-   $Id: Dialog.java,v 1.2 2004-05-18 00:01:14 mvdb Exp $
+   $Id: Dialog.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.BooleanUtils;
  * A dialog
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dialog.java,v 1.2 2004-05-18 00:01:14 mvdb Exp $
+ * @version $Id: Dialog.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
  */
 public class Dialog extends NyxWindow {
   
@@ -60,19 +60,7 @@ public class Dialog extends NyxWindow {
    * @see org.xulux.gui.Widget#destroy()
    */
   public void destroy() {
-    processDestroy();
-    ArrayList children = getChildWidgets();
-    if (children != null) {
-        Iterator it = children.iterator();
-        while (it.hasNext()) {
-            Widget cw = (Widget) it.next();
-            cw.destroy();
-        }
-        children.clear();
-        children = null;
-    }
-    // remove all child widgets
-    // so we don't have any leftovers.
+    super.destroy();
     if (dialog != null) {
       dialog.removeAll();
       dialog.removeWindowListener(windowListener);

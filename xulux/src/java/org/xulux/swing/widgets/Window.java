@@ -1,5 +1,5 @@
 /*
-   $Id: Window.java,v 1.11 2004-10-28 20:13:08 mvdb Exp $
+   $Id: Window.java,v 1.12 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -47,7 +47,7 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.11 2004-10-28 20:13:08 mvdb Exp $
+ * @version $Id: Window.java,v 1.12 2004-12-01 11:37:04 mvdb Exp $
  */
 public class Window extends NyxWindow {
     /**
@@ -72,22 +72,10 @@ public class Window extends NyxWindow {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
-        processDestroy();
-        ArrayList children = getChildWidgets();
-        if (children != null) {
-            Iterator it = children.iterator();
-            while (it.hasNext()) {
-                Widget cw = (Widget) it.next();
-                cw.destroy();
-            }
-            children.clear();
-            children = null;
-        }
-        // remove all child widgets
-        // so we don't have any leftovers.
+        super.destroy();
         if (window != null) {
           window.removeAll();
           window.removeWindowListener(windowListener);

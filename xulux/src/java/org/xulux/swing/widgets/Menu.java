@@ -1,5 +1,5 @@
 /*
-   $Id: Menu.java,v 1.4 2004-10-30 11:21:02 mvdb Exp $
+   $Id: Menu.java,v 1.5 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,7 +27,7 @@ import org.xulux.gui.Widget;
  * The menu widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Menu.java,v 1.4 2004-10-30 11:21:02 mvdb Exp $
+ * @version $Id: Menu.java,v 1.5 2004-12-01 11:37:04 mvdb Exp $
  */
 public class Menu extends ContainerWidget {
 
@@ -38,13 +38,6 @@ public class Menu extends ContainerWidget {
      */
     public Menu(String name) {
         super(name);
-    }
-
-    /**
-     * @see org.xulux.gui.Widget#destroy()
-     */
-    public void destroy() {
-
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
-   $Id: Tab.java,v 1.2 2004-10-20 13:11:22 mvdb Exp $
+   $Id: Tab.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -40,7 +40,7 @@ import org.xulux.gui.utils.ColorUtils;
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tab.java,v 1.2 2004-10-20 13:11:22 mvdb Exp $
+ * @version $Id: Tab.java,v 1.3 2004-12-01 11:37:04 mvdb Exp $
  */
 public class Tab extends ContainerWidget {
 
@@ -58,10 +58,9 @@ public class Tab extends ContainerWidget {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * @see org.xulux.gui.Widget#destroy()
      */
     public void destroy() {
-        processDestroy();
         super.destroy();
         if (panel == null) {
             return;
