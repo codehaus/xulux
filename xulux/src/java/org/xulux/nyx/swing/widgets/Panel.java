@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.15 2003-09-23 12:29:47 mvdb Exp $
+ $Id: Panel.java,v 1.16 2003-09-24 12:27:16 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,7 +49,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -67,7 +66,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.15 2003-09-23 12:29:47 mvdb Exp $
+ * @version $Id: Panel.java,v 1.16 2003-09-24 12:27:16 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -134,6 +133,7 @@ public class Panel extends ContainerWidget
      */
     public void refresh()
     {
+        System.out.println("TABID : "+getProperty(TabPanel.TABID));
         initialize();
         String backgroundColor = getProperty("default-background-color");
 
@@ -197,6 +197,7 @@ public class Panel extends ContainerWidget
             System.out.println("Border insets : "+panel.getBorder().getBorderInsets(panel));
             System.out.println("End : "+getName());
         }
+        panel.setEnabled(isEnabled());
     }
 
 
