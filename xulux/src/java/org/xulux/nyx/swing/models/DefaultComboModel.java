@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.21 2003-08-11 00:37:10 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.22 2003-08-28 23:36:35 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,8 +49,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
-import javax.swing.event.ListDataListener;
 
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
@@ -61,13 +61,14 @@ import org.xulux.nyx.swing.widgets.Combo;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.21 2003-08-11 00:37:10 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.22 2003-08-28 23:36:35 mvdb Exp $
  */
-public class DefaultComboModel implements ComboBoxModel
+public class DefaultComboModel extends AbstractListModel 
+implements ComboBoxModel
 {
     private List original;
     private ArrayList list;
-    private ArrayList listeners;
+//    private ArrayList listeners;
     private ComboShowable selectedItem;
     private String field;
     private BeanMapping mapping;
@@ -92,6 +93,14 @@ public class DefaultComboModel implements ComboBoxModel
     }
 
     /**
+     * When using the arrow keys to select another 
+     * item from the combo, we have to fire an event 
+     * with the index0 and the index1 with the value -1.
+     * This way you can actually see the selectedItem change
+     * on screen. If you don't fire this event, the selectedItem
+     * (onscreen!) will stay on the selected item on creation
+     * of the combo.
+     * 
      * @see javax.swing.ComboBoxModel#setSelectedItem(Object)
      */
     public void setSelectedItem(Object anItem)
@@ -108,6 +117,7 @@ public class DefaultComboModel implements ComboBoxModel
         {
             setRealSelectedValue(anItem);
         }
+        fireContentsChanged(this,-1,-1);
     }
     
     public void setSelectedItem(int index)
@@ -145,28 +155,28 @@ public class DefaultComboModel implements ComboBoxModel
         return list.get(index);
     }
 
-    /**
-     * @see javax.swing.ListModel#addListDataListener(ListDataListener)
-     */
-    public void addListDataListener(ListDataListener l)
-    {
-        if (listeners == null)
-        {
-            listeners = new ArrayList();
-        }
-        listeners.add(l);
-    }
-
-    /**
-     * @see javax.swing.ListModel#removeListDataListener(ListDataListener)
-     */
-    public void removeListDataListener(ListDataListener l)
-    {
-        if (listeners != null)
-        {
-            listeners.remove(l);
-        }
-    }
+//    /**
+//     * @see javax.swing.ListModel#addListDataListener(ListDataListener)
+//     */
+//    public void addListDataListener(ListDataListener l)
+//    {
+//        if (listeners == null)
+//        {
+//            listeners = new ArrayList();
+//        }
+//        listeners.add(l);
+//    }
+//
+//    /**
+//     * @see javax.swing.ListModel#removeListDataListener(ListDataListener)
+//     */
+//    public void removeListDataListener(ListDataListener l)
+//    {
+//        if (listeners != null)
+//        {
+//            listeners.remove(l);
+//        }
+//    }
     
     public Object getRealSelectedValue()
     {
@@ -311,10 +321,10 @@ public class DefaultComboModel implements ComboBoxModel
         this.mapping = null;
         this.original = null;
         this.field = null;
-        if (listeners != null)
-        {
-            listeners = null;
-        }
+//        if (listeners != null)
+//        {
+//            listeners = null;
+//        }
         this.selectedItem = null;
     }
 }
