@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.28 2003-11-24 12:10:56 mvdb Exp $
+ $Id: Label.java,v 1.29 2003-11-24 15:00:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,7 +61,7 @@ import org.xulux.nyx.utils.BooleanUtils;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.28 2003-11-24 12:10:56 mvdb Exp $
+ * @version $Id: Label.java,v 1.29 2003-11-24 15:00:05 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -133,6 +133,9 @@ public class Label extends SwingWidget
         if (getProperty("icon") != null) {
             label.setIcon(SwingUtils.getIcon(getProperty("icon"), this));
         }
+        if (getProperty("icon-disabled") != null) {
+            label.setDisabledIcon(SwingUtils.getIcon(getProperty("icon-disabled"), this));
+        }
         String ha = getProperty("horizontalalignment");
         // we use the swing default..
         if (ha != null) {
@@ -148,8 +151,6 @@ public class Label extends SwingWidget
             {
                 label.setHorizontalAlignment(JLabel.RIGHT);
             }
-//        } else {
-//            label.setHorizontalAlignment(JLabel.RIGHT);
         }
         String color = null;
         if (isEnabled()) {
@@ -178,7 +179,7 @@ public class Label extends SwingWidget
                 setEnable(false);
             }
         }
-        ///System.out.println(getName()+" Font : "+label.getFont());
+        label.setEnabled(isEnabled());
     }
 
     /**

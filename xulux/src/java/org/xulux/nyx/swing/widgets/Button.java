@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.17 2003-11-06 19:53:13 mvdb Exp $
+ $Id: Button.java,v 1.18 2003-11-24 15:00:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -68,29 +68,40 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.17 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: Button.java,v 1.18 2003-11-24 15:00:05 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
 
+    /**
+     * the native button
+     */
     private JButton button;
+    /**
+     * the actionlistener
+     */
     private PrePostFieldListener actionListener;
+    /**
+     * the focuslistener
+     */
     private FocusListener focusListener;
+    /**
+     * the nyx listeners
+     */
     private List listenerList;
 
     /**
      * Constructor for Button.
+     * @param name the name of the button
      */
-    public Button(String name)
-    {
+    public Button(String name) {
         super(name);
     }
 
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
-    public Object getNativeWidget()
-    {
+    public Object getNativeWidget() {
         initialize();
         return button;
     }
@@ -123,7 +134,7 @@ public class Button extends SwingWidget
         String image = getProperty("image");
         if (image != null)
         {
-            ImageIcon icon = SwingUtils.getIcon(image,this);
+            ImageIcon icon = SwingUtils.getIcon(image, this);
             button.setIcon(icon);
             button.setFocusPainted(true);
         }
@@ -135,7 +146,7 @@ public class Button extends SwingWidget
             button.setDisabledSelectedIcon(icon);
         }
         String rolloverImage = getProperty("image-rollover");
-        if (rolloverImage!=null)
+        if (rolloverImage != null)
         {
             ImageIcon icon = SwingUtils.getIcon(rolloverImage, this);
             button.setRolloverIcon(icon);
@@ -144,7 +155,7 @@ public class Button extends SwingWidget
         String selectedImage = getProperty("image-selected");
         if (selectedImage != null)
         {
-            ImageIcon icon = SwingUtils.getIcon(selectedImage,this);
+            ImageIcon icon = SwingUtils.getIcon(selectedImage, this);
             button.setSelectedIcon(icon);
             button.setPressedIcon(icon);
             button.setRolloverSelectedIcon(icon);
@@ -155,7 +166,7 @@ public class Button extends SwingWidget
             {
                 this.focusListener = new FocusListener()
                 {
-                    Icon normalIcon;
+                    private Icon normalIcon;
                     /**
                      * @see java.awt.event.FocusListener#focusGained(FocusEvent)
                      */
@@ -181,27 +192,24 @@ public class Button extends SwingWidget
             }
 
         }
-        if (getProperty("text")!=null)
+        if (getProperty("text") != null)
         {
             button.setText(getProperty("text"));
         }
         if (actionListener == null)
         {
             NyxListener listener = getPart().getFieldEventHandler(this);
-            if (listener == null)
-            {
+            if (listener == null) {
                 actionListener = new PrePostFieldListener(this);
-            }
-            else
-            {
-                actionListener = (PrePostFieldListener)listener;
+            } else {
+                actionListener = (PrePostFieldListener) listener;
             }
             button.addActionListener(actionListener);
         }
         String alignment = getProperty("alignment");
         if (alignment != null) {
             // defaults to center..
-            int align = JButton.CENTER;;
+            int align = JButton.CENTER;
             if (alignment.equalsIgnoreCase("left")) {
                 align = JButton.LEFT;
             } else if (alignment.equalsIgnoreCase("right")) {
@@ -231,7 +239,7 @@ public class Button extends SwingWidget
     {
         processDestroy();
         if (button == null) {
-            getPart().removeWidget(this,this);
+            getPart().removeWidget(this, this);
             return;
         }
         Container container = button.getParent();
@@ -251,19 +259,18 @@ public class Button extends SwingWidget
                 // weird swing stuff. Why not have an addListener and
                 // just a removelistener ???
                 if (l instanceof ActionListener) {
-                    button.removeActionListener((ActionListener)l);
+                    button.removeActionListener((ActionListener) l);
                 } else if (l instanceof FocusListener) {
-                    button.removeFocusListener((FocusListener)l);
+                    button.removeFocusListener((FocusListener) l);
                 }
             }
         }
         removeAllRules();
         button.setVisible(false);
-        if (container != null)
-        {
+        if (container != null) {
             container.remove(button);
         }
-        getPart().removeWidget(this,this);
+        getPart().removeWidget(this, this);
         button = null;
     }
 
@@ -300,9 +307,9 @@ public class Button extends SwingWidget
             listenerList.add(listener);
             initialize();
             if (listener instanceof ActionListener) {
-                this.button.addActionListener((ActionListener)listener);
+                this.button.addActionListener((ActionListener) listener);
             } else if (listener instanceof FocusListener) {
-                button.addFocusListener((FocusListener)listener);
+                button.addFocusListener((FocusListener) listener);
             }
         }
     }
