@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTreeCellRenderer.java,v 1.13 2005-01-04 15:29:15 mvdb Exp $
+   $Id: NyxTreeCellRenderer.java,v 1.14 2005-01-04 15:31:30 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -38,7 +38,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * For now extends the defaultreeCellRenderer.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTreeCellRenderer.java,v 1.13 2005-01-04 15:29:15 mvdb Exp $
+ * @version $Id: NyxTreeCellRenderer.java,v 1.14 2005-01-04 15:31:30 mvdb Exp $
  */
 public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
 
@@ -140,14 +140,12 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
                       width+=iconImage.getIconWidth();
                     }
                     dim.width=width;
-                    System.out.println(value + " dim : "+ dim);
                     setPreferredSize(dim);
                 }
             }
         } catch (Exception e) {
             super.getTreeCellRendererComponent(tree, e.toString(), sel, expanded, leaf, row, hasFocus);
         }
-        System.out.println("Size of " + value + " : " + getPreferredSize());
         return this;
     }
 
