@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: Window.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -72,10 +72,9 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: Window.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
-public class Window extends NyxWindow
-{
+public class Window extends NyxWindow {
     /**
      * the native window
      */
@@ -100,15 +99,12 @@ public class Window extends NyxWindow
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
-    public void destroy()
-    {
+    public void destroy() {
         processDestroy();
         ArrayList children = getChildWidgets();
-        if (children != null)
-        {
+        if (children != null) {
             Iterator it = children.iterator();
-            while (it.hasNext())
-            {
+            while (it.hasNext()) {
                 Widget cw = (Widget) it.next();
                 cw.destroy();
             }
@@ -122,8 +118,7 @@ public class Window extends NyxWindow
         windowListener = null;
         window.setVisible(false);
         Container container = window.getParent();
-        if (container != null)
-        {
+        if (container != null) {
             container.remove(window);
         }
         window.dispose();
@@ -133,8 +128,7 @@ public class Window extends NyxWindow
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
-    public Object getNativeWidget()
-    {
+    public Object getNativeWidget() {
         initialize();
         return window;
     }
@@ -142,10 +136,8 @@ public class Window extends NyxWindow
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
-    public void initialize()
-    {
-        if (this.initialized)
-        {
+    public void initialize() {
+        if (this.initialized) {
             return;
         }
         initialized = true;
@@ -160,32 +152,22 @@ public class Window extends NyxWindow
         String windowType = getProperty("window-type");
         // don't have a clue yet what to use here
         // for swing to work correctlly
-        if ("model".equalsIgnoreCase(windowType))
-        {
-        }
-        else if ("toolbox".equalsIgnoreCase(windowType))
-        {
-        }
-        else
-        {
+        if ("model".equalsIgnoreCase(windowType)) {
+        } else if ("toolbox".equalsIgnoreCase(windowType)) {
+        } else {
             // @todo Introduce MDI type of windowing
             // mdi is the default.
         }
         initializeChildren();
         boolean autoSize = BooleanUtils.toBoolean(getProperty("autosize"));
-        if (autoSize)
-        {
+        if (autoSize) {
             Dimension dim = window.getContentPane().getLayout().preferredLayoutSize(window.getContentPane());
             window.pack();
-        }
-        else
-        {
-            window.setSize(getRectangle().getWidth(),
-                            getRectangle().getHeight());
+        } else {
+            window.setSize(getRectangle().getWidth(), getRectangle().getHeight());
         }
 
-        if (!isRefreshing())
-        {
+        if (!isRefreshing()) {
             refresh();
         }
         processInit();
@@ -195,13 +177,11 @@ public class Window extends NyxWindow
     /**
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
-    public void refresh()
-    {
+    public void refresh() {
         isRefreshing = true;
         initialize();
         String image = getProperty("icon");
-        if (image != null)
-        {
+        if (image != null) {
             try {
                 ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(image));
                 window.setIconImage(SwingUtils.getImage(image, this));
@@ -219,16 +199,14 @@ public class Window extends NyxWindow
     /**
      * @see org.xulux.nyx.gui.Widget#canContainChildren()
      */
-    public boolean canContainChildren()
-    {
+    public boolean canContainChildren() {
         return true;
     }
 
     /**
      * @see org.xulux.nyx.gui.NyxWindow#addToParent(Widget)
      */
-    public void addToParent(Widget widget)
-    {
+    public void addToParent(Widget widget) {
         if (widget instanceof IShowChildWidgets) {
             List children = widget.getChildWidgets();
             if (children != null && children.size() > 0) {
@@ -239,9 +217,7 @@ public class Window extends NyxWindow
                 }
             }
         } else {
-            System.out.println("widget : " + widget.getNativeWidget());
             window.getContentPane().add((JComponent) widget.getNativeWidget(), widget);
-            widget.refresh();
         }
     }
 
@@ -270,7 +246,8 @@ public class Window extends NyxWindow
             if (getPart() == null) {
                 return;
             }
-            while (getPart().isActivating()) { };
+            while (getPart().isActivating()) {
+            };
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
                     /**

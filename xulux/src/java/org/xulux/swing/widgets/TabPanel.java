@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: TabPanel.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.swing.util.SwingUtils;
  *
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
 
@@ -128,8 +128,7 @@ public class TabPanel extends ContainerWidget {
         Container container = tabPanel.getParent();
         tabPanel.setVisible(false);
         tabPanel.removeAll();
-        if (container != null)
-        {
+        if (container != null) {
             container.remove(tabPanel);
         }
         tabPanel = null;
@@ -179,8 +178,7 @@ public class TabPanel extends ContainerWidget {
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
     public void initialize() {
-        if (initialized)
-        {
+        if (initialized) {
             return;
         }
         // we default to XYLayout for now..
@@ -188,7 +186,7 @@ public class TabPanel extends ContainerWidget {
         tabPanel = new JTabbedPane();
         repaintComponent = new RepaintComponent();
         tabPanel.addHierarchyListener(repaintComponent);
-        repaintThread  = new Thread(repaintComponent);
+        repaintThread = new Thread(repaintComponent);
         repaintThread.start();
         System.err.println("Still running");
         initializeChildren();
@@ -242,7 +240,7 @@ public class TabPanel extends ContainerWidget {
             // add the tabId to the property of the widget.
             widget.setProperty(TABID, String.valueOf(tabCount));
             // Set the selectedIndex to the first tab that is not disabled.
-            if (initialFocus == null && widget.isEnabled() && widget.isVisible() ) {
+            if (initialFocus == null && widget.isEnabled() && widget.isVisible()) {
                 initialFocus = String.valueOf(tabCount);
                 tabPanel.setSelectedIndex(tabCount);
             }
@@ -356,8 +354,7 @@ public class TabPanel extends ContainerWidget {
                         tabPanel.setSelectedIndex(index);
                     }
                 });
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace(System.out);
             }
         }

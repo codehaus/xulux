@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.2 2003-12-23 01:21:36 mvdb Exp $
+ $Id: Button.java,v 1.3 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,7 +57,6 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JRootPane;
 
 import org.xulux.gui.NyxListener;
@@ -71,7 +70,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.2 2003-12-23 01:21:36 mvdb Exp $
+ * @version $Id: Button.java,v 1.3 2003-12-23 02:00:06 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -223,11 +222,9 @@ public class Button extends SwingWidget {
         }
         if (BooleanUtils.toBoolean(getProperty("defaultbutton"))) {
             button.setDefaultCapable(true);
-            JRootPane pane = SwingUtils.getRootPane(button);
+            JRootPane pane = button.getRootPane();
             if (pane != null) {
-                System.out.println("Parent : " + pane);
                 pane.setDefaultButton(button);
-                //((JComponent) button.getParent()).getRootPane().setDefaultButton(button);
             }
         }
         button.setEnabled(isEnabled());

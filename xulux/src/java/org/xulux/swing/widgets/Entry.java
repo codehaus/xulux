@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: Entry.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,11 +69,9 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: Entry.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
-public class Entry
-extends SwingWidget
-{
+public class Entry extends SwingWidget {
     /**
      * The log instance
      */
@@ -106,7 +104,6 @@ extends SwingWidget
      */
     private Class valueClass;
 
-
     /**
      * Constructor for Entry.
      * @param name the name of the entry
@@ -118,15 +115,12 @@ extends SwingWidget
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
-    public void destroy()
-    {
+    public void destroy() {
         processDestroy();
-        if (textComponent != null)
-        {
+        if (textComponent != null) {
             textComponent.removeAll();
             Container container = textComponent.getParent();
-            if (container != null)
-            {
+            if (container != null) {
                 container.remove(textComponent);
             }
             textComponent = null;
@@ -139,8 +133,7 @@ extends SwingWidget
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
-    public Object getNativeWidget()
-    {
+    public Object getNativeWidget() {
         if (!initialized) {
             initialize();
         }
@@ -188,7 +181,6 @@ extends SwingWidget
         this.setValueCalled = false;
     }
 
-
     /**
      * Initializes the initial value, if any.
      *
@@ -216,15 +208,14 @@ extends SwingWidget
     /**
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
-    public void refresh()
-    {
+    public void refresh() {
         isRefreshing = true;
         initialize();
         textComponent.setEnabled(isEnabled());
         textComponent.setVisible(isVisible());
         textComponent.setPreferredSize(this.size);
         String backgroundColor = null;
-        if (isRequired()  && isEnabled()) {
+        if (isRequired() && isEnabled()) {
             backgroundColor = getProperty("required-background-color");
         } else if (!isEnabled()) {
             backgroundColor = getProperty("disabled-background-color");
@@ -237,7 +228,7 @@ extends SwingWidget
         }
 
         String foreGroundColor = null;
-        if (isRequired()  && isEnabled()) {
+        if (isRequired() && isEnabled()) {
             foreGroundColor = getProperty("required-foreground-color");
         } else if (!isEnabled()) {
             foreGroundColor = getProperty("disabled-foreground-color");
@@ -273,29 +264,27 @@ extends SwingWidget
      *
      * @see org.xulux.nyx.gui.Widget#getValue()
      */
-    public Object getValue()
-    {
+    public Object getValue() {
         return this.value;
-//        Object object = null;
-//        IConverter converter = Dictionary.getConverter(this.value);
-//        System.err.println("converter : "+converter);
-//        if (converter != null) {
-//            object = converter.getBeanValue(this.value);
-//        } else {
-//            object = this.value;
-//        }
-//        System.err.println("Object : "+object);
-//        return object;
+        //        Object object = null;
+        //        IConverter converter = Dictionary.getConverter(this.value);
+        //        System.err.println("converter : "+converter);
+        //        if (converter != null) {
+        //            object = converter.getBeanValue(this.value);
+        //        } else {
+        //            object = this.value;
+        //        }
+        //        System.err.println("Object : "+object);
+        //        return object;
     }
 
     /**
      * Lets changes reflect onscreen.
      * @param value
      * @todo Make this all utility classes, since this is a lot of code reproducing !
-
+    
      */
-    protected void initializeValue()
-    {
+    protected void initializeValue() {
         if (getField() == null) {
             if (getValue() != null) {
                 if (getProperty("entryfields") != null) {
@@ -303,22 +292,18 @@ extends SwingWidget
                     String entryValue = "";
                     BeanMapping mapping = Dictionary.getInstance().getMapping(getValue());
                     StringTokenizer stn = new StringTokenizer(entryFields, ",");
-                        while (stn.hasMoreTokens())
-                        {
-                            String token = stn.nextToken();
-                            String strPart = "";
-                            IField iField = mapping.getField(token);
-                            if (iField != null)
-                            {
-                                strPart = iField.getValue(getValue()).toString();
-                            }
-                            else
-                            {
-                                //allow seperators in the field list.
-                                strPart = token;
-                            }
-                            entryValue += strPart;
+                    while (stn.hasMoreTokens()) {
+                        String token = stn.nextToken();
+                        String strPart = "";
+                        IField iField = mapping.getField(token);
+                        if (iField != null) {
+                            strPart = iField.getValue(getValue()).toString();
+                        } else {
+                            //allow seperators in the field list.
+                            strPart = token;
                         }
+                        entryValue += strPart;
+                    }
                     textComponent.setText(String.valueOf(entryValue));
                     return;
                 }
@@ -388,16 +373,14 @@ extends SwingWidget
      * @see org.xulux.nyx.gui.Widget#setValue(Object)
      * @param object
      */
-    public void setValue(Object object)
-    {
+    public void setValue(Object object) {
         // if there is not field present
         // we set the value passed in
         // and check to see if the field
         // needs updating or not.
         if (getField() == null) {
             if (object != null) {
-                if (valueClass != null
-                    && !valueClass.isAssignableFrom(object.getClass())) {
+                if (valueClass != null && !valueClass.isAssignableFrom(object.getClass())) {
                     IConverter converter = Dictionary.getConverter(valueClass);
                     if (converter != null) {
                         object = converter.getBeanValue(object);
@@ -408,25 +391,25 @@ extends SwingWidget
                 this.previousValue = this.value;
             }
             this.value = object;
-//            if (getValue() != null) {
-//                if (valueClass != null) {
-//                    if (valueClass.isAssignableFrom(getValue())) {
-//                        IConverter converter =  Dictionary.getConverter(valueClass);
-//                        if (converter != null) {
-//                            this.previousValue = getValue();
-//                            this.value = converter.getBeanValue(object);
-//                        }
-//                    }
-//                if (getValue() != object) {
-//                    this.previousValue = getValue();
-//                    this.value = object;
-//                } else {
-//                    // nothing changed, so return
-//                    return;
-//                }
-//            } else {
-//                this.value = object;
-//            }
+            //            if (getValue() != null) {
+            //                if (valueClass != null) {
+            //                    if (valueClass.isAssignableFrom(getValue())) {
+            //                        IConverter converter =  Dictionary.getConverter(valueClass);
+            //                        if (converter != null) {
+            //                            this.previousValue = getValue();
+            //                            this.value = converter.getBeanValue(object);
+            //                        }
+            //                    }
+            //                if (getValue() != object) {
+            //                    this.previousValue = getValue();
+            //                    this.value = object;
+            //                } else {
+            //                    // nothing changed, so return
+            //                    return;
+            //                }
+            //            } else {
+            //                this.value = object;
+            //            }
         } else {
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             if (map != null) {
@@ -449,19 +432,14 @@ extends SwingWidget
     /**
      * @see org.xulux.nyx.gui.Widget#clear()
      */
-    public void clear()
-    {
-        if (textComponent == null)
-        {
+    public void clear() {
+        if (textComponent == null) {
             this.value = null;
-        }
-        else
-        {
+        } else {
             this.value = null;
             textComponent.setText("");
         }
-        if (initialized)
-        {
+        if (initialized) {
             refresh();
         }
     }

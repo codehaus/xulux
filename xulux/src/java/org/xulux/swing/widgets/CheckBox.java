@@ -1,5 +1,5 @@
 /*
- $Id: CheckBox.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: CheckBox.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -64,7 +64,7 @@ import org.xulux.utils.BooleanUtils;
  * The nyx to swing implementation of a checkbox
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
 
@@ -90,12 +90,10 @@ public class CheckBox extends SwingWidget {
      */
     public void destroy() {
         processDestroy();
-        if (checkBox != null)
-        {
+        if (checkBox != null) {
             Container container = checkBox.getParent();
             checkBox.setVisible(false);
-            if (container != null)
-            {
+            if (container != null) {
                 container.remove(checkBox);
             }
             if (itemListener != null) {
@@ -173,8 +171,7 @@ public class CheckBox extends SwingWidget {
             return super.getValue();
         }
         BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
-        if (map != null)
-        {
+        if (map != null) {
             IField field = map.getField(getField());
             if (field != null) {
                 return field.getValue(getPart().getBean());
@@ -209,8 +206,7 @@ public class CheckBox extends SwingWidget {
             }
         }
         this.value = value;
-        if (initialized)
-        {
+        if (initialized) {
             refresh();
         }
     }

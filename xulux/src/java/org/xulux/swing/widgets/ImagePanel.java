@@ -1,5 +1,5 @@
 /*
- $Id: ImagePanel.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: ImagePanel.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -43,13 +43,13 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
- package org.xulux.swing.widgets;
+package org.xulux.swing.widgets;
 
 /**
  * Container for an image.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImagePanel.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: ImagePanel.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
 public class ImagePanel extends Panel {
 

@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: Table.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -84,7 +84,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: Table.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -280,7 +280,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             this.destroyTable();
             if (this.columnModel == null) {
                 this.columnModel = new NyxTableColumnModel(this);
-//                System.out.println("hasLockedColumns : "+this.columnModel.hasLockedColumns());
+                //                System.out.println("hasLockedColumns : "+this.columnModel.hasLockedColumns());
             }
             if (this.model == null) {
                 if (content instanceof TableModel) {
@@ -313,7 +313,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                 ((NyxTableColumnModel) table.getColumnModel()).removeLockedColumns();
                 ((NyxTableColumnModel) table.getColumnModel()).removeUnlockedColumns();
                 lockedTable.setPreferredScrollableViewportSize(columnModel.getLockedColumnWidth());
-//                System.out.println("ColumnModel : "+columnModel.getLockedColumnWidth());
+                //                System.out.println("ColumnModel : "+columnModel.getLockedColumnWidth());
                 scrollPane.setRowHeaderView(lockedTable);
                 scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, lockedTable.getTableHeader());
             }
@@ -327,7 +327,7 @@ public class Table extends ContainerWidget implements IContentWidget {
         String height = getProperty("rowHeight");
         if (height != null) {
             int rowHeight = Integer.valueOf(height).intValue();
-            if (rowHeight > 0 ) {
+            if (rowHeight > 0) {
                 table.setRowHeight(Integer.valueOf(height).intValue());
             }
         }
@@ -377,7 +377,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             return null;
         }
         int selectedRow = table.getSelectedRow();
-        if (selectedRow == -1 ) {
+        if (selectedRow == -1) {
             return null;
         }
         if (table.getRowSelectionAllowed() && !table.getCellSelectionEnabled()) {
@@ -449,7 +449,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             int index = contentProp.lastIndexOf(".");
             BeanMapping mapping = null;
             IField field = null;
-            if (index == -1 ) {
+            if (index == -1) {
                 mapping = Dictionary.getInstance().getMapping(getPart().getBean());
                 field = mapping.getField(contentProp);
             } else {
@@ -459,8 +459,8 @@ public class Table extends ContainerWidget implements IContentWidget {
             if (field != null) {
                 //System.out.println("Field : "+field);
                 this.content = NyxCollectionUtils.getList(field.getValue(getPart().getBean()));
-//                System.err.println("CONTENT : "+this.content);
-//                System.err.println("field : "+((List)field.getValue(getPart().getBean())).size());
+                //                System.err.println("CONTENT : "+this.content);
+                //                System.err.println("field : "+((List)field.getValue(getPart().getBean())).size());
                 contentChanged = true;
             } else {
                 if (log.isWarnEnabled()) {
@@ -491,8 +491,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                 Widget widget = getPart().getWidget((String) it.next());
                 if (widget != null) {
                     String actionType = widget.getProperty("action.type");
-                    if (actionType != null && (
-                          actionType.equals("update") || actionType.equals("delete"))) {
+                    if (actionType != null && (actionType.equals("update") || actionType.equals("delete"))) {
                         widget.setEnable(buttonState);
                     }
                 }
@@ -504,8 +503,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                     Widget cw = (Widget) it.next();
                     if (cw instanceof MenuItem) {
                         String actionType = cw.getProperty("action.type");
-                        if (actionType != null && (
-                              actionType.equals("update") || actionType.equals("delete"))) {
+                        if (actionType != null && (actionType.equals("update") || actionType.equals("delete"))) {
                             cw.setEnable(buttonState);
                         }
                     }
@@ -597,7 +595,6 @@ public class Table extends ContainerWidget implements IContentWidget {
         return true;
     }
 
-
     /**
      *
      * @return the content of the table or null when no content is present
@@ -655,8 +652,8 @@ public class Table extends ContainerWidget implements IContentWidget {
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             IField field = map.getField(getField());
             if (field != null) {
-                Object currentValue =  field.getValue(getPart().getBean());
-                if (currentValue != null ) {
+                Object currentValue = field.getValue(getPart().getBean());
+                if (currentValue != null) {
                     this.previousValue = currentValue;
                 }
                 field.setValue(getPart().getBean(), value);
@@ -699,7 +696,7 @@ public class Table extends ContainerWidget implements IContentWidget {
      * Stop editing the table if currently editing.
      */
     public void stopEditing() {
-       editor.stopCellEditing(table);
+        editor.stopCellEditing(table);
     }
 
     /**

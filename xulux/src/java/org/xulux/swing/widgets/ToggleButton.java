@@ -1,5 +1,5 @@
 /*
- $Id: ToggleButton.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: ToggleButton.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,7 +68,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a togglebutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ToggleButton.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: ToggleButton.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
 public class ToggleButton extends Widget {
 
@@ -167,40 +167,36 @@ public class ToggleButton extends Widget {
         // currently I got to the point when the rollover image was still active
         // when leaving the button with the mouse, no events were fired or eaten?
         // need to investigate further.
-//        toggleButton.getModel().addChangeListener(new ChangeListener() {
-//
-//            public void stateChanged(ChangeEvent e) {
-//                System.out.println("statechanged..."+e);
-//                toggleButton.invalidate();
-//                toggleButton.repaint();
-//            }
-//
-//        });
+        //        toggleButton.getModel().addChangeListener(new ChangeListener() {
+        //
+        //            public void stateChanged(ChangeEvent e) {
+        //                System.out.println("statechanged..."+e);
+        //                toggleButton.invalidate();
+        //                toggleButton.repaint();
+        //            }
+        //
+        //        });
         String image = getProperty("image");
-        if (image != null)
-        {
+        if (image != null) {
             ImageIcon normalIcon = SwingUtils.getIcon(image, this);
             toggleButton.setIcon(normalIcon);
             toggleButton.setFocusPainted(true);
         }
         String disabledImage = getProperty("image-disabled");
-        if (disabledImage != null)
-        {
+        if (disabledImage != null) {
             ImageIcon icon = SwingUtils.getIcon(disabledImage, this);
             toggleButton.setDisabledIcon(icon);
             toggleButton.setDisabledSelectedIcon(icon);
         }
         String rolloverImage = getProperty("image-rollover");
-        if (rolloverImage != null)
-        {
+        if (rolloverImage != null) {
             ImageIcon icon = SwingUtils.getIcon(rolloverImage, this);
             toggleButton.setRolloverEnabled(true);
             toggleButton.setRolloverIcon(icon);
         }
 
         String selectedImage = getProperty("image-selected");
-        if (selectedImage != null)
-        {
+        if (selectedImage != null) {
             ImageIcon icon = SwingUtils.getIcon(selectedImage, this);
             toggleButton.setSelectedIcon(icon);
             toggleButton.setPressedIcon(icon);
@@ -208,16 +204,13 @@ public class ToggleButton extends Widget {
             toggleButton.setRolloverEnabled(true);
             // we need to add a focuslistener to set the image
             // when focus is there to the selected image
-            if (this.focusListener == null)
-            {
-                this.focusListener = new FocusListener()
-                {
+            if (this.focusListener == null) {
+                this.focusListener = new FocusListener() {
                     Icon normalIcon;
                     /**
                      * @see java.awt.event.FocusListener#focusGained(FocusEvent)
                      */
-                    public void focusGained(FocusEvent e)
-                    {
+                    public void focusGained(FocusEvent e) {
                         if (normalIcon == null) {
                             normalIcon = toggleButton.getIcon();
                         }
@@ -227,8 +220,7 @@ public class ToggleButton extends Widget {
                     /**
                      * @see java.awt.event.FocusListener#focusLost(FocusEvent)
                      */
-                    public void focusLost(FocusEvent e)
-                    {
+                    public void focusLost(FocusEvent e) {
                         String image = getProperty("image");
                         if (image != null) {
                             ImageIcon normalIcon = SwingUtils.getIcon(image, this);
@@ -283,7 +275,7 @@ public class ToggleButton extends Widget {
      */
     public Object getValue() {
         if (getPart().getBean() == null || getField() == null) {
-            Object retValue =  super.getValue();
+            Object retValue = super.getValue();
             if (retValue == null) {
                 retValue = getGuiValue();
             }

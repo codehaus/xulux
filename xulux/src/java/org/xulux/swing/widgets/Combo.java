@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: Combo.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,10 +63,9 @@ import org.xulux.swing.util.NyxEventQueue;
  * The swing combo widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: Combo.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
-public class Combo extends NyxCombo
-{
+public class Combo extends NyxCombo {
     /**
      * The native combobox
      */
@@ -102,8 +101,7 @@ public class Combo extends NyxCombo
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
-    public Object getNativeWidget()
-    {
+    public Object getNativeWidget() {
         initialize();
         return combo;
     }
@@ -111,18 +109,14 @@ public class Combo extends NyxCombo
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
-    public void destroy()
-    {
+    public void destroy() {
         processDestroy();
-        if (combo != null)
-        {
-            if (actionListener != null)
-            {
+        if (combo != null) {
+            if (actionListener != null) {
                 combo.removeActionListener(actionListener);
                 actionListener = null;
             }
-            if (keyListener != null)
-            {
+            if (keyListener != null) {
                 combo.removeKeyListener(keyListener);
                 keyListener = null;
             }
@@ -132,8 +126,7 @@ public class Combo extends NyxCombo
             }
             combo.removeAll();
             Container container = combo.getParent();
-            if (container != null)
-            {
+            if (container != null) {
                 container.remove(combo);
             }
             combo = null;
@@ -141,21 +134,17 @@ public class Combo extends NyxCombo
         super.destroy();
     }
 
-
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
-    public void initialize()
-    {
+    public void initialize() {
 
-        if (this.initialized)
-        {
+        if (this.initialized) {
             return;
         }
         this.initialized = true;
         String nsv = getProperty("notselectedvalue");
-        if (nsv != null)
-        {
+        if (nsv != null) {
             this.notSelectedValue = nsv;
         }
         combo = new NyxJComboBox();
@@ -169,20 +158,16 @@ public class Combo extends NyxCombo
     /**
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
-    public void refresh()
-    {
+    public void refresh() {
         if (isRefreshing()) {
             return;
         }
         isRefreshing = true;
         initialize();
-        if (isImmidiate() && keyListener == null)
-        {
+        if (isImmidiate() && keyListener == null) {
             keyListener = new ImmidiateListener(this);
             combo.addKeyListener(keyListener);
-        }
-        else if (!isImmidiate() && keyListener != null)
-        {
+        } else if (!isImmidiate() && keyListener != null) {
             combo.removeKeyListener(keyListener);
         }
         // for now commented out. This makes the combo editable, when the
@@ -236,16 +221,14 @@ public class Combo extends NyxCombo
                     }
                 }
             }
-            if (model != null && model.getSelectedIndex() == 0
-                && contentChanged) {
+            if (model != null && model.getSelectedIndex() == 0 && contentChanged) {
                 this.value = model.getRealSelectedValue();
             }
         }
         String backgroundColor = null;
         if (isRequired() && isEnabled()) {
             backgroundColor = getProperty("required-background-color");
-        }
-        else if (!isEnabled()) {
+        } else if (!isEnabled()) {
             backgroundColor = getProperty("disabled-background-color");
         } else {
             backgroundColor = getProperty("default-background-color");
@@ -280,8 +263,7 @@ public class Combo extends NyxCombo
      * @see org.xulux.nyx.gui.Widget#isValueEmpty()
      */
     public boolean isValueEmpty() {
-        if (getGuiValue() == null || getGuiValue().equals("")
-            || getGuiValue().equals(getNotSelectedValue())) {
+        if (getGuiValue() == null || getGuiValue().equals("") || getGuiValue().equals(getNotSelectedValue())) {
             return true;
         }
         return false;

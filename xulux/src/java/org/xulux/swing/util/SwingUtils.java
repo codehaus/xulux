@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.4 2003-12-23 01:21:17 mvdb Exp $
+ $Id: SwingUtils.java,v 1.5 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,8 +52,6 @@ import java.awt.MediaTracker;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JRootPane;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,7 +63,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * Contains several utilities to make life with swing easier.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.4 2003-12-23 01:21:17 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.5 2003-12-23 02:00:06 mvdb Exp $
  */
 public class SwingUtils {
 
@@ -217,24 +215,6 @@ public class SwingUtils {
                 return new Insets(top, left, bottom, right);
             } catch (Exception e) {
                 return null;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @param comp the component
-     * @return the rootpane of the specified object. If the object has no
-     *          rootpane, it will try it's parents.
-     */
-    public static JRootPane getRootPane(JComponent comp) {
-        if (comp.getRootPane() != null) {
-            return comp.getRootPane();
-        }
-        JComponent parent = comp;
-        while (parent.getParent() != null) {
-            if (parent.getRootPane() != null) {
-                return parent.getRootPane();
             }
         }
         return null;

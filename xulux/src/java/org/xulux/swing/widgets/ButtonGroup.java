@@ -1,5 +1,5 @@
 /*
- $Id: ButtonGroup.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: ButtonGroup.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,11 +61,9 @@ import org.xulux.gui.Widget;
  * that this widget cannot be shown on screen, but it's children do..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ButtonGroup.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: ButtonGroup.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
-public class ButtonGroup extends ContainerWidget
-implements IShowChildWidgets
-{
+public class ButtonGroup extends ContainerWidget implements IShowChildWidgets {
 
     /**
      * The native buttongroup
@@ -139,7 +137,6 @@ implements IShowChildWidgets
             }
         }
     }
-
 
     /**
      * @see org.xulux.nyx.gui.Widget#getGuiValue()

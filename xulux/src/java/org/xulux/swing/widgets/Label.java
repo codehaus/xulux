@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: Label.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,10 +61,9 @@ import org.xulux.utils.BooleanUtils;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: Label.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
-public class Label extends SwingWidget
-{
+public class Label extends SwingWidget {
 
     /**
      * The native label
@@ -121,8 +120,7 @@ public class Label extends SwingWidget
      *
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
-    public void refresh()
-    {
+    public void refresh() {
         initialize();
         initializeValue();
         if (getProperty("text") != null) {
@@ -139,16 +137,11 @@ public class Label extends SwingWidget
         String ha = getProperty("horizontalalignment");
         // we use the swing default..
         if (ha != null) {
-            if (ha.equalsIgnoreCase("left"))
-            {
+            if (ha.equalsIgnoreCase("left")) {
                 label.setHorizontalAlignment(JLabel.LEFT);
-            }
-            else if (ha.equalsIgnoreCase("center"))
-            {
+            } else if (ha.equalsIgnoreCase("center")) {
                 label.setHorizontalAlignment(JLabel.CENTER);
-            }
-            else
-            {
+            } else {
                 label.setHorizontalAlignment(JLabel.RIGHT);
             }
         }
@@ -252,9 +245,8 @@ public class Label extends SwingWidget
      * @see org.xulux.nyx.gui.Widget#isValueEmpty()
      */
     public boolean isValueEmpty() {
-        if (getProperty("text") == null
-            || getProperty("text").equals("")) {
-                 return true;
+        if (getProperty("text") == null || getProperty("text").equals("")) {
+            return true;
         }
         return false;
     }

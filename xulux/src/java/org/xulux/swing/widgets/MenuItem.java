@@ -1,5 +1,5 @@
 /*
- $Id: MenuItem.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: MenuItem.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,7 +63,7 @@ import org.xulux.swing.listeners.PrePostFieldListener;
  * menuitem
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MenuItem.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: MenuItem.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
 public class MenuItem extends Widget {
 
@@ -186,7 +186,6 @@ public class MenuItem extends Widget {
     private void refreshSeperator() {
         // do nothing..
     }
-
 
     /**
      * @see org.xulux.nyx.gui.Widget#getGuiValue()

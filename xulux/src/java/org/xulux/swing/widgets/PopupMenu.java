@@ -1,5 +1,5 @@
 /*
- $Id: PopupMenu.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: PopupMenu.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.gui.Widget;
  * A popopmenu
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupMenu.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: PopupMenu.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
 public class PopupMenu extends ContainerWidget {
 
@@ -121,9 +121,7 @@ public class PopupMenu extends ContainerWidget {
             // check if the parent is showing, else an exception will be
             // thrown
             if (((Component) getParent().getNativeWidget()).isShowing()) {
-                menu.show((Component) getParent().getNativeWidget(),
-                  getRectangle().getX(),
-                  getRectangle().getY());
+                menu.show((Component) getParent().getNativeWidget(), getRectangle().getX(), getRectangle().getY());
             }
         }
     }

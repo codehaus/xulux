@@ -1,5 +1,5 @@
 /*
- $Id: TextArea.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: TextArea.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -64,7 +64,7 @@ import org.xulux.utils.BooleanUtils;
  * The swing textare widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.2 2003-12-23 02:00:06 mvdb Exp $
  */
 public class TextArea extends Entry {
 
@@ -85,7 +85,6 @@ public class TextArea extends Entry {
      */
     private Log log = LogFactory.getLog(TextArea.class);
 
-
     /**
      * @param name the textarea name
      */
@@ -96,15 +95,12 @@ public class TextArea extends Entry {
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
-    public void destroy()
-    {
+    public void destroy() {
         processDestroy();
-        if (textComponent != null)
-        {
+        if (textComponent != null) {
             textComponent.removeAll();
             Container container = textComponent.getParent();
-            if (container != null)
-            {
+            if (container != null) {
                 container.remove(textComponent);
             }
             textComponent = null;
@@ -116,10 +112,8 @@ public class TextArea extends Entry {
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
-    public Object getNativeWidget()
-    {
-        if (!initialized)
-        {
+    public Object getNativeWidget() {
+        if (!initialized) {
             initialize();
         }
         return textComponent;
@@ -128,41 +122,29 @@ public class TextArea extends Entry {
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
-    public void initialize()
-    {
-        if (this.initialized)
-        {
+    public void initialize() {
+        if (this.initialized) {
             return;
         }
         this.initialized = true;
         this.setValueCalled = true;
         textComponent = new JTextArea();
-        if (isImmidiate())
-        {
-            if (this.immidiateListener == null)
-            {
+        if (isImmidiate()) {
+            if (this.immidiateListener == null) {
                 NyxListener listener = getPart().getFieldEventHandler(this);
-                if (listener != null)
-                {
+                if (listener != null) {
                     this.immidiateListener = (PrePostFieldListener) listener;
-                }
-                else
-                {
+                } else {
                     this.immidiateListener = new PrePostFieldListener(this);
                 }
             }
         }
-        if (isVisible())
-        {
-            if (focusListener == null)
-            {
+        if (isVisible()) {
+            if (focusListener == null) {
                 NyxListener listener = getPart().getFieldEventHandler(this);
-                if (listener == null)
-                {
+                if (listener == null) {
                     focusListener = (PrePostFieldListener) listener;
-                }
-                else
-                {
+                } else {
                     focusListener = new PrePostFieldListener(this);
                 }
                 textComponent.addFocusListener(focusListener);
@@ -176,8 +158,7 @@ public class TextArea extends Entry {
     /**
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
-    public void refresh()
-    {
+    public void refresh() {
         isRefreshing = true;
         initialize();
         textComponent.setEnabled(isEnabled());
@@ -185,24 +166,18 @@ public class TextArea extends Entry {
         textComponent.setPreferredSize(this.size);
         initializeValue();
         String backgroundColor = null;
-        if (isRequired()  && isEnabled())
-        {
+        if (isRequired() && isEnabled()) {
             backgroundColor = getProperty("required-background-color");
-        }
-        else if (!isEnabled())
-        {
+        } else if (!isEnabled()) {
             backgroundColor = getProperty("disabled-background-color");
-        }
-        else
-        {
+        } else {
             backgroundColor = getProperty("default-background-color");
         }
-        if (backgroundColor != null)
-        {
+        if (backgroundColor != null) {
             textComponent.setBackground(ColorUtils.getSwingColor(backgroundColor));
         }
         String foreGroundColor = null;
-        if (isRequired()  && isEnabled()) {
+        if (isRequired() && isEnabled()) {
             foreGroundColor = getProperty("required-foreground-color");
         } else if (!isEnabled()) {
             foreGroundColor = getProperty("disabled-foreground-color");
@@ -227,8 +202,7 @@ public class TextArea extends Entry {
                     thickness = Integer.parseInt(borderThickness);
                 } catch (NumberFormatException nfe) {
                     if (log.isWarnEnabled()) {
-                        log.warn("invalid borderthickness, value is "
-                          + borderThickness + ", but should be a number ");
+                        log.warn("invalid borderthickness, value is " + borderThickness + ", but should be a number ");
                     }
                 }
             }
