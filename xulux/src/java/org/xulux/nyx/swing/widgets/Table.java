@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.6 2003-08-03 22:58:42 mvdb Exp $
+ $Id: Table.java,v 1.7 2003-08-04 01:59:10 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,28 +46,53 @@
 package org.xulux.nyx.swing.widgets;
 
 import java.awt.Container;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.swing.NyxJTable;
+import org.xulux.nyx.swing.models.NyxTableColumnModel;
+import org.xulux.nyx.swing.models.NyxTableModel;
+import org.xulux.nyx.swing.util.SwingUtils;
+import org.xulux.nyx.utils.ClassLoaderUtils;
+import org.xulux.nyx.utils.NyxCollectionUtils;
 
 /**
  * A nyx table.. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.6 2003-08-03 22:58:42 mvdb Exp $
+ * @version $Id: Table.java,v 1.7 2003-08-04 01:59:10 mvdb Exp $
  */
 public class Table extends ContainerWidget {
 
 
     protected JTable table;
+    
     /** 
      * This is the native widget
      */
     protected JScrollPane scrollPane;
+    
+    protected List content;
+    protected boolean contentChanged;
+    protected static Log log = LogFactory.getLog(Table.class);
+    
+    /**
+     * The columnModel
+     */
+    protected NyxTableColumnModel columnModel;
+    
+    /**
+     * The tablemodel
+     */
+    protected NyxTableModel model;
     
     /**
      * @param name
@@ -76,6 +101,27 @@ public class Table extends ContainerWidget {
         super(name);
     }
 
+    public void destroyTable() {
+        if (!initialized) {
+            return;
+        }
+        if (this.columnModel != null) {
+            this.columnModel.destroy();
+            this.columnModel = null;
+        }
+        if (this.model != null) {
+            this.model.destroy();
+            this.model = null;
+        }
+        if (this.scrollPane != null) {
+            try {
+                this.scrollPane.remove(this.table);
+            }catch(NullPointerException npe) { 
+                // eat it..
+            }
+        }
+        this.table = null;
+    }
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
@@ -84,10 +130,10 @@ public class Table extends ContainerWidget {
             return;
         }
         processDestroy();
+        destroyTable();
         if (this.scrollPane == null) {
             return;
         }
-        this.scrollPane.remove(this.table);
         Container container = this.scrollPane.getParent();
         this.scrollPane.setVisible(false);
         this.scrollPane.removeAll();
@@ -96,12 +142,16 @@ public class Table extends ContainerWidget {
             container.remove(this.scrollPane);
         }
         this.scrollPane = null;
+        this.table = null;
     }
 
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
     public Object getNativeWidget() {
+        if (!initialized) {
+            initialize();
+        }
         return this.scrollPane;
     }
 
@@ -113,8 +163,8 @@ public class Table extends ContainerWidget {
             return;
         }
         initialized = true;
-        this.table = new NyxJTable();
         this.scrollPane = new JScrollPane();
+        refresh();
         processInit();
     }
 
@@ -122,6 +172,25 @@ public class Table extends ContainerWidget {
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public void refresh() {
+        initializeContent();
+        System.out.println("initializeContent : "+contentChanged);
+        if (contentChanged) {
+            this.destroyTable();
+            if (this.columnModel == null) {
+                this.columnModel = new NyxTableColumnModel(this);
+            }
+            if (this.model == null) {
+                this.model = new NyxTableModel(this);
+            }
+            this.table = new JTable(this.model,this.columnModel);
+            this.table.setPreferredSize(SwingUtils.getDimension(getRectangle()));
+            this.scrollPane.setViewportView(this.table);
+            this.scrollPane.setVisible(true);
+            this.table.setVisible(true);
+            
+            //this.model.refresh();
+        }
+        System.out.println("content : "+this.content);
 
     }
 
@@ -151,13 +220,9 @@ public class Table extends ContainerWidget {
     }
 
     /**
-     * This adds widgets to the table..
      * @see org.xulux.nyx.gui.ContainerWidget#addToParent(org.xulux.nyx.gui.Widget)
      */
     public void addToParent(Widget widget) {
-        if (widget instanceof Label) {
-            
-        } 
     }
 
     /**
@@ -173,5 +238,52 @@ public class Table extends ContainerWidget {
     public boolean isValueEmpty() {
         return true;
     }
-
+    
+    /**
+     * Initializes the content when the property
+     * content and content.type is present
+     */
+    protected void initializeContent() {
+        String content = getProperty("content");
+        String contentType = getProperty("content.type");
+        if (content == null || contentType == null) {
+            return;
+        }
+        if (contentType.equalsIgnoreCase("string")) {
+            this.content = NyxCollectionUtils.getListFromCSV(content);
+            contentChanged = true;
+        }else if (contentType.equalsIgnoreCase("field")) {
+            int index = content.lastIndexOf(".");
+            BeanMapping mapping = null;
+            IField field = null;
+            if (index == -1 ) {
+                mapping = Dictionary.getInstance().getMapping(getPart().getBean());
+                field = mapping.getField(content);
+            } else {
+                mapping = Dictionary.getInstance().getMapping(ClassLoaderUtils.getClass(content.substring(0,index)));
+                field = mapping.getField(content.substring(index+1));
+            }
+            if (field != null) {
+                System.out.println("Field : "+field);
+                this.content = NyxCollectionUtils.getList(field.getValue(getPart().getBean()));
+                contentChanged = true;
+            } else {
+                if (log.isWarnEnabled()) {
+                    log.warn("Field "+content+" for table "+getName()+" could not be found");
+                }
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @return the content of the table or null when no content is present
+     */
+    public List getContent() {
+        return this.content;
+    }
+    
+    public JTable getJTable() {
+        return this.table;
+    }
 }

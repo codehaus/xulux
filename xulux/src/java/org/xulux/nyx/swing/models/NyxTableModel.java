@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableModel.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.2 2003-08-04 01:59:10 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,29 +48,51 @@ package org.xulux.nyx.swing.models;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.widgets.Table;
+
 /**
  * The nyx tablemodel contains all magic for tables.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.2 2003-08-04 01:59:10 mvdb Exp $
  */
 public class NyxTableModel implements TableModel {
-
+    
+    protected Table table;
+    
     /**
      * 
      */
     public NyxTableModel() {
         super();
     }
-
+    
+    public NyxTableModel(Table table) {
+        setTable(table);
+    }
+    
+    /**
+     * Set the table to be used in this tablemodel
+     * @param table
+     */
+    public void setTable(Table table) {
+        this.table = table;
+    }
+    
     /**
      * @see javax.swing.table.TableModel#getRowCount()
      */
     public int getRowCount() {
-        return 0;
+        return (table.getContent()!=null)?table.getContent().size():0;
     }
 
     /**
+     * Not used,we use a columnmodel.
+     * 
      * @see javax.swing.table.TableModel#getColumnCount()
      */
     public int getColumnCount() {
@@ -78,17 +100,18 @@ public class NyxTableModel implements TableModel {
     }
 
     /**
+     * Not used, we use a columnmodel for that...
      * @see javax.swing.table.TableModel#getColumnName(int)
      */
     public String getColumnName(int columnIndex) {
-        return null;
+        return ""+columnIndex;
     }
 
     /**
      * @see javax.swing.table.TableModel#getColumnClass(int)
      */
     public Class getColumnClass(int columnIndex) {
-        return null;
+        return String.class;
     }
 
     /**
@@ -102,10 +125,24 @@ public class NyxTableModel implements TableModel {
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return null;
+        Widget w = (Widget)table.getChildWidgets().get(columnIndex);
+        if (w.getField() != null) {
+            BeanMapping map = Dictionary.getInstance().getMapping(table.getContent().get(rowIndex));
+            IField field = map.getField(w.getField());
+            if (field != null) {
+                Object value = field.getValue(table.getContent().get(rowIndex));
+                if (value == null) {
+                    value = "";
+                }
+                return value;
+            }
+        }
+        return "";
     }
 
     /**
+     * Not yet supported..
+     * 
      * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
      */
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -116,14 +153,28 @@ public class NyxTableModel implements TableModel {
      * @see javax.swing.table.TableModel#addTableModelListener(javax.swing.event.TableModelListener)
      */
     public void addTableModelListener(TableModelListener l) {
-
     }
 
     /**
      * @see javax.swing.table.TableModel#removeTableModelListener(javax.swing.event.TableModelListener)
      */
     public void removeTableModelListener(TableModelListener l) {
+        System.out.println("removetableModelListener : "+l);
 
+    }
+    
+    /**
+     * Destroy the tablemodel..
+     *
+     */
+    public void destroy() {
+        this.table = null;
+    }
+    
+    /**
+     * refreshes the table, since there is new content
+     */
+    public void refresh() {
     }
 
 }

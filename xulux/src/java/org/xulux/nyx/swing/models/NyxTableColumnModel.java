@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableColumnModel.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
+ $Id: NyxTableColumnModel.java,v 1.2 2003-08-04 01:59:10 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,158 +45,73 @@
  */
 package org.xulux.nyx.swing.models;
 
-import java.util.Enumeration;
+import java.util.ArrayList;
 
-import javax.swing.ListSelectionModel;
-import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+
+import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.widgets.Table;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumnModel.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
+ * @version $Id: NyxTableColumnModel.java,v 1.2 2003-08-04 01:59:10 mvdb Exp $
  */
-public class NyxTableColumnModel implements TableColumnModel {
+public class NyxTableColumnModel extends DefaultTableColumnModel
+{ 
+//implements TableColumnModel {
 
+    protected Table table;
+    
     /**
      * 
      */
     public NyxTableColumnModel() {
         super();
     }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#addColumn(javax.swing.table.TableColumn)
-     */
-    public void addColumn(TableColumn aColumn) {
-
+    
+    public NyxTableColumnModel(Table table) {
+        setTable(table);
     }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#removeColumn(javax.swing.table.TableColumn)
-     */
-    public void removeColumn(TableColumn column) {
-
+    
+    public void setTable(Table table) {
+        this.table = table;
+        initializeColumns();
     }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#moveColumn(int, int)
-     */
-    public void moveColumn(int columnIndex, int newIndex) {
-
+    
+    private void initializeColumns() {
+        ArrayList list = table.getChildWidgets();
+        if (list == null) {
+            return;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            Widget widget = (Widget) list.get(i);
+            TableColumn column = new TableColumn();
+//            System.out.println("text : "+widget.getProperty("text"));
+            column.setHeaderValue(widget.getProperty("text"));
+            column.setModelIndex(i);
+            column.setPreferredWidth(100);
+            addColumn(column);
+        }
+        System.out.println("columns : "+getColumnCount());
     }
-
+    
     /**
-     * @see javax.swing.table.TableColumnModel#setColumnMargin(int)
+     * destroy the instance variables
+     * Just in case..
+     *
      */
-    public void setColumnMargin(int newMargin) {
-
+    public void destroy() {
+        this.table = null;
     }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getColumnCount()
-     */
-    public int getColumnCount() {
-        return 0;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getColumns()
-     */
-    public Enumeration getColumns() {
-        return null;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getColumnIndex(java.lang.Object)
-     */
-    public int getColumnIndex(Object columnIdentifier) {
-        return 0;
-    }
-
+    
     /**
      * @see javax.swing.table.TableColumnModel#getColumn(int)
      */
     public TableColumn getColumn(int columnIndex) {
-        return null;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getColumnMargin()
-     */
-    public int getColumnMargin() {
-        return 0;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getColumnIndexAtX(int)
-     */
-    public int getColumnIndexAtX(int xPosition) {
-        return 0;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getTotalColumnWidth()
-     */
-    public int getTotalColumnWidth() {
-        return 0;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#setColumnSelectionAllowed(boolean)
-     */
-    public void setColumnSelectionAllowed(boolean flag) {
-
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getColumnSelectionAllowed()
-     */
-    public boolean getColumnSelectionAllowed() {
-        return false;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getSelectedColumns()
-     */
-    public int[] getSelectedColumns() {
-        return null;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getSelectedColumnCount()
-     */
-    public int getSelectedColumnCount() {
-        return 0;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#setSelectionModel(javax.swing.ListSelectionModel)
-     */
-    public void setSelectionModel(ListSelectionModel newModel) {
-
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#getSelectionModel()
-     */
-    public ListSelectionModel getSelectionModel() {
-        return null;
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#addColumnModelListener(javax.swing.event.TableColumnModelListener)
-     */
-    public void addColumnModelListener(TableColumnModelListener x) {
-
-    }
-
-    /**
-     * @see javax.swing.table.TableColumnModel#removeColumnModelListener(javax.swing.event.TableColumnModelListener)
-     */
-    public void removeColumnModelListener(TableColumnModelListener x) {
-
+        //System.out.println("Index : "+columnIndex+","+super.getColumn(columnIndex).getModelIndex());
+        return super.getColumn(columnIndex);
     }
 
 }

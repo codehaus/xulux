@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.2 2003-06-17 13:23:29 mvdb Exp $
+ $Id: SwingUtils.java,v 1.3 2003-08-04 01:59:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.swing.util;
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.net.URL;
@@ -53,13 +54,14 @@ import javax.swing.ImageIcon;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.gui.WidgetRectangle;
 
 
 /**
  * Contains several utilities to make life with swing easier.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.2 2003-06-17 13:23:29 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.3 2003-08-04 01:59:10 mvdb Exp $
  */
 public class SwingUtils
 {
@@ -143,6 +145,17 @@ public class SwingUtils
             }
         }
         return icon;
+    }
+    
+    
+    /**
+     * Returns the dimensions for the rectangle specified
+     * @param rectangle
+     */
+    public static Dimension getDimension(WidgetRectangle rectangle) {
+        Dimension dim = new Dimension();
+        dim.setSize(rectangle.getWidth(), rectangle.getHeight());
+        return dim;
     }
 
 }
