@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!-- $Id: dictionary.xml,v 1.1 2004-03-16 14:35:13 mvdb Exp $ -->
+<dictionary>
+   <converters>
+     <converter class="org.xulux.dataprovider.converters.DoubleConverter"/>
+     <converter class="org.xulux.dataprovider.converters.IntegerConverter"/>
+     <converter class="org.xulux.dataprovider.converters.BogusConverter"/>
+   </converters>
+   <prefix-mappings>
+     <prefix name="Test">
+       <!-- 
+            if discovery is true, it will find the fields automatically
+            and you don't have to specify them manually
+        -->
+       <bean discovery="true">org.xulux.dataprovider.DictionaryBean</bean>
+     </prefix>
+     <!--
+     <prefix name="Contained">
+       <bean discovery="true">org.xulux.dataprovider.DictionarySubBean</bean>
+     </prefix>
+     -->
+     
+     <!-- Manual field definitiation -->
+     <prefix name="Manual">
+       <bean>org.xulux.dataprovider.DictionaryBean</bean>
+       <fields>
+         <field name="name"/>
+         <field name="street" alias="straat"/>
+         <field name="city" alias="plaats"/>
+       </fields>
+     </prefix>
+     
+     <prefix name="pb">
+       <bean>org.xulux.dataprovider.ParameteredBean</bean>
+       <fields>
+         <field name="value"/>
+         <field name="anothervalue"/>
+         <!-- 
+            fp = FirstParameter
+            sp = SecondParameter
+            tp = ThirdParameter
+         -->
+         <field name="parameter" alias="fp">
+           <parameter type="String" value="FIRST"/>
+         </field>
+         <field name="parameter" alias="sp">
+           <parameter type="static" value="org.xulux.dataprovider.ParameterType.SECOND"/>
+	     </field>           
+         <field name="parameter" alias="tp">
+           <parameter type="static" value="org.xulux.dataprovider.ParameterType.THIRD"/>
+         </field>
+       </fields>
+     </prefix>
+     
+     <!-- The double parameter test -->
+     <prefix name="db">
+       <bean>org.xulux.dataprovider.ParameteredBean</bean>
+       <fields>
+         <field name="double" alias="no1">
+           <parameter type="static" value="org.xulux.dataprovider.ParameteredBean.NO1"/>
+         </field>
+         <field name="double" alias="no2">
+           <parameter type="static" value="org.xulux.dataprovider.ParameteredBean.NO2"/>
+	     </field>           
+         <field name="double" alias="no3">
+           <parameter type="static" value="org.xulux.dataprovider.ParameteredBean.NO3"/>
+         </field>
+       </fields>
+     </prefix>
+
+     <!-- The setmethod test -->
+     <prefix name="set">
+       <bean>org.xulux.dataprovider.ParameteredBean</bean>
+       <fields>
+         <field name="double" alias="no1">
+           <parameter type="static" value="org.xulux.dataprovider.ParameteredBean.NO1"/>
+           <setMethod name="setSomethingDifferent"/>
+         </field>
+         <field name="double" alias="no2">
+           <parameter type="static" value="org.xulux.dataprovider.ParameteredBean.NO2"/>
+           <setMethod name="setSomethingDifferent"/>
+	     </field>           
+         <field name="double" alias="no3">
+           <parameter type="static" value="org.xulux.dataprovider.ParameteredBean.NO3"/>
+           <setMethod name="setSomethingDifferent"/>
+         </field>
+       </fields>
+     </prefix>
+     
+   </prefix-mappings>
+</dictionary>

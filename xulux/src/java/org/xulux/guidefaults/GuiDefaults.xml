@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaults.xml,v 1.4 2004-01-28 12:24:01 mvdb Exp $ -->
+<!-- $Id: GuiDefaults.xml,v 1.5 2004-03-16 14:35:14 mvdb Exp $ -->
 <!-- 
     Where no type is specified, it will default
     to defaultType.
@@ -16,7 +16,22 @@
     <widget name="combo" type="swt" class="org.xulux.swt.widgets.SWTCombo"/>
     <widget name="entry" class="org.xulux.swing.widgets.Entry"/>
     <widget name="checkbox" class="org.xulux.swing.widgets.CheckBox"/>
-    <widget name="label" class="org.xulux.swing.widgets.Label"/>
+    <widget name="label" class="org.xulux.swing.widgets.Label">
+      <!-- this will register the properties supported by the label.
+           Eventually the label widget will not exist anymore..
+      -->
+<!--      <properties> -->
+        <!-- the use attribute specifies when this propertyhandler should be called
+             supported are : 
+             refresh -> always call this when a property is set
+             normal  -> only call when setProperty is called.
+             delayed -> Delay calling this handler untill the widget is initialized
+        -->
+        <!--
+        <property use="normal" name="icon" class="org.xulux.swing.widgets.handlers.IconHandler"/>
+        <property use="normal" name="text" class="org.xulux.swing.widgets.handler.TextHandler"/>
+      </properties> -->
+    </widget>
     <widget name="panel" class="org.xulux.swing.widgets.Panel"/>
     <!-- a tab is the same as a panel, only different properties are
          used. The properties are however read by the tabpanel

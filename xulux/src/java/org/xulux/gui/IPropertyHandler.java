@@ -1,5 +1,5 @@
 /*
-   $Id: IPropertyHandler.java,v 1.2 2004-01-28 15:00:23 mvdb Exp $
+   $Id: IPropertyHandler.java,v 1.3 2004-03-16 14:35:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,26 +17,45 @@
 */
 package org.xulux.gui;
 
-import java.util.List;
 
 /**
  * The interface for propertyhandlers..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IPropertyHandler.java,v 1.2 2004-01-28 15:00:23 mvdb Exp $
+ * @version $Id: IPropertyHandler.java,v 1.3 2004-03-16 14:35:15 mvdb Exp $
  */
 public interface IPropertyHandler {
 
     /**
+     * call property on refresh (which is essntially always the case)
+     */
+    String REFRESH = "refresh";
+    /**
+     * Only call the property handler when the property is set.
+     */
+    String NORMAL = "normal";
+    /**
+     * Wait for initialisation of the widget and then call the handler
+     */
+    String DELAYED = "delayed";
+	/**
+	 * Initialises the propertyhandler
+	 */
+	void init();
+	
+    /**
      * Handle the property for the widget specified.
+     * You can choose to use the registered property name(s) or
+     * just figure out the naming yourself.
      *
      * @param widget - the widget to handle the property for.
      * @param property - the property to handle
-     * @param properties - if null the widget properties will be used else the
-     *                      properties passed (tip : use clone to not affect the
-     *                      original widget properties!)
      * @return true when the property has been succesfully handles
      */
-    boolean handleProperty(Widget widget, String property, List properties);
+    boolean handleProperty(Widget widget, String property);
 
+    /**
+     * Destroys the property handler and all it's resources
+     */
+	void destroy();
 }

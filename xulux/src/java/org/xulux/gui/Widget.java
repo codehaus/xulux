@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.5 2004-01-28 15:00:23 mvdb Exp $
+   $Id: Widget.java,v 1.6 2004-03-16 14:35:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -41,7 +41,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.5 2004-01-28 15:00:23 mvdb Exp $
+ * @version $Id: Widget.java,v 1.6 2004-03-16 14:35:15 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -282,8 +282,14 @@ public abstract class Widget implements Serializable
 
     /**
      * refreshes the widget.
+     * By default this method uses propertyhandlers for refreshing
+     * the widget. The previous way of doing a refresh was to add all 
+     * code to the implemented refresh method. If setProperty
+     * can find a propertyhandler, it will use that and call the empty
+     * method.
      */
-    public abstract void refresh();
+    public void refresh() {
+    }
 
     /**
      * Returns the field.

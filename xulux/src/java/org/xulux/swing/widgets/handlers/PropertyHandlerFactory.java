@@ -1,5 +1,5 @@
 /*
-   $Id: PropertyHandlerFactory.java,v 1.2 2004-01-28 15:09:25 mvdb Exp $
+   $Id: PropertyHandlerFactory.java,v 1.3 2004-03-16 14:35:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,7 +18,6 @@
 package org.xulux.swing.widgets.handlers;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -32,7 +31,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * code.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PropertyHandlerFactory.java,v 1.2 2004-01-28 15:09:25 mvdb Exp $
+ * @version $Id: PropertyHandlerFactory.java,v 1.3 2004-03-16 14:35:14 mvdb Exp $
  */
 public class PropertyHandlerFactory {
 
@@ -59,12 +58,12 @@ public class PropertyHandlerFactory {
      * @param properties
      * @return if the widget needs a refresh.
      */
-    public static boolean handleProperty(Widget widget, String property, List properties) {
+    public static boolean handleProperty(Widget widget, String property) {
         if (ph == null) {
             return false;
         }
         IPropertyHandler h = (IPropertyHandler)ph.get(property);
-        h.handleProperty(widget, property, properties);
+        h.handleProperty(widget, property);
         return false;
     }
 

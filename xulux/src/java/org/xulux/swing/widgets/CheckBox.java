@@ -1,5 +1,5 @@
 /*
-   $Id: CheckBox.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: CheckBox.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,9 +22,9 @@ import java.awt.Container;
 import javax.swing.Icon;
 import javax.swing.UIManager;
 
-import org.xulux.global.BeanMapping;
-import org.xulux.global.Dictionary;
-import org.xulux.global.IField;
+import org.xulux.dataprovider.BeanMapping;
+import org.xulux.dataprovider.Dictionary;
+import org.xulux.dataprovider.IField;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.utils.ColorUtils;
 import org.xulux.swing.SwingWidget;
@@ -36,7 +36,7 @@ import org.xulux.utils.BooleanUtils;
  * The nyx to swing implementation of a checkbox
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
 

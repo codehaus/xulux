@@ -1,5 +1,5 @@
 /*
-   $Id: SwingTreeModel.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: SwingTreeModel.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,13 +24,13 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-import org.xulux.global.contenthandlers.TreeContentHandler;
+import org.xulux.dataprovider.contenthandlers.TreeContentHandler;
 
 /**
  * A cutom tree root, so we can do magic of our own
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingTreeModel.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: SwingTreeModel.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
  */
 public class SwingTreeModel extends TreeContentHandler implements TreeModel {
 

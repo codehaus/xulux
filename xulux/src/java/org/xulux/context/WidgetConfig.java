@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfig.java,v 1.3 2004-01-28 14:57:03 mvdb Exp $
+   $Id: WidgetConfig.java,v 1.4 2004-03-16 14:35:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.xulux.global.IContentHandler;
+import org.xulux.dataprovider.IContentHandler;
+import org.xulux.gui.IPropertyHandler;
 import org.xulux.utils.ClassLoaderUtils;
 
 /**
@@ -33,7 +34,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.3 2004-01-28 14:57:03 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.4 2004-03-16 14:35:15 mvdb Exp $
  */
 public class WidgetConfig {
 
@@ -54,6 +55,10 @@ public class WidgetConfig {
      */
     private HashMap contentHandlers;
 
+	/**
+	 * the list Property handlers
+	 */
+	private HashMap propertyHandlers;
     /**
      * Constructor for WidgetConfig.
      */
@@ -192,5 +197,49 @@ public class WidgetConfig {
      */
     public Map getContentHandlers() {
         return contentHandlers;
+    }
+
+    /**
+     * Adds a propertyhandler to the widgetconfig. This will be used to initialize
+     * A propertyhandler is a system to handle the widget.setProperty system and will
+     * be initialized upon creation of the widget.
+     * 
+     * @param clz the class name
+     * @param use the type of usage for this propertyhandler. Supported : normal, delayed, refresh
+     * @param name the name of the property
+     * @param type the type of guilayer
+     */
+    public void addPropertyHandler(String clz, String use, String name, String type) {
+    	Class clazz = ClassLoaderUtils.getClass(clz);
+    	if (clazz == null) {
+    		System.out.println("cannot find class "+clz);
+    		return;
+    	}
+    	if (IPropertyHandler.class.isAssignableFrom(clazz)) {
+    		PropertyConfig pc = new PropertyConfig(clazz, use, name);
+            if (propertyHandlers == null) {
+                propertyHandlers = new HashMap();
+            }
+            List list = getPropertyHandlers(type);
+            if (list == null) {
+                list = new ArrayList();
+            }
+            list.add(pc);
+            propertyHandlers.put(type, list);
+    	} else {
+    		System.out.println("Class "+clz+" is not of type "+IPropertyHandler.class.getName());
+    	}
+    }
+    /**
+     *
+     * @param type the gui layer type
+     * @return all the property handlers for this widget
+     */
+    public List getPropertyHandlers(String type) {
+        if (propertyHandlers != null) {
+            List list = new ArrayList();
+            return (List) propertyHandlers.get(type);
+        }
+        return null;
     }
 }

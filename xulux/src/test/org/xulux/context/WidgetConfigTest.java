@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfigTest.java,v 1.4 2004-01-28 15:22:05 mvdb Exp $
+   $Id: WidgetConfigTest.java,v 1.5 2004-03-16 14:35:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,7 +19,8 @@ package org.xulux.context;
 
 import javax.swing.tree.TreeNode;
 
-import org.xulux.global.IContentHandler;
+import org.xulux.dataprovider.IContentHandler;
+import org.xulux.gui.IPropertyHandler;
 import org.xulux.gui.IWidgetInitializer;
 import org.xulux.gui.Widget;
 
@@ -31,7 +32,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.4 2004-01-28 15:22:05 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.5 2004-03-16 14:35:15 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase {
 
@@ -100,6 +101,18 @@ public class WidgetConfigTest extends TestCase {
         assertEquals(1, config.getWidgetInitializers("swt").size());
     }
 
+	/**
+	 * Test the propertyhandlers
+	 */
+	public void testPropertyHandlers() {
+		System.out.println("testPropertyHandlers");
+		WidgetConfig config = new WidgetConfig();
+		config.addPropertyHandler("java.lang.Integer", IPropertyHandler.NORMAL,"bogus", "swing");
+        assertEquals(null, config.getPropertyHandlers("swing"));
+        config.addPropertyHandler(PropHandler.class.getName(), IPropertyHandler.NORMAL, "prop", "swing");
+        assertEquals(1, config.getPropertyHandlers("swing").size());
+        assertNull(null, config.getPropertyHandlers("swt"));
+	}
     /**
      * Test the contenthandlers
      */
@@ -119,7 +132,7 @@ public class WidgetConfigTest extends TestCase {
         assertNull(config.getContentHandler(String.class));
         config.addWidgetTool(null, (String) null);
         config.addWidgetTool(null, "bogus.class.name");
-        config.addWidgetTool(null, "org.xulux.global.contenthandlers.TreeNodeContentHandler");
+        config.addWidgetTool(null, "org.xulux.dataprovider.contenthandlers.TreeNodeContentHandler");
         assertNotNull(config.getContentHandler(TreeNode.class));
     }
 
@@ -193,5 +206,27 @@ public class WidgetConfigTest extends TestCase {
 
         }
 
+    }
+    
+    public class PropHandler implements IPropertyHandler {
+
+        /**
+         * @see org.xulux.gui.IPropertyHandler#init()
+         */
+        public void init() {
+        }
+
+        /**
+         * @see org.xulux.gui.IPropertyHandler#handleProperty(org.xulux.gui.Widget, java.lang.String)
+         */
+        public boolean handleProperty(Widget widget, String property) {
+            return false;
+        }
+
+        /**
+         * @see org.xulux.gui.IPropertyHandler#destroy()
+         */
+        public void destroy() {
+        }
     }
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtilsTest.java,v 1.3 2004-01-28 15:22:02 mvdb Exp $
+   $Id: ClassLoaderUtilsTest.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,14 +27,14 @@ import junit.framework.TestSuite;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.SimpleLog;
-import org.xulux.global.AnotherRecursiveBean;
-import org.xulux.global.Dictionary;
+import org.xulux.dataprovider.AnotherRecursiveBean;
+import org.xulux.dataprovider.Dictionary;
 
 /**
  * Test for the classLoaderUtils
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtilsTest.java,v 1.3 2004-01-28 15:22:02 mvdb Exp $
+ * @version $Id: ClassLoaderUtilsTest.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
  */
 public class ClassLoaderUtilsTest extends TestCase {
     /**
@@ -93,7 +93,7 @@ public class ClassLoaderUtilsTest extends TestCase {
     public void testGetClass() throws Exception {
         System.out.println("testGetClass");
         assertEquals(String.class, ClassLoaderUtils.getClass("java.lang.String"));
-        assertEquals(AnotherRecursiveBean.class, ClassLoaderUtils.getClass("org.xulux.global.AnotherRecursiveBean"));
+        assertEquals(AnotherRecursiveBean.class, ClassLoaderUtils.getClass("org.xulux.dataprovider.AnotherRecursiveBean"));
         assertNull(ClassLoaderUtils.getClass(null));
         assertNull(ClassLoaderUtils.getClass("bogus.class.name"));
         Log log = LogFactory.getLog(ClassLoaderUtils.class);

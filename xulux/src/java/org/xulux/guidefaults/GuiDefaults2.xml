@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!-- $Id: GuiDefaults2.xml,v 1.1 2004-03-16 14:35:14 mvdb Exp $ -->
+<!-- 
+  This configuration constructs some basic widgets by means
+  of seperate handlers. This way we will keep Xulux easily extensible
+  and adaptable.
+-->
+<guidefaults defaultType="swing">
+  <widgets>
+    <!-- 
+          The widget properties can be overriden in the gui xml
+    -->
+    <widget name="window">
+      <properties>
+        <!--
+           These are widget properties that specify the core
+           possibilities for this component.
+        -->
+        <property>root</property>
+        <property>showable</property>
+        <property>container</property>
+      </properties>
+    </widget>
+    <widget name="button" class="org.xulux.swing.widgets.Button"/>
+    <widget name="combo"  class="org.xulux.swing.widgets.Combo"/>
+    <widget name="combo" type="swt" class="org.xulux.swt.widgets.SWTCombo"/>
+    <widget name="entry" class="org.xulux.swing.widgets.Entry"/>
+    <widget name="checkbox" class="org.xulux.swing.widgets.CheckBox"/>
+    <widget name="label" class="org.xulux.swing.widgets.Label"/>
+    <widget name="panel" class="org.xulux.swing.widgets.Panel"/>
+    <!-- a tab is the same as a panel, only different properties are
+         used. The properties are however read by the tabpanel
+         and not by panel itself
+     -->
+    <widget name="tab" class="org.xulux.swing.widgets.Panel"/>
+    <widget name="tabpanel" class="org.xulux.swing.widgets.TabPanel"/>
+    <widget name="window" class="org.xulux.swing.widgets.Window"/>
+    <widget name="window" type="swt" class="org.xulux.swt.widgets.Window"/>
+    <widget name="textarea" class="org.xulux.swing.widgets.TextArea"/>
+    <widget name="table" class="org.xulux.swing.widgets.Table"/>
+    <widget name="popupmenu" class="org.xulux.swing.widgets.PopupMenu"/>
+    <widget name="menuitem" class="org.xulux.swing.widgets.MenuItem"/>
+    <widget name="menu" class="org.xulux.swing.widgets.Menu"/>
+    <widget name="menubar" class="org.xulux.swing.widgets.MenuBar"/>
+    <widget name="tree" class="org.xulux.swing.widgets.Tree"/>
+    <widget name="radiobutton" class="org.xulux.swing.widgets.RadioButton"/>
+    <widget name="togglebutton" class="org.xulux.swing.widgets.ToggleButton"/>
+    <widget name="buttongroup" class="org.xulux.swing.widgets.ButtonGroup"/>
+    <widget name="splitpane" class="org.xulux.swing.widgets.SplitPane"/>
+  </widgets>
+  <!-- register the property handlers -->
+<!--  <propertyHandlers>
+    <propertyHandler class="org.xulux.swing.widgets.handlers.
+  </propertyHandlers> -->
+</guidefaults>

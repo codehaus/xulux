@@ -1,5 +1,5 @@
 /*
-   $Id: NyxCombo.java,v 1.2 2004-01-28 15:00:23 mvdb Exp $
+   $Id: NyxCombo.java,v 1.3 2004-03-16 14:35:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.global.BeanMapping;
-import org.xulux.global.Dictionary;
-import org.xulux.global.IField;
+import org.xulux.dataprovider.BeanMapping;
+import org.xulux.dataprovider.Dictionary;
+import org.xulux.dataprovider.IField;
 import org.xulux.gui.events.NyxValueChangedEvent;
 import org.xulux.utils.ClassLoaderUtils;
 import org.xulux.utils.NyxCollectionUtils;
@@ -33,7 +33,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.2 2004-01-28 15:00:23 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.3 2004-03-16 14:35:15 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget implements IContentWidget {
 

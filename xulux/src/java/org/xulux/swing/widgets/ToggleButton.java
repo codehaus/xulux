@@ -1,5 +1,5 @@
 /*
-   $Id: ToggleButton.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: ToggleButton.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,9 +25,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 
-import org.xulux.global.BeanMapping;
-import org.xulux.global.Dictionary;
-import org.xulux.global.IField;
+import org.xulux.dataprovider.BeanMapping;
+import org.xulux.dataprovider.Dictionary;
+import org.xulux.dataprovider.IField;
 import org.xulux.gui.Widget;
 import org.xulux.swing.listeners.PrePostFieldListener;
 import org.xulux.swing.util.SwingUtils;
@@ -40,7 +40,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a togglebutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ToggleButton.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: ToggleButton.java,v 1.4 2004-03-16 14:35:14 mvdb Exp $
  */
 public class ToggleButton extends Widget {
 

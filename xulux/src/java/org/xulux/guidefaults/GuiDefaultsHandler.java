@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.2 2004-01-28 15:01:01 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.3 2004-03-16 14:35:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,12 +26,13 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xulux.context.ApplicationContext;
+import org.xulux.context.WidgetConfig;
 
 /**
  * Case insensitive processing of the guidefaults.
  *
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.2 2004-01-28 15:01:01 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.3 2004-03-16 14:35:14 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 
@@ -49,13 +50,17 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private static final String ELEMENT_INITIALIZER = "widgetinitializer";
     private static final String ELEMENT_CONTENTHANDLERS = "contenthandlers";
     private static final String ELEMENT_CONTENTHANDLER = "contenthandler";
+    private static final String ELEMENT_PROPERTIES="properties";
+    private static final String ELEMENT_PROPERTY="property";
     private static final String ATTRIBUTE_TYPE = "type";
     private static final String ATTRIBUTE_CLASS = "class";
     private static final String ATTRIBUTE_NAME = "name";
     private static final String ATTRIBUTE_DEFAULT = "defaultType";
+    private static final String ATTRIBUTE_USE = "use";
     private static boolean superDefaultsProcessed = false;
 
     private boolean widgetsStarted = false;
+    private boolean propertiesStarted = false;
     private boolean contentHandlersStarted = false;
 
     private String initClass;
@@ -138,6 +143,15 @@ public class GuiDefaultsHandler extends DefaultHandler {
                 ApplicationContext.getInstance().registerWidget(name, clazz, type);
             }
             this.widgetName = name;
+        } else if (qName.equals(ELEMENT_PROPERTIES) && widgetsStarted && widgetName != null) {
+        	propertiesStarted = true;
+        } else if (qName.equals(ELEMENT_PROPERTY) && propertiesStarted) {
+        	WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(widgetName);
+        	String use = atts.getValue(ATTRIBUTE_USE);
+        	String clz = atts.getValue(ATTRIBUTE_CLASS);
+        	String name = atts.getValue(ATTRIBUTE_NAME);
+        	String type = getType(atts);
+        	config.addPropertyHandler(clz, use, name, type);
         } else if (qName.equals(ELEMENT_INITIALIZER)) {
             this.initType = atts.getValue(ATTRIBUTE_TYPE);
             this.initClass = atts.getValue(ATTRIBUTE_CLASS);
@@ -177,6 +191,8 @@ public class GuiDefaultsHandler extends DefaultHandler {
         qName = qName.toLowerCase();
         if (qName.equals(ELEMENT_WIDGET)) {
             widgetName = null;
+        } else if (qName.equals(ELEMENT_PROPERTIES)) {
+        	propertiesStarted = false;
         } else if (qName.equals(ELEMENT_INITIALIZER)) {
             if (widgetName != null) {
                 ApplicationContext.getInstance().registerWidgetInitializer(initClass, widgetName, initType);
@@ -187,6 +203,8 @@ public class GuiDefaultsHandler extends DefaultHandler {
             widgetsStarted = false;
         } else if (qName.equalsIgnoreCase(ELEMENT_CONTENTHANDLERS)) {
             contentHandlersStarted = false;
+        } else if (qName.equalsIgnoreCase(ELEMENT_PROPERTIES)) {
+            propertiesStarted = false;
         }
     }
 
