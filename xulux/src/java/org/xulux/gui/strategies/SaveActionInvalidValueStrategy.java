@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.xulux.core.ApplicationPart;
 import org.xulux.core.XuluxContext;
+import org.xulux.dataprovider.InvalidValueException;
 import org.xulux.gui.IInvalidValueStrategy;
 import org.xulux.gui.Widget;
 
@@ -11,7 +12,7 @@ import org.xulux.gui.Widget;
  * The Xulux default strategy.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SaveActionInvalidValueStrategy.java,v 1.1 2004-06-30 11:59:01 mvdb Exp $
+ * @version $Id: SaveActionInvalidValueStrategy.java,v 1.2 2004-07-12 13:00:38 mvdb Exp $
  */
 public class SaveActionInvalidValueStrategy implements IInvalidValueStrategy {
 
@@ -37,6 +38,13 @@ public class SaveActionInvalidValueStrategy implements IInvalidValueStrategy {
      */
     public boolean checkWidget(Widget widget) {
         return true;
+    }
+
+    /**
+     * @see org.xulux.gui.IInvalidValueStrategy#handleInvalidValueExction(org.xulux.gui.Widget, org.xulux.dataprovider.InvalidValueException)
+     */
+    public boolean handleInvalidValueExction(Widget widget, InvalidValueException exception) {
+      return true;
     }
 
 }

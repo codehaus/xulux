@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPartTest.java,v 1.4 2004-06-30 12:55:56 mvdb Exp $
+   $Id: ApplicationPartTest.java,v 1.5 2004-07-12 13:00:38 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,6 +19,7 @@ package org.xulux.core;
 
 import java.io.ByteArrayInputStream;
 
+import org.xulux.dataprovider.InvalidValueException;
 import org.xulux.gui.IInvalidValueStrategy;
 import org.xulux.gui.Widget;
 import org.xulux.guidriver.XuluxGuiDriver;
@@ -35,7 +36,7 @@ import junit.framework.TestSuite;
  * The ApplicationPart test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartTest.java,v 1.4 2004-06-30 12:55:56 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.5 2004-07-12 13:00:38 mvdb Exp $
  */
 public class ApplicationPartTest extends TestCase {
 
@@ -142,6 +143,13 @@ public class ApplicationPartTest extends TestCase {
          * @see org.xulux.gui.IInvalidValueStrategy#checkWidget(org.xulux.gui.Widget)
          */
         public boolean checkWidget(Widget widget) {
+            return false;
+        }
+
+        /**
+         * @see org.xulux.gui.IInvalidValueStrategy#handleInvalidValueExction(org.xulux.gui.Widget, org.xulux.dataprovider.InvalidValueException)
+         */
+        public boolean handleInvalidValueExction(Widget widget, InvalidValueException exception) {
             return false;
         }
     }

@@ -1,5 +1,5 @@
 /*
-   $Id: IInvalidValueStrategy.java,v 1.2 2004-07-07 17:43:42 mvdb Exp $
+   $Id: IInvalidValueStrategy.java,v 1.3 2004-07-12 13:00:38 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,6 +18,7 @@
 package org.xulux.gui;
 
 import org.xulux.core.ApplicationPart;
+import org.xulux.dataprovider.InvalidValueException;
 
 /**
  * This interface is used to determine how to handle invalid values
@@ -29,7 +30,7 @@ import org.xulux.core.ApplicationPart;
  * a checking on a form level, just return true form that method.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IInvalidValueStrategy.java,v 1.2 2004-07-07 17:43:42 mvdb Exp $
+ * @version $Id: IInvalidValueStrategy.java,v 1.3 2004-07-12 13:00:38 mvdb Exp $
  */
 public interface IInvalidValueStrategy {
     
@@ -48,5 +49,14 @@ public interface IInvalidValueStrategy {
      * @return true if the widget contains a valid value, false it it doesn't
      */
     boolean checkWidget(Widget widget);
+    
+    /**
+     * Handles an invalidvalueexception, so we can eg display a message to the user
+     *
+     * @param widget the widget with the exception
+     * @param exception the exception
+     * @return
+     */
+    boolean handleInvalidValueExction(Widget widget, InvalidValueException exception);
 
 }
