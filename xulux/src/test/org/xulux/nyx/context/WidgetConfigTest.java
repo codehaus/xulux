@@ -1,7 +1,7 @@
 /*
- $Id: WidgetConfigTest.java,v 1.2 2002-12-23 00:01:09 mvdb Exp $
+ $Id: WidgetConfigTest.java,v 1.3 2003-05-21 10:00:14 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -45,8 +45,6 @@
  */
 package org.xulux.nyx.context;
 
-import org.xulux.nyx.gui.Combo;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -55,7 +53,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.2 2002-12-23 00:01:09 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.3 2003-05-21 10:00:14 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase
 {
@@ -96,6 +94,7 @@ public class WidgetConfigTest extends TestCase
      */
     public void testEmptyWidgetConfig()
     {
+        System.out.println("testEmptyWidgetConfig");
         WidgetConfig config = new WidgetConfig();
         assertNull(config.get("swt"));
         assertNull(config.get("swing"));

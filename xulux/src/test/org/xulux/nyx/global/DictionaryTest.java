@@ -1,8 +1,8 @@
 
 /*
- $Id: DictionaryTest.java,v 1.5 2002-12-22 23:31:18 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.6 2003-05-21 10:00:14 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -47,8 +47,6 @@
 package org.xulux.nyx.global;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -58,7 +56,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.5 2002-12-22 23:31:18 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.6 2003-05-21 10:00:14 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -87,7 +85,7 @@ public class DictionaryTest extends TestCase
         System.out.println(".testInitialize");
         Dictionary dictionary = Dictionary.getInstance();
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
-        assertEquals("Test", dictionary.getInstance().getMapping("Test").getName());
+        assertEquals("Test", Dictionary.getInstance().getMapping("Test").getName());
         assertEquals(DictionaryBean.class, dictionary.getMapping("Test").getBean());
         ArrayList list = dictionary.getMapping("Test").getFields();
         assertEquals(4, list.size());
