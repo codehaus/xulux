@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.15 2004-06-29 12:18:05 mvdb Exp $
+   $Id: Entry.java,v 1.16 2004-06-29 13:09:34 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.15 2004-06-29 12:18:05 mvdb Exp $
+ * @version $Id: Entry.java,v 1.16 2004-06-29 13:09:34 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -152,9 +152,6 @@ public class Entry extends SwingWidget {
         this.initialized = true;
         this.setValueCalled = true;
         textComponent = new JTextField();
-        if (getProperty("valueclass") != null) {
-            this.valueClass = ClassLoaderUtils.getClass(getProperty("valueclass"));
-        }
         if (isImmidiate()) {
             if (this.immidiateListener == null) {
                 NyxListener listener = getPart().getFieldEventHandler(this);
@@ -400,6 +397,9 @@ public class Entry extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#setValue(Object)
      */
     public void setValue(Object object) {
+        if (this.valueClass == null && getProperty("valueclass") != null) {
+            this.valueClass = ClassLoaderUtils.getClass(getProperty("valueclass"));
+        }
         // if there is not field present
         // we set the value passed in
         // and check to see if the field
@@ -427,7 +427,7 @@ public class Entry extends SwingWidget {
           }
         } else if (getField() == null) {
             if (object != null) {
-                //if (valueClass != null && !valueClass.isAssignableFrom(object.getClass())) {
+                if (valueClass != null && !valueClass.isAssignableFrom(object.getClass())) {
                     IConverter converter = null;
                     if (getProperty("converter.class") != null) {
                         converter = (IConverter) ClassLoaderUtils.getObjectFromClassString(getProperty("converter.class"));
@@ -437,7 +437,7 @@ public class Entry extends SwingWidget {
                     if (converter != null) {
                         object = converter.getBeanValue(object);
                     }
-                //}
+                }
             }
             if (object != this.value) {
                 this.previousValue = this.value;
