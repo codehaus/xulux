@@ -1,5 +1,5 @@
 /*
- $Id: IContentWidget.java,v 1.3 2003-09-17 11:49:31 mvdb Exp $
+ $Id: IContentWidget.java,v 1.4 2003-09-23 14:22:46 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,7 +51,7 @@ package org.xulux.nyx.gui;
  * in eg a list, table or combo.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentWidget.java,v 1.3 2003-09-17 11:49:31 mvdb Exp $
+ * @version $Id: IContentWidget.java,v 1.4 2003-09-23 14:22:46 mvdb Exp $
  */
 public interface IContentWidget {
     
@@ -66,5 +66,11 @@ public interface IContentWidget {
      * @return
      */
     public Object getContent();
+    
+    /**
+     * This method needs to be called when the content has changed
+     * without calling setContent.
+     */
+    public void contentChanged();
 
 }

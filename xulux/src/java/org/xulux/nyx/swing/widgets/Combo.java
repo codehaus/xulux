@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.20 2003-09-01 09:38:15 mvdb Exp $
+ $Id: Combo.java,v 1.21 2003-09-23 14:22:45 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,7 +51,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.swing.NyxJComboBox;
@@ -64,7 +63,7 @@ import org.xulux.nyx.swing.util.NyxEventQueue;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.20 2003-09-01 09:38:15 mvdb Exp $
+ * @version $Id: Combo.java,v 1.21 2003-09-23 14:22:45 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -323,6 +322,13 @@ public class Combo extends NyxCombo
         public void focusLost(FocusEvent e) {
         }
 
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.IContentWidget#contentChanged()
+     */
+    public void contentChanged() {
+        contentChanged = true;
     }
 
 }

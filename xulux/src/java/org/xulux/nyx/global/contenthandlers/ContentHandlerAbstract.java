@@ -1,5 +1,5 @@
 /*
- $Id: ContentHandlerAbstract.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ $Id: ContentHandlerAbstract.java,v 1.2 2003-09-23 14:22:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,7 +53,7 @@ import org.xulux.nyx.global.IContentHandler;
  * An absract for the content handler.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ContentHandlerAbstract.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: ContentHandlerAbstract.java,v 1.2 2003-09-23 14:22:46 mvdb Exp $
  */
 public abstract class ContentHandlerAbstract implements IContentHandler {
     
@@ -83,5 +83,17 @@ public abstract class ContentHandlerAbstract implements IContentHandler {
      * @see org.xulux.nyx.global.IContentHandler#getType()
      */
     public abstract Class getType();
+    
+    
+    
+    /**
+     * Please override this if your contenthandler can have
+     * content changed without a call to setConent
+     * 
+     * @see org.xulux.nyx.global.IContentHandler#refresh()
+     */
+    public void refresh() {
+
+    }
 
 }

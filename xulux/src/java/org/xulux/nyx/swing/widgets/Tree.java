@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.3 2003-09-23 12:29:47 mvdb Exp $
+ $Id: Tree.java,v 1.4 2003-09-23 14:22:45 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,15 +56,15 @@ import org.xulux.nyx.swing.models.SwingTreeModel;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.3 2003-09-23 12:29:47 mvdb Exp $
+ * @version $Id: Tree.java,v 1.4 2003-09-23 14:22:45 mvdb Exp $
  */
 public class Tree extends Widget implements IContentWidget {
     
     protected JTree jtree;
     protected Object content;
     protected boolean contentChanged;
-    protected SwingTreeModel model;
-    protected TreeContentHandler contentHandler;
+    protected SwingTreeModel contentHandler;
+    //protected TreeContentHandler contentHandler;
     
     /**
      * @param name
@@ -99,9 +99,13 @@ public class Tree extends Widget implements IContentWidget {
         if (initialized) {
             return;
         }
-        this.model = new SwingTreeModel(contentHandler);
-        this.jtree = new JTree(model);
-        
+        System.err.println("initializing");
+        System.err.println("init : "+contentHandler);
+        if (this.contentHandler == null) {
+            this.contentHandler = new SwingTreeModel(null);
+        }
+        this.jtree = new JTree(this.contentHandler);
+        initialized = true;
         refresh();
     }
 
@@ -109,7 +113,9 @@ public class Tree extends Widget implements IContentWidget {
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public void refresh() {
-        jtree.setModel(new SwingTreeModel(contentHandler));
+        System.err.println("contentHandler : "+contentHandler);
+        System.err.println("contentHandler cont : "+contentHandler.getContent());
+        //jtree.setModel(new SwingTreeModel(contentHandler));
         if (isRefreshing()) {
             return;
         }
@@ -123,9 +129,10 @@ public class Tree extends Widget implements IContentWidget {
         }
         jtree.putClientProperty("JTree.lineStyle", lineStyle);
         
-        //jtree.set
         if (contentChanged) {
-            jtree.setModel(new SwingTreeModel(contentHandler));
+            System.err.println("setting model to : "+contentHandler);
+            jtree.setModel(contentHandler);
+            System.err.println("Content : "+contentHandler.getContent());
             contentChanged= false;
         }
         isRefreshing = false;
@@ -163,15 +170,20 @@ public class Tree extends Widget implements IContentWidget {
      * @see org.xulux.nyx.gui.IContentWidget#setContent(java.util.List)
      */
     public void setContent(Object object) {
+        System.err.println("setContent called");
         this.content = object;
         if (object != null) {
-            System.out.println("Content object : "+object.getClass());
+            System.err.println("Content object : "+object.getClass());
             WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(getWidgetType());
-            this.contentHandler = (TreeContentHandler)config.getContentHandler(object.getClass());
+            TreeContentHandler handler = (TreeContentHandler)config.getContentHandler(object.getClass());
+            handler.setWidget(this);
+            handler.setContent(object);
+            System.err.println("handler content "+handler.getContent());
+            this.contentHandler = new SwingTreeModel(handler);
             this.contentHandler.setWidget(this);
             this.contentHandler.setContent(object);
+            System.err.println("contentHandler content : "+contentHandler.getContent());
         }
-        
         contentChanged = true;
         refresh();
     }
@@ -181,6 +193,15 @@ public class Tree extends Widget implements IContentWidget {
      */
     public Object getContent() {
         return this.content;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.IContentWidget#contentChanged()
+     */
+    public void contentChanged() {
+        if (contentHandler != null) {
+            contentHandler.refresh();
+        }
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: SwingTreeModel.java,v 1.1 2003-09-17 11:49:31 mvdb Exp $
+ $Id: SwingTreeModel.java,v 1.2 2003-09-23 14:22:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,9 @@
  */
 package org.xulux.nyx.swing.models;
 
+import java.util.ArrayList;
+
+import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -55,12 +58,13 @@ import org.xulux.nyx.global.contenthandlers.TreeContentHandler;
  * A cutom tree root, so we can do magic of our own
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingTreeModel.java,v 1.1 2003-09-17 11:49:31 mvdb Exp $
+ * @version $Id: SwingTreeModel.java,v 1.2 2003-09-23 14:22:46 mvdb Exp $
  */
 public class SwingTreeModel extends TreeContentHandler
 implements TreeModel {
 
     TreeContentHandler contentHandler;
+    ArrayList listenerList; 
     /**
      * @param the tree contentHandler to use.. 
      */
@@ -72,6 +76,10 @@ implements TreeModel {
      * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.TreeModelListener)
      */
     public void addTreeModelListener(TreeModelListener l) {
+        if (listenerList == null) {
+            listenerList = new ArrayList();
+        }
+        listenerList.add(l);
     }
 
     /**
@@ -85,6 +93,9 @@ implements TreeModel {
      * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
      */
     public int getChildCount(Object parent) {
+        if (contentHandler == null) {
+            return 0;
+        }
         return contentHandler.getChildCount(parent);
     }
 
@@ -110,14 +121,19 @@ implements TreeModel {
      */
     public boolean isLeaf(Object node) {
         //System.out.println("contentHandler :" +contentHandler);
-        return contentHandler.isLeaf(node);
+        if (contentHandler != null) {
+            return contentHandler.isLeaf(node);
+        }
+        return false;
     }
 
     /**
      * @see javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.TreeModelListener)
      */
     public void removeTreeModelListener(TreeModelListener l) {
-
+        if (listenerList != null) {
+            listenerList.remove(l);
+        }
     }
 
     /**
@@ -132,6 +148,27 @@ implements TreeModel {
      */
     public Class getType() {
         return null;
+    }
+
+    /**
+     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#refresh()
+     */
+    public void refresh() {
+        System.err.println("REFRESH MODEL");
+        if (listenerList == null) {
+            return;
+        }
+        TreeModelEvent event = null;
+        for (int i = listenerList.size()-1; i >= 0; i--) {
+            Object listener = listenerList.get(i);
+            System.err.println("Listener : "+listener);
+            if (listener instanceof TreeModelListener) {
+                if (event == null) {
+                    event = new TreeModelEvent(this, new TreePath(getRoot()));
+                }
+                ((TreeModelListener)listener).treeStructureChanged(event);
+            }
+        }
     }
 
 }

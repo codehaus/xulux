@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.17 2003-09-10 07:41:28 mvdb Exp $
+ $Id: Table.java,v 1.18 2003-09-23 14:22:45 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -82,7 +82,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.17 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: Table.java,v 1.18 2003-09-23 14:22:45 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -588,4 +588,11 @@ implements IContentWidget
        editor.stopCellEditing(table);
     }
     
+    /**
+     * @see org.xulux.nyx.gui.IContentWidget#contentChanged()
+     */
+    public void contentChanged() {
+        contentChanged = true;
+    }
+
 }
