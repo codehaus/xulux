@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.17 2003-08-11 00:33:49 mvdb Exp $
+ $Id: Combo.java,v 1.18 2003-08-11 00:37:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.17 2003-08-11 00:33:49 mvdb Exp $
+ * @version $Id: Combo.java,v 1.18 2003-08-11 00:37:10 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -191,21 +191,15 @@ public class Combo extends NyxCombo
             }
             contentChanged = false;
         }
-        if (getValue() instanceof DefaultComboModel.ComboShowable)
-        {
-            log.warn("ComboShowable...");
-            
+        if (getValue() instanceof DefaultComboModel.ComboShowable) {
             model.setSelectedItem(value);
         }
         else
         {
-            log.warn("REFRESHING!!!");
-            log.warn(getName()+"Content : "+content);
-            log.warn(getName()+"  getValue() : "+getValue());
             if (content != null && getValue() != null)
             {
-                if (log.isWarnEnabled()) {
-                    log.warn("Setting value to : "+getValue());
+                if (log.isTraceEnabled()) {
+                    log.trace("Setting value to : "+getValue());
                 }
                 model.setRealSelectedValue(getValue());
             }
@@ -214,8 +208,8 @@ public class Combo extends NyxCombo
             {
                 // if we don't have a value select
                 // the first one in the list
-                if (log.isWarnEnabled()) {
-                    log.warn("Select the first one in the list");
+                if (log.isTraceEnabled()) {
+                    log.trace("Select the first one in the list");
                 }
                 if (!content.isEmpty())
                 {
