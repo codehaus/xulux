@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.10 2003-09-29 02:21:05 mvdb Exp $
+ $Id: Tree.java,v 1.11 2003-09-29 13:52:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.10 2003-09-29 02:21:05 mvdb Exp $
+ * @version $Id: Tree.java,v 1.11 2003-09-29 13:52:11 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
     
@@ -158,13 +158,25 @@ public class Tree extends ContainerWidget implements IContentWidget {
             // collapsetree..
 //            System.err.println("Collapsing!!");
             if (jtree != null && contentHandler != null) {
+                // TODO: really make this flexible!
+                String collapseUntill = getProperty("collapse-untill");
+                setProperty("collapse-untill",null);
                 jtree.collapsePath(new TreePath(contentHandler.getRoot()));
+                if (collapseUntill != null ) {
+                    if (collapseUntill != null) {
+                        if (collapseUntill.toLowerCase().startsWith("level")) {
+                            int level = Integer.parseInt(collapseUntill.substring("level".length()));
+                            expandToLevel(null, level);
+                        }
+                    }
+                }
             }
         }
         if (getProperty("expand") != null) {
             setProperty("expand", null);
             if (jtree != null && contentHandler != null) {
                 String expandUntill = getProperty("expand-untill");
+                setProperty("expand-untill", null);
                 expandTree(expandUntill);
             }
         }
@@ -181,6 +193,50 @@ public class Tree extends ContainerWidget implements IContentWidget {
         }
         initializePopupMenu();
         isRefreshing = false;
+    }
+    
+    
+    /**
+     * Expands the tree to the specified level.
+     * Level 0 is the root of the tree.
+     * If level is higher than the levels present, it will just collapse all.
+     * 
+     * @param level - the level 
+     */
+    protected void expandToLevel(Object root, int level) {
+        if (level == 0) {
+            // the root level is always expanded..
+            return;
+        }
+        if (expandPath == null) {
+            expandPath = new ArrayList();
+        }
+        if (root == null) {
+            // asssume we need to set the root..
+            root = contentHandler.getRoot();
+        }
+        expandPath.add(root);
+        int childCount = contentHandler.getChildCount(root);
+        for (int i = 0; i < childCount; i++) {
+            Object ele = contentHandler.getChild(root, i);
+            if (expandPath.size()-1 != level) {
+                expandToLevel(ele, level);
+            } else {
+                if (expandPath != null) {
+                    // collapse the current root..
+                    jtree.collapsePath(new TreePath(expandPath.toArray()));
+                    // remove the current root,else it will expand leafs..
+                    expandPath.remove(root);
+                    jtree.expandPath(new TreePath(expandPath.toArray()));
+                    break;
+                }
+            }
+        }
+        expandPath.remove(root);
+    }
+    
+    protected void expandToLevel(Object root) {
+        
     }
     
     /**

@@ -55,6 +55,14 @@
         </td>
       </tr>
       <tr>
+        <td>collapse-untill</td>
+        <td>swing</td>
+        <td>
+          If the value is level# (# = number) it will collapse till the specified
+          level.
+        </td>
+      </tr>
+      <tr>
         <td>showicons</td>
         <td>swing</td>
         <td>
