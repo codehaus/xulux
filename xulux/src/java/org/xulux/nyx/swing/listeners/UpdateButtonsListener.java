@@ -1,5 +1,5 @@
 /*
- $Id: UpdateButtonsListener.java,v 1.2 2003-08-09 00:09:06 mvdb Exp $
+ $Id: UpdateButtonsListener.java,v 1.3 2003-08-09 01:11:16 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -71,7 +71,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.2 2003-08-09 00:09:06 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.3 2003-08-09 01:11:16 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener
 implements ActionListener, ListSelectionListener
@@ -161,6 +161,7 @@ implements ActionListener, ListSelectionListener
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = handler.read(stream,partBean);
         part.activate();
+        parent.refresh();
     }
     
     /**
