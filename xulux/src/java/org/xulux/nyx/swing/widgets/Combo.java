@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.5 2003-07-17 01:36:05 mvdb Exp $
+ $Id: Combo.java,v 1.6 2003-07-17 01:58:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.5 2003-07-17 01:36:05 mvdb Exp $
+ * @version $Id: Combo.java,v 1.6 2003-07-17 01:58:28 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -263,7 +263,9 @@ public class Combo extends NyxCombo
      * @see org.xulux.nyx.gui.Widget#getGuiValue()
      */
     public Object getGuiValue() {
-        return null;
+        Object object = this.model.getRealSelectedValue();
+        System.out.println("Object : "+object.getClass());
+        return this.model.getRealSelectedValue();
     }
 
 }
