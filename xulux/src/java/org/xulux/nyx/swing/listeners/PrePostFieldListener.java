@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.9.2.1 2003-04-29 16:52:45 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.9.2.2 2003-06-04 23:46:16 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.gui.Widget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.9.2.1 2003-04-29 16:52:45 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.9.2.2 2003-06-04 23:46:16 mvdb Exp $
  */
 public class PrePostFieldListener 
 implements FocusListener, ActionListener
@@ -88,6 +88,9 @@ implements FocusListener, ActionListener
      */
     public void focusGained(FocusEvent e)
     {
+        if (!e.isTemporary()) {
+            widget.getPart().setCurrentField(widget.getName());
+        }
         if (processing)
         {
             return;
@@ -108,6 +111,9 @@ implements FocusListener, ActionListener
      */
     public void focusLost(FocusEvent e)
     {
+        if (!e.isTemporary()) {
+            widget.getPart().setCurrentField(null);
+        }
         if (processing)
         {
             return;
@@ -139,6 +145,20 @@ implements FocusListener, ActionListener
             return;
         }
         processing = true;
+        // we need to check if the current field has an
+        // actionpreformed or that a new field has
+        // an action preformed. If tha latter is true,
+        // we have to fire the post event for the
+        // currently selected field.
+        String currentField = widget.getPart().getCurrentField();
+        System.out.println("currentField : "+currentField);
+        if ( currentField != null && !currentField.equals(widget.getName())) {
+            Widget currentWidget = widget.getPart().getWidget(currentField);
+            WidgetRequestImpl impl = new WidgetRequestImpl(currentWidget, PartRequest.ACTION_VALUE_CHANGED);
+            ApplicationContext.fireFieldRequest(currentWidget, impl, ApplicationContext.POST_REQUEST);
+            // preform all pre rules.
+            ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+        } 
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
         ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
