@@ -1,5 +1,5 @@
 /*
-   $Id: Dictionary.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
+   $Id: Dictionary.java,v 1.7 2004-06-14 13:34:29 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.bean.BeanDataProvider;
 import org.xulux.dataprovider.bean.BeanMapping;
 import org.xulux.dataprovider.converters.IConverter;
@@ -36,7 +37,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * It is the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.7 2004-06-14 13:34:29 mvdb Exp $
  */
 public final class Dictionary {
     /**
@@ -128,10 +129,11 @@ public final class Dictionary {
      * @deprecated
      */
     public static Dictionary getInstance() {
-        if (instance == null) {
-            instance = new Dictionary();
-        }
-        return instance;
+//        if (instance == null) {
+//            instance = new Dictionary();
+//        }
+//        return instance;
+        return XuluxContext.getDictionary();
     }
 
     /**
@@ -139,10 +141,11 @@ public final class Dictionary {
      * @return the mapping
      */
     public BeanMapping getMapping(String name) {
-        if (mappings != null) {
-            return (BeanMapping) mappings.get(name);
-        }
-        return null;
+        return (BeanMapping) getInstance().getProvider(DEFAULT_PROVIDER).getMapping(name);
+//        if (maps != null) {
+//            return (BeanMapping) mappings.get(name);
+//        }
+//        return null;
     }
 
     /**

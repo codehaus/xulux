@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtils.java,v 1.6 2004-04-15 00:05:04 mvdb Exp $
+   $Id: ClassLoaderUtils.java,v 1.7 2004-06-14 13:34:29 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.6 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.7 2004-06-14 13:34:29 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -184,8 +184,12 @@ public class ClassLoaderUtils {
                         Class[] cclz = constructor.getParameterTypes();
                         boolean cStatus = true;
                         for (int cc = 0; cc < cclz.length; cc++) {
+                            try {
                             if (!cclz[cc].isAssignableFrom(clzList[cc])) {
                                 cStatus = false;
+                            }
+                            }catch(Exception e) {
+                                //e.printStackTrace();
                             }
                         }
                         if (cStatus) {
