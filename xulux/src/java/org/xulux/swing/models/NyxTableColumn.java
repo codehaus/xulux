@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableColumn.java,v 1.2 2004-01-28 15:09:23 mvdb Exp $
+   $Id: NyxTableColumn.java,v 1.3 2004-06-23 10:52:21 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,10 +31,10 @@ import org.xulux.utils.BooleanUtils;
 
 /**
  * Override the standard TableColumn, so we can use instances of widgets to set columns
- * , instead of dynamically creating it them all the time.
+ * , instead of dynamically creating them all the time.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumn.java,v 1.2 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: NyxTableColumn.java,v 1.3 2004-06-23 10:52:21 mvdb Exp $
  */
 public class NyxTableColumn extends TableColumn {
 
