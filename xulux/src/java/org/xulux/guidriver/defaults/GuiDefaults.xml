@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-   $Id: GuiDefaults.xml,v 1.8 2004-06-28 13:11:07 mvdb Exp $
+   $Id: GuiDefaults.xml,v 1.9 2004-06-30 11:59:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,6 +31,11 @@
     <layout name="box" class="org.xulux.swing.layouts.SwingBoxLayout"/>
     <layout name="gridbag" class="org.xulux.swing.layouts.SwingGridBagLayout"/>
   </layouts>
+  <invalidValueStrategies>
+     <invalidValueStrategy name="saveaction" default="true" class="org.xulux.gui.strategies.SaveActionInvalidValueStrategy"/>
+     <invalidValueStrategy name="immidiate" class="org.xulux.gui.strategies.ImmidiateInvalidValueStrategy"/>
+     <invalidValueStrategy name="none" class="org.xulux.gui.strategies.NoInvalidValueStrategy"/>
+  </invalidValueStrategies>
   <widgets>
     <widget name="button" class="org.xulux.swing.widgets.Button"/>
     <widget name="dialog" class="org.xulux.swing.widgets.Dialog"/>

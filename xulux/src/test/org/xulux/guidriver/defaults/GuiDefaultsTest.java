@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsTest.java,v 1.10 2004-05-17 22:58:06 mvdb Exp $
+   $Id: GuiDefaultsTest.java,v 1.11 2004-06-30 11:59:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.swing.widgets.Combo;
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.10 2004-05-17 22:58:06 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.11 2004-06-30 11:59:00 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -282,6 +282,11 @@ public class GuiDefaultsTest extends TestCase {
         // an npe exeption when an invalid class was passed....
         defaults = new GuiDefaults();
         defaults.registerLayout("xylayout", true, "org.xulux.swing.layout.XYLayout", "swing");
+    }
+
+    public void testInvalidValueStrategies() {
+        System.out.println("testInvalidValueStrategies");
+        fail("to be done");
     }
 
     public class Temp2XuluxToolkit extends TempXuluxToolkit {

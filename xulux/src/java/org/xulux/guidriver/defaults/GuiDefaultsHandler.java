@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.10 2004-05-17 22:58:05 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.11 2004-06-30 11:59:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -38,7 +38,7 @@ import org.xulux.utils.BooleanUtils;
  * @todo move the contenthandlers to the dataprovider API.
  * @todo do some code reuse of setting the properties.. eg util method or something
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.10 2004-05-17 22:58:05 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.11 2004-06-30 11:59:00 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 
@@ -61,6 +61,8 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private static final String ELEMENT_DEFAULTS="defaults";
     private static final String ELEMENT_LAYOUTS="layouts";
     private static final String ELEMENT_LAYOUT="layout";
+    private static final String ELEMENT_IVVSTRATEGIES="invalidvaluestrategies";
+    private static final String ELEMENT_IVVSTRATEGY="invalidvaluestrategy";
     private static final String ATTRIBUTE_TYPE = "type";
     private static final String ATTRIBUTE_CLASS = "class";
     private static final String ATTRIBUTE_NAME = "name";
@@ -75,6 +77,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private boolean contentHandlersStarted = false;
     private boolean defaultsStarted = false;
     private boolean layoutsStarted = false;
+    private boolean ivvStrategiesStarted = false;
 
     private String initClass;
     private String initType;
@@ -217,6 +220,13 @@ public class GuiDefaultsHandler extends DefaultHandler {
                 type = XuluxContext.getGuiDefaults().getDefaultGuiLayer();
             }
             XuluxContext.getGuiDefaults().registerLayout(name, isDefault, clazz, type);
+        } else if (qName.equals(ELEMENT_IVVSTRATEGIES)) {
+            ivvStrategiesStarted = true;
+        } else if (qName.equals(ELEMENT_IVVSTRATEGY)) {
+            boolean isDefault = BooleanUtils.toBoolean(atts.getValue(ATTRIBUTE_DEFAULT));
+            String name = atts.getValue(ATTRIBUTE_NAME);
+            String clazz = atts.getValue(ATTRIBUTE_CLASS);
+            XuluxContext.getGuiDefaults().registerInvalidValueStrategy(name, isDefault, clazz);
         }
     }
 
@@ -275,6 +285,8 @@ public class GuiDefaultsHandler extends DefaultHandler {
             propertiesStarted = false;
         } else if (qName.equals(ELEMENT_LAYOUTS)) {
             layoutsStarted = false;
+        } else if (qName.equals(ELEMENT_IVVSTRATEGIES)) {
+            ivvStrategiesStarted = false;
         }
     }
 

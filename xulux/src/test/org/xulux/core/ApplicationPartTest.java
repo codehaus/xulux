@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPartTest.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
+   $Id: ApplicationPartTest.java,v 1.3 2004-06-30 11:59:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,6 +17,7 @@
 */
 package org.xulux.core;
 
+import org.xulux.gui.IInvalidValueStrategy;
 import org.xulux.gui.Widget;
 import org.xulux.swing.util.NyxEventQueue;
 import org.xulux.swing.widgets.CheckBox;
@@ -31,7 +32,7 @@ import junit.framework.TestSuite;
  * The ApplicationPart test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartTest.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.3 2004-06-30 11:59:00 mvdb Exp $
  */
 public class ApplicationPartTest extends TestCase {
 
@@ -109,5 +110,29 @@ public class ApplicationPartTest extends TestCase {
         assertNull(part.getProvider());
         part.setProvider("partProvider");
         assertEquals("partProvider", part.getProvider());
+    }
+    
+    public void testInvalidValuStrategy() {
+        System.out.println("testInvalidValuStrategy");
+        ApplicationPart part = new ApplicationPart();
+        part.setInvalidValueStrategy(MockInvalidValueStrategy.class.getName());
+        assertEquals(true, part.getInvalidValueStrategy() instanceof MockInvalidValueStrategy);
+    }
+    
+    public class MockInvalidValueStrategy implements IInvalidValueStrategy {
+
+        /**
+         * @see org.xulux.gui.IInvalidValueStrategy#checkForm(org.xulux.core.ApplicationPart)
+         */
+        public boolean checkForm(ApplicationPart part) {
+            return false;
+        }
+
+        /**
+         * @see org.xulux.gui.IInvalidValueStrategy#checkWidget(org.xulux.gui.Widget)
+         */
+        public boolean checkWidget(Widget widget) {
+            return false;
+        }
     }
 }

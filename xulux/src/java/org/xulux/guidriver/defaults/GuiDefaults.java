@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaults.java,v 1.6 2004-05-17 22:58:05 mvdb Exp $
+   $Id: GuiDefaults.java,v 1.7 2004-06-30 11:59:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.core.WidgetConfig;
+import org.xulux.gui.IInvalidValueStrategy;
 import org.xulux.gui.INativeWidgetHandler;
 import org.xulux.gui.IParentWidgetHandler;
 import org.xulux.gui.IXuluxLayout;
@@ -35,7 +36,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * properties.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaults.java,v 1.6 2004-05-17 22:58:05 mvdb Exp $
+ * @version $Id: GuiDefaults.java,v 1.7 2004-06-30 11:59:00 mvdb Exp $
  */
 public class GuiDefaults {
 
@@ -432,6 +433,64 @@ public class GuiDefaults {
      */
     public IXuluxLayout getDefaultLayout(String guiLayer) {
         return getLayout(guiLayer, defaultLayout);
+    }
+
+    /**
+     * The default invalidvalueStrategy
+     */
+    private String defaultIvvStrategy;
+    /**
+     * A map containing all strategies
+     */
+    private Map ivvMap;
+
+    /**
+     * Register the specified InvalidValueStrategy.
+     * Setting the default strategy is based on the name The last one that 
+     * calls this method with the field isDefault as true, will be the default 
+     * for the application.
+     *
+     * @param name the name of the strategy
+     * @param isDefault is this strategy the default
+     * @param clazz the class of the strategy
+     */
+    public void registerInvalidValueStrategy(String name, boolean isDefault, String clazz) {
+        if (name == null) {
+            return;
+        }
+        if (ivvMap == null) {
+            ivvMap = new HashMap();
+        }
+        Class clz = ClassLoaderUtils.getClass(clazz);
+        if (clz != null) {
+          if (IInvalidValueStrategy.class.isAssignableFrom(clz)) {
+              ivvMap.put(name, ClassLoaderUtils.getClass(clazz));
+              if (isDefault) {
+                  defaultIvvStrategy = name;
+              }
+          } else {
+              log.warn("Class " + clazz + "is not a IInvalidValueStrategy");
+          }
+        }
+    }
+
+    /**
+     * @return the default invalid value strategy
+     */
+    public IInvalidValueStrategy getInvalidValueStrategy() {
+        return getInvalidValueStrategy(defaultIvvStrategy);
+    }
+
+    /**
+     * @param name the name of the strategy
+     * @return the specified invalidvaluestrategy, or null if not found.
+     */    
+    public IInvalidValueStrategy getInvalidValueStrategy(String name) {
+        if (ivvMap != null) {
+            Class clz = (Class) ivvMap.get(name);
+            return (IInvalidValueStrategy) ClassLoaderUtils.getObjectFromClass(clz);
+        }
+        return null;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: NyxListener.java,v 1.8 2004-05-17 16:30:22 mvdb Exp $
+   $Id: NyxListener.java,v 1.9 2004-06-30 11:59:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,13 +18,12 @@
 package org.xulux.gui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.core.XuluxContext;
 import org.xulux.core.PartRequest;
+import org.xulux.core.XuluxContext;
 import org.xulux.rules.impl.PartRequestImpl;
 import org.xulux.rules.impl.WidgetRequestImpl;
 import org.xulux.swing.widgets.Button;
@@ -36,7 +35,7 @@ import org.xulux.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.8 2004-05-17 16:30:22 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.9 2004-06-30 11:59:00 mvdb Exp $
  */
 public abstract class NyxListener {
     /**
@@ -129,19 +128,12 @@ public abstract class NyxListener {
         }
 
         if (widget instanceof Entry || widget instanceof TextArea) {
-            // if the widget is required, a value must
-            // exist.
-            //            if (widget.isRequired()) {
-            //                Object guiValue = widget.getGuiValue();
-            // @todo Make an option to check for immidiate required fields
-            //                if (guiValue instanceof String || guiValue == null) {
-            //                    if (guiValue == null || ((String)guiValue).trim().equals("")) {
-            //                        NYXToolkit.getInstance().beep();
-            //                        widget.focus();
-            //                        return false;
-            //                    }
-            //                }
-            //            }
+            IInvalidValueStrategy strategy = widget.getPart().getInvalidValueStrategy();
+            if (strategy != null) {
+                if (strategy.checkWidget(widget) == false) {
+                    return false;
+                }
+            }
             widget.setValue(widget.getGuiValue());
             // refresh the all widgets who references this field
             refreshFields(widget);
@@ -152,13 +144,9 @@ public abstract class NyxListener {
             String defAction = widget.getProperty("defaultaction");
             if (defAction != null) {
                 if (defAction.equalsIgnoreCase("save")) {
-                    Iterator it = widget.getPart().getWidgets().iterator();
-                    while (it.hasNext()) {
-                        Widget w = (Widget) it.next();
-                        boolean process = false;
-                        if (w.isRequired() && (w.canContainValue() && w.isValueEmpty()) || !w.isValidValue()) {
-                            XuluxToolkit.getInstance().beep();
-                            w.focus();
+                    IInvalidValueStrategy strategy = widget.getPart().getInvalidValueStrategy();
+                    if (strategy != null) {
+                        if (strategy.checkForm(widget.getPart()) == false) {
                             return false;
                         }
                     }

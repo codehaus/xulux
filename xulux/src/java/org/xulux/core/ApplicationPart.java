@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.8 2004-06-09 14:02:22 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.9 2004-06-30 11:59:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.dataprovider.Dictionary;
+import org.xulux.gui.IInvalidValueStrategy;
 import org.xulux.gui.INativeWidgetHandler;
 import org.xulux.gui.IParentWidgetHandler;
 import org.xulux.gui.NyxListener;
@@ -35,6 +36,7 @@ import org.xulux.rules.impl.PartRequestImpl;
 import org.xulux.rules.impl.WidgetRequestImpl;
 import org.xulux.swing.util.NyxEventQueue;
 import org.xulux.utils.BooleanUtils;
+import org.xulux.utils.ClassLoaderUtils;
 import org.xulux.utils.Translation;
 
 /**
@@ -55,7 +57,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.8 2004-06-09 14:02:22 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.9 2004-06-30 11:59:00 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -156,6 +158,10 @@ public class ApplicationPart {
      * The provider for the part
      */
     private String provider;
+    /**
+     * The invalid value strategy instance of the part.
+     */
+    private IInvalidValueStrategy ivvStrategy;
 
     /**
      * Constructor for GuiPart.
@@ -704,8 +710,8 @@ public class ApplicationPart {
             partRules.clear();
             partRules = null;
         }
-        System.out.println("ParentWidget : " + this.parentWidget);
-        System.out.println("Root widget : " + this.getRootWidget());
+//        System.out.println("ParentWidget : " + this.parentWidget);
+//        System.out.println("Root widget : " + this.getRootWidget());
         if (getRootWidget() != null) {
             IParentWidgetHandler handler = XuluxContext.getGuiDefaults().getParentWidgetHandler();
             handler.destroy(parentWidget);
@@ -716,6 +722,7 @@ public class ApplicationPart {
         parentWidget = null;
         XuluxContext.getInstance().removePart(getName());
         this.parentPart = null;
+        this.ivvStrategy = null;
     }
 
     /**
@@ -950,5 +957,27 @@ public class ApplicationPart {
      */
     public String getProvider() {
         return this.provider;
+    }
+    /**
+     * 
+     * @param strategy the name of the strategy to use or the class of the strategy
+     */
+    public void setInvalidValueStrategy(String strategy) {
+        if (strategy != null) {
+            // is this a class ?
+            Object object = ClassLoaderUtils.getObjectFromClassString(strategy);
+            if (object instanceof IInvalidValueStrategy) {
+                ivvStrategy = (IInvalidValueStrategy) object;
+            } else {
+                ivvStrategy = XuluxContext.getGuiDefaults().getInvalidValueStrategy(strategy);
+            }
+        }
+    }
+    
+    public IInvalidValueStrategy getInvalidValueStrategy() {
+        if (ivvStrategy == null) {
+            ivvStrategy = XuluxContext.getGuiDefaults().getInvalidValueStrategy();
+        }
+        return ivvStrategy;
     }
 }
