@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.3 2003-12-23 02:00:06 mvdb Exp $
+ $Id: Button.java,v 1.4 2003-12-29 14:26:42 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -70,7 +70,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.3 2003-12-23 02:00:06 mvdb Exp $
+ * @version $Id: Button.java,v 1.4 2003-12-29 14:26:42 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -191,6 +191,7 @@ public class Button extends SwingWidget {
         }
         if (actionListener == null) {
             NyxListener listener = getPart().getFieldEventHandler(this);
+            System.err.println("listener : " + listener);
             if (listener == null) {
                 actionListener = new PrePostFieldListener(this);
             } else {

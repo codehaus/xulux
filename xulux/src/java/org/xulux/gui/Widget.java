@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ $Id: Widget.java,v 1.2 2003-12-29 14:26:43 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ * @version $Id: Widget.java,v 1.2 2003-12-29 14:26:43 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -954,5 +954,15 @@ public abstract class Widget implements Serializable
      */
     public boolean isInitializing() {
         return this.initializing;
+    }
+
+    /**
+     * Override this method when layout managers
+     * shouldn't try to layout the widgets
+     * (eg menus are a good example)
+     * @return true
+     */
+    public boolean ignoreLayout() {
+        return false;
     }
 }

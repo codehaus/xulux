@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaults.xml,v 1.2 2003-12-20 17:52:53 mvdb Exp $ -->
+<!-- $Id: GuiDefaults.xml,v 1.3 2003-12-29 14:26:43 mvdb Exp $ -->
 <!-- 
     Where no type is specified, it will default
     to defaultType.
@@ -30,6 +30,7 @@
     <widget name="table" class="org.xulux.swing.widgets.Table"/>
     <widget name="popupmenu" class="org.xulux.swing.widgets.PopupMenu"/>
     <widget name="menuitem" class="org.xulux.swing.widgets.MenuItem"/>
+    <widget name="menu" class="org.xulux.swing.widgets.Menu"/>
     <widget name="tree" class="org.xulux.swing.widgets.Tree"/>
     <widget name="radiobutton" class="org.xulux.swing.widgets.RadioButton"/>
     <widget name="togglebutton" class="org.xulux.swing.widgets.ToggleButton"/>

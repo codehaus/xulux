@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- $Id: MenuTest.xml,v 1.1 2003-12-29 14:26:42 mvdb Exp $ -->
+<part name="MenuTest" prefix="menu" application="true">
+  <field type="window" name="WindowTest1">
+    <title>MenuTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>300,300</size>
+    <autosize>true</autosize>
+    <field type="menubar" name="MenuBar">
+      <field type="menu" name="File">
+        <text>File</text>
+        <field type="menuitem" name="exit">
+          <text>Exit</text>
+          <rules>
+            <rule>org.xulux.gui.rules.CancelButtonRule</rule>
+          </rules>
+        </field>
+      </field>
+    </field>
+  </field>
+</part>

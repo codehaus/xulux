@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
-<!-- $Id: WindowWithCancelButtonTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
-<part name="WindowTest1" prefix="window" application="true">
+<!-- $Id: WindowWithButtonsTest.xml,v 1.1 2003-12-29 14:26:42 mvdb Exp $ -->
+<part name="WindowWithButtonsTest" prefix="window" application="true">
+  <rules>
+    <rule>org.xulux.gui.rules.WindowWithButtonsRule</rule>
+  </rules>
   <field type="window" name="Window">
     <title>WindowTest1</title>
     <icon>resources/Car.ico</icon>
@@ -15,6 +18,12 @@
 	  <rules>
 	    <rule>org.xulux.gui.rules.CancelButtonRule</rule>
 	  </rules>
+    </field>
+    <field type="button" name="Button:Save">
+	  <size>120,21</size>
+	  <position>134,10</position>
+	  <text>Save</text>
+	  <defaultaction>save</defaultaction>
     </field>
   </field>
 </part>

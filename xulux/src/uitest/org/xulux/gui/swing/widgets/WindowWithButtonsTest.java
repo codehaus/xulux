@@ -1,5 +1,5 @@
 /*
- $Id: WindowWithCancelButtonTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
+ $Id: WindowWithButtonsTest.java,v 1.1 2003-12-29 14:26:42 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -60,15 +60,15 @@ import org.xulux.gui.Widget;
  * Testcase for an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowWithCancelButtonTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
+ * @version $Id: WindowWithButtonsTest.java,v 1.1 2003-12-29 14:26:42 mvdb Exp $
  */
-public class WindowWithCancelButtonTest extends TestCase {
+public class WindowWithButtonsTest extends TestCase {
 
     /**
      * Constructor for EntryTest.
      * @param name the name of the test
      */
-    public WindowWithCancelButtonTest(String name) {
+    public WindowWithButtonsTest(String name) {
         super(name);
     }
 
@@ -76,7 +76,7 @@ public class WindowWithCancelButtonTest extends TestCase {
      * @return the suite
      */
     public static Test suite() {
-        TestSuite suite = new TestSuite(WindowWithCancelButtonTest.class);
+        TestSuite suite = new TestSuite(WindowWithButtonsTest.class);
         return suite;
     }
 
@@ -84,7 +84,7 @@ public class WindowWithCancelButtonTest extends TestCase {
      * Test the simple window
      */
     public void testSimpleWindow() {
-        String xml = "org/xulux/gui/swing/widgets/WindowWithCancelButtonTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/WindowWithButtonsTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(null, stream);
         ApplicationContext.getInstance().register(part, true);
@@ -99,7 +99,7 @@ public class WindowWithCancelButtonTest extends TestCase {
      */
     public static void main(String[] args) {
         try {
-            new WindowWithCancelButtonTest("WindowWithCancelButtonTest").testSimpleWindow();
+            new WindowWithButtonsTest("WindowWithCancelButtonTest").testSimpleWindow();
         } catch (Exception e) {
             e.printStackTrace(System.err);
             System.exit(0);

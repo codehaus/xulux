@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
+ $Id: Window.java,v 1.4 2003-12-29 14:26:42 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -55,6 +55,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
@@ -72,7 +73,7 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.3 2003-12-28 23:34:57 mvdb Exp $
+ * @version $Id: Window.java,v 1.4 2003-12-29 14:26:42 mvdb Exp $
  */
 public class Window extends NyxWindow {
     /**
@@ -218,7 +219,12 @@ public class Window extends NyxWindow {
                 }
             }
         } else {
-            window.getContentPane().add((JComponent) widget.getNativeWidget(), widget);
+            System.out.println("Window widget : " + widget.getNativeWidget().getClass());
+            if (widget.getNativeWidget() instanceof JMenuBar) {
+                window.getRootPane().setJMenuBar((JMenuBar) widget.getNativeWidget());
+            } else {
+                window.getContentPane().add((JComponent) widget.getNativeWidget(), widget);
+            }
         }
     }
 

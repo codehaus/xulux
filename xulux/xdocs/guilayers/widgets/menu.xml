@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The Menu Widget</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The Menu Widget">
+  <subsection name="General">
+    <p>
+      This widget creates a menubar on an application window or
+      extends the current application window menu with the newly specified
+      menu items (eg in MDI like applications).
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      Description
+    </p>
+    <table>
+      <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
+      <tr>
+        <td>action</td>
+        <td>swing</td>
+        <td>
+          The path to the gui xml file
+        </td>
+      </tr>
+      <tr>
+        <td>action.type</td>
+        <td>swing</td>
+        <td>
+          this option is not mandatory.
+          valid values : <b>save</b> and <b>cancel</b>,
+          If save is specified it will check if all required
+          fields actually have content and if cancel is 
+          clicked it will not check required fields.
+		  <b>add</b>, <b>update</b> and <b>delete</b> if used 
+		  in combination with tables. It will also create popupmenus
+		  in the table. You can add the property 
+		  updateButtons and a comma delimted list of the buttons to the table
+		  to get this functional.
+          </td>
+      </tr>
+    </table>
+  </subsection>
+</section>
+
+</body>
+
+</document>
