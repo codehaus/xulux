@@ -2,13 +2,13 @@
 
 <document>
   <properties>
-    <title>NYX - The Button Widget</title>
+    <title>NYX - The MenuItem Widget</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
 <body>
 
-<section name="The Button Widget">
+<section name="The MenuItem Widget">
   <subsection name="General">
     <p>
       Explain..
@@ -31,6 +31,7 @@
         <td>action.type</td>
         <td>swing</td>
         <td>
+          this option is not mandatory.
           valid values : <b>save</b> and <b>cancel</b>,
           If save is specified it will check if all required
           fields actually have content and if cancel is 

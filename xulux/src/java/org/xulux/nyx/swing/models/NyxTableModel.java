@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableModel.java,v 1.2 2003-08-04 01:59:10 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.3 2003-08-07 09:54:27 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.xulux.nyx.swing.widgets.Table;
  * The nyx tablemodel contains all magic for tables.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.2 2003-08-04 01:59:10 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.3 2003-08-07 09:54:27 mvdb Exp $
  */
 public class NyxTableModel implements TableModel {
     
@@ -87,6 +87,9 @@ public class NyxTableModel implements TableModel {
      * @see javax.swing.table.TableModel#getRowCount()
      */
     public int getRowCount() {
+        if (table == null) {
+            return 0;
+        }
         return (table.getContent()!=null)?table.getContent().size():0;
     }
 
@@ -122,9 +125,14 @@ public class NyxTableModel implements TableModel {
     }
 
     /**
+     * Returns the row object if the columnIndex is -1.
+     * 
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     public Object getValueAt(int rowIndex, int columnIndex) {
+        if (columnIndex == -1) {
+            return table.getContent().get(rowIndex);
+        }
         Widget w = (Widget)table.getChildWidgets().get(columnIndex);
         if (w.getField() != null) {
             BeanMapping map = Dictionary.getInstance().getMapping(table.getContent().get(rowIndex));

@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.12 2003-08-03 20:53:03 mvdb Exp $
+ $Id: Label.java,v 1.13 2003-08-07 09:54:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.12 2003-08-03 20:53:03 mvdb Exp $
+ * @version $Id: Label.java,v 1.13 2003-08-07 09:54:27 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -179,6 +179,9 @@ public class Label extends SwingWidget
         // else leave it alone..
         if (getField() != null) {
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            if (map == null) {
+                return;
+            }
             IField field = map.getField(getField());
             if (field != null) {
                 Object value = field.getValue(getPart().getBean());

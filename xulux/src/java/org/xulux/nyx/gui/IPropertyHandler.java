@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableColumnModel.java,v 1.3 2003-08-07 09:54:27 mvdb Exp $
+ $Id: IPropertyHandler.java,v 1.1 2003-08-07 09:54:27 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,80 +43,26 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.models;
+package org.xulux.nyx.gui;
 
-import java.util.ArrayList;
-
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableColumn;
-
-import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.swing.widgets.MenuItem;
-import org.xulux.nyx.swing.widgets.PopupMenu;
-import org.xulux.nyx.swing.widgets.Table;
+import java.util.List;
 
 /**
+ * The interface for propertyhandlers..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumnModel.java,v 1.3 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: IPropertyHandler.java,v 1.1 2003-08-07 09:54:27 mvdb Exp $
  */
-public class NyxTableColumnModel extends DefaultTableColumnModel
-{ 
-//implements TableColumnModel {
-
-    protected Table table;
+public interface IPropertyHandler {
     
     /**
+     * Handle the property for the widget specified.
      * 
-     */
-    public NyxTableColumnModel() {
-        super();
-    }
-    
-    public NyxTableColumnModel(Table table) {
-        setTable(table);
-    }
-    
-    public void setTable(Table table) {
-        this.table = table;
-        initializeColumns();
-    }
-    
-    private void initializeColumns() {
-        ArrayList list = table.getChildWidgets();
-        if (list == null) {
-            return;
-        }
-        for (int i = 0; i < list.size(); i++) {
-            Widget widget = (Widget) list.get(i);
-            if (widget instanceof PopupMenu || widget instanceof MenuItem) {
-                continue;
-            }
-            TableColumn column = new TableColumn();
-//            System.out.println("text : "+widget.getProperty("text"));
-            column.setHeaderValue(widget.getProperty("text"));
-            column.setModelIndex(i);
-            column.setPreferredWidth(100);
-            addColumn(column);
-        }
-        System.out.println("columns : "+getColumnCount());
-    }
-    
-    /**
-     * destroy the instance variables
-     * Just in case..
-     *
-     */
-    public void destroy() {
-        this.table = null;
-    }
-    
-    /**
-     * @see javax.swing.table.TableColumnModel#getColumn(int)
-     */
-    public TableColumn getColumn(int columnIndex) {
-        //System.out.println("Index : "+columnIndex+","+super.getColumn(columnIndex).getModelIndex());
-        return super.getColumn(columnIndex);
-    }
+     * @param widget
+     * @param property
+     * @param properties
+     * @return
+     */    
+    public boolean handleProperty(Widget widget, String property, List properties); 
 
 }

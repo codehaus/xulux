@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.7 2003-08-04 01:59:10 mvdb Exp $
+ $Id: Table.java,v 1.8 2003-08-07 09:54:27 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,10 +46,14 @@
 package org.xulux.nyx.swing.widgets;
 
 import java.awt.Container;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,6 +62,8 @@ import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.WidgetFactory;
+import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.models.NyxTableColumnModel;
 import org.xulux.nyx.swing.models.NyxTableModel;
 import org.xulux.nyx.swing.util.SwingUtils;
@@ -66,9 +72,13 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
 
 /**
  * A nyx table.. 
+ * A nyx table can do without a popupmenu field and can add 
+ * a menuitem directly to its table.
+ * 
+ * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.7 2003-08-04 01:59:10 mvdb Exp $
+ * @version $Id: Table.java,v 1.8 2003-08-07 09:54:27 mvdb Exp $
  */
 public class Table extends ContainerWidget {
 
@@ -79,6 +89,9 @@ public class Table extends ContainerWidget {
      * This is the native widget
      */
     protected JScrollPane scrollPane;
+    protected Widget menu;
+    protected boolean hasChildPopups;
+    private boolean childPopupsChecked;
     
     protected List content;
     protected boolean contentChanged;
@@ -163,6 +176,7 @@ public class Table extends ContainerWidget {
             return;
         }
         initialized = true;
+        contentChanged = true;
         this.scrollPane = new JScrollPane();
         refresh();
         processInit();
@@ -173,7 +187,6 @@ public class Table extends ContainerWidget {
      */
     public void refresh() {
         initializeContent();
-        System.out.println("initializeContent : "+contentChanged);
         if (contentChanged) {
             this.destroyTable();
             if (this.columnModel == null) {
@@ -182,15 +195,16 @@ public class Table extends ContainerWidget {
             if (this.model == null) {
                 this.model = new NyxTableModel(this);
             }
-            this.table = new JTable(this.model,this.columnModel);
-            this.table.setPreferredSize(SwingUtils.getDimension(getRectangle()));
-            this.scrollPane.setViewportView(this.table);
-            this.scrollPane.setVisible(true);
-            this.table.setVisible(true);
-            
-            //this.model.refresh();
+            table = new JTable(this.model,this.columnModel);
+            table.getSelectionModel().addListSelectionListener(new SelectionListener());
+            table.setPreferredSize(SwingUtils.getDimension(getRectangle()));
+            scrollPane.setViewportView(this.table);
+            scrollPane.setVisible(true);
+            table.setVisible(true);
+            contentChanged = false;
         }
-        System.out.println("content : "+this.content);
+        initializeUpdateButtons();
+        refreshUpdateButtons();
 
     }
 
@@ -198,6 +212,18 @@ public class Table extends ContainerWidget {
      * @see org.xulux.nyx.gui.Widget#getGuiValue()
      */
     public Object getGuiValue() {
+        if (table == null) {
+            return null;
+        }
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1 ) {
+            return null;
+        }
+        if (table.getRowSelectionAllowed() && !table.getCellSelectionEnabled()) {
+            return table.getModel().getValueAt(selectedRow, -1);
+        } else if (!table.getRowSelectionAllowed() && table.getCellSelectionEnabled()) {
+            return table.getModel().getValueAt(selectedRow, table.getSelectedColumn());
+        }
         return null;
     }
 
@@ -223,13 +249,16 @@ public class Table extends ContainerWidget {
      * @see org.xulux.nyx.gui.ContainerWidget#addToParent(org.xulux.nyx.gui.Widget)
      */
     public void addToParent(Widget widget) {
+        if (widget instanceof PopupMenu || widget instanceof MenuItem) {
+            hasChildPopups = true;
+        }
     }
 
     /**
      * @see org.xulux.nyx.gui.Widget#canContainValue()
      */
     public boolean canContainValue() {
-        return false;
+        return true;
     }
 
     /**
@@ -276,6 +305,114 @@ public class Table extends ContainerWidget {
     }
     
     /**
+     * Refreshes the update buttons.
+     * The buttons update and delete are disabled when no 
+     * row is selected.
+     *
+     */
+    protected void refreshUpdateButtons() {
+        Object value = getGuiValue();
+        boolean buttonState = value!=null;
+        // we need to disable update and delete
+        String buttons = getProperty("updatebuttons");
+        if (buttons != null) {
+            List strList = NyxCollectionUtils.getListFromCSV(buttons);
+            Iterator it = strList.iterator();
+            while (it.hasNext()) {
+                Widget widget = getPart().getWidget((String)it.next());
+                String actionType = widget.getProperty("action.type");
+                if (actionType != null && ( 
+                      actionType.equals("update") ||
+                        actionType.equals("delete"))) {
+                    widget.setEnable(buttonState);
+                }
+            }
+        }
+        if (menu != null) {
+            if (menu.getChildWidgets() != null) {
+                for (Iterator it = menu.getChildWidgets().iterator(); it.hasNext();) {
+                    Widget cw = (Widget) it.next();
+                    if (cw instanceof MenuItem) {
+                        String actionType = cw.getProperty("action.type");
+                        if (actionType != null && ( 
+                              actionType.equals("update") ||
+                                actionType.equals("delete"))) {
+                            cw.setEnable(buttonState);
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    /**
+     * Initializes the popupmenus of the table.
+     * 
+     * @return
+     */
+    protected boolean initializeUpdateButtons() {
+        if (this.menu != null) {
+            return false;
+        }
+        String buttons = getProperty("updatebuttons");
+        if (buttons != null) {
+            String updateAction = getProperty("updateaction");
+            List list = new ArrayList();
+            List strList = NyxCollectionUtils.getListFromCSV(buttons);
+            Iterator it = strList.iterator();
+            while (it.hasNext()) {
+                Widget widget = getPart().getWidget((String)it.next());
+                if (updateAction != null) {
+                    widget.setProperty("action", updateAction);
+                }
+                list.add(widget);
+            }
+            menu = WidgetFactory.getPopupFromButtons(list,"Popup:"+getName());
+            menu.setParent(this);
+            addChildWidget(menu);
+            table.addMouseListener(new PopupListener(this.menu));
+        }
+        if (!childPopupsChecked) {
+            childPopupsChecked = true;
+            List list = getChildWidgets();
+            if (list != null && list.size() > 0) {
+                for (Iterator it = getChildWidgets().iterator(); it.hasNext();) {
+                    Widget cw = (Widget) it.next();
+                    if (cw instanceof MenuItem) {
+                        hasChildPopups = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (hasChildPopups && buttons != null) {
+            // just add a seperator by default
+            Widget item = WidgetFactory.getWidget("menuitem", "Separator:"+getName());
+            item.setProperty("type", "separator");
+            item.setParent(menu);
+            menu.addChildWidget(item);
+        }
+        if (hasChildPopups) {
+            if (menu == null) {
+                menu = WidgetFactory.getWidget("popupmenu", "PopupMenu:"+getName());
+            }
+            if (getChildWidgets() != null) {
+                for (Iterator it = getChildWidgets().iterator(); it.hasNext();) {
+                    Widget cw = (Widget) it.next();
+                    if (cw instanceof MenuItem) {
+                        cw.setParent(menu);
+                        menu.addChildWidget(cw);
+                    }
+                }
+            }
+        }
+        if (menu != null) {
+            menu.initialize();
+        }
+        return true;
+    }
+    
+    
+    /**
      * 
      * @return the content of the table or null when no content is present
      */
@@ -283,7 +420,30 @@ public class Table extends ContainerWidget {
         return this.content;
     }
     
+    /**
+     * Set the content of the table
+     * @param list
+     */
+    public void setContent(List list) {
+        contentChanged = true;
+        this.content = list;
+        refresh();
+    }
+    
+    /**
+     * Remove this one..
+     * @return
+     */
     public JTable getJTable() {
         return this.table;
+    }
+    
+    public class SelectionListener implements ListSelectionListener {
+        /**
+         * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+         */
+        public void valueChanged(ListSelectionEvent e) {
+            refreshUpdateButtons();
+        }
     }
 }

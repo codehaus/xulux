@@ -1,5 +1,5 @@
 /*
- $Id: CheckBox.java,v 1.8 2003-08-03 22:58:42 mvdb Exp $
+ $Id: CheckBox.java,v 1.9 2003-08-07 09:54:27 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * The nyx to swing implementation of a checkbox
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.8 2003-08-03 22:58:42 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.9 2003-08-07 09:54:27 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
     
@@ -143,6 +143,9 @@ public class CheckBox extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#getValue()
      */
     public Object getValue() {
+        if (getPart().getBean() == null) {
+            return super.getValue();
+        }
         BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
         if (map != null)
         {
@@ -163,21 +166,22 @@ public class CheckBox extends SwingWidget {
         }
         this.previousValue = this.value;
         BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
-        IField f = map.getField(getField());
-        Class cClass = f.getReturnType();
-        if (cClass == Boolean.class || cClass == Boolean.TYPE) {
-            if (value.getClass() == String.class) {
-                value = BooleanUtils.toBooleanObject((String)value);
-            }
-        } else if (cClass == String.class) {
-            if (value.getClass() == Boolean.class) {
-                value = BooleanUtils.toStringTrueFalse((Boolean)value);
+        if (map != null) {
+            if (getField() != null) { 
+                IField f = map.getField(getField());
+                Class cClass = f.getReturnType();
+                if (cClass == Boolean.class || cClass == Boolean.TYPE) {
+                    if (value.getClass() == String.class) {
+                        value = BooleanUtils.toBooleanObject((String)value);
+                    }
+                } else if (cClass == String.class) {
+                    if (value.getClass() == Boolean.class) {
+                        value = BooleanUtils.toStringTrueFalse((Boolean)value);
+                    }
+                }
+                f.setValue(getPart().getBean(),value);
             }
         }
-        System.err.println("cClas ** : "+cClass.getName());
-        System.err.println("Value : "+value);
-        f.setValue(getPart().getBean(),value);
-        System.err.println("Bean value : "+f.getValue(getPart().getBean()));
         this.value = value;
         if (initialized)
         {

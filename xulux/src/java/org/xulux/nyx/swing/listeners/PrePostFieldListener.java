@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.25 2003-08-03 22:48:50 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.26 2003-08-07 09:54:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,9 +59,13 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.CheckBox;
 
 /**
+ * TODO: Find a better way to handle the concel button.
+ * Maybe use some kind of cache to see what next event comes through??
+ * Functionality like hasWaitingRequests() or something like that.
+ * Also if a user closes the window, widget.destroy should be called
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.25 2003-08-03 22:48:50 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.26 2003-08-07 09:54:28 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener

@@ -1,5 +1,5 @@
 /*
- $Id: WidgetFactory.java,v 1.5 2003-08-03 20:53:04 mvdb Exp $
+ $Id: WidgetFactory.java,v 1.6 2003-08-07 09:54:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,14 +46,19 @@
 package org.xulux.nyx.gui;
 
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.rules.IRule;
 
 /**
  * Factory to create the widget class..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.5 2003-08-03 20:53:04 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.6 2003-08-07 09:54:27 mvdb Exp $
  */
 public class WidgetFactory
 {
@@ -91,6 +96,78 @@ public class WidgetFactory
             }
         }
         return instance;
-
     }
+    
+    /** 
+     * Creates a popmenu from a list of buttons.
+     * 
+     * @param list
+     * @param the name of the menu
+     * @param properties to be set in the widget.
+     * @return a popmenu from a list with button widgets
+     */
+    public static Widget getPopupFromButtons(List list, String name) {
+        Widget menu = null;
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            if (menu == null) {
+               menu = getWidget("popupmenu", name);
+            }
+            Widget widget = (Widget) it.next();
+            Class clazz = ApplicationContext.getInstance().getWidget("button");
+            if (widget.getClass().isAssignableFrom(clazz)) {
+                Widget item = getWidget("menuitem", "menuItem:"+widget.getName());
+                cloneWidget(widget, item);
+                menu.addChildWidget(item);
+            }
+        }
+        return menu;
+    }
+    
+    
+    /**
+     * Clones all settings of a widget into the target widget
+     * @param source
+     * @param target
+     */
+    public static void cloneWidget(Widget source, Widget target) {
+        target.setPart(source.getPart());
+        target.setName(target.getWidgetType()+":"+source.getName());
+        target.setImmidiate(source.isImmidiate());
+        target.setEnable(source.isEnabled());
+        target.setField(source.getField());
+        target.setParent(source.getParent());
+        target.setPosition(source.getRectangle().getX(),target.getRectangle().getX());
+        target.setSize(source.getRectangle().getWidth(),target.getRectangle().getHeight());
+        target.setPrefix(source.getPrefix());
+        target.setRequired(source.isRequired());
+        target.setSkip(source.isSkip());
+        target.setValue(source.getValue());
+        target.setVisible(source.isVisible());
+        HashMap map = source.getProperties();
+        if (map != null) {
+            for (Iterator keys = map.keySet().iterator(); keys.hasNext();) {
+                String key = (String) keys.next();
+                String value = (String)map.get(key);
+                target.setProperty(key, value);
+            }
+        }
+        if (source.getRules() != null) {
+            for (Iterator rules = source.getRules().iterator(); rules.hasNext();) {
+                target.registerRule((IRule)rules.next());
+            }
+        }
+        if (source.getChildWidgets() != null) {
+            for (Iterator children = source.getChildWidgets().iterator(); children.hasNext();) {
+                target.addChildWidget((Widget)children.next());
+            }
+        }
+        if (source.getDependencies() != null) {
+            for (Iterator deps = source.getChildWidgets().iterator(); deps.hasNext();) {
+                target.addDependency((String)deps.next());
+            }
+        }
+        
+    }
+    
 }

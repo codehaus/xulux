@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.8 2003-08-05 13:54:11 mvdb Exp $
+ $Id: NyxListener.java,v 1.9 2003-08-07 09:54:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,20 +45,24 @@
  */
 package org.xulux.nyx.gui;
 
+import java.io.InputStream;
 import java.util.Iterator;
 
 import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.context.ApplicationPartHandler;
 import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.swing.widgets.Button;
 import org.xulux.nyx.swing.widgets.Entry;
+import org.xulux.nyx.swing.widgets.MenuItem;
 import org.xulux.nyx.swing.widgets.TextArea;
 
 /**
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.8 2003-08-05 13:54:11 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.9 2003-08-07 09:54:27 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -114,6 +118,7 @@ public abstract class NyxListener
             // exist.
             if (widget.isRequired()) {
                 Object guiValue = widget.getGuiValue();
+                // TODO: Make an option to check for immidiate required fields
 //                if (guiValue instanceof String || guiValue == null) {
 //                    if (guiValue == null || ((String)guiValue).trim().equals("")) {
 //                        NYXToolkit.getInstance().beep();
@@ -129,7 +134,7 @@ public abstract class NyxListener
             return true;
         }
         
-        if (widget instanceof Button) {
+        if (widget instanceof Button || widget instanceof MenuItem) {
             String defAction = widget.getProperty("defaultaction");
             if (defAction != null) {
                 if (defAction.equalsIgnoreCase("save")) {
@@ -153,7 +158,27 @@ public abstract class NyxListener
                     widget.getPart().destroy();
                     return false;
                 }
-            }
+                    
+            } else {
+                // check if there is a type..
+                String actionType = widget.getProperty("action.type");
+                if (actionType == null) {
+                    return true;
+                }
+                if (actionType.equalsIgnoreCase("add") ||
+                      actionType.equalsIgnoreCase("update") ||
+                         actionType.equalsIgnoreCase("delete")) {
+                    //if (bt != null && bt.equalsIgnoreCase("
+                    String xml = widget.getProperty("action");
+                    if (xml == null || "".equals(xml)) {
+                        return true;
+                    }
+                    ApplicationPartHandler handler = new ApplicationPartHandler();
+                    InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+                    ApplicationPart part = handler.read(stream,widget.getValue());
+                    part.activate();
+                }
+            }                 
             return true;
         }
         return true;

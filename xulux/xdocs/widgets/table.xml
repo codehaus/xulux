@@ -21,10 +21,35 @@
     <table>
       <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
       <tr>
-        <td>xxx</td>
+        <td>updateButtons</td>
         <td>swing</td>
-        <td>xxx</td>
+        <td>
+            Specify the buttons (comma delimted) that 
+            have the action add, update and delete.
+        </td>
       </tr>
+      <tr>
+        <td>popupMenu</td>
+        <td>swing</td>
+        <td>
+          true or false. Defaults to true.
+          The buttons specified in updateButtons will
+          be also used as popupmenus.
+        </td>
+      </tr>
+      <tr>
+        <td>content</td>
+        <td>swing</td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>content.type</td>
+        <td>swing</td>
+        <td>
+        </td>
+      </tr>
+      
     </table>
   </subsection>
 </section>
