@@ -1,5 +1,5 @@
 /*
- $Id: SwingToolkit.java,v 1.4 2003-09-01 09:38:14 mvdb Exp $
+ $Id: DefaultTableRule.java,v 1.1 2003-09-01 09:38:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,54 +43,49 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.util;
+package org.xulux.nyx.swing.rules;
 
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-
-import org.xulux.nyx.gui.NYXToolkit;
+import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.rules.Rule;
+import org.xulux.nyx.swing.widgets.Table;
 
 /**
- * The swing toolkit...
+ * This is the rule for processing tables. 
+ * The rule is to stop editing after someone hits the save button..
+ * Else the edited data will get lost..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingToolkit.java,v 1.4 2003-09-01 09:38:14 mvdb Exp $
+ * @version $Id: DefaultTableRule.java,v 1.1 2003-09-01 09:38:14 mvdb Exp $
  */
-public class SwingToolkit extends NYXToolkit {
-    /**
-     * Holds the event queue for nyx..
-     */
-    protected NyxEventQueue eventQueue;
-    private static boolean initialized = false;
+public class DefaultTableRule extends Rule {
 
     /**
      * 
      */
-    public SwingToolkit() {
+    public DefaultTableRule() {
+        super();
+        System.out.println("Creating table rule..");
     }
 
     /**
-     * @see org.xulux.nyx.gui.NYXToolkit#beep()
+     * @see org.xulux.nyx.rules.IRule#pre(org.xulux.nyx.context.PartRequest)
      */
-    public void beep() {
-        Toolkit.getDefaultToolkit().beep();
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.NYXToolkit#initialize()
-     */
-    public void initialize() {
-        if (initialized) {
-            return;
+    public void pre(PartRequest request) {
+        
+        String action = request.getWidget().getProperty("defaultaction");
+        System.out.println(request.getWidget());
+        System.out.println("Action : "+action);
+        if (action != null && action.equalsIgnoreCase("save")) {
+            // get the owner of this rule..
+            Table table = (Table)getOwner();
+            table.stopEditing();
         }
-        EventQueue systemQueue = 
-            Toolkit.getDefaultToolkit().getSystemEventQueue();
-        this.eventQueue = new NyxEventQueue();
-//        systemQueue.push(this.eventQueue);
-        initialized = true;
     }
 
-    public void destroy() {
+    /**
+     * @see org.xulux.nyx.rules.IRule#post(org.xulux.nyx.context.PartRequest)
+     */
+    public void post(PartRequest request) {
     }
 
 }

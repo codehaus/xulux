@@ -1,5 +1,5 @@
 /*
- $Id: NyxEventQueue.java,v 1.2 2003-08-29 01:02:21 mvdb Exp $
+ $Id: NyxEventQueue.java,v 1.3 2003-09-01 09:38:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.gui.NyxListener;
  * doing rule processing..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxEventQueue.java,v 1.2 2003-08-29 01:02:21 mvdb Exp $
+ * @version $Id: NyxEventQueue.java,v 1.3 2003-09-01 09:38:14 mvdb Exp $
  */
 public class NyxEventQueue extends EventQueue {
     
@@ -79,7 +79,7 @@ public class NyxEventQueue extends EventQueue {
     }
     
     /**
-     * 
+     *  
      * @return the instance created by the SwingToolkit.
      */    
     public static NyxEventQueue getInstance() {
@@ -90,7 +90,6 @@ public class NyxEventQueue extends EventQueue {
      * @see java.awt.EventQueue#postEvent(java.awt.AWTEvent)
      */
     public void postEvent(AWTEvent theEvent) {
-        System.out.println("Event : "+theEvent);
         super.postEvent(theEvent);
     }
 
@@ -139,6 +138,7 @@ public class NyxEventQueue extends EventQueue {
      * @param hold
      */
     public void holdEvents(boolean hold) {
+        
         if (this.holdEvents && !hold) {
             processAccepted();
             processQueuedEvents();
@@ -177,10 +177,12 @@ public class NyxEventQueue extends EventQueue {
      *
      */
     public void clearAccepted() {
+        System.out.println("Accepted queue : "+accepted);
         accepted = null;
     }
     
     public void clearQueue() {
+        System.out.println("Queue : "+queue);
         queue = null;
     }
 

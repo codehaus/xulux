@@ -1,5 +1,5 @@
 /*
- $Id: IRule.java,v 1.5 2003-05-21 11:34:48 mvdb Exp $
+ $Id: IRule.java,v 1.6 2003-09-01 09:38:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,12 +46,13 @@
 package org.xulux.nyx.rules;
 
 import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.gui.Widget;
 
 /**
  * All rules must implement this interfaces.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IRule.java,v 1.5 2003-05-21 11:34:48 mvdb Exp $
+ * @version $Id: IRule.java,v 1.6 2003-09-01 09:38:14 mvdb Exp $
  */
 public interface IRule
 {
@@ -117,6 +118,12 @@ public interface IRule
      * @return boolean
      */
     public boolean isRegistered(String partName);
+    
+    /**
+     * 
+     * @return the owner of this rule
+     */
+    public Widget getOwner();
     
 
 }

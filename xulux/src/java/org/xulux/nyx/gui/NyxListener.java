@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.16 2003-08-29 01:00:34 mvdb Exp $
+ $Id: NyxListener.java,v 1.17 2003-09-01 09:38:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.16 2003-08-29 01:00:34 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.17 2003-09-01 09:38:14 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -144,6 +144,11 @@ public abstract class NyxListener
         if (widget instanceof NyxCombo) {
             // set the value, but do not refresh the gui.
             log.warn("COMBO GUI VALUE : "+widget.getName()+":"+widget.getGuiValue());
+            try {
+                throw new Exception();
+            }catch(Exception e) {
+                //e.printStackTrace(System.err);
+            }
             ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
             // refresh fields that use the same functionality
             refreshFields(widget);
@@ -266,6 +271,14 @@ public abstract class NyxListener
     public static boolean isProcessing()
     {
         return processing;
+    }
+    
+    /**
+     * Override this if you want to handle events.
+     * 
+     * @param event
+     */
+    public void processEvent(NyxEvent event) {
     }
 
 

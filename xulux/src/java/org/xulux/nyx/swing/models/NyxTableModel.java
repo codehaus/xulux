@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableModel.java,v 1.8 2003-08-26 00:58:53 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.9 2003-09-01 09:38:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,6 +52,7 @@ import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IConverter;
 import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.Table;
 
@@ -59,12 +60,11 @@ import org.xulux.nyx.swing.widgets.Table;
  * The nyx tablemodel contains all magic for tables.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.8 2003-08-26 00:58:53 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.9 2003-09-01 09:38:14 mvdb Exp $
  */
-public class NyxTableModel implements TableModel {
+public class NyxTableModel extends NyxListener implements TableModel {
     
     protected Table table;
-    boolean editableColumns[];
     
     /**
      * 
@@ -157,11 +157,12 @@ public class NyxTableModel implements TableModel {
     }
 
     /**
-     * Not yet supported..
+     * Sets the value of a bean..
      * 
      * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
      */
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        System.out.println(aValue+","+rowIndex+","+columnIndex);
         Widget w = (Widget)table.getChildWidgets().get(columnIndex);
         if (w.getField() != null) {
             BeanMapping map = Dictionary.getInstance().getMapping(table.getContent().get(rowIndex));
@@ -169,8 +170,12 @@ public class NyxTableModel implements TableModel {
             if (field != null) {
                 field.setValue(table.getContent().get(rowIndex), aValue);
             }
+            System.out.println("getValue : "+field.getValue(table.getContent().get(rowIndex)));
         }
-        System.out.println(aValue+","+rowIndex+","+columnIndex);
+        // process rules, etc..
+        this.widget = w;
+        // fire post rule if any are present..
+        completed();
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.38 2003-08-29 01:00:05 mvdb Exp $
+ $Id: Widget.java,v 1.39 2003-09-01 09:38:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,6 +55,7 @@ import java.util.List;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.rules.IRule;
+import org.xulux.nyx.rules.Rule;
 import org.xulux.nyx.utils.NyxCollectionUtils;
 
 /**
@@ -66,7 +67,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.38 2003-08-29 01:00:05 mvdb Exp $
+ * @version $Id: Widget.java,v 1.39 2003-09-01 09:38:14 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -102,6 +103,12 @@ public abstract class Widget implements Serializable
      */
     private boolean validValue = true;
     
+    /**
+     * Ignore the use variable when setting values.
+     * , not when getting values.
+     */
+    private boolean ignoreUse = false;
+    
     
     /** 
      * The parent widget, if there is one
@@ -125,6 +132,11 @@ public abstract class Widget implements Serializable
      * GuiDefaults
      */
     private String widgetType;
+    
+    /**
+     * A list of registered listeners.
+     */
+    private List listenerList;
     
         
     public Widget(String name)
@@ -314,6 +326,7 @@ public abstract class Widget implements Serializable
     
     /**
      * Registers a rule in the widget
+     * and sets the owner if the rule extends Rule
      * 
      * @param rule
      */
@@ -322,6 +335,9 @@ public abstract class Widget implements Serializable
         if (rules == null)
         {
             rules = new ArrayList();
+        }
+        if (rule instanceof Rule) {
+            ((Rule)rule).setOwner(this);
         }
         rules.add(rule);
     }
@@ -863,5 +879,43 @@ public abstract class Widget implements Serializable
      * 
      * @param listener
      */
-    public abstract void addNyxListener(NyxListener listener);
+    public void addNyxListener(NyxListener listener) {
+        if (listenerList == null) {
+            listenerList = new ArrayList();
+        }
+        listenerList.add(listener);
+    }
+    
+    /**
+     * Notifies the listeners that an event has occured.
+     */
+    public void notifyListeners(NyxEvent event) {
+        if (listenerList == null) {
+            return;
+        }
+        Iterator it = listenerList.iterator();
+        while (it.hasNext()) {
+            NyxListener listener = (NyxListener)it.next();
+            listener.processEvent(event);
+        }
+        
+    }
+    
+    
+    /**
+     * Set if the use should be ignored. Defaults
+     * to false.
+     * @param ignoreUse
+     */
+    public void ignoreUse(boolean ignoreUse) {
+        this.ignoreUse = ignoreUse;
+    }
+    
+    /**
+     * 
+     * @return if the use should be ignored or not
+     */
+    public boolean isUseIgnored() {
+        return this.ignoreUse;
+    }
 }

@@ -1,5 +1,5 @@
 /*
- $Id: SwingToolkit.java,v 1.4 2003-09-01 09:38:14 mvdb Exp $
+ $Id: NyxEvent.java,v 1.1 2003-09-01 09:38:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,54 +43,20 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.util;
-
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-
-import org.xulux.nyx.gui.NYXToolkit;
+package org.xulux.nyx.gui;
 
 /**
- * The swing toolkit...
+ * The nyxevent interface. This is a basic skeletion for firing events.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingToolkit.java,v 1.4 2003-09-01 09:38:14 mvdb Exp $
+ * @version $Id: NyxEvent.java,v 1.1 2003-09-01 09:38:14 mvdb Exp $
  */
-public class SwingToolkit extends NYXToolkit {
-    /**
-     * Holds the event queue for nyx..
-     */
-    protected NyxEventQueue eventQueue;
-    private static boolean initialized = false;
-
+public interface NyxEvent {
+    
     /**
      * 
+     * @return the widget firing the event.
      */
-    public SwingToolkit() {
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.NYXToolkit#beep()
-     */
-    public void beep() {
-        Toolkit.getDefaultToolkit().beep();
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.NYXToolkit#initialize()
-     */
-    public void initialize() {
-        if (initialized) {
-            return;
-        }
-        EventQueue systemQueue = 
-            Toolkit.getDefaultToolkit().getSystemEventQueue();
-        this.eventQueue = new NyxEventQueue();
-//        systemQueue.push(this.eventQueue);
-        initialized = true;
-    }
-
-    public void destroy() {
-    }
-
+    public Widget getWidget();
+    
 }

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.50 2003-08-28 23:30:41 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.51 2003-09-01 09:38:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,6 +62,7 @@ import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
 import org.xulux.nyx.rules.impl.PartRequestImpl;
 import org.xulux.nyx.rules.impl.WidgetRequestImpl;
+import org.xulux.nyx.swing.util.NyxEventQueue;
 import org.xulux.nyx.utils.Translation;
 
 /**
@@ -82,7 +83,7 @@ import org.xulux.nyx.utils.Translation;
  * TODO: Fix naming of field. It is used everywhere with different meanings.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.50 2003-08-28 23:30:41 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.51 2003-09-01 09:38:15 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -742,6 +743,9 @@ public class ApplicationPart
             handler.destroy(parentWidget);
         }
         ApplicationContext.getInstance().removePart(getName());
+        NyxEventQueue.getInstance().holdEvents(false);
+        NyxEventQueue.getInstance().clearAccepted();
+        NyxEventQueue.getInstance().clearQueue();
         this.parentPart = null;
     }
     

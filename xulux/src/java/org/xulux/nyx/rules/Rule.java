@@ -1,5 +1,5 @@
 /*
- $Id: Rule.java,v 1.6 2003-07-21 21:21:17 mvdb Exp $
+ $Id: Rule.java,v 1.7 2003-09-01 09:38:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,18 +49,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.gui.Widget;
 
 /**
  * A convenient abstract for the rule, which only
  * makes pre and post mandatory.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Rule.java,v 1.6 2003-07-21 21:21:17 mvdb Exp $
+ * @version $Id: Rule.java,v 1.7 2003-09-01 09:38:14 mvdb Exp $
  */
 public abstract class Rule implements IRule
 {
     
     private static ArrayList partNames;
+    private Widget owner;
 
     /**
      * Constructor for Rule.
@@ -68,7 +70,7 @@ public abstract class Rule implements IRule
     public Rule()
     {
     }
-
+    
     /**
      * @see org.xulux.nyx.rules.IRule#init()
      */
@@ -164,5 +166,14 @@ public abstract class Rule implements IRule
         {
             System.out.println("Not used at all...");
         }
+    }
+    
+    
+    public void setOwner(Widget owner) {
+        this.owner = owner;
+    }
+    
+    public Widget getOwner() {
+        return this.owner;
     }
 }

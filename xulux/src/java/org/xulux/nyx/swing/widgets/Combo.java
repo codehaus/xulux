@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.19 2003-08-31 15:12:10 mvdb Exp $
+ $Id: Combo.java,v 1.20 2003-09-01 09:38:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.util.NyxEventQueue;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.19 2003-08-31 15:12:10 mvdb Exp $
+ * @version $Id: Combo.java,v 1.20 2003-09-01 09:38:15 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -174,7 +174,9 @@ public class Combo extends NyxCombo
         {
             combo.removeKeyListener(keyListener);
         }
-        combo.setEditable(BooleanUtils.toBoolean(getProperty("editable")));
+        // for now commented out. This makes the combo editable, when the
+        // table columns are editable. 
+        //combo.setEditable(BooleanUtils.toBoolean(getProperty("editable")));
         combo.setEnabled(isEnabled());
         combo.setVisible(isVisible());
         //installFocusListeners();
@@ -301,13 +303,6 @@ public class Combo extends NyxCombo
         return false;
     }
 
-    /**
-     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
-     */
-    public void addNyxListener(NyxListener listener) {
-        // TODO
-    }
-    
     /**
      * This is a hack to get a focusevent for the combobox.
      * I need to handle post rules correctly..  

@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.16 2003-08-25 17:37:59 mvdb Exp $
+ $Id: Label.java,v 1.17 2003-09-01 09:38:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,14 +55,13 @@ import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IConverter;
 import org.xulux.nyx.global.IField;
-import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.SwingWidget;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.16 2003-08-25 17:37:59 mvdb Exp $
+ * @version $Id: Label.java,v 1.17 2003-09-01 09:38:15 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -210,6 +209,7 @@ public class Label extends SwingWidget
      * @see org.xulux.nyx.gui.Widget#setValue(java.lang.Object)
      */
     public void setValue(Object value) {
+        System.out.println("Value : "+value);
         if (value == null) {
             value = "";
         }
@@ -246,13 +246,6 @@ public class Label extends SwingWidget
                  return true;
         }
         return false;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
-     */
-    public void addNyxListener(NyxListener listener) {
-        // TODO
     }
 
 }

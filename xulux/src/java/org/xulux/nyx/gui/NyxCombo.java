@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.13 2003-08-25 17:37:59 mvdb Exp $
+ $Id: NyxCombo.java,v 1.14 2003-09-01 09:38:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,6 +53,7 @@ import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.events.NyxValueChangedEvent;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 import org.xulux.nyx.utils.NyxCollectionUtils;
 
@@ -60,7 +61,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.13 2003-08-25 17:37:59 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.14 2003-09-01 09:38:14 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 implements IContentWidget
@@ -270,6 +271,20 @@ implements IContentWidget
      * @param refresh
      */    
     public void setValue(Object object, boolean refresh) {
+        if (isUseIgnored()) {
+            this.value = object;
+            notifyListeners(new NyxValueChangedEvent() {
+               
+                public Object getValue() {
+                    return NyxCombo.this.value;
+                }
+
+                public Widget getWidget() {
+                    return NyxCombo.this;
+                }
+            });
+        }
+            
         if (getField() == null) {
             this.previousValue = this.value;
             this.value = object;

@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.14 2003-08-20 12:34:48 mvdb Exp $
+ $Id: Table.java,v 1.15 2003-09-01 09:38:15 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,8 +65,11 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
+import org.xulux.nyx.swing.listeners.ValueChangedListener;
+import org.xulux.nyx.swing.models.NyxTableCellEditor;
 import org.xulux.nyx.swing.models.NyxTableColumnModel;
 import org.xulux.nyx.swing.models.NyxTableModel;
+import org.xulux.nyx.swing.rules.DefaultTableRule;
 import org.xulux.nyx.swing.util.SwingUtils;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 import org.xulux.nyx.utils.NyxCollectionUtils;
@@ -79,7 +82,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.14 2003-08-20 12:34:48 mvdb Exp $
+ * @version $Id: Table.java,v 1.15 2003-09-01 09:38:15 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -110,6 +113,8 @@ implements IContentWidget
      */
     protected NyxTableModel model;
     
+    protected NyxTableCellEditor editor;
+    
     private int oldListSize = 0;
     private int listSize = 0;
     
@@ -131,6 +136,10 @@ implements IContentWidget
         if (this.model != null) {
             this.model.destroy();
             this.model = null;
+        }
+        if (this.editor != null) {
+            this.editor.destroy();
+            this.editor = null;
         }
         if (this.scrollPane != null) {
             try {
@@ -184,8 +193,29 @@ implements IContentWidget
         initialized = true;
         contentChanged = true;
         this.scrollPane = new JScrollPane();
+        // always add the default table rule.
+        registerRule(new DefaultTableRule());
+        processIgnoreUse();
         refresh();
         processInit();
+    }
+    
+    /**
+     * Sets all children of the table to ignore their use
+     * variable when setting values..
+     * TODO: Add documentation about this. The widget should
+     * possibly do something with this if it wants to live
+     * in a table
+     */
+    private void processIgnoreUse() {
+        List list = getChildWidgets();
+        Iterator it = list.iterator();
+        ValueChangedListener vcl = new ValueChangedListener(this);
+        while (it.hasNext()) {
+            Widget widget = (Widget)it.next();
+            widget.ignoreUse(true);
+            widget.addNyxListener(vcl);
+        }
     }
 
     /**
@@ -206,7 +236,11 @@ implements IContentWidget
             if (this.model == null) {
                 this.model = new NyxTableModel(this);
             }
+            if (this.editor == null) {
+                this.editor = new NyxTableCellEditor(this);
+            }
             table = new JTable(this.model,this.columnModel);
+            table.setCellEditor(this.editor);
             table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
             table.setPreferredSize(SwingUtils.getDimension(getRectangle()));
             scrollPane.setViewportView(this.table);
@@ -547,5 +581,12 @@ implements IContentWidget
     public void setProperty(String key, String value) {
         super.setProperty(key, value);
     }
-
+    
+    public void stopEditing() {
+       System.out.println("StopCellediting is called");
+       System.out.println("isEditing : "+table.isEditing());
+       System.out.println("value : "+table.getValueAt(table.getEditingRow(),table.getEditingColumn()));
+       editor.stopCellEditing(table);
+    }
+    
 }
