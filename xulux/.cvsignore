@@ -3,3 +3,5 @@ target
 .project
 *.log
 
+nyx.manifest
+nyx.jardesc
