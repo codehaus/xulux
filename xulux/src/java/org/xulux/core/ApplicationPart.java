@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.14 2005-01-12 18:39:29 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.15 2005-02-18 09:10:35 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -57,7 +57,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.14 2005-01-12 18:39:29 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.15 2005-02-18 09:10:35 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -90,6 +90,11 @@ public class ApplicationPart {
      * The widgets contained in this part.
      */
     private WidgetList widgets;
+    
+    /**
+     * Contains all the widgets in a part..
+     */
+    private WidgetList allWidgets;
 
     /**
      * The partrules.
@@ -162,6 +167,7 @@ public class ApplicationPart {
      * The invalid value strategy instance of the part.
      */
     private IInvalidValueStrategy ivvStrategy;
+    
 
     /**
      * Constructor for GuiPart.
@@ -224,7 +230,7 @@ public class ApplicationPart {
      * @param value the value to set
      */
     public void setGuiValue(String name, Object value) {
-        Widget widget = (Widget) widgets.get(name);
+        Widget widget = (Widget) allWidgets.get(name);
         if (widget == null) {
             if (log.isWarnEnabled()) {
                 log.warn("Cannot find widget " + name + " to set value on");
@@ -271,8 +277,8 @@ public class ApplicationPart {
      * null if not found or no widgets are present.
      */
     public Widget getWidget(String widgetName) {
-        if (widgets != null) {
-            return (Widget) widgets.get(widgetName);
+        if (allWidgets != null) {
+            return (Widget) allWidgets.get(widgetName);
         }
         return null;
 
@@ -322,6 +328,23 @@ public class ApplicationPart {
     }
 
     /**
+     * Add a widget to the specified parent..
+     * @param widget the widget to add
+     * @param parent the parent of the widget.
+     */
+    public void addWidget(Widget widget, Widget parent) {
+        if (widget == null|| parent == null) {
+            return;
+        }
+        if (allWidgets == null) {
+            allWidgets = new WidgetList();
+        }
+        parent.addChildWidget(widget);
+        widget.setPart(this);
+        allWidgets.add(widget);
+    }
+
+    /**
      * Adds a widget to the parent
      * Also replaces it, but it is cleaner to have a seperate
      * call for that (that is assuming the widgets are already there
@@ -337,9 +360,13 @@ public class ApplicationPart {
         if (widgets == null) {
             widgets = new WidgetList();
         }
+        if (allWidgets == null) {
+            allWidgets = new WidgetList();
+        }
         ((Widget) widget).setPart(this);
         ((Widget) widget).setRootWidget(true);
         widgets.add(widget);
+        allWidgets.add(widget);
     }
 
     /**
@@ -360,12 +387,18 @@ public class ApplicationPart {
             if (widgets != null) {
               widgets.remove(widget);
             }
+            if (allWidgets != null) {
+                allWidgets.remove(widget);
+            }
             return;
         }
         // set the parent to null..
         widget.setParent(null);
         widget.destroy();
         widgets.remove(widget);
+        if (allWidgets != null) {
+            allWidgets.remove(widget);
+        }
         if (imageCache != null) {
             this.imageCache.clear();
             this.imageCache = null;
@@ -419,7 +452,7 @@ public class ApplicationPart {
      * Refreshes all widgets
      */
     public void refreshAllWidgets() {
-        Iterator it = widgets.iterator();
+        Iterator it = allWidgets.iterator();
         while (it.hasNext()) {
             Widget widget = (Widget) it.next();
             widget.refresh();
@@ -443,7 +476,7 @@ public class ApplicationPart {
      * @param widgetName the name of the widget
      */
     public void registerFieldRule(IRule rule, String widgetName) {
-        Object tmp = widgets.get(widgetName);
+        Object tmp = allWidgets.get(widgetName);
         if (tmp instanceof Widget) {
             Widget widget = (Widget) tmp;
             widget.registerRule(rule);
@@ -628,7 +661,7 @@ public class ApplicationPart {
      * @return the list of widgets of this part
      */
     public WidgetList getWidgets() {
-        return widgets;
+        return allWidgets;
     }
 
     /**
@@ -646,7 +679,7 @@ public class ApplicationPart {
      * Clears all fields
      */
     public void clear() {
-        Iterator it = widgets.iterator();
+        Iterator it = allWidgets.iterator();
         while (it.hasNext()) {
             clear(((Widget) it.next()).getName());
         }
@@ -657,7 +690,7 @@ public class ApplicationPart {
      * @param widgetName the name of the widget to clear
      */
     public void clear(String widgetName) {
-        Widget widget = widgets.get(widgetName);
+        Widget widget = allWidgets.get(widgetName);
         if (widget != null) {
             widget.clear();
         }
@@ -672,7 +705,7 @@ public class ApplicationPart {
      * Resets all fields to the original value
      */
     public void reset() {
-        Iterator it = widgets.iterator();
+        Iterator it = allWidgets.iterator();
         while (it.hasNext()) {
             reset(((Widget) it.next()).getName());
         }
@@ -683,7 +716,7 @@ public class ApplicationPart {
      * @param widgetName the widget to reset the value for
      */
     public void reset(String widgetName) {
-        Widget widget = widgets.get(widgetName);
+        Widget widget = allWidgets.get(widgetName);
         widget.setValue(null);
     }
 
@@ -706,8 +739,8 @@ public class ApplicationPart {
         }
         bean = null;
         activated = false;
-        if (widgets != null) {
-            ArrayList widgetList = (ArrayList) widgets.clone();
+        if (allWidgets != null) {
+            ArrayList widgetList = (ArrayList) allWidgets.clone();
             Iterator it = widgetList.iterator();
             while (it.hasNext()) {
                 ((Widget) it.next()).destroy();
@@ -715,6 +748,10 @@ public class ApplicationPart {
             widgets.clear();
             widgetList.clear();
             widgetList = null;
+            widgets = null;
+        }
+        if (widgets != null) {
+            widgets.clear();
             widgets = null;
         }
         if (partRules != null) {
@@ -902,7 +939,7 @@ public class ApplicationPart {
         if (widgetName == null) {
             return;
         }
-        Collection col = widgets.getWidgetsWithField(widgetName);
+        Collection col = allWidgets.getWidgetsWithField(widgetName);
         if (col == null) {
             return;
         }

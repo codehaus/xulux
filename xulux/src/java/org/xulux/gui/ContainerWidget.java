@@ -1,5 +1,5 @@
 /*
-   $Id: ContainerWidget.java,v 1.5 2004-12-01 11:37:27 mvdb Exp $
+   $Id: ContainerWidget.java,v 1.6 2005-02-18 09:10:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,7 +25,7 @@ import java.util.Iterator;
  * It makes overriding a bit easier.
  *
  * @author Martin van den Bemt
- * @version $Id: ContainerWidget.java,v 1.5 2004-12-01 11:37:27 mvdb Exp $
+ * @version $Id: ContainerWidget.java,v 1.6 2005-02-18 09:10:42 mvdb Exp $
  */
 public abstract class ContainerWidget extends Widget {
     /**
@@ -51,10 +51,10 @@ public abstract class ContainerWidget extends Widget {
         if (widget != null) {
             widgets.add(widget);
             widget.setRootWidget(false);
+            widget.setParent(this);
             // add to the parent if the parent is already
             // initialized..
             if (initialized) {
-                widget.setParent(this);
                 addToParent(widget);
             }
         }
@@ -92,6 +92,7 @@ public abstract class ContainerWidget extends Widget {
         while (iterator.hasNext()) {
             Widget widget = (Widget) iterator.next();
             addToParent(widget);
+            widget.setParent(this);
         }
         // only refresh "root" widgets.
         if (getPart() != null && getParent() == null) {

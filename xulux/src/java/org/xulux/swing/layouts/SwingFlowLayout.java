@@ -1,5 +1,5 @@
 /*
- $Id: SwingFlowLayout.java,v 1.2 2004-11-15 20:51:45 mvdb Exp $
+ $Id: SwingFlowLayout.java,v 1.3 2005-02-18 09:10:32 mvdb Exp $
  
  Copyright 2002-2004 The Xulux Project
 
@@ -33,7 +33,7 @@ import org.xulux.gui.Widget;
  * The flow layout. This is a wrapper around the swing flow layout
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt </a>
- * @version $Id: SwingFlowLayout.java,v 1.2 2004-11-15 20:51:45 mvdb Exp $
+ * @version $Id: SwingFlowLayout.java,v 1.3 2005-02-18 09:10:32 mvdb Exp $
  */
 public class SwingFlowLayout extends SwingLayoutAbstract implements
     LayoutManager {
@@ -98,12 +98,18 @@ public class SwingFlowLayout extends SwingLayoutAbstract implements
     if (widgetsRefreshed) {
       return;
     }
+    System.err.println("PARENt WIDGET : "+ getParent());
+    System.err.println("CHILDWIDGETS : " + getParent().getChildWidgets());
+    
     List list = getParent().getChildWidgets();
     if (list != null && list.size() > 0) {
       for (int j = 0; j < list.size(); j++) {
         Widget w = (Widget) list.get(j);
         if (w instanceof ContainerWidget) {
           List childList = w.getChildWidgets();
+          if (childList == null) {
+              continue;
+          }
           for (int i = 0; i < childList.size(); i++) {
             Widget w2 = (Widget) childList.get(i);
             Dimension dim =  w2.getRectangle().getRectangle().getSize();

@@ -1,5 +1,5 @@
 /*
-   $Id: SwingBoxLayout.java,v 1.1 2004-05-24 18:12:34 mvdb Exp $
+   $Id: SwingBoxLayout.java,v 1.2 2005-02-18 09:10:32 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.gui.Widget;
  * The box layout. This is a wrapper around the swing box layout
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingBoxLayout.java,v 1.1 2004-05-24 18:12:34 mvdb Exp $
+ * @version $Id: SwingBoxLayout.java,v 1.2 2005-02-18 09:10:32 mvdb Exp $
  */
 public class SwingBoxLayout extends SwingLayoutAbstract implements LayoutManager2 {
 
@@ -75,6 +75,7 @@ public class SwingBoxLayout extends SwingLayoutAbstract implements LayoutManager
      */
     public void addLayoutComponent(Component comp, Object constraints) {
         addWidget((Widget) constraints);
+        layout.addLayoutComponent(comp, constraints);
     }
     /**
      * @see java.awt.LayoutManager2#maximumLayoutSize(java.awt.Container)
@@ -130,6 +131,9 @@ public class SwingBoxLayout extends SwingLayoutAbstract implements LayoutManager
      * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
      */
     public void layoutContainer(Container parent) {
+        if (layout == null) {
+            addWidget(null);
+        }
         layout.layoutContainer(parent);
     }
 

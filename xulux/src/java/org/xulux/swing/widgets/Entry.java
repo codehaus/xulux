@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.23 2005-01-20 19:39:06 mvdb Exp $
+   $Id: Entry.java,v 1.24 2005-02-18 09:10:36 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -45,7 +45,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.23 2005-01-20 19:39:06 mvdb Exp $
+ * @version $Id: Entry.java,v 1.24 2005-02-18 09:10:36 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -430,9 +430,10 @@ public class Entry extends SwingWidget {
           if (!(object instanceof String) && this.value == null) {
             this.value = object;
           } else {
-            //System.err.println("This.value : " + this.value.getClass());
+            System.out.println("this.value : " + this.value.getClass());
             mapping = pr.getMapping(this.value);
             if (getField() != null) {
+                System.err.println("provider : " + getProvider());
                 field = mapping.getField(getField());
             } else {
                 field = mapping.getField(this.value);

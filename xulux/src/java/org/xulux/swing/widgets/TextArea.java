@@ -1,5 +1,5 @@
 /*
-   $Id: TextArea.java,v 1.9 2005-02-17 17:22:09 mvdb Exp $
+   $Id: TextArea.java,v 1.10 2005-02-18 09:10:36 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import org.xulux.utils.BooleanUtils;
  * The swing textare widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.9 2005-02-17 17:22:09 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.10 2005-02-18 09:10:36 mvdb Exp $
  */
 public class TextArea extends Entry {
 
@@ -156,14 +156,20 @@ public class TextArea extends Entry {
         }
         if (isVisible()) {
             if (focusListener == null) {
-                NyxListener listener = getPart().getFieldEventHandler(this);
-                if (listener == null) {
-                    focusListener = (PrePostFieldListener) listener;
-                } else {
-                    focusListener = new PrePostFieldListener(this);
+                boolean readOnly = BooleanUtils.toBoolean(getProperty("readonly"));
+                if (!readOnly) {
+                    NyxListener listener = getPart().getFieldEventHandler(this);
+                    if (listener == null) {
+                        focusListener = (PrePostFieldListener) listener;
+                    } else {
+                        focusListener = new PrePostFieldListener(this);
+                    }
+                    textComponent.addFocusListener(focusListener);
                 }
-                textComponent.addFocusListener(focusListener);
             }
+        }
+        if ("false".equalsIgnoreCase(getProperty("highlighter"))) {
+           textComponent.setHighlighter(null);
         }
         refresh();
         processInit();
@@ -227,6 +233,7 @@ public class TextArea extends Entry {
             } else {
                 // we default to black border color
                 if (getParent() != null) {
+                    System.out.println("Widget : " + getName());
                     bColor = ((JComponent) getParent().getNativeWidget()).getForeground();
                 } else {
                     bColor = Color.black;
@@ -238,7 +245,7 @@ public class TextArea extends Entry {
         }
         ((JTextArea) textComponent).setLineWrap(BooleanUtils.toBoolean(getProperty("linewrap")));
         ((JTextArea) textComponent).setWrapStyleWord(BooleanUtils.toBoolean(getProperty("wordwrap")));
-        ((JTextArea) textComponent).setEditable(BooleanUtils.toBoolean(getProperty("editable")));
+//        ((JTextArea) textComponent).setEditable(BooleanUtils.toBoolean(getProperty("editable")));
         textComponent.repaint();
         textComponent.setCaretPosition(0);
         isRefreshing = false;

@@ -1,5 +1,5 @@
 /*
-   $Id: UpdateButtonsListener.java,v 1.9 2004-07-06 16:37:19 mvdb Exp $
+   $Id: UpdateButtonsListener.java,v 1.10 2005-02-18 09:10:40 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.9 2004-07-06 16:37:19 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.10 2005-02-18 09:10:40 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener implements ActionListener, ListSelectionListener {
 
@@ -102,7 +102,7 @@ public class UpdateButtonsListener extends NyxListener implements ActionListener
                 if (parent instanceof IContentWidget) {
                     Object objContent = ((IContentWidget) parent).getContent();
                     // @todo Only supports content lists...
-                    if (objContent instanceof List) {
+                    if (objContent instanceof List || objContent == null) {
                         List content = (List) objContent;
                         String classType = parent.getProperty("classType");
                         if (classType != null) {

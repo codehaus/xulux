@@ -1,5 +1,5 @@
 /*
-   $Id: Panel.java,v 1.11 2004-12-01 11:37:04 mvdb Exp $
+   $Id: Panel.java,v 1.12 2005-02-18 09:10:36 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -47,7 +47,7 @@ import org.xulux.swing.util.SwingUtils;
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.11 2004-12-01 11:37:04 mvdb Exp $
+ * @version $Id: Panel.java,v 1.12 2005-02-18 09:10:36 mvdb Exp $
  */
 public class Panel extends ContainerWidget {
 
@@ -98,6 +98,7 @@ public class Panel extends ContainerWidget {
             return;
         }
         // we default to XYLayout for now..
+        initializing = true;
         initialized = true;
         IXuluxLayout layout = XuluxContext.getGuiDefaults().getLayout(null, getProperty("layout"));
         if (layout == null) {
@@ -106,6 +107,7 @@ public class Panel extends ContainerWidget {
         layout.setParent(this);
         panel = new JPanel((LayoutManager) layout);
         initializeChildren();
+        initializing = false;
         refresh();
         processInit();
     }

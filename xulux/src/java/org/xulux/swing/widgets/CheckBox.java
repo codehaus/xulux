@@ -1,5 +1,5 @@
 /*
-   $Id: CheckBox.java,v 1.10 2004-12-01 11:37:04 mvdb Exp $
+   $Id: CheckBox.java,v 1.11 2005-02-18 09:10:36 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,7 +20,6 @@ package org.xulux.swing.widgets;
 import java.awt.Container;
 
 import javax.swing.Icon;
-import javax.swing.JCheckBox;
 import javax.swing.UIManager;
 
 import org.xulux.core.XuluxContext;
@@ -36,10 +35,12 @@ import org.xulux.swing.listeners.PrePostFieldListener;
 import org.xulux.utils.BooleanUtils;
 
 /**
- * The nyx to swing implementation of a checkbox
+ * The nyx to swing implementation of a checkbox.
+ * NOTE : setting the background color is a one time thing.
+ *        It will not repaint the background with a new color!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.10 2004-12-01 11:37:04 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.11 2005-02-18 09:10:36 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
 
@@ -100,6 +101,17 @@ public class CheckBox extends SwingWidget {
         }
         this.initialized = true;
         this.checkBox = new NyxJCheckBox();
+        String backgroundColor = null;
+        if (isRequired() && isEnabled()) {
+            backgroundColor = getProperty("required-background-color");
+        } else if (!isEnabled()) {
+            backgroundColor = getProperty("disabled-background-color");
+        } else {
+            backgroundColor = getProperty("default-background-color");
+        }
+        if (backgroundColor != null) {
+            checkBox.setRealBackground(ColorUtils.getSwingColor(backgroundColor));
+        }
         // set the icon to what is default in Swing..
         this.checkBox.setIcon((Icon) UIManager.get("CheckBox.icon"));
         this.checkBox.setSelectedIcon((Icon) UIManager.get("CheckBox.icon"));
@@ -127,18 +139,18 @@ public class CheckBox extends SwingWidget {
         } else if (getValue() instanceof String) {
             checkBox.setSelected(BooleanUtils.toBoolean((String) getValue()));
         }
-        ((JCheckBox)getNativeWidget()).setEnabled(isEnabled());
-        String backgroundColor = null;
-        if (isRequired() && isEnabled()) {
-            backgroundColor = getProperty("required-background-color");
-        } else if (!isEnabled()) {
-            backgroundColor = getProperty("disabled-background-color");
-        } else {
-            backgroundColor = getProperty("default-background-color");
-        }
-        if (backgroundColor != null) {
-            ((NyxJCheckBox) getNativeWidget()).setRealBackground(ColorUtils.getSwingColor(backgroundColor));
-        }
+        checkBox.setEnabled(isEnabled());
+//        String backgroundColor = null;
+//        if (isRequired() && isEnabled()) {
+//            backgroundColor = getProperty("required-background-color");
+//        } else if (!isEnabled()) {
+//            backgroundColor = getProperty("disabled-background-color");
+//        } else {
+//            backgroundColor = getProperty("default-background-color");
+//        }
+//        if (backgroundColor != null) {
+//            checkBox.setRealBackground(ColorUtils.getSwingColor(backgroundColor));
+//        }
         isRefreshing = false;
     }
 
