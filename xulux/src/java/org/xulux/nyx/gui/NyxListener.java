@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.18 2003-09-10 07:41:28 mvdb Exp $
+ $Id: NyxListener.java,v 1.19 2003-09-23 00:38:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.18 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.19 2003-09-23 00:38:34 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -228,6 +228,8 @@ public abstract class NyxListener
                     widget.getPart().destroy();
                     return false;
                 } else if (defAction.equalsIgnoreCase("cancel")) {
+                    // only process the post cancel rule.
+                    completed(true);
                     // exit window without processing anything.
                     widget.getPart().destroy();
                     return false;
