@@ -1,5 +1,5 @@
 /*
-   $Id: ImmidiateTreeSelectionListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
+   $Id: ImmidiateTreeSelectionListener.java,v 1.5 2004-08-31 23:00:24 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,6 +17,7 @@
 */
 package org.xulux.swing.listeners;
 
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -25,6 +26,7 @@ import javax.swing.event.TreeSelectionListener;
 import org.xulux.core.PartRequest;
 import org.xulux.gui.GuiUtils;
 import org.xulux.gui.Widget;
+import org.xulux.swing.util.NyxEventQueue;
 
 /**
  * The ImmidiateTreeSelectionListeners fires of events when
@@ -32,7 +34,7 @@ import org.xulux.gui.Widget;
  * are being called.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateTreeSelectionListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: ImmidiateTreeSelectionListener.java,v 1.5 2004-08-31 23:00:24 mvdb Exp $
  */
 public class ImmidiateTreeSelectionListener implements ListSelectionListener, TreeSelectionListener {
 
@@ -73,7 +75,13 @@ public class ImmidiateTreeSelectionListener implements ListSelectionListener, Tr
      */
     public void selectionChanged() {
         if (widget != null) {
-            GuiUtils.fireFieldExecuteRule(widget, widget, PartRequest.NO_ACTION);
+            // first free up the event queue
+            // we process after any other events..
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    GuiUtils.fireFieldExecuteRule(widget, widget, PartRequest.NO_ACTION);
+                }
+            });
         }
     }
 
