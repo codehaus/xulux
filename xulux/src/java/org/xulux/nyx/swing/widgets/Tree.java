@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.18 2003-11-06 19:53:13 mvdb Exp $
+ $Id: Tree.java,v 1.19 2003-11-17 14:00:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -54,7 +54,6 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.WidgetConfig;
 import org.xulux.nyx.global.contenthandlers.TreeContentHandler;
@@ -66,11 +65,12 @@ import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
 import org.xulux.nyx.swing.models.NyxTreeCellRenderer;
 import org.xulux.nyx.swing.models.SwingTreeModel;
+import org.xulux.nyx.utils.BooleanUtils;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.18 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: Tree.java,v 1.19 2003-11-17 14:00:20 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 

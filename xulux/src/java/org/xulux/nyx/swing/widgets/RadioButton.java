@@ -1,5 +1,5 @@
 /*
- $Id: RadioButton.java,v 1.5 2003-11-06 19:53:12 mvdb Exp $
+ $Id: RadioButton.java,v 1.6 2003-11-17 14:00:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,7 +50,6 @@ import java.awt.Container;
 import javax.swing.Icon;
 import javax.swing.UIManager;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
@@ -58,12 +57,13 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.extensions.NyxJRadioButton;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.utils.BooleanUtils;
 
 /**
  * Represents a radiobutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButton.java,v 1.5 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.6 2003-11-17 14:00:20 mvdb Exp $
  */
 public class RadioButton extends Widget {
 

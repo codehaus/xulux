@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableColumn.java,v 1.2 2003-11-17 10:28:59 mvdb Exp $
+ $Id: NyxTableColumn.java,v 1.3 2003-11-17 14:00:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,17 +52,17 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.Table;
+import org.xulux.nyx.utils.BooleanUtils;
 
 /**
  * Override the standard TableColumn, so we can use instances of widgets to set columns
  * , instead of dynamically creating it them all the time.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumn.java,v 1.2 2003-11-17 10:28:59 mvdb Exp $
+ * @version $Id: NyxTableColumn.java,v 1.3 2003-11-17 14:00:22 mvdb Exp $
  */
 public class NyxTableColumn extends TableColumn {
     

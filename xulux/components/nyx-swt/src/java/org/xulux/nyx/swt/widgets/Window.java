@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.6 2003-08-07 16:40:33 mvdb Exp $
+ $Id: Window.java,v 1.7 2003-11-17 14:00:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,8 +45,6 @@
  */
 package org.xulux.nyx.swt.widgets;
 
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -55,12 +53,13 @@ import org.xulux.nyx.gui.NyxWindow;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swt.SWTWidget;
 import org.xulux.nyx.swt.util.SWTUtil;
+import org.xulux.nyx.utils.BooleanUtils;
 
 /**
  * The SWT window
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.6 2003-08-07 16:40:33 mvdb Exp $
+ * @version $Id: Window.java,v 1.7 2003-11-17 14:00:22 mvdb Exp $
  */
 public class Window extends NyxWindow
 implements SWTWidget
@@ -111,10 +110,10 @@ implements SWTWidget
         String windowType = getProperty("window-type");
         // don't have a clue yet what to use here
         // for swing to work correctlly
-        if (StringUtils.equalsIgnoreCase("model",windowType))
+        if ("modal".equalsIgnoreCase(windowType))
         {
         }
-        else if (StringUtils.equalsIgnoreCase("toolbox",windowType))
+        else if ("toolbox".equalsIgnoreCase(windowType))
         {
         }
         else

@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.15 2003-11-11 14:46:15 mvdb Exp $
+ $Id: Window.java,v 1.16 2003-11-17 14:00:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,8 +57,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.IShowChildWidgets;
@@ -68,12 +66,13 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.layouts.XYLayout;
 import org.xulux.nyx.swing.listeners.NyxWindowListener;
 import org.xulux.nyx.swing.util.SwingUtils;
+import org.xulux.nyx.utils.BooleanUtils;
 
 /**
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.15 2003-11-11 14:46:15 mvdb Exp $
+ * @version $Id: Window.java,v 1.16 2003-11-17 14:00:20 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
@@ -142,17 +141,21 @@ public class Window extends NyxWindow
             return;
         }
         initialized = true;
-        window = new JFrame(StringUtils.defaultString(getProperty("title")));
+        String title = getProperty("title");
+        if (title == null) {
+            title = "";
+        }
+        window = new JFrame(title);
         window.getContentPane().setLayout(new XYLayout(this));
         this.windowListener = new NyxWindowListener(this);
         window.addWindowListener(this.windowListener);
         String windowType = getProperty("window-type");
         // don't have a clue yet what to use here
         // for swing to work correctlly
-        if (StringUtils.equalsIgnoreCase("model",windowType))
+        if ("model".equalsIgnoreCase(windowType))
         {
         }
-        else if (StringUtils.equalsIgnoreCase("toolbox",windowType))
+        else if ("toolbox".equalsIgnoreCase(windowType))
         {
         }
         else

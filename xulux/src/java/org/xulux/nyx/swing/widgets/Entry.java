@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.37 2003-11-13 15:20:57 mvdb Exp $
+ $Id: Entry.java,v 1.38 2003-11-17 14:00:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -53,7 +53,6 @@ import java.util.StringTokenizer;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
@@ -63,13 +62,14 @@ import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.utils.BooleanUtils;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.37 2003-11-13 15:20:57 mvdb Exp $
+ * @version $Id: Entry.java,v 1.38 2003-11-17 14:00:20 mvdb Exp $
  */
 public class Entry
 extends SwingWidget

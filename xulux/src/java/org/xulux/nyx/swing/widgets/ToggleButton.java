@@ -1,5 +1,5 @@
 /*
- $Id: ToggleButton.java,v 1.2 2003-11-13 15:20:57 mvdb Exp $
+ $Id: ToggleButton.java,v 1.3 2003-11-17 14:00:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -56,19 +56,22 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 import org.xulux.nyx.swing.util.SwingUtils;
+import org.xulux.nyx.utils.BooleanUtils;
+
+/**
+ * Represents a togglebutton in the g
 
 /**
  * Represents a togglebutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ToggleButton.java,v 1.2 2003-11-13 15:20:57 mvdb Exp $
+ * @version $Id: ToggleButton.java,v 1.3 2003-11-17 14:00:20 mvdb Exp $
  */
 public class ToggleButton extends Widget {
 
@@ -143,12 +146,16 @@ public class ToggleButton extends Widget {
         if (getProperty("text") != null) {
             toggleButton.setText(getProperty("text"));
         }
+        if (getProperty("selected") != null) {
+            setValue(BooleanUtils.toBooleanObject(getProperty("selected")));
+            setProperty("selected", null);
+        }
         if (getValue() instanceof Boolean) {
+            System.out.println("Boolean getValue : "+getValue());
             toggleButton.setSelected(BooleanUtils.toBoolean((Boolean)getValue()));
         }else if (getValue() instanceof String) {
+            System.out.println("String getValue : "+getValue());
             toggleButton.setSelected(BooleanUtils.toBoolean((String)getValue()));
-        } else {
-            toggleButton.setSelected(BooleanUtils.toBoolean(getProperty("selected")));
         }
         toggleButton.setEnabled(isEnabled());
         String backgroundColor = null;
@@ -314,6 +321,7 @@ public class ToggleButton extends Widget {
             }
         }
         this.value = value;
+        toggleButton.setSelected(BooleanUtils.toBoolean(value));
         if (initialized) {
             refresh();
         }

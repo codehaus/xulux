@@ -1,5 +1,5 @@
 /*
- $Id: TextArea.java,v 1.7 2003-11-06 19:53:12 mvdb Exp $
+ $Id: TextArea.java,v 1.8 2003-11-17 14:00:20 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -53,18 +53,18 @@ import javax.swing.JComponent;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.utils.BooleanUtils;
 
 /**
  * The swing textare widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.7 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.8 2003-11-17 14:00:20 mvdb Exp $
  */
 public class TextArea extends Entry {
 
