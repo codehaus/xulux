@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfig.java,v 1.4 2003-09-17 11:49:31 mvdb Exp $
+ $Id: WidgetConfig.java,v 1.5 2003-10-27 15:32:02 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,6 +47,7 @@ package org.xulux.nyx.context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.xulux.nyx.global.IContentHandler;
@@ -59,7 +60,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * (eg swt, swing)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.4 2003-09-17 11:49:31 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.5 2003-10-27 15:32:02 mvdb Exp $
  */
 public class WidgetConfig
 {
@@ -149,8 +150,7 @@ public class WidgetConfig
      *
      */
     public List getWidgetInitializers(String type) {
-        if (initializers == null)
-        {
+        if (initializers == null) {
             return null;
         }
         return (List)initializers.get(type);
@@ -176,6 +176,17 @@ public class WidgetConfig
     public IContentHandler getContentHandler(Class clazz) {
         if (contentHandlers != null) {
             Class clz  = (Class)contentHandlers.get(clazz);
+            if (clz == null) {
+                // try to find a contenthandler that is of the same basetype (except Object).
+                Iterator it = contentHandlers.keySet().iterator();
+                while (it.hasNext()) {
+                    Class tmpClass = (Class)it.next();
+                    if (tmpClass.isAssignableFrom(clazz)) {
+                        clz = (Class)contentHandlers.get(tmpClass);
+                        break;
+                    }
+                }
+            }
             return (IContentHandler)ClassLoaderUtils.getObjectFromClass(clz);
         }
         return null;
