@@ -21,9 +21,35 @@
     <table>
       <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
       <tr>
-        <td>xxx</td>
+        <td>text</td>
         <td>swing</td>
-        <td>xxx</td>
+        <td>
+          The text of the label. 
+          This can also be set afterwards with widget.setValue(Object).
+        </td>
+      </tr>
+      <tr>
+        <td>horizontalalignment</td>
+        <td>swing</td>
+        <td>
+          valid values are left, center and right.
+          Right will be used when there is no value
+          specified or an invalid value.
+        </td>
+      </tr>
+      <tr>
+        <td>foreground-color-enabled</td>
+        <td>swing</td>
+        <td>
+          The text color of the label when enabled
+        </td>
+      </tr>
+      <tr>
+        <td>foreground-color-disabled</td>
+        <td>swing</td>
+        <td>
+          The text color of the label when disabled
+        </td>
       </tr>
     </table>
   </subsection>
