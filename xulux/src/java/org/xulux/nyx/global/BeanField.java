@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.12 2003-07-15 21:36:21 mvdb Exp $
+ $Id: BeanField.java,v 1.13 2003-07-16 15:37:25 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.12 2003-07-15 21:36:21 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.13 2003-07-16 15:37:25 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -174,7 +174,7 @@ public class BeanField implements IField
                 IField field = mapping.getField(realField);
                 field.setValue(realBean, value);
             } else {
-                this.changeMethod.invoke(bean, new Object[]{value});
+                this.changeMethod.invoke(bean, getArgs());
             }
             success = true;
         }

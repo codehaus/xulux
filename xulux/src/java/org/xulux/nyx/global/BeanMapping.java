@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.11 2003-07-15 21:36:21 mvdb Exp $
+ $Id: BeanMapping.java,v 1.12 2003-07-16 15:37:25 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.11 2003-07-15 21:36:21 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.12 2003-07-16 15:37:25 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -195,6 +195,12 @@ public class BeanMapping
             if (method.getName().equalsIgnoreCase(pre+name))
             {
                 return method;
+            }else if (!setMethod) {
+                if (method.getReturnType() == Boolean.TYPE) {
+                    if(method.getName().equalsIgnoreCase("is"+name)) {
+                        return method;
+                    }
+                }
             }
         }
         return null;
