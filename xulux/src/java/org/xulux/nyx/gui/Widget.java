@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.2 2002-11-05 01:11:12 mvdb Exp $
+ $Id: Widget.java,v 1.3 2002-11-05 01:37:45 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,7 @@ package org.xulux.nyx.gui;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.rules.IRule;
 
 /**
@@ -57,7 +58,7 @@ import org.xulux.nyx.rules.IRule;
  * to say how we should initialize it, etc.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.2 2002-11-05 01:11:12 mvdb Exp $
+ * @version $Id: Widget.java,v 1.3 2002-11-05 01:37:45 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -70,10 +71,21 @@ public abstract class Widget
     private boolean skip;
     
     private ArrayList rules;
+    private ApplicationPart part;
     
     public Widget(String field)
     {
         this.field = field;
+    }
+    
+    public void setPart(ApplicationPart part)
+    {
+        this.part = part;
+    }
+    
+    public ApplicationPart getPart()
+    {
+        return this.part;
     }
     
     /**
@@ -208,7 +220,7 @@ public abstract class Widget
         
     public void registerRule(IRule rule)
     {
-        if (rules != null)
+        if (rules == null)
         {
             rules = new ArrayList();
         }

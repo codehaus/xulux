@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.3 2002-11-05 01:11:12 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.4 2002-11-05 01:37:45 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.3 2002-11-05 01:11:12 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.4 2002-11-05 01:37:45 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -239,6 +239,43 @@ public class ApplicationContext
                 case POST_REQUEST :
                     rule.post(request);
                     continue;
+            }
+        }
+    }
+
+    public static void fireFieldRequests(PartRequest request, int type)
+    {
+        ArrayList widgets = request.getPart().getWidgets();
+        Iterator wit = widgets.iterator();
+        if (wit == null)
+        {
+            return;
+        }
+        while (wit.hasNext())
+        {
+            Widget widget = (Widget) wit.next();
+            ArrayList rules = widget.getRules();
+            if (rules == null)
+            {
+                return;
+            }
+            Iterator it = rules.iterator();
+            while (it.hasNext())
+            {
+                IRule rule = (IRule) it.next();
+                System.out.println("Processing rule : " + rule.getUseCount());
+                switch (type)
+                {
+                    case PRE_REQUEST :
+                        rule.pre(request);
+                        continue;
+                    case EXECUTE_REQUEST :
+                        rule.execute(request);
+                        continue;
+                    case POST_REQUEST :
+                        rule.post(request);
+                        continue;
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- $Id: TestExample.java,v 1.3 2002-11-05 01:11:12 mvdb Exp $
+ $Id: TestExample.java,v 1.4 2002-11-05 01:37:45 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,13 +46,18 @@
 package org.xulux.nyx.examples.form;
 
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.swing.JFrame;
 
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.examples.datamodel.Test;
 import org.xulux.nyx.examples.datamodel.TestContained;
+import org.xulux.nyx.examples.rules.StringRule;
 import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.BaseForm;
 import org.xulux.nyx.swing.NewForm;
 import org.xulux.nyx.swing.SimpleForm;
@@ -65,7 +70,7 @@ import org.xulux.nyx.utils.Resources;
  * A simple example of a form
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestExample.java,v 1.3 2002-11-05 01:11:12 mvdb Exp $
+ * @version $Id: TestExample.java,v 1.4 2002-11-05 01:37:45 mvdb Exp $
  */
 public class TestExample
 {
@@ -92,6 +97,14 @@ public class TestExample
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("dictionary.xml"));
         // TODO: set some defaults (should be in GuiDefaults.xml...)
         ApplicationPart part = TestFactory.getForm("TestForm", createDefaultTestObject());
+        ArrayList widgets = part.getWidgets();
+        Iterator it = widgets.iterator();
+        StringRule rule = new StringRule();
+        while (it.hasNext())
+        {
+            Widget widget = (Widget) it.next();
+            widget.registerRule(rule);
+        }
         part.activate();
         System.out.println("Form : "+part);
         JFrame frame = new JFrame("FormExample");

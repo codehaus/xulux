@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.2 2002-11-05 01:11:12 mvdb Exp $
+ $Id: Entry.java,v 1.3 2002-11-05 01:37:45 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,11 +48,14 @@ package org.xulux.nyx.gui;
 import java.awt.Dimension;
 import javax.swing.JTextField;
 
+import org.xulux.nyx.swing.listeners.ImmidiateListener;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+
 /**
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.2 2002-11-05 01:11:12 mvdb Exp $
+ * @version $Id: Entry.java,v 1.3 2002-11-05 01:37:45 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -103,6 +106,14 @@ implements ValueWidget
         }
         this.initialized = true;
         textField = new JTextField();
+        if (isImmidiate())
+        {
+            textField.addKeyListener(new ImmidiateListener(this));
+        }
+        if (isVisible())
+        {
+            textField.addFocusListener(new PrePostFieldListener(this));
+        }
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.2 2002-11-05 01:37:45 mvdb Exp $
+ $Id: StringRule.java,v 1.1 2002-11-05 01:37:45 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,44 +43,42 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.listeners;
+package org.xulux.nyx.examples.rules;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.context.impl.PartRequestImpl;
-import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.rules.Rule;
 
 /**
- * The immidiate listeners fires events based on the 
+ * A simple rule to test stuff..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.2 2002-11-05 01:37:45 mvdb Exp $
+ * @version $Id: StringRule.java,v 1.1 2002-11-05 01:37:45 mvdb Exp $
  */
-public class ImmidiateListener extends KeyAdapter
+public class StringRule extends Rule
 {
-    Widget widget;
-    ApplicationPart part;
 
     /**
-     * Constructor for ImmidiateListener.
+     * Constructor for StringRule.
      */
-    public ImmidiateListener(Widget widget)
+    public StringRule()
     {
-        this.widget = widget;
-        this.part = part;
+        super();
     }
 
     /**
-     * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
+     * @see org.xulux.nyx.rules.IRule#pre(PartRequest)
      */
-    public void keyTyped(KeyEvent e)
+    public void pre(PartRequest request)
     {
-        PartRequestImpl impl = new PartRequestImpl(widget.getField(), widget.getPart(), PartRequest.ACTION_VALUE_CHANGED);
-        ApplicationContext.fireFieldRequests(impl, ApplicationContext.EXECUTE_REQUEST);
+        System.err.println("Pre rule called (on focus) : "+request.getValue());
+    }
+
+    /**
+     * @see org.xulux.nyx.rules.IRule#post(PartRequest)
+     */
+    public void post(PartRequest request)
+    {
+        System.err.println("Post rule called (on leaving field) "+request.getValue());
     }
 
 }
