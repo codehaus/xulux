@@ -1,5 +1,5 @@
 /*
- $Id: NyxJComboBox.java,v 1.2 2003-08-28 23:32:18 mvdb Exp $
+ $Id: NyxJComboBox.java,v 1.3 2003-08-31 15:09:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,8 +45,13 @@
  */
 package org.xulux.nyx.swing;
 
+import java.awt.Component;
+import java.awt.event.FocusListener;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
+
+import org.xulux.nyx.gui.NyxListener;
 
 /**
  * This overrides the default JComboBox.
@@ -57,7 +62,7 @@ import javax.swing.JComboBox;
  * This prevents that situation.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJComboBox.java,v 1.2 2003-08-28 23:32:18 mvdb Exp $
+ * @version $Id: NyxJComboBox.java,v 1.3 2003-08-31 15:09:05 mvdb Exp $
  */
 public class NyxJComboBox extends JComboBox
 {
@@ -95,5 +100,35 @@ public class NyxJComboBox extends JComboBox
             super.setSelectedItem(object);
         }
     }
+    
+    /**
+     * Adds a nyx focuslistener to the currently known children
+     * 
+     * @see java.awt.Component#addFocusListener(java.awt.event.FocusListener)
+     */
+    public synchronized void addFocusListener(FocusListener l) {
+        if (l instanceof NyxListener) {
+            int childCount = getComponentCount();
+            for (int i = 0; i < childCount; i++) {
+                Component comp = getComponent(i);
+                comp.addFocusListener(l);
+            }
+        }
+        super.addFocusListener(l);
+    }
 
+    /**
+     * Removes a nyx focuslistener from the currently known children
+     * @see java.awt.Component#removeFocusListener(java.awt.event.FocusListener)
+     */
+    public synchronized void removeFocusListener(FocusListener l) {
+        if (l instanceof NyxListener) {
+            int childCount = getComponentCount();
+            for (int i = 0; i < childCount; i++) {
+                Component comp = getComponent(i);
+                comp.addFocusListener(l);
+            }
+        }
+        super.removeFocusListener(l);
+    }
 }
