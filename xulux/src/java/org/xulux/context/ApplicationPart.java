@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.1 2003-12-18 00:17:28 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.2 2004-01-08 00:22:43 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -84,7 +84,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.1 2003-12-18 00:17:28 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.2 2004-01-08 00:22:43 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -730,8 +730,10 @@ public class ApplicationPart {
      */
     public void destroy() {
         destroyed = true;
-        NyxEventQueue.getInstance().clearAccepted();
-        NyxEventQueue.getInstance().holdEvents(false);
+        if (NyxEventQueue.getInstance() != null) {
+            NyxEventQueue.getInstance().clearAccepted();
+            NyxEventQueue.getInstance().holdEvents(false);
+        }
         if (session != null) {
             getSession().clear();
             session = null;
