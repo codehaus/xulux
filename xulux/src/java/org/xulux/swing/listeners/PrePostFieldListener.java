@@ -1,5 +1,7 @@
 /*
-   Copyright 2002-2003 The Xulux Project
+   $Id: PrePostFieldListener.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+   
+   Copyright 2002-2004 The Xulux Project
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -41,7 +43,7 @@ import org.xulux.swing.widgets.ToggleButton;
  * 
  * @todo Find a better way to handle the concel button.
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.2 2004-01-28 12:24:03 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener implements FocusListener, ActionListener, ItemListener {
 
