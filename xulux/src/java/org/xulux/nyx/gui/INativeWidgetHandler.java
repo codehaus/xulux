@@ -1,5 +1,5 @@
 /*
- $Id: INativeWidgetHandler.java,v 1.2 2003-07-22 16:13:46 mvdb Exp $
+ $Id: INativeWidgetHandler.java,v 1.3 2003-09-11 12:20:56 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,7 +51,7 @@ package org.xulux.nyx.gui;
  * via eg the guidefaults xml file.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: INativeWidgetHandler.java,v 1.2 2003-07-22 16:13:46 mvdb Exp $
+ * @version $Id: INativeWidgetHandler.java,v 1.3 2003-09-11 12:20:56 mvdb Exp $
  */
 public interface INativeWidgetHandler {
     
@@ -71,5 +71,12 @@ public interface INativeWidgetHandler {
      * @param y
      */
     public void setLocationOnWidget(Widget parent, int x, int y);
+    
+    /**
+     * Adds a widget to the parent, which is a native. (getParentWidget())
+     * @param widget
+     * @param nativeWidget
+     */
+    public void addWidgetToParent(Widget widget, Object parentWidget);
 
 }

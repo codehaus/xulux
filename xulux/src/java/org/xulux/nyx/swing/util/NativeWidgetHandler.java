@@ -1,5 +1,5 @@
 /*
- $Id: NativeWidgetHandler.java,v 1.3 2003-08-11 00:33:49 mvdb Exp $
+ $Id: NativeWidgetHandler.java,v 1.4 2003-09-11 12:20:57 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,7 +45,10 @@
  */
 package org.xulux.nyx.swing.util;
 
+import java.awt.Component;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JComponent;
 
@@ -59,7 +62,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * The native widgets handler for swing.
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeWidgetHandler.java,v 1.3 2003-08-11 00:33:49 mvdb Exp $
+ * @version $Id: NativeWidgetHandler.java,v 1.4 2003-09-11 12:20:57 mvdb Exp $
  */
 public class NativeWidgetHandler implements INativeWidgetHandler {
     
@@ -105,6 +108,18 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
             // set the location on the last component added..
             comp.getComponent(comp.getComponentCount()-1).setLocation(x,y);
         }
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.INativeWidgetHandler#addWidgetsToParent(java.util.List, java.lang.Object)
+     */
+    public void addWidgetToParent(Widget widget, Object parentWidget) {
+        System.out.println("widget : "+widget+"  "+parentWidget);
+        if (!(parentWidget instanceof JComponent)) {
+            return;
+        }
+        JComponent comp = (JComponent)parentWidget;
+        comp.add((Component)widget.getNativeWidget(), widget);
     }
 
 }

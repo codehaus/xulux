@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.5 2003-07-10 22:40:21 mvdb Exp $
+ $Id: XYLayout.java,v 1.6 2003-09-11 12:20:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.gui.Widget;
  * using the size and the position of the control
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.5 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.6 2003-09-11 12:20:57 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
@@ -221,7 +221,7 @@ public class XYLayout implements LayoutManager2, Serializable
         {
             Component component = parent.getComponent(i);
             Widget widget = (Widget) map.get(component);
-            if (widget.isVisible())
+            if (widget != null &&widget.isVisible())
             {
                 Rectangle r = getRectangle(widget, component);
                 if (r.width <= 0 && r.height <= 0)

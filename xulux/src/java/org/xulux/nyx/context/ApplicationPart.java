@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.51 2003-09-01 09:38:15 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.52 2003-09-11 12:20:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -83,7 +83,7 @@ import org.xulux.nyx.utils.Translation;
  * TODO: Fix naming of field. It is used everywhere with different meanings.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.51 2003-09-01 09:38:15 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.52 2003-09-11 12:20:57 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -282,11 +282,16 @@ public class ApplicationPart
     }
     
     /**
-     * Returns the widget that is connected to the field
+     * @return the widget that is connected to the field, 
+     * null if not found or no widgets are present.
      */
     public Widget getWidget(String name)
     {
-        return (Widget)widgets.get(name);
+        if (widgets != null) {
+            return (Widget)widgets.get(name);
+        }
+        return null;
+           
     }
     
     /**
@@ -412,14 +417,6 @@ public class ApplicationPart
         {
             return;
         }
-        if (widgets != null) {
-            Iterator it = widgets.iterator();
-            while (it.hasNext())
-            {
-                Widget widget = (Widget) it.next();
-            }
-        }
-        runIndex++;
     }
     
     /**
@@ -491,6 +488,10 @@ public class ApplicationPart
             while (it.hasNext())
             {
                 Widget widget = (Widget) it.next();
+                //widget.initialize();
+                if (getRootWidget() != null) {
+                    ApplicationContext.getInstance().getNativeWidgetHandler().addWidgetToParent(widget, getRootWidget());
+                }    
                 if (widget.canBeRootWidget() || 
                      widget.canContainChildren())
                 {
@@ -498,6 +499,8 @@ public class ApplicationPart
                     WidgetRequestImpl req = new WidgetRequestImpl(widget,PartRequest.NO_ACTION);
                     ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
                 }
+                
+                
             }
         }
         isActivating = false;

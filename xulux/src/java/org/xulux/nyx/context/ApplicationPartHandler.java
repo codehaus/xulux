@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.27 2003-08-11 03:33:42 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.28 2003-09-11 12:20:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.27 2003-08-11 03:33:42 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.28 2003-09-11 12:20:57 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -486,12 +486,14 @@ public class ApplicationPartHandler extends DefaultHandler
         else if (processUnknown && currentqName != null)
         {
             processUnknown = false;
-            Widget widget = (Widget) stack.get(stack.size()-1);
-            widget.setProperty(currentqName, currentValue);
-            if (currentAtts != null) {
-                for (Iterator it = currentAtts.keySet().iterator();it.hasNext();) {
-                    String key = (String)it.next();
-                    widget.setProperty(key, (String)currentAtts.get(key));
+            if (stack.size() > 0) {
+                Widget widget = (Widget) stack.get(stack.size()-1);
+                widget.setProperty(currentqName, currentValue);
+                if (currentAtts != null) {
+                    for (Iterator it = currentAtts.keySet().iterator();it.hasNext();) {
+                        String key = (String)it.next();
+                        widget.setProperty(key, (String)currentAtts.get(key));
+                    }
                 }
             }
             currentqName = null;
