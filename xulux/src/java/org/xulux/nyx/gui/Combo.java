@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.7 2002-11-11 09:49:22 mvdb Exp $
+ $Id: Combo.java,v 1.8 2002-11-12 11:31:13 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.7 2002-11-11 09:49:22 mvdb Exp $
+ * @version $Id: Combo.java,v 1.8 2002-11-12 11:31:13 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -200,6 +200,7 @@ public class Combo extends Widget
      */
     public void refresh()
     {
+        initialize();
         if (isImmidiate() && keyListener == null)
         {
             keyListener = new ImmidiateListener(this);
