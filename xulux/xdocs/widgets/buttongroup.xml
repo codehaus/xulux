@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The ButtonGroup Widget</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The ButtonGroup Widget">
+  <subsection name="General">
+    <p>
+      The buttongroup widget is not actually a widget that shows on screen
+      (at least in Swing it doesn't), but it is used to group real widgets
+      together, to behave as one value (like eg a combo).
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      Description
+    </p>
+    <table>
+      <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
+      <tr>
+        <td>enable</td>
+        <td>swing</td>
+        <td>
+          values true or false. This setting also has consequences for
+          the children, which will be disabled automatically.
+          These values cannot be overriden (so it seems.)
+        </td>
+      </tr>
+    </table>
+  </subsection>
+</section>
+
+</body>
+
+</document>

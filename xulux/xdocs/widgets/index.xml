@@ -2,13 +2,13 @@
 
 <document>
   <properties>
-    <title>NYX - The Widget</title>
+    <title>NYX - Widgets</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
 <body>
 
-<section name="The Widget">
+<section name="Widgets">
   <subsection name="General">
     <p>
       A widget is a class that represents a control on the screen
@@ -59,6 +59,14 @@
       </tr>
       <tr>
         <td><a href="tree.html">tree</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="radiobutton.html">radiobutton</a></td>
+        <td>swing</td>
+      </tr>
+      <tr>
+        <td><a href="buttongroup.html">buttongroup</a></td>
         <td>swing</td>
       </tr>
       </table>
