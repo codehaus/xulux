@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.21 2003-07-15 00:55:14 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.22 2003-07-15 21:33:56 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.21 2003-07-15 00:55:14 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.22 2003-07-15 21:33:56 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -577,14 +577,14 @@ public class ApplicationPartHandler extends DefaultHandler
             {
                 if (log.isWarnEnabled())
                 {
-                    log.warn("rule class "+ruleClass+" for widget "+widget.getName()+" not found",e);
+                    log.warn("rule class "+ruleClass+" for widget "+widget.getName()+" not found");
                 }
             }
             else
             {
                 if (log.isWarnEnabled())
                 {
-                    log.warn("rule class "+ruleClass+" for part "+part.getName()+" not found",e);
+                    log.warn("rule class "+ruleClass+" for part "+part.getName()+" not found");
                 }
             }
         }
