@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.1 2003-05-21 11:17:31 mvdb Exp $
+ $Id: Window.java,v 1.2 2003-05-21 11:27:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,9 +57,9 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * The SWT window
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.1 2003-05-21 11:17:31 mvdb Exp $
+ * @version $Id: Window.java,v 1.2 2003-05-21 11:27:46 mvdb Exp $
  */
-public class Window extends org.xulux.nyx.gui.Window
+public class Window extends org.xulux.nyx.gui.NyxWindow
 implements SWTWidget
 {
     
@@ -67,7 +67,7 @@ implements SWTWidget
     Display display;
 
     /**
-     * Constructor for Window.
+     * Constructor for NyxWindow.
      * @param field
      */
     public Window(String field)

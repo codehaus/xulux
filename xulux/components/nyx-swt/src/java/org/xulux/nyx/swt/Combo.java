@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.1 2003-05-21 11:17:31 mvdb Exp $
+ $Id: Combo.java,v 1.2 2003-05-21 11:27:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,9 +60,9 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * Represents the swt combo and cCombo.
  * 
  * @author <a href="mailo:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.1 2003-05-21 11:17:31 mvdb Exp $
+ * @version $Id: Combo.java,v 1.2 2003-05-21 11:27:46 mvdb Exp $
  */
-public class Combo extends org.xulux.nyx.gui.Combo
+public class Combo extends org.xulux.nyx.gui.NyxCombo
 implements SWTWidget
 {
     
@@ -72,7 +72,7 @@ implements SWTWidget
     Composite parent;
 
     /**
-     * Constructor for Combo.
+     * Constructor for NyxCombo.
      * @param name
      */
     public Combo(String name)
