@@ -1,7 +1,7 @@
 /*
- $Id: LICENSE.txt,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ $Id: LICENSE.txt,v 1.2 2003-01-25 23:19:34 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
