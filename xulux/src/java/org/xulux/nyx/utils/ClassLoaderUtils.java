@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtils.java,v 1.4 2003-08-07 16:41:15 mvdb Exp $
+ $Id: ClassLoaderUtils.java,v 1.5 2003-08-09 00:04:35 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,9 @@
  */
 package org.xulux.nyx.utils;
 
+import java.lang.reflect.Constructor;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -53,7 +56,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.4 2003-08-07 16:41:15 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.5 2003-08-09 00:04:35 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -83,7 +86,7 @@ public class ClassLoaderUtils {
         if (clazz == null) {
             return null;
         }
-        Object object;
+        Object object = null;
         try {
             object = clazz.newInstance();
             return object;
@@ -95,6 +98,35 @@ public class ClassLoaderUtils {
             log.warn("Cannot access class "+clazz.getName());
         }
         return null;
+    }
+    
+    /**
+     * Tries to find a constructor with the parameters specified in the list
+     * If it cannot it will return the empty constructor.
+     * 
+     * @param clazz
+     * @param parms the list of parameters as classes
+     * @return
+     */
+    public static Object getObjectFromClass(Class clazz, List parms) {
+        try {
+            if (parms != null && parms.size() > 0) {
+                Class[] clzList = new Class[parms.size()];
+                for (int i = 0; i < parms.size(); i++) {
+                    clzList[i] = parms.get(i).getClass();
+                }
+                try {
+                    Constructor constructor = clazz.getConstructor(clzList);
+                    return constructor.newInstance(parms.toArray());
+                }catch(NoSuchMethodException nsme) {
+                    // eat me
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return getObjectFromClass(clazz);
     }
     
     /**
