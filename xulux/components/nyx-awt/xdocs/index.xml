@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - awt component</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The NYX awt component">
+<p>
+  The awt component renders a nyx gui in awt.
+  This can be usefull for mobile devices such as
+  phones and pda's which support java
+</p>
+</section>
+</body>
+</document>
