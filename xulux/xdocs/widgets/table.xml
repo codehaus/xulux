@@ -88,7 +88,10 @@
         <td>
           This property specifies what the initial selection will be.<br/>
           Possibly values are none, first, last and all. None is the same
-          as not specifying the initialselection property.
+          as not specifying the initialselection property.<br/>
+          This property will be removed immidiately after processing it.
+          It will be processed when some content is set, if you want to use
+          this property again, just set it again in a rule.
         </td>
       </tr>
     </table>
