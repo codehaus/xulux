@@ -1,7 +1,7 @@
 /*
- $Id: PrePostFieldListener.java,v 1.12 2003-06-17 12:52:50 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.13 2003-06-17 17:30:07 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -57,7 +57,7 @@ import org.xulux.nyx.swing.widgets.Entry;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.12 2003-06-17 12:52:50 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.13 2003-06-17 17:30:07 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener
