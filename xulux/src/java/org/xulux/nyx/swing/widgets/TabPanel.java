@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.18 2003-11-18 17:28:20 mvdb Exp $
+ $Id: TabPanel.java,v 1.19 2003-11-18 17:28:50 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  *
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.18 2003-11-18 17:28:20 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.19 2003-11-18 17:28:50 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
 
@@ -337,22 +337,15 @@ public class TabPanel extends ContainerWidget {
             if (isRunning) {
                 return;
             }
-            //System.out.println("e getChanged : "+e.getChanged());
             Iterator it = getPart().getWidgets().iterator();
             while (it.hasNext()) {
                 Widget w = (Widget) it.next();
                 if (e.getChanged().equals(w.getNativeWidget())) {
-                    System.out.println("WIDGET : "+w+" "+e);
                     break;
                 }
             }
                     
             if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
-                System.out.println("e getChanged : "+e.getChanged());
-//                if (!(e.getChanged() instanceof JPanel)) {
-//                    return;
-//                }
-                System.out.println("Hierarchy changed : "+e);
                 repaintThread.interrupt();
             }
         }
