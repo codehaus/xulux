@@ -1,7 +1,7 @@
 /*
- $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ $Id: ClassLoaderUtils.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,43 +43,61 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.util;
+ package org.xulux.nyx.utils;
 
-import java.awt.Component;
-import java.awt.Container;
-
-import org.xulux.nyx.gui.IParentWidgetHandler;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
- * Destroys/Initializes all components created by nyx.
- * This is only used in scenarios where nyx is used
- * on top of an already existing application
- * 
+ * This util class contains classloader utils
+ * so we can do actual code reuse. 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
  */
-public class SwingParentWidgetHandler implements IParentWidgetHandler {
+public class ClassLoaderUtils {
 
+    private static Log log = LogFactory.getLog(ClassLoaderUtils.class);
     /**
      * 
      */
-    public SwingParentWidgetHandler() {
+    public ClassLoaderUtils() {
     }
-
+    
     /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#initialize(java.lang.Object)
+     * 
+     * @param classString
+     * @return an object from the specified classString or null when errors occur
      */
-    public void initialize(Object parent) {
-
+    public static Object getObjectFromClassString(String classString) {
+        Class clazz;
+        try {
+            clazz = Class.forName(classString);
+            return getObjectFromClass(clazz);
+        }
+        catch (ClassNotFoundException e) {
+            log.warn("Could not find class", e);
+        }
+        return null;
     }
-
     /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#destroy(java.lang.Object)
+     * 
+     * @param clazz
+     * @return an object from the specified class or null when errors occur
      */
-    public void destroy(Object parent) {
-        Container container = ((Component)parent).getParent();
-        container.removeAll();
-        container.remove((Component)parent);
+    public static Object getObjectFromClass(Class clazz) {
+        Object object;
+        try {
+            object = clazz.newInstance();
+            return object;
+        }
+        catch (InstantiationException e) {
+            log.warn("Cannot instantiate class", e);
+        }
+        catch (IllegalAccessException e) {
+            log.warn("Cannot access class ",e);
+        }
+        return null;
+        
     }
 
 }

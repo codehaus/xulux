@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.25 2003-06-17 17:02:30 mvdb Exp $
+ $Id: Widget.java,v 1.26 2003-07-10 22:40:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.25 2003-06-17 17:02:30 mvdb Exp $
+ * @version $Id: Widget.java,v 1.26 2003-07-10 22:40:21 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -93,6 +93,11 @@ public abstract class Widget implements Serializable
     private boolean required = false;
     
     private boolean isRootWidget = false;
+    
+    /** 
+     * The parent widget, if there is one
+     */
+    Widget parent;
     
     /**
      * Specfies if the widget is refreshing
@@ -387,22 +392,49 @@ public abstract class Widget implements Serializable
         return this.name;
     }
     
+    /** 
+     * Set the property to the specified value
+     * or when value is null clear the property
+     * if it exists.
+     * It will also refresh the widget so setProperty
+     * so changes in properties will be reflected
+     * on screen.
+     * It will do nothing when the value it currently
+     * knows is the same as the value passed in.
+     * If the key is null, it will return immidiately
+     * 
+     * @param key  - case insensitive value
+     * @param value - case insensitive value
+     */
     public void setProperty(String key, String value)
     {
+        if (key == null) {
+            return;
+        }
         if (properties == null)
         {
             properties = new HashMap();
         }
-        properties.put(key, value);
-        if (key.equalsIgnoreCase("required"))
+        if (value == null && key != null) {
+            properties.remove(key);
+        }
+        String oldValue = (String)properties.get(key);
+        if (oldValue != null) {
+            if (oldValue.equalsIgnoreCase(value)) {
+                // nothing has changed, so we'll return
+                return;
+            }
+        }
+        properties.put(key.toLowerCase(), value);
+        if (key.equals("required"))
         {
             setRequired((value.equalsIgnoreCase("true")?true:false));
         }
-        if (key.equalsIgnoreCase("enabled"))
+        if (key.equals("enabled"))
         {
             setEnable((value.equalsIgnoreCase("true")?true:false));
         }
-        if (key.equalsIgnoreCase("use"))
+        if (key.equals("use"))
         {
             setField(value);
         }
@@ -413,9 +445,16 @@ public abstract class Widget implements Serializable
         }
     }
     
+    /**
+     * You can not use this HashMap to change properties,
+     * since it is a clone.
+     * You need to use setProperty for that.
+     * 
+     * @return the HashMap with the properties 
+     */
     public HashMap getProperties()
     {
-        return properties;
+        return (properties!=null)?(HashMap)properties.clone():new HashMap();
     }
     
     /**
@@ -494,14 +533,17 @@ public abstract class Widget implements Serializable
     }
     
     /**
-     * Convenience method so you don't have to check for 
-     * nulls yourself when getting the properties.
+     * Return the specified property.
+     * Use this method or do a getProperties().get(key.toLowerCase());
+     * , since all keys are stored in lowercase.
+     * @param key the property to get. This is case insensitive.
+     * @return the value found or null when no value is found 
      */
     public String getProperty(String key)
     {
-        if (properties != null)
+        if (properties != null && key != null)
         {
-            return (String) properties.get(key);
+            return (String) properties.get(key.toLowerCase());
         }
         return null;
     }
@@ -581,5 +623,22 @@ public abstract class Widget implements Serializable
      * Set the focus to this widget
      */
     public abstract void focus();
+    
+    /**
+     * 
+     * @return the parent widget or null when there is 
+     *          no parent.
+     */
+    public Widget getParent() {
+        return this.parent;
+    }
+    
+    /**
+     * Sets the parent of this widget.
+     * @param parent
+     */
+    public void setParent(Widget parent) {
+        this.parent = parent;
+    }
 
 }

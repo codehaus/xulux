@@ -1,5 +1,5 @@
 /*
- $Id: PersonEntryRule.java,v 1.3 2003-05-21 10:07:17 mvdb Exp $
+ $Id: PersonEntryRule.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,13 +46,13 @@
 package org.xulux.nyx.gui.rules;
 
 import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.gui.PersonBean;
+import org.xulux.nyx.gui.swing.widgets.PersonBean;
 import org.xulux.nyx.rules.Rule;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PersonEntryRule.java,v 1.3 2003-05-21 10:07:17 mvdb Exp $
+ * @version $Id: PersonEntryRule.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
  */
 public class PersonEntryRule extends Rule
 {

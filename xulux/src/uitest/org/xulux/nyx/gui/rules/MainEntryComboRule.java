@@ -1,5 +1,5 @@
 /*
- $Id: MainEntryComboRule.java,v 1.5 2003-06-17 12:54:12 mvdb Exp $
+ $Id: MainEntryComboRule.java,v 1.6 2003-07-10 22:40:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,14 +49,14 @@ import java.util.ArrayList;
 
 import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.gui.NyxCombo;
-import org.xulux.nyx.gui.PersonBean;
+import org.xulux.nyx.gui.swing.widgets.PersonBean;
 import org.xulux.nyx.rules.Rule;
 import org.xulux.nyx.swing.widgets.Entry;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MainEntryComboRule.java,v 1.5 2003-06-17 12:54:12 mvdb Exp $
+ * @version $Id: MainEntryComboRule.java,v 1.6 2003-07-10 22:40:22 mvdb Exp $
  */
 public class MainEntryComboRule extends Rule
 {

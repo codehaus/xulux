@@ -1,7 +1,7 @@
 /*
- $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ $Id: NativeWidget.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,43 +43,55 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.util;
-
-import java.awt.Component;
-import java.awt.Container;
-
-import org.xulux.nyx.gui.IParentWidgetHandler;
+package org.xulux.nyx.gui;
 
 /**
- * Destroys/Initializes all components created by nyx.
- * This is only used in scenarios where nyx is used
- * on top of an already existing application
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: NativeWidget.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
  */
-public class SwingParentWidgetHandler implements IParentWidgetHandler {
+public class NativeWidget extends Widget {
 
     /**
-     * 
+     * @param name
      */
-    public SwingParentWidgetHandler() {
+    public NativeWidget(String name) {
+        super(name);
     }
 
     /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#initialize(java.lang.Object)
+     * @see org.xulux.nyx.gui.Widget#destroy()
      */
-    public void initialize(Object parent) {
+    public void destroy() {
 
     }
 
     /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#destroy(java.lang.Object)
+     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
-    public void destroy(Object parent) {
-        Container container = ((Component)parent).getParent();
-        container.removeAll();
-        container.remove((Component)parent);
+    public Object getNativeWidget() {
+        return null;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#initialize()
+     */
+    public void initialize() {
+
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#refresh()
+     */
+    public void refresh() {
+
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#focus()
+     */
+    public void focus() {
+
     }
 
 }

@@ -1,7 +1,7 @@
 /*
- $Id: Entry.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ $Id: TextArea.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -49,8 +49,11 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 
-import javax.swing.JTextField;
+import javax.swing.JComponent;
+import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
@@ -60,50 +63,44 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
- * Represents an entry field
+ * The swing textare widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
  */
-public class Entry 
-extends Widget
-{
-    private static Log log = LogFactory.getLog(Entry.class);
+public class TextArea extends Widget {
+    
+    private JTextArea textArea;
+    private PrePostFieldListener focusListener;
+    private PrePostFieldListener immidiateListener;
     private Dimension size;
     private String text;
     private boolean setValueCalled = false;
+    private Log log = LogFactory.getLog(TextArea.class);
     
-    /** 
-     * For now internally very swing specific
-     */
-    JTextField textField;
-    
-    PrePostFieldListener focusListener;
-    PrePostFieldListener immidiateListener;
-    
-    
+
     /**
-     * Constructor for Entry.
+     * @param name
      */
-    public Entry(String name)
-    {
+    public TextArea(String name) {
         super(name);
     }
+
 
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
     public void destroy()
     {
-        if (textField != null)
+        if (textArea != null)
         {
-            textField.removeAll();
-            Container container = textField.getParent();
+            textArea.removeAll();
+            Container container = textArea.getParent();
             if (container != null)
             {
-                container.remove(textField);
+                container.remove(textArea);
             }
-            textField = null;
+            textArea = null;
         }
         removeAllRules();
         getPart().removeWidget(this,this);
@@ -118,7 +115,7 @@ extends Widget
         {
             initialize();
         }
-        return textField;
+        return textArea;
     }
     
     /**
@@ -132,7 +129,7 @@ extends Widget
         }
         this.initialized = true;
         this.setValueCalled = true;
-        textField = new JTextField();
+        textArea = new JTextArea();
         if (isImmidiate())
         {
             if (this.immidiateListener == null)
@@ -161,7 +158,7 @@ extends Widget
                 {
                     focusListener = new PrePostFieldListener(this);
                 }
-                textField.addFocusListener(focusListener);
+                textArea.addFocusListener(focusListener);
             }
         }
         refresh();
@@ -175,9 +172,9 @@ extends Widget
     {
         isRefreshing = true;
         initialize();
-        textField.setEnabled(isEnabled());
-        textField.setVisible(isVisible());
-        textField.setPreferredSize(this.size);
+        textArea.setEnabled(isEnabled());
+        textArea.setVisible(isVisible());
+        textArea.setPreferredSize(this.size);
         initializeValue();
         String backgroundColor = null;
         if (isRequired()  && isEnabled())
@@ -194,9 +191,40 @@ extends Widget
         }
         if (backgroundColor != null)
         {
-            textField.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
+            textArea.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
-        textField.repaint();
+        String border = getProperty("border");
+        if (border != null) {
+            String borderThickness = getProperty("border-thickness");
+            String borderColor = getProperty("border-color");
+            int thickness = 1;
+            if (borderThickness != null) {
+                try {
+                    thickness = Integer.parseInt(borderThickness);
+                }catch(NumberFormatException nfe) {
+                    if (log.isWarnEnabled()) {
+                        log.warn("invalid borderthickness, value is "+
+                          borderThickness+", but should be a number ");
+                    }
+                }
+            }
+            Color bColor = null;
+            if (borderColor != null) {
+                bColor = new Color(Integer.parseInt(borderColor));
+            }else {
+                // we default to black border color
+                if (getParent() != null) {
+                    bColor = ((JComponent)getParent().getNativeWidget()).getForeground();
+                }else {
+                    bColor = Color.black;
+                }
+            }
+            if (border.equalsIgnoreCase("line")) {
+                textArea.setBorder(new LineBorder(bColor,thickness));
+            }
+        }
+        textArea.setLineWrap(BooleanUtils.toBoolean(getProperty("linewrap")));
+        textArea.repaint();
         isRefreshing = false;
     }
 
@@ -206,9 +234,9 @@ extends Widget
     public Object getValue()
     {
         Object retValue = null;
-        if (textField != null)
+        if (textArea != null)
         {
-            text = textField.getText();
+            text = textArea.getText();
         }
         if ((text!=null && !"".equals(text)) && getField()!= null && this.value != null)
         {
@@ -264,11 +292,11 @@ extends Widget
         
         if (val != null)
         {
-            textField.setText(String.valueOf(val));
+            textArea.setText(String.valueOf(val));
         }
         else
         {
-            textField.setText("");
+            textArea.setText("");
         }
     }
     /**
@@ -291,14 +319,14 @@ extends Widget
      */
     public void clear()
     {
-        if (textField == null)
+        if (textArea == null)
         {
             this.value = null;
         }
         else
         {
             this.value = null;
-            textField.setText("");
+            textArea.setText("");
         }
         if (initialized)
         {
@@ -328,7 +356,8 @@ extends Widget
      * @see org.xulux.nyx.gui.Widget#focus()
      */
     public void focus() {
-        textField.requestFocus();
+        textArea.requestFocus();
     }
+
 
 }

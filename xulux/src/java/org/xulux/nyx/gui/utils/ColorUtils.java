@@ -1,7 +1,7 @@
 /*
- $Id: ColorUtils.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ $Id: ColorUtils.java,v 1.2 2003-07-10 22:40:22 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -51,7 +51,7 @@ import java.util.Arrays;
  * Color utils to make parsing easier
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ColorUtils.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ * @version $Id: ColorUtils.java,v 1.2 2003-07-10 22:40:22 mvdb Exp $
  */
 public class ColorUtils
 {

@@ -1,5 +1,5 @@
 /*
- $Id: PersonListRule.java,v 1.3 2003-05-21 10:07:17 mvdb Exp $
+ $Id: PersonListRule.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,7 +51,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PersonListRule.java,v 1.3 2003-05-21 10:07:17 mvdb Exp $
+ * @version $Id: PersonListRule.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
  */
 public class PersonListRule extends Rule
 {
@@ -68,7 +68,7 @@ public class PersonListRule extends Rule
      */
     public void pre(PartRequest request)
     {
-       System.out.println("Value of "+request.getName()+" : "+request.getValue());
+       System.out.println("PRE Value of "+request.getName()+" : "+request.getValue());
     }
 
     /**
@@ -76,7 +76,8 @@ public class PersonListRule extends Rule
      */
     public void post(PartRequest request)
     {
-        System.out.println("Selected value : "+request.getValue());
+        System.out.println("POST Selected value : "+request.getValue());
+        System.out.println("POST Previous value : "+request.getWidget().getPreviousValue());
     }
     
 }

@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.9 2003-06-17 17:02:30 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.10 2003-07-10 22:40:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,10 +56,10 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xulux.nyx.context.ApplicationContext;
 
 /**
- * It should be case insensitive, but isn't really ;)
+ * Case insensitive processing of the guidefaults.
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.9 2003-06-17 17:02:30 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.10 2003-07-10 22:40:21 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
@@ -68,7 +68,8 @@ public class GuiDefaultsHandler extends DefaultHandler
      * Element and attribute statics
      */
     private static final String ELEMENT_WIDGETS = "widgets";
-    private static final String ELEMENT_PARENTWIDGETHANDLER = "parentWidgetHandler";
+    private static final String ELEMENT_PARENTWIDGETHANDLER = "parentwidgethandler";
+    private static final String ELEMENT_NATIVEWIDGETHANDLER = "nativewidgethandler";
     private static final String ELEMENT_WIDGET = "widget";
     private static final String ELEMENT_GUI = "gui";
     private static final String ELEMENT_ROOT = "guidefaults";
@@ -142,8 +143,20 @@ public class GuiDefaultsHandler extends DefaultHandler
         else if (qName.equals(ELEMENT_PARENTWIDGETHANDLER))
         {
             String type = atts.getValue(ATTRIBUTE_TYPE);
+            if (type == null) {
+                type = ApplicationContext.getInstance().getDefaultWidgetType();
+            }
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             ApplicationContext.getInstance().registerParentWidgetHandler(type, clazz);
+        }
+        else if (qName.equals(ELEMENT_NATIVEWIDGETHANDLER)) 
+        {
+            String type = atts.getValue(ATTRIBUTE_TYPE);
+            if (type == null) {
+                type = ApplicationContext.getInstance().getDefaultWidgetType();
+            }
+            String clazz = atts.getValue(ATTRIBUTE_CLASS);
+            ApplicationContext.getInstance().registerNativeWidgetHandler(type, clazz);
         }
         else if (qName.equals(ELEMENT_WIDGETS))
         {

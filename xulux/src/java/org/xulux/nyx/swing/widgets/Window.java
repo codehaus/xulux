@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
+ $Id: Window.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,6 +57,8 @@ import javax.swing.JFrame;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.layouts.XYLayout;
 import org.xulux.nyx.swing.listeners.NyxWindowListener;
@@ -66,12 +68,13 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
+ * @version $Id: Window.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
  */
 public class Window extends org.xulux.nyx.gui.NyxWindow
 {
     JFrame window;
     WindowListener windowListener;
+    private static Log log = LogFactory.getLog(Window.class);
 
     /**
      * Constructor for NyxWindow.
@@ -148,6 +151,7 @@ public class Window extends org.xulux.nyx.gui.NyxWindow
         }
         else
         {
+            // TODO: Introduce MDI type of windowing
             // mdi is the default. 
         }
         initializeChildren();
@@ -179,8 +183,14 @@ public class Window extends org.xulux.nyx.gui.NyxWindow
         String image = getProperty("icon");
         if (image != null)
         {
-            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(image));
-            window.setIconImage(SwingUtils.getImage(image, this));
+            try {
+                ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(image));
+                window.setIconImage(SwingUtils.getImage(image, this));
+            }catch(Exception e) {
+                if (log.isWarnEnabled()) {
+                    log.warn("Image resource "+image+" cannot be found");
+                }
+            }
             //button.setFocusPainted(true);
         }
         window.setEnabled(isEnabled());

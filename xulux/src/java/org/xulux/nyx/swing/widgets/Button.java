@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
+ $Id: Button.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
+ * @version $Id: Button.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
  */
 public class Button extends Widget
 {
@@ -75,9 +75,9 @@ public class Button extends Widget
     /**
      * Constructor for Button.
      */
-    public Button(String field)
+    public Button(String name)
     {
-        super(field);
+        super(name);
     }
 
     /**

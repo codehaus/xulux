@@ -1,5 +1,5 @@
 /*
- $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ $Id: PersonBean.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,43 +43,43 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.util;
-
-import java.awt.Component;
-import java.awt.Container;
-
-import org.xulux.nyx.gui.IParentWidgetHandler;
+package org.xulux.nyx.gui.swing.widgets;
 
 /**
- * Destroys/Initializes all components created by nyx.
- * This is only used in scenarios where nyx is used
- * on top of an already existing application
+ * A bean to test the gui functionality
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: PersonBean.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
  */
-public class SwingParentWidgetHandler implements IParentWidgetHandler {
+public class PersonBean
+{
 
-    /**
-     * 
-     */
-    public SwingParentWidgetHandler() {
+    private String firstName;
+    private String lastName;
+
+    public PersonBean(String firstName, String lastName)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#initialize(java.lang.Object)
-     */
-    public void initialize(Object parent) {
-
+    public String getFirstName()
+    {
+        return this.firstName;
     }
 
-    /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#destroy(java.lang.Object)
-     */
-    public void destroy(Object parent) {
-        Container container = ((Component)parent).getParent();
-        container.removeAll();
-        container.remove((Component)parent);
+    public String getLastName()
+    {
+        return this.lastName;
     }
 
+    public String getFullName()
+    {
+        return this.firstName + " " + this.lastName;
+    }
+    
+    public String toString()
+    {
+        return getFirstName()+" : "+super.toString();
+    }
 }

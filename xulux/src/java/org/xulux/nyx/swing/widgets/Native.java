@@ -1,7 +1,7 @@
 /*
- $Id: WindowTest.java,v 1.3 2003-05-21 10:07:18 mvdb Exp $
+ $Id: Native.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,62 +43,62 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui.swing.window;
+package org.xulux.nyx.swing.widgets;
 
-import java.io.InputStream;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.gui.PartCreator;
 import org.xulux.nyx.gui.Widget;
 
 /**
- * Testcase for an entry field
+ * A placeholder for a native widgets.
+ * It should just return the native widget when requested..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowTest.java,v 1.3 2003-05-21 10:07:18 mvdb Exp $
+ * @version $Id: Native.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
  */
-public class WindowTest extends TestCase
-{
+public class Native extends Widget {
 
     /**
-     * Constructor for EntryTest.
+     * @param name
      */
-    public WindowTest(String name)
-    {
+    public Native(String name) {
         super(name);
     }
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite(WindowTest.class);
-        return suite;
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#destroy()
+     */
+    public void destroy() {
+
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
+     */
+    public Object getNativeWidget() {
+        return null;
     }
     
-    public void testSimpleWindow()
-    {
-        String xml = "org/xulux/nyx/gui/swing/window/WindowTest1.xml";
-//        ((SimpleLog)LogFactory.getLog(NyxWindowListener.class)).setLevel(SimpleLog.LOG_LEVEL_TRACE);
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(null, stream);
-        part.activate();
-        Widget widget = part.getWidget("WindowTest1");
-        widget.setVisible(true);
+    public void setNativeWidget(Object object) {
     }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new WindowTest("WindowTest").testSimpleWindow();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#initialize()
+     */
+    public void initialize() {
+
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#refresh()
+     */
+    public void refresh() {
+
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#focus()
+     */
+    public void focus() {
+
     }
 
 }

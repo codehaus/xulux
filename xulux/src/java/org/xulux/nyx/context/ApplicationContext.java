@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.25 2003-06-17 17:02:30 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.26 2003-07-10 22:40:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,17 +54,19 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.gui.INativeWidgetHandler;
 import org.xulux.nyx.gui.IParentWidgetHandler;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.guidefaults.GuiDefaultsHandler;
 import org.xulux.nyx.rules.IRule;
+import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * The context contains all the components currently
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.25 2003-06-17 17:02:30 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.26 2003-07-10 22:40:21 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -100,6 +102,12 @@ public class ApplicationContext
      * The key is the type
      */
     private HashMap parentWidgetHandlerMap;
+    
+    /**
+     * Map of the nativeWidgetHandlers
+     * They key is the type
+     */
+    private HashMap nativeWidgetHandlerMap;
     
     /** 
      * The currently registered rules
@@ -429,19 +437,18 @@ public class ApplicationContext
         }
         try
         {
-            Class parentClass = Class.forName(clazz);
             if (type == null)
             {
                 type = defaultType;
             }
-            Object object = parentClass.newInstance();
+            Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
             if (!(object instanceof IParentWidgetHandler)) {
                 if (log.isWarnEnabled()) {
-                    log.warn(parentClass+" is not an instance of IParentWidgetHandler");
+                    log.warn(clazz+" is not an instance of IParentWidgetHandler");
                 }
             }
                 
-            parentWidgetHandlerMap.put(type,parentClass.newInstance());
+            parentWidgetHandlerMap.put(type,object);
         }
         catch (Exception e)
         {
@@ -450,16 +457,77 @@ public class ApplicationContext
     }
     
     /**
+     * Registers the native widget handler.
+     * The handler will contain all logic to be able
+     * to use native widgets on top of the nyx widgets
      * 
-     * @return the handler for the current gui framework
-     *          or null of not found
+     * @param type
+     * @param clazz
      */
-    public IParentWidgetHandler getParentWidgetHandler() {
-        
+    public void registerNativeWidgetHandler(String type, String clazz) {
+        if (nativeWidgetHandlerMap == null) {
+            nativeWidgetHandlerMap = new HashMap();
+        }
+        try
+        {
+            if (type == null)
+            {
+                type = defaultType;
+            }
+            Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
+            if (!(object instanceof INativeWidgetHandler)) {
+                if (log.isWarnEnabled()) {
+                    log.warn(clazz+" is not an instance of INativeWidgetHandler");
+                }
+            }
+                
+            nativeWidgetHandlerMap.put(type,object);
+        }
+        catch (Exception e)
+        {
+            log.warn("Could not find "+clazz+" for nativeWidgetHandler named for "+type);
+        }
+    }
+    
+    /**
+     * 
+     * @param type
+     * @return the handler of parent widgets, or null when not found
+     */
+    public IParentWidgetHandler getParentWidgetHandler(String type) {
         if (parentWidgetHandlerMap != null) {
-            return (IParentWidgetHandler) parentWidgetHandlerMap.get(defaultType);
+            return (IParentWidgetHandler) parentWidgetHandlerMap.get(type);
         }
         return null;
+    }
+
+    /**
+     * 
+     * @return the handler for the current gui framework
+     *          or null if not found
+     */
+    public IParentWidgetHandler getParentWidgetHandler() {
+        return getParentWidgetHandler(getDefaultWidgetType());    
+    }
+    
+    /**
+     * 
+     * @param type - the type (eg swing, swt, or whatnot)
+     * @return the native widget handler for the specified type
+     */
+    public INativeWidgetHandler getNativeWidgetHandler(String type) {
+        if (nativeWidgetHandlerMap != null) {
+            return (INativeWidgetHandler) nativeWidgetHandlerMap.get(type);
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     * @return the native widgets handler for the defaulttype
+     */
+    public INativeWidgetHandler getNativeWidgetHandler() {
+        return getNativeWidgetHandler(getDefaultWidgetType());
     }
     
     /**

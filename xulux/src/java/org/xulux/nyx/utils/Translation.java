@@ -1,7 +1,7 @@
 /*
- $Id: EntryTest.java,v 1.3 2003-06-17 13:48:50 mvdb Exp $
+ $Id: Translation.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,58 +43,93 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
-
-import java.io.InputStream;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.xulux.nyx.context.ApplicationPart;
+ package org.xulux.nyx.utils;
 
 /**
- * Testcase for an entry field
+ * The translation object is a holder of translation
+ * information (url to get names from)
+ * It defaults to classloader loading.
+ * 
+ * TODO: Automaticaly figure out what to do!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: EntryTest.java,v 1.3 2003-06-17 13:48:50 mvdb Exp $
+ * @version $Id: Translation.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
  */
-public class EntryTest extends TestCase
-{
+public class Translation {
+    
+    private String url;
+    private String type;
+    
+    /**
+     * 
+     */
+    public Translation() {
+        super();
+    }
+    
+    /**
+     * Convenient constructor instead of calling 
+     * the setters..
+     * 
+     * @param url
+     * @param type
+     */
+    public Translation(String url, String type) {
+        this();
+        setUrl(url);
+        setType(type);
+    }
 
     /**
-     * Constructor for EntryTest.
+     * @return
      */
-    public EntryTest(String name)
-    {
-        super(name);
+    public String getType() {
+        return type;
     }
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite(EntryTest.class);
-        return suite;
+
+    /**
+     * @return
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param string
+     */
+    public void setType(String string) {
+        type = string;
+    }
+
+    /**
+     * @param string
+     */
+    public void setUrl(String string) {
+        url = string;
     }
     
-    public void testSimpleEntry()
-    {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/EntryTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-        part.activate();
+    public String toString() {
+        return this.url;
     }
     
-    public static void main(String args[])
-    {
-        try
-        {
-            new EntryTest("EntryTest").testSimpleEntry();
+    /**
+     * Case sensitive comparison of urls.
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object object) {
+        if (object instanceof Translation) {
+            Translation trans = (Translation)object;
+            if (getUrl() != null) {
+                if (getUrl().equals(trans.getUrl())) {
+                    if (getType() != null) {
+                        return getType().equals(trans.getType());
+                    }else {
+                        return trans.getType()==null?true:false;
+                    } 
+                }
+            }
         }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
+        return false;
     }
 
 }

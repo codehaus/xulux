@@ -1,5 +1,5 @@
 /*
- $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ $Id: ComboTest.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,43 +43,74 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.util;
+package org.xulux.nyx.gui.swing.widgets;
 
-import java.awt.Component;
-import java.awt.Container;
+import java.io.InputStream;
 
-import org.xulux.nyx.gui.IParentWidgetHandler;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.gui.PartCreator;
 
 /**
- * Destroys/Initializes all components created by nyx.
- * This is only used in scenarios where nyx is used
- * on top of an already existing application
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: ComboTest.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
  */
-public class SwingParentWidgetHandler implements IParentWidgetHandler {
+public class ComboTest extends TestCase
+{
 
     /**
-     * 
+     * Constructor for ComboTest.
      */
-    public SwingParentWidgetHandler() {
+    public ComboTest(String name)
+    {
+        super(name);
     }
-
-    /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#initialize(java.lang.Object)
-     */
-    public void initialize(Object parent) {
-
+    
+    public static Test suite()
+    {
+        TestSuite suite = new TestSuite(ComboTest.class);
+        return suite;
     }
-
-    /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#destroy(java.lang.Object)
-     */
-    public void destroy(Object parent) {
-        Container container = ((Component)parent).getParent();
-        container.removeAll();
-        container.remove((Component)parent);
+    
+    public void testSimpleComboSwing()
+    {
+        PersonBean person = new PersonBean("Martin", "van den Bemt");
+        String xml = "org/xulux/nyx/gui/swing/widgets/ComboTest.xml";
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        ApplicationPart part = PartCreator.createPart(person, stream);
+        part.activate();
     }
+    
+    public void testSimpleComboSwt()
+    {
+        ApplicationContext.getInstance();
+        ApplicationContext.getInstance().setDefaultWidgetType("swt");
+        PersonBean person = new PersonBean("Martin", "van den Bemt");
+        String xml = "org/xulux/nyx/gui/swing/widgets/ComboTest.xml";
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        ApplicationPart part = PartCreator.createPart(person, stream);
+        part.activate();
+    }
+    
+    public static void main(String args[])
+    {
+        try
+        {
+            new ComboTest("ComboTest").testSimpleComboSwing();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace(System.err);
+            System.exit(0);
+        }
+    }
+    
+    
+    
 
 }

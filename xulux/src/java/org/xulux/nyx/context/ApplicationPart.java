@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.39 2003-06-17 17:02:30 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.40 2003-07-10 22:40:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,6 +47,7 @@ package org.xulux.nyx.context;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,6 +61,7 @@ import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
+import org.xulux.nyx.utils.Translation;
 
 /**
  * An Application is a part of the application
@@ -70,7 +72,7 @@ import org.xulux.nyx.rules.IRule;
  * and the copy on the screen. 
  * 
  * 
- * NOTE: Add refresh possibilities to the application parts,
+ * TODO: Add refresh possibilities to the application parts,
  * so your are able to replace the original bean and determine if
  * the "bean refresh" changed the bean or not.
  * Esp. usefull when concurrent changes of beans occur by different
@@ -78,7 +80,7 @@ import org.xulux.nyx.rules.IRule;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.39 2003-06-17 17:02:30 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.40 2003-07-10 22:40:21 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -113,6 +115,8 @@ public class ApplicationPart
     public final static int OK_STATE =2;
     private int state = NO_STATE;
     private NyxListener fieldEventHandler;
+    
+    private ArrayList translationList;
     
     /**
      * Constructor for GuiPart.
@@ -300,8 +304,11 @@ public class ApplicationPart
      * @param widget
      * @param field - the fieldAlias
      */
-    public void addWidget(Object widget, String field)
+    public void addWidget(Widget widget)//, String field)
     {
+        if (widget == null) {
+            return;
+        }
         if (widgets == null)
         {
             widgets = new WidgetList();
@@ -311,15 +318,12 @@ public class ApplicationPart
         widgets.add(widget);
     }
     
-    public void addWidget(Widget widget)
-    {
-        addWidget(widget, widget.getField());
-    }
     /**
      * Removes a widget. It will call the destroy
      * method on the widget and if the widget
      * is calling this, it will remove it from
      * the application part widget registry.
+     * TODO : this method should automatically be called
      * @param widget
      * @param caller - the caller of the object. Always pass
      *         <code>this</code>. 
@@ -331,6 +335,8 @@ public class ApplicationPart
             widgets.remove(widget);
             return;
         }
+        // set the parent to null..
+        widget.setParent(null);
         widget.destroy();
     }
     /** 
@@ -379,10 +385,12 @@ public class ApplicationPart
         {
             return;
         }
-        Iterator it = widgets.iterator();
-        while (it.hasNext())
-        {
-            Widget widget = (Widget) it.next();
+        if (widgets != null) {
+            Iterator it = widgets.iterator();
+            while (it.hasNext())
+            {
+                Widget widget = (Widget) it.next();
+            }
         }
         runIndex++;
     }
@@ -445,20 +453,19 @@ public class ApplicationPart
             PartRequestImpl req = new PartRequestImpl(this, PartRequest.NO_ACTION);
             ApplicationContext.fireRequest(req, ApplicationContext.PRE_REQUEST);
         }
-            
-        Iterator it = widgets.iterator();
-        while (it.hasNext())
-        {
-            Widget widget = (Widget) it.next();
-            if (widget.canBeRootWidget() || 
-                 widget.canContainChildren())
+        if (widgets != null) {    
+            Iterator it = widgets.iterator();
+            while (it.hasNext())
             {
-                widget.initialize();
-                WidgetRequestImpl req = new WidgetRequestImpl(widget,PartRequest.NO_ACTION);
-                ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
+                Widget widget = (Widget) it.next();
+                if (widget.canBeRootWidget() || 
+                     widget.canContainChildren())
+                {
+                    widget.initialize();
+                    WidgetRequestImpl req = new WidgetRequestImpl(widget,PartRequest.NO_ACTION);
+                    ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
+                }
             }
-            
-            
         }
     }
     
@@ -744,6 +751,38 @@ public class ApplicationPart
     public void setFieldEventHandler(NyxListener fieldEventHandler)
     {
         this.fieldEventHandler = fieldEventHandler;
+    }
+    
+    /**
+     * Add a translation object to the list of possible
+     * resources where translations can be fetched from.
+     * This is used mainly when including parts in a part,
+     * so you don't have to put translations in more than
+     * one property file, if already defined somwehere else.
+     * 
+     * @param url - if the url already exists it will not 
+     *               add it to the translationlist
+     * @param type - not supported yet, although should be handled by url.
+     */
+    public void addTranslation(String url, String type) {
+        if (translationList == null) {
+            translationList = new ArrayList();
+        }
+        Translation translation = new Translation(url, type);
+        if (translationList.contains(translation)) {
+            if (log.isDebugEnabled()) {
+                log.debug("Already have translationlist in my cache, skipping "+url);
+            }
+            return;
+        }
+        translationList.add(new Translation(url, type));
+    }
+    
+    /**
+     * @return The list of translation urls. 
+     */
+    public List getTranslationList() {
+        return this.translationList;
     }
     
     /**

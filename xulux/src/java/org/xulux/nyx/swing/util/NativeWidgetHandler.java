@@ -1,7 +1,7 @@
 /*
- $Id: EntryComboTest.java,v 1.3 2003-06-17 13:48:50 mvdb Exp $
+ $Id: NativeWidgetHandler.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,59 +43,57 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.swing.util;
 
-import java.io.InputStream;
+import java.util.Arrays;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import javax.swing.JComponent;
 
-import org.xulux.nyx.context.ApplicationPart;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.gui.INativeWidgetHandler;
+import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
- * Tests combination of entry and combo
- * 
+ * The native widgets handler for swing.
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: EntryComboTest.java,v 1.3 2003-06-17 13:48:50 mvdb Exp $
+ * @version $Id: NativeWidgetHandler.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
  */
-public class EntryComboTest extends TestCase
-{
+public class NativeWidgetHandler implements INativeWidgetHandler {
+    
+    private static Log log = LogFactory.getLog(INativeWidgetHandler.class);
+    
+    /**
+     * 
+     */
+    public NativeWidgetHandler() {
+    }
 
     /**
-     * Constructor for EntryComboTest.
+     * Ads a JComponent to the current 
+     * @see org.xulux.nyx.gui.INativeWidgetHandler#addNativeWidget(java.lang.Object, org.xulux.nyx.context.ApplicationPart)
      */
-    public EntryComboTest(String name)
-    {
-        super(name);
-    }
-    
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite(EntryTest.class);
-        return suite;
-    }
-    
-    public void testSimpleEntryCombo()
-    {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/EntryComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-        part.activate();
-    }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new EntryComboTest("EntryComboTest").testSimpleEntryCombo();
+    public Widget getWidget(String clazz, Widget parent) {
+        Object nativeWidget = ClassLoaderUtils.getObjectFromClassString(clazz);
+        if (nativeWidget != null) {
+            if (parent.canContainChildren()) {
+                Object nativeParent = parent.getNativeWidget();
+                if (nativeParent instanceof JComponent) {
+                    if (nativeWidget instanceof JComponent) {
+                        ((JComponent)nativeParent).add((JComponent)nativeWidget);
+                        System.err.println("Native parent : "+nativeParent);
+                        System.err.println("Native parents children :"+Arrays.asList(((JComponent)nativeParent).getComponents()));
+                        System.err.println("Returning parent(NativeWidgetHandler)..");
+                        return parent;
+                    }
+                }
+            }
+        }else{
+            log.warn("Native widget cannot be added, since it is not of type JComponent or null");
         }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
+        return null;
     }
 
 }

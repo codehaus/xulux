@@ -1,5 +1,5 @@
 /*
- $Id: SWTComboTest.java,v 1.1 2003-06-17 13:49:20 mvdb Exp $
+ $Id: SWTComboTest.java,v 1.2 2003-07-10 22:40:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,12 +54,12 @@ import junit.framework.TestSuite;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.gui.PartCreator;
-import org.xulux.nyx.gui.PersonBean;
+import org.xulux.nyx.gui.swing.widgets.PersonBean;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTComboTest.java,v 1.1 2003-06-17 13:49:20 mvdb Exp $
+ * @version $Id: SWTComboTest.java,v 1.2 2003-07-10 22:40:22 mvdb Exp $
  */
 public class SWTComboTest extends TestCase
 {

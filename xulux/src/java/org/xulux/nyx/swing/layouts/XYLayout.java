@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.4 2003-01-26 02:43:34 mvdb Exp $
+ $Id: XYLayout.java,v 1.5 2003-07-10 22:40:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.gui.Widget;
  * using the size and the position of the control
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.4 2003-01-26 02:43:34 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.5 2003-07-10 22:40:21 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
@@ -133,9 +133,21 @@ public class XYLayout implements LayoutManager2, Serializable
         {
             Component component = parent.getComponent(i);
             Widget widget = (Widget) map.get(component);
-            if (widget.isVisible())
+            
+            Rectangle r = null;
+            if (widget != null && widget.isVisible())
             {
-                Rectangle r = getRectangle(widget, component);
+                r = getRectangle(widget, component);
+            } else if (component != null) {
+                // if component is not a widget
+                // so layed on top of nyx.
+                // try to get all the info from 
+                // the component. It's up to the component
+                // to set sizes etc and handle all other
+                // logic.
+                r = getRectangle(component);
+            }
+            if (r != null) {
                 component.setBounds(
                     insets.left + r.x,
                     insets.top + r.y,
@@ -159,6 +171,25 @@ public class XYLayout implements LayoutManager2, Serializable
         }
         return r;
     }
+    
+    /**
+     * This is mainly used for swing components that are
+     * layed "invisibly" on top of nyx.
+     * You should use setLocation(x,y) to position the
+     * Swing component correctly.
+     * 
+     * @param component
+     * @return the rectangle for a native swing component
+     */
+    public Rectangle getRectangle(Component component) {
+        
+        Rectangle r = component.getBounds();
+        Dimension d = component.getPreferredSize();
+        r.width = d.width;
+        r.height = d.height;
+        return r;
+    }
+    
 
     /**
      * @see java.awt.LayoutManager#minimumLayoutSize(Container)

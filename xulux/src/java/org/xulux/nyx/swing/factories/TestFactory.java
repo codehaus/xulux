@@ -1,5 +1,5 @@
 /*
- $Id: TestFactory.java,v 1.14 2003-06-17 15:03:17 mvdb Exp $
+ $Id: TestFactory.java,v 1.15 2003-07-10 22:40:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -66,7 +66,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * a later stage.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.14 2003-06-17 15:03:17 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.15 2003-07-10 22:40:22 mvdb Exp $
  */
 public class TestFactory
 {
@@ -110,7 +110,7 @@ public class TestFactory
             entry.setVisible(true);
             entry.initialize();
             entry.setValue(field.getValue(bean));
-            part.addWidget(entry, field.getName());
+            part.addWidget(entry);//, field.getName());
         }
         return part;
     }

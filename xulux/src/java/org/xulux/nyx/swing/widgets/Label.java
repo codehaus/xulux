@@ -1,7 +1,7 @@
 /*
- $Id: Label.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
+ $Id: Label.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -55,16 +55,16 @@ import org.xulux.nyx.gui.Widget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
+ * @version $Id: Label.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
  */
 public class Label extends Widget
 {
     
     private JLabel label;
     
-    public Label(String field)
+    public Label(String name)
     {
-        super(field);
+        super(name);
     }
 
     /**
@@ -131,17 +131,19 @@ public class Label extends Widget
         else
         {
             String ha = (String)getProperties().get("horizontalalignment");
-            if (ha.equalsIgnoreCase("left"))
-            {
-                label.setHorizontalAlignment(JLabel.LEFT);
-            }
-            else if (ha.equalsIgnoreCase("center"))
-            {
-                label.setHorizontalAlignment(JLabel.CENTER);
-            }
-            else
-            {
-                label.setHorizontalAlignment(JLabel.RIGHT);
+            if (ha != null) {
+                if (ha.equalsIgnoreCase("left"))
+                {
+                    label.setHorizontalAlignment(JLabel.LEFT);
+                }
+                else if (ha.equalsIgnoreCase("center"))
+                {
+                    label.setHorizontalAlignment(JLabel.CENTER);
+                }
+                else
+                {
+                    label.setHorizontalAlignment(JLabel.RIGHT);
+                }
             }
         }
         label.repaint();

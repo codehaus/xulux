@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<part name="PersonBeanForm" prefix="Person">
+  <field type="window" name="Window">
+    <autosize>false</autosize>
+    <title>NativeWithPanelTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>300,300</size>
+    <field type="panel" name="panel:main">
+      <size>200,200</size>
+      <position>1,1</position>
+      <field type="native" class="org.xulux.nyx.gui.swing.widgets.NativeJButton" name="nativeButton">
+         <position>10,10</position>
+      </field>
+      <field type="native" class="org.xulux.nyx.gui.swing.widgets.NativeJButton" name="nativeButton2">
+         <position>10,60</position>
+      </field>
+    </field>
+  </field>
+</part>

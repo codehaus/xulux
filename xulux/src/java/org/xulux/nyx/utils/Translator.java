@@ -1,7 +1,7 @@
 /*
- $Id: WidgetFactory.java,v 1.4 2003-07-10 22:40:21 mvdb Exp $
+ $Id: Translator.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,52 +43,72 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.utils;
 
-import java.lang.reflect.Constructor;
+import java.util.Iterator;
+import java.util.List;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
-import org.xulux.nyx.context.ApplicationContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
+ * Retrievs the specified internationalized text
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.4 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: Translator.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
  */
-public class WidgetFactory
-{
+public class Translator {
 
+    private static Log log = LogFactory.getLog(Translator.class);
+    private static Translator instance;
+    
     /**
-     * Constructor for WidgetFactory.
-     */
-    public WidgetFactory()
-    {
-    }
-
-    /**
-     * Creates a widget from the widget Registry.
      * 
-     * @param name - the name of the widget
-     * @param field - the field to use on the widget
      */
-    public static Widget getWidget(String type, String name)
-    {
-        Class clazz = ApplicationContext.getInstance().getWidget(type);
-        Widget instance = null;
-        if (clazz != null)
-        {
-            try
-            {
-                Constructor constructor =
-                    clazz.getConstructor(new Class[] { String.class });
-                instance =
-                    (Widget) constructor.newInstance(new String[] { name });
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+    protected Translator() {
+    }
+    
+    protected static Translator getInstance() {
+        if (instance != null) {
+            instance = new Translator();
         }
         return instance;
-
     }
+    
+    /**
+     * For now only support for full i18n (so the first
+     * entry in the key must be the percent sign
+     * to get translated.
+     * TODO : Make it more flexible 
+     *         2 percent signs is a normal percent sign.
+     *         Also considering a seperate property for this 
+     * @param list
+     * @param key
+     * @return the key or the found value if 
+     */
+    public static String translate(List list, String key) {
+        int listCount = 0;
+        boolean problem = false;
+        if (list != null && key != null && key.startsWith("%")) {
+            if (key.startsWith("%%")) {
+                return key;
+            }
+            for (Iterator it = list.iterator(); it.hasNext();) {
+                try {
+                    Translation translation = (Translation)it.next();
+                    ResourceBundle bundle = ResourceBundle.getBundle(translation.getUrl());
+                    return bundle.getString(key.substring(1));
+                }catch(MissingResourceException mre) {
+                    problem = true;
+                }
+            }
+        }
+        if (log.isWarnEnabled() && problem) {
+            log.warn("Resource "+key+" not found in "+list);
+        }
+        return key;
+    }
+
 }

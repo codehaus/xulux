@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.17 2003-06-17 12:53:29 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.18 2003-07-10 22:40:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,7 @@ import java.util.NoSuchElementException;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+import javax.swing.JComponent;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -59,17 +60,22 @@ import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xulux.nyx.gui.INativeWidgetHandler;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.rules.IRule;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.utils.Translator;
 
 /**
  * Reads in a part definition and creates an ApplicationPart
  * from that..
- * 
+ * TODO: Make sure when widgets skip, the properties are
+ *        skipped too..
+ * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.17 2003-06-17 12:53:29 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.18 2003-07-10 22:40:21 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -86,9 +92,30 @@ public class ApplicationPartHandler extends DefaultHandler
     private static String RULES_ELEMENT = "rules";
     private static String RULE_ELEMENT = "rule";
     private static String LISTENER_ELEMENT = "listener";
+    private static String TRANSLATION_ELEMENT = "translation";
+    /**
+     * Include another part in the current part
+     */
+    private static String INCLUDE_ELEMENT = "includepart";
+    /**
+     * The prefix of the current part 
+     * This is to prevent name clashes between fields
+     */
+    private static String PREFIX_ATTRIBUTE = "prefix";
+    /** 
+     * If the type is native (so this name is a "reserved" keyword.
+     * it will try to add the native widget to the applicationpart.
+     * You need to make sure the native widgets is of a supported
+     * type (eg inherits from Swing classes or SWT classes)
+     */
     private static String TYPE_ATTRIBUTE = "type";
     private static String NAME_ATTRIBUTE = "name";
     private static String USE_ATTRIBUTE = "use";
+    /** 
+     * You can specify a class to override the defaults
+     * This must be a Widget when not using native.
+     */
+    private static String CLAZZ_ATTRIBUTE = "class";
     private static String APPLICATION_ATTRIBUTE = "application";
     
     private boolean processingField = false;
@@ -108,10 +135,12 @@ public class ApplicationPartHandler extends DefaultHandler
     private boolean rulesStarted = false;
     private boolean processRule = false;
     private boolean processListener = false;
+    private boolean processingNative = false;
+    private boolean processingTranslation = false;
     
     private String currentqName;
-    
     private String currentValue;
+    private String lastField;
 
     /**
      * Contains the fields if there are more than 
@@ -196,6 +225,9 @@ public class ApplicationPartHandler extends DefaultHandler
                 isApplication = BooleanUtils.toBoolean(atts.getValue(APPLICATION_ATTRIBUTE));
             }
         }
+        else if (qName.equals(TRANSLATION_ELEMENT)) {
+            processingTranslation = true;
+        }
         else if (qName.equals(FIELD_ELEMENT))
         {
             processField(atts);
@@ -236,7 +268,6 @@ public class ApplicationPartHandler extends DefaultHandler
     }
 
     /**
-     * TODO: Now only real support for 1 deep nesting
      * (eg &lt;field&gt;&lt;field&gt;&lt;/field&gt;&lt;/field&gt;)
      * Not deeper yet..
      * @see org.xml.sax.ContentHandler#endElement(String, String, String)
@@ -244,23 +275,38 @@ public class ApplicationPartHandler extends DefaultHandler
     public void endElement(String namespaceURI, String localName, String qName)
         throws SAXException
     {
+        if (currentValue != null) {
+            currentValue = Translator.translate(part.getTranslationList(),currentValue);
+        }
         qName = qName.toLowerCase();
         if (qName.equals(FIELD_ELEMENT))
         {
-            if (stack.size() > 1)
-            {
-                Widget parentWidget = (Widget) stack.get(0);
-                Widget widget = (Widget) stack.pop();
-                if (parentWidget.canContainChildren())
+            if (processingNative) {
+                processingNative = false;
+            } else {
+                if (stack.size() > 1)
                 {
-                    parentWidget.addChildWidget(widget);
-                    part.addWidget(widget);
+                    int item = stack.size()-2;
+                    Widget parentWidget = (Widget) stack.get(item);
+                    Widget widget = (Widget) stack.pop();
+                    if (parentWidget.canContainChildren())
+                    {
+                        parentWidget.addChildWidget(widget);
+                        widget.setParent(parentWidget);
+                        part.addWidget(widget);
+                    }
+                }
+                else if (stack.size() == 1)
+                {
+                    part.addWidget((Widget) stack.pop());
                 }
             }
-            else if (stack.size() == 1)
-            {
-                part.addWidget((Widget) stack.pop());
-            }
+        }
+        // TODO: Finish up on translations...
+        else if (qName.equals(TRANSLATION_ELEMENT)) {
+            processingTranslation = false;
+            part.addTranslation(currentValue,null);
+            currentValue = null;
         }
         else if (qName.equals(TEXT_ELEMENT))
         {
@@ -289,14 +335,26 @@ public class ApplicationPartHandler extends DefaultHandler
         }
         else if (qName.equals(POSITION_ELEMENT) || qName.equals(SIZE_ELEMENT))
         {
+            if (lastField == null) {
+                return;
+            }
             int x = 0;
             int y = 0;
+            boolean autoSize = false;
+            if (currentValue != null && currentValue.equalsIgnoreCase("auto")) {
+                // we seem to want to autosize this widget
+                autoSize = true;
+            }
             try
             {
-                StringTokenizer stn =
-                new StringTokenizer(currentValue, ",");
-                x = Integer.parseInt(stn.nextToken());
-                y = Integer.parseInt(stn.nextToken());
+                if (!autoSize) {
+                    StringTokenizer stn =
+                    new StringTokenizer(currentValue, ",");
+                    String xStr = stn.nextToken().trim();
+                    String yStr = stn.nextToken().trim();
+                    x = Integer.parseInt(xStr);
+                    y = Integer.parseInt(yStr);
+                }
             }
             catch(NoSuchElementException nse)
             {
@@ -309,13 +367,28 @@ public class ApplicationPartHandler extends DefaultHandler
             Widget widget = (Widget) stack.get(stack.size()-1);
             if (processSize)
             {
-                widget.setSize(x, y);
+                if (autoSize) {
+                    widget.setProperty("autosize", "true");
+                } else {
+                    widget.setSize(x, y);
+                }
                 processSize = false;
             }
             else if (processPosition)
             {
-                widget.setPosition(x, y);
-                processPosition = false;
+                try {
+                if (processingNative) {
+                    // TODO: move this code out!! it's swing specific
+                    Widget wt = (Widget) stack.peek();
+                    JComponent comp = (JComponent)wt.getNativeWidget();
+                    comp.getComponent(comp.getComponentCount()-1).setLocation(x,y);
+                } else {
+                    widget.setPosition(x, y);
+                    processPosition = false;
+                }
+                }catch(Exception e) {
+                    e.printStackTrace(System.err);
+                }
             }
             currentValue = null;
         }
@@ -364,29 +437,35 @@ public class ApplicationPartHandler extends DefaultHandler
      * Creates the objects and pushes it on the stack
      * @param atts
      */
-    private void processField(Attributes atts)
-    {
+    private void processField(Attributes atts) {
 
         String type = atts.getValue(TYPE_ATTRIBUTE);
         String name = atts.getValue(NAME_ATTRIBUTE);
         String use = atts.getValue(USE_ATTRIBUTE);
+        // 
+        // TODO : Move the logic for native handling somewhere else
+        if (type.equalsIgnoreCase("native")) {
+            processingNative = true;
+            INativeWidgetHandler handler = ApplicationContext.getInstance().getNativeWidgetHandler();
+            String clazz = atts.getValue(CLAZZ_ATTRIBUTE);
+            Widget wg = handler.getWidget(clazz,(Widget)stack.pop());
+            stack.push(wg);
+            return;
+        }
         Widget widget = WidgetFactory.getWidget(type, name);
-        if (widget != null)
-        {
+        if (widget != null) {
             widget.setField(use);
             stack.push(widget);
-            if (log.isTraceEnabled())
-            {
+            this.lastField = name;
+            if (log.isTraceEnabled()) {
                 log.trace("Adding widget "+name+" of type "+type);
             }
-        }
-        else
-        {
-            if (log.isWarnEnabled())
-            {
+        } else {
+            if (log.isWarnEnabled()) {
                 log.warn("Skipping widget "+name+" since type "+
                            type+" is not available");
             }
+            this.lastField = null;
         }
     }
 
@@ -397,7 +476,7 @@ public class ApplicationPartHandler extends DefaultHandler
     {
         if (processText || (processPosition || processSize) || 
             processValue || (processUnknown && currentqName!=null) ||
-            processRule || processListener)
+            processRule || processListener || processingTranslation)
         {
             if (currentValue == null)
             {

@@ -4,15 +4,19 @@
     to defaultType.
 -->
 <guidefaults defaultType="swing">
-  <parentWidgetHandler type="swing" class="org.xulux.nyx.swing.util.SwingParentWidgetHandler"/>
+  <parentWidgetHandler class="org.xulux.nyx.swing.util.SwingParentWidgetHandler"/>
+  <nativeWidgetHandler class="org.xulux.nyx.swing.util.NativeWidgetHandler"/>
   <widgets>
     <widget name="button" class="org.xulux.nyx.swing.widgets.Button"/>
-    <widget name="combo" type="swing" class="org.xulux.nyx.swing.widgets.Combo"/>
+    <widget name="combo"  class="org.xulux.nyx.swing.widgets.Combo"/>
     <widget name="combo" type="swt" class="org.xulux.nyx.swt.widgets.SWTCombo"/>
     <widget name="entry" class="org.xulux.nyx.swing.widgets.Entry"/>
+    <widget name="checkbox" class="org.xulux.nyx.swing.widgets.CheckBox"/>
     <widget name="label" class="org.xulux.nyx.swing.widgets.Label"/>
     <widget name="panel" class="org.xulux.nyx.swing.widgets.Panel"/>
-    <widget name="window" type="swing" class="org.xulux.nyx.swing.widgets.Window"/>
+    <widget name="window" class="org.xulux.nyx.swing.widgets.Window"/>
     <widget name="window" type="swt" class="org.xulux.nyx.swt.widgets.Window"/>
+    <widget name="textarea" class="org.xulux.nyx.swing.widgets.TextArea"/>
+    <widget name="table" class="org.xulux.nyx.swing.widgets.Label"/>
   </widgets>
 </guidefaults>

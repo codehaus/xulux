@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.3 2003-06-17 17:27:45 mvdb Exp $
+ $Id: GuiDefaultsTest.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,21 +45,20 @@
  */
 package org.xulux.nyx.guidefaults;
 
-import java.io.InputStream;
 import java.util.HashMap;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.WidgetConfig;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.context.WidgetConfig;
+
 /**
  * Tests processing of guiDefaults.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.3 2003-06-17 17:27:45 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase
 {
@@ -82,14 +81,18 @@ public class GuiDefaultsTest extends TestCase
     public void testGuiDefaults()
     throws Exception
     {
-        GuiDefaultsHandler handler = new GuiDefaultsHandler();
-        InputStream stream = this.getClass().getClassLoader().getResourceAsStream(ApplicationContext.GUIDEFAULTS_XML);
-        handler.read(stream);
+        System.out.println("testGuiDefaults");
         HashMap map = ApplicationContext.getInstance().getWidgets();
         WidgetConfig config = (WidgetConfig)map.get("combo");
         assertNotNull(config);
         assertEquals(Class.forName("org.xulux.nyx.swing.widgets.Combo"),config.get("swing"));
         assertEquals(Class.forName("org.xulux.nyx.swt.widgets.SWTCombo"),config.get("swt"));
+        assertEquals("swing",ApplicationContext.getInstance().getDefaultWidgetType());
+        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
+        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler());
+        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler("swing"));
+        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler());
+        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler("swing"));
     }
 
 }

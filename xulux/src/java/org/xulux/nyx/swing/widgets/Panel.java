@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
+ $Id: Panel.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,6 +51,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 
 import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.Widget;
@@ -60,7 +61,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
+ * @version $Id: Panel.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -130,6 +131,12 @@ public class Panel extends ContainerWidget
             if (border.equalsIgnoreCase("bevel"))
             {
                 panel.setBorder(new BevelBorder(BevelBorder.RAISED));
+            }else if (border.equalsIgnoreCase("titled")) {
+                String borderTitle = getProperty("border-title");
+                if (borderTitle == null) {
+                    borderTitle = "";
+                }
+                panel.setBorder(new TitledBorder(borderTitle));
             }
         }
     }

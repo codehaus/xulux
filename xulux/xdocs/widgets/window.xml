@@ -116,7 +116,14 @@
           seperator
         </td>
       </tr>
-      
+      <tr>
+        <td>autosize</td>
+        <td>all</td>
+        <td>
+          Specify true or false. If this is false,
+          it will not autosize the window
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>

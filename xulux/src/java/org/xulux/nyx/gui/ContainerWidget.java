@@ -8,7 +8,7 @@ import java.util.Iterator;
  * It makes overriding a bit easier.
  * 
  * @author Martin van den Bemt
- * @version $Id: ContainerWidget.java,v 1.2 2003-01-27 00:35:51 mvdb Exp $
+ * @version $Id: ContainerWidget.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
  */
 public abstract class ContainerWidget extends Widget
 {
@@ -32,10 +32,11 @@ public abstract class ContainerWidget extends Widget
         {
             widgets = new ArrayList();
         }
-        widgets.add(widget);
-        widget.setRootWidget(false);
+        if (widget != null) {
+            widgets.add(widget);
+            widget.setRootWidget(false);
+        }
     }
-    
 
     /**
      * @see org.xulux.nyx.gui.Widget#canBeRootWidget()
@@ -63,11 +64,13 @@ public abstract class ContainerWidget extends Widget
     public void initializeChildren()
     {
         ArrayList widgets = getChildWidgets();
+        if (widgets == null) {
+            return;
+        }
         Iterator iterator = widgets.iterator();
         while (iterator.hasNext())
         {
             Widget widget = (Widget)iterator.next();
-            System.out.println("Widget "+widget.getName()+" isInitializes already ? "+widget.initialized);
             addToParent(widget);
         }
         

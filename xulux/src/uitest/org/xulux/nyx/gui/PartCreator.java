@@ -1,5 +1,5 @@
 /*
- $Id: PartCreator.java,v 1.5 2003-05-21 10:07:17 mvdb Exp $
+ $Id: PartCreator.java,v 1.6 2003-07-10 22:40:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.context.ApplicationPartHandler;
  * Creates a gui representation of a part
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartCreator.java,v 1.5 2003-05-21 10:07:17 mvdb Exp $
+ * @version $Id: PartCreator.java,v 1.6 2003-07-10 22:40:21 mvdb Exp $
  */
 public class PartCreator
 {
@@ -81,6 +81,11 @@ public class PartCreator
         // first initialize the dictionary (not really necessary though)
     }
     
+    /**
+     * @deprecated not used anymore (we support windows ourselves now..)
+     * , just convenience that I'll leave it here.
+     * @param part
+     */
     public static void addToFrame(ApplicationPart part)
     {
         JFrame frame = new JFrame("TEST");

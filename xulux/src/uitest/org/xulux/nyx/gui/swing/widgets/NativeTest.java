@@ -1,7 +1,7 @@
 /*
- $Id: PersonBean.java,v 1.2 2003-05-21 10:07:17 mvdb Exp $
+ $Id: NativeTest.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,43 +43,62 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.gui.swing.widgets;
+
+import java.io.InputStream;
+
+import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.gui.PartCreator;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
- * A bean to test the gui functionality
+ * This test the ability to add native swing widgets
+ * on top of nyx.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PersonBean.java,v 1.2 2003-05-21 10:07:17 mvdb Exp $
+ * @version $Id: NativeTest.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
  */
-public class PersonBean
-{
+public class NativeTest extends TestCase {
 
-    private String firstName;
-    private String lastName;
-
-    public PersonBean(String firstName, String lastName)
-    {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public String getFirstName()
-    {
-        return this.firstName;
-    }
-
-    public String getLastName()
-    {
-        return this.lastName;
-    }
-
-    public String getFullName()
-    {
-        return this.firstName + " " + this.lastName;
+    /**
+     * 
+     */
+    public NativeTest(String name) {
+        super(name);
     }
     
-    public String toString()
+    public static Test suite()
     {
-        return getFirstName()+" : "+super.toString();
+        TestSuite suite = new TestSuite(NativeTest.class);
+        return suite;
+    }
+    
+    
+    /** 
+     * Test showing a native widget on top
+     * of a penel defined in nyx xml.
+     *
+     */
+    public void testOnNyxPanel() {
+        PersonBean person = new PersonBean("Martin", "van den Bemt");
+        String xml = "org/xulux/nyx/gui/swing/widgets/NativeWithPanelTest.xml";
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        ApplicationPart part = PartCreator.createPart(person, stream);
+        part.activate();
+    }
+    
+    /**
+     * Test showing a native widget when no 
+     * panel is defined.
+     */
+    public void testWithoutPanel() {
+    }
+
+
+    public static void main(String[] args) {
+        new NativeTest("nativeTest").testOnNyxPanel();
     }
 }

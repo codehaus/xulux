@@ -1,5 +1,5 @@
 /*
- $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ $Id: WindowTest.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,43 +43,62 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.util;
+package org.xulux.nyx.gui.swing.widgets;
 
-import java.awt.Component;
-import java.awt.Container;
+import java.io.InputStream;
 
-import org.xulux.nyx.gui.IParentWidgetHandler;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.gui.PartCreator;
+import org.xulux.nyx.gui.Widget;
 
 /**
- * Destroys/Initializes all components created by nyx.
- * This is only used in scenarios where nyx is used
- * on top of an already existing application
+ * Testcase for an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingParentWidgetHandler.java,v 1.3 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: WindowTest.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
  */
-public class SwingParentWidgetHandler implements IParentWidgetHandler {
+public class WindowTest extends TestCase
+{
 
     /**
-     * 
+     * Constructor for EntryTest.
      */
-    public SwingParentWidgetHandler() {
+    public WindowTest(String name)
+    {
+        super(name);
     }
-
-    /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#initialize(java.lang.Object)
-     */
-    public void initialize(Object parent) {
-
+    public static Test suite()
+    {
+        TestSuite suite = new TestSuite(WindowTest.class);
+        return suite;
     }
-
-    /**
-     * @see org.xulux.nyx.gui.ParentWidgetHandler#destroy(java.lang.Object)
-     */
-    public void destroy(Object parent) {
-        Container container = ((Component)parent).getParent();
-        container.removeAll();
-        container.remove((Component)parent);
+    
+    public void testSimpleWindow()
+    {
+        String xml = "org/xulux/nyx/gui/swing/widgets/WindowTest1.xml";
+//        ((SimpleLog)LogFactory.getLog(NyxWindowListener.class)).setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        ApplicationPart part = PartCreator.createPart(null, stream);
+        part.activate();
+        Widget widget = part.getWidget("WindowTest1");
+        widget.setVisible(true);
+    }
+    
+    public static void main(String args[])
+    {
+        try
+        {
+            new WindowTest("WindowTest").testSimpleWindow();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace(System.err);
+            System.exit(0);
+        }
     }
 
 }

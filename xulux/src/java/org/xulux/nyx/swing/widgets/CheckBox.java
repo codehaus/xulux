@@ -1,7 +1,7 @@
 /*
- $Id: ComboTest.java,v 1.4 2003-06-17 13:48:50 mvdb Exp $
+ $Id: CheckBox.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,73 +43,85 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.swing.widgets;
 
-import java.io.InputStream;
+import java.awt.Container;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import javax.swing.JCheckBox;
 
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
+import org.apache.commons.lang.BooleanUtils;
+import org.xulux.nyx.gui.Widget;
 
 /**
+ * The nyx to swing implementation of a checkbox
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboTest.java,v 1.4 2003-06-17 13:48:50 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
  */
-public class ComboTest extends TestCase
-{
-
+public class CheckBox extends Widget {
+    
+    private JCheckBox checkBox;
     /**
-     * Constructor for ComboTest.
+     * @param name
      */
-    public ComboTest(String name)
-    {
+    public CheckBox(String name) {
         super(name);
     }
-    
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite(ComboTest.class);
-        return suite;
-    }
-    
-    public void testSimpleComboSwing()
-    {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-        part.activate();
-    }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-        part.activate();
-    }
-    
-    public static void main(String args[])
-    {
-        try
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#destroy()
+     */
+    public void destroy() {
+        if (checkBox != null)
         {
-            new ComboTest("ComboTest").testSimpleComboSwing();
+            Container container = checkBox.getParent();
+            checkBox.setVisible(false);
+            if (container != null)
+            {
+                container.remove(checkBox);
+            }
+            checkBox = null;
         }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
+        removeAllRules();
+        getPart().removeWidget(this,this);
     }
-    
-    
-    
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
+     */
+    public Object getNativeWidget() {
+        initialize();
+        return checkBox;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#initialize()
+     */
+    public void initialize() {
+        if (this.initialized)
+        {
+            return;
+        }
+        this.initialized = true;
+        this.checkBox = new JCheckBox();
+        refresh();
+
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#refresh()
+     */
+    public void refresh() {
+        initialize();
+        checkBox.setSelected(BooleanUtils.toBoolean((String)getValue()));
+        checkBox.repaint();
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#focus()
+     */
+    public void focus() {
+        checkBox.requestFocus();
+    }
 
 }
