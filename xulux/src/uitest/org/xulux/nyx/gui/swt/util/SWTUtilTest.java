@@ -1,7 +1,7 @@
 /*
- $Id: SWTUtilTest.java,v 1.1 2003-01-08 02:37:08 mvdb Exp $
+ $Id: SWTUtilTest.java,v 1.2 2003-05-21 10:07:18 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -45,19 +45,19 @@
  */
 package org.xulux.nyx.gui.swt.util;
 
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
-import org.xulux.nyx.gui.utils.ColorUtils;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.xulux.nyx.gui.utils.ColorUtils;
 
 /**
  * Tests for the swt util class.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTUtilTest.java,v 1.1 2003-01-08 02:37:08 mvdb Exp $
+ * @version $Id: SWTUtilTest.java,v 1.2 2003-05-21 10:07:18 mvdb Exp $
  */
 public class SWTUtilTest extends TestCase
 {

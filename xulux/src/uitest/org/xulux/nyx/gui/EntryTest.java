@@ -1,7 +1,7 @@
 /*
- $Id: EntryTest.java,v 1.1 2002-12-02 21:50:03 mvdb Exp $
+ $Id: EntryTest.java,v 1.2 2003-05-21 10:07:17 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -56,8 +56,8 @@ import org.xulux.nyx.context.ApplicationPart;
 /**
  * Testcase for an entry field
  * 
- * @author Martin van den Bemt
- * @version $Id: EntryTest.java,v 1.1 2002-12-02 21:50:03 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: EntryTest.java,v 1.2 2003-05-21 10:07:17 mvdb Exp $
  */
 public class EntryTest extends TestCase
 {

@@ -1,5 +1,5 @@
 /*
- $Id: WindowTest.java,v 1.2 2003-01-26 18:28:51 mvdb Exp $
+ $Id: WindowTest.java,v 1.3 2003-05-21 10:07:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,20 +51,15 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.impl.SimpleLog;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.gui.PartCreator;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.listeners.swing.NyxWindowListener;
-
-import sun.awt.AppContext;
 
 /**
  * Testcase for an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowTest.java,v 1.2 2003-01-26 18:28:51 mvdb Exp $
+ * @version $Id: WindowTest.java,v 1.3 2003-05-21 10:07:18 mvdb Exp $
  */
 public class WindowTest extends TestCase
 {
