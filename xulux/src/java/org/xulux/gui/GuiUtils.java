@@ -1,5 +1,5 @@
 /*
- $Id: GuiUtils.java,v 1.4 2003-12-29 14:52:12 mvdb Exp $
+ $Id: GuiUtils.java,v 1.5 2003-12-30 15:44:38 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * Like firing rules when the cancel button is pressed or the window is closed.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtils.java,v 1.4 2003-12-29 14:52:12 mvdb Exp $
+ * @version $Id: GuiUtils.java,v 1.5 2003-12-30 15:44:38 mvdb Exp $
  */
 public class GuiUtils {
 
@@ -110,7 +110,7 @@ public class GuiUtils {
                 }
             } 
         }
-        if (caller.canBeRootWidget()) {
+        if (parent.canBeRootWidget()) {
             if (ApplicationContext.isPartApplication(caller.getPart())) {
                 ApplicationContext.exitApplication();
             }
