@@ -1,7 +1,7 @@
 /*
- $Id: NyxComboBox.java,v 1.2 2002-12-03 19:05:15 mvdb Exp $
+ $Id: NyxComboBox.java,v 1.3 2003-05-21 11:22:52 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -51,13 +51,13 @@ import javax.swing.JComboBox;
 /**
  * This overrides the default JComboBox.
  * The problem it solves is that when setting
- * a new model in the Combo class, it would fire
+ * a new model in the NyxCombo class, it would fire
  * an action event, which would trigger another
  * firing of all pre requests (and possibly nulling values!)
  * This prevents that situation.
  * 
  * @author Martin van den Bemt
- * @version $Id: NyxComboBox.java,v 1.2 2002-12-03 19:05:15 mvdb Exp $
+ * @version $Id: NyxComboBox.java,v 1.3 2003-05-21 11:22:52 mvdb Exp $
  */
 public class NyxComboBox extends JComboBox
 {

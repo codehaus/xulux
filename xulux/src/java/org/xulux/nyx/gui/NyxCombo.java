@@ -1,7 +1,7 @@
 /*
- $Id: Combo.java,v 1.26 2003-01-08 02:37:07 mvdb Exp $
+ $Id: NyxCombo.java,v 1.1 2003-05-21 11:22:52 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -50,10 +50,10 @@ import java.util.ArrayList;
 /**
  * The combo abstract. This will contain the combo generics
  * 
- * @author Martin van den Bemt
- * @version $Id: Combo.java,v 1.26 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: NyxCombo.java,v 1.1 2003-05-21 11:22:52 mvdb Exp $
  */
-public abstract class Combo extends Widget
+public abstract class NyxCombo extends Widget
 {
     
     protected ArrayList content;
@@ -62,10 +62,10 @@ public abstract class Combo extends Widget
     protected boolean notSelectedValueSet;
 
     /**
-     * Constructor for Combo.
+     * Constructor for NyxCombo.
      * @param name
      */
-    public Combo(String name)
+    public NyxCombo(String name)
     {
         super(name);
     }

@@ -1,7 +1,7 @@
 /*
- $Id: ComboContent.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ $Id: ComboContent.java,v 1.2 2003-05-21 11:22:52 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -47,7 +47,7 @@ package org.xulux.nyx.gui.utils;
 
 import java.util.ArrayList;
 
-import org.xulux.nyx.gui.Combo;
+import org.xulux.nyx.gui.NyxCombo;
 
 /**
  * Creates the content needed for the combo box.
@@ -55,17 +55,17 @@ import org.xulux.nyx.gui.Combo;
  * creating combo data.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboContent.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ * @version $Id: ComboContent.java,v 1.2 2003-05-21 11:22:52 mvdb Exp $
  */
 public class ComboContent
 {
 
-    public static String[] getStringArray(ArrayList content, String comboFields, Combo combo)
+    public static String[] getStringArray(ArrayList content, String comboFields, NyxCombo combo)
     {
         return null;
     }
     
-    public static ArrayList getArrayList(ArrayList content, String comboFields, Combo combo)
+    public static ArrayList getArrayList(ArrayList content, String comboFields, NyxCombo combo)
     {
         return null;
     }

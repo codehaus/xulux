@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.4 2003-01-26 18:28:51 mvdb Exp $
+ $Id: NyxWindow.java,v 1.1 2003-05-21 11:22:52 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,9 +49,9 @@ package org.xulux.nyx.gui;
 /**
  * 
  * @author <a href=:mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.4 2003-01-26 18:28:51 mvdb Exp $
+ * @version $Id: NyxWindow.java,v 1.1 2003-05-21 11:22:52 mvdb Exp $
  */
-public abstract class Window extends ContainerWidget
+public abstract class NyxWindow extends ContainerWidget
 {
     
     /**
@@ -59,7 +59,7 @@ public abstract class Window extends ContainerWidget
      * since you can get a lookup window from a field
      * @param field
      */
-    public Window(String field)
+    public NyxWindow(String field)
     {
         super(field);
     }

@@ -1,7 +1,7 @@
 /*
- $Id: Combo.java,v 1.2 2003-05-06 12:39:19 mvdb Exp $
+ $Id: Combo.java,v 1.3 2003-05-21 11:22:52 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -59,9 +59,9 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.2 2003-05-06 12:39:19 mvdb Exp $
+ * @version $Id: Combo.java,v 1.3 2003-05-21 11:22:52 mvdb Exp $
  */
-public class Combo extends org.xulux.nyx.gui.Combo
+public class Combo extends org.xulux.nyx.gui.NyxCombo
 {
     private NyxComboBox combo;
     private KeyListener keyListener;
@@ -69,7 +69,7 @@ public class Combo extends org.xulux.nyx.gui.Combo
     private PrePostFieldListener actionListener;
 
     /**
-     * Constructor for Combo.
+     * Constructor for NyxCombo.
      */
     public Combo(String field)
     {
