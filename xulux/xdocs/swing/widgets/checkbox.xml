@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Swing - Widgets - CheckBox</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The Swing Checkbox Widget">
+  <subsection name="General">
+    <p>
+      This page explains the swing specfic things that were
+      done to make the checkbox work ok.
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      Description
+    </p>
+    <table>
+      <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
+      <tr>
+        <td>xxx</td>
+        <td>swing</td>
+        <td>xxx</td>
+      </tr>
+    </table>
+  </subsection>
+</section>
+
+</body>
+
+</document>
