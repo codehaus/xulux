@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.7 2003-07-23 10:53:21 mvdb Exp $
+ $Id: Label.java,v 1.8 2003-07-23 11:33:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,12 +50,13 @@ import java.awt.Container;
 
 import javax.swing.JLabel;
 
+import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.SwingWidget;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.7 2003-07-23 10:53:21 mvdb Exp $
+ * @version $Id: Label.java,v 1.8 2003-07-23 11:33:57 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -125,6 +126,7 @@ public class Label extends SwingWidget
             label.setText("");
         }
         String ha = getProperty("horizontalalignment");
+        // we use the swing default..
         if (ha != null) {
             if (ha.equalsIgnoreCase("left"))
             {
@@ -138,9 +140,15 @@ public class Label extends SwingWidget
             {
                 label.setHorizontalAlignment(JLabel.RIGHT);
             }
+        }
+        String color = null;
+        if (isEnabled()) {
+            color = getProperty("foreground-color-enabled");
         } else {
-            // default to right align
-            label.setHorizontalAlignment(JLabel.RIGHT);
+            color = getProperty("foreground-color-disabled");
+        }
+        if (color != null) {
+            label.setForeground(ColorUtils.getSwingColor(color));
         }
         label.repaint();
     }

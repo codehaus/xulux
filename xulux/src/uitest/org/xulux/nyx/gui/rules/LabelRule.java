@@ -1,5 +1,5 @@
 /*
- $Id: LabelRule.java,v 1.1 2003-07-23 10:53:21 mvdb Exp $
+ $Id: LabelRule.java,v 1.2 2003-07-23 11:33:57 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LabelRule.java,v 1.1 2003-07-23 10:53:21 mvdb Exp $
+ * @version $Id: LabelRule.java,v 1.2 2003-07-23 11:33:57 mvdb Exp $
  */
 public class LabelRule extends Rule {
 
@@ -76,6 +76,8 @@ public class LabelRule extends Rule {
     public void post(PartRequest request) {
         if (request.getWidget().equals("button")) {
             processButton(request);
+        } else if (request.getWidget().equals("switch")) {
+            processSwitch(request);
         }
     }
     
@@ -92,7 +94,17 @@ public class LabelRule extends Rule {
         var.setValue(value);
         System.out.println("Previous : "+var.getPreviousValue());
         System.out.println("Value :"+var.getValue());
-        
+    }
+    
+    public void processSwitch(PartRequest request) {
+        Widget button = request.getWidget();
+        Widget fixedLabel = request.getPart().getWidget("Label:Fixed");
+        fixedLabel.setEnable(!fixedLabel.isEnabled());
+        if (fixedLabel.isEnabled()) {
+            button.setProperty("text","Disable");
+        } else {
+            button.setProperty("text","Enable");
+        }
     }
 
 }
