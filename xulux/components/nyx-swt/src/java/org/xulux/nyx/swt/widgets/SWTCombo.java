@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.4 2003-06-17 12:47:19 mvdb Exp $
+ $Id: SWTCombo.java,v 1.1 2003-06-17 13:55:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,14 +43,17 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swt;
+package org.xulux.nyx.swt.widgets;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.utils.ComboContent;
+import org.xulux.nyx.swt.SWTWidget;
 import org.xulux.nyx.swt.listeners.ImmidiateListener;
 import org.xulux.nyx.swt.listeners.PrePostFieldListener;
 import org.xulux.nyx.swt.util.SWTUtil;
@@ -60,13 +63,13 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * Represents the swt combo and cCombo.
  * 
  * @author <a href="mailo:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.4 2003-06-17 12:47:19 mvdb Exp $
+ * @version $Id: SWTCombo.java,v 1.1 2003-06-17 13:55:15 mvdb Exp $
  */
-public class Combo extends org.xulux.nyx.gui.NyxCombo
+public class SWTCombo extends NyxCombo
 implements SWTWidget
 {
     
-    org.eclipse.swt.widgets.Combo combo;
+    Combo combo;
     KeyListener keyListener;
     SelectionListener selectionListener;
     Composite parent;
@@ -75,7 +78,7 @@ implements SWTWidget
      * Constructor for NyxCombo.
      * @param name
      */
-    public Combo(String name)
+    public SWTCombo(String name)
     {
         super(name);
     }
@@ -118,7 +121,7 @@ implements SWTWidget
         {
             this.notSelectedValue = nsv;
         }
-        combo = new org.eclipse.swt.widgets.Combo(parent, SWT.DROP_DOWN);
+        combo = new Combo(parent, SWT.DROP_DOWN);
         combo.setBounds(SWTUtil.getRectangle(getRectangle()));
         if (!isRefreshing())
         {

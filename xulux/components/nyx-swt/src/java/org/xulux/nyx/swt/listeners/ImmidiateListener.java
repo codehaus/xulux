@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.1 2003-06-17 12:01:33 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.2 2003-06-17 13:55:15 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,21 +47,21 @@ package org.xulux.nyx.swt.listeners;
 
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.xulux.nyx.swt.Combo;
+import org.xulux.nyx.swt.widgets.SWTCombo;
 
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: ImmidiateListener.java,v 1.1 2003-06-17 12:01:33 mvdb Exp $
+ * @version $Id: ImmidiateListener.java,v 1.2 2003-06-17 13:55:15 mvdb Exp $
  */
 public class ImmidiateListener implements KeyListener
 {
-    Combo combo;
+    SWTCombo combo;
 
     /**
      * Constructor for ImmidiateListener.
      */
-    public ImmidiateListener(Combo combo)
+    public ImmidiateListener(SWTCombo combo)
     {
         this.combo = combo;
     }

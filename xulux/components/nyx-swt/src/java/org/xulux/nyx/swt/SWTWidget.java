@@ -1,5 +1,5 @@
 /*
- $Id: SWTWidget.java,v 1.1 2003-05-21 11:17:31 mvdb Exp $
+ $Id: SWTWidget.java,v 1.2 2003-06-17 13:55:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,9 +53,9 @@ import org.eclipse.swt.widgets.Composite;
  * wants to add the client to the parent..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTWidget.java,v 1.1 2003-05-21 11:17:31 mvdb Exp $
+ * @version $Id: SWTWidget.java,v 1.2 2003-06-17 13:55:15 mvdb Exp $
  */
-interface SWTWidget 
+public interface SWTWidget 
 {
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.2 2003-05-21 11:27:46 mvdb Exp $
+ $Id: Window.java,v 1.1 2003-06-17 13:55:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,7 +43,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swt;
+package org.xulux.nyx.swt.widgets;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -51,13 +51,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swt.SWTWidget;
 import org.xulux.nyx.swt.util.SWTUtil;
 
 /**
  * The SWT window
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.2 2003-05-21 11:27:46 mvdb Exp $
+ * @version $Id: Window.java,v 1.1 2003-06-17 13:55:15 mvdb Exp $
  */
 public class Window extends org.xulux.nyx.gui.NyxWindow
 implements SWTWidget
