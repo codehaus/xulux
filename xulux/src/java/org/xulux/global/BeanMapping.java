@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.1 2003-12-18 00:17:20 mvdb Exp $
+ $Id: BeanMapping.java,v 1.2 2003-12-23 01:22:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -62,7 +62,7 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.1 2003-12-18 00:17:20 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.2 2003-12-23 01:22:19 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -339,6 +339,17 @@ public class BeanMapping
             name = field;
         }
         int index = fields.indexOf(name);
+        if (index == -1) {
+            name = name+"."+realField;
+            dotIndex = name.lastIndexOf(".");
+            if (dotIndex != -1) {
+                String field = name.substring(0, dotIndex);
+                realField = name.substring(dotIndex + 1);
+                name = field;
+            } 
+            // try a last indexOf to see if other conventions can work
+            index = fields.indexOf(name);
+        }
         if (index != -1)
         {
             BeanField bf =  (BeanField) fields.get(index);
