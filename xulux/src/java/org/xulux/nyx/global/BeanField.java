@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.24 2003-08-20 01:12:37 mvdb Exp $
+ $Id: BeanField.java,v 1.25 2003-08-25 09:40:48 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.24 2003-08-20 01:12:37 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.25 2003-08-25 09:40:48 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -372,7 +372,11 @@ public class BeanField implements IField
             // TODO : Add test for this scenario!
             if (parmSize == 0 && clzSize == 1) {
                 if (clz[0] == String.class) {
-                    return new Object[] { value.toString() };
+                    if (value == null) {
+                        return new Object[] { value };
+                    } else {
+                        return new Object[] { value.toString() };
+                    }
                 } else {
                     IConverter converter = Dictionary.getConverter(clz[0]);
                     if (converter != null) {
