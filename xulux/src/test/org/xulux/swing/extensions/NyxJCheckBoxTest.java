@@ -1,5 +1,5 @@
 /*
-   $Id: NyxJCheckBoxTest.java,v 1.2 2004-01-28 15:22:08 mvdb Exp $
+   $Id: NyxJCheckBoxTest.java,v 1.3 2004-04-27 11:01:36 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
  * Test the NyxJCheckBox where possible
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJCheckBoxTest.java,v 1.2 2004-01-28 15:22:08 mvdb Exp $
+ * @version $Id: NyxJCheckBoxTest.java,v 1.3 2004-04-27 11:01:36 mvdb Exp $
  */
 public class NyxJCheckBoxTest extends TestCase {
 
@@ -98,6 +98,7 @@ public class NyxJCheckBoxTest extends TestCase {
         assertEquals(NyxJCheckBox.IconStub.class, check.getIcon().getClass());
         assertEquals(NyxJCheckBox.IconStub.class, check.getSelectedIcon().getClass());
     }
+
     /**
      * A test icon stub, so we can assert on what happens.
      */

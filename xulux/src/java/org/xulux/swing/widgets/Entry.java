@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.8 2004-04-22 12:59:02 mvdb Exp $
+   $Id: Entry.java,v 1.9 2004-04-27 11:01:36 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,6 +31,7 @@ import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IDataProvider;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
+import org.xulux.dataprovider.InvalidValueException;
 import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.utils.ColorUtils;
@@ -43,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.8 2004-04-22 12:59:02 mvdb Exp $
+ * @version $Id: Entry.java,v 1.9 2004-04-27 11:01:36 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -403,7 +404,12 @@ public class Entry extends SwingWidget {
             System.err.println("This.value : " + this.value.getClass());
             mapping = pr.getMapping(this.value);
             field = mapping.getField(this.value);
-            field.setValue(this.value, object);
+            try {
+              field.setValue(this.value, object);
+              setValidValue(true);
+            } catch(InvalidValueException ive) {
+              setValidValue(false);
+            }
           }
         } else if (getField() == null) {
             if (object != null) {

@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.12 2004-04-22 12:59:03 mvdb Exp $
+   $Id: Widget.java,v 1.13 2004-04-27 11:01:36 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -41,7 +41,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.12 2004-04-22 12:59:03 mvdb Exp $
+ * @version $Id: Widget.java,v 1.13 2004-04-27 11:01:36 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -914,6 +914,9 @@ public abstract class Widget implements Serializable
      * @param validValue
      */
     public void setValidValue(boolean validValue) {
+        if (!validValue) {
+          System.err.println("An invalid value was set, we should do something about that!");
+        }
         this.validValue = validValue;
     }
 

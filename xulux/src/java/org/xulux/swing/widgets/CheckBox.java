@@ -1,5 +1,5 @@
 /*
-   $Id: CheckBox.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
+   $Id: CheckBox.java,v 1.7 2004-04-27 11:01:36 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.utils.BooleanUtils;
  * The nyx to swing implementation of a checkbox
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.7 2004-04-27 11:01:36 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
 
@@ -70,6 +70,7 @@ public class CheckBox extends SwingWidget {
             }
             if (itemListener != null) {
                 checkBox.removeItemListener(itemListener);
+                checkBox.removeFocusListener(itemListener);
             }
             itemListener = null;
             checkBox = null;
@@ -102,6 +103,7 @@ public class CheckBox extends SwingWidget {
         // we always need to add a itemlistener to change
         // the value..
         checkBox.addItemListener(this.itemListener);
+        checkBox.addFocusListener(this.itemListener);
         refresh();
         processInit();
     }
