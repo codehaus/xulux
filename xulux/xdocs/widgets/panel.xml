@@ -11,7 +11,7 @@
 <section name="The Panel Widget">
   <subsection name="General">
     <p>
-      Explain..
+      Seperate chapter for borders!
     </p>
   </subsection>
   <subsection name="Properties">
@@ -44,6 +44,14 @@
         <td>border-color</td>
         <td>swing</td>
         <td>The color of the border, it defaults to the current forground color.</td>
+      </tr>
+      <tr>
+        <td>border-type</td>
+        <td>swing</td>
+        <td>
+          The type of border.
+          Bevel : Lowered and Raised
+        </td>
       </tr>
       <tr>
         <td>default-background-color</td>

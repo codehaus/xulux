@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.17 2003-09-25 13:30:30 mvdb Exp $
+ $Id: Panel.java,v 1.18 2003-09-25 15:50:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
@@ -67,7 +68,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.17 2003-09-25 13:30:30 mvdb Exp $
+ * @version $Id: Panel.java,v 1.18 2003-09-25 15:50:20 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -116,8 +117,7 @@ public class Panel extends ContainerWidget
      * TODO: Make layouts flexible.
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
-    public void initialize()
-    {
+    public void initialize() {
         if (initialized) {
             return;
         }
@@ -132,9 +132,7 @@ public class Panel extends ContainerWidget
     /**
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
-    public void refresh()
-    {
-        System.out.println("TABID : "+getProperty(TabPanel.TABID));
+    public void refresh() {
         initialize();
         String backgroundColor = getProperty("default-background-color");
 
@@ -155,7 +153,13 @@ public class Panel extends ContainerWidget
             }
             if (border.equalsIgnoreCase("bevel"))
             {
-                panel.setBorder(new BevelBorder(BevelBorder.RAISED));
+                String borderType = getProperty("border-type");
+                // defaults to lowered.
+                int bType = BevelBorder.LOWERED;
+                if (borderType != null && 
+                       borderType.equalsIgnoreCase("raised")) {
+                    bType = BevelBorder.RAISED;
+                }                panel.setBorder(new BevelBorder(bType));
             }else if (border.equalsIgnoreCase("titled")) {
                 String borderTitle = getProperty("border-title");
                 if (borderTitle == null) {
@@ -189,6 +193,10 @@ public class Panel extends ContainerWidget
                     }
                 }
                 panel.setBorder( new LineBorder(color, borderSize));
+            } else if (border.equalsIgnoreCase("etched")) {
+                EtchedBorder etched = new EtchedBorder(EtchedBorder.RAISED);
+                panel.setBorder( etched );
+                
             }
             System.out.println("Start : "+getName());
             System.out.println("Bounds panel: "+panel.getBounds());
@@ -227,8 +235,7 @@ public class Panel extends ContainerWidget
     /**
      * @see org.xulux.nyx.gui.ContainerWidget#addToParent(Widget)
      */
-    public void addToParent(Widget widget)
-    {
+    public void addToParent(Widget widget) {
         panel.add((Component)widget.getNativeWidget(), widget);
     }
 

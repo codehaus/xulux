@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<!-- $Id: PanelTest.xml,v 1.2 2003-09-17 11:49:31 mvdb Exp $ -->
+<!-- $Id: PanelTest.xml,v 1.3 2003-09-25 15:50:21 mvdb Exp $ -->
 <part name="LabelTestForm" prefix="Person">
   <field type="window" name="Window">
     <title>PanelTest</title>
     <icon>resources/Car.ico</icon>
-    <size>320,200</size>
+    <size>320,400</size>
     <field type="panel" name="Panel:1">
      <position>10,0</position>
      <size>121,21</size>
@@ -44,6 +44,34 @@
      <border-size>4</border-size>
      <field type="label" name="Label:4">
        <text>Line Border Panel</text>
+       <size>120,21</size>
+	  </field>
+    </field>
+    <field type="panel" name="Panel:5">
+     <position>10,92</position>
+     <size>125,26</size>
+     <border>etched</border>
+     <field type="label" name="Label:5">
+       <text>Etched Border Panel</text>
+       <size>120,21</size>
+	  </field>
+    </field>
+    <field type="panel" name="Panel:6">
+     <position>10,118</position>
+     <size>150,26</size>
+     <border>bevel</border>
+     <field type="label" name="Label:6">
+       <text>Bevel Border Panel Lowered</text>
+       <size>120,21</size>
+	  </field>
+    </field>
+    <field type="panel" name="Panel:7">
+     <position>10,144</position>
+     <size>150,26</size>
+     <border>bevel</border>
+     <border-type>raised</border-type>
+     <field type="label" name="Label:7">
+       <text>Bevel Border Panel Raised</text>
        <size>120,21</size>
 	  </field>
     </field>
