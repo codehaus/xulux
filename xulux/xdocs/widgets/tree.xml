@@ -69,6 +69,28 @@
           true or false. Defaults to true.
         </td>
       </tr>
+      <tr>
+        <td>treefield</td>
+        <td>swing</td>
+        <td>
+          Specify if you want to use a treefield or not. The attributes you can are treefield.class and
+          treefield.use. This allows for showing different content in the tree than just the toString version.
+        </td>
+      </tr>
+      <tr>
+        <td>treefield.class</td>
+        <td>swing</td>
+        <td>
+          Specifiy the class that the treefield must map to. 
+        </td>
+      </tr>
+      <tr>
+        <td>treefield.use</td>
+        <td>swing</td>
+        <td>
+          The field on the specified class that must be used.
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>
