@@ -1,5 +1,5 @@
 /*
- $Id: NyxJComboBox.java,v 1.1 2003-11-24 16:11:47 mvdb Exp $
+ $Id: NyxJComboBox.java,v 1.2 2003-11-27 19:39:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -62,21 +62,19 @@ import org.xulux.nyx.gui.NyxListener;
  * This prevents that situation.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJComboBox.java,v 1.1 2003-11-24 16:11:47 mvdb Exp $
+ * @version $Id: NyxJComboBox.java,v 1.2 2003-11-27 19:39:19 mvdb Exp $
  */
-public class NyxJComboBox extends JComboBox
-{
+public class NyxJComboBox extends JComboBox {
 
     /**
      * is a new model set or not ?
      */
-    private static boolean newModelIsSet = false;
+    private boolean newModelIsSet = false;
 
     /**
      * Constructor for NyxComboBox.
      */
-    public NyxJComboBox()
-    {
+    public NyxJComboBox() {
         super();
     }
 
@@ -85,8 +83,7 @@ public class NyxJComboBox extends JComboBox
      * and no action events should be fired
      * @param model - the model
      */
-    public void setModel(ComboBoxModel model)
-    {
+    public void setModel(ComboBoxModel model) {
         newModelIsSet = true;
         super.setModel(model);
         newModelIsSet = false;
@@ -96,10 +93,8 @@ public class NyxJComboBox extends JComboBox
      * setting a new model
      * @param object - the selectedItem
      */
-    public void setSelectedItem(Object object)
-    {
-        if (!newModelIsSet)
-        {
+    public void setSelectedItem(Object object) {
+        if (!newModelIsSet) {
             super.setSelectedItem(object);
         }
     }
@@ -129,9 +124,17 @@ public class NyxJComboBox extends JComboBox
             int childCount = getComponentCount();
             for (int i = 0; i < childCount; i++) {
                 Component comp = getComponent(i);
-                comp.addFocusListener(l);
+                comp.removeFocusListener(l);
             }
         }
         super.removeFocusListener(l);
     }
+
+    /**
+     * @return if the new model is set
+     */
+    public boolean isNewModelIsSet() {
+        return newModelIsSet;
+    }
+
 }

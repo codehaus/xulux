@@ -1,5 +1,5 @@
 /*
- $Id: NyxJCheckBox.java,v 1.1 2003-11-24 16:11:47 mvdb Exp $
+ $Id: NyxJCheckBox.java,v 1.2 2003-11-27 19:39:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -60,7 +60,7 @@ import javax.swing.JCheckBox;
  * color.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJCheckBox.java,v 1.1 2003-11-24 16:11:47 mvdb Exp $
+ * @version $Id: NyxJCheckBox.java,v 1.2 2003-11-27 19:39:19 mvdb Exp $
  */
 public class NyxJCheckBox extends JCheckBox {
 
@@ -136,6 +136,9 @@ public class NyxJCheckBox extends JCheckBox {
          * @see javax.swing.Icon#getIconHeight()
          */
         public int getIconHeight() {
+            if (icon == null) {
+                return 0;
+            }
             return icon.getIconHeight();
         }
 
@@ -143,6 +146,9 @@ public class NyxJCheckBox extends JCheckBox {
          * @see javax.swing.Icon#getIconWidth()
          */
         public int getIconWidth() {
+            if (icon == null) {
+                return 0;
+            }
             return icon.getIconWidth();
         }
 

@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.28 2003-11-27 01:09:20 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.29 2003-11-27 19:39:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.widgets.Combo;
  * The default combobox model.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.28 2003-11-27 01:09:20 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.29 2003-11-27 19:39:19 mvdb Exp $
  */
 public class DefaultComboModel extends AbstractListModel implements ComboBoxModel {
     /**
@@ -144,7 +144,9 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
      */
     public void setSelectedItem(int index) {
         if (list.size() > 0) {
-            this.selectedItem = (ComboShowable) list.get(index);
+            if (!(index >= list.size())) {
+                this.selectedItem = (ComboShowable) list.get(index);
+            }
         }
     }
 
@@ -166,6 +168,9 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
     }
 
     /**
+     * The comboshowable which is requested by the JCombo
+     * object.
+     *
      * @see javax.swing.ListModel#getElementAt(int)
      */
     public Object getElementAt(int index) {
@@ -179,19 +184,10 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
         Object retValue = null;
         if (original != null && selectedItem != null) {
             retValue = original.get(selectedItem.getIndex());
-        } else if (selectedItem == null && list != null && list.size() > 0) {
-            retValue = list.get(0);
+        } else if (original != null && original.size() > 0) {
+            retValue = original.get(0);
         }
         return retValue;
-    }
-
-    /**
-     * @param index the index to get the object from
-     * @return the object that is present in the combo
-     *          Normally this will be a comboshowable
-     */
-    public Object getComboObject(int index) {
-        return list.get(index);
     }
 
     /**
@@ -231,10 +227,11 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
     /**
      * Initialize the model and the data
      */
-    private void initialize() {
+    protected void initialize() {
         if (field != null && original.size() > 0) {
             int startMappingAt = 0;
             if (original.get(0).equals(combo.getNotSelectedValue())) {
+                System.out.println("StartMapping...");
                 startMappingAt = 1;
             }
             if ((startMappingAt == 1 && original.size() > 1) || startMappingAt == 0) {
@@ -266,6 +263,18 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
             }
         }
         initialized = true;
+    }
+
+    /**
+     * Clean up combomodel (if at all needed)
+     */
+    public void destroy() {
+        this.combo = null;
+        this.list = null;
+        this.mapping = null;
+        this.original = null;
+        this.field = null;
+        this.selectedItem = null;
     }
 
     /**
@@ -307,16 +316,5 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
         public int getIndex() {
             return index;
         }
-    }
-    /**
-     * Clean up combomodel (if at all needed)
-     */
-    public void destroy() {
-        this.combo = null;
-        this.list = null;
-        this.mapping = null;
-        this.original = null;
-        this.field = null;
-        this.selectedItem = null;
     }
 }

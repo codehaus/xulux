@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModelTest.java,v 1.5 2003-11-27 01:00:47 mvdb Exp $
+ $Id: DefaultComboModelTest.java,v 1.6 2003-11-27 19:39:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -51,13 +51,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.swing.widgets.Combo;
 
 /**
  * Tests the swing defaultcombomodel
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModelTest.java,v 1.5 2003-11-27 01:00:47 mvdb Exp $
+ * @version $Id: DefaultComboModelTest.java,v 1.6 2003-11-27 19:39:19 mvdb Exp $
  */
 public class DefaultComboModelTest extends TestCase {
 
@@ -100,11 +101,14 @@ public class DefaultComboModelTest extends TestCase {
      * Test the constructor
      */
     public void testConstructor() {
+        System.out.println("testConstructor");
         combo = new Combo("comboTest");
         DefaultComboModel model = new DefaultComboModel(persons, "firstName", combo);
         assertEquals(3, model.getSize());
         assertEquals(-1, model.getSelectedIndex());
         assertNull(model.getSelectedItem());
+        assertEquals(DefaultComboModel.ComboShowable.class, model.getElementAt(0).getClass());
+        assertEquals(((Person) persons.get(0)).firstName, model.getElementAt(0).toString());
         // set the selecteditem to 0
         model.setSelectedItem(0);
         assertEquals("Martin", model.getSelectedItem().toString());
@@ -113,7 +117,7 @@ public class DefaultComboModelTest extends TestCase {
         model.setSelectedItem(persons.get(1));
         assertEquals(1, model.getSelectedIndex());
         assertEquals(persons.get(1), model.getRealSelectedValue());
-        DefaultComboModel.ComboShowable show = (DefaultComboModel.ComboShowable) model.getComboObject(0);
+        DefaultComboModel.ComboShowable show = (DefaultComboModel.ComboShowable) model.getElementAt(0);
         assertEquals(0, show.getIndex());
         assertEquals("Martin", show.toString());
 
@@ -121,6 +125,67 @@ public class DefaultComboModelTest extends TestCase {
         assertEquals(-1, model.getSelectedIndex());
         assertEquals(0, model.getSize());
         assertNull(model.getSelectedItem());
+
+        // test the default constructor
+        model = new DefaultComboModel();
+        assertEquals(0, model.getSize());
+    }
+
+    /**
+     * Test the getRealSelectedValue method
+     * and the setRealSelectedValue method
+     */
+    public void testGetRealSelectedValue() {
+        System.out.println("testGetRealSelectedValue");
+        DefaultComboModel model = new DefaultComboModel();
+        assertNull(model.getRealSelectedValue());
+        model.setRealSelectedValue(null);
+        assertNull(model.getRealSelectedValue());
+        combo = new Combo("combo");
+        model = new DefaultComboModel(persons, "firstName", combo);
+        assertEquals(persons.get(0), model.getRealSelectedValue());
+        model.setRealSelectedValue(persons.get(2));
+        assertEquals(persons.get(2), model.getRealSelectedValue());
+        model.setRealSelectedValue(null);
+        assertEquals(persons.get(0), model.getRealSelectedValue());
+        Person person = new Person("first", "last", "city");
+        model.setRealSelectedValue(persons.get(1));
+        model.setRealSelectedValue(person);
+        assertEquals(persons.get(0), model.getRealSelectedValue());
+        assertEquals(combo.getValue(), model.getRealSelectedValue());
+    }
+
+    /**
+     * Test the getSelectedIndex method
+     */
+    public void testGetSelectedIndex() {
+        System.out.println("testGetSelectedIndex");
+        DefaultComboModel model = new DefaultComboModel();
+        model.setSelectedItem(100);
+        assertEquals(-1, model.getSelectedIndex());
+        combo = new Combo("combo");
+        model = new DefaultComboModel(persons, "firstName", combo);
+        assertEquals(-1, model.getSelectedIndex());
+        model.setSelectedItem(1);
+        assertEquals(1, model.getSelectedIndex());
+        model.setSelectedItem(1000);
+        assertEquals(1, model.getSelectedIndex());
+    }
+
+    /**
+     * Test the initialization process
+     */
+    public void testInitialize() {
+        System.out.println("testInitialize");
+        combo = new Combo("combo");
+        combo.setPart(new ApplicationPart("testInitialize"));
+        DefaultComboModel model = new DefaultComboModel(persons, null, combo);
+        model.setSelectedItem(persons.get(0));
+        assertEquals(persons.get(0).toString(), model.getSelectedItem().toString());
+        combo.setContent(persons);
+        combo.setNotSelectedValue("notselected");
+        combo.refresh();
+        assertEquals("notselected", model.getRealSelectedValue());
     }
 
     /**
