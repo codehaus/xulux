@@ -1,5 +1,5 @@
 /*
- $Id: LayoutTest.java,v 1.2 2002-10-29 16:26:15 mvdb Exp $
+ $Id: LayoutTest.java,v 1.3 2002-12-23 01:43:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,42 +46,82 @@
 
 package org.xulux.nyx.swing.layouts;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.xulux.nyx.gui.Label;
+
 
 /**
- * A cleass to to test the funcionality of the Formlayout manager.
+ * A class to to test the layoutmanagers for swing
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.2 2002-10-29 16:26:15 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.3 2002-12-23 01:43:44 mvdb Exp $
  */
-public class LayoutTest
+public class LayoutTest extends TestCase
 {
 
     /**
      * Constructor for LayoutTest.
      */
-    public LayoutTest()
+    public LayoutTest(String name)
     {
-        super();
+        super(name);
     }
     
-    public static void main(String[] args)
+    public static Test suite()
     {
-        JFrame frame = new JFrame("Test FormLayout");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new FormLayout());
-        JTextField field1 = new JTextField();
-        String data = new String("12345678901234567890");
-        int width = SwingUtilities.computeStringWidth(frame.getFontMetrics(frame.getFont()),data);
-        field1.setText("Field 1 value");
-        JTextField field2 = new JTextField();
-        field2.setText("field 2 value");
-        frame.getContentPane().add(field1);
-        frame.getContentPane().add(field2);
-        frame.setSize(frame.getContentPane().getPreferredSize());
-        frame.show();
+        TestSuite suite = new TestSuite(LayoutTest.class);
+        return suite;
     }
-
+    
+    /**
+     * This will only test things that are actually being used
+     */
+    public void testXYLayout()
+    {
+        System.out.println("testXYLayout");
+        XYLayout xy = new XYLayout();
+        JPanel panel = new JPanel(xy);
+        Label label1 = new Label("label1");
+        label1.setSize(10,10);
+        label1.setPosition(10,10);
+        Label label2 = new Label("label2");
+        label2.setSize(10,10);
+        label2.setPosition(10,30);
+        JLabel jlabel1 = new JLabel("label1");
+        JLabel jlabel2 = new JLabel("label2");
+        panel.add(jlabel1, label1);
+        panel.add(jlabel2, label2);
+        assertEquals(label1,xy.map.get(jlabel1));
+        assertEquals(label2,xy.map.get(jlabel2));
+        JFrame frame = new JFrame("LayoutTest");
+        frame.getContentPane().add(panel);
+        frame.setSize(100,100);
+        frame.pack();
+        for (int i = 0; i < panel.getComponentCount(); i++)
+        {
+            int y = 10;
+            if (i == 1) y = 30;
+            Component component = panel.getComponent(i);
+            assertEquals(new Dimension(10,10), component.getSize());
+            Rectangle rect = component.getBounds();
+            assertEquals(new Dimension(10,10),rect.getSize());
+            assertEquals(10, (int) rect.getX());
+            assertEquals(y, (int) rect.getY());
+        }
+        assertEquals(jlabel1,panel.getComponentAt(10,10));
+        assertEquals(jlabel2,panel.getComponentAt(10,30));
+        frame.dispose();
+        panel.removeAll();
+        assertTrue(xy.map.isEmpty());
+    }
 }
