@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.13 2003-09-17 11:49:31 mvdb Exp $
+ $Id: Panel.java,v 1.14 2003-09-23 11:20:57 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -66,7 +67,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.13 2003-09-17 11:49:31 mvdb Exp $
+ * @version $Id: Panel.java,v 1.14 2003-09-23 11:20:57 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -117,6 +118,12 @@ public class Panel extends ContainerWidget
      */
     public void initialize()
     {
+        List children = getChildWidgets();
+        if (children != null && children.size() > 0) {
+            for (int i = 0; i < children.size();i++) {
+                ((Widget)children.get(i)).initialize();
+            }
+        } 
         if (initialized)
         {
             return;
