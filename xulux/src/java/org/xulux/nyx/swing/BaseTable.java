@@ -1,5 +1,7 @@
 package org.xulux.nyx.swing;
 
+import java.awt.Window;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 
 /**
@@ -9,9 +11,9 @@ import javax.swing.JTable;
  * gui.
  * 
  * @author Martin van den Bemt
- * @version $Id: BaseTable.java,v 1.1 2002-10-23 00:28:43 mvdb Exp $
+ * @version $Id: BaseTable.java,v 1.2 2002-10-23 22:34:38 mvdb Exp $
  */
-public abstract class BaseTable extends JTable
+public abstract class BaseTable implements IComponent
 {
 
     /**
@@ -22,5 +24,27 @@ public abstract class BaseTable extends JTable
         super();
     }
 
+
+    /**
+     * @see org.xulux.nyx.swing.IComponent#addToComponent(JComponent)
+     */
+    public void addToComponent(JComponent component)
+    {
+    }
+
+    /**
+     * @see org.xulux.nyx.swing.IComponent#addToWindow(Window)
+     */
+    public void addToWindow(Window window)
+    {
+    }
+
+    /**
+     * @see org.xulux.nyx.swing.IComponent#getComponent()
+     */
+    public JComponent getComponent()
+    {
+        return null;
+    }
 
 }

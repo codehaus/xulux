@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 
+import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
@@ -15,7 +16,7 @@ import org.xulux.nyx.swing.factories.FieldCollection;
  * A simpleForm which contructs a for based on the fields
  * 
  * @author Martin van den Bemt
- * @version $Id: SimpleForm.java,v 1.2 2002-10-23 14:39:39 mvdb Exp $
+ * @version $Id: SimpleForm.java,v 1.3 2002-10-23 22:34:38 mvdb Exp $
  */
 public class SimpleForm 
 extends BaseForm 
@@ -28,36 +29,39 @@ extends BaseForm
      */
     public SimpleForm()
     {
-        super();
+        //super();
     }
     
     public SimpleForm(FieldCollection fields)
     {
-        super();
+        //super();
         setFields(fields);
     }
     
     /** 
      * Sets the fields in the form
      * With this it will remove all currently know fields 
-     * from the and rebuild the form.
+     * from the form and rebuild the form.
      * For now only 1 field area is supported
+     * @param fields - the fields to use in the form
      */
     public void setFields(FieldCollection fields)
     {
         this.fields = fields;
         FormFieldArea fieldArea = null;
-/*        Component[] components = findComponent(FormFieldArea.class, this);
-        for (int i=0; i < components.length; i++)
+        Component[] components = findComponent(FormFieldArea.class, this.getComponent());
+        if (components != null)
         {
-            ((FormFieldArea)components[i]).removeAllFields();
+            for (int i=0; i < components.length; i++)
+            {
+                ((FormFieldArea)components[i]).removeAllFields();
+            }
         }
-        */
         if (fieldArea == null)
         {
             fieldArea = new FormFieldArea();
         }
-        getContentPane().add(fieldArea);
+        getComponent().add(fieldArea);
     }
     
     /**
@@ -69,7 +73,12 @@ extends BaseForm
     {
         // initialize with on ecomponent
         Component[] cs = null;
-        Component[] components = getComponents();
+        if (getComponent() == null)
+        {
+            return null;
+        }
+        Component[] components = getComponent().getComponents();
+        log.trace("components length : "+components.length);
         for (int i=0; i < components.length; i++)
         {
             if (components[i] instanceof FormFieldArea)
@@ -80,8 +89,16 @@ extends BaseForm
                 }
                 continue;
             }
+            else if (components[i] instanceof JRootPane)
+            {
+                // every component has a rootpane, so we will end
+                // up in an infinite loop
+                continue;
+            }
             else 
             {
+                log.trace("component is instanceof "+components[i]);
+                
                 Component[] csToMerge = findComponent(type, components[i]);
                 if (cs == null) 
                 {
