@@ -1,5 +1,5 @@
 /*
- $Id: NewSelectionListener.java,v 1.1 2003-11-13 02:45:39 mvdb Exp $
+ $Id: NewSelectionListener.java,v 1.2 2003-11-18 10:09:32 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,6 +47,8 @@ package org.xulux.nyx.swing.listeners;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 
 import org.xulux.nyx.gui.Widget;
 
@@ -60,9 +62,10 @@ import org.xulux.nyx.gui.Widget;
  * This works only within parts.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NewSelectionListener.java,v 1.1 2003-11-13 02:45:39 mvdb Exp $
+ * @version $Id: NewSelectionListener.java,v 1.2 2003-11-18 10:09:32 mvdb Exp $
  */
-public class NewSelectionListener implements ListSelectionListener {
+public class NewSelectionListener 
+implements ListSelectionListener, TreeSelectionListener {
     
     protected Widget widget;
     
@@ -77,6 +80,20 @@ public class NewSelectionListener implements ListSelectionListener {
      * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
      */
     public void valueChanged(ListSelectionEvent e) {
+        valueChanged();
+    }
+
+    /**
+     * @see javax.swing.event.TreeSelectionListener#valueChanged(javax.swing.event.TreeSelectionEvent)
+     */
+    public void valueChanged(TreeSelectionEvent e) {
+        valueChanged();
+    }
+    
+    /**
+     * Refresh the value of all widgets that are pointing this widget.
+     */
+    public void valueChanged() {
         widget.getPart().refreshWidgets(widget);
     }
 

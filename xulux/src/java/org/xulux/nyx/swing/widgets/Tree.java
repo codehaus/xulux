@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.19 2003-11-17 14:00:20 mvdb Exp $
+ $Id: Tree.java,v 1.20 2003-11-18 10:09:32 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,6 +61,7 @@ import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.IContentWidget;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
+import org.xulux.nyx.swing.listeners.NewSelectionListener;
 import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
 import org.xulux.nyx.swing.models.NyxTreeCellRenderer;
@@ -70,7 +71,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.19 2003-11-17 14:00:20 mvdb Exp $
+ * @version $Id: Tree.java,v 1.20 2003-11-18 10:09:32 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -82,6 +83,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
     protected boolean hasChildPopups;
     protected Widget menu;
     protected NyxTreeCellRenderer cellRenderer;
+    protected NewSelectionListener selectionListener;
     //protected TreeContentHandler contentHandler;
 
     /**
@@ -101,7 +103,11 @@ public class Tree extends ContainerWidget implements IContentWidget {
             return;
         }
         processDestroy();
-        this.cellRenderer = null;
+        cellRenderer = null;
+        if (selectionListener != null) {
+            jtree.removeTreeSelectionListener(selectionListener);
+            selectionListener = null;
+        }
         if (this.scrollPane != null) {
             if (this.jtree != null) {
                 this.scrollPane.remove(jtree);
@@ -129,13 +135,15 @@ public class Tree extends ContainerWidget implements IContentWidget {
         if (initialized) {
             return;
         }
-//        System.err.println("initializing");
-//        System.err.println("init : "+contentHandler);
         if (this.contentHandler == null) {
             this.contentHandler = new SwingTreeModel(null);
         }
         jtree = new JTree(this.contentHandler);
-        this.cellRenderer = new NyxTreeCellRenderer(this);
+        if (selectionListener == null) {
+            selectionListener = new NewSelectionListener(this);
+        }
+        jtree.addTreeSelectionListener(selectionListener);
+        cellRenderer = new NyxTreeCellRenderer(this);
         jtree.setCellRenderer(this.cellRenderer);
         scrollPane = new JScrollPane(jtree);
         initializeChildren();
