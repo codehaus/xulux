@@ -1,5 +1,5 @@
 /*
-   $Id: ScrollPanePanel.java,v 1.2 2004-01-28 15:40:10 mvdb Exp $
+   $Id: ScrollPanePanel.java,v 1.3 2004-06-28 13:11:07 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.swing.layouts.XYLayout;
  * A sample to see how a scrollpane and a panel cooperate together..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ScrollPanePanel.java,v 1.2 2004-01-28 15:40:10 mvdb Exp $
+ * @version $Id: ScrollPanePanel.java,v 1.3 2004-06-28 13:11:07 mvdb Exp $
  */
 public class ScrollPanePanel {
 
@@ -49,10 +49,11 @@ public class ScrollPanePanel {
         frame.setSize(400, 400);
         frame.getContentPane().setLayout(new XYLayout());
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(400, 400));
+        panel.setPreferredSize(new Dimension(700, 700));
         panel.setBackground(Color.blue);
-        JScrollPane pane = new JScrollPane(panel);
-        pane.setPreferredSize(new Dimension(400, 400));
+        JScrollPane pane = new JScrollPane();
+        pane.setViewportView(panel);
+        pane.setPreferredSize(new Dimension(100, 100));
         frame.getContentPane().add(pane);
         frame.show();
     }
