@@ -1,5 +1,5 @@
 /*
- $Id: IPropertyHandler.java,v 1.2 2003-11-06 16:57:53 mvdb Exp $
+ $Id: IPropertyHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,22 +49,22 @@ import java.util.List;
 
 /**
  * The interface for propertyhandlers..
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IPropertyHandler.java,v 1.2 2003-11-06 16:57:53 mvdb Exp $
+ * @version $Id: IPropertyHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
  */
 public interface IPropertyHandler {
-    
+
     /**
      * Handle the property for the widget specified.
-     * 
+     *
      * @param widget - the widget to handle the property for.
      * @param property - the property to handle
-     * @param properties - if null the widget properties will be used else the 
+     * @param properties - if null the widget properties will be used else the
      *                      properties passed (tip : use clone to not affect the
      *                      original widget properties!)
      * @return true when the property has been succesfully handles
-     */    
-    public boolean handleProperty(Widget widget, String property, List properties); 
+     */
+    public boolean handleProperty(Widget widget, String property, List properties);
 
 }

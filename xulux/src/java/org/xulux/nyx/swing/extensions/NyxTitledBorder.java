@@ -7,9 +7,9 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 /**
- * 
+ *
  * @author Martin van den Bemt
- * @version $Id: NyxTitledBorder.java,v 1.1 2003-09-11 12:20:57 mvdb Exp $
+ * @version $Id: NyxTitledBorder.java,v 1.2 2003-11-06 19:53:13 mvdb Exp $
  */
 public class NyxTitledBorder extends TitledBorder {
 

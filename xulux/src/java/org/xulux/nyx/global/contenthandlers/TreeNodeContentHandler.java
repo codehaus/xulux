@@ -1,5 +1,5 @@
 /*
- $Id: TreeNodeContentHandler.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ $Id: TreeNodeContentHandler.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,9 +49,9 @@ import javax.swing.tree.TreeNode;
 
 /**
  * A tree content handler using a TreeNode.
- *  
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeNodeContentHandler.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: TreeNodeContentHandler.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
  */
 public class TreeNodeContentHandler extends TreeContentHandler {
 
@@ -59,9 +59,9 @@ public class TreeNodeContentHandler extends TreeContentHandler {
      * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChild(java.lang.Object, int)
      */
     public Object getChild(Object parent, int index) {
-        return ((TreeNode)parent).getChildAt(index); 
+        return ((TreeNode)parent).getChildAt(index);
     }
-    
+
     /**
      * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChildCount(java.lang.Object)
      */

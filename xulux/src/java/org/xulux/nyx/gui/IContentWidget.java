@@ -1,5 +1,5 @@
 /*
- $Id: IContentWidget.java,v 1.5 2003-11-06 16:57:53 mvdb Exp $
+ $Id: IContentWidget.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,24 +49,24 @@ package org.xulux.nyx.gui;
  * Interface that widgets must implement if they use content.
  * Content is a collection of objects that needs to be shown
  * in eg a list, table or combo.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentWidget.java,v 1.5 2003-11-06 16:57:53 mvdb Exp $
+ * @version $Id: IContentWidget.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
  */
 public interface IContentWidget {
-    
+
     /**
      * Set the content for the widget
      * @param list
      */
     public void setContent(Object object);
-    
+
     /**
-     * 
+     *
      * @return the current content of the widget
      */
     public Object getContent();
-    
+
     /**
      * This method needs to be called when the content has changed
      * without calling setContent.

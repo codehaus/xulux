@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.17 2003-11-06 16:57:54 mvdb Exp $
+ $Id: Tree.java,v 1.18 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -70,10 +70,10 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.17 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: Tree.java,v 1.18 2003-11-06 19:53:13 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
-    
+
     protected JTree jtree;
     protected JScrollPane scrollPane;
     protected Object content;
@@ -83,7 +83,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
     protected Widget menu;
     protected NyxTreeCellRenderer cellRenderer;
     //protected TreeContentHandler contentHandler;
-    
+
     /**
      * @param name
      */
@@ -122,7 +122,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
     /**
      * We need to set the model on initialization and replace the root
      * node on refresh. A setmodel doesn't use the new model (???) Weird..
-     * 
+     *
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
     public void initialize() {
@@ -162,7 +162,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
             lineStyle = "None";
         }
         jtree.putClientProperty("JTree.lineStyle", lineStyle);
-        
+
         if (contentChanged) {
 //            System.err.println("setting model to : "+contentHandler);
             jtree.setModel(contentHandler);
@@ -210,14 +210,14 @@ public class Tree extends ContainerWidget implements IContentWidget {
         initializePopupMenu();
         isRefreshing = false;
     }
-    
-    
+
+
     /**
      * Expands the tree to the specified level.
      * Level 0 is the root of the tree.
      * If level is higher than the levels present, it will just collapse all.
-     * 
-     * @param level - the level 
+     *
+     * @param level - the level
      */
     protected void expandToLevel(Object root, int level) {
         if (level == 0) {
@@ -250,22 +250,22 @@ public class Tree extends ContainerWidget implements IContentWidget {
         }
         expandPath.remove(root);
     }
-    
+
     protected void expandToLevel(Object root) {
-        
+
     }
-    
+
     /**
      * Expands the tree.
      * @param untill - a string representation untill wath kind of object
-     *         the tree should be expanded. 
+     *         the tree should be expanded.
      */
     protected void expandTree(String untill) {
         boolean expandDefault = false;
         Object root = contentHandler.getRoot();
         if (untill == null) {
             expandDefault(root);
-            return; 
+            return;
         }
         if (untill.equalsIgnoreCase("leaf")) {
             expand(root,true);
@@ -316,15 +316,15 @@ public class Tree extends ContainerWidget implements IContentWidget {
         }
         expandPath.remove(root);
     }
-        
+
     /**
-     * 
+     *
      * @param root - the root to expand from
      * @param untill - the class to expand untill.
      */
     protected void expandFrom(Object root, Class untill) {
     }
-    
+
     /**
      * The default method to expand.
      * @param root
@@ -412,7 +412,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
             hasChildPopups = true;
         }
     }
-    
+
     /**
      * Initializes the popupmenus of the tree.
      *
@@ -457,10 +457,10 @@ public class Tree extends ContainerWidget implements IContentWidget {
         }
         return null;
     }
-    
+
     /**
-     * 
-     * @return the tree model. It is a convenience method for internal use only. 
+     *
+     * @return the tree model. It is a convenience method for internal use only.
      */
     public SwingTreeModel getSwingModel() {
         return this.contentHandler;

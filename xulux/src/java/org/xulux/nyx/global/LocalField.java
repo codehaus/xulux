@@ -1,5 +1,5 @@
 /*
- $Id: LocalField.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ $Id: LocalField.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -46,14 +46,14 @@
 package org.xulux.nyx.global;
 
 /**
- * A localfield. 
- * 
+ * A localfield.
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LocalField.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: LocalField.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
  */
 public class LocalField implements IField
 {
-    
+
     private String name;
     private Object field;
     private Object value;
@@ -106,7 +106,7 @@ public class LocalField implements IField
 
     /**
      * The alias is alaways the name with localfields.
-     * 
+     *
      * @see org.xulux.nyx.global.IField#getAlias()
      */
     public String getAlias()
@@ -116,7 +116,7 @@ public class LocalField implements IField
 
     /**
      * We ignore the passed in value (could be null)
-     * 
+     *
      * @see org.xulux.nyx.global.IField#getValue(Object)
      */
     public Object getValue(Object bean)

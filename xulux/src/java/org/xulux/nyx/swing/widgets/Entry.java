@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.34 2003-11-06 16:57:54 mvdb Exp $
+ $Id: Entry.java,v 1.35 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -67,29 +67,29 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * Represents an entry field
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.34 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: Entry.java,v 1.35 2003-11-06 19:53:13 mvdb Exp $
  */
-public class Entry 
+public class Entry
 extends SwingWidget
 {
     private static Log log = LogFactory.getLog(Entry.class);
     private Dimension size;
     protected boolean setValueCalled = false;
-    
-    /** 
+
+    /**
      * A textcomponentallows overriding by
      * similar classes.
      */
     protected JTextComponent textComponent;
-    
+
     protected PrePostFieldListener focusListener;
     protected PrePostFieldListener immidiateListener;
-    
+
     protected Class valueClass;
-    
-    
+
+
     /**
      * Constructor for Entry.
      */
@@ -129,7 +129,7 @@ extends SwingWidget
         }
         return textComponent;
     }
-    
+
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
@@ -170,8 +170,8 @@ extends SwingWidget
         processInit();
         this.setValueCalled = false;
     }
-    
-    
+
+
     /**
      * Initializes the initial value, if any.
      *
@@ -192,7 +192,7 @@ extends SwingWidget
             }else if (ivType == null || ivType.equals("string")) {
                 this.value = iv;
                 textComponent.setText(iv);
-            } 
+            }
         }
     }
 
@@ -229,9 +229,9 @@ extends SwingWidget
         textComponent.repaint();
         isRefreshing = false;
     }
-    
+
     /**
-     * 
+     *
      * @see org.xulux.nyx.gui.Widget#getValue()
      */
     public Object getValue()
@@ -248,7 +248,7 @@ extends SwingWidget
 //        System.err.println("Object : "+object);
 //        return object;
     }
-    
+
     /**
      * Lets changes reflect onscreen.
      * @param value
@@ -286,7 +286,7 @@ extends SwingWidget
                     textComponent.setText((String)converter.getGuiValue(getValue()));
                 } else {
                     textComponent.setText(String.valueOf(getValue()));
-                }                    
+                }
             } else {
                 textComponent.setText("");
             }
@@ -315,7 +315,7 @@ extends SwingWidget
             // TODO: Implement fields some more
             // so it can be a comination of fields
             // that turn up here.
-            
+
             // If this is not an array, do a toString
             if (!this.value.getClass().isArray()) {
                 IConverter converter = Dictionary.getConverter(this.value);
@@ -341,7 +341,7 @@ extends SwingWidget
         // needs updating or not.
         if (getField() == null) {
             if (object != null) {
-                if (valueClass != null && 
+                if (valueClass != null &&
                    !valueClass.isAssignableFrom(object.getClass())) {
                     IConverter converter = Dictionary.getConverter(valueClass);
                     if (converter != null) {
@@ -420,7 +420,7 @@ extends SwingWidget
         }
         return textComponent.getText();
     }
-    
+
     /**
      * @see org.xulux.nyx.gui.Widget#canContainValue()
      */

@@ -1,8 +1,8 @@
 /*
- $Id: DefaultComboModel.java,v 1.26 2003-09-01 14:30:09 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.27 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.swing.models;
 
@@ -59,11 +59,11 @@ import org.xulux.nyx.swing.widgets.Combo;
 
 /**
  * The default combobox model.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.26 2003-09-01 14:30:09 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.27 2003-11-06 19:53:11 mvdb Exp $
  */
-public class DefaultComboModel extends AbstractListModel 
+public class DefaultComboModel extends AbstractListModel
 implements ComboBoxModel
 {
     private List original;
@@ -73,8 +73,8 @@ implements ComboBoxModel
     private BeanMapping mapping;
     private Combo combo;
     private boolean initialized;
-    
-    
+
+
     public DefaultComboModel()
     {
         // don't do anything, since we don't have any data..
@@ -92,14 +92,14 @@ implements ComboBoxModel
     }
 
     /**
-     * When using the arrow keys to select another 
-     * item from the combo, we have to fire an event 
+     * When using the arrow keys to select another
+     * item from the combo, we have to fire an event
      * with the index0 and the index1 with the value -1.
      * This way you can actually see the selectedItem change
      * on screen. If you don't fire this event, the selectedItem
      * (onscreen!) will stay on the selected item on creation
      * of the combo.
-     * 
+     *
      * @see javax.swing.ComboBoxModel#setSelectedItem(Object)
      */
     public void setSelectedItem(Object anItem)
@@ -118,7 +118,7 @@ implements ComboBoxModel
         }
         fireContentsChanged(this,-1,-1);
     }
-    
+
     public void setSelectedItem(int index)
     {
         if (list.size() > 0) {
@@ -154,7 +154,7 @@ implements ComboBoxModel
         return list.get(index);
     }
 
-    
+
     public Object getRealSelectedValue()
     {
         Object retValue = null;
@@ -169,12 +169,12 @@ implements ComboBoxModel
         }
         return retValue;
     }
-    
+
     public Object getComboObject(int index)
     {
         return list.get(index);
     }
-    
+
     /**
      * Returns the selected index in the model
      * If the selection is null, it will return -1
@@ -190,9 +190,9 @@ implements ComboBoxModel
             return selectedItem.getIndex();
         }
     }
-        
-        
-    
+
+
+
     public void setRealSelectedValue(Object selectedItem)
     {
         if (original == null) {
@@ -213,7 +213,7 @@ implements ComboBoxModel
             combo.setLazyValue(getRealSelectedValue());
         }
     }
-    
+
     private void initialize()
     {
         if (field != null && original.size() > 0)
@@ -264,7 +264,7 @@ implements ComboBoxModel
         }
         initialized = true;
     }
-    
+
     /**
      * Holds all items in a list
      */
@@ -272,18 +272,18 @@ implements ComboBoxModel
     {
         private int index;
         private String value;
-        
+
         public ComboShowable(int index, String value)
         {
             this.index = index;
             this.value = value;
         }
-        
+
         public String toString()
         {
             return this.value;
         }
-        
+
         public int getIndex()
         {
             return index;

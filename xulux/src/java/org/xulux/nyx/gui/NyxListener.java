@@ -1,8 +1,8 @@
 /*
- $Id: NyxListener.java,v 1.19 2003-09-23 00:38:34 mvdb Exp $
+ $Id: NyxListener.java,v 1.20 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.gui;
 
@@ -62,16 +62,16 @@ import org.xulux.nyx.swing.widgets.TextArea;
 
 /**
  * An abstract to which all listeners must obey.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.19 2003-09-23 00:38:34 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.20 2003-11-06 19:53:11 mvdb Exp $
  */
 public abstract class NyxListener
 {
     protected Widget widget;
     private static boolean processing = false;
     private static Log log = LogFactory.getLog(NyxListener.class);
-    
+
     public NyxListener()
     {
     }
@@ -91,10 +91,10 @@ public abstract class NyxListener
     {
         completed(false);
     }
-    
+
     /**
-     * The completed which calls 
-     * 
+     * The completed which calls
+     *
      * @param postOnly if true, it will fire of only a post event on the rules
      *         that are part of the current caller
      *
@@ -109,7 +109,7 @@ public abstract class NyxListener
         }
         processing = false;
     }
-    
+
     /**
      * Call this when the part has completed processing.
      * It will fire the post rules of the registered part rules
@@ -120,23 +120,23 @@ public abstract class NyxListener
         ApplicationContext.fireRequest(req, ApplicationContext.POST_REQUEST);
         processing = false;
     }
-    
+
     /**
      * Refreshes the fields that have dependencies on the
      * caller widget
-     * 
+     *
      * @param widget
      */
     private void refreshFields(Widget widget) {
         widget.getPart().refreshFields(widget);
         widget.getPart().updateDependandWidgets(widget);
     }
-            
-            
+
+
     /**
      * If a value is "accepted" (eg entry filled in
      * , button clicked, etc preform this code.
-     * 
+     *
      * @param widget
      * @return true if the accepted went ok, false if not.
      */
@@ -154,7 +154,7 @@ public abstract class NyxListener
             refreshFields(widget);
             return true;
         }
-        
+
         if (widget instanceof Entry ||
             widget instanceof TextArea )
         {
@@ -176,7 +176,7 @@ public abstract class NyxListener
             refreshFields(widget);
             return true;
         }
-        
+
         if (widget instanceof Button || widget instanceof MenuItem) {
             String defAction = widget.getProperty("defaultaction");
             if (defAction != null) {
@@ -234,13 +234,13 @@ public abstract class NyxListener
                     widget.getPart().destroy();
                     return false;
                 }
-                    
+
             }
         }
         refreshFields(widget);
         return true;
     }
-    
+
     /**
      * Should be called when a field is entered
      */
@@ -251,7 +251,7 @@ public abstract class NyxListener
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
         processing = false;
     }
-    
+
     /**
      * Returns the widget.
      * @return Widget
@@ -278,10 +278,10 @@ public abstract class NyxListener
     {
         return processing;
     }
-    
+
     /**
      * Override this if you want to handle events.
-     * 
+     *
      * @param event
      */
     public void processEvent(NyxEvent event) {

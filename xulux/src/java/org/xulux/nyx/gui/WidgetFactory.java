@@ -1,8 +1,8 @@
 /*
- $Id: WidgetFactory.java,v 1.7 2003-08-09 00:09:06 mvdb Exp $
+ $Id: WidgetFactory.java,v 1.8 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.gui;
 
@@ -55,9 +55,9 @@ import org.xulux.nyx.rules.IRule;
 
 /**
  * Factory to create the widget class..
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.7 2003-08-09 00:09:06 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.8 2003-11-06 19:53:11 mvdb Exp $
  */
 public class WidgetFactory
 {
@@ -71,7 +71,7 @@ public class WidgetFactory
 
     /**
      * Creates a widget from the widget Registry.
-     * 
+     *
      * @param name - the name of the widget
      * @param field - the field to use on the widget
      */
@@ -96,10 +96,10 @@ public class WidgetFactory
         }
         return instance;
     }
-    
-    /** 
+
+    /**
      * Creates a popmenu from a list of buttons.
-     * 
+     *
      * @param list
      * @param the name of the menu
      * @param properties to be set in the widget.
@@ -122,8 +122,8 @@ public class WidgetFactory
         }
         return menu;
     }
-    
-    
+
+
     /**
      * Clones all settings of a widget into the target widget
      * @param source
@@ -166,7 +166,7 @@ public class WidgetFactory
                 target.addDependency((String)deps.next());
             }
         }
-        
+
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- $Id: WidgetRequestImpl.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ $Id: WidgetRequestImpl.java,v 1.6 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -53,23 +53,23 @@ import org.xulux.nyx.gui.Widget;
 
 /**
  * This class should not be used directly, it is only for internal use.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetRequestImpl.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: WidgetRequestImpl.java,v 1.6 2003-11-06 19:53:13 mvdb Exp $
  */
 public class WidgetRequestImpl implements PartRequest
 {
     private Widget widget;
     private int action;
     private ApplicationPart part;
-    
-    
+
+
     public WidgetRequestImpl(Widget widget, int action)
     {
         setWidget(widget);
         setAction(action);
     }
-    
+
     /**
      * @see org.xulux.nyx.context.PartRequest#getPart()
      */
@@ -97,7 +97,7 @@ public class WidgetRequestImpl implements PartRequest
     {
         return widget.getValue();
     }
-    
+
     /**
      * @see org.xulux.nyx.context.PartRequest#getValue(String)
      */
@@ -136,17 +136,17 @@ public class WidgetRequestImpl implements PartRequest
     {
         return widget.getName();
     }
-    
+
     private void setWidget(Widget widget)
     {
         this.widget = widget;
     }
-    
+
     private void setAction(int action)
     {
         this.action = action;
     }
-    
+
     /**
      * @see org.xulux.nyx.context.PartRequest#getWidget()
      */
@@ -154,7 +154,7 @@ public class WidgetRequestImpl implements PartRequest
     {
         return this.widget;
     }
-    
+
     public void setPart(ApplicationPart part)
     {
         this.part = part;

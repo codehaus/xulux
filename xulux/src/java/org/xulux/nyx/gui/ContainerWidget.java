@@ -6,14 +6,14 @@ import java.util.Iterator;
 /**
  * Specifies a container widget.
  * It makes overriding a bit easier.
- * 
+ *
  * @author Martin van den Bemt
- * @version $Id: ContainerWidget.java,v 1.5 2003-09-25 17:10:35 mvdb Exp $
+ * @version $Id: ContainerWidget.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
  */
 public abstract class ContainerWidget extends Widget
 {
     protected ArrayList widgets;
-    
+
     /**
      * Constructor for ContainerWidget.
      * @param name
@@ -59,7 +59,7 @@ public abstract class ContainerWidget extends Widget
     {
         return true;
     }
-    
+
     public ArrayList getChildWidgets()
     {
         return widgets;
@@ -79,9 +79,9 @@ public abstract class ContainerWidget extends Widget
             Widget widget = (Widget)iterator.next();
             addToParent(widget);
         }
-        
+
     }
-    
+
     /**
      * Adds a childwidget to the parent
      * @param widget - the child widget
@@ -94,7 +94,7 @@ public abstract class ContainerWidget extends Widget
      * since it only destroys the children
      * and doesn't cleanup the parent
      * object, since it doesn't know about it.
-     * 
+     *
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
     public void destroy()

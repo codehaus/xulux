@@ -1,5 +1,5 @@
 /*
- $Id: SwingParentWidgetHandler.java,v 1.4 2003-11-06 16:57:54 mvdb Exp $
+ $Id: SwingParentWidgetHandler.java,v 1.5 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -54,14 +54,14 @@ import org.xulux.nyx.gui.IParentWidgetHandler;
  * Destroys/Initializes all components created by nyx.
  * This is only used in scenarios where nyx is used
  * on top of an already existing application
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingParentWidgetHandler.java,v 1.4 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: SwingParentWidgetHandler.java,v 1.5 2003-11-06 19:53:10 mvdb Exp $
  */
 public class SwingParentWidgetHandler implements IParentWidgetHandler {
 
     /**
-     * 
+     *
      */
     public SwingParentWidgetHandler() {
     }

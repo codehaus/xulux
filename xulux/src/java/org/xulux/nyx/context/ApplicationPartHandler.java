@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.31 2003-11-06 19:09:33 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.32 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -73,9 +73,9 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Make sure when widgets skip, the properties are
  *        skipped too..
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
- *  
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.31 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.32 2003-11-06 19:53:10 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler {
 
@@ -97,11 +97,11 @@ public class ApplicationPartHandler extends DefaultHandler {
     private static String INCLUDE_ELEMENT = "includepart";
 
     /**
-     * The prefix of the current part 
+     * The prefix of the current part
      * This is to prevent name clashes between fields
      */
     private static String PREFIX_ATTRIBUTE = "prefix";
-    /** 
+    /**
      * If the type is native (so this name is a "reserved" keyword.
      * it will try to add the native widget to the applicationpart.
      * You need to make sure the native widgets is of a supported
@@ -110,7 +110,7 @@ public class ApplicationPartHandler extends DefaultHandler {
     private static String TYPE_ATTRIBUTE = "type";
     private static String NAME_ATTRIBUTE = "name";
     private static String USE_ATTRIBUTE = "use";
-    /** 
+    /**
      * You can specify a class to override the defaults
      * This must be a Widget when not using native.
      */
@@ -151,7 +151,7 @@ public class ApplicationPartHandler extends DefaultHandler {
 
     private String lastField;
     /**
-     * Contains the prefix to be used when 
+     * Contains the prefix to be used when
      * parsing use fields.
      */
     private String fieldPrefix;
@@ -160,9 +160,9 @@ public class ApplicationPartHandler extends DefaultHandler {
      */
     private String prefix;
 
-    /** 
-     * Temporary holds the prefix 
-     * value untill done calling includePart 
+    /**
+     * Temporary holds the prefix
+     * value untill done calling includePart
      */
     private String tempFieldPrefix;
     private String tempPrefix;
@@ -170,7 +170,7 @@ public class ApplicationPartHandler extends DefaultHandler {
     private static SAXParserFactory factory;
 
     /**
-     * Contains the fields if there are more than 
+     * Contains the fields if there are more than
      * where field.get(0) is the parent field definition
      */
     private Stack stack;
@@ -499,7 +499,7 @@ public class ApplicationPartHandler extends DefaultHandler {
                 use = fieldPrefix + "." + use;
             }
         }
-        // 
+        //
         // TODO : Move the logic for native handling somewhere else
         if (type.equalsIgnoreCase("native")) {
             processingNative = true;

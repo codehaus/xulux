@@ -1,5 +1,5 @@
 /*
- $Id: TreeContentHandler.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ $Id: TreeContentHandler.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,21 +50,21 @@ import org.xulux.nyx.gui.IContentWidget;
 /**
  * A contenthandler for the tree. Since it is the main interface for having
  * trees at all in default java, it will be located in the global package.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeContentHandler.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: TreeContentHandler.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
  */
 public abstract class TreeContentHandler extends ContentHandlerAbstract
 {
-    
+
     protected IContentWidget widget;
     /**
-     * 
+     *
      */
     public TreeContentHandler() {
         super();
     }
-    
+
     public TreeContentHandler(IContentWidget widget) {
         setWidget(widget);
     }
@@ -78,13 +78,13 @@ public abstract class TreeContentHandler extends ContentHandlerAbstract
     }
 
     /**
-     * 
+     *
      * @return the widget
      */
     public IContentWidget getWidget() {
         return widget;
     }
-    
+
     /**
      * Set the widget.
      * @param widget
@@ -96,29 +96,29 @@ public abstract class TreeContentHandler extends ContentHandlerAbstract
     /**
      * @param parent
      * @param index
-     * @return the child at the index of the parent 
+     * @return the child at the index of the parent
      */
     public abstract Object getChild(Object parent, int index);
-    
+
     /**
      * @param parent
-     * @return the number of children the parent has 
+     * @return the number of children the parent has
      */
     public abstract int getChildCount(Object parent);
-    
+
     /**
-     * 
+     *
      * @param parent
      * @param child
      * @return the index of the specified child.
      */
     public abstract int getIndexOfChild(Object parent, Object child);
-    
+
     /**
      * @return the root of the tree.
      */
     public abstract Object getRoot();
-    
+
     /**
      * @param node
      * @return checks if the node is a leaf or not.

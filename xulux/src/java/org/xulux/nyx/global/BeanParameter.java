@@ -1,5 +1,5 @@
 /*
- $Id: BeanParameter.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ $Id: BeanParameter.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -51,27 +51,27 @@ import java.lang.reflect.Modifier;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
- * Place holder and utility class for the parameter list 
+ * Place holder and utility class for the parameter list
  * that a method may need to get or set appropiate data.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanParameter.java,v 1.5 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: BeanParameter.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
  */
 public class BeanParameter {
-    
+
     private String type;
     private String value;
     private Object object;
-    
+
     /**
-     * 
+     *
      */
     public BeanParameter() {
     }
-    
+
     /**
      * Convenient constructor
-     * 
+     *
      * @param type
      * @param value
      */
@@ -88,8 +88,8 @@ public class BeanParameter {
     }
 
     /**
-     * @return the value of the type 
-     *          (eg string, className or className+field) 
+     * @return the value of the type
+     *          (eg string, className or className+field)
      */
     public String getValue() {
         return this.value;
@@ -112,9 +112,9 @@ public class BeanParameter {
     public void setValue(String value) {
         this.value = value;
     }
-    
-    /** 
-     * 
+
+    /**
+     *
      * @return the object that contains the value
      *          we need to pass as the parameter
      */
@@ -144,8 +144,8 @@ public class BeanParameter {
         }
         return this.object;
     }
-    
-    
+
+
     public String toString() {
         return getType()+":"+getValue();
     }

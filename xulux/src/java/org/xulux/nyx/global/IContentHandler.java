@@ -1,5 +1,5 @@
 /*
- $Id: IContentHandler.java,v 1.3 2003-11-06 19:09:33 mvdb Exp $
+ $Id: IContentHandler.java,v 1.4 2003-11-06 19:53:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,35 +49,35 @@ package org.xulux.nyx.global;
  * The content handler interface. A contenthandler is used for widgets
  * that shows content from a eg a list, a tree, DOM, etc.
  * The passed in object will be processed to the type it returns when using getType()
- * 
+ *
  * Eventually this will move to be the generic contenthandler for all widgets.
  * Contenthandlers are registered in a widget (eg guidefaults), so the developer
  * of a widget can specify which content is supported.
- *  
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentHandler.java,v 1.3 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: IContentHandler.java,v 1.4 2003-11-06 19:53:12 mvdb Exp $
  */
 public interface IContentHandler {
-    
+
     /**
      * Sets the content to the specified object.
-     * 
+     *
      * @param content
      */
     public void setContent(Object content);
-    
+
     /**
-     * 
+     *
      * @return the content that is previously set
      */
     public Object getContent();
-    
+
     /**
-     * 
+     *
      * @return the type of content this handler supports.
      */
     public Class getType();
-    
+
     /**
      * Notifies the contenthandler that a refresh needs to take place
      * since some content was changed WITHOUT calling setContent.

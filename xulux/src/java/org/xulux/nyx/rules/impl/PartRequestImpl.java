@@ -1,5 +1,5 @@
 /*
- $Id: PartRequestImpl.java,v 1.4 2003-11-06 16:57:53 mvdb Exp $
+ $Id: PartRequestImpl.java,v 1.5 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -54,23 +54,23 @@ import org.xulux.nyx.rules.IRule;
 
 /**
  * This class should not be used directly, it is only for internal use.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequestImpl.java,v 1.4 2003-11-06 16:57:53 mvdb Exp $
+ * @version $Id: PartRequestImpl.java,v 1.5 2003-11-06 19:53:13 mvdb Exp $
  */
 public class PartRequestImpl implements PartRequest
 {
     private ApplicationPart part;
     private int action;
     private IRule caller;
-    
-    
+
+
     public PartRequestImpl(ApplicationPart part, int action)
     {
         setPart(part);
         setAction(action);
     }
-    
+
     /**
      * @see org.xulux.nyx.context.PartRequest#getPart()
      */
@@ -89,14 +89,14 @@ public class PartRequestImpl implements PartRequest
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getValue()
-     * @return always returns null, since a part doesn't 
+     * @return always returns null, since a part doesn't
      *          have a value.
      */
     public Object getValue()
     {
         return null;
     }
-    
+
     /**
      * @see org.xulux.nyx.context.PartRequest#getValue(String)
      */
@@ -135,17 +135,17 @@ public class PartRequestImpl implements PartRequest
     {
         return part.getName();
     }
-    
+
     private void setPart(ApplicationPart part)
     {
         this.part= part;
     }
-    
+
     private void setAction(int action)
     {
         this.action = action;
     }
-    
+
     /**
      * @see org.xulux.nyx.context.PartRequest#getWidget()
      * @return always null, since this a partrequest.

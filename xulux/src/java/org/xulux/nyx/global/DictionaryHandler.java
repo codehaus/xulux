@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryHandler.java,v 1.11 2003-11-06 19:09:33 mvdb Exp $
+ $Id: DictionaryHandler.java,v 1.12 2003-11-06 19:53:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,9 +59,9 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * The default dictionary.xml reader
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.11 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.12 2003-11-06 19:53:12 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {
@@ -81,7 +81,7 @@ public class DictionaryHandler extends DefaultHandler
     private static String TYPE_ATTRIBUTE = "type";
     private static String CLASS_ATTRIBUTE = "class";
     private static String VALUE_ATTRIBUTE = "value";
-    
+
     private static Log log = LogFactory.getLog(DictionaryHandler.class);
 
     private BeanMapping currentMapping;
@@ -256,7 +256,7 @@ public class DictionaryHandler extends DefaultHandler
             {
                 log.warn("Invalid field element encountered, name should not be null");
             }
-            
+
         }
         else if (qName.equals(PARAMETER_ELEMENT)) {
             if (parameters == null) {

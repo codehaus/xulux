@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.19 2003-11-06 16:57:54 mvdb Exp $
+ $Id: Table.java,v 1.20 2003-11-06 19:53:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -75,14 +75,14 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 import org.xulux.nyx.utils.NyxCollectionUtils;
 
 /**
- * A nyx table.. 
- * A nyx table can do without a popupmenu field and can add 
+ * A nyx table..
+ * A nyx table can do without a popupmenu field and can add
  * a menuitem directly to its table.
- * 
+ *
  * TODO: Redo this completely! It sucks big time!!
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.19 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: Table.java,v 1.20 2003-11-06 19:53:12 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -90,34 +90,34 @@ implements IContentWidget
 
 
     protected JTable table;
-    
-    /** 
+
+    /**
      * This is the native widget
      */
     protected JScrollPane scrollPane;
     protected Widget menu;
     protected boolean hasChildPopups;
     private boolean childPopupsChecked;
-    
+
     protected List content;
     protected boolean contentChanged;
     protected static Log log = LogFactory.getLog(Table.class);
-    
+
     /**
      * The columnModel
      */
     protected NyxTableColumnModel columnModel;
-    
+
     /**
      * The tablemodel
      */
     protected NyxTableModel model;
-    
+
     protected NyxTableCellEditor editor;
-    
+
     private int oldListSize = 0;
     private int listSize = 0;
-    
+
     /**
      * @param name
      */
@@ -144,7 +144,7 @@ implements IContentWidget
         if (this.scrollPane != null) {
             try {
                 this.scrollPane.remove(this.table);
-            }catch(NullPointerException npe) { 
+            }catch(NullPointerException npe) {
                 // eat it..
             }
         }
@@ -199,7 +199,7 @@ implements IContentWidget
         refresh();
         processInit();
     }
-    
+
     /**
      * Sets all children of the table to ignore their use
      * variable when setting values..
@@ -259,7 +259,7 @@ implements IContentWidget
         }
         isRefreshing = false;
     }
-    
+
     /**
      * Checkes through other means if the content is changed.
      * It could be that someone adjusted the content..
@@ -303,7 +303,7 @@ implements IContentWidget
             // set the session variable, so controls
             // can look who requested focus..
             getPart().getSession().setValue("nyx.focusrequest", this);
-            getParent().focus();            
+            getParent().focus();
         }
         // remove session variable again.
         getPart().getSession().remove("nyx.focusrequest");
@@ -332,7 +332,7 @@ implements IContentWidget
     public boolean isValueEmpty() {
         return getGuiValue() == null;
     }
-    
+
     /**
      * Initializes the content when the property
      * content and content.type is present
@@ -368,10 +368,10 @@ implements IContentWidget
             }
         }
     }
-    
+
     /**
      * Refreshes the update buttons.
-     * The buttons update and delete are disabled when no 
+     * The buttons update and delete are disabled when no
      * row is selected.
      *
      */
@@ -387,7 +387,7 @@ implements IContentWidget
                 Widget widget = getPart().getWidget((String)it.next());
                 if (widget != null) {
                     String actionType = widget.getProperty("action.type");
-                    if (actionType != null && ( 
+                    if (actionType != null && (
                           actionType.equals("update") ||
                             actionType.equals("delete"))) {
                         widget.setEnable(buttonState);
@@ -401,7 +401,7 @@ implements IContentWidget
                     Widget cw = (Widget) it.next();
                     if (cw instanceof MenuItem) {
                         String actionType = cw.getProperty("action.type");
-                        if (actionType != null && ( 
+                        if (actionType != null && (
                               actionType.equals("update") ||
                                 actionType.equals("delete"))) {
                             cw.setEnable(buttonState);
@@ -410,10 +410,10 @@ implements IContentWidget
                 }
             }
         }
-    } 
+    }
     /**
      * Initializes the popupmenus of the table.
-     * 
+     *
      * @return if initialize update did some work
      */
     protected boolean initializeUpdateButtons() {
@@ -494,16 +494,16 @@ implements IContentWidget
         }
         return true;
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @return the content of the table or null when no content is present
      */
     public Object getContent() {
         return this.content;
     }
-    
+
     /**
      * Set the content of the table
      * @param list
@@ -521,7 +521,7 @@ implements IContentWidget
             refresh();
         }
     }
-    
+
     /**
      * Remove this one..
      * @return the native JTable
@@ -529,7 +529,7 @@ implements IContentWidget
     public JTable getJTable() {
         return this.table;
     }
-    
+
     /**
      * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
      */
@@ -583,11 +583,11 @@ implements IContentWidget
     public void setProperty(String key, String value) {
         super.setProperty(key, value);
     }
-    
+
     public void stopEditing() {
        editor.stopCellEditing(table);
     }
-    
+
     /**
      * @see org.xulux.nyx.gui.IContentWidget#contentChanged()
      */

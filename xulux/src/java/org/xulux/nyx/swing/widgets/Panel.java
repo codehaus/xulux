@@ -1,8 +1,8 @@
 /*
- $Id: Panel.java,v 1.21 2003-09-29 02:21:05 mvdb Exp $
+ $Id: Panel.java,v 1.22 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.swing.widgets;
 
@@ -70,13 +70,13 @@ import org.xulux.nyx.swing.layouts.XYLayout;
 
 /**
  * A panel widget
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.21 2003-09-29 02:21:05 mvdb Exp $
+ * @version $Id: Panel.java,v 1.22 2003-11-06 19:53:13 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
-    
+
     private JPanel panel;
 
     /**
@@ -97,7 +97,7 @@ public class Panel extends ContainerWidget
         super.destroy();
         if (panel == null) {
             return;
-        } 
+        }
         Container container = panel.getParent();
         panel.setVisible(false);
         panel.removeAll();
@@ -142,7 +142,7 @@ public class Panel extends ContainerWidget
 
         if (backgroundColor != null) {
             panel.setBackground(ColorUtils.getSwingColor(backgroundColor));
-        }        
+        }
         /*
          * Fix for border issues. They tend to be too big or
          * too small..
@@ -160,16 +160,17 @@ public class Panel extends ContainerWidget
                 String borderType = getProperty("border-type");
                 // defaults to lowered.
                 int bType = BevelBorder.LOWERED;
-                if (borderType != null && 
+                if (borderType != null &&
                        borderType.equalsIgnoreCase("raised")) {
                     bType = BevelBorder.RAISED;
-                }                panel.setBorder(new BevelBorder(bType));
+                }
+                panel.setBorder(new BevelBorder(bType));
             }else if (border.equalsIgnoreCase("titled")) {
                 String borderTitle = getProperty("border-title");
                 if (borderTitle == null) {
                     borderTitle = "";
                 }
-                
+
                 Color titleColor = color;
                 if (getProperty("border-title-color") != null) {
                     titleColor = ColorUtils.getSwingColor(getProperty("border-title-color"));
@@ -200,7 +201,7 @@ public class Panel extends ContainerWidget
             } else if (border.equalsIgnoreCase("etched")) {
                 EtchedBorder etched = new EtchedBorder(EtchedBorder.RAISED);
                 panel.setBorder( etched );
-                
+
             }
 //            System.out.println("Start : "+getName());
 //            System.out.println("Bounds panel: "+panel.getBounds());

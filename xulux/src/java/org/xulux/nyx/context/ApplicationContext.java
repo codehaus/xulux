@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.34 2003-11-06 19:09:33 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.35 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * known to the system.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.34 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.35 2003-11-06 19:53:10 mvdb Exp $
  */
 public class ApplicationContext {
     /**
@@ -140,13 +140,13 @@ public class ApplicationContext {
      */
     private HashMap widgetInitMap;
 
-    /** 
+    /**
      * The currently registered rules
      */
     private ArrayList rules;
 
     /**
-     * is nyx the complete application ? 
+     * is nyx the complete application ?
      */
     private ApplicationPart isApplication;
 
@@ -197,7 +197,7 @@ public class ApplicationContext {
         return instance;
     }
 
-    /** 
+    /**
      * Register applicationpart
      *
      * @param part registers a part in the context. The part will not be treated
@@ -223,7 +223,7 @@ public class ApplicationContext {
         }
     }
 
-    /** 
+    /**
      * Register a certain rule to a certain part.
      * If the rulecount is zero, it will add it by default..
      *
@@ -231,7 +231,7 @@ public class ApplicationContext {
      *         this will add it to the new mapping. Need to do some work here, since 2 identical
      *         rules will be called on processing.
      * @param rule - the rule to register. If there is already an instance of a rule present,
-     *                the new rule will be ignored. 
+     *                the new rule will be ignored.
      */
     public void register(String partName, IRule rule) {
         if (rules == null) {
@@ -248,7 +248,7 @@ public class ApplicationContext {
     /**
      * Deregister everything connected to the partname.
      * It will remove the rule when the useCount is 0.
-     * NOTE: We probably should add some kind of cacheSetting 
+     * NOTE: We probably should add some kind of cacheSetting
      *       so heavily used rules will never be deregistered.when they are zero.
      * @param partName
      */
@@ -260,7 +260,7 @@ public class ApplicationContext {
         }
     }
 
-    /** 
+    /**
      * Fires a request of a certain type.
      */
     public static void fireRequest(PartRequest request, int type) {
@@ -296,8 +296,8 @@ public class ApplicationContext {
     }
 
     /**
-     * Fires an fieldrequest of the type specfied 
-     * 
+     * Fires an fieldrequest of the type specfied
+     *
      * @param request
      * @param type
      */
@@ -446,7 +446,7 @@ public class ApplicationContext {
      * Registers the native widget handler.
      * The handler will contain all logic to be able
      * to use native widgets on top of the nyx widgets
-     * 
+     *
      * @param type
      * @param clazz
      * @deprecated No replacement yet
@@ -474,7 +474,7 @@ public class ApplicationContext {
     }
 
     /**
-     * 
+     *
      * @param type
      * @param clazz
      * @deprecated No replacement yet
@@ -501,8 +501,8 @@ public class ApplicationContext {
     }
 
     /**
-     * Returns a new instance of the event Handler 
-     *  
+     * Returns a new instance of the event Handler
+     *
      * @param type
      * @return the fieldEventHandler.
      * @deprecated No replacement yet.
@@ -518,7 +518,7 @@ public class ApplicationContext {
     }
 
     /**
-     * 
+     *
      * @param type
      * @return the handler of parent widgets, or null when not found
      * @deprecated No replacement yet
@@ -531,7 +531,7 @@ public class ApplicationContext {
     }
 
     /**
-     * 
+     *
      * @return the handler for the current gui framework
      *          or null if not found
      * @deprecated No replacement yet
@@ -541,7 +541,7 @@ public class ApplicationContext {
     }
 
     /**
-     * 
+     *
      * @param type - the type (eg swing, swt, or whatnot)
      * @return the native widget handler for the specified type
      * @deprecated No replacement yet
@@ -554,7 +554,7 @@ public class ApplicationContext {
     }
 
     /**
-     * 
+     *
      * @return the native widgets handler for the defaulttype
      * @deprecated No replacement yet.
      */
@@ -580,9 +580,9 @@ public class ApplicationContext {
     /**
      * Returns the class that corresponds to the name or null
      * when not found
-     * See GuiDefaults.xml for more info on defining widgets or 
+     * See GuiDefaults.xml for more info on defining widgets or
      * call registerWidget(name, clazz) to register one yourself..
-     * 
+     *
      * @param name - the widget
      * @param type - the type of widget
      */
@@ -600,7 +600,7 @@ public class ApplicationContext {
     /**
      * Returns the class that corresponds to the name or null
      * when not found
-     * See GuiDefaults.xml for more info on defining widgets or 
+     * See GuiDefaults.xml for more info on defining widgets or
      * call registerWidget(name, clazz) to register one yourself..
      * This will return the widget from the set defaulttype
      * (system default is swing).
@@ -626,7 +626,7 @@ public class ApplicationContext {
         return part;
     }
 
-    /** 
+    /**
      * Removes parts from the context
      */
     public void removePart(String name) {
@@ -642,7 +642,7 @@ public class ApplicationContext {
         return parts.values();
     }
 
-    /** 
+    /**
      * Enable test mode
      */
     public static void setTest(boolean testMode) {
@@ -658,7 +658,7 @@ public class ApplicationContext {
     }
 
     /**
-     * 
+     *
      * @return the default widget type for the context instance
      */
     public String getDefaultWidgetType() {
@@ -675,7 +675,7 @@ public class ApplicationContext {
 
     /**
      * @return the NYX toolkit of the default type or null
-     *          when not present 
+     *          when not present
      * @deprecated Use getWidgetConfig
      */
     public NYXToolkit getNYXToolkit() {
@@ -683,7 +683,7 @@ public class ApplicationContext {
     }
 
     /**
-     * 
+     *
      * @param type - the toolkit type (eg swt, swing)
      * @return the NYX toolkit type specified or null
      *          when not present
@@ -720,7 +720,7 @@ public class ApplicationContext {
 
     /**
      * Register a widget tool for the specified widget.
-     * 
+     *
      * @param clazz - the clazzname of the widget tool
      * @param widgetName - the name of the widget
      * @param type - the guilayer type to register it for.
@@ -737,7 +737,7 @@ public class ApplicationContext {
     }
 
     /**
-     * 
+     *
      * @param widgetType
      * @return the widgetconfig for the widget
      */
@@ -746,7 +746,7 @@ public class ApplicationContext {
     }
 
     /**
-     * Add a widget initializer 
+     * Add a widget initializer
      * @param initializerClass
      * @param widgetName
      * @param type
@@ -786,7 +786,7 @@ public class ApplicationContext {
     }
 
     /**
-     * 
+     *
      * @param widgetType
      * @return a new instance of the widget initializer that is part of this widget
      *          or null when not present

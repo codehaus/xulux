@@ -1,5 +1,5 @@
 /*
- $Id: ColorUtils.java,v 1.5 2003-11-06 19:09:34 mvdb Exp $
+ $Id: ColorUtils.java,v 1.6 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,9 +50,9 @@ import java.util.Arrays;
 
 /**
  * Color utils to make parsing easier
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ColorUtils.java,v 1.5 2003-11-06 19:09:34 mvdb Exp $
+ * @version $Id: ColorUtils.java,v 1.6 2003-11-06 19:53:13 mvdb Exp $
  */
 public class ColorUtils
 {
@@ -63,7 +63,7 @@ public class ColorUtils
     public ColorUtils()
     {
     }
-    
+
     /**
      * The hex string can be six or three long
      * Six is the format AABBCC
@@ -96,14 +96,14 @@ public class ColorUtils
         }
         return result;
     }
-    
+
     /**
      * TODO: TestCase + errorhandling
      * @param color eg COCOCO
-     * @return the color object 
+     * @return the color object
      */
     public static Color getSwingColor(String color) {
         return new Color(Integer.parseInt(color,16));
-    }        
+    }
 
 }

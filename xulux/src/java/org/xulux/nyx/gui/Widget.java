@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.40 2003-11-06 16:57:53 mvdb Exp $
+ $Id: Widget.java,v 1.41 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -58,104 +58,104 @@ import org.xulux.nyx.rules.Rule;
 import org.xulux.nyx.utils.NyxCollectionUtils;
 
 /**
- * A widget is a independ way of representing gui objects. 
+ * A widget is a independ way of representing gui objects.
  * For now swing specific, we need an xml config somewhere
  * to say how we should initialize it, etc.
- * 
+ *
  * @todo Use introspection, because this is getting to big and too
- * specific as a generic Widget... 
- * 
+ * specific as a generic Widget...
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.40 2003-11-06 16:57:53 mvdb Exp $
+ * @version $Id: Widget.java,v 1.41 2003-11-06 19:53:11 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
-    
+
     private String field;
     private boolean enabled = true;
     protected boolean visible = true;
     private boolean immidiate = false;
     protected boolean initialized = false;
     private boolean skip = false;
-    
+
     protected Object value;
     protected Object previousValue;
-    
+
     private ArrayList rules;
     private ApplicationPart part;
-    
+
     private List dependencies;
-    
+
     private WidgetRectangle rectangle;
-    
+
     private String name;
-    
+
     private String text;
-    
+
     protected HashMap properties;
-    
+
     private boolean required = false;
-    
+
     private boolean isRootWidget = false;
     /**
      * Valid value defaults to true!
      */
     private boolean validValue = true;
-    
+
     /**
      * Ignore the use variable when setting values.
      * , not when getting values.
      */
     private boolean ignoreUse = false;
-    
-    
-    /** 
+
+
+    /**
      * The parent widget, if there is one
      */
     Widget parent;
-    
+
     /**
      * Specfies if the widget is refreshing
      * so you call setter from refresh
-     * without getting in an infinite loop 
+     * without getting in an infinite loop
      */
     protected boolean isRefreshing;
-    
+
     /**
      * Holds the prefix of the field
      */
     private String prefix;
-    
+
     /**
      * The type of widget as defined in the
      * GuiDefaults
      */
     private String widgetType;
-    
+
     /**
      * A list of registered listeners.
      */
     private List listenerList;
-    
-        
+
+
     public Widget(String name)
     {
         setName(name);
     }
-    
+
     public void setPart(ApplicationPart part)
     {
         this.part = part;
     }
-    
+
     public ApplicationPart getPart()
     {
         return this.part;
     }
-    
+
     /**
      * No state change should take place if the widget is already in a certain state.
-     * 
+     *
      * @param enable false disables it, true, enables it
      */
     public void setEnable(boolean enable)
@@ -170,9 +170,9 @@ public abstract class Widget implements Serializable
         }
         this.enabled = enable;
     }
-    
+
     /**
-     * Is the widget disabled ? 
+     * Is the widget disabled ?
      */
     public boolean isEnabled()
     {
@@ -195,7 +195,7 @@ public abstract class Widget implements Serializable
         }
         this.visible = visible;
     }
-    
+
     /**
      * Is the widget hidden
      */
@@ -204,9 +204,9 @@ public abstract class Widget implements Serializable
         return this.visible;
     }
     /**
-     * Sets if the widget is immidiate 
-     * Immidiate means that it fires actions on everything you do 
-     * in the widget 
+     * Sets if the widget is immidiate
+     * Immidiate means that it fires actions on everything you do
+     * in the widget
      * Eg : in an entry field typing a letter will automacially fire an event..
      */
     public void setImmidiate(boolean immidiate)
@@ -223,13 +223,13 @@ public abstract class Widget implements Serializable
     }
 
     /**
-     * Is a widget immidiate  ? 
+     * Is a widget immidiate  ?
      */
     public boolean isImmidiate()
     {
         return this.immidiate;
     }
-    
+
     /**
      * @return if this field should be skipped
      */
@@ -237,9 +237,9 @@ public abstract class Widget implements Serializable
     {
         return this.skip;
     }
-    
+
     /**
-     * When tabbing to the screen, don't give focus to this 
+     * When tabbing to the screen, don't give focus to this
      * widget, only allow selection via mouse
      * @param skip
      */
@@ -255,23 +255,23 @@ public abstract class Widget implements Serializable
         }
         this.skip = skip;
     }
-    
+
     /**
      * Destroy a widget. Frees up all resources taken by it.
      */
     public abstract void destroy();
-    
+
     /**
      * Returns the "native" widget. could be a swing, swt or other type of component
      */
     public abstract Object getNativeWidget();
-    
-    
+
+
     /**
      * Initializes the widget, based on the current settings
      */
     public abstract void initialize();
-    
+
     /**
      * sets the position of the current widget
      * (on the parent..)
@@ -295,9 +295,9 @@ public abstract class Widget implements Serializable
         }
         rectangle.setSize(width, height);
     }
-    
+
     /**
-     * 
+     *
      * @return the rectangle for the widget
      */
     public WidgetRectangle getRectangle()
@@ -308,7 +308,7 @@ public abstract class Widget implements Serializable
         }
         return this.rectangle;
     }
-    
+
     /**
      * refreshes the widget.
      */
@@ -322,11 +322,11 @@ public abstract class Widget implements Serializable
     {
         return field;
     }
-    
+
     /**
      * Registers a rule in the widget
      * and sets the owner if the rule extends Rule
-     * 
+     *
      * @param rule
      */
     public void registerRule(IRule rule)
@@ -340,24 +340,24 @@ public abstract class Widget implements Serializable
         }
         rules.add(rule);
     }
-    
+
     /**
-     * 
+     *
      * @return a list with the rules for that widget
      */
     public ArrayList getRules()
     {
         return rules;
     }
-    
-    /** 
+
+    /**
      * To make equals checking a bit easier.
      * This checks to see if the passed in object
      * is the same widget as this one, based on naming
      * If you pass in a string with the correct name and prefix,
      * it will return true, else there must be an exact
      * object match.
-     * 
+     *
      * @param object (normally a string)
      */
     public boolean equals(Object object)
@@ -370,7 +370,7 @@ public abstract class Widget implements Serializable
             String val = ((String)object).toLowerCase();
             int dotIndex = val.indexOf('.');
             String oPrefix = null;
-            String oName = null; 
+            String oName = null;
             if (dotIndex != -1) {
                 oPrefix = val.substring(0,dotIndex);
                 oName = val.substring(dotIndex+1);
@@ -398,14 +398,14 @@ public abstract class Widget implements Serializable
             return object == this;
         }
     }
-    
+
     /**
-     * Override this method when the widget can 
+     * Override this method when the widget can
      * contains child widgets.
      * You don't have to override this one when
      * the widget can be a root widgets, since that
      * assumes it can contain children.
-     * 
+     *
      * @return true if the widget can contain children
      */
     public boolean canContainChildren()
@@ -413,7 +413,7 @@ public abstract class Widget implements Serializable
         // prevents the override (see javadoc)
         return canBeRootWidget();
     }
-    
+
     /**
      * Checks if this widgets is defined in the root
      * of the part.
@@ -424,90 +424,90 @@ public abstract class Widget implements Serializable
     {
         return this.isRootWidget;
     }
-    
+
     /**
      * Specifies if this widget is a part rootWidget
-     * 
+     *
      * @param isRootWidget
      */
     public void setRootWidget(boolean isRootWidget)
     {
         this.isRootWidget = true;
     }
-    
+
     /**
      * Specifies if this widget can be a root
      * widget, which means it can live on it's
      * own without any parent.
-     * Returns false by default, so you have to 
+     * Returns false by default, so you have to
      * override it when it can (normally only
      * windows can though)
-     * 
+     *
      * @return true when it can
      */
     public boolean canBeRootWidget()
     {
         return false;
     }
-    
-    /** 
+
+    /**
      * Doesn't do anything by default.
      * Override this when there canHaveChildren
      * returns true.
-     * 
+     *
      */
     public void addChildWidget(Widget widget)
     {
         return;
     }
-    
+
     /**
-     * 
+     *
      * @return the list of childwidgets. Defaults to null
      */
     public ArrayList getChildWidgets()
     {
         return null;
     }
-    
+
     /**
      * Set the name of the widget.
-     * 
+     *
      * @param name
      */
     public void setName(String name)
     {
         this.name = name;
     }
-    
+
     /**
-     * 
+     *
      * @return the name of the widget
      */
     public String getName()
     {
         return this.name;
     }
-    
+
     /**
-     * 
+     *
      * @return The prefix of the field or null
      *          when there is no prefix
      */
     public String getPrefix() {
         return this.prefix;
     }
-    
+
     /**
      * Set the prefix of the widget
-     * 
+     *
      * @param prefix
      */
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
-    
-    /** 
+
+    /**
      * Set the property to the specified value
      * or when value is null clear the property
      * if it exists.
@@ -517,7 +517,7 @@ public abstract class Widget implements Serializable
      * It will do nothing when the value it currently
      * knows is the same as the value passed in.
      * If the key is null, it will return immidiately
-     * 
+     *
      * @param key  - case insensitive value
      * @param value - case insensitive value
      */
@@ -563,19 +563,19 @@ public abstract class Widget implements Serializable
             refresh();
         }
     }
-    
+
     /**
      * You can not use this HashMap to change properties,
      * since it is a clone.
      * You need to use setProperty for that.
-     * 
-     * @return the HashMap with the properties 
+     *
+     * @return the HashMap with the properties
      */
     public HashMap getProperties()
     {
         return (properties!=null)?(HashMap)properties.clone():new HashMap();
     }
-    
+
     /**
      * Sets the field.
      * @param field The field to set
@@ -584,7 +584,7 @@ public abstract class Widget implements Serializable
     {
         this.field = field;
     }
-    
+
     /**
      * Removes all rules from this widget.
      * Normally only used when cleaning up
@@ -606,28 +606,28 @@ public abstract class Widget implements Serializable
     {
         return getName();
     }
-    
-    
+
+
     /**
-     * 
-     * @return the value from the native widget 
+     *
+     * @return the value from the native widget
      */
     public abstract Object getGuiValue();
-    
+
     /**
-     * 
+     *
      * @return the value associated with this widget
      */
     public Object getValue()
     {
         return this.value;
     }
-    
+
     public Object getPreviousValue()
     {
         return this.previousValue;
     }
-    
+
     public void setValue(Object value)
     {
         this.previousValue = this.value;
@@ -637,14 +637,14 @@ public abstract class Widget implements Serializable
             refresh();
         }
     }
-    
+
     /**
      * Clears the field
      */
     public void clear()
     {
     }
-        
+
 
     /**
      * Returns the required.
@@ -667,13 +667,13 @@ public abstract class Widget implements Serializable
             refresh();
         }
     }
-    
+
     /**
      * Return the specified property.
      * Use this method or do a getProperties().get(key.toLowerCase());
      * , since all keys are stored in lowercase.
      * @param key the property to get. This is case insensitive.
-     * @return the value found or null when no value is found 
+     * @return the value found or null when no value is found
      */
     public String getProperty(String key)
     {
@@ -683,16 +683,16 @@ public abstract class Widget implements Serializable
         }
         return null;
     }
-    
+
     /**
      * Adds the fields that depend on this field. If it already is registered,
      * no action is taken.
-     * It is used to optimize the rules engine so it 
+     * It is used to optimize the rules engine so it
      * only fires rules when needed.
      * It will only fire the pre rules of the fields mentioned
      * here.
      * If no dependencies are specified, it will just call all pre rules in the current part..
-     * 
+     *
      * @param name - the name of the widget. If you just specify one name, it will
      *                assume the current part to receive the events. If you want a field
      *                to be updated in another part, use the format partname.fieldname
@@ -723,7 +723,7 @@ public abstract class Widget implements Serializable
             dependencies.set(index, name);
         }
     }
-    
+
     /**
      * @return if the widget has dependencies..
      */
@@ -731,7 +731,7 @@ public abstract class Widget implements Serializable
     {
         return (dependencies != null && dependencies.size() > 0);
     }
-    
+
     /**
      * Returns the dependencies
      */
@@ -739,8 +739,8 @@ public abstract class Widget implements Serializable
     {
         return dependencies;
     }
-    
-    
+
+
     /**
      * Updates the widget because another widget
      * has been updated.
@@ -754,34 +754,34 @@ public abstract class Widget implements Serializable
             refresh();
         }
     }
-    
+
     /**
      * Specifies if the widget is currently
      * refreshing. Check this to prevent
      * infinite loops when another field
      * is calling this widget again.
-     * 
+     *
      * @return true when currently refreshing and false when not
      */
     public boolean isRefreshing()
     {
         return isRefreshing;
     }
-    
+
     /**
      * Set the focus to this widget
      */
     public abstract void focus();
-    
+
     /**
-     * 
-     * @return the parent widget or null when there is 
+     *
+     * @return the parent widget or null when there is
      *          no parent.
      */
     public Widget getParent() {
         return this.parent;
     }
-    
+
     /**
      * Sets the parent of this widget.
      * @param parent
@@ -793,30 +793,30 @@ public abstract class Widget implements Serializable
      * @return if the GUI value of the current field is empty or not.
      */
     public abstract boolean isValueEmpty();
-    
+
     /**
-     * 
+     *
      * @return if the widget CAN contain a value
      */
     public abstract boolean canContainValue();
-    
+
     /**
      * Set the widget type as defined in GuiDefaults.xml
-     * 
+     *
      * @param widgetType
      */
     public void setWidgetType(String widgetType) {
         this.widgetType = widgetType;
     }
-    
+
     /**
-     * 
+     *
      * @return - the widgetType as defined in GuiDefaults.xml
      */
     public String getWidgetType() {
         return this.widgetType;
     }
-    
+
     /**
      * process custom initialization classes
      * This should ONLY be called after the widget has
@@ -832,12 +832,12 @@ public abstract class Widget implements Serializable
             ((IWidgetInitializer)it.next()).initialize(this);
         }
     }
-    
+
     /**
      * process custom destroy classes.
      * This should only be called before the widget gets
      * destroyed.
-     */    
+     */
     protected void processDestroy() {
         List list = ApplicationContext.getInstance().getWidgetInitializers(getWidgetType());
         if (list == null) {
@@ -848,30 +848,30 @@ public abstract class Widget implements Serializable
             ((IWidgetInitializer)it.next()).destroy(this);
         }
     }
-    
+
     /**
-     * 
+     *
      * @return if the widget contains a valid value
      *          it defaults to true!
      */
     public boolean isValidValue() {
         return this.validValue;
     }
-    
+
     /**
-     * Call this from your code when you think there is an 
+     * Call this from your code when you think there is an
      * invalid value specified in a widget.
      * Normally just called from rules.
-     * 
+     *
      * @param validValue
      */
     public void setValidValue(boolean validValue) {
         this.validValue = validValue;
     }
-    
+
     /**
      * Add a nyx listener to the widget.
-     * 
+     *
      * @param listener
      */
     public void addNyxListener(NyxListener listener) {
@@ -880,7 +880,7 @@ public abstract class Widget implements Serializable
         }
         listenerList.add(listener);
     }
-    
+
     /**
      * Notifies the listeners that an event has occured.
      */
@@ -893,10 +893,10 @@ public abstract class Widget implements Serializable
             NyxListener listener = (NyxListener)it.next();
             listener.processEvent(event);
         }
-        
+
     }
-    
-    
+
+
     /**
      * Set if the use should be ignored. Defaults
      * to false.
@@ -905,9 +905,9 @@ public abstract class Widget implements Serializable
     public void ignoreUse(boolean ignoreUse) {
         this.ignoreUse = ignoreUse;
     }
-    
+
     /**
-     * 
+     *
      * @return if the use should be ignored or not
      */
     public boolean isUseIgnored() {

@@ -1,5 +1,5 @@
 /*
- $Id: IRule.java,v 1.7 2003-11-06 16:57:53 mvdb Exp $
+ $Id: IRule.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,76 +50,76 @@ import org.xulux.nyx.gui.Widget;
 
 /**
  * All rules must implement this interfaces.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IRule.java,v 1.7 2003-11-06 16:57:53 mvdb Exp $
+ * @version $Id: IRule.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
  */
 public interface IRule
 {
-    
+
     /**
-     * Initializes the rule 
+     * Initializes the rule
      * This initialization is context wide.
      * So any processing done here, will
      * preserve state among all calls to the rule
      */
     public void init();
-    
-    
+
+
     /**
      * Preprocessing of the rule.
      * This is mainly changes state of eg the current
      * component that is about to process
      */
     public void pre(PartRequest request);
-    
+
     /**
      * The actual rule will be processed here.
      */
     public void execute(PartRequest request);
-    
+
     /**
      * Post processing of the rule
      * This is mainly changing states in eg components
      * after the executer has been process.
      */
     public void post(PartRequest request);
-    
+
     /**
-     * Destroys the rule when removed from 
+     * Destroys the rule when removed from
      * the context
      */
     public void destroy();
 
     /**
-     * How many times is the current rule used 
+     * How many times is the current rule used
      */
     public int getUseCount();
-    
+
     /**
      * Method registerPartName.
      * @param partName
      */
     public void registerPartName(String partName);
-    
+
     /**
      * Method derigsterPartName.
      * @param partName
      */
     public void deregisterPartName(String partName);
-    
+
     /**
      * Method isRegistered.
      * @param partName
      * @return boolean
      */
     public boolean isRegistered(String partName);
-    
+
     /**
-     * 
+     *
      * @return the owner of this rule
      */
     public Widget getOwner();
-    
+
 
 }

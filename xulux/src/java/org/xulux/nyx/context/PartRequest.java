@@ -1,5 +1,5 @@
 /*
- $Id: PartRequest.java,v 1.11 2003-11-06 19:09:33 mvdb Exp $
+ $Id: PartRequest.java,v 1.12 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -48,11 +48,11 @@ package org.xulux.nyx.context;
 import org.xulux.nyx.gui.Widget;
 
 /**
- * The partRequest contains the direct connection to the current processed 
+ * The partRequest contains the direct connection to the current processed
  * field or action (action not in the Swing sence)
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequest.java,v 1.11 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: PartRequest.java,v 1.12 2003-11-06 19:53:10 mvdb Exp $
  */
 public interface PartRequest extends Cloneable {
     /**
@@ -110,7 +110,7 @@ public interface PartRequest extends Cloneable {
     public Widget getWidget();
 
     /**
-     * 
+     *
      * @param name - the name of the widget to fetch.
      * @return the widget specified in the current part
      */

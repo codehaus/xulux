@@ -1,8 +1,8 @@
 /*
- $Id: Button.java,v 1.16 2003-09-29 22:59:12 mvdb Exp $
+ $Id: Button.java,v 1.17 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.swing.widgets;
 
@@ -66,13 +66,13 @@ import org.xulux.nyx.swing.util.SwingUtils;
 
 /**
  * Represents a button in the gui
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.16 2003-09-29 22:59:12 mvdb Exp $
+ * @version $Id: Button.java,v 1.17 2003-11-06 19:53:13 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
-    
+
     private JButton button;
     private PrePostFieldListener actionListener;
     private FocusListener focusListener;
@@ -94,7 +94,7 @@ public class Button extends SwingWidget
         initialize();
         return button;
     }
-    
+
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
@@ -137,14 +137,14 @@ public class Button extends SwingWidget
         String rolloverImage = getProperty("image-rollover");
         if (rolloverImage!=null)
         {
-            ImageIcon icon = SwingUtils.getIcon(rolloverImage, this); 
+            ImageIcon icon = SwingUtils.getIcon(rolloverImage, this);
             button.setRolloverIcon(icon);
             button.setRolloverEnabled(true);
         }
         String selectedImage = getProperty("image-selected");
         if (selectedImage != null)
         {
-            ImageIcon icon = SwingUtils.getIcon(selectedImage,this); 
+            ImageIcon icon = SwingUtils.getIcon(selectedImage,this);
             button.setSelectedIcon(icon);
             button.setPressedIcon(icon);
             button.setRolloverSelectedIcon(icon);
@@ -179,7 +179,7 @@ public class Button extends SwingWidget
                 };
                 button.addFocusListener(focusListener);
             }
-            
+
         }
         if (getProperty("text")!=null)
         {
@@ -223,7 +223,7 @@ public class Button extends SwingWidget
         button.setEnabled(isEnabled());
         isRefreshing = false;
     }
-    
+
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
@@ -266,14 +266,14 @@ public class Button extends SwingWidget
         getPart().removeWidget(this,this);
         button = null;
     }
-    
+
     /**
      * @see org.xulux.nyx.gui.Widget#getGuiValue()
      */
     public Object getGuiValue() {
         return null;
     }
-    
+
 
     /**
      * @see org.xulux.nyx.gui.Widget#canContainValue()

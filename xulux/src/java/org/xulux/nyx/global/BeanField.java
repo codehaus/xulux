@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.26 2003-11-06 19:09:33 mvdb Exp $
+ $Id: BeanField.java,v 1.27 2003-11-06 19:53:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,78 +59,78 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 /**
  * This class contains all the symantics for working
  * on a bean.
- * 
+ *
  * @todo investigate if this can be "static" (or registered
  *       via a registry), since there aren't unlimited data beans
- *       normally. 
+ *       normally.
  * @todo Need to check thread safety.
  * @todo This class should contain all the logic for conversion
  *       to primitive types.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.26 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.27 2003-11-06 19:53:12 mvdb Exp $
  */
 public class BeanField implements IField
 {
-    
+
     /**
      * The official name of the field
      */
     private String name;
-    
+
     /**
      * The method of the field
      */
     private Method method;
-    
+
     /**
-     * The alias of the field, 
+     * The alias of the field,
      * This is the name to call this field.
      */
     private String alias;
-    
+
     /**
      * Place holder for the setter
      * associated with the get method
      */
     private Method changeMethod;
-    
+
     /**
      * Specifies if this beanField is derived form a
      * baseType or not
      */
     private boolean baseType;
-    
+
     /**
      * The parameterlist
      */
     private List parameterList;
-    
+
     /**
      * Parameterlist for the setmethod.
      * is null when equal to the parameterList
      */
     private List setParameterList;
-    
+
     /**
      * Temporary container for args.
      * Needs to be removed when we switch
      * to non fixed arguments.
      */
     private Object[] args;
-    
+
     /**
      * Holds the real field.
      */
     private String realField;
-    
+
     private boolean tempRealField;
-    
+
     /**
      * the logger
      */
     private Log log = LogFactory.getLog(BeanField.class);
-    
+
 
     /**
      * Constructor for BeanField.
@@ -138,17 +138,17 @@ public class BeanField implements IField
     public BeanField()
     {
     }
-    
+
     /**
      * Contructor that takes a method
-     * 
+     *
      * @param method - the method to use for reading the value
      */
     public BeanField(Method method)
     {
         setMethod(method);
     }
-    
+
     /**
      * @return specifies if the field is just for display
      *          (eg doesn't have a setter method)
@@ -157,11 +157,11 @@ public class BeanField implements IField
     {
         return (changeMethod==null);
     }
-    
-    /** 
+
+    /**
      * Sets a new value in the field
      * Exceptions will be eaten.
-     * 
+     *
      * @param bean - the bean to set the value on
      * @param value - the value to set to the bean
      * @return false on failure or if field is read only
@@ -193,8 +193,8 @@ public class BeanField implements IField
                     childObject = ClassLoaderUtils.getObjectFromClass(retType, getBeanParameterValues(parameterList));
 //                    log.warn("ChildObject ; "+childObject);
                     getChangeMethod().invoke(bean, getSetMethodArgs(childObject));
-                    
-                    // TODO : Preform some magic to set the object to the bean!! 
+
+                    // TODO : Preform some magic to set the object to the bean!!
                     if (childObject == null) {
                         if (log.isWarnEnabled()) {
                             log.warn("Cannot set value on "+toString()+" Please set the value in a rule or provide an empty constructor");
@@ -243,9 +243,9 @@ public class BeanField implements IField
         return success;
     }
 
-    /** 
+    /**
      * Returns a list of values from a list with beanparameter objects.
-     * 
+     *
      * @param list
      * @return
      */
@@ -253,7 +253,7 @@ public class BeanField implements IField
         if (list == null || list.size() == 0) {
             return null;
         }
-        ArrayList valueList = new ArrayList(); 
+        ArrayList valueList = new ArrayList();
         for (int i = 0; i < list.size(); i++) {
             Object object = list.get(i);
             if (object instanceof BeanParameter) {
@@ -261,17 +261,17 @@ public class BeanField implements IField
             }
         }
 //        log.warn("valueList : "+valueList);
-        return valueList;    
+        return valueList;
     }
-    
+
     /**
      * Get the value from the specified bean.
      * Exceptions will be eaten.
-     * 
+     *
      * @param bean - the bean to get the value from
      * @return the value of the field
      * or null when an error has happened or no value exists
-     *  
+     *
      */
     public Object getValue(Object bean)
     {
@@ -290,13 +290,13 @@ public class BeanField implements IField
                     return this.method.invoke(bean, getArgs());
                 } else {
                     // try to see if it is static..
-                    
+
                     if (Modifier.isStatic(getMethod().getModifiers())) {
                         return getMethod().invoke(null, getArgs());
                     }
                     if (log.isDebugEnabled()) {
                         log.debug("no data found for "+getName()+", alias "+getAlias()+", realfield "+realField);
-                        
+
                     }
                 }
             }
@@ -317,7 +317,7 @@ public class BeanField implements IField
         }
         return null;
     }
-    
+
     /**
      * TODO: for now we assume all is hardcoded data need to fix that..
      * @return the list of parameters to pass into
@@ -341,14 +341,14 @@ public class BeanField implements IField
         }
         return this.args;
     }
-    
+
     /**
      * No nullchecking is done in this method,
      * the caller should check if it can correctly
      * call this method.
      * (eg isReadOnly should be false)
-     * 
-     * @return the list of methods to pass into a 
+     *
+     * @return the list of methods to pass into a
      *          setmethod to correctly set a value.
      */
     protected Object[] getSetMethodArgs(Object value) {
@@ -392,7 +392,7 @@ public class BeanField implements IField
              * TODO: Make more advanced, or look at external package
              *        to handle this.
              */
-            
+
             if (parmSize == 1 && clzSize == 2) {
                 Object[] retValue = new Object[clzSize];
                 int currentParm = 1;
@@ -400,11 +400,11 @@ public class BeanField implements IField
                 if (clz[0] != retValue[0].getClass()) {
                     retValue[1] = retValue[0];
                     currentParm = 0;
-                }  
+                }
                 if (clz[currentParm] == String.class) {
                     retValue[currentParm] = value.toString();
                 } else {
-                    /* We should try to make the type the same 
+                    /* We should try to make the type the same
                      * so if the value is a string and the type
                      * an integer, some conversion needs to take
                      * place
@@ -414,7 +414,7 @@ public class BeanField implements IField
                         retValue[currentParm] = value;
                      } else {
                          log.warn("Cannot set value of type "+value.getClass().getName()+" for the parameter "+clz[1]);
-                         // we are hardheaded and set it anyway, so we can 
+                         // we are hardheaded and set it anyway, so we can
                          // get some kind of exception.
                          // TODO: FIX!!
                          retValue[currentParm] = value;
@@ -422,15 +422,15 @@ public class BeanField implements IField
                 }
                 return retValue;
             }
-            
+
         }
         return parms.toArray();
     }
-    
+
 
     /**
      * Returns the name.
-     * 
+     *
      * @return String
      */
     public String getName()
@@ -440,7 +440,7 @@ public class BeanField implements IField
 
     /**
      * Returns the method.
-     * 
+     *
      * @return Method
      */
     public Method getMethod()
@@ -450,7 +450,7 @@ public class BeanField implements IField
 
     /**
      * Sets the method.
-     * 
+     *
      * @param method The method to set
      */
     public void setMethod(Method method)
@@ -463,19 +463,19 @@ public class BeanField implements IField
             this.name = this.name.substring("is".length());
         }
     }
-    
+
     /**
-     * 
+     *
      * @return String representation of the beanField
      */
     public String toString()
     {
         return getMethod().getName()+"["+getAlias()+","+getName()+",realField="+getRealField()+"]";
     }
-    
+
     /**
      * Checks if we are talking about the same field..
-     * 
+     *
      * @param object - the object to perform the equals on
      * @return If the object is a String it will compare it with
      *          the Alias (case insensitive).
@@ -499,7 +499,7 @@ public class BeanField implements IField
         else if (object instanceof BeanField)
         {
             Method method = ((BeanField)object).getMethod();
-            if (method.getDeclaringClass().equals(this.getMethod().getDeclaringClass()) 
+            if (method.getDeclaringClass().equals(this.getMethod().getDeclaringClass())
                  && method.getName().equals(this.getMethod().getName()))
             {
                 return true;
@@ -510,7 +510,7 @@ public class BeanField implements IField
 
     /**
      * Returns the baseType.
-     * 
+     *
      * @return boolean
      */
     public boolean isBaseType()
@@ -520,14 +520,14 @@ public class BeanField implements IField
 
     /**
      * Sets the baseType.
-     * 
+     *
      * @param baseType The baseType to set
      */
     public void setBaseType(boolean baseType)
     {
         this.baseType = baseType;
     }
-    
+
     /**
      * @param method - the change method for this field.
      */
@@ -535,7 +535,7 @@ public class BeanField implements IField
     {
         this.changeMethod = method;
     }
-    
+
     /**
      * Convenience method to set the changemethod.
      * It will figure out which changemethod it will
@@ -560,7 +560,7 @@ public class BeanField implements IField
 
     /**
      * Returns the alias.
-     * 
+     *
      * @return String
      */
     public String getAlias()
@@ -574,34 +574,34 @@ public class BeanField implements IField
 
     /**
      * Sets the alias.
-     * 
+     *
      * @param alias The alias to set
      */
     public void setAlias(String alias)
     {
         this.alias = alias;
     }
-    
-    /** 
+
+    /**
      * Sets the parameters of the beanfield.
      * This will overwrite all previous values.
      * Use addParameter instead if you want to preserve them
-     * 
+     *
      * @param parameters
      */
     public void setParameters(List parameters) {
         this.parameterList = parameters;
     }
-    
+
     /**
-     * 
+     *
      * @return a list with currently know parameters or null
      *          when no parameters are known.
      */
     public List getParameters() {
         return this.parameterList;
     }
-    
+
     /**
      * Add a single parameter to the parameter list
      * @param parameter
@@ -629,34 +629,34 @@ public class BeanField implements IField
         this.realField = realField;
         this.tempRealField = true;
     }
-    
+
     public boolean hasTempRealField() {
         return this.tempRealField;
     }
-    
+
     public void removeTempRealField() {
         this.realField = null;
         this.tempRealField = false;
     }
-    
+
     /**
-     * 
+     *
      * @return the real underlying field.
      */
     public String getRealField() {
         return this.realField;
     }
-    
+
     /**
-     * 
+     *
      * @return the returntype of the getmethod.
      */
     public Class getReturnType() {
         return this.method.getReturnType();
     }
-    
+
     protected Method getChangeMethod() {
         return this.changeMethod;
     }
-    
+
 }

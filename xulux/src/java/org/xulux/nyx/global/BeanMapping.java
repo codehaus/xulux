@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.16 2003-11-06 19:09:33 mvdb Exp $
+ $Id: BeanMapping.java,v 1.17 2003-11-06 19:53:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -55,14 +55,14 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Contains the the Bean to Name mapping
  * Every field in the mapping is represented by a BeanField
- * 
- * @todo Probably should use some kind of discovery / bean 
+ *
+ * @todo Probably should use some kind of discovery / bean
  *       package to handle basic bean patterns. Just for Proof
  *       of concept I am reinventing the wheel a bit..;)
  * @todo Also fix the set when realField is used.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.16 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.17 2003-11-06 19:53:12 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -82,7 +82,7 @@ public class BeanMapping
     }
     /**
      * Creates a BeanMapping with the specified name
-     * 
+     *
      * @param name - the beanMapping name
      */
     public BeanMapping(String name)
@@ -91,7 +91,7 @@ public class BeanMapping
     }
 
     /**
-     * 
+     *
      * @return the name of the beanMapping
      */
     public String getName()
@@ -101,7 +101,7 @@ public class BeanMapping
 
     /**
      * Sets the BeanMapping name.
-     * 
+     *
      * @param name The name to set
      */
     public void setName(String name)
@@ -111,7 +111,7 @@ public class BeanMapping
 
     /**
      * Returns the bean.
-     * 
+     *
      * @return Class
      */
     public Class getBean()
@@ -121,7 +121,7 @@ public class BeanMapping
 
     /**
      * Sets the bean.
-     * 
+     *
      * @param bean The bean to set
      */
     public void setBean(Class bean)
@@ -131,7 +131,7 @@ public class BeanMapping
 
     /**
      * Returns the discovery.
-     * 
+     *
      * @return boolean
      */
     public boolean isDiscovery()
@@ -141,19 +141,19 @@ public class BeanMapping
 
     /**
      * Sets the discovery.
-     * 
+     *
      * @param discovery The discovery to set
      */
     public void setDiscovery(boolean discovery)
     {
         this.discovery = discovery;
     }
-    
+
     /**
      * Creates a beanfield based on the passed name
      * If no beanField can be created based on the name
      * null will be returned.
-     * 
+     *
      * @param name - the name of the field methods to discover.
      */
     public BeanField createBeanField(String name)
@@ -171,10 +171,10 @@ public class BeanMapping
         }
         return null;
     }
-    
+
     /**
-     * 
-     * @param name - the name the is contained in the method..getXXX/setXXX where XXX is the name 
+     *
+     * @param name - the name the is contained in the method..getXXX/setXXX where XXX is the name
      *                (case insensitive..)
      * @param setMethod - discover the setMethod (true) or the getMethod (false)
      */
@@ -199,10 +199,10 @@ public class BeanMapping
         }
         return null;
     }
-    
+
     /**
      * Adds a field to the mapping
-     * 
+     *
      * @param f - the field
      */
     public void addField(IField f)
@@ -211,7 +211,7 @@ public class BeanMapping
         {
             fields = new FieldList();
         }
-        
+
         if (f instanceof BeanField)
         {
             BeanField field = (BeanField) f;
@@ -259,8 +259,8 @@ public class BeanMapping
             if (discoverNestedBean)
             {
                 Dictionary d = Dictionary.getInstance();
-                if (d.getMapping(d.getPossibleMappingName(clazz)) == null 
-                    && d.getMapping(d.getPlainBeanName(clazz)) == null  
+                if (d.getMapping(d.getPossibleMappingName(clazz)) == null
+                    && d.getMapping(d.getPlainBeanName(clazz)) == null
                     && field.getMethod().getDeclaringClass() != clazz)
                 {
                     if (!d.isInCache(clazz))
@@ -278,7 +278,7 @@ public class BeanMapping
         }
         fields.add(f);
     }
-    
+
     /**
      * @return all the fields in an arraylist
      */
@@ -286,14 +286,14 @@ public class BeanMapping
     {
         return fields;
     }
-    
+
     /**
      * This method will also search aliases
      * of the field.
-     * 
-     * 
+     *
+     *
      * @param name
-     * @return the beanfield for the specified 
+     * @return the beanfield for the specified
      * field or null when no field is present
      */
     public IField getField(String name)
@@ -302,7 +302,7 @@ public class BeanMapping
             return null;
         }
         int dotIndex = name.lastIndexOf(".");
-        String realField = null;        
+        String realField = null;
         if (dotIndex != -1) {
             String field = name.substring(0,dotIndex);
             realField = name.substring(dotIndex+1);
@@ -320,7 +320,7 @@ public class BeanMapping
                 // and not having a new realfield, remove it.
                 bf.removeTempRealField();
             }
-                
+
             return bf;
         }
         return null;
@@ -333,7 +333,7 @@ public class BeanMapping
      * or protected.
      * It will also try to discover the set method that is connected
      * to the getter (assuming it is not a read only field).
-     * 
+     *
      */
     public void discover()
     {
@@ -371,18 +371,18 @@ public class BeanMapping
         }
         return false;
     }
-    
-    
+
+
     public String toString()
     {
         return getName();
     }
-    
+
     /**
      * Inner ArrayList with an overriden indexOf
-     * Which checks equals on the object In 
+     * Which checks equals on the object In
      * the arraylist instead of the object passed
-     * 
+     *
      * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
      */
     public class FieldList extends ArrayList
@@ -393,11 +393,11 @@ public class BeanMapping
         }
 
         /**
-         * Override the indexOf, since the java one is 
+         * Override the indexOf, since the java one is
          * calling equals on elem and we want to call
          * equals on the alement in the list.
          * Null will always return -1.
-         * 
+         *
          * @param elem
          * @return int - the position or -1 when not found
          */
@@ -419,5 +419,5 @@ public class BeanMapping
         }
 
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- $Id: NativeWidgetHandler.java,v 1.8 2003-11-06 16:57:54 mvdb Exp $
+ $Id: NativeWidgetHandler.java,v 1.9 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,16 +57,16 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * The native widgets handler for swing.
- *  
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeWidgetHandler.java,v 1.8 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: NativeWidgetHandler.java,v 1.9 2003-11-06 19:53:10 mvdb Exp $
  */
 public class NativeWidgetHandler implements INativeWidgetHandler {
-    
+
     private static Log log = LogFactory.getLog(INativeWidgetHandler.class);
-    
+
     /**
-     * 
+     *
      */
     public NativeWidgetHandler() {
     }
@@ -74,7 +74,7 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
     /**
      * Adds the specified object (if it is an instanceof JComponent)
      * to the specified parent.
-     * 
+     *
      * @see org.xulux.nyx.gui.INativeWidgetHandler#getWidget(java.lang.Object, org.xulux.nyx.gui.Widget)
      */
     public Widget getWidget(Object nativeWidget, Widget parent) {
@@ -97,7 +97,7 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
     /**
      * Adds a JComponent to the widget specified as parent
      * @see org.xulux.nyx.gui.INativeWidgetHandler#getWidget(java.lang.String, org.xulux.nyx.gui.Widget)
-     */    
+     */
     public Widget getWidget(String clazz, Widget parent) {
         Object nativeWidget = ClassLoaderUtils.getObjectFromClassString(clazz);
         return getWidget(nativeWidget, parent);

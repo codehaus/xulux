@@ -1,5 +1,5 @@
 /*
- $Id: DefaultConverter.java,v 1.3 2003-11-06 19:09:34 mvdb Exp $
+ $Id: DefaultConverter.java,v 1.4 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,14 +50,14 @@ import org.xulux.nyx.global.IConverter;
 /**
  * Just returns the object passed in.
  * Normally just used for Strings..
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultConverter.java,v 1.3 2003-11-06 19:09:34 mvdb Exp $
+ * @version $Id: DefaultConverter.java,v 1.4 2003-11-06 19:53:13 mvdb Exp $
  */
 public class DefaultConverter implements IConverter {
 
     /**
-     * 
+     *
      */
     public DefaultConverter() {
     }

@@ -1,5 +1,5 @@
 /*
- $Id: ComboContent.java,v 1.4 2003-11-06 19:09:34 mvdb Exp $
+ $Id: ComboContent.java,v 1.5 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,11 +52,11 @@ import org.xulux.nyx.gui.NyxCombo;
 
 /**
  * Creates the content needed for the combo box.
- * This way we have one single entry point for 
+ * This way we have one single entry point for
  * creating combo data.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboContent.java,v 1.4 2003-11-06 19:09:34 mvdb Exp $
+ * @version $Id: ComboContent.java,v 1.5 2003-11-06 19:53:13 mvdb Exp $
  */
 public class ComboContent
 {
@@ -65,7 +65,7 @@ public class ComboContent
     {
         return null;
     }
-    
+
     public static List getArrayList(ArrayList content, String comboFields, NyxCombo combo)
     {
         return null;

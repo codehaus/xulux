@@ -10,15 +10,15 @@ import org.xulux.nyx.swing.util.NyxEventQueue;
 import org.xulux.nyx.swing.widgets.Table;
 
 /**
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ValueChangedListener.java,v 1.1 2003-09-01 09:38:14 mvdb Exp $
+ * @version $Id: ValueChangedListener.java,v 1.2 2003-11-06 19:53:12 mvdb Exp $
  */
 public class ValueChangedListener extends NyxListener {
-    
+
     private boolean isProcessing = false;
     /**
-     * 
+     *
      */
     public ValueChangedListener() {
         super();

@@ -1,8 +1,8 @@
 /*
- $Id: NyxTableModel.java,v 1.11 2003-09-10 07:41:28 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.12 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.swing.models;
 
@@ -61,25 +61,25 @@ import org.xulux.nyx.swing.widgets.Table;
 /**
  * The nyx tablemodel contains all magic for tables.
  * TODO: Assumes lists right now.. Should support more probably..
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.11 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.12 2003-11-06 19:53:11 mvdb Exp $
  */
 public class NyxTableModel extends NyxListener implements TableModel {
-    
+
     protected Table table;
-    
+
     /**
-     * 
+     *
      */
     public NyxTableModel() {
         super();
     }
-    
+
     public NyxTableModel(Table table) {
         setTable(table);
     }
-    
+
     /**
      * Set the table to be used in this tablemodel
      * @param table
@@ -87,7 +87,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
     public void setTable(Table table) {
         this.table = table;
     }
-    
+
     /**
      * @see javax.swing.table.TableModel#getRowCount()
      */
@@ -100,7 +100,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
 
     /**
      * Not used,we use a columnmodel.
-     * 
+     *
      * @see javax.swing.table.TableModel#getColumnCount()
      */
     public int getColumnCount() {
@@ -127,13 +127,13 @@ public class NyxTableModel extends NyxListener implements TableModel {
      */
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         String editable = ((Widget)table.getChildWidgets().get(columnIndex)).getProperty("editable");
-        
+
         return "true".equalsIgnoreCase(editable);
     }
 
     /**
      * Returns the row object if the columnIndex is -1.
-     * 
+     *
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -161,7 +161,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
 
     /**
      * Sets the value of a bean..
-     * 
+     *
      * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
      */
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -192,7 +192,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
         System.out.println("removetableModelListener : "+l);
 
     }
-    
+
     /**
      * Destroy the tablemodel..
      *
@@ -200,7 +200,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
     public void destroy() {
         this.table = null;
     }
-    
+
     /**
      * refreshes the table, since there is new content
      */

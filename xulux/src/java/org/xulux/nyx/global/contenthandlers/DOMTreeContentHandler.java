@@ -1,5 +1,5 @@
 /*
- $Id: DOMTreeContentHandler.java,v 1.2 2003-11-06 19:09:33 mvdb Exp $
+ $Id: DOMTreeContentHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -56,15 +56,15 @@ import org.dom4j.Text;
 import org.xulux.nyx.gui.IContentWidget;
 
 /**
- * A dom contenthandler for a tree..  
- * 
+ * A dom contenthandler for a tree..
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DOMTreeContentHandler.java,v 1.2 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: DOMTreeContentHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
  */
 public class DOMTreeContentHandler extends TreeContentHandler {
-    
+
     /**
-     * 
+     *
      */
     public DOMTreeContentHandler() {
         super();
@@ -95,7 +95,7 @@ public class DOMTreeContentHandler extends TreeContentHandler {
             }
             list.addAll(element.attributes());
             return new DOMWrapper(list.get(index));
-        } 
+        }
         return null;
     }
 
@@ -120,10 +120,10 @@ public class DOMTreeContentHandler extends TreeContentHandler {
         System.err.println("Children : "+children);
         return children;
     }
-    
+
     /**
      * Removes all empty text.
-     * 
+     *
      * @param content
      * @return
      */
@@ -187,23 +187,23 @@ public class DOMTreeContentHandler extends TreeContentHandler {
     public Class getType() {
         return Document.class;
     }
-    
+
     /**
-     * The domwrapper takes care of showing the correct toString 
+     * The domwrapper takes care of showing the correct toString
      * to the tree..
-     * 
+     *
      */
     public class DOMWrapper {
         private Object object;
-        
+
         public DOMWrapper(Object object) {
             this.object = object;
         }
-        
+
         public Object getSource() {
             return this.object;
         }
-        
+
         public String toString() {
             if (object instanceof Element) {
                 return ((Element)object).getName();

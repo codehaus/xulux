@@ -1,5 +1,5 @@
 /*
- $Id: SessionPart.java,v 1.7 2003-11-06 19:09:33 mvdb Exp $
+ $Id: SessionPart.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,9 +50,9 @@ import java.util.Iterator;
 
 /**
  * Contains application wide part data.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SessionPart.java,v 1.7 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: SessionPart.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
  */
 public class SessionPart {
     HashMap map;
@@ -78,8 +78,8 @@ public class SessionPart {
      * Sets a session value
      * if either of the parameters are null the
      * value will not be stored
-     * 
-     * @param key 
+     *
+     * @param key
      * @param value
      */
     public void setValue(Object key, Object value) {
@@ -118,20 +118,20 @@ public class SessionPart {
     /**
      * Sample code :
      * <code>
-     * 
+     *
      * Iterator it = part.iterator();
      * while (it.hasNext()) {
      *   Object value = part.getValue(it.next());
      * }
-     * 
+     *
      * @return an iterator containing keys
      */
     public Iterator iterator() {
         return map.keySet().iterator();
     }
 
-    /** 
-     * 
+    /**
+     *
      * @return the size of the current session
      */
     public int size() {

@@ -1,5 +1,5 @@
 /*
- $Id: ListContentHandler.java,v 1.2 2003-11-06 19:09:33 mvdb Exp $
+ $Id: ListContentHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,14 +49,14 @@ import java.util.List;
 
 /**
  * A content handler for a list.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ListContentHandler.java,v 1.2 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: ListContentHandler.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
  */
 public class ListContentHandler extends ContentHandlerAbstract {
 
     /**
-     * 
+     *
      */
     public ListContentHandler() {
         super();

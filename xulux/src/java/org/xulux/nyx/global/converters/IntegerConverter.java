@@ -1,5 +1,5 @@
 /*
- $Id: IntegerConverter.java,v 1.3 2003-11-06 19:09:34 mvdb Exp $
+ $Id: IntegerConverter.java,v 1.4 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,14 +50,14 @@ import org.xulux.nyx.global.IConverter;
 /**
  * Converts an Integer to a String or an String to an Integer
  * It will return null when none of the above is possible.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IntegerConverter.java,v 1.3 2003-11-06 19:09:34 mvdb Exp $
+ * @version $Id: IntegerConverter.java,v 1.4 2003-11-06 19:53:13 mvdb Exp $
  */
 public class IntegerConverter implements IConverter {
 
     /**
-     * 
+     *
      */
     public IntegerConverter() {
     }
@@ -74,7 +74,7 @@ public class IntegerConverter implements IConverter {
         }
         return null;
     }
-    
+
     /**
      * @see org.xulux.nyx.global.IConverter#getGuiValue(java.lang.Object)
      */
@@ -82,7 +82,7 @@ public class IntegerConverter implements IConverter {
         if (object instanceof Integer) {
             return ((Integer)object).toString();
         }
-        return null;        
+        return null;
     }
     /**
      * @see org.xulux.nyx.global.IConverter#getType()

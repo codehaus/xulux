@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.18 2003-11-06 19:09:33 mvdb Exp $
+ $Id: Dictionary.java,v 1.19 2003-11-06 19:53:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -60,9 +60,9 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * A static applcation dictionary context
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.18 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.19 2003-11-06 19:53:12 mvdb Exp $
  */
 public class Dictionary
 {
@@ -77,14 +77,14 @@ public class Dictionary
      */
     private ArrayList mappingCache;
     private int mappingDepth = 0;
-    
+
     private static HashMap converters;
     static {
         // TODO: Move this to xml!!
         addConverter(DoubleConverter.class);
         addConverter(IntegerConverter.class);
     }
-        
+
 
     /**
      * Constructor for Dictionary.
@@ -143,7 +143,7 @@ public class Dictionary
         mappingDepth++;
         beanMapping.discover();
         mappings.put(beanMapping.getName(), beanMapping);
-        mappingDepth--; 
+        mappingDepth--;
         if (mappingDepth == 0)
         {
             mappingCache = null;
@@ -157,11 +157,11 @@ public class Dictionary
         }
         return getMapping(clazz, false);
     }
-    
+
     /**
-     * Convenience method. This calls the 
+     * Convenience method. This calls the
      * getMapping(Class)
-     * 
+     *
      * @param object
      * @return the beanmapping that is connected
      *          to the class of the specified instance
@@ -173,7 +173,7 @@ public class Dictionary
         }
         return getMapping(object.getClass());
     }
-    
+
 
     /**
      * @param bean
@@ -198,7 +198,7 @@ public class Dictionary
     /**
      * Tries to get a mapping based on the specified bean
      * @param bean
-     * @param preferredName - the name to use for the mapping 
+     * @param preferredName - the name to use for the mapping
      *                         if it needs to be created
      */
     public BeanMapping getMapping(Class clazz, String preferredName)
@@ -300,7 +300,7 @@ public class Dictionary
     {
         this.baseClass = baseClass;
     }
-    
+
     public void clearMappings()
     {
         if (mappings!=null)
@@ -308,7 +308,7 @@ public class Dictionary
             mappings.clear();
         }
     }
-    
+
     /**
      * Reset all dictionary settings..
      *
@@ -322,10 +322,10 @@ public class Dictionary
     }
 
     /**
-     * Checks to see if this class is currently being 
-     * discovered. This is a nice way to prevent 
+     * Checks to see if this class is currently being
+     * discovered. This is a nice way to prevent
      * infinite loops.
-     * 
+     *
      * @param clazz
      * @return boolean
      */
@@ -337,10 +337,10 @@ public class Dictionary
         }
         return (mappingCache.indexOf(clazz)==-1)?false:true;
     }
-    
+
     /**
-     * 
-     * @return a clone of the current cache. 
+     *
+     * @return a clone of the current cache.
      */
     public List getCache() {
         return (mappingCache != null)?(List)mappingCache.clone():null;
@@ -363,11 +363,11 @@ public class Dictionary
             }
         }
     }
-    
+
     /**
      * Convenience method. see addConverter(Class) for more
      * details.
-     * 
+     *
      * @param clazz
      */
     public static void addConverter(String clazz) {
@@ -382,28 +382,28 @@ public class Dictionary
         } else {
             addConverter(clz);
         }
-            
+
         addConverter(ClassLoaderUtils.getClass(clazz));
     }
-    
+
     /**
-     * 
-     * @param object 
-     * @return the converter for the object specified or 
+     *
+     * @param object
+     * @return the converter for the object specified or
      *          null when no converter is present
      */
     public static IConverter getConverter(Object object) {
         return getConverter(object!=null?object.getClass():null);
     }
     /**
-     * 
+     *
      * @return all registered converters
      */
     public static Map getConverters() {
         return converters;
     }
     /**
-     * 
+     *
      * @param clazz
      * @return the coverter for the clazz specified or null
      *          when no converter is present
@@ -414,7 +414,7 @@ public class Dictionary
         }
         return null;
     }
-        
-            
+
+
 
 }

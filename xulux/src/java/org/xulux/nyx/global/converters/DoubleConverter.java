@@ -1,5 +1,5 @@
 /*
- $Id: DoubleConverter.java,v 1.2 2003-11-06 19:09:34 mvdb Exp $
+ $Id: DoubleConverter.java,v 1.3 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -48,16 +48,16 @@ package org.xulux.nyx.global.converters;
 import org.xulux.nyx.global.IConverter;
 
 /**
- * Converts a double to a representable string 
- * and converts a string to a double. 
- * 
+ * Converts a double to a representable string
+ * and converts a string to a double.
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DoubleConverter.java,v 1.2 2003-11-06 19:09:34 mvdb Exp $
+ * @version $Id: DoubleConverter.java,v 1.3 2003-11-06 19:53:13 mvdb Exp $
  */
 public class DoubleConverter implements IConverter {
 
     /**
-     * 
+     *
      */
     public DoubleConverter() {
         super();
@@ -83,7 +83,7 @@ public class DoubleConverter implements IConverter {
         if (object instanceof Double) {
             return ((Double)object).toString();
         }
-        return null;        
+        return null;
     }
 
     /**

@@ -1,8 +1,8 @@
 /*
- $Id: NyxCombo.java,v 1.17 2003-09-30 16:09:35 mvdb Exp $
+ $Id: NyxCombo.java,v 1.18 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.gui;
 
@@ -59,14 +59,14 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
 
 /**
  * The combo abstract. This will contain the combo generics
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.17 2003-09-30 16:09:35 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.18 2003-11-06 19:53:11 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 implements IContentWidget
 {
-    
+
     protected List content;
     protected String notSelectedValue;
     protected boolean contentChanged;
@@ -109,7 +109,7 @@ implements IContentWidget
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public abstract void refresh();
-    
+
     /**
      * Sets the content of the combo.
      * The content should be all of the same type
@@ -128,7 +128,7 @@ implements IContentWidget
             refresh();
         }
     }
-    
+
     /**
      * Initializes the content when the property
      * content and content.type is present
@@ -158,7 +158,7 @@ implements IContentWidget
             }
         }
     }
-    
+
     protected void initializeNotSelectedValue()
     {
         String nsv = getNotSelectedValue();
@@ -221,7 +221,7 @@ implements IContentWidget
     {
         if (notSelectedValueSet)
         {
-            // we don't want to do anything when 
+            // we don't want to do anything when
             // the not selected value is the same
             if (this.notSelectedValue.equals(notSelectedValue))
             {
@@ -234,7 +234,7 @@ implements IContentWidget
             refresh();
         }
     }
-    
+
     /**
      * @return the notSelectedValue
      */
@@ -265,7 +265,7 @@ implements IContentWidget
             return this.value;
         }
     }
-    
+
     public void setValue(Object object)
     {
         setValue(object, true);
@@ -274,12 +274,12 @@ implements IContentWidget
      * TODO: Provide some tests to prove if this stuff actually works!
      * @param object
      * @param refresh
-     */    
+     */
     public void setValue(Object object, boolean refresh) {
         if (isUseIgnored()) {
             this.value = object;
             notifyListeners(new NyxValueChangedEvent() {
-               
+
                 public Object getValue() {
                     return NyxCombo.this.value;
                 }
@@ -289,7 +289,7 @@ implements IContentWidget
                 }
             });
         }
-            
+
         if (getField() == null) {
             this.previousValue = this.value;
             this.value = object;
@@ -313,7 +313,7 @@ implements IContentWidget
             refresh();
         }
     }
-    
+
     /**
      * Sets the value without updating the screen
      * Normally only called by the classes that handle
@@ -324,7 +324,7 @@ implements IContentWidget
     {
         setValue(object, false);
     }
-    
+
     /**
      * @see org.xulux.nyx.gui.Widget#clear()
      */
@@ -346,7 +346,7 @@ implements IContentWidget
         return content;
     }
 
-    
+
 
     /**
      * @see org.xulux.nyx.gui.Widget#canContainValue()
@@ -377,9 +377,9 @@ implements IContentWidget
     }
 
     /**
-     * We need to keep track of content changes 
+     * We need to keep track of content changes
      * through the property system.
-     * 
+     *
      * @see org.xulux.nyx.gui.Widget#setProperty(java.lang.String, java.lang.String)
      */
     public void setProperty(String key, String value) {

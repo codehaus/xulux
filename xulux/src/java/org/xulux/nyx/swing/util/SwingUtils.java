@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.5 2003-11-06 16:57:54 mvdb Exp $
+ $Id: SwingUtils.java,v 1.6 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,29 +61,29 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
 
 /**
  * Contains several utilities to make life with swing easier.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.5 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.6 2003-11-06 19:53:10 mvdb Exp $
  */
 public class SwingUtils
 {
-    
+
     /**
      * The log factory, so we can log the necssary information
      */
     private static Log log = LogFactory.getLog(SwingUtils.class);
-    
-    /** 
+
+    /**
      * The default custom images loader (uses jimi)
      */
-    private static String DEFAULT_CUSTOMIMAGELOADER = 
+    private static String DEFAULT_CUSTOMIMAGELOADER =
                     "org.xulux.nyx.swing.util.JimiImageLoader";
-    
-    /** 
+
+    /**
      * Contains the custom image loader
      */
     private static ImageLoaderInterface imageLoader = null;
-    
+
 
     /**
      * Static initializer to check if jimi is present
@@ -105,23 +105,23 @@ public class SwingUtils
             }
         }
     }
-    
-    
+
+
     /**
      * Constructor for SwingUtils.
      */
     public SwingUtils()
     {
     }
-    
-    /** 
+
+    /**
      * Returns the image based on the resource.
      * The resource should be available to the classloader,
      * otherwize it will fail loading.
      * It will use the ImageInterface when jimi is supported
-     * 
+     *
      * @param resource - the resource from the classpath
-     * @param object - the object to get the classLoader from. 
+     * @param object - the object to get the classLoader from.
      *                  At this time it cannot be null
      * @return the Image retrieved
      */
@@ -129,15 +129,15 @@ public class SwingUtils
     {
         return getIcon(resource,object).getImage();
     }
-    
+
     /**
-     * 
+     *
      * @param resource
      * @param object
      * @return the imageIcon found or null if not found
      */
     public static ImageIcon getIcon(String resource, Object object) {
-        URL imageURL = object.getClass().getClassLoader().getResource(resource);            
+        URL imageURL = object.getClass().getClassLoader().getResource(resource);
         if (imageLoader != null) {
             return imageLoader.getIcon(imageURL);
         }
@@ -151,11 +151,11 @@ public class SwingUtils
         }
         return icon;
     }
-    
-    
+
+
     /**
      * @param rectangle
-     * @return the dimensions for the rectangle specified 
+     * @return the dimensions for the rectangle specified
      */
     public static Dimension getDimension(WidgetRectangle rectangle) {
         Dimension dim = new Dimension();
@@ -166,8 +166,8 @@ public class SwingUtils
     /**
      * Creates an insets object from a comma delimited string.
      * If the string is incomplete null will be returned.
-     * 
-     * @param margin - the margin in the format 
+     *
+     * @param margin - the margin in the format
      * @return the insets depending on the margin
      */
     public static Insets getInsets(String margin) {
@@ -175,15 +175,15 @@ public class SwingUtils
             return null;
         }
         Object[] ins = NyxCollectionUtils.getListFromCSV(margin).toArray();
-        if (ins != null && ins.length == 4 ) { 
+        if (ins != null && ins.length == 4 ) {
             try {
-                int top = Integer.parseInt((String)ins[0]); 
+                int top = Integer.parseInt((String)ins[0]);
                 int left = Integer.parseInt((String)ins[1]);
                 int bottom = Integer.parseInt((String)ins[2]);
                 int right = Integer.parseInt((String)ins[3]);
                 return new Insets(top,left,bottom,right);
             } catch (Exception e) {
-            } 
+            }
         }
         return null;
     }

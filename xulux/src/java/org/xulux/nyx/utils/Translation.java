@@ -1,5 +1,5 @@
 /*
- $Id: Translation.java,v 1.2 2003-11-06 16:57:54 mvdb Exp $
+ $Id: Translation.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,28 +49,28 @@ package org.xulux.nyx.utils;
  * The translation object is a holder of translation
  * information (url to get names from)
  * It defaults to classloader loading.
- * 
+ *
  * TODO: Automaticaly figure out what to do!
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Translation.java,v 1.2 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: Translation.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
  */
 public class Translation {
-    
+
     private String url;
     private String type;
-    
+
     /**
-     * 
+     *
      */
     public Translation() {
         super();
     }
-    
+
     /**
-     * Convenient constructor instead of calling 
+     * Convenient constructor instead of calling
      * the setters..
-     * 
+     *
      * @param url
      * @param type
      */
@@ -107,15 +107,15 @@ public class Translation {
     public void setUrl(String string) {
         url = string;
     }
-    
+
     /**
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     public String toString() {
         return this.url;
     }
-    
+
     /**
      * Case sensitive comparison of urls.
      * @see java.lang.Object#equals(java.lang.Object)
@@ -129,7 +129,7 @@ public class Translation {
                         return getType().equals(trans.getType());
                     }else {
                         return trans.getType()==null?true:false;
-                    } 
+                    }
                 }
             }
         }

@@ -1,5 +1,5 @@
 /*
- $Id: ImageLoaderInterface.java,v 1.2 2003-11-06 16:57:54 mvdb Exp $
+ $Id: ImageLoaderInterface.java,v 1.3 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,28 +52,28 @@ import javax.swing.ImageIcon;
 
 /**
  * A simple interface to make sure there are not classloader
- * issues when jimi is not on the classpath. 
+ * issues when jimi is not on the classpath.
  * It also leaves open pluggable image libraries
- * 
- * @todo Add support for pluggable image libraries. 
- * 
+ *
+ * @todo Add support for pluggable image libraries.
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImageLoaderInterface.java,v 1.2 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: ImageLoaderInterface.java,v 1.3 2003-11-06 19:53:10 mvdb Exp $
  */
 public interface ImageLoaderInterface
 {
-    
+
     /**
      * Returns the specified image
-     * 
+     *
      * @param url - the url to load if from
      */
     public Image getImage(URL url);
-    
-    
+
+
     /**
      * Returns the specified icon
-     * 
+     *
      * @param url - the url to load if from
      */
     public ImageIcon getIcon(URL url);

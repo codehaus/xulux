@@ -1,5 +1,5 @@
 /*
- $Id: JimiImageLoader.java,v 1.4 2003-11-06 16:57:54 mvdb Exp $
+ $Id: JimiImageLoader.java,v 1.5 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -56,9 +56,9 @@ import com.sun.jimi.core.Jimi;
  * Loads images using jimi, so also ico, xpm, etc is supported
  * by NYX. This is wrapped up in an interface so you don't
  * get any strange exceptions when jimi is not there.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: JimiImageLoader.java,v 1.4 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: JimiImageLoader.java,v 1.5 2003-11-06 19:53:10 mvdb Exp $
  */
 public class JimiImageLoader implements ImageLoaderInterface
 {
@@ -71,9 +71,9 @@ public class JimiImageLoader implements ImageLoaderInterface
     }
 
     /**
-     * For now we don't provide any exceptions or logging in case a 
+     * For now we don't provide any exceptions or logging in case a
      * resrouce is null.
-     * 
+     *
      * @see org.xulux.nyx.swing.util.ImageLoaderInterface#getImage(java.net.URL)
      */
     public Image getImage(URL url)

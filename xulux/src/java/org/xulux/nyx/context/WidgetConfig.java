@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfig.java,v 1.7 2003-11-06 19:09:33 mvdb Exp $
+ $Id: WidgetConfig.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -55,12 +55,12 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * The widget config contains the main class
- * of the widget (the abstract) and the 
+ * of the widget (the abstract) and the
  * core sytem specific declerations
  * (eg swt, swing)
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.7 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
  */
 public class WidgetConfig {
 
@@ -88,7 +88,7 @@ public class WidgetConfig {
     }
 
     /**
-     * 
+     *
      * @return the coreClass of the widget
      */
     public Class getCoreClass() {
@@ -103,9 +103,9 @@ public class WidgetConfig {
         this.coreClass = coreClass;
     }
     /**
-     * 
-     * @param type 
-     * @return the Class of the specified type 
+     *
+     * @param type
+     * @return the Class of the specified type
      */
     public Class get(String type) {
         if (map == null) {
@@ -118,7 +118,7 @@ public class WidgetConfig {
      * Adds a widgetInitializer.
      * It checks it the same initializer already exist or
      * not.
-     * 
+     *
      * @param type
      * @param initializerClass
      * @deprecated Please use addWidgetTool
@@ -138,7 +138,7 @@ public class WidgetConfig {
     }
 
     /**
-     * 
+     *
      * @param type - eg swing, swt, awt, html, etc.
      * @return the widgetHandler classlist for the specified type
      *

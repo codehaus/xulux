@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtils.java,v 1.7 2003-11-06 16:57:54 mvdb Exp $
+ $Id: ClassLoaderUtils.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,22 +57,22 @@ import org.apache.commons.logging.LogFactory;
 /**
  * This util class contains classloader utils
  * so we can do actual code reuse.
- *  
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.7 2003-11-06 16:57:54 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
     private static Log log = LogFactory.getLog(ClassLoaderUtils.class);
-    
+
     /**
      * Make it possible to extend..
      */
     public ClassLoaderUtils() {
     }
-    
+
     /**
-     * 
+     *
      * @param classString
      * @return an object from the specified classString or null when errors occur
      */
@@ -81,9 +81,9 @@ public class ClassLoaderUtils {
         return getObjectFromClass(clazz);
     }
     /**
-     * Also instantiates static AND non static innerclasses. 
-     * The parent class needs to have an empty constructor! 
-     * You can overcome this problem by adding this to the paramlist! 
+     * Also instantiates static AND non static innerclasses.
+     * The parent class needs to have an empty constructor!
+     * You can overcome this problem by adding this to the paramlist!
      * @param clazz
      * @return an object from the specified class or null when errors occur
      */
@@ -98,9 +98,9 @@ public class ClassLoaderUtils {
                 if (parent != null) {
                     Constructor constructor = clazz.getConstructor(new Class[] {parent.getClass()});
                     object = constructor.newInstance(new Object[] {parent} );
-                } 
+                }
             } else {
-                // static inner classes can be instantiated without a problem.. 
+                // static inner classes can be instantiated without a problem..
                 object = clazz.newInstance();
             }
             return object;
@@ -119,7 +119,7 @@ public class ClassLoaderUtils {
         }
         return null;
     }
-    
+
     /**
      * Instantiates the parent object of an inner class.
      * @param class
@@ -149,7 +149,7 @@ public class ClassLoaderUtils {
                                 object = c.newInstance();
                             }
                             catch(Exception e) {
-                            } finally { 
+                            } finally {
                                 parms.add(object);
                             }
                         }
@@ -157,13 +157,13 @@ public class ClassLoaderUtils {
                 }
                 return getObjectFromClass(getClass(name.substring(0,index)),parms);
             }
-            
+
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param clazz
      * @return if the class is an inner class
      */
@@ -172,12 +172,12 @@ public class ClassLoaderUtils {
             return false;
         }
         return clazz.getName().indexOf("$") != -1;
-    } 
-    
+    }
+
     /**
      * Tries to find a constructor with the parameters specified in the list
      * If it cannot it will return the empty constructor.
-     * 
+     *
      * @param clazz
      * @param parms the list of parameters as classes
      * @return the instantiated object
@@ -205,11 +205,11 @@ public class ClassLoaderUtils {
         }
         return getObjectFromClass(clazz);
     }
-    
+
     /**
-     * 
+     *
      * @param clazzString
-     * @return the clazz created from the specified String or null 
+     * @return the clazz created from the specified String or null
      *          when it could not be created
      */
     public static Class getClass(String clazzString) {
@@ -227,7 +227,8 @@ public class ClassLoaderUtils {
         }
         catch(NoClassDefFoundError ncdfe) {
             if (log.isWarnEnabled()) {
-                log.warn("Using wrong name for class "+clazzString+ "\n" +                    ncdfe.getLocalizedMessage());
+                log.warn("Using wrong name for class "+clazzString+ "\n" +
+                    ncdfe.getLocalizedMessage());
             }
         }
         return null;

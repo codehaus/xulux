@@ -1,8 +1,8 @@
 /*
- $Id: TabPanel.java,v 1.13 2003-09-29 02:21:05 mvdb Exp $
+ $Id: TabPanel.java,v 1.14 2003-11-06 19:53:13 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,25 +10,25 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.nyx.swing.widgets;
 
@@ -61,26 +61,26 @@ import org.xulux.nyx.swing.util.SwingUtils;
 
 /**
  * A panel that contains tabs..
- * 
- * 
+ *
+ *
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.13 2003-09-29 02:21:05 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.14 2003-11-06 19:53:13 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
-    
+
     private JTabbedPane tabPanel;
     private Log log = LogFactory.getLog(TabPanel.class);
     private int tabCount;
     /**
      * The tabid key that is used internally
      * by nyx. Made it public so people can use
-     * it if they want to in their rules. 
+     * it if they want to in their rules.
      */
     public static String TABID = "nyx-tab-id";
 
-    private String initialFocus; 
-    
+    private String initialFocus;
+
     /**
      * @param name
      */
@@ -109,7 +109,7 @@ public class TabPanel extends ContainerWidget {
 
     /**
      * @see org.xulux.nyx.gui.Widget#focus()
-     * TODO: This is bad coding 
+     * TODO: This is bad coding
      */
     public void focus() {
         Object object = getPart().getSession().getValue("nyx.focusrequest");
@@ -120,7 +120,7 @@ public class TabPanel extends ContainerWidget {
         }
         this.tabPanel.requestFocus();
     }
-    
+
     /**
      * Tries to find the widget of the parent of the widget passed
      * and which is also a child of this widget
@@ -182,14 +182,14 @@ public class TabPanel extends ContainerWidget {
 
     /**
      * Adds a widget to the tabPanel if the widget
-     * is a panel. For now no support for other 
+     * is a panel. For now no support for other
      * widget types. Need to dig in deep into
      * panels to see what can be usefull here
      * TODO: Tooltips don't seem to work...
      * @see org.xulux.nyx.gui.ContainerWidget#addToParent(org.xulux.nyx.gui.Widget)
      */
     public void addToParent(Widget widget) {
-        
+
         if (widget instanceof Panel) {
             if (log.isDebugEnabled()) {
                 log.debug("Adding panel "+widget);
@@ -207,10 +207,10 @@ public class TabPanel extends ContainerWidget {
                     }
                 }
             }
-            // always add the parent to the added widget.. 
+            // always add the parent to the added widget..
             widget.setParent(this);
             tabPanel.addTab(tabTitle,icon,(Component)widget.getNativeWidget(), tabTip);
-            // just in case, but this doesn't seem to 
+            // just in case, but this doesn't seem to
             // work either. Who know jdk1.4 does..
             tabPanel.setToolTipTextAt(tabCount, tabTip);
             // add the tabId to the property of the widget.

@@ -1,5 +1,5 @@
 /*
- $Id: NyxValueChangedEvent.java,v 1.2 2003-11-06 19:09:34 mvdb Exp $
+ $Id: NyxValueChangedEvent.java,v 1.3 2003-11-06 19:53:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -48,9 +48,9 @@ package org.xulux.nyx.gui.events;
 import org.xulux.nyx.gui.NyxEvent;
 
 /**
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxValueChangedEvent.java,v 1.2 2003-11-06 19:09:34 mvdb Exp $
+ * @version $Id: NyxValueChangedEvent.java,v 1.3 2003-11-06 19:53:12 mvdb Exp $
  */
 public interface NyxValueChangedEvent extends NyxEvent {
 

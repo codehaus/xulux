@@ -1,5 +1,5 @@
 /*
- $Id: IRuleEngine.java,v 1.3 2003-11-06 19:09:33 mvdb Exp $
+ $Id: IRuleEngine.java,v 1.4 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -49,16 +49,16 @@ import org.xulux.nyx.gui.Widget;
 
 /**
  * The main rule engine interface.
- * This is the way to plugin your own custom rule engine, or eg 
+ * This is the way to plugin your own custom rule engine, or eg
  * drools. The internal nyx rule engine will be an implementation
  * that is always available in the core system and can be used
  * in combination with any ruleengine. The custom rule engine
- * however will take precedence over the internal one. 
- * So in case of drools, first all drools rules will be fired and 
- * after that the internal rule system. 
- * 
+ * however will take precedence over the internal one.
+ * So in case of drools, first all drools rules will be fired and
+ * after that the internal rule system.
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IRuleEngine.java,v 1.3 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: IRuleEngine.java,v 1.4 2003-11-06 19:53:10 mvdb Exp $
  */
 public interface IRuleEngine {
 
@@ -80,14 +80,14 @@ public interface IRuleEngine {
 
     /**
      * Fire a single request.
-     * 
+     *
      * @param request
      * @param type
      */
     public void fireFieldRequest(PartRequest request, int type);
 
     /**
-     * Do not continue any rules left in the rule queue. 
+     * Do not continue any rules left in the rule queue.
      * It should act as if all rules are actually processed.
      *
      */

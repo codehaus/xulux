@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.58 2003-11-06 19:09:33 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.59 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -67,13 +67,13 @@ import org.xulux.nyx.utils.Translation;
 
 /**
  * An Application is a part of the application
- * which will contain a "block" of data/gui  that is in some 
+ * which will contain a "block" of data/gui  that is in some
  * way related with each other (eg a form, table, window)
- * 
+ *
  * It will maintain 2 beans for every bean : the original
- * and the copy on the screen. 
- * 
- * 
+ * and the copy on the screen.
+ *
+ *
  * TODO: Add refresh possibilities to the application parts,
  * so your are able to replace the original bean and determine if
  * the "bean refresh" changed the bean or not.
@@ -81,9 +81,9 @@ import org.xulux.nyx.utils.Translation;
  * people (although this would be merely convenience, since other code
  * should handle these kind of situation..).
  * TODO: Fix naming of field. It is used everywhere with different meanings.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.58 2003-11-06 19:09:33 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.59 2003-11-06 19:53:10 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -151,7 +151,7 @@ public class ApplicationPart {
         }
     }
 
-    /** 
+    /**
      * @return Are there any changes in the part
      */
     public boolean isDirty() {
@@ -160,10 +160,10 @@ public class ApplicationPart {
 
     /**
      * Currently not functional.
-     * It should compare the bean value and the 
+     * It should compare the bean value and the
      * current value in the field. Some introspection
      * should be done to turn the field value into a
-     * correct bean (string to string is not a problem 
+     * correct bean (string to string is not a problem
      * though).
      * TODO: isDirty()
      * @return if the field specified has been changed..
@@ -175,7 +175,7 @@ public class ApplicationPart {
     /**
      * Returns if the field specified is the one currently
      * being processed. This way you can quicly determine in
-     * your code if the rule 
+     * your code if the rule
      */
     public boolean isCurrentField(String field) {
         return false;
@@ -183,7 +183,7 @@ public class ApplicationPart {
 
     /**
      * No primitive support yet.. sorry ;)
-     * This is pretty ignoarant.. If a field does not exists 
+     * This is pretty ignoarant.. If a field does not exists
      * in the apppart, it will do nothing
      * @param field
      * @param value
@@ -218,9 +218,9 @@ public class ApplicationPart {
         }
     }
 
-    /** 
+    /**
      * Returns the current value of the specified field
-     * 
+     *
      * @param field
      */
     public Object getGuiValue(String name) {
@@ -257,7 +257,7 @@ public class ApplicationPart {
     }
 
     /**
-     * @return the widget that is connected to the field, 
+     * @return the widget that is connected to the field,
      * null if not found or no widgets are present.
      */
     public Widget getWidget(String name) {
@@ -275,7 +275,7 @@ public class ApplicationPart {
         return this.bean;
     }
 
-    /** 
+    /**
      * Returns the name of the part
      */
     public String getName() {
@@ -288,7 +288,7 @@ public class ApplicationPart {
 
     /**
      * The parent widget for all child widgets to be added
-     * @param widget 
+     * @param widget
      */
     public void setParentWidget(Object widget) {
         this.parentWidget = widget;
@@ -296,10 +296,10 @@ public class ApplicationPart {
 
     /**
      * Adds a widget to the parent
-     * Also replaces it, but it is cleaner to have a seperate 
+     * Also replaces it, but it is cleaner to have a seperate
      * call for that (that is assuming the widgets are already there
      * by default..)
-     * 
+     *
      * @param widget
      * @param field - the fieldAlias
      */
@@ -327,7 +327,7 @@ public class ApplicationPart {
      * TODO : this method should automatically be called
      * @param widget
      * @param caller - the caller of the object. Always pass
-     *         <code>this</code>. 
+     *         <code>this</code>.
      */
     public void removeWidget(Widget widget, Object caller) {
         if (caller instanceof Widget) {
@@ -338,7 +338,7 @@ public class ApplicationPart {
         widget.setParent(null);
         widget.destroy();
     }
-    /** 
+    /**
      * Replaces the field with the specified widget
      * @param widget
      * @param field
@@ -362,7 +362,7 @@ public class ApplicationPart {
 
     /**
      * NOTE : Is actually not ding anything
-     * 
+     *
      * Initialize the part, which makes the gui visible,
      * processes fields, etc.
      * Can only be called from the DefaultPartRule
@@ -441,7 +441,7 @@ public class ApplicationPart {
                 if (getRootWidget() != null) {
                     ApplicationContext.getInstance().getNativeWidgetHandler().addWidgetToParent(widget, getRootWidget());
                 }
-                //                if (widget.canBeRootWidget() || 
+                //                if (widget.canBeRootWidget() ||
                 //                     widget.canContainChildren())
                 //                {
                 widget.initialize();
@@ -483,7 +483,7 @@ public class ApplicationPart {
         return partRules;
     }
 
-    /** 
+    /**
      * Initializes the partrules
      * and adds the defaultrule.
      */
@@ -505,7 +505,7 @@ public class ApplicationPart {
     public class WidgetList extends ArrayList {
 
         /**
-         * 
+         *
          * @param field
          * @return a collection with widgets that reference the
          *          specified field or null when no fields are found
@@ -595,7 +595,7 @@ public class ApplicationPart {
         }
     }
 
-    /** 
+    /**
      * Resets all fields to the original value
      */
     public void reset() {
@@ -613,7 +613,7 @@ public class ApplicationPart {
         widget.setValue(null);
     }
 
-    /** 
+    /**
      * Destroys the applicationPart
      * (does a lot of cleanups)
      * After the destroy the object is not usable anymore.
@@ -748,8 +748,8 @@ public class ApplicationPart {
      * This is used mainly when including parts in a part,
      * so you don't have to put translations in more than
      * one property file, if already defined somwehere else.
-     * 
-     * @param url - if the url already exists it will not 
+     *
+     * @param url - if the url already exists it will not
      *               add it to the translationlist
      * @param type - not supported yet, although should be handled by url.
      */
@@ -768,7 +768,7 @@ public class ApplicationPart {
     }
 
     /**
-     * @return The list of translation urls. 
+     * @return The list of translation urls.
      */
     public List getTranslationList() {
         return this.translationList;
@@ -782,10 +782,10 @@ public class ApplicationPart {
     }
 
     /**
-     * Refreshes all fields that reference the field 
+     * Refreshes all fields that reference the field
      * used by the passed in widget
      * When field is null nothing will be done.
-     * @param widget 
+     * @param widget
      */
     public void refreshFields(Widget widget) {
         String field = widget.getField();
@@ -807,7 +807,7 @@ public class ApplicationPart {
 
     /**
      * Updates the widgets that depends on the widget
-     * passed in. 
+     * passed in.
      * @param widget
      */
     public void updateDependandWidgets(Widget widget) {
@@ -824,7 +824,7 @@ public class ApplicationPart {
     }
 
     /**
-     * Set the parent part. This way a part knows that 
+     * Set the parent part. This way a part knows that
      * the bean provided should be passed to the parent.
      * @param part
      */
@@ -833,7 +833,7 @@ public class ApplicationPart {
     }
 
     /**
-     * 
+     *
      * @return the parentpart or null when there is none
      */
     public ApplicationPart getParentPart() {

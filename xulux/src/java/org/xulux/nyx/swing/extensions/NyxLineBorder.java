@@ -7,9 +7,9 @@ import java.awt.Graphics;
 import javax.swing.border.LineBorder;
 
 /**
- * 
+ *
  * @author Martin van den Bemt
- * @version $Id: NyxLineBorder.java,v 1.1 2003-09-11 12:20:57 mvdb Exp $
+ * @version $Id: NyxLineBorder.java,v 1.2 2003-11-06 19:53:13 mvdb Exp $
  */
 public class NyxLineBorder extends LineBorder {
 
@@ -36,9 +36,9 @@ public class NyxLineBorder extends LineBorder {
     public NyxLineBorder(Color color, int thickness, boolean roundedCorners) {
         super(color, thickness, roundedCorners);
     }
-    
+
     /**
-     * Paints the border for the specified component with the 
+     * Paints the border for the specified component with the
      * specified position and size.
      * @param c the component for which this border is being painted
      * @param g the paint graphics
@@ -67,6 +67,6 @@ public class NyxLineBorder extends LineBorder {
         }
         g.setColor(oldColor);
     }
-    
+
 
 }

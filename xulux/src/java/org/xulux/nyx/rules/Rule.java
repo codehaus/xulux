@@ -1,5 +1,5 @@
 /*
- $Id: Rule.java,v 1.8 2003-11-06 16:57:53 mvdb Exp $
+ $Id: Rule.java,v 1.9 2003-11-06 19:53:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -54,13 +54,13 @@ import org.xulux.nyx.gui.Widget;
 /**
  * A convenient abstract for the rule, which only
  * makes pre and post mandatory.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Rule.java,v 1.8 2003-11-06 16:57:53 mvdb Exp $
+ * @version $Id: Rule.java,v 1.9 2003-11-06 19:53:10 mvdb Exp $
  */
 public abstract class Rule implements IRule
 {
-    
+
     private static ArrayList partNames;
     private Widget owner;
 
@@ -70,7 +70,7 @@ public abstract class Rule implements IRule
     public Rule()
     {
     }
-    
+
     /**
      * @see org.xulux.nyx.rules.IRule#init()
      */
@@ -85,7 +85,7 @@ public abstract class Rule implements IRule
     public abstract void pre(PartRequest request);
 
     /**
-     * During processesing of the part 
+     * During processesing of the part
      * @see org.xulux.nyx.rules.IRule#execute(org.xulux.nyx.context.PartRequest)
      */
     public void execute(PartRequest request)
@@ -103,7 +103,7 @@ public abstract class Rule implements IRule
     public void destroy()
     {
     }
-    
+
     public int getUseCount()
     {
         if (partNames != null)
@@ -112,7 +112,7 @@ public abstract class Rule implements IRule
         }
         return 0;
     }
-    
+
     public void registerPartName(String partName)
     {
         if (partNames == null)
@@ -126,7 +126,7 @@ public abstract class Rule implements IRule
             partNames.add(partName);
         }
     }
-    
+
     public void deregisterPartName(String partName)
     {
         if (partNames == null)
@@ -145,13 +145,13 @@ public abstract class Rule implements IRule
             this.destroy();
         }
     }
-    
+
     public boolean isRegistered(String partName)
     {
         return (partNames.indexOf(partName)!=-1);
     }
-    
-    /** 
+
+    /**
      * A bit of debug info.
      */
     public static void debug()
@@ -167,12 +167,12 @@ public abstract class Rule implements IRule
             System.out.println("Not used at all...");
         }
     }
-    
-    
+
+
     public void setOwner(Widget owner) {
         this.owner = owner;
     }
-    
+
     public Widget getOwner() {
         return this.owner;
     }
