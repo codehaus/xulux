@@ -1,5 +1,5 @@
 /*
- $Id: NyxCollectionUtilsTest.java,v 1.2 2003-11-25 22:14:10 mvdb Exp $
+ $Id: NyxCollectionUtilsTest.java,v 1.3 2003-11-26 00:45:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -55,9 +55,9 @@ import junit.framework.TestSuite;
 
 /**
  * Test the collection utils..
- *  
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCollectionUtilsTest.java,v 1.2 2003-11-25 22:14:10 mvdb Exp $
+ * @version $Id: NyxCollectionUtilsTest.java,v 1.3 2003-11-26 00:45:17 mvdb Exp $
  */
 public class NyxCollectionUtilsTest extends TestCase {
 
@@ -68,9 +68,8 @@ public class NyxCollectionUtilsTest extends TestCase {
     public NyxCollectionUtilsTest(String name) {
         super(name);
     }
-    
+
     /**
-     * 
      * @return the testsuite
      */
     public static Test suite() {
@@ -85,11 +84,11 @@ public class NyxCollectionUtilsTest extends TestCase {
         assertNull(NyxCollectionUtils.getListFromCSV(null));
         String csv = "1,2,3,4,5";
         List list = NyxCollectionUtils.getListFromCSV(csv);
-        assertEquals(5,list.size());
-        assertEquals("5",list.get(4));
+        assertEquals(5, list.size());
+        assertEquals("5", list.get(4));
         String csv2 = "1:2:3:4:5";
         list = NyxCollectionUtils.getListFromCSV(csv2);
-        assertEquals(list.size(),1);
+        assertEquals(list.size(), 1);
     }
 
     /**
@@ -97,11 +96,11 @@ public class NyxCollectionUtilsTest extends TestCase {
      */
     public void testGetListFromCSVStringString() {
         String csv2 = "1:2:3:4:5";
-        List list = NyxCollectionUtils.getListFromCSV(csv2,":");
-        assertEquals(list.size(),5);
+        List list = NyxCollectionUtils.getListFromCSV(csv2, ":");
+        assertEquals(list.size(), 5);
     }
 
-    /** 
+    /**
      * Test the getList.
      */
     public void testGetListList() {
@@ -111,38 +110,44 @@ public class NyxCollectionUtilsTest extends TestCase {
         list.add("3");
         assertEquals(list, NyxCollectionUtils.getList(list));
     }
-    
+
+    /**
+     * Test the getList Collection
+     */
     public void testGetListCollection() {
         HashMap map = new HashMap();
-        map.put("1","1");
-        map.put("2","1");
-        map.put("3","1");
+        map.put("1", "1");
+        map.put("2", "1");
+        map.put("3", "1");
         List list = NyxCollectionUtils.getList(map.keySet());
-        assertEquals(3,list.size());
+        assertEquals(3, list.size());
         assertTrue(list.contains("1"));
         assertTrue(list.contains("2"));
         assertTrue(list.contains("3"));
     }
-    
+
+    /**
+     * Test the getList Array
+     */
     public void testGetListArray() {
         String[] string = new String[3];
         string[0] = "1";
         string[1] = "2";
         string[2] = "3";
-        List list = NyxCollectionUtils.getList(string); 
-        assertEquals(3,list.size());
+        List list = NyxCollectionUtils.getList(string);
+        assertEquals(3, list.size());
         assertEquals("1", list.get(0));
         assertEquals("2", list.get(1));
         assertEquals("3", list.get(2));
     }
-    
+
     /**
      * Test the null value
      */
     public void testNullList() {
         assertNull(NyxCollectionUtils.getList(null));
     }
-    
+
     /**
      * Test the addition of the passed in objet when
      * it is no list or collection type object

@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtils.java,v 1.10 2003-11-25 22:14:10 mvdb Exp $
+ $Id: ClassLoaderUtils.java,v 1.11 2003-11-26 00:45:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.10 2003-11-25 22:14:10 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.11 2003-11-26 00:45:17 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -133,35 +133,33 @@ public class ClassLoaderUtils {
         int index = name.indexOf("$");
         if (index != -1 ) {
             name = name.substring(0, index);
+            // cannot think of a scenario when this is null,
             Class clz = getClass(name.substring(0, index));
-            if (clz != null) {
-                ArrayList parms = new ArrayList();
-                boolean hasEmptyConstructor = false;
-                Constructor[] css = clz.getConstructors();
-                for (int i = 0; i < css.length; i++) {
-                    Constructor cs = css[i];
-                    if (cs.getParameterTypes().length == 0) {
-                        hasEmptyConstructor = true;
-                        parms = new ArrayList();
-                        break;
-                    } else {
-                        for (int j = 0; j < cs.getParameterTypes().length; j++) {
-                            Class c = cs.getParameterTypes()[j];
-                            Object object = null;
-                            try {
-                                object = c.newInstance();
-                            }
-                            catch (Exception e) {
-                                // eat it..
-                            } finally {
-                                parms.add(object);
-                            }
+            ArrayList parms = new ArrayList();
+            boolean hasEmptyConstructor = false;
+            Constructor[] css = clz.getConstructors();
+            for (int i = 0; i < css.length; i++) {
+                Constructor cs = css[i];
+                if (cs.getParameterTypes().length == 0) {
+                    hasEmptyConstructor = true;
+                    parms = new ArrayList();
+                    break;
+                } else {
+                    for (int j = 0; j < cs.getParameterTypes().length; j++) {
+                        Class c = cs.getParameterTypes()[j];
+                        Object object = null;
+                        try {
+                            object = c.newInstance();
+                        }
+                        catch (Exception e) {
+                            // eat it..
+                        } finally {
+                            parms.add(object);
                         }
                     }
                 }
-                return getObjectFromClass(getClass(name.substring(0, index)), parms);
             }
-
+            return getObjectFromClass(getClass(name.substring(0, index)), parms);
         }
         return null;
     }
@@ -205,7 +203,9 @@ public class ClassLoaderUtils {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            if (log.isWarnEnabled()) {
+                log.warn("Unknown error in getting object", e);
+            }
         }
         return getObjectFromClass(clazz);
     }
