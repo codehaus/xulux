@@ -1,5 +1,5 @@
 /*
- $Id: MockWidget.java,v 1.1 2003-11-25 19:23:53 mvdb Exp $
+ $Id: MockWidget.java,v 1.2 2003-12-11 19:57:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,7 +52,7 @@ import org.xulux.nyx.gui.Widget;
  * test layout functionality
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MockWidget.java,v 1.1 2003-11-25 19:23:53 mvdb Exp $
+ * @version $Id: MockWidget.java,v 1.2 2003-12-11 19:57:36 mvdb Exp $
  */
 public class MockWidget extends Widget {
 
@@ -71,7 +71,8 @@ public class MockWidget extends Widget {
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
     public void destroy() {
-
+        this.nativeWidget = null;
+        getPart().removeWidget(this, this);
     }
 
     /**
@@ -85,7 +86,7 @@ public class MockWidget extends Widget {
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
     public void initialize() {
-
+        this.nativeWidget = "nativeWidget";
     }
 
     /**
@@ -130,6 +131,32 @@ public class MockWidget extends Widget {
      */
     public void setNativeWidget(Object object) {
         this.nativeWidget = object;
+    }
+
+    /**
+     * is this a rootwidget or not ?
+     */
+    private boolean rootWidget;
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#isRootWidget()
+     */
+    public boolean isRootWidget() {
+        return this.rootWidget;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#isRootWidget()
+     */
+    public boolean canBeRootWidget() {
+        return this.rootWidget;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#setRootWidget(boolean)
+     */
+    public void setRootWidget(boolean isRootWidget) {
+        this.rootWidget = isRootWidget;
     }
 
 }
