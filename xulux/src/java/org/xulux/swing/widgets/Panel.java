@@ -1,5 +1,5 @@
 /*
-   $Id: Panel.java,v 1.5 2004-05-18 00:01:14 mvdb Exp $
+   $Id: Panel.java,v 1.6 2004-07-19 09:37:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 
 import org.xulux.core.XuluxContext;
 import org.xulux.gui.ContainerWidget;
@@ -40,13 +39,15 @@ import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
 import org.xulux.gui.utils.ColorUtils;
+import org.xulux.swing.extensions.IconTitledBorder;
 import org.xulux.swing.extensions.NyxTitledBorder;
+import org.xulux.swing.util.SwingUtils;
 
 /**
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.5 2004-05-18 00:01:14 mvdb Exp $
+ * @version $Id: Panel.java,v 1.6 2004-07-19 09:37:09 mvdb Exp $
  */
 public class Panel extends ContainerWidget {
 
@@ -160,7 +161,7 @@ public class Panel extends ContainerWidget {
                     }
                 }
                 //TitledBorder titledBorder = BorderFactory.createTitledBorder(new LineBorder(color,borderSize),borderTitle);
-                TitledBorder titledBorder = new NyxTitledBorder(borderTitle);
+                NyxTitledBorder titledBorder = new NyxTitledBorder(borderTitle);
                 if (titleColor == null) {
                     titledBorder.setTitleColor(titleColor);
                 }
@@ -179,14 +180,38 @@ public class Panel extends ContainerWidget {
                 EtchedBorder etched = new EtchedBorder(EtchedBorder.RAISED);
                 panel.setBorder(etched);
 
+            } else if (border.equalsIgnoreCase("titledicon")) {
+              String borderTitle = getProperty("border-title");
+              if (borderTitle == null) {
+                  borderTitle = "";
+              }
+
+              Color titleColor = null;
+              if (getProperty("border-title-color") != null) {
+                  titleColor = ColorUtils.getSwingColor(getProperty("border-title-color"));
+              }
+              IconTitledBorder itBorder = new IconTitledBorder();
+              int borderSize = 1;
+              if (getProperty("border-size") != null) {
+                  try {
+                      borderSize = Integer.parseInt(getProperty("border-size"));
+                      itBorder.setThickness(borderSize);
+                  } catch (NumberFormatException nfe) {
+                      nfe.printStackTrace();
+                  }
+              }
+              if (getProperty("border-image") != null) {
+                  itBorder.setImage(SwingUtils.getImage(getProperty("border-image"), this));
+              }
+//              if (titleColor == null) {
+//                  titledBorder.setTitleColor(titleColor);
+//              }
+              if (borderTitle != null) {
+                  itBorder.setTitle(borderTitle);
+              }
+              panel.setBorder(itBorder);
+                
             }
-            //            System.out.println("Start : "+getName());
-            //            System.out.println("Bounds panel: "+panel.getBounds());
-            //            System.out.println("GetSize : "+panel.getSize());
-            //            System.out.println("GetSize Preferred : "+panel.getPreferredSize());
-            //            System.out.println("Insets panel : "+panel.getInsets());
-            //            System.out.println("Border insets : "+panel.getBorder().getBorderInsets(panel));
-            //            System.out.println("End : "+getName());
         } else {
           panel.setBorder(null);
         }

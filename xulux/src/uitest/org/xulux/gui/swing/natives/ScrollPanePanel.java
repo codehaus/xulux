@@ -1,5 +1,5 @@
 /*
-   $Id: ScrollPanePanel.java,v 1.3 2004-06-28 13:11:07 mvdb Exp $
+   $Id: ScrollPanePanel.java,v 1.4 2004-07-19 09:37:09 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,14 +23,17 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
 
+import org.xulux.swing.extensions.IconTitledBorder;
 import org.xulux.swing.layouts.XYLayout;
+import org.xulux.swing.util.SwingUtils;
 
 /**
  * A sample to see how a scrollpane and a panel cooperate together..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ScrollPanePanel.java,v 1.3 2004-06-28 13:11:07 mvdb Exp $
+ * @version $Id: ScrollPanePanel.java,v 1.4 2004-07-19 09:37:09 mvdb Exp $
  */
 public class ScrollPanePanel {
 
@@ -49,12 +52,18 @@ public class ScrollPanePanel {
         frame.setSize(400, 400);
         frame.getContentPane().setLayout(new XYLayout());
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(700, 700));
-        panel.setBackground(Color.blue);
+        panel.setPreferredSize(new Dimension(350, 350));
+        //panel.setBackground(Color.blue);
         JScrollPane pane = new JScrollPane();
         pane.setViewportView(panel);
-        pane.setPreferredSize(new Dimension(100, 100));
-        frame.getContentPane().add(pane);
+        pane.setPreferredSize(new Dimension(300, 300));
+        IconTitledBorder border = new IconTitledBorder();
+        border.setTitle("This is the title");
+        border.setImage(SwingUtils.getImage("resources/Car.gif", this));
+        panel.setBorder(border);
+        new LineBorder(Color.black, 20);
+//        panel.setBorder(new LineBorder(Color.black));
+        frame.getContentPane().add(panel);
         frame.show();
     }
 
