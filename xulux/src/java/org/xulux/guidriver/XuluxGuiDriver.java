@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxGuiDriver.java,v 1.6 2004-06-30 12:55:56 mvdb Exp $
+   $Id: XuluxGuiDriver.java,v 1.7 2004-09-23 07:54:27 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -46,10 +46,10 @@ import org.xulux.utils.Translator;
  * from that..
  * @todo Make sure when widgets skip, the properties are
  *        skipped too..
- * @todo Move out "generic" code, so we can have a helper class to do all the nyx magic
+ * @todo Move out "generic" code, so we can have a helper class to do all the xulux magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxGuiDriver.java,v 1.6 2004-06-30 12:55:56 mvdb Exp $
+ * @version $Id: XuluxGuiDriver.java,v 1.7 2004-09-23 07:54:27 mvdb Exp $
  */
 public class XuluxGuiDriver extends DefaultHandler {
 
