@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.9 2003-09-29 01:19:35 mvdb Exp $
+ $Id: Tree.java,v 1.10 2003-09-29 02:21:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.9 2003-09-29 01:19:35 mvdb Exp $
+ * @version $Id: Tree.java,v 1.10 2003-09-29 02:21:05 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
     
@@ -150,7 +150,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
         if (contentChanged) {
 //            System.err.println("setting model to : "+contentHandler);
             jtree.setModel(contentHandler);
-            System.err.println("Content : "+contentHandler.getContent());
+//            System.err.println("Content : "+contentHandler.getContent());
             contentChanged= false;
         }
         if (getProperty("collapse") != null) {
@@ -334,7 +334,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
      *
      */
     protected void initializePopupMenu() {
-        System.out.println("childPopupinit");
+//        System.out.println("childPopupinit");
         if (hasChildPopups) {
 //            System.err.println("hasChildPopups !!!");
 //            System.err.println("Childwidgets : "+getChildWidgets());
