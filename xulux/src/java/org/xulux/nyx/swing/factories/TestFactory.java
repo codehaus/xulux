@@ -1,5 +1,5 @@
 /*
- $Id: TestFactory.java,v 1.9 2002-11-19 20:45:06 mvdb Exp $
+ $Id: TestFactory.java,v 1.10 2002-12-23 01:42:20 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,8 +64,6 @@ import org.xulux.nyx.gui.Entry;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.rules.DefaultPartRule;
-import org.xulux.nyx.swing.BaseForm;
-import org.xulux.nyx.swing.NewForm;
 import org.xulux.nyx.swing.layouts.XYLayout;
 
 /**
@@ -74,7 +72,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * a later stage.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.9 2002-11-19 20:45:06 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.10 2002-12-23 01:42:20 mvdb Exp $
  */
 public class TestFactory
 {
