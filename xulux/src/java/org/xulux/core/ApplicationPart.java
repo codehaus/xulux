@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.13 2004-10-11 19:14:20 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.14 2005-01-12 18:39:29 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -33,6 +33,7 @@ import org.xulux.rules.DefaultPartRule;
 import org.xulux.rules.IRule;
 import org.xulux.rules.impl.PartRequestImpl;
 import org.xulux.rules.impl.WidgetRequestImpl;
+import org.xulux.swing.util.ImageCache;
 import org.xulux.swing.util.NyxEventQueue;
 import org.xulux.utils.BooleanUtils;
 import org.xulux.utils.ClassLoaderUtils;
@@ -56,7 +57,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.13 2004-10-11 19:14:20 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.14 2005-01-12 18:39:29 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -365,6 +366,10 @@ public class ApplicationPart {
         widget.setParent(null);
         widget.destroy();
         widgets.remove(widget);
+        if (imageCache != null) {
+            this.imageCache.clear();
+            this.imageCache = null;
+        }
     }
     /**
      * Replaces the field with the specified widget
@@ -986,5 +991,15 @@ public class ApplicationPart {
             ivvStrategy = XuluxContext.getGuiDefaults().getInvalidValueStrategy();
         }
         return ivvStrategy;
+    }
+    
+    
+    protected ImageCache imageCache;
+    
+    public ImageCache getImageCache() {
+        if (imageCache == null) {
+            imageCache = new ImageCache();
+        }
+        return imageCache;
     }
 }

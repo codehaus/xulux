@@ -1,5 +1,5 @@
 /*
-   $Id: Window.java,v 1.13 2005-01-06 15:15:24 mvdb Exp $
+   $Id: Window.java,v 1.14 2005-01-12 18:39:30 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -47,7 +47,7 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.13 2005-01-06 15:15:24 mvdb Exp $
+ * @version $Id: Window.java,v 1.14 2005-01-12 18:39:30 mvdb Exp $
  */
 public class Window extends NyxWindow {
     /**
@@ -133,27 +133,32 @@ public class Window extends NyxWindow {
         boolean autoSize = BooleanUtils.toBoolean(getProperty("autosize"));
         if (autoSize) {
             Dimension dim = window.getContentPane().getLayout().preferredLayoutSize(window.getContentPane());
-            if ("center".equalsIgnoreCase(getProperty("position"))) {
-            	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            	Dimension prefSize = window.getPreferredSize();
-            	window.setLocation((screenSize.width-prefSize.width)/2, (screenSize.height-prefSize.height)/2);
-            }
-        }
-        window.setVisible(false);
-        initializeChildren();
-        window.setVisible(false);
-        processInit();
-        if (autoSize) {
-            Dimension dim = window.getContentPane().getLayout().preferredLayoutSize(window.getContentPane());
-            if ("center".equalsIgnoreCase(getProperty("position"))) {
-            	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            	Dimension prefSize = window.getPreferredSize();
-            	window.setLocation((screenSize.width-prefSize.width)/2, (screenSize.height-prefSize.height)/2);
-            }
             window.pack();
         } else {
             window.setSize(getRectangle().getWidth(), getRectangle().getHeight());
         }
+        if ("center".equalsIgnoreCase(getProperty("position"))) {
+        	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        	Dimension prefSize = window.getPreferredSize();
+        	if (prefSize.width == 0 && prefSize.height == 0) {
+        	    prefSize = getRectangle().getRectangle().getSize();
+        	}
+        	System.out.println("screenSize : " + screenSize);
+        	System.out.println("Pref Size : " + prefSize);
+        	window.setLocation((screenSize.width-prefSize.width)/2, (screenSize.height-prefSize.height)/2);
+        }
+//        if (autoSize) {
+//            Dimension dim = window.getContentPane().getLayout().preferredLayoutSize(window.getContentPane());
+//        }
+//        if ("center".equalsIgnoreCase(getProperty("position"))) {
+//        	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        	Dimension prefSize = window.getPreferredSize();
+//        	window.setLocation((screenSize.width-prefSize.width)/2, (screenSize.height-prefSize.height)/2);
+//        }
+        window.setVisible(false);
+        initializeChildren();
+        window.setVisible(false);
+        processInit();
         if (getProperty("resizable") != null) {
           boolean resize = BooleanUtils.toBoolean(getProperty("resizable"));
             window.setResizable(resize);

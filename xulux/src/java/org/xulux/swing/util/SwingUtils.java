@@ -1,5 +1,5 @@
 /*
-   $Id: SwingUtils.java,v 1.7 2004-01-28 15:09:24 mvdb Exp $
+   $Id: SwingUtils.java,v 1.8 2005-01-12 18:39:30 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,6 +27,7 @@ import javax.swing.ImageIcon;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.gui.Widget;
 import org.xulux.gui.WidgetRectangle;
 import org.xulux.utils.ClassLoaderUtils;
 import org.xulux.utils.NyxCollectionUtils;
@@ -35,7 +36,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * Contains several utilities to make life with swing easier.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.7 2004-01-28 15:09:24 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.8 2005-01-12 18:39:30 mvdb Exp $
  */
 public class SwingUtils {
 
@@ -112,16 +113,30 @@ public class SwingUtils {
         if (resource == null || object == null) {
             return null;
         }
-        if (imageLoader != null) {
-            URL imageURL = object.getClass().getClassLoader().getResource(resource);
-            return imageLoader.getImage(imageURL);
-        } else {
-            ImageIcon icon = getIcon(resource, object);
-            if (icon != null) {
-                return icon.getImage();
+        ImageCache cache = null;
+        if (object instanceof Widget) {
+            cache = ((Widget)object).getPart().getImageCache();
+        }
+        Image retValue = null;
+        if (cache != null) {
+            retValue = cache.getImage(resource);
+        }
+        if (retValue == null) {
+            if (imageLoader != null) {
+                URL imageURL = object.getClass().getClassLoader().getResource(resource);
+                retValue =  imageLoader.getImage(imageURL);
+            } else {
+                ImageIcon icon = getIcon(resource, object);
+                if (icon != null) {
+                    retValue =  icon.getImage();
+                }
+            }
+            if (retValue != null) {
+                cache.addImage(resource, retValue);
             }
         }
-        return null;
+        
+        return retValue;
     }
 
     /**
@@ -134,28 +149,40 @@ public class SwingUtils {
         if (object == null) {
             return null;
         }
+        ImageCache cache = null;
+        if (object instanceof Widget) {
+            cache = ((Widget)object).getPart().getImageCache();
+        }
         ImageIcon icon = null;
-        URL imageURL = object.getClass().getClassLoader().getResource(resource);
-        if (imageLoader != null) {
-            icon =  imageLoader.getIcon(imageURL);
-        } else {
-            if (imageURL != null) {
-                icon = new ImageIcon(imageURL);
-                if (icon.getImageLoadStatus() == MediaTracker.ERRORED) {
-                    icon = null;
+        if (cache != null) {
+            icon = cache.getImageIcon(resource);
+        }
+        if (icon == null) {
+            URL imageURL = object.getClass().getClassLoader().getResource(resource);
+            if (imageLoader != null) {
+                icon =  imageLoader.getIcon(imageURL);
+            } else {
+                if (imageURL != null) {
+                    icon = new ImageIcon(imageURL);
+                    if (icon.getImageLoadStatus() == MediaTracker.ERRORED) {
+                        icon = null;
+                        if (log.isWarnEnabled()) {
+                            log.warn(
+                                "Image type "
+                                    + resource
+                                    + " not supported by swing "
+                                    + "we advice you to add jimi to your classpath or convert your "
+                                    + "image to an image type supported by swing");
+                        }
+                    }
+                } else {
                     if (log.isWarnEnabled()) {
-                        log.warn(
-                            "Image type "
-                                + resource
-                                + " not supported by swing "
-                                + "we advice you to add jimi to your classpath or convert your "
-                                + "image to an image type supported by swing");
+                        log.warn("Image " + resource + " cannot be found");
                     }
                 }
-            } else {
-                if (log.isWarnEnabled()) {
-                    log.warn("Image " + resource + " cannot be found");
-                }
+            }
+            if (icon != null) {
+                cache.addImage(resource, icon);
             }
         }
         return icon;

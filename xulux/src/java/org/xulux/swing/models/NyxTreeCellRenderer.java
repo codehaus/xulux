@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTreeCellRenderer.java,v 1.14 2005-01-04 15:31:30 mvdb Exp $
+   $Id: NyxTreeCellRenderer.java,v 1.15 2005-01-12 18:39:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -38,7 +38,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * For now extends the defaultreeCellRenderer.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTreeCellRenderer.java,v 1.14 2005-01-04 15:31:30 mvdb Exp $
+ * @version $Id: NyxTreeCellRenderer.java,v 1.15 2005-01-12 18:39:31 mvdb Exp $
  */
 public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
 
@@ -122,7 +122,7 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
                 Widget w = getChildWidget();
                 String icon = w.getProperty("icon");
                 if (icon != null) {
-                    Icon iconImage = SwingUtils.getIcon(icon, this);
+                    Icon iconImage = SwingUtils.getIcon(icon, getChildWidget());
                     setIcon(iconImage);
                     // if we don't expand the preferred size with the iconwidth
                     // it will result in dots in the node name.

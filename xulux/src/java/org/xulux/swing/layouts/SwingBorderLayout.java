@@ -1,5 +1,5 @@
 /*
-   $Id: SwingBorderLayout.java,v 1.3 2004-11-29 13:26:51 mvdb Exp $
+   $Id: SwingBorderLayout.java,v 1.4 2005-01-12 18:39:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.utils.StringUtils;
  * The border layout. This is a wrapper around the swing border layout
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingBorderLayout.java,v 1.3 2004-11-29 13:26:51 mvdb Exp $
+ * @version $Id: SwingBorderLayout.java,v 1.4 2005-01-12 18:39:31 mvdb Exp $
  */
 public class SwingBorderLayout extends SwingLayoutAbstract implements LayoutManager2 {
 
@@ -127,6 +127,7 @@ public class SwingBorderLayout extends SwingLayoutAbstract implements LayoutMana
      * @see java.awt.LayoutManager#preferredLayoutSize(java.awt.Container)
      */
     public Dimension preferredLayoutSize(Container parent) {
+        createLayout();
         return layout.preferredLayoutSize(parent);
     }
     /**

@@ -1,5 +1,5 @@
 /*
-   $Id: ScrollPane.java,v 1.5 2004-12-01 11:37:04 mvdb Exp $
+   $Id: ScrollPane.java,v 1.6 2005-01-12 18:39:30 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.gui.Widget;
  * of the widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ScrollPane.java,v 1.5 2004-12-01 11:37:04 mvdb Exp $
+ * @version $Id: ScrollPane.java,v 1.6 2005-01-12 18:39:30 mvdb Exp $
  */
 public class ScrollPane extends ContainerWidget {
 
@@ -90,9 +90,9 @@ public class ScrollPane extends ContainerWidget {
         pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 //        pane.setPreferredSize(getRectangle().getRectangle().getSize());
 //        System.out.println("init port : " + pane.getViewport());
-//        if (pane.getViewport() != null) {
-//            pane.getViewport().setPreferredSize(pane.getPreferredSize());
-//        }
+        if (pane.getViewport() != null) {
+            pane.getViewport().setPreferredSize(pane.getPreferredSize());
+        }
         initializeChildren();
     }
   
@@ -155,8 +155,12 @@ public class ScrollPane extends ContainerWidget {
         if (!initialized) {
           initialize();
         }
+        System.err.println("Size : " +pane.getSize());
+        System.err.println("view size : " + pane.getViewport().getSize());
+        System.err.println("view pref size : " + pane.getViewport().getPreferredSize());
         pane.setVisible(isVisible());
-        pane.setViewportView(pane.getViewport().getView());//invalidate();
+        pane.setViewportView(pane.getViewport().getView());
+        pane.revalidate();
         isRefreshing = false;
     }
 }
