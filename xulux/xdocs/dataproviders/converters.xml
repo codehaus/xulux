@@ -47,6 +47,12 @@
       </source>
       in your code.
     </p>
+    <p>
+      If you don't use the use attribute in the gui xml, you can also
+      set the converter of the field using <converter class=""/> in the field
+      definition. Xulux will use this converter in all cases, except when using
+      the use attribute.
+    </p>
   </subsection>
 </section>
 

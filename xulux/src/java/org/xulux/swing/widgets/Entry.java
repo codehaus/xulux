@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.13 2004-05-27 14:17:56 mvdb Exp $
+   $Id: Entry.java,v 1.14 2004-06-29 12:00:52 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.13 2004-05-27 14:17:56 mvdb Exp $
+ * @version $Id: Entry.java,v 1.14 2004-06-29 12:00:52 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -312,7 +312,12 @@ public class Entry extends SwingWidget {
                     textComponent.setText(String.valueOf(entryValue));
                     return;
                 }
-                IConverter converter = Dictionary.getConverter(getValue());
+                IConverter converter = null;
+                if (getProperty("converter.class") != null) {
+                    converter = (IConverter) ClassLoaderUtils.getObjectFromClassString(getProperty("converter.class"));
+                } else {
+                    converter = Dictionary.getConverter(getValue());
+                }
                 if (converter != null) {
                     textComponent.setText((String) converter.getGuiValue(getValue()));
                 } else {

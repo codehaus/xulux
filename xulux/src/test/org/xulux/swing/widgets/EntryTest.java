@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  * Testcase for the entry widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: EntryTest.java,v 1.1 2004-04-22 12:59:02 mvdb Exp $
+ * @version $Id: EntryTest.java,v 1.2 2004-06-29 12:00:52 mvdb Exp $
  */
 public class EntryTest extends TestCase {
 
@@ -152,6 +152,22 @@ public class EntryTest extends TestCase {
 //        entry.setValue(new TestObject("newvalue"));
         entry.setValue("newvalue");
         System.out.println("value : " + entry.getValue().getClass());
+    }
+    
+    /**
+     * Test the converter stuff in the entry..
+     */
+    public void testConvert() {
+        System.out.println("testConverter");
+        Entry entry = new Entry("entry");
+        ApplicationPart part = new ApplicationPart();
+        part.addWidget(entry);
+        entry.setLazyProperty("converter.class", "org.xulux.swing.widgets.MockConverter");
+        entry.refresh();
+        entry.setValue(MockConverter.BEANVALUE);
+        assertEquals(MockConverter.GUIVALUE, entry.textComponent.getText());
+        assertEquals(MockConverter.BEANVALUE, entry.getValue());
+        assertEquals(MockConverter.GUIVALUE, entry.getGuiValue());
     }
 
     /**
