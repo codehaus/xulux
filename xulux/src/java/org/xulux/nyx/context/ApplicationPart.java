@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.29 2002-11-28 16:24:31 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.30 2002-11-28 21:45:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,6 +55,8 @@ import java.util.Iterator;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.global.BeanField;
@@ -84,10 +86,12 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.29 2002-11-28 16:24:31 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.30 2002-11-28 21:45:07 mvdb Exp $
  */
 public class ApplicationPart
 {
+    
+    private static Log log = LogFactory.getLog(ApplicationPart.class);
     
     /**
      * The original bean
@@ -175,7 +179,10 @@ public class ApplicationPart
         IField bField = mapping.getField(field);
         if (bField.isReadOnly())
         {
-            System.err.println("Cannot set value on a read only field");
+            if (log.isWarnEnabled())
+            {
+                log.warn("Cannot set value on a read only field");
+            }
             // we cannot change the value,
             // so let's not try it..
             return;
@@ -183,7 +190,10 @@ public class ApplicationPart
         
         if (!bField.setValue(this.bean, value))
         {
-            System.err.println("Could not set value");
+            if (log.isWarnEnabled())
+            {
+                log.warn("Could not set value");
+            }
         }
     }
     
@@ -193,7 +203,10 @@ public class ApplicationPart
         Widget widget = (Widget) widgets.get(name);
         if (widget == null)
         {
-            System.err.println("Cannot find widget "+name+" to set value on");
+            if (log.isWarnEnabled())
+            {
+                log.warn("Cannot find widget "+name+" to set value on");
+            }
         }
         else
         {
@@ -210,7 +223,10 @@ public class ApplicationPart
         Widget widget = (Widget)widgets.get(name);
         if (widget == null)
         {
-            System.err.println("Cannot find widget "+name+" to get value from");
+            if (log.isWarnEnabled())
+            {
+                log.warn("Cannot find widget "+name+" to get value from");
+            }
             return null;
         }
         return widget.getValue();
@@ -221,7 +237,10 @@ public class ApplicationPart
         Widget widget = (Widget)widgets.get(name);
         if (widget == null)
         {
-            System.err.println("Cannot find widget "+name+" to get previous value from");
+            if (log.isWarnEnabled())
+            {
+                log.warn("Cannot find widget "+name+" to get previous value from");
+            }
             return null;
         }
         return widget.getPreviousValue();
@@ -352,7 +371,10 @@ public class ApplicationPart
      */
     public void initialize(Object caller)
     {
-        System.out.println("Initializing...");
+        if (log.isDebugEnabled())
+        {
+            log.debug("Initializing...");
+        }
         if (!(caller instanceof DefaultPartRule))
         {
             return;
@@ -410,7 +432,10 @@ public class ApplicationPart
         activated = true;
         if (getRules() == null)
         {
- //           System.err.println("No part rules to process");
+            if (log.isDebugEnabled())
+            {
+                log.debug("No part rules to process");
+            }
         }
         else
         {
@@ -432,7 +457,10 @@ public class ApplicationPart
                 }
                 catch(NullPointerException npe)
                 {
-                    System.err.println("Problems getting native widget for widget "+widget.getName());
+                    if (log.isWarnEnabled())
+                    {
+                        log.warn("Problems getting native widget for widget "+widget.getName());
+                    }
                     throw npe;
                 }
             }
@@ -555,7 +583,10 @@ public class ApplicationPart
         }
         else
         {
-            System.err.println("Widget "+name+" does not exist");
+            if (log.isWarnEnabled())
+            {
+                log.warn("Widget "+name+" does not exist");
+            }
         }
     }
     
@@ -655,7 +686,10 @@ public class ApplicationPart
             }
             catch(Exception e)
             {
-                System.err.println("Could not set focus to "+name);
+                if (log.isWarnEnabled())
+                {
+                    log.warn("Could not set focus to "+name);
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.11 2002-11-28 14:05:24 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.12 2002-11-28 21:45:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,6 +53,8 @@ import java.util.StringTokenizer;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -66,10 +68,12 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.11 2002-11-28 14:05:24 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.12 2002-11-28 21:45:07 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
+    
+    private static Log log = LogFactory.getLog(ApplicationPartHandler.class);
 
     private static String PART_ELEMENT = "part";
     private static String FIELDS_ELEMENT = "fields";
@@ -149,13 +153,19 @@ public class ApplicationPartHandler extends DefaultHandler
             }
             catch (SAXException se)
             {
-                se.printStackTrace(System.err);
-                se.getException().printStackTrace(System.err);
+                if (log.isFatalEnabled())
+                {
+                    log.fatal("Exception during paring of part xml",se);
+                    log.fatal("Exception during paring of part xml",se.getException());
+                }
             }
         }
         catch (Exception e)
         {
-            e.printStackTrace(System.out);
+            if (log.isFatalEnabled())
+            {
+                log.fatal("Exception during paring of part xml",e);
+            }
         }
         // and clean up..
         saxParser = null;
@@ -285,8 +295,11 @@ public class ApplicationPartHandler extends DefaultHandler
             }
             catch(NoSuchElementException nse)
             {
-                System.err.println("Parsing error with text : "+currentValue);
-                System.err.println("with widget : "+((Widget) stack.get(stack.size()-1)).getName());
+                if (log.isWarnEnabled())
+                {
+                    log.warn("Parsing error with text : "+currentValue);
+                    log.warn("with widget : "+((Widget) stack.get(stack.size()-1)).getName());
+                }
             }
             Widget widget = (Widget) stack.get(stack.size()-1);
             if (processSize)
@@ -325,7 +338,10 @@ public class ApplicationPartHandler extends DefaultHandler
             }
             else
             {
-                System.err.println("Listener "+currentValue+" not found");
+                if (log.isWarnEnabled())
+                {
+                    log.warn("Listener "+currentValue+" not found");
+                }
             }
             currentValue = null;
         }
@@ -393,12 +409,17 @@ public class ApplicationPartHandler extends DefaultHandler
         {
             if (widget!=null)
             {
-                System.err.println("rule class "+ruleClass+" for widget "+widget.getName()+" not found");
+                if (log.isWarnEnabled())
+                {
+                    log.warn("rule class "+ruleClass+" for widget "+widget.getName()+" not found",e);
+                }
             }
             else
             {
-                e.printStackTrace(System.out);
-                System.err.println("rule class "+ruleClass+" for part "+part.getName()+" not found");
+                if (log.isWarnEnabled())
+                {
+                    log.warn("rule class "+ruleClass+" for part "+part.getName()+" not found",e);
+                }
             }
         }
     }
