@@ -1,5 +1,5 @@
 /*
-   $Id: TextArea.java,v 1.6 2004-07-25 20:16:25 mvdb Exp $
+   $Id: TextArea.java,v 1.7 2004-08-17 00:23:07 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import org.xulux.utils.BooleanUtils;
  * The swing textare widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.6 2004-07-25 20:16:25 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.7 2004-08-17 00:23:07 mvdb Exp $
  */
 public class TextArea extends Entry {
 
@@ -141,6 +141,8 @@ public class TextArea extends Entry {
             }
             scrollPane.setHorizontalScrollBarPolicy(policy);
           }
+          scrollPane.setSize(getRectangle().getRectangle().getSize());
+          scrollPane.setPreferredSize(getRectangle().getRectangle().getSize());
         }
         if (isImmidiate()) {
             if (this.immidiateListener == null) {
