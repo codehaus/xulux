@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.19 2004-10-05 10:10:59 mvdb Exp $
+   $Id: Entry.java,v 1.20 2004-10-05 10:23:05 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -45,7 +45,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.19 2004-10-05 10:10:59 mvdb Exp $
+ * @version $Id: Entry.java,v 1.20 2004-10-05 10:23:05 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -412,7 +412,6 @@ public class Entry extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#setValue(Object)
      */
     public void setValue(Object object) {
-      System.out.println("Called setValue : " + object);
         if (this.valueClass == null && getProperty("valueclass") != null) {
             this.valueClass = ClassLoaderUtils.getClass(getProperty("valueclass"));
         }
