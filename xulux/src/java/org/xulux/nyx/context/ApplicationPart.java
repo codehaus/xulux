@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.28 2002-11-28 15:51:09 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.29 2002-11-28 16:24:31 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -84,7 +84,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.28 2002-11-28 15:51:09 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.29 2002-11-28 16:24:31 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -679,7 +679,7 @@ public class ApplicationPart
         else
         {
             stopRules = false;
-            retValue = ((String)getSession().getValue("stopAllRules")).equalsIgnoreCase("true")?true:false;
+            retValue = "true".equalsIgnoreCase((String)getSession().getValue("stopAllRules"))?true:false;
             getSession().remove("stopAllRules");
         }
         return retValue;
