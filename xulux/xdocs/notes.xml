@@ -45,6 +45,13 @@
         BeanFields should not (need) to know if they are 
         connected to a specific ApplicationPart.
       </li>
+      <li>
+        Add ways to connect parts together. So via the partRequest you can get
+        related parts...
+      </li>
+      <li>
+        Get a way to solve problems that can occur with concurrency..
+      </li>
     </ul>
   </p>
 </section>

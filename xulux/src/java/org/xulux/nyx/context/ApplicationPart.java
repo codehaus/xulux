@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.4 2002-11-02 13:38:50 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.5 2002-11-04 21:40:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,10 +46,16 @@
 package org.xulux.nyx.context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import org.xulux.nyx.global.BeanField;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.rules.DefaultPartRule;
+import org.xulux.nyx.rules.IRule;
 import org.xulux.nyx.swing.factories.GuiField;
 
 /**
@@ -69,7 +75,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.4 2002-11-02 13:38:50 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.5 2002-11-04 21:40:57 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -80,6 +86,12 @@ public class ApplicationPart
     private Object bean;
     
     private BeanMapping mapping;
+    
+    private Object parentWidget;
+    
+    private HashMap widgets;
+    
+    private ArrayList partRules;
     
     /**
      * Constructor for GuiPart.
@@ -134,9 +146,10 @@ public class ApplicationPart
      */
     public void setBeanValue(String field, Object value)
     {
-        BeanField bField = mapping.getField(field);
+        IField bField = mapping.getField(field);
         if (bField.isReadOnly())
         {
+            System.err.println("Cannot set value on a read only field");
             // we cannot change the value,
             // so let's not try it..
             return;
@@ -211,4 +224,106 @@ public class ApplicationPart
         
     }
     
+    /**
+     * The parent widget for all child widgets to be added
+     * @param widget 
+     */
+    public void setParentWidget(Object widget)
+    {
+        this.parentWidget = widget;
+    }
+    /**
+     * Adds a widget to the parent
+     * Also replaces it, but it is cleaner to have a seperate 
+     * call for that (that is assuming the widgets are already there
+     * by default..)
+     * 
+     * @param widget
+     * @param field - the fieldAlias
+     */
+    public void addWidget(Object widget, String field)
+    {
+        if (widgets == null)
+        {
+            widgets = new HashMap();
+        }
+        widgets.put(field, widget);
+    }
+    
+    /** 
+     * Replaces the field with the specified widget
+     * @param widget
+     * @param field
+     */
+    public void setWidget(Object widget, String field)
+    {
+        widgets.put(field, widget);
+    }
+    
+    public Object getRootWidget()
+    {
+        return parentWidget;
+    }
+    
+    /**
+     * Initialize the part, which makes the gui visible,
+     * processes fields, etc.
+     * Can only be called from the DefaultPartRule
+     * TODO: This is pretty horrible way of doing things
+     *       Better ideas appreciated..
+     * @param caller - the caller
+     */
+    public void initialize(Object caller)
+    {
+        if (!(caller instanceof DefaultPartRule))
+        {
+            return;
+        }
+        for (Iterator it = widgets.keySet().iterator();it.hasNext();)
+        {
+            String name = (String) it.next();
+            System.out.println("Next ; "+name);
+            // getting widget..
+            Widget widget = (Widget) widgets.get(name);
+        }
+        
+    }
+    
+    /**
+     * Registers an ApplicationPart rule
+     */
+    public void registerRule(IRule rule)
+    {
+        if (partRules == null)
+        {
+            partRules = new ArrayList();
+        }
+        partRules.add(rule);
+        rule.registerPartName(this.getName());
+    }
+    
+    public void registerFieldRule(IRule rule, String field)
+    {
+        Object tmp = widgets.get(field);
+        if (tmp instanceof Widget)
+        {
+            Widget widget = (Widget) tmp;
+            widget.registerRule(rule);
+        }
+    }
+    
+    /**
+     * Activates the part
+     * Which means setting starting rule processing
+     * The defaultrule should initialize the view.
+     */
+    public void activate()
+    {
+        
+    }
+    
+    public ArrayList getRules()
+    {
+        return partRules;
+    }
 }

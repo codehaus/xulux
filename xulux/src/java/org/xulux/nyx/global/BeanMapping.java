@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
+ $Id: BeanMapping.java,v 1.4 2002-11-04 21:40:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import java.util.HashMap;
  * of concept I am reinventing the wheel a bit..;)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.4 2002-11-04 21:40:57 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -181,64 +181,75 @@ public class BeanMapping
         }
         return null;
     }
+    
     /**
      * Adds a field to the mapping
-     * @param field
+     * @param f - the field
      */
-    public void addField(BeanField field)
+    public void addField(IField f)
     {
         if (fields == null)
         {
             fields = new FieldList();
         }
-        Class clazz = field.getMethod().getReturnType();
-        Class baseClass = Dictionary.getInstance().getBaseClass();
-        boolean discoverNestedBean = false;
-        boolean isBaseTypeField = false;
-        if (baseClass != null)
+        
+        if (f instanceof BeanField)
         {
-            //System.out.println("baseclass is interface ? "+baseClass.isInterface());
-            if (baseClass.isInterface())
+            BeanField field = (BeanField) f;
+
+            Class clazz = field.getMethod().getReturnType();
+            Class baseClass = Dictionary.getInstance().getBaseClass();
+            boolean discoverNestedBean = false;
+            boolean isBaseTypeField = false;
+            if (baseClass != null)
             {
-                Class[] ifaces = clazz.getInterfaces();
-                for (int i=0; i < ifaces.length;i++)
+                //System.out.println("baseclass is interface ? "+baseClass.isInterface());
+                if (baseClass.isInterface())
                 {
-                    if (ifaces[i] == baseClass)
+                    Class[] ifaces = clazz.getInterfaces();
+                    for (int i = 0; i < ifaces.length; i++)
                     {
-                        discoverNestedBean = true;
-                        isBaseTypeField = true;
+                        if (ifaces[i] == baseClass)
+                        {
+                            discoverNestedBean = true;
+                            isBaseTypeField = true;
+                        }
+                    }
+                }
+                else
+                {
+                    Class tmpClass = clazz;
+                    // discover if the baseclass is the superclazz...
+                    while (tmpClass != Object.class)
+                    {
+
+                        if (baseClass == tmpClass.getSuperclass())
+                        {
+                            discoverNestedBean = true;
+                            isBaseTypeField = true;
+                            break;
+                        }
+                        tmpClass = tmpClass.getSuperclass();
                     }
                 }
             }
-            else
+            //System.out.println("WE need to discover nestedbean ? "+discoverNestedBean);
+            if (discoverNestedBean)
             {
-                Class tmpClass = clazz;
-                // discover if the baseclass is the superclazz...
-                while (tmpClass != Object.class)
+                Dictionary d = Dictionary.getInstance();
+                //System.out.println("PlainbeanName : "+d.getPlainBeanName(clazz));
+                if (d.getMapping(d.getPossibleMappingName(clazz)) == null)
                 {
-                    
-                    if (baseClass == tmpClass.getSuperclass())
-                    {
-                        discoverNestedBean = true;
-                        isBaseTypeField = true;
-                        break;
-                    }
-                    tmpClass = tmpClass.getSuperclass();
+                    d.getMapping(clazz);
                 }
             }
+            field.setBaseType(isBaseTypeField);
         }
-        //System.out.println("WE need to discover nestedbean ? "+discoverNestedBean);
-        if (discoverNestedBean)
+        else
         {
-            Dictionary d = Dictionary.getInstance();
-            //System.out.println("PlainbeanName : "+d.getPlainBeanName(clazz));
-            if (d.getMapping(d.getPossibleMappingName(clazz)) == null)
-            {
-                d.getMapping(clazz);
-            }
+            return;
         }
-        field.setBaseType(isBaseTypeField);
-        fields.add(field);
+        fields.add(f);
     }
     
     /**
@@ -254,7 +265,7 @@ public class BeanMapping
      * @return the beanfield for the specified 
      * field or null when no field is present
      */
-    public BeanField getField(String name)
+    public IField getField(String name)
     {
         int index = fields.indexOf(name);
         if (index != -1)

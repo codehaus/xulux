@@ -1,5 +1,5 @@
 /*
- $Id: FormExample.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ $Id: FormExample.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.utils.Resources;
  * A simple example of a form
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: FormExample.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ * @version $Id: FormExample.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
  */
 public class FormExample
 {
@@ -86,7 +86,7 @@ public class FormExample
                 createDefaultTestObject(),
                 FORM_NAME);
 */                
-        GuiField.setDefaultLabelPostfix(":");
+//       GuiField.setDefaultLabelPostfix(":");
         SimpleForm form =  (SimpleForm) FormFactory.getDefaultForm(createDefaultTestObject(), BaseForm.USEINTERNALFORM);
         System.out.println("Form : "+form);
         JFrame frame = new JFrame("FormExample");

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.1 2002-10-31 01:44:26 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.1 2002-10-31 01:44:26 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -80,6 +80,15 @@ public class ApplicationContext
     private ArrayList rules;
     
     /**
+     * Request types..
+     */
+    public static final int PRE_REQUEST = 0;
+    public static final int EXECUTE_REQUEST = 1;
+    public static final int POST_REQUEST = 2;
+    public static final int INIT_REQUEST = 3;
+    public static final int DESTROY_REQUEST = 4;
+    
+    /**
      * Constructor for GuiContext.
      */
     public ApplicationContext()
@@ -96,6 +105,9 @@ public class ApplicationContext
         return instance;
     }
     
+    /** 
+     * Register applicationpart
+     */
     public void register(ApplicationPart part)
     {
         if (registry == null)
@@ -168,5 +180,31 @@ public class ApplicationContext
             return;
         }
         listeners = new ArrayList();
+    }
+    
+    /** 
+     * Fires a request of a certain type.
+     */
+    public static void fireRequest(PartRequest request, int type)
+    {
+        ApplicationPart part = request.getPart();
+        ArrayList rules = part.getRules();
+        synchronized (rules)
+        {
+            Iterator iterator = rules.iterator();
+            while (iterator.hasNext())
+            {
+                IRule rule = (IRule) iterator.next();
+                switch (type)
+                {
+                    case PRE_REQUEST:
+                    rule.pre(request);
+                    case EXECUTE_REQUEST:
+                    rule.execute(request);
+                    case POST_REQUEST:
+                    rule.post(request);
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 /*
- $Id: TestExample.java,v 1.1 2002-10-31 01:45:38 mvdb Exp $
+ $Id: TestExample.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,9 +45,11 @@
  */
 package org.xulux.nyx.examples.form;
 
+import java.awt.Component;
 import javax.swing.JFrame;
 
 import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.examples.datamodel.Test;
 import org.xulux.nyx.examples.datamodel.TestContained;
 import org.xulux.nyx.global.Dictionary;
@@ -63,7 +65,7 @@ import org.xulux.nyx.utils.Resources;
  * A simple example of a form
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestExample.java,v 1.1 2002-10-31 01:45:38 mvdb Exp $
+ * @version $Id: TestExample.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
  */
 public class TestExample
 {
@@ -88,16 +90,13 @@ public class TestExample
         // first initialize the dictionary (not really necessary though
         Dictionary dictionary = Dictionary.getInstance();
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("dictionary.xml"));
-        // set some defaults (should be in GuiDefaults.xml...)
-        GuiField.setDefaultLabelPostfix(":");
-        NewForm form = TestFactory.getForm("TestForm", createDefaultTestObject());
-//        ApplicationContext.getInstance().register()
-//        SimpleForm form =  (SimpleForm) FormFactory.getDefaultForm(createDefaultTestObject(), BaseForm.USEINTERNALFORM);
-        System.out.println("Form : "+form);
+        // TODO: set some defaults (should be in GuiDefaults.xml...)
+        ApplicationPart part = TestFactory.getForm("TestForm", createDefaultTestObject());
+        part.get
+        System.out.println("Form : "+part);
         JFrame frame = new JFrame("FormExample");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        form.addToWindow(frame);
-//        ApplicationContext.getInstance().
+        frame.getContentPane().add((Component)part.getRootWidget());
         frame.setSize(frame.getPreferredSize());
         frame.show();
     }
@@ -108,7 +107,7 @@ public class TestExample
     public void withoutDictionary()
     {
         // set some defaults (should be in GuiDefaults.xml...
-        GuiField.setDefaultLabelPostfix(":");
+//        GuiField.setDefaultLabelPostfix(":");
         SimpleForm form =  (SimpleForm) FormFactory.getDefaultForm(createDefaultTestObject(), BaseForm.USEINTERNALFORM);
         System.out.println("Form : "+form);
         JFrame frame = new JFrame("FormExample");

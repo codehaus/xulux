@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
+<!--
+     Everything that starts with a percent sign, will be read
+     from TestForm.properties, so <formName>.properties
+-->
 <!-- the TestForm window definition -->
-<window title="%TestForm.title">
+<window title="%title">
   <layout></layout>
   <fields layout="equalLayout">
     <label at="1,1" name="Test.field1Label"/>
