@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.14 2002-11-13 02:44:50 mvdb Exp $
+ $Id: Entry.java,v 1.15 2002-11-13 23:16:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JTextField;
 
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.swing.listeners.ImmidiateListener;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
@@ -56,7 +58,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.14 2002-11-13 02:44:50 mvdb Exp $
+ * @version $Id: Entry.java,v 1.15 2002-11-13 23:16:02 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -144,6 +146,7 @@ extends Widget
         textField.setEnabled(isEnabled());
         textField.setVisible(isVisible());
         textField.setPreferredSize(this.size);
+        textField.setText(getText());
         if (getProperties() != null)
         {
             String enabled = (String)properties.get("enabled");
@@ -176,29 +179,31 @@ extends Widget
 
     /**
      * @see org.xulux.nyx.gui.ValueWidget#setValue(Object)
+     * @param val
      */
-    public void setValue(Object value)
+    public void setValue(Object val)
     {
         boolean update = true;
-        if (value!=null && value.equals(getValue()))
+        String text = null;
+        if (val!=null && val.equals(getValue()))
         {
-            update = false;
+            return;
         }
-        String text = "";
-        if (value != null)
+        this.value = val;
+        if (getField()!= null && val != null)
         {
-            text = value.toString();
-            this.value = value;
+            // we ignore multiple values for now.. 
+            BeanMapping map = Dictionary.getInstance().getMapping(val.getClass());
+            if (map != null)
+            {
+                val = map.getField(getField()).getValue(this.value);
+            }
         }
-        if (initialized)
+        if (val != null)
         {
-            textField.setText(text);
+            text = val.toString();
+            setText(text);
         }
-        else
-        {
-            this.value = value;
-        }
-        
         if (update && initialized)
         {
             refresh();
@@ -215,7 +220,8 @@ extends Widget
         }
         else
         {
-            textField.setText("");
+            this.value = null;
+            setText("");
         }
         if (initialized)
         {

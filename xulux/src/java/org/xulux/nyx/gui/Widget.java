@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.12 2002-11-13 02:44:50 mvdb Exp $
+ $Id: Widget.java,v 1.13 2002-11-13 23:16:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.12 2002-11-13 02:44:50 mvdb Exp $
+ * @version $Id: Widget.java,v 1.13 2002-11-13 23:16:02 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -355,6 +355,10 @@ public abstract class Widget
         if (key.equalsIgnoreCase("enabled"))
         {
             setEnable((value.equalsIgnoreCase("true")?true:false));
+        }
+        if (key.equalsIgnoreCase("use"))
+        {
+            setField(value);
         }
         // refresh the widget when it is initialized
         if (initialized)

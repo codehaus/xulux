@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.5 2002-11-13 03:52:11 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.6 2002-11-13 23:16:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.gui.Widget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.5 2002-11-13 03:52:11 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.6 2002-11-13 23:16:02 mvdb Exp $
  */
 public class PrePostFieldListener 
 implements FocusListener, ActionListener
@@ -81,9 +81,8 @@ implements FocusListener, ActionListener
      */
     public void focusGained(FocusEvent e)
     {
-        System.out.println("MINIMIZING :"+e.getID());
-        if (e.getID() != FocusEvent.FOCUS_GAINED || 
-            e.getID() != FocusEvent.FOCUS_LOST)
+        System.out.println("FOCUSGAINED : MINIMIZING :"+e.getID());
+        if (e.getID() != FocusEvent.FOCUS_GAINED)
         {
             System.err.println("Not an event we need!!!!!!");
             // only above is interesting..
@@ -99,9 +98,9 @@ implements FocusListener, ActionListener
      */
     public void focusLost(FocusEvent e)
     {
-        System.out.println("MINIMIZING :"+e.getID());
-        if (e.getID() != FocusEvent.FOCUS_GAINED ||
-            e.getID() != FocusEvent.FOCUS_LOST)
+        System.out.println("FOCUSLOST : MINIMIZING :"+e.getID());
+        
+        if (e.getID() != FocusEvent.FOCUS_LOST)
         {
             System.err.println("Not an event we need!!!!!!");
             // only above is interesting..

@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.11 2002-11-13 03:52:11 mvdb Exp $
+ $Id: Combo.java,v 1.12 2002-11-13 23:16:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.11 2002-11-13 03:52:11 mvdb Exp $
+ * @version $Id: Combo.java,v 1.12 2002-11-13 23:16:02 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -232,6 +232,29 @@ public class Combo extends Widget
                 combo.addActionListener(this.actionListener);
             }
         }
+        if (value instanceof DefaultComboModel.ComboShowable)
+        {
+            model.setSelectedItem(value);
+        }
+        else
+        {
+            int index = -1;
+            if (content != null && value != null)
+            {
+                index = content.indexOf(value);
+                if ("SPE-ANE-Anaesthesie-08".equals(value.toString()))
+                {
+                    System.out.println("Content  :"+content);
+                    System.out.println("clazz : "+content.get(1).getClass());
+                    System.out.println("value : "+value.getClass());
+                }
+            }
+            System.err.println("Index of specialismList :"+index);
+            if (index != -1)
+            {
+                model.setSelectedItem(index);
+            }
+        }
         combo.repaint();
     }
     /**
@@ -255,28 +278,12 @@ public class Combo extends Widget
     
     public void setValue(Object object)
     {
-        if (object != null)
+        this.value = object;
+        
+        if (initialized)
         {
-            System.out.println(object.getClass());
+            refresh();
         }
-        if (object instanceof DefaultComboModel.ComboShowable)
-        {
-            model.setSelectedItem(object);
-        }
-        else
-        {
-            int index = -1;
-            if (content != null)
-            {
-                content.indexOf(object);
-            }
-            System.err.println("Index of specialismList :"+index);
-            if (index != -1)
-            {
-                model.setSelectedItem(index);
-            }
-        }
-        refresh();
     }
     /**
      * @see org.xulux.nyx.gui.Widget#clear()
