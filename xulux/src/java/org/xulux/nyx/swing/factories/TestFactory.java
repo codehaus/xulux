@@ -1,5 +1,5 @@
 /*
- $Id: TestFactory.java,v 1.17 2003-11-06 19:53:13 mvdb Exp $
+ $Id: TestFactory.java,v 1.18 2003-11-24 16:28:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -66,19 +66,25 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * a later stage.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.17 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.18 2003-11-24 16:28:33 mvdb Exp $
  */
-public class TestFactory
+public final class TestFactory
 {
 
+    /**
+     * the testfactory instance
+     */
     private static TestFactory instance;
     /**
      * Constructor for TestFactory.
      */
-    public TestFactory()
+    private TestFactory()
     {
     }
 
+    /**
+     * @return an instance of testfactory
+     */
     public static TestFactory getInstance()
     {
         if (instance == null)
@@ -91,6 +97,9 @@ public class TestFactory
 
     /**
      * Creates a ApplicationPart form
+     * @param form the form name
+     * @param bean the bean to use
+     * @return the applicationpart
      */
     public static ApplicationPart getForm(String form, Object bean)
     {
@@ -109,13 +118,16 @@ public class TestFactory
             entry.setVisible(true);
             entry.initialize();
             entry.setValue(field.getValue(bean));
-            part.addWidget(entry);//, field.getName());
+            part.addWidget(entry);
         }
         return part;
     }
 
     /**
      * Build the form from an xml definition
+     * @param form the stream of the form
+     * @param bean the bean to use in the form
+     * @return the applicationpart
      */
     public static ApplicationPart getForm(InputStream form, Object bean)
     {
@@ -130,8 +142,12 @@ public class TestFactory
     /**
      * Build the form from an xml definition and override
      * the name
+     * @param form the stream containing the form
+     * @param name the name of the form
+     * @param bean the bean to use in the form
+     * @return the applicationpart
      */
-    public static ApplicationPart getForm(InputStream form, String name,Object bean)
+    public static ApplicationPart getForm(InputStream form, String name, Object bean)
     {
         ApplicationPartHandler handler = new ApplicationPartHandler();
         XYLayout layout = new XYLayout();
