@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.19 2002-11-12 17:16:43 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.20 2002-11-13 03:52:11 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -83,7 +83,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.19 2002-11-12 17:16:43 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.20 2002-11-13 03:52:11 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -194,7 +194,12 @@ public class ApplicationPart
     public Object getGuiValue(String name)
     {
         Widget widget = (Widget)widgets.get(name);
-        return ((Widget)widget).getValue();
+        if (widget == null)
+        {
+            System.out.println("WIDGET NOT FOUND");
+            System.out.println("WIDGETS : "+widgets);
+        }
+        return widget.getValue();
     }
     
     /**
