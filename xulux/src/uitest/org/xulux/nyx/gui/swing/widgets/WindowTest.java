@@ -1,5 +1,5 @@
 /*
- $Id: WindowTest.java,v 1.2 2003-12-15 19:36:49 mvdb Exp $
+ $Id: WindowTest.java,v 1.3 2003-12-15 20:16:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,43 +59,35 @@ import org.xulux.nyx.gui.Widget;
  * Testcase for an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowTest.java,v 1.2 2003-12-15 19:36:49 mvdb Exp $
+ * @version $Id: WindowTest.java,v 1.3 2003-12-15 20:16:36 mvdb Exp $
  */
-public class WindowTest extends TestCase
-{
+public class WindowTest extends TestCase {
 
     /**
      * Constructor for EntryTest.
      */
-    public WindowTest(String name)
-    {
+    public WindowTest(String name) {
         super(name);
     }
-    public static Test suite()
-    {
+    public static Test suite() {
         TestSuite suite = new TestSuite(WindowTest.class);
         return suite;
     }
-    
-    public void testSimpleWindow()
-    {
+
+    public void testSimpleWindow() {
         String xml = "org/xulux/nyx/gui/swing/widgets/WindowTest1.xml";
-//        ((SimpleLog)LogFactory.getLog(NyxWindowListener.class)).setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //        ((SimpleLog)LogFactory.getLog(NyxWindowListener.class)).setLevel(SimpleLog.LOG_LEVEL_TRACE);
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(null, stream);
         part.activate();
         Widget widget = part.getWidget("WindowTest1");
         widget.setVisible(true);
     }
-    
-    public static void main(String args[])
-    {
-        try
-        {
+
+    public static void main(String args[]) {
+        try {
             new WindowTest("WindowTest").testSimpleWindow();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             System.exit(0);
         }

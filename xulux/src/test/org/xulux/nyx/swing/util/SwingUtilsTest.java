@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtilsTest.java,v 1.2 2003-12-15 03:28:53 mvdb Exp $
+ $Id: SwingUtilsTest.java,v 1.3 2003-12-15 20:17:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -67,7 +67,7 @@ import org.xulux.nyx.gui.WidgetRectangle;
  * Test the SwingUtils class
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtilsTest.java,v 1.2 2003-12-15 03:28:53 mvdb Exp $
+ * @version $Id: SwingUtilsTest.java,v 1.3 2003-12-15 20:17:13 mvdb Exp $
  */
 public class SwingUtilsTest extends TestCase {
 
@@ -95,7 +95,7 @@ public class SwingUtilsTest extends TestCase {
     /**
      * @return The test suite
      */
-    public static Test suite(){
+    public static Test suite() {
         TestSuite suite = new TestSuite(SwingUtilsTest.class);
         return suite;
     }
@@ -135,12 +135,12 @@ public class SwingUtilsTest extends TestCase {
         assertNull(SwingUtils.getImage(null, null));
         assertEquals(0, l.getImageCount);
         assertNull(SwingUtils.getImage("", null));
-        Image image = SwingUtils.getImage(RESOURCEROOT+"Car.gif", this);
+        Image image = SwingUtils.getImage(RESOURCEROOT + "Car.gif", this);
         assertNull(image);
         assertEquals(1, l.getImageCount);
         ImageIcon icon = SwingUtils.getIcon(null, null);
         assertNull(icon);
-        icon = SwingUtils.getIcon(RESOURCEROOT+"Car.gif", this);
+        icon = SwingUtils.getIcon(RESOURCEROOT + "Car.gif", this);
         assertNull(icon);
         assertEquals(1, l.getIconCount);
     }
@@ -153,16 +153,16 @@ public class SwingUtilsTest extends TestCase {
         System.setProperty("nyx.swing.imageloader", "bogus.class.name");
         SwingUtils.initializeImageLoader();
         assertNull(SwingUtils.getImageLoader());
-        Image image = SwingUtils.getImage(RESOURCEROOT+"Car.gif", this);
+        Image image = SwingUtils.getImage(RESOURCEROOT + "Car.gif", this);
         assertNotNull(image);
-        image = SwingUtils.getImage(RESOURCEROOT+"Car.ico", this);
+        image = SwingUtils.getImage(RESOURCEROOT + "Car.ico", this);
         assertNull(image);
-        ImageIcon icon = SwingUtils.getIcon(RESOURCEROOT+"Car.gif", this);
+        ImageIcon icon = SwingUtils.getIcon(RESOURCEROOT + "Car.gif", this);
         assertNotNull(icon);
-        icon = SwingUtils.getIcon(RESOURCEROOT+"Car.ico", this);
+        icon = SwingUtils.getIcon(RESOURCEROOT + "Car.ico", this);
         assertNull(icon);
         ((SimpleLog) LogFactory.getLog(SwingUtils.class)).setLevel(SimpleLog.LOG_LEVEL_OFF);
-        icon = SwingUtils.getIcon(RESOURCEROOT+"Car.ico", this);
+        icon = SwingUtils.getIcon(RESOURCEROOT + "Car.ico", this);
         assertNull(icon);
         ((SimpleLog) LogFactory.getLog(SwingUtils.class)).setLevel(SimpleLog.LOG_LEVEL_ALL);
     }
@@ -226,7 +226,10 @@ public class SwingUtilsTest extends TestCase {
          * The getIcon count
          */
         protected int getIconCount = 0;
-         
+
+        /**
+         * Constructor
+         */
         public TestImageLoader() {
         }
 
