@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
+ $Id: ApplicationPartTest.java,v 1.3 2004-01-06 19:01:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -58,7 +58,7 @@ import junit.framework.TestSuite;
  * The ApplicationPart test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.3 2004-01-06 19:01:37 mvdb Exp $
  */
 public class ApplicationPartTest extends TestCase {
 
@@ -98,7 +98,18 @@ public class ApplicationPartTest extends TestCase {
         assertEquals(combo, part.getWidget("Combo"));
         assertEquals(checkBox, part.getWidget("CheckBox"));
         assertEquals(checkBox1, part.getWidget("test.checkbox"));
+    }
 
+    /**
+     * Test the session.
+     * Just tests if we don't get a clone of the session
+     * by accident.
+     */
+    public void testSession() {
+        System.out.println("testSession");
+        ApplicationPart part = new ApplicationPart("part");
+        SessionPart session = part.getSession();
+        assertEquals(session, part.getSession());
     }
 
 }
