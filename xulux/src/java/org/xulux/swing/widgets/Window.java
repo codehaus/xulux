@@ -1,5 +1,5 @@
 /*
-   $Id: Window.java,v 1.12 2004-12-01 11:37:04 mvdb Exp $
+   $Id: Window.java,v 1.13 2005-01-06 15:15:24 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,8 +20,8 @@ package org.xulux.swing.widgets;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.awt.Toolkit;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,7 +47,7 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.12 2004-12-01 11:37:04 mvdb Exp $
+ * @version $Id: Window.java,v 1.13 2005-01-06 15:15:24 mvdb Exp $
  */
 public class Window extends NyxWindow {
     /**
@@ -63,6 +63,7 @@ public class Window extends NyxWindow {
      */
     protected static Log log = LogFactory.getLog(Window.class);
 
+    boolean isInitializing = false;
     /**
      * Constructor for NyxWindow.
      * @param name the name of the window
@@ -106,6 +107,7 @@ public class Window extends NyxWindow {
             return;
         }
         initialized = true;
+        isInitializing = true;
         String title = getProperty("title");
         if (title == null) {
             title = "";
@@ -128,10 +130,26 @@ public class Window extends NyxWindow {
             // @todo Introduce MDI type of windowing
             // mdi is the default.
         }
-        initializeChildren();
         boolean autoSize = BooleanUtils.toBoolean(getProperty("autosize"));
         if (autoSize) {
             Dimension dim = window.getContentPane().getLayout().preferredLayoutSize(window.getContentPane());
+            if ("center".equalsIgnoreCase(getProperty("position"))) {
+            	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            	Dimension prefSize = window.getPreferredSize();
+            	window.setLocation((screenSize.width-prefSize.width)/2, (screenSize.height-prefSize.height)/2);
+            }
+        }
+        window.setVisible(false);
+        initializeChildren();
+        window.setVisible(false);
+        processInit();
+        if (autoSize) {
+            Dimension dim = window.getContentPane().getLayout().preferredLayoutSize(window.getContentPane());
+            if ("center".equalsIgnoreCase(getProperty("position"))) {
+            	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            	Dimension prefSize = window.getPreferredSize();
+            	window.setLocation((screenSize.width-prefSize.width)/2, (screenSize.height-prefSize.height)/2);
+            }
             window.pack();
         } else {
             window.setSize(getRectangle().getWidth(), getRectangle().getHeight());
@@ -140,10 +158,11 @@ public class Window extends NyxWindow {
           boolean resize = BooleanUtils.toBoolean(getProperty("resizable"));
             window.setResizable(resize);
         }
+        window.setVisible(true);
+        isInitializing = false;
         if (!isRefreshing()) {
             refresh();
         }
-        processInit();
         new Thread(new RepaintComponent()).start();
     }
 
@@ -151,6 +170,9 @@ public class Window extends NyxWindow {
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public void refresh() {
+    	if (isInitializing) {
+    		return;
+    	}
         isRefreshing = true;
         initialize();
         String image = getProperty("icon");

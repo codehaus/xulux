@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: WindowWithButtonsTest.xml,v 1.2 2004-04-01 16:15:09 mvdb Exp $ -->
+<!-- $Id: WindowWithButtonsTest.xml,v 1.3 2005-01-06 15:15:24 mvdb Exp $ -->
 <part name="WindowWithButtonsTest" prefix="window" application="true">
   <rules>
     <rule>org.xulux.gui.rules.WindowWithButtonsRule</rule>
@@ -7,8 +7,9 @@
   <field type="window" name="Window">
     <title>WindowTest1</title>
     <icon>resources/Car.ico</icon>
-    <size>300,300</size>
+<!--    <size>300,300</size> -->
     <autosize>true</autosize>
+    <position>center</position>
     <field type="button" name="Button:Cancel">
       <size>120,21</size>
       <position>4,10</position>
