@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.34 2003-08-03 20:53:04 mvdb Exp $
+ $Id: Widget.java,v 1.35 2003-08-03 21:35:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -66,7 +66,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.34 2003-08-03 20:53:04 mvdb Exp $
+ * @version $Id: Widget.java,v 1.35 2003-08-03 21:35:41 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -808,6 +808,9 @@ public abstract class Widget implements Serializable
      */
     protected void processInit() {
         List list = ApplicationContext.getInstance().getWidgetInitializers(getWidgetType());
+        if (list == null) {
+            return;
+        }
         Iterator it = list.iterator();
         while (it.hasNext()) {
             ((IWidgetInitializer)it.next()).initialize(this);
@@ -821,6 +824,9 @@ public abstract class Widget implements Serializable
      */    
     protected void processDestroy() {
         List list = ApplicationContext.getInstance().getWidgetInitializers(getWidgetType());
+        if (list == null) {
+            return;
+        }
         Iterator it = list.iterator();
         while (it.hasNext()) {
             ((IWidgetInitializer)it.next()).destroy(this);
