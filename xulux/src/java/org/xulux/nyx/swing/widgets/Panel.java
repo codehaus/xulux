@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.10 2003-09-01 12:04:20 mvdb Exp $
+ $Id: Panel.java,v 1.11 2003-09-09 11:31:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,24 +45,27 @@
  */
 package org.xulux.nyx.swing.widgets;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.layouts.XYLayout;
 
 /**
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.10 2003-09-01 12:04:20 mvdb Exp $
+ * @version $Id: Panel.java,v 1.11 2003-09-09 11:31:31 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -134,6 +137,11 @@ public class Panel extends ContainerWidget
         String border = (String)getProperties().get("border");
         if (border!=null)
         {
+            Color color = panel.getForeground();
+            String borderColor = getProperty("border-color");
+            if (borderColor != null) {
+                color = ColorUtils.getSwingColor(borderColor);
+            }
             if (border.equalsIgnoreCase("bevel"))
             {
                 panel.setBorder(new BevelBorder(BevelBorder.RAISED));
@@ -142,7 +150,34 @@ public class Panel extends ContainerWidget
                 if (borderTitle == null) {
                     borderTitle = "";
                 }
-                panel.setBorder(new TitledBorder(borderTitle));
+                
+                Color titleColor = color;
+                if (getProperty("border-title-color") != null) {
+                    titleColor = ColorUtils.getSwingColor(getProperty("border-title-color"));
+                    System.out.println("title color : "+titleColor);
+                }
+                int borderSize = 1;
+                if (getProperty("border-size") != null) {
+                    try {
+                        borderSize = Integer.parseInt(getProperty("border-size"));
+                    } catch(NumberFormatException nfe) {
+                        nfe.printStackTrace();
+                    }
+                }
+                LineBorder lineBorder = new LineBorder(color,borderSize);
+                TitledBorder titledBorder = new TitledBorder(lineBorder,borderTitle);
+                titledBorder.setTitleColor(titleColor);
+                panel.setBorder(titledBorder);
+            } else if (border.equalsIgnoreCase("line")) {
+                int borderSize = 1;
+                if (getProperty("border-size") != null) {
+                    try {
+                        borderSize = Integer.parseInt(getProperty("border-size"));
+                    } catch(NumberFormatException nfe) {
+                        nfe.printStackTrace();
+                    }
+                }
+                panel.setBorder( new LineBorder(color, borderSize));
             }
         }
     }
