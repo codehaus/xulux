@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The ToggleButton Widget</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The ToggleButton Widget">
+  <subsection name="General">
+    <p>
+      Explain..
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      Description
+    </p>
+    <table>
+      <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
+      <tr>
+        <td>margin</td>
+        <td>swing</td>
+        <td>
+          The margin to use to show the label of the button. 
+          Format top, left, bottom, right.
+        </td>
+      </tr>
+      <tr>
+        <td>image</td>
+        <td>swing</td>
+        <td>
+          Image
+        </td>
+      </tr>
+      <tr>
+        <td>image-disabled</td>
+        <td>swing</td>
+        <td>
+          Image
+        </td>
+      </tr>
+      <tr>
+        <td>image-rollover</td>
+        <td>swing</td>
+        <td>
+          Image
+        </td>
+      </tr>
+      <tr>
+        <td>image-selected</td>
+        <td>swing</td>
+        <td>
+          Image
+        </td>
+      </tr>
+      <tr>
+        <td>tooltip</td>
+        <td>swing</td>
+        <td>
+          The tooltip for the button.
+        </td>
+      </tr>
+    </table>
+  </subsection>
+</section>
+
+</body>
+
+</document>

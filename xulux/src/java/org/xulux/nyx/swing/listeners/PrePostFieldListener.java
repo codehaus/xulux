@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.31 2003-11-06 19:53:12 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.32 2003-11-10 11:07:29 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -60,6 +60,7 @@ import org.xulux.nyx.swing.util.NyxEventQueue;
 import org.xulux.nyx.swing.widgets.Button;
 import org.xulux.nyx.swing.widgets.CheckBox;
 import org.xulux.nyx.swing.widgets.RadioButton;
+import org.xulux.nyx.swing.widgets.ToggleButton;
 
 /**
  * TODO: Find a better way to handle the concel button.
@@ -68,7 +69,7 @@ import org.xulux.nyx.swing.widgets.RadioButton;
  * Also if a user closes the window, widget.destroy should be called
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.31 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.32 2003-11-10 11:07:29 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -175,7 +176,7 @@ implements FocusListener, ActionListener, ItemListener
         }
         boolean refresh = false;
         // reset the hold events to process previous events..
-        if (widget instanceof CheckBox || widget instanceof RadioButton) {
+        if (widget instanceof CheckBox || widget instanceof RadioButton || widget instanceof ToggleButton) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 widget.setValue("true");
                 refresh = true;
