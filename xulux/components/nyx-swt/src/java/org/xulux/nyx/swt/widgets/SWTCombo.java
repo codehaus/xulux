@@ -1,5 +1,5 @@
 /*
- $Id: SWTCombo.java,v 1.1 2003-06-17 13:55:15 mvdb Exp $
+ $Id: SWTCombo.java,v 1.2 2003-06-17 17:01:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * Represents the swt combo and cCombo.
  * 
  * @author <a href="mailo:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTCombo.java,v 1.1 2003-06-17 13:55:15 mvdb Exp $
+ * @version $Id: SWTCombo.java,v 1.2 2003-06-17 17:01:20 mvdb Exp $
  */
 public class SWTCombo extends NyxCombo
 implements SWTWidget
@@ -206,6 +206,13 @@ implements SWTWidget
         }
         combo.redraw();
         isRefreshing = false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#focus()
+     */
+    public void focus() {
+        combo.setFocus();
     }
 
 }
