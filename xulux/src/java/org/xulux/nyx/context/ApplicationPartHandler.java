@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.6 2002-11-12 17:16:43 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.7 2002-11-12 21:34:34 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.rules.IRule;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.6 2002-11-12 17:16:43 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.7 2002-11-12 21:34:34 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -99,6 +99,8 @@ public class ApplicationPartHandler extends DefaultHandler
     private boolean processRule = false;
     
     private String currentqName;
+    
+    private String currentValue;
 
     /**
      * Contains the fields if there are more than 
@@ -237,29 +239,71 @@ public class ApplicationPartHandler extends DefaultHandler
         else if (qName.equals(TEXT_ELEMENT))
         {
             processText = false;
+            ((Widget) stack.get(stack.size()-1)).setText(currentValue);
+            currentValue = null;
         }
         else if (qName.equals(RULES_ELEMENT))
         {
             rulesStarted = false;
         }
-        else if (qName.equals(POSITION_ELEMENT))
+        else if (qName.equals(RULE_ELEMENT))
         {
-            processPosition = false;
+            processRule = false;
+            try
+            {
+                Widget widget = (Widget) stack.get(stack.size()-1);
+                addRule(widget, currentValue);
+            }
+            catch(ArrayIndexOutOfBoundsException aioobe)
+            {
+                // it's a part rule
+                addRule(null, currentValue);
+            }
+            currentValue = null;
         }
-        else if (qName.equals(SIZE_ELEMENT))
+        else if (qName.equals(POSITION_ELEMENT) || qName.equals(SIZE_ELEMENT))
         {
-            processSize = false;
+            int x = 0;
+            int y = 0;
+            try
+            {
+                StringTokenizer stn =
+                new StringTokenizer(currentValue, ",");
+                x = Integer.parseInt(stn.nextToken());
+                y = Integer.parseInt(stn.nextToken());
+            }
+            catch(NoSuchElementException nse)
+            {
+                System.err.println("Parsing error with text : "+currentValue);
+                System.err.println("with widget : "+((Widget) stack.get(stack.size()-1)).getName());
+            }
+            Widget widget = (Widget) stack.get(stack.size()-1);
+            if (processSize)
+            {
+                widget.setSize(x, y);
+                processSize = false;
+            }
+            else if (processPosition)
+            {
+                widget.setPosition(x, y);
+                processPosition = false;
+            }
+            currentValue = null;
         }
         else if (qName.equals(VALUE_ELEMENT))
         {
             processValue = false;
+            ((Widget) stack.get(stack.size())).setText(currentValue);
+            currentValue = null;
         }
-        else
+        else if (processUnknown && currentqName != null)
         {
-            currentqName = null;
             processUnknown = false;
+            Widget widget = (Widget) stack.get(stack.size()-1);
+            widget.setProperty(currentqName, currentValue);
+            currentqName = null;
+            currentValue = null;
         }
-        
     }
 
     /**
@@ -284,65 +328,58 @@ public class ApplicationPartHandler extends DefaultHandler
     {
         if (processText)
         {
-            String text = new String(arg0, arg1, arg2);
-            ((Widget) stack.get(stack.size()-1)).setText(text);
-            processText = false;
+            if (currentValue == null)
+            {
+                currentValue = new String(arg0, arg1, arg2);
+            }
+            else
+            {
+                currentValue+=new String(arg0, arg1, arg2);
+            }
         }
         else if (processPosition || processSize)
         {
-            int x = 0;
-            int y = 0;
-            try
+            if (currentValue == null)
             {
-                StringTokenizer stn =
-                new StringTokenizer(new String(arg0, arg1, arg2), ",");
-                x = Integer.parseInt(stn.nextToken());
-                y = Integer.parseInt(stn.nextToken());
+                currentValue = new String(arg0, arg1, arg2);
             }
-            catch(NoSuchElementException nse)
+            else
             {
-                System.err.println("Parsing error with text : "+new String(arg0,arg1,arg2));
-                System.err.println("with widget : "+((Widget) stack.get(stack.size()-1)).getName());
-            }
-            Widget widget = (Widget) stack.get(stack.size()-1);
-            if (processSize)
-            {
-                widget.setSize(x, y);
-                processSize = false;
-            }
-            else if (processPosition)
-            {
-                widget.setPosition(x, y);
-                processPosition = false;
+                currentValue+=new String(arg0, arg1, arg2);
             }
         }
         else if (processValue)
         {
-            String value = new String(arg0, arg1, arg2);
-            ((Widget) stack.get(stack.size())).setText(value);
-            processValue = false;
+            if (currentValue == null)
+            {
+                currentValue = new String(arg0, arg1, arg2);
+            }
+            else
+            {
+                currentValue+=new String(arg0, arg1, arg2);
+            }
         }
         else if(processUnknown && currentqName!=null)
         {
-            Widget widget = (Widget) stack.get(stack.size()-1);
-            widget.setProperty(currentqName, new String(arg0, arg1, arg2));
-            currentqName = null;
-            processUnknown = false;
+            if (currentValue == null)
+            {
+                currentValue = new String(arg0, arg1, arg2);
+            }
+            else
+            {
+                currentValue+=new String(arg0, arg1, arg2);
+            }
         }
         else if (processRule)
         {
-            String ruleClass = new String(arg0, arg1, arg2);
-            try
+            if (currentValue == null)
             {
-                Widget widget = (Widget) stack.get(stack.size()-1);
-                addRule(widget, ruleClass);
+                currentValue = new String(arg0, arg1, arg2);
             }
-            catch(ArrayIndexOutOfBoundsException aioobe)
+            else
             {
-                // it's a part rule
-                addRule(null, ruleClass);
+                currentValue+=new String(arg0,arg1,arg2);
             }
-            processRule = false;
         }
     }
     
