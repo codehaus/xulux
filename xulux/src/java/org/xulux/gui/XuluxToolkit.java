@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxToolkit.java,v 1.2 2004-06-30 10:05:13 mvdb Exp $
+   $Id: XuluxToolkit.java,v 1.3 2004-06-30 10:44:04 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,7 +29,7 @@ import org.xulux.core.XuluxContext;
  * (didn't check yet if swt uses something different though)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxToolkit.java,v 1.2 2004-06-30 10:05:13 mvdb Exp $
+ * @version $Id: XuluxToolkit.java,v 1.3 2004-06-30 10:44:04 mvdb Exp $
  */
 public abstract class XuluxToolkit {
 
@@ -49,9 +49,11 @@ public abstract class XuluxToolkit {
     }
 
     /**
+     * You shouldn't use this method, you should call XuluxContext().getGuiDefaults().getXuluxToolkit()
+     *
      * @return the XuluxToolkit used for the gui
      */
-    public static XuluxToolkit getInstance() {
+    protected static XuluxToolkit getInstance() {
         if (instance == null) {
             instance = XuluxContext.getGuiDefaults().getXuluxToolkit();
             if (instance == null) {
