@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.15 2003-09-29 02:02:24 mvdb Exp $
+ $Id: Button.java,v 1.16 2003-09-29 22:59:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -68,7 +68,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.15 2003-09-29 02:02:24 mvdb Exp $
+ * @version $Id: Button.java,v 1.16 2003-09-29 22:59:12 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
@@ -123,27 +123,28 @@ public class Button extends SwingWidget
         String image = getProperty("image");
         if (image != null)
         {
-            button.setIcon(SwingUtils.getIcon(image,this));
+            ImageIcon icon = SwingUtils.getIcon(image,this);
+            button.setIcon(icon);
             button.setFocusPainted(true);
         }
         String disabledImage = getProperty("image-disabled");
         if (disabledImage != null)
         {
-            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(disabledImage));
+            ImageIcon icon = SwingUtils.getIcon(disabledImage, this);
             button.setDisabledIcon(icon);
             button.setDisabledSelectedIcon(icon);
         }
         String rolloverImage = getProperty("image-rollover");
         if (rolloverImage!=null)
         {
-            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(rolloverImage));
+            ImageIcon icon = SwingUtils.getIcon(rolloverImage, this); 
             button.setRolloverIcon(icon);
             button.setRolloverEnabled(true);
         }
         String selectedImage = getProperty("image-selected");
         if (selectedImage != null)
         {
-            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(selectedImage));
+            ImageIcon icon = SwingUtils.getIcon(selectedImage,this); 
             button.setSelectedIcon(icon);
             button.setPressedIcon(icon);
             button.setRolloverSelectedIcon(icon);
