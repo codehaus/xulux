@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.2 2003-05-21 11:27:46 mvdb Exp $
+ $Id: Combo.java,v 1.3 2003-06-17 12:02:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,8 +51,8 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.xulux.nyx.gui.utils.ComboContent;
 import org.xulux.nyx.listeners.NyxListener;
-import org.xulux.nyx.listeners.swt.ImmidiateListener;
-import org.xulux.nyx.listeners.swt.PrePostFieldListener;
+import org.xulux.nyx.swt.listeners.ImmidiateListener;
+import org.xulux.nyx.swt.listeners.PrePostFieldListener;
 import org.xulux.nyx.swt.util.SWTUtil;
 
 
@@ -60,7 +60,7 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * Represents the swt combo and cCombo.
  * 
  * @author <a href="mailo:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.2 2003-05-21 11:27:46 mvdb Exp $
+ * @version $Id: Combo.java,v 1.3 2003-06-17 12:02:04 mvdb Exp $
  */
 public class Combo extends org.xulux.nyx.gui.NyxCombo
 implements SWTWidget

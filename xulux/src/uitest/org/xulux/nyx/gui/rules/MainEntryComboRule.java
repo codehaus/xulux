@@ -1,5 +1,5 @@
 /*
- $Id: MainEntryComboRule.java,v 1.3 2003-05-21 10:07:17 mvdb Exp $
+ $Id: MainEntryComboRule.java,v 1.4 2003-06-17 12:02:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,7 +48,7 @@ package org.xulux.nyx.gui.rules;
 import java.util.ArrayList;
 
 import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.gui.Combo;
+import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.PersonBean;
 import org.xulux.nyx.gui.swing.Entry;
 import org.xulux.nyx.rules.Rule;
@@ -56,7 +56,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MainEntryComboRule.java,v 1.3 2003-05-21 10:07:17 mvdb Exp $
+ * @version $Id: MainEntryComboRule.java,v 1.4 2003-06-17 12:02:41 mvdb Exp $
  */
 public class MainEntryComboRule extends Rule
 {
@@ -76,7 +76,7 @@ public class MainEntryComboRule extends Rule
         Entry entry = (Entry) request.getPart().getWidget("PersonEntry");
         System.out.println("Setting value to : "+request.getPart().getBean());
         entry.setValue(request.getPart().getBean());
-        Combo combo = (Combo)request.getPart().getWidget("PersonList");
+        NyxCombo combo = (NyxCombo)request.getPart().getWidget("PersonList");
         ArrayList list = createContent();
         combo.setContent(list);
         combo.setValue(list.get(2));
