@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.42 2003-11-11 14:46:15 mvdb Exp $
+ $Id: Widget.java,v 1.43 2003-11-11 16:48:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.42 2003-11-11 14:46:15 mvdb Exp $
+ * @version $Id: Widget.java,v 1.43 2003-11-11 16:48:12 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -188,13 +188,10 @@ public abstract class Widget implements Serializable
      * No state change should take place if the widget is already in a certain state.
      * @param show true - shows the widget
      */
-    public void setVisible(boolean visible)
-    {
-        if (this.visible != visible)
-        {
+    public void setVisible(boolean visible) {
+        if (this.visible != visible) {
             this.visible = visible;
-            if (initialized)
-            {
+            if (initialized) {
                 refresh();
             }
         }
@@ -280,30 +277,27 @@ public abstract class Widget implements Serializable
     /**
      * sets the position of the current widget
      * (on the parent..)
+     * @param x - the x position on the parant
+     * @param y - the y position on the parent
      */
     public void setPosition(int x, int y) {
-        if (rectangle == null) {
-            rectangle = new WidgetRectangle();
-        }
-        rectangle.setPosition(x,y);
+        getRectangle().setPosition(x,y);
     }
     /**
      * Sets the size of the current widget
+     * @param width - the width of the widget
+     * @param height - the height of the widget
      */
     public void setSize(int width, int height) {
-        if (rectangle == null) {
-            rectangle = new WidgetRectangle();
-        }
-        rectangle.setSize(width, height);
+        getRectangle().setSize(width, height);
     }
 
     /**
      *
-     * @return the rectangle for the widget
+     * @return the rectangle for the widget, never null.
      */
     public WidgetRectangle getRectangle() {
-        if (this.rectangle == null)
-        {
+        if (this.rectangle == null) {
             this.rectangle = new WidgetRectangle();
         }
         return this.rectangle;
@@ -318,8 +312,7 @@ public abstract class Widget implements Serializable
      * Returns the field.
      * @return String
      */
-    public String getField()
-    {
+    public String getField() {
         return field;
     }
 
@@ -329,10 +322,8 @@ public abstract class Widget implements Serializable
      *
      * @param rule
      */
-    public void registerRule(IRule rule)
-    {
-        if (rules == null)
-        {
+    public void registerRule(IRule rule) {
+        if (rules == null) {
             rules = new ArrayList();
         }
         if (rule instanceof Rule) {
@@ -345,8 +336,7 @@ public abstract class Widget implements Serializable
      *
      * @return a list with the rules for that widget
      */
-    public ArrayList getRules()
-    {
+    public ArrayList getRules() {
         return rules;
     }
 
@@ -533,6 +523,7 @@ public abstract class Widget implements Serializable
         if (value == null && key != null) {
             properties.remove(key);
         }
+        //System.out.println(getName()+"key : "+key+"  value : "+value);
         String oldValue = (String)properties.get(key);
         if (oldValue != null) {
             if (oldValue.equalsIgnoreCase(value)) {
@@ -554,6 +545,8 @@ public abstract class Widget implements Serializable
             setRequired((value.equalsIgnoreCase("true")?true:false));
         } else if (key.equals("enabled")) {
             setEnable((value.equalsIgnoreCase("true")?true:false));
+        } else if (key.equals("visible")) {
+            setVisible((value.equalsIgnoreCase("true")?true:false));
         } else if (key.equals("use")) {
             setField(value);
         } else if (key.equals("position")) {
@@ -574,7 +567,6 @@ public abstract class Widget implements Serializable
                 return;
             }
             setPosition(x,y);
-            
         } else if (key.equals("size")) {
             int width = -1;
             int height = -1;
