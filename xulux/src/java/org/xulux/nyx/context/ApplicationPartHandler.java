@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.4 2002-11-11 01:45:40 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.5 2002-11-12 00:55:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.rules.IRule;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.4 2002-11-11 01:45:40 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.5 2002-11-12 00:55:42 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -169,6 +169,7 @@ public class ApplicationPartHandler extends DefaultHandler
             if (this.part == null)
             {
                 this.part = new ApplicationPart(bean);
+                part.setName(atts.getValue(NAME_ATTRIBUTE));
             }
         }
         else if (qName.equals(FIELD_ELEMENT))
@@ -318,8 +319,16 @@ public class ApplicationPartHandler extends DefaultHandler
         else if (processRule)
         {
             String ruleClass = new String(arg0, arg1, arg2);
-            Widget widget = (Widget) stack.get(stack.size()-1);
-            addRule(widget, ruleClass);
+            try
+            {
+                Widget widget = (Widget) stack.get(stack.size()-1);
+                addRule(widget, ruleClass);
+            }
+            catch(ArrayIndexOutOfBoundsException aioobe)
+            {
+                // it's a part rule
+                addRule(null, ruleClass);
+            }
             processRule = false;
         }
         else if (processValue)
@@ -343,11 +352,26 @@ public class ApplicationPartHandler extends DefaultHandler
         {
             Class clazz = Class.forName(ruleClass);
             IRule rule = (IRule)clazz.newInstance();
-            widget.registerRule(rule);
+            if (widget != null)
+            {
+                widget.registerRule(rule);
+            }
+            else
+            {
+                part.registerRule(rule);
+            }
         }
         catch(Exception e)
         {
-            System.err.println("rule class "+ruleClass+" for widget "+widget.getName()+" not found");
+            if (widget!=null)
+            {
+                System.err.println("rule class "+ruleClass+" for widget "+widget.getName()+" not found");
+            }
+            else
+            {
+                e.printStackTrace(System.out);
+                System.err.println("rule class "+ruleClass+" for part "+part.getName()+" not found");
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.7 2002-11-11 09:49:22 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.8 2002-11-12 00:55:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.7 2002-11-11 09:49:22 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.8 2002-11-12 00:55:42 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -271,13 +271,19 @@ public class ApplicationContext
     public static void fireFieldRequests(PartRequest request, int type)
     {
         ArrayList widgets = request.getPart().getWidgets();
-        Iterator wit = widgets.iterator();
-        if (wit == null)
+        if (widgets == null)
         {
             return;
         }
-        while (wit.hasNext())
+        Iterator wit = widgets.iterator();
+        boolean stopAllRules = false;
+        while (wit.hasNext() && !stopAllRules)
         {
+            stopAllRules = request.getPart().needToStopAllRules(getInstance());
+            if (stopAllRules)
+            {
+                return;
+            }
             Widget widget = (Widget) wit.next();
             ArrayList rules = widget.getRules();
             if (rules == null)
@@ -285,10 +291,15 @@ public class ApplicationContext
                 return;
             }
             Iterator it = rules.iterator();
-            while (it.hasNext())
+            while (it.hasNext() && !stopAllRules)
             {
                 IRule rule = (IRule) it.next();
                 System.out.println("Processing rule : " + rule.getUseCount());
+                stopAllRules = request.getPart().needToStopAllRules(getInstance());
+                if (stopAllRules)
+                {
+                    return;
+                }
                 switch (type)
                 {
                     case PRE_REQUEST :

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.16 2002-11-11 09:49:22 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.17 2002-11-12 00:55:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,6 +56,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.xulux.nyx.context.impl.PartRequestImpl;
+import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.global.BeanField;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
@@ -83,7 +84,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.16 2002-11-11 09:49:22 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.17 2002-11-12 00:55:42 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -102,6 +103,10 @@ public class ApplicationPart
     private ArrayList partRules;
     
     private boolean activated;
+
+    boolean stopRules = false;
+    
+    private String name;
     
     public static int runIndex = 0;
     
@@ -235,7 +240,12 @@ public class ApplicationPart
      */
     public String getName()
     {
-        return null;
+        return this.name;
+    }
+    
+    public void setName(String name)
+    {
+        this.name = name;
     }
     
     /**
@@ -330,7 +340,6 @@ public class ApplicationPart
         {
             Widget widget = (Widget) it.next();
         }
-        if (runIndex == 2) throw new RuntimeException("Hoi");
         runIndex++;
         
     }
@@ -341,7 +350,8 @@ public class ApplicationPart
     public void registerRule(IRule rule)
     {
         // the defaultrule should stay last..
-        partRules.add(partRules.size(), rule);
+        initializePartRules();
+        partRules.add(partRules.size()-1, rule);
         rule.registerPartName(this.getName());
     }
     
@@ -362,8 +372,10 @@ public class ApplicationPart
      */
     public void activate()
     {
+        System.out.println("Activating part");
         if (activated)
         {
+            System.out.println("already activated");
             return;
         }
         activated = true;
@@ -371,6 +383,12 @@ public class ApplicationPart
         {
             System.err.println("No part rules to process");
         }
+        else
+        {
+            PartRequestImpl req = new PartRequestImpl(this, PartRequest.NO_ACTION);
+            ApplicationContext.getInstance().fireRequest(req, ApplicationContext.PRE_REQUEST);
+        }
+            
         Iterator it = widgets.iterator();
         while (it.hasNext())
         {
@@ -380,7 +398,7 @@ public class ApplicationPart
                 try
                 {
                     ((JPanel)parentWidget).add((Component)widget.getNativeWidget(),widget);
-                    PartRequestImpl req = new PartRequestImpl(widget,PartRequest.NO_ACTION);
+                    WidgetRequestImpl req = new WidgetRequestImpl(widget,PartRequest.NO_ACTION);
                     ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
                 }
                 catch(NullPointerException npe)
@@ -407,7 +425,7 @@ public class ApplicationPart
      */
     private void initializePartRules()
     {
-        if (partRules == null && activated)
+        if (partRules == null)
         {
             partRules = new ArrayList();
             // add the default rule..
@@ -600,6 +618,24 @@ public class ApplicationPart
                 System.err.println("Could not set focus to "+name);
             }
         }
+    }
+    
+    public void stopAllRules()
+    {
+        stopRules = true;
+    }
+    
+    /**
+     * Checks to see if all rules should stop processing.
+     */
+    public boolean needToStopAllRules(Object caller)
+    {
+        boolean retValue = stopRules;
+        if (caller instanceof ApplicationContext)
+        {
+            stopRules = false;
+        }
+        return retValue;
     }
         
 }

@@ -10,7 +10,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: ComboContentRule.java,v 1.1 2002-11-11 01:45:39 mvdb Exp $
+ * @version $Id: ComboContentRule.java,v 1.2 2002-11-12 00:55:42 mvdb Exp $
  */
 public class ComboContentRule extends Rule
 {
@@ -27,6 +27,7 @@ public class ComboContentRule extends Rule
      */
     public void pre(PartRequest request)
     {
+        System.err.println("request : "+request.getWidget().getName());
         Combo combo = (Combo)request.getWidget();
         String name = "("+combo.getName()+")";
         ArrayList data = new ArrayList();

@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.3 2002-11-11 01:45:39 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.4 2002-11-12 00:55:41 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,12 +53,13 @@ import java.awt.event.FocusListener;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.context.impl.PartRequestImpl;
+import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.gui.Widget;
 
 /**
  * 
- * @author <a href="mailto:martin@mvdb.net">artin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.3 2002-11-11 01:45:39 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: PrePostFieldListener.java,v 1.4 2002-11-12 00:55:41 mvdb Exp $
  */
 public class PrePostFieldListener 
 implements FocusListener, ActionListener
@@ -80,7 +81,7 @@ implements FocusListener, ActionListener
      */
     public void focusGained(FocusEvent e)
     {
-        PartRequestImpl impl = new PartRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
+        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
     }
 
@@ -90,7 +91,7 @@ implements FocusListener, ActionListener
      */
     public void focusLost(FocusEvent e)
     {
-        PartRequestImpl impl = new PartRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
+        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
         // preform all pre rules.
         ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
@@ -101,7 +102,8 @@ implements FocusListener, ActionListener
      */
     public void actionPerformed(ActionEvent e)
     {
-        PartRequestImpl impl = new PartRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
+        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
+        ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
     }
 }

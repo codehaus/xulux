@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.5 2002-11-11 01:45:39 mvdb Exp $
+ $Id: Label.java,v 1.6 2002-11-12 00:55:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import javax.swing.JLabel;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.5 2002-11-11 01:45:39 mvdb Exp $
+ * @version $Id: Label.java,v 1.6 2002-11-12 00:55:42 mvdb Exp $
  */
 public class Label extends Widget
 {
@@ -117,21 +117,23 @@ public class Label extends Widget
         if (getProperties() == null)
         {
             label.setHorizontalAlignment(JLabel.RIGHT);
-            return;
-        }
-        String ha = (String)getProperties().get("horizontalalignment");
-        if (ha.equalsIgnoreCase("left"))
-        {
-            label.setHorizontalAlignment(JLabel.LEFT);
-        }
-        else if (ha.equalsIgnoreCase("center"))
-        {
-            label.setHorizontalAlignment(JLabel.CENTER);
         }
         else
         {
-            label.setHorizontalAlignment(JLabel.RIGHT);
+            String ha = (String)getProperties().get("horizontalalignment");
+            if (ha.equalsIgnoreCase("left"))
+            {
+                label.setHorizontalAlignment(JLabel.LEFT);
+            }
+            else if (ha.equalsIgnoreCase("center"))
+            {
+                label.setHorizontalAlignment(JLabel.CENTER);
+            }
+            else
+            {
+                label.setHorizontalAlignment(JLabel.RIGHT);
+            }
         }
+        label.repaint();
     }
-
 }

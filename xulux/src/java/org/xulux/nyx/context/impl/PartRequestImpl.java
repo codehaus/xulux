@@ -1,5 +1,5 @@
 /*
- $Id: PartRequestImpl.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
+ $Id: PartRequestImpl.java,v 1.3 2002-11-12 00:55:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,17 +54,17 @@ import org.xulux.nyx.gui.Widget;
  * This class should not be used directly, it is only for internal use.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequestImpl.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
+ * @version $Id: PartRequestImpl.java,v 1.3 2002-11-12 00:55:42 mvdb Exp $
  */
 public class PartRequestImpl implements PartRequest
 {
-    private Widget widget;
+    private ApplicationPart part;
     private int action;
     
     
-    public PartRequestImpl(Widget widget, int action)
+    public PartRequestImpl(ApplicationPart part, int action)
     {
-        setWidget(widget);
+        setPart(part);
         setAction(action);
     }
     
@@ -73,7 +73,7 @@ public class PartRequestImpl implements PartRequest
      */
     public ApplicationPart getPart()
     {
-        return getWidget().getPart();
+        return this.part;
     }
 
     /**
@@ -86,10 +86,12 @@ public class PartRequestImpl implements PartRequest
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getValue()
+     * @return always returns null, since a part doesn't 
+     *          have a value.
      */
     public Object getValue()
     {
-        return widget.getValue();
+        return null;
     }
 
     /**
@@ -97,7 +99,6 @@ public class PartRequestImpl implements PartRequest
      */
     public void setValue(Object value)
     {
-        getPart().setGuiValue(getName(), value);
     }
 
     /**
@@ -105,12 +106,12 @@ public class PartRequestImpl implements PartRequest
      */
     public String getName()
     {
-        return widget.getName();
+        return part.getName();
     }
     
-    private void setWidget(Widget widget)
+    private void setPart(ApplicationPart part)
     {
-        this.widget = widget;
+        this.part= part;
     }
     
     private void setAction(int action)
@@ -120,10 +121,11 @@ public class PartRequestImpl implements PartRequest
     
     /**
      * @see org.xulux.nyx.context.PartRequest#getWidget()
+     * @return always null, since this a partrequest.
      */
     public Widget getWidget()
     {
-        return this.widget;
+        return null;
     }
 
 }

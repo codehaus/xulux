@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.4 2002-11-12 00:55:41 mvdb Exp $
+ $Id: WidgetRequestImpl.java,v 1.1 2002-11-12 00:55:42 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,44 +43,87 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.listeners;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+package org.xulux.nyx.context.impl;
 
-import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.gui.Widget;
 
 /**
- * The immidiate listeners fires events based on the 
+ * This class should not be used directly, it is only for internal use.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.4 2002-11-12 00:55:41 mvdb Exp $
+ * @version $Id: WidgetRequestImpl.java,v 1.1 2002-11-12 00:55:42 mvdb Exp $
  */
-public class ImmidiateListener extends KeyAdapter
+public class WidgetRequestImpl implements PartRequest
 {
-    Widget widget;
-    ApplicationPart part;
-
-    /**
-     * Constructor for ImmidiateListener.
-     */
-    public ImmidiateListener(Widget widget)
+    private Widget widget;
+    private int action;
+    
+    
+    public WidgetRequestImpl(Widget widget, int action)
     {
-        this.widget = widget;
-        this.part = part;
+        setWidget(widget);
+        setAction(action);
+    }
+    
+    /**
+     * @see org.xulux.nyx.context.PartRequest#getApplicationPart()
+     */
+    public ApplicationPart getPart()
+    {
+        return getWidget().getPart();
     }
 
     /**
-     * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
+     * @see org.xulux.nyx.context.PartRequest#getType()
      */
-    public void keyTyped(KeyEvent e)
+    public int getType()
     {
-        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
-        ApplicationContext.fireFieldRequests(impl, ApplicationContext.EXECUTE_REQUEST);
+        return NO_ACTION;
+    }
+
+    /**
+     * @see org.xulux.nyx.context.PartRequest#getValue()
+     */
+    public Object getValue()
+    {
+        return widget.getValue();
+    }
+
+    /**
+     * @see org.xulux.nyx.context.PartRequest#setValue(Object)
+     */
+    public void setValue(Object value)
+    {
+        getPart().setGuiValue(getName(), value);
+    }
+
+    /**
+     * @see org.xulux.nyx.context.PartRequest#getName()
+     */
+    public String getName()
+    {
+        return widget.getName();
+    }
+    
+    private void setWidget(Widget widget)
+    {
+        this.widget = widget;
+    }
+    
+    private void setAction(int action)
+    {
+        this.action = action;
+    }
+    
+    /**
+     * @see org.xulux.nyx.context.PartRequest#getWidget()
+     */
+    public Widget getWidget()
+    {
+        return this.widget;
     }
 
 }
