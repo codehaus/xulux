@@ -1,5 +1,5 @@
 /*
- $Id: ColorUtilsTest.java,v 1.2 2003-05-21 10:00:14 mvdb Exp $
+ $Id: ColorUtilsTest.java,v 1.3 2003-06-17 12:03:23 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,14 +52,14 @@ import junit.framework.TestSuite;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ColorUtilsTest.java,v 1.2 2003-05-21 10:00:14 mvdb Exp $
+ * @version $Id: ColorUtilsTest.java,v 1.3 2003-06-17 12:03:23 mvdb Exp $
  */
 public class ColorUtilsTest extends TestCase
 {
 
     /**
      * Constructor for ColorUtilsTest.
-     * @param arg0
+     * @param name
      */
     public ColorUtilsTest(String name)
     {
