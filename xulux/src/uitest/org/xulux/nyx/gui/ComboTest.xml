@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<part name="PersonBeanForm" prefix="Person">
+  <rules>
+    <rule>org.xulux.nyx.gui.rules.MainComboRule</rule>
+  </rules>
+  <field type="label" name="Label:ThreePersons">
+    <text>3 Persons:</text>
+    <size>120,21</size>
+    <position>4,10</position>
+  </field>
+  <field type="combo" name="3PersonList">
+    <combofields>fullname</combofields>
+    <rules>
+      <rule>org.xulux.nyx.gui.rules.PersonListRule</rule>
+    </rules>
+    <size>250,21</size>
+    <position>125,10</position>
+    <required>true</required>
+    <required-background-color>FFFFB6</required-background-color>
+    <default-background-color>FFFFFF</default-background-color>
+    <disabled-background-color>CCCCCC</disabled-background-color>
+  </field>
+  <field type="label" name="Label:ThreePersonsWithNotSelectedValue">
+    <text>3 Persons wnsv:</text>
+    <size>120,21</size>
+    <position>4,40</position>
+  </field>
+  <field type="combo" name="3PersonListWithNotSelectedValue">
+    <combofields>fullname</combofields>
+    <rules>
+      <rule>org.xulux.nyx.gui.rules.PersonListRule</rule>
+    </rules>
+    <size>250,21</size>
+    <position>125,40</position>
+    <required>true</required>
+    <required-background-color>FFFFB6</required-background-color>
+    <default-background-color>FFFFFF</default-background-color>
+    <disabled-background-color>CCCCCC</disabled-background-color>
+  </field>
+  <field type="label" name="Label:1Person">
+    <text>1 Person:</text>
+    <size>120,21</size>
+    <position>4,70</position>
+  </field>
+  <field type="combo" name="1PersonList">
+    <combofields>fullname</combofields>
+    <rules>
+      <rule>org.xulux.nyx.gui.rules.PersonListRule</rule>
+    </rules>
+    <size>250,21</size>
+    <position>125,70</position>
+    <required>true</required>
+    <required-background-color>FFFFB6</required-background-color>
+    <default-background-color>FFFFFF</default-background-color>
+    <disabled-background-color>CCCCCC</disabled-background-color>
+  </field>
+  <field type="label" name="Label:1PersonWithNotSelectedValue">
+    <text>1 Person wnsv:</text>
+    <size>120,21</size>
+    <position>4,100</position>
+  </field>
+  <field type="combo" name="1PersonListWithNotSelectedValue">
+    <combofields>fullname</combofields>
+    <rules>
+      <rule>org.xulux.nyx.gui.rules.PersonListRule</rule>
+    </rules>
+    <size>250,21</size>
+    <position>125,100</position>
+    <required>true</required>
+    <required-background-color>FFFFB6</required-background-color>
+    <default-background-color>FFFFFF</default-background-color>
+    <disabled-background-color>CCCCCC</disabled-background-color>
+  </field>
+</part>
