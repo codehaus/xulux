@@ -1,5 +1,5 @@
 /*
- $Id: DefaultConverter.java,v 1.2 2003-08-25 08:10:05 mvdb Exp $
+ $Id: DoubleConverter.java,v 1.1 2003-08-25 08:10:05 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,42 +48,49 @@ package org.xulux.nyx.global.converters;
 import org.xulux.nyx.global.IConverter;
 
 /**
- * Just returns the object passed in.
- * Normally just used for Strings..
+ * Converts a double to a representable string 
+ * and converts a string to a double. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultConverter.java,v 1.2 2003-08-25 08:10:05 mvdb Exp $
+ * @version $Id: DoubleConverter.java,v 1.1 2003-08-25 08:10:05 mvdb Exp $
  */
-public class DefaultConverter implements IConverter {
+public class DoubleConverter implements IConverter {
 
     /**
      * 
      */
-    public DefaultConverter() {
+    public DoubleConverter() {
+        super();
     }
 
     /**
      * @see org.xulux.nyx.global.IConverter#getBeanValue(java.lang.Object)
      */
     public Object getBeanValue(Object object) {
-        return object;
+        if (object instanceof String) {
+            try {
+                return new Double((String)object);
+            }catch(NumberFormatException nfe) {
+            }
+        }
+        return null;
     }
 
     /**
      * @see org.xulux.nyx.global.IConverter#getGuiValue(java.lang.Object)
      */
     public Object getGuiValue(Object object) {
-        if (object != null) {
-            return object.toString();
+        if (object instanceof Double) {
+            return ((Double)object).toString();
         }
-        return null;
+        return null;        
     }
 
     /**
      * @see org.xulux.nyx.global.IConverter#getType()
      */
     public Class getType() {
-        return String.class;
+        return Double.class;
     }
 
 }

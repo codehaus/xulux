@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableModel.java,v 1.4 2003-08-11 00:33:49 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.5 2003-08-25 08:10:05 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.xulux.nyx.swing.widgets.Table;
  * The nyx tablemodel contains all magic for tables.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.4 2003-08-11 00:33:49 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.5 2003-08-25 08:10:05 mvdb Exp $
  */
 public class NyxTableModel implements TableModel {
     
@@ -122,7 +122,9 @@ public class NyxTableModel implements TableModel {
      * @see javax.swing.table.TableModel#isCellEditable(int, int)
      */
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;
+        String editable = ((Widget)table.getChildWidgets().get(columnIndex)).getProperty("editable");
+        
+        return "true".equalsIgnoreCase(editable);
     }
 
     /**
