@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.22 2003-01-26 00:41:45 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.23 2003-02-15 16:34:38 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,6 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.internal.ole.win32.ISpecifyPropertyPages;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.guidefaults.GuiDefaultsHandler;
 import org.xulux.nyx.rules.IRule;
@@ -64,7 +63,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.22 2003-01-26 00:41:45 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.23 2003-02-15 16:34:38 mvdb Exp $
  */
 public class ApplicationContext
 {
