@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.12 2003-08-11 09:12:36 mvdb Exp $
+ $Id: Table.java,v 1.13 2003-08-20 01:12:37 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -79,7 +79,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.12 2003-08-11 09:12:36 mvdb Exp $
+ * @version $Id: Table.java,v 1.13 2003-08-20 01:12:37 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -195,6 +195,7 @@ implements IContentWidget
         if (isRefreshing) {
             return;
         }
+        initialize();
         isRefreshing = true;
         initializeContent();
         if (contentChanged) {
@@ -505,7 +506,24 @@ implements IContentWidget
      * @see org.xulux.nyx.gui.Widget#setValue(java.lang.Object)
      */
     public void setValue(Object value) {
-        this.previousValue = getGuiValue();
+        if (getField() == null) {
+            this.previousValue = getGuiValue();
+            this.value = value;
+        } else {
+            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IField field = map.getField(getField());
+            if (field != null) {
+                Object currentValue =  field.getValue(getPart().getBean());
+                if (currentValue != null ) {
+                    this.previousValue = currentValue;
+                }
+                field.setValue(getPart().getBean(),value);
+                this.value = value;
+            }
+            if (this.value == null) {
+                this.value = value;
+            }
+        }
         initialize();
         int index = content.indexOf(value);
         if (index != -1) {

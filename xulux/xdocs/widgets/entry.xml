@@ -53,6 +53,20 @@
           used icm with checkboxes)
         </td>
       </tr>
+      <tr>
+        <td>intialvalue</td>
+        <td>swing</td>
+        <td>
+          The initial value to use.
+        </td>
+      </tr>
+      <tr>
+        <td>intialvalue.type</td>
+        <td>swing</td>
+        <td>
+          Type can be field or string
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>

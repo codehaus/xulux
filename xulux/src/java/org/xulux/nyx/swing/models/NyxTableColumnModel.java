@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableColumnModel.java,v 1.4 2003-08-11 00:33:49 mvdb Exp $
+ $Id: NyxTableColumnModel.java,v 1.5 2003-08-20 01:12:37 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.swing.widgets.Table;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumnModel.java,v 1.4 2003-08-11 00:33:49 mvdb Exp $
+ * @version $Id: NyxTableColumnModel.java,v 1.5 2003-08-20 01:12:37 mvdb Exp $
  */
 public class NyxTableColumnModel extends DefaultTableColumnModel
 { 
@@ -98,7 +98,7 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
             column.setHeaderValue(widget.getProperty("text"));
             column.setModelIndex(i);
             //column.setPreferredWidth(100);
-            System.out.println("Setting width to : "+widget.getRectangle().getWidth());
+            //System.out.println("Setting width to : "+widget.getRectangle().getWidth());
             int height = widget.getRectangle().getHeight();
             if (height > maxHeight) {
                 maxHeight = height;
@@ -110,7 +110,7 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
             }
             addColumn(column);
         }
-        System.out.println("columns : "+getColumnCount());
+        //System.out.println("columns : "+getColumnCount());
         table.setProperty("rowHeight", String.valueOf(maxHeight));
     }
     

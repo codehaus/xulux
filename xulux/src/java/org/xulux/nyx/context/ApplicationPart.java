@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.47 2003-08-09 00:58:19 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.48 2003-08-20 01:12:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -82,11 +82,13 @@ import org.xulux.nyx.utils.Translation;
  * TODO: Fix naming of field. It is used everywhere with different meanings.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.47 2003-08-09 00:58:19 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.48 2003-08-20 01:12:37 mvdb Exp $
  */
 public class ApplicationPart
 {
     
+    private boolean destroyed;
+
     private static Log log = LogFactory.getLog(ApplicationPart.class);
     
     /**
@@ -125,6 +127,12 @@ public class ApplicationPart
     private NyxListener fieldEventHandler;
     
     private ArrayList translationList;
+    
+    /**
+     * Contains the parentpart if there is one
+     *
+     */
+    private ApplicationPart parentPart;
     
     /**
      * Constructor for GuiPart.
@@ -692,6 +700,7 @@ public class ApplicationPart
      */
     public void destroy()
     {
+        destroyed = true;
         if (session != null)
         {
             getSession().clear();
@@ -731,6 +740,7 @@ public class ApplicationPart
             handler.destroy(parentWidget);
         }
         ApplicationContext.getInstance().removePart(getName());
+        this.parentPart = null;
     }
     
     /**
@@ -904,4 +914,25 @@ public class ApplicationPart
         }
     }
 
+    /**
+     * Set the parent part. This way a part knows that 
+     * the bean provided should be passed to the parent.
+     * @param part
+     */
+    public void setParentPart(ApplicationPart part) {
+        this.parentPart = part;
+    }
+    
+    /**
+     * 
+     * @return the parentpart or null when there is none
+     */
+    public ApplicationPart getParentPart() {
+        return this.parentPart;
+    }
+    
+    public boolean isPartDestroyed() {
+        return destroyed;
+    }
+    
 }

@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.13 2003-08-11 00:33:49 mvdb Exp $
+ $Id: NyxListener.java,v 1.14 2003-08-20 01:12:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,7 +45,9 @@
  */
 package org.xulux.nyx.gui;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,7 +64,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.13 2003-08-11 00:33:49 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.14 2003-08-20 01:12:37 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -87,11 +89,24 @@ public abstract class NyxListener
      */
     public void completed()
     {
+        completed(false);
+    }
+    
+    /**
+     * The completed which calls 
+     * 
+     * @param postOnly if true, it will fire of only a post event on the rules
+     *         that are part of the current caller
+     *
+     */
+    protected void completed(boolean postOnly) {
         processing = true;
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
-        // preform all pre rules.
-        ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+        // preform all pre rules if postOnly is false
+        if (!postOnly) {
+            ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+        }
         processing = false;
     }
     
@@ -166,6 +181,30 @@ public abstract class NyxListener
                     completed();
                     // process the post rules of the form.
                     completedPart();
+                    // set the current bean in the session of the parent
+                    Object bean = widget.getPart().getBean();
+                    if (widget.getPart().getParentPart() != null) {
+                        widget.getPart().getParentPart().getSession().setValue("nyx.childbean", bean);
+                    }
+                    Widget parent = (Widget)widget.getPart().getSession().getValue("nyx.callerwidget");
+                    if (parent instanceof IContentWidget) {
+                        List data = ((IContentWidget)parent).getContent();
+                        if (data == null) {
+                            data = new ArrayList();
+                        }
+                        Object dataBean = widget.getPart().getBean();
+                        int dataIndex = data.indexOf(dataBean);
+                        if (dataIndex != -1 ) {
+                            data.set(dataIndex, dataBean);
+                        } else {
+                            data.add(widget.getPart().getBean());
+                        }
+                        ((IContentWidget)parent).setContent(data);
+                        parent.setValue(widget.getPart().getBean());
+                    }
+                    if (parent != null) {
+                        parent.refresh();
+                    }
                     widget.getPart().destroy();
                     return false;
                 } else if (defAction.equalsIgnoreCase("cancel")) {

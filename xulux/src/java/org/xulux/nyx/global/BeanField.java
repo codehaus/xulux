@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.23 2003-08-11 00:33:49 mvdb Exp $
+ $Id: BeanField.java,v 1.24 2003-08-20 01:12:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,7 +50,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -70,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.23 2003-08-11 00:33:49 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.24 2003-08-20 01:12:37 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -126,6 +125,8 @@ public class BeanField implements IField
      */
     private String realField;
     
+    private boolean tempRealField;
+    
     /**
      * the logger
      */
@@ -176,22 +177,22 @@ public class BeanField implements IField
             }
             return success;
         }
-        log.warn("toString : "+toString());
-        log.warn("Bean : "+bean);
-        log.warn("Value : "+value);
+//        log.warn("toString : "+toString());
+//        log.warn("Bean : "+bean);
+//        log.warn("Value : "+value);
         try
         {
             // TODO: Test!!!
             if (getRealField() != null) {
                 Class retType = getReturnType();
                 BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
-                log.warn("Mapping : "+mapping.getFields());
+//                log.warn("Mapping : "+mapping.getFields());
                 Object childObject = getMethod().invoke(bean, getArgs());
-                log.warn("ChildObject ; "+childObject);
+//                log.warn("ChildObject ; "+childObject);
                 if (childObject == null) {
                     // try to create the object!
                     childObject = ClassLoaderUtils.getObjectFromClass(retType, getBeanParameterValues(parameterList));
-                    log.warn("ChildObject ; "+childObject);
+//                    log.warn("ChildObject ; "+childObject);
                     getChangeMethod().invoke(bean, getSetMethodArgs(childObject));
                     
                     // TODO : Preform some magic to set the object to the bean!! 
@@ -203,17 +204,18 @@ public class BeanField implements IField
                     }
                 }
                 BeanMapping childMapping = Dictionary.getInstance().getMapping(childObject);
-                log.warn("childMapping : "+childMapping.getFields());
+//                log.warn("childMapping : "+childMapping.getFields());
                 IField field = childMapping.getField(getRealField());
-                log.warn("cf : "+field);
+//                log.warn("cf : "+field);
                 success = field.setValue(childObject,value);
                 success = true;
                 return success;
             }
             try {
-                log.warn("Change method : "+this.changeMethod);
-                log.warn("args : "+Arrays.asList(getSetMethodArgs(value)));
+//                log.warn("Change method : "+this.changeMethod);
+//                log.warn("args : "+Arrays.asList(getSetMethodArgs(value)));
                 this.changeMethod.invoke(bean, getSetMethodArgs(value));
+                realField = null;
             }catch(IllegalArgumentException iae) {
                 if (log.isWarnEnabled()) {
                     log.warn("Invalid argument "+value.getClass().getName()+" for method "+this.changeMethod,iae);
@@ -613,6 +615,25 @@ public class BeanField implements IField
      */
     public void setRealField(String realField) {
         this.realField = realField;
+    }
+
+    /**
+     * Set a temporary realfield, which is not dictionary
+     * based.
+     * @param realField
+     */
+    public void setTempRealField(String realField) {
+        this.realField = realField;
+        this.tempRealField = true;
+    }
+    
+    public boolean hasTempRealField() {
+        return this.tempRealField;
+    }
+    
+    public void removeTempRealField() {
+        this.realField = null;
+        this.tempRealField = false;
     }
     
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: UpdateButtonsListener.java,v 1.3 2003-08-09 01:11:16 mvdb Exp $
+ $Id: UpdateButtonsListener.java,v 1.4 2003-08-20 01:12:37 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -71,7 +71,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.3 2003-08-09 01:11:16 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.4 2003-08-20 01:12:37 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener
 implements ActionListener, ListSelectionListener
@@ -101,6 +101,7 @@ implements ActionListener, ListSelectionListener
      * 
      */
     public UpdateButtonsListener(Widget parent, Widget source) {
+        super(source);
         this.parent = parent;
         this.source = source;
     }
@@ -116,6 +117,7 @@ implements ActionListener, ListSelectionListener
         Object partBean = parent.getGuiValue();
         if (actionType.equals("add")) {
             System.out.println("Adding");
+            completed(true);
             Object value = partBean;
             if (value == null) {
                 // figure out what object type to create
@@ -141,11 +143,15 @@ implements ActionListener, ListSelectionListener
             }
             setLocatorValue(partBean);
         } else if (actionType.equals("delete")) {
+            // process post rules first..
+            completed(true);
             log.warn("Deleting");
         } else if (actionType.equals("update")) {
+            completed(true);
             log.warn("Updating");
             System.out.println("parent : "+parent.getName());
         } else {
+            completed(true);
             return;
         }
         String xml = source.getProperty("action");
@@ -160,8 +166,9 @@ implements ActionListener, ListSelectionListener
         ApplicationPartHandler handler = new ApplicationPartHandler();
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = handler.read(stream,partBean);
+        part.getSession().setValue("nyx.callerwidget",parent);
+        part.setParentPart(parent.getPart());
         part.activate();
-        parent.refresh();
     }
     
     /**

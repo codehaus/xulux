@@ -46,6 +46,8 @@
         connected to a specific ApplicationPart.
       </li>
       <li>
+        <b><i>fixed</b></i> 
+        <br>You can use includePart now in the xml<br>
         Add ways to connect parts together. So via the partRequest you can get
         related parts...
       </li>

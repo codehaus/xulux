@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.14 2003-07-21 21:04:18 mvdb Exp $
+ $Id: BeanMapping.java,v 1.15 2003-08-20 01:12:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.14 2003-07-21 21:04:18 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.15 2003-08-20 01:12:37 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -315,8 +315,13 @@ public class BeanMapping
             BeanField bf =  (BeanField) fields.get(index);
             // set the real field if there is one..
             if (realField != null) {
-                bf.setRealField(realField);
+                bf.setTempRealField(realField);
+            } else if (bf.hasTempRealField()) {
+                // if the beanfield had a temporary real field
+                // and not having a new realfield, remove it.
+                bf.removeTempRealField();
             }
+                
             return bf;
         }
         return null;

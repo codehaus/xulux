@@ -42,7 +42,7 @@
     <p>
       You can write your own imageLoader by implementing the 
       <code>org.xulux.nyx.gui.swing.util.ImageLoaderInterface</code> interface.
-      It is a very simple api. If you written a custom one, don't hasitate to send
+      It is a very simple api. If you have written a custom one, don't hasitate to send
       us a patch.
     </p>
   </subsection>

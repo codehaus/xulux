@@ -19,31 +19,41 @@
     
     <subsection name="Core">
       <p>
-        Core..
+        The core of the nyx system should mainly contain interfaces
+        and a some logic to glue the interfaces together into a working
+        system. Still a lot of work to be done in this area, but most
+        changes will not hurt existing systems.
       </p>
     </subsection>
     
     <subsection name="Gui Layers">
       <p>
-        Gui Layers
+        For now we only have a swing implementation, which is not yet 
+        finalized. SWT, AWT and html/servlets are next on the list
       </p>
     </subsection>
 
     <subsection name="Widgets">
       <p>
-        Widgets
+        List of widgets
       </p>
     </subsection>
     
     <subsection name="Data Providers">
       <p>
-        Data Providers
+        For now you need to provide data yourself and the dataproviders
+        are not interfaced and pluggable yet.
+        All data can be defined in the dictionary (baseType is the most 
+        important one) and strange getters and setters can be specified in 
+        the dictionary too.
       </p>
     </subsection>
     
     <subsection name="Rule Engines">
       <p>
-        Rule Engines
+        For now only the internal nyx rule engine is used. 
+        We are looking at other rule engines when there is a release
+        of nyx that is usefull for the public.
       </p>
     </subsection>
     

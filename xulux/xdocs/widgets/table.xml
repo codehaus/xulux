@@ -49,6 +49,23 @@
         <td>
         </td>
       </tr>
+      <tr>
+        <td>classType</td>
+        <td>swing</td>
+        <td>
+          Specifies the type of class the table consists of.
+          This is needed to determine the type of object to create
+          in case of adding an object to the table
+        </td>
+      </tr>
+      <tr>
+        <td>editable</td>
+        <td>swing</td>
+        <td>
+          Specifies if the field in the table should be inline editable
+          Valid values are true or false. It defaults to false.
+        </td>
+      </tr>
       
     </table>
   </subsection>

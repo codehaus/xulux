@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.23 2003-08-10 21:48:41 mvdb Exp $
+ $Id: Entry.java,v 1.24 2003-08-20 01:12:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.23 2003-08-10 21:48:41 mvdb Exp $
+ * @version $Id: Entry.java,v 1.24 2003-08-20 01:12:37 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -170,10 +170,37 @@ extends SwingWidget
                 textComponent.addFocusListener(focusListener);
             }
         }
+        initInitialValue();
         initializeValue();
         refresh();
         processInit();
         this.setValueCalled = false;
+    }
+    
+    
+    /**
+     * Initializes the initial value, if any.
+     *
+     */
+    protected void initInitialValue() {
+        String iv = getProperty("initialvalue");
+        if (iv != null) {
+            String ivType = getProperty("initialvalue.type");
+            if (ivType != null && ivType.equals("field")) {
+                BeanMapping mapping = Dictionary.getInstance().getMapping(getPart().getBean());
+                if (mapping != null) {
+                    IField field = mapping.getField(iv);
+                    if (field != null) {
+                        this.value = field.getValue(getPart().getBean());
+                        System.out.println("Setting text to : "+this.value);
+                        textComponent.setText(String.valueOf(this.value));
+                    }
+                }
+            }else if (ivType == null || ivType.equals("string")) {
+                this.value = iv;
+                textComponent.setText(iv);
+            } 
+        }
     }
 
     /**
