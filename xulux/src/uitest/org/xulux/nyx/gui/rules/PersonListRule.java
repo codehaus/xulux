@@ -1,5 +1,5 @@
 /*
- $Id: PersonListRule.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
+ $Id: PersonListRule.java,v 1.2.2.1 2003-05-19 20:00:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,17 +45,13 @@
  */
 package org.xulux.nyx.gui.rules;
 
-import java.util.ArrayList;
-
 import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.gui.Combo;
-import org.xulux.nyx.gui.PersonBean;
 import org.xulux.nyx.rules.Rule;
 
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: PersonListRule.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
+ * @version $Id: PersonListRule.java,v 1.2.2.1 2003-05-19 20:00:06 mvdb Exp $
  */
 public class PersonListRule extends Rule
 {

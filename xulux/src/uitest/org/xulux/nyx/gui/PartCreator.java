@@ -1,5 +1,5 @@
 /*
- $Id: PartCreator.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
+ $Id: PartCreator.java,v 1.2.2.1 2003-05-19 20:00:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,14 +55,13 @@ import javax.swing.JFrame;
 
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.swing.factories.TestFactory;
 
 /**
  * Creates a gui representation of a part
  * 
  * @author Martin van den Bemt
- * @version $Id: PartCreator.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
+ * @version $Id: PartCreator.java,v 1.2.2.1 2003-05-19 20:00:07 mvdb Exp $
  */
 public class PartCreator
 {

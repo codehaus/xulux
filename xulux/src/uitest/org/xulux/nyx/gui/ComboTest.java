@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.1.2.1 2003-04-29 16:52:47 mvdb Exp $
+ $Id: ComboTest.java,v 1.1.2.2 2003-05-19 20:00:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,16 +47,16 @@ package org.xulux.nyx.gui;
 
 import java.io.InputStream;
 
-import org.xulux.nyx.context.ApplicationPart;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xulux.nyx.context.ApplicationPart;
+
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.1.2.1 2003-04-29 16:52:47 mvdb Exp $
+ * @version $Id: ComboTest.java,v 1.1.2.2 2003-05-19 20:00:07 mvdb Exp $
  */
 public class ComboTest extends TestCase
 {
