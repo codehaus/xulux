@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.9 2004-05-11 11:50:02 mvdb Exp $
+   $Id: Tree.java,v 1.10 2004-05-24 14:23:51 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -49,7 +49,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.9 2004-05-11 11:50:02 mvdb Exp $
+ * @version $Id: Tree.java,v 1.10 2004-05-24 14:23:51 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -188,6 +188,11 @@ public class Tree extends ContainerWidget implements IContentWidget {
             lineStyle = "None";
         }
         jtree.putClientProperty("JTree.lineStyle", lineStyle);
+        boolean showRoot = true;
+        if (getProperty("showRoot") != null) {
+            showRoot = BooleanUtils.toBoolean(getProperty("showRoot"));
+        }
+        jtree.setRootVisible(showRoot);
 
         if (contentChanged) {
             //            System.err.println("setting model to : "+contentHandler);
