@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.30 2002-11-28 21:45:07 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.31 2002-12-22 23:58:19 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,24 +49,21 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.LayoutManager2;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
-import org.xulux.nyx.global.BeanField;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
-import org.xulux.nyx.swing.factories.GuiField;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
@@ -86,7 +83,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.30 2002-11-28 21:45:07 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.31 2002-12-22 23:58:19 mvdb Exp $
  */
 public class ApplicationPart
 {

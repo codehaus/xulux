@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.18 2002-12-12 14:41:12 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.19 2002-12-22 23:58:19 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,9 +46,7 @@
 package org.xulux.nyx.context;
 
 import java.awt.Component;
-import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -65,7 +63,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.18 2002-12-12 14:41:12 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.19 2002-12-22 23:58:19 mvdb Exp $
  */
 public class ApplicationContext
 {
