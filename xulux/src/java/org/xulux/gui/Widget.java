@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.23 2004-12-01 11:37:27 mvdb Exp $
+   $Id: Widget.java,v 1.24 2004-12-01 12:31:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.23 2004-12-01 11:37:27 mvdb Exp $
+ * @version $Id: Widget.java,v 1.24 2004-12-01 12:31:12 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -322,6 +322,7 @@ public abstract class Widget implements Serializable
         }
         if (rule instanceof Rule) {
             ((Rule)rule).setOwner(this);
+            ((Rule)rule).init();
         }
         rules.add(rule);
     }
