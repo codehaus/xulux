@@ -1,5 +1,5 @@
 /*
- $Id: LayoutTest.java,v 1.2.2.2 2003-05-04 15:27:41 mvdb Exp $
+ $Id: NyxFocusManagerTest.java,v 1.1.2.1 2003-05-04 15:27:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,42 +46,25 @@
 
 package org.xulux.nyx.swing.layouts;
 
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import junit.framework.TestCase;
 
 /**
- * A cleass to to test the funcionality of the Formlayout manager.
- * 
+ * A test for the nyx focus manager. 
+ * Though one :) Stays empty for now I guess :) 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.2.2.2 2003-05-04 15:27:41 mvdb Exp $
+ * @version $Id: NyxFocusManagerTest.java,v 1.1.2.1 2003-05-04 15:27:41 mvdb Exp $
  */
-public class LayoutTest
-{
+public class NyxFocusManagerTest extends TestCase {
 
     /**
-     * Constructor for LayoutTest.
+     * Constructor for NyxFocusManagerTest.
+     * @param arg0
      */
-    public LayoutTest()
-    {
-        super();
+    public NyxFocusManagerTest(String name) {
+        super(name);
     }
-    
-    public static void main(String[] args)
-    {
-        JFrame frame = new JFrame("Test FormLayout");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new FormLayout());
-        JTextField field1 = new JTextField();
-        String data = new String("12345678901234567890");
-        int width = SwingUtilities.computeStringWidth(frame.getFontMetrics(frame.getFont()),data);
-        field1.setText("Field 1 value");
-        JTextField field2 = new JTextField();
-        field2.setText("field 2 value");
-        frame.getContentPane().add(field1);
-        frame.getContentPane().add(field2);
-        frame.setSize(frame.getContentPane().getPreferredSize());
-        frame.show();
+
+    public static void main(String[] args) {
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.10.2.1 2003-04-29 16:52:44 mvdb Exp $
+ $Id: Button.java,v 1.10.2.2 2003-05-04 15:27:40 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.10.2.1 2003-04-29 16:52:44 mvdb Exp $
+ * @version $Id: Button.java,v 1.10.2.2 2003-05-04 15:27:40 mvdb Exp $
  */
 public class Button extends Widget
 {
@@ -226,4 +226,11 @@ public class Button extends Widget
         button = null;
     }
     
+    /** 
+     * @see org.xulux.nyx.gui.Widget#isSelectable()
+     */
+    public boolean isSelectable() {
+        return true;
+    }
+
 }

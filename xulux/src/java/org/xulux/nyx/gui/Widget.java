@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.21.2.1 2003-04-29 16:52:44 mvdb Exp $
+ $Id: Widget.java,v 1.21.2.2 2003-05-04 15:27:40 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.21.2.1 2003-04-29 16:52:44 mvdb Exp $
+ * @version $Id: Widget.java,v 1.21.2.2 2003-05-04 15:27:40 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -547,6 +547,17 @@ public abstract class Widget
         {
             ((JComponent)getNativeWidget()).setNextFocusableComponent((Component)widget.getNativeWidget());
         }
+    }
+    
+    /**
+     * Specifies if this widget is a selectable widget or
+     * not. Defaults to false. 
+     * Please override this method if it is selectable
+     * (such as an Entry, Button, etc)
+     * @return
+     */
+    public boolean isSelectable() {
+        return false;
     }
 
 }

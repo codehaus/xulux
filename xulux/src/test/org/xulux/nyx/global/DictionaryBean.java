@@ -1,7 +1,7 @@
 /*
- $Id: DictionaryBean.java,v 1.2.2.1 2003-04-29 16:52:46 mvdb Exp $
+ $Id: DictionaryBean.java,v 1.2.2.2 2003-05-04 15:27:41 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -50,7 +50,7 @@ package org.xulux.nyx.global;
  * DictionaryBean for testing the dictionary
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryBean.java,v 1.2.2.1 2003-04-29 16:52:46 mvdb Exp $
+ * @version $Id: DictionaryBean.java,v 1.2.2.2 2003-05-04 15:27:41 mvdb Exp $
  */
 public class DictionaryBean extends DictionaryBaseBean
 {

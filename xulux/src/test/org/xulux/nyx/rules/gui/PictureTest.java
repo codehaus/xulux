@@ -1,7 +1,7 @@
 /*
- $Id: PictureTest.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ $Id: PictureTest.java,v 1.1.2.1 2003-05-04 15:27:41 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -54,7 +54,7 @@ import junit.framework.TestSuite;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PictureTest.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ * @version $Id: PictureTest.java,v 1.1.2.1 2003-05-04 15:27:41 mvdb Exp $
  */
 public class PictureTest extends TestCase
 {

@@ -2,23 +2,43 @@
 
 <document>
   <properties>
-    <title>NYX - Tasks</title>
+    <title>TODO</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
-<body>
-
-<section name="Tasks">
-<p>
-<ul>
-  <li>
-    Let nyx run in it's own thread if NYX is THE application
-    The goal is to give control back to the jvm and have 
-    the swing thread dispose of. The main should be stalled
-    and not continue the code.
-  </li>
-</ul>
-</p>
-</section>
+  <body>
+    <section name="TODO list">
+      <p>
+        The following is a list of items that need to be completed in
+        the TOCURE version of nyx. This version will be obsoleted
+        as soon as the head version is stable and finished. Parts
+        of the todo list can be ported to the latest version.
+      </p>
+    
+    <subsection name="High priority"> 
+      <ul>
+        <li>
+          Create documention.<br/>
+          Especially there is a request for a best practice document
+        </li>
+        <li>
+          Add a focusmanager type and add a nyxdefaults xml file
+          (don't confuse that with guidefaults.xml!),
+          so people can map the type to a different class (or
+          add a class attribute so they an override per window), so
+          people can create their own focus manager. 
+          We need to interface the focusmanager to something generic
+          and depending on the ui platform chosen use that implementation
+        </li>
+      </ul>
+    </subsection>
+    <subsection name="Finished"> 
+      <ul>
+        <li>
+          FocusManager basics.
+        </li>
+    </subsection>
+  </section>
 </body>
 </document>
+

@@ -1,7 +1,7 @@
 /*
- $Id: FormFactoryTest.java,v 1.3.2.1 2003-04-29 16:52:46 mvdb Exp $
+ $Id: FormFactoryTest.java,v 1.3.2.2 2003-05-04 15:27:41 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -45,19 +45,16 @@
  */
 package org.xulux.nyx.swing.factories;
 
-import javax.swing.JFrame;
-
-import org.xulux.nyx.swing.SimpleForm;
-import org.xulux.nyx.examples.datamodel.TestContained;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xulux.nyx.examples.datamodel.TestContained;
+
 /**
  * 
- * @author Martin van den Bemt
- * @version $Id: FormFactoryTest.java,v 1.3.2.1 2003-04-29 16:52:46 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: FormFactoryTest.java,v 1.3.2.2 2003-05-04 15:27:41 mvdb Exp $
  */
 public class FormFactoryTest extends TestCase
 {
