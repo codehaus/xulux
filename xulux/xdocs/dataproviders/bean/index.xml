@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The Bean DataProvider</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="General">
+  <p>
+   The bean dataprovider is able to just provide data to the user that is supplied
+   by rules or another wrapper around an application. The bean dataprovider
+   contains no means of saving data, but it can serve as a base for
+   other dataproviders. It just creates, update or delete beans based on the use 
+   interaction.
+   XuluxPart rules should take care of the saving and retrieving of data.
+   If you want to integrate xulux into your current application, then this
+   is the easiest way to get started. When you are using tools like OJB, Hibernate
+   and others : it is on the list to create dataproviders for them, but we have
+   not yet started to create them.
+  </p>
+</section>
+
+<section name="Dictionary Creation">
+  <p>
+    The dictionary class is the main entry for connecting all magic that 
+    is related to dictionary processing. In the final version of the
+    dataprovider, the Dictionary class, will be the container for dictionary
+    processing.
+  </p>
+  <subsection name="The BeanDictionary">
+    <p>
+      The dictionary handler is the xml parser that constructs a valid
+      dictionary out of xml. The format of the bean dictionary is described
+      <a href="dictionary.html">here</a>.
+    </p>
+  </subsection>
+  <subsection name="The BeanMapping">
+    <p>
+      The mapping groups fields together and gives information about how
+      to set and get data. Also it takes care of aliases, so you can limit 
+      the exposure of your data or make it different.<br/>
+      The current implementation of a Mapping is BeanMapping, which takes
+      care of storing and getting data from the specified bean(s).
+      Through the dictionary.xml you can currently specify how to get and
+      set the data in case there is no default constructor and no default
+      getters and setters.
+    </p>
+  </subsection>
+  <subsection name="The BeanField">
+    <p>
+      Nyx has a interface that represent fields, which to gui can use to 
+      get and set data through. The IField interface already represents
+      partially what the dataprovider API will consist off. 
+      Currently there is only one implementation of the IField interface used 
+      and that is BeanField, which handles setting and getting data in beans.
+      Since the dataprovider API still needs to be defined, not storage of 
+      the actual beans is done. You have to handle that manually in form rules.
+    </p>
+  </subsection>
+    
+  <subsection name="Converters">
+    <p>
+      <a href="../converters.html">Converters</a> are responsible for converting an object to 
+      a representable format for the user. Converters also take care of converting the user 
+      input back to the object in a bean. This used with objects like Date, Double and
+      Integer. 
+    </p>
+  </subsection>
+</section>
+
+</body>
+
+</document>

@@ -34,6 +34,7 @@
       <item name="Gui Drivers" href="/guidrivers/index.html">
         <item name="XuluxHandler" href="/guidrivers/xuluxhandler.html"/>
         <item name="XUL" href="/guidrivers/xul.html"/>
+        <item name="HowTo" href="/guidrivers/howto.html"/>
       </item>
       <item name="DataProviders" href="/dataproviders/index.html">
         <item name="Converters" href="/dataproviders/converters.html"/>
