@@ -1,5 +1,5 @@
 /*
-   $Id: NyxWindowListener.java,v 1.2 2004-01-28 15:09:24 mvdb Exp $
+   $Id: NyxWindowListener.java,v 1.3 2004-05-06 12:30:01 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -32,7 +32,7 @@ import org.xulux.gui.Widget;
  * the X button.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListener.java,v 1.2 2004-01-28 15:09:24 mvdb Exp $
+ * @version $Id: NyxWindowListener.java,v 1.3 2004-05-06 12:30:01 mvdb Exp $
  */
 public class NyxWindowListener extends NyxListener implements WindowListener {
     /**
@@ -59,6 +59,7 @@ public class NyxWindowListener extends NyxListener implements WindowListener {
      */
     public NyxWindowListener(Widget widget) {
         super(widget);
+        System.err.println("window listener constructor called");
     }
 
     /**
@@ -72,7 +73,7 @@ public class NyxWindowListener extends NyxListener implements WindowListener {
      * @see java.awt.event.WindowListener#windowClosed(WindowEvent)
      */
     public void windowClosed(WindowEvent e) {
-        log.trace("Window closed : " + e);
+        System.err.println("Window closed : " + e);
     }
 
     /**
@@ -82,6 +83,7 @@ public class NyxWindowListener extends NyxListener implements WindowListener {
      * @see java.awt.event.WindowListener#windowClosing(WindowEvent)
      */
     public void windowClosing(WindowEvent e) {
+        System.err.println("window closing : " + e);
         log.trace("Window closing : " + e);
         shouldDestroy = true;
     }
@@ -93,12 +95,14 @@ public class NyxWindowListener extends NyxListener implements WindowListener {
      * @see java.awt.event.WindowListener#windowDeactivated(WindowEvent)
      */
     public void windowDeactivated(WindowEvent e) {
+        System.err.println("WindowDeactivated...");
         if (!shouldDestroy) {
             return;
         }
         GuiUtils.processCancel(widget);
         completed();
         getWidget().destroy();
+        this.widget = null;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 <document>
   <properties>
-    <title>NYX - The TextArea Widget</title>
+    <title>XULUX - The TextArea Widget</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
@@ -21,9 +21,24 @@
     <table>
       <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
       <tr>
-        <td>xxx</td>
+        <td>linewrap</td>
         <td>swing</td>
-        <td>xxx</td>
+        <td>Wrap lines in the textarea</td>
+      </tr>
+      <tr>
+        <td>wordwrap</td>
+        <td>swing</td>
+        <td>Wrap words</td>
+      </tr>
+      <tr>
+        <td>scrollbar</td>
+        <td>swing</td>
+        <td>vertical, horizontal or both</td>
+      </tr>
+      <tr>
+        <td>scrollbar.state</td>
+        <td>swing</td>
+        <td>always, dynamic, never</td>
       </tr>
     </table>
   </subsection>

@@ -1,5 +1,5 @@
 /*
-   $Id: Window.java,v 1.7 2004-03-31 16:32:08 mvdb Exp $
+   $Id: Window.java,v 1.8 2004-05-06 12:30:01 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -45,7 +45,7 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.7 2004-03-31 16:32:08 mvdb Exp $
+ * @version $Id: Window.java,v 1.8 2004-05-06 12:30:01 mvdb Exp $
  */
 public class Window extends NyxWindow {
     /**
@@ -127,7 +127,7 @@ public class Window extends NyxWindow {
         String windowType = getProperty("window-type");
         // don't have a clue yet what to use here
         // for swing to work correctlly
-        if ("model".equalsIgnoreCase(windowType)) {
+        if ("modal".equalsIgnoreCase(windowType)) {
         } else if ("toolbox".equalsIgnoreCase(windowType)) {
         } else {
             // @todo Introduce MDI type of windowing
@@ -175,12 +175,6 @@ public class Window extends NyxWindow {
         window.setVisible(isVisible());
         isRefreshing = false;
     }
-    /**
-     * @see org.xulux.nyx.gui.Widget#canContainChildren()
-     */
-    public boolean canContainChildren() {
-        return true;
-    }
 
     /**
      * @see org.xulux.nyx.gui.NyxWindow#addToParent(Widget)
@@ -196,7 +190,7 @@ public class Window extends NyxWindow {
                 }
             }
         } else {
-            System.out.println("Window widget : " + widget.getNativeWidget().getClass());
+//            System.out.println("Window widget : " + widget.getNativeWidget().getClass());
             if (widget.getNativeWidget() instanceof JMenuBar) {
                 window.getRootPane().setJMenuBar((JMenuBar) widget.getNativeWidget());
             } else {
