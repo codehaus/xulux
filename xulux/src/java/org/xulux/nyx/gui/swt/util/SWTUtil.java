@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: SWTUtil.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,71 +43,52 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.gui.swt.util;
 
-import java.io.InputStream;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.RGB;
+import org.xulux.nyx.gui.utils.ColorUtils;
 
 /**
+ * Utility class to make swt a bit easier accessable.
  * 
- * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: SWTUtil.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public class SWTUtil
 {
 
     /**
-     * Constructor for ComboTest.
+     * Constructor for SWTUtil.
      */
-    public ComboTest(String name)
+    public SWTUtil()
     {
-        super(name);
     }
     
-    public static Test suite()
+    /**
+     * Returns a contructed color based on the color
+     * specified
+     * @param c - should be a String representation
+     *                 of the html color encoding (#AABBBCC)
+     * @param device - the device the color should be set for
+     */
+    public static Color getColor(String color, Device device)
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
-        return suite;
+        Color result = null;
+        RGB rgb = getRGB(ColorUtils.getRGBFromHex(color));
+        result = new Color(device, rgb);
+        return result;
     }
     
-    public void testSimpleComboSwing()
+    /**
+     * Returns an RGB from an array of ints
+     * @param rgb an array of 3 ints containg rgb
+     *         any extra values will be discarded
+     */
+    public static RGB getRGB(int rgb[])
     {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
+        return new RGB(rgb[0],rgb[1],rgb[2]);
     }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new ComboTest("ComboTest").testSimpleComboSwt();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
-    }
-    
-    
-    
 
 }

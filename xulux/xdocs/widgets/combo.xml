@@ -35,6 +35,24 @@
       See the <a href="index.html">widget page</a> for information
       about properties used for all widgets.
     </p>
+    <table>
+      <tr><th>property</th><th>supported</th><th>description</th></tr>
+      <tr>
+        <td>notselectedvalue</td>
+        <td>swing, swt</td>
+        <td>
+           Specify a not selected value, so the combo can show
+           that value when no item has been selected.
+        </td>
+      </tr>
+      <tr>
+        <td>others</td>
+        <td>swing, swt</td>
+        <td>
+          The default widget properties.
+        </td>
+      </tr>
+    </table>
   </subsection>
   <subsection name="Swing notes">
     <h3>Overriden JComboBox NyxCombo</h3>
@@ -47,7 +65,7 @@
     </p>
     <h3>Current problems</h3>
     <p>
-      The combo, using swing, will not select the correct
+      The combo, using swing, will not select a
       value (visually) if the selected value is below the 
       initial viewable size (as far as I could see). 
       It doesn't have any consequences for the workings of the

@@ -1,5 +1,5 @@
 /*
- $Id: MainEntryRule.java,v 1.1 2002-12-02 21:50:03 mvdb Exp $
+ $Id: MainEntryRule.java,v 1.2 2003-01-08 02:37:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,13 +46,13 @@
 package org.xulux.nyx.gui.rules;
 
 import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.gui.Entry;
+import org.xulux.nyx.gui.swing.Entry;
 import org.xulux.nyx.rules.Rule;
 
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: MainEntryRule.java,v 1.1 2002-12-02 21:50:03 mvdb Exp $
+ * @version $Id: MainEntryRule.java,v 1.2 2003-01-08 02:37:06 mvdb Exp $
  */
 public class MainEntryRule extends Rule
 {

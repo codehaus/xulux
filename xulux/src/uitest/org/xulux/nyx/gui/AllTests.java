@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: AllTests.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,69 +45,25 @@
  */
 package org.xulux.nyx.gui;
 
-import java.io.InputStream;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
+ * All tests in the package..
  * 
  * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @version $Id: AllTests.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public class AllTests
 {
 
-    /**
-     * Constructor for ComboTest.
-     */
-    public ComboTest(String name)
-    {
-        super(name);
-    }
-    
     public static Test suite()
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
+        TestSuite suite = new TestSuite("Test for org.xulux.nyx.gui");
+        //$JUnit-BEGIN$
+        suite.addTest(ComboTest.suite());
+        suite.addTest(EntryComboTest.suite());
+        //$JUnit-END$
         return suite;
     }
-    
-    public void testSimpleComboSwing()
-    {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new ComboTest("ComboTest").testSimpleComboSwt();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
-    }
-    
-    
-    
-
 }

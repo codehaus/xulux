@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: ComboContent.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,71 +43,31 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.gui.utils;
 
-import java.io.InputStream;
+import java.util.ArrayList;
 
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.xulux.nyx.gui.Combo;
 
 /**
+ * Creates the content needed for the combo box.
+ * This way we have one single entry point for 
+ * creating combo data.
  * 
- * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: ComboContent.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public class ComboContent
 {
 
-    /**
-     * Constructor for ComboTest.
-     */
-    public ComboTest(String name)
+    public static String[] getStringArray(ArrayList content, String comboFields, Combo combo)
     {
-        super(name);
+        return null;
     }
     
-    public static Test suite()
+    public static ArrayList getArrayList(ArrayList content, String comboFields, Combo combo)
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
-        return suite;
+        return null;
     }
-    
-    public void testSimpleComboSwing()
-    {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new ComboTest("ComboTest").testSimpleComboSwt();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
-    }
-    
-    
-    
 
 }

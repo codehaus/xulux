@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: SWTExample.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,71 +43,53 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.examples.swt;
 
-import java.io.InputStream;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 
 /**
- * 
- * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * An example that uses swt. Initially used for visual testing
+ * later as a real example
+ *
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: SWTExample.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public class SWTExample
 {
 
     /**
-     * Constructor for ComboTest.
+     * Constructor for SWT.
      */
-    public ComboTest(String name)
+    public SWTExample()
     {
-        super(name);
     }
-    
-    public static Test suite()
+
+    public static void main(String[] args)
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
-        return suite;
+        new SWTExample().show();
     }
-    
-    public void testSimpleComboSwing()
+
+    public void show()
     {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public static void main(String args[])
-    {
-        try
+        Display display = new Display();
+        Shell shell = new Shell(display);
+        Combo combo = new Combo(shell, SWT.DROP_DOWN);
+        combo.setItems(new String[] { "Entry1", "Entry2" });
+        combo.setBounds(shell.getClientArea());
+//        Label label = new Label(shell, SWT.CENTER);
+//        label.setText("Hello World");
+//        label.setBounds(shell.getClientArea());
+        shell.open();
+        while (!shell.isDisposed())
         {
-            new ComboTest("ComboTest").testSimpleComboSwt();
+            if (!display.readAndDispatch())
+                display.sleep();
         }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
+        display.dispose();
     }
-    
-    
-    
 
 }

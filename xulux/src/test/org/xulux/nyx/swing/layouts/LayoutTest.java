@@ -1,5 +1,5 @@
 /*
- $Id: LayoutTest.java,v 1.3 2002-12-23 01:43:44 mvdb Exp $
+ $Id: LayoutTest.java,v 1.4 2003-01-08 02:37:08 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,14 +57,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.nyx.gui.Label;
+import org.xulux.nyx.gui.swing.Label;
 
 
 /**
  * A class to to test the layoutmanagers for swing
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.3 2002-12-23 01:43:44 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.4 2003-01-08 02:37:08 mvdb Exp $
  */
 public class LayoutTest extends TestCase
 {

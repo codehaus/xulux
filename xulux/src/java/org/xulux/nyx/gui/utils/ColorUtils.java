@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: ColorUtils.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,71 +43,58 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.gui.utils;
 
-import java.io.InputStream;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.util.Arrays;
 
 /**
+ * Color utils to make parsing easier
  * 
- * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: ColorUtils.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public class ColorUtils
 {
 
     /**
-     * Constructor for ComboTest.
+     * Constructor for ColorUtils.
      */
-    public ComboTest(String name)
+    public ColorUtils()
     {
-        super(name);
     }
     
-    public static Test suite()
+    /**
+     * Returns an array with the rgb values.
+     * The hex string can be six or three long
+     * Six is the format AABBCC
+     * Three is the format ABC, which resolves to AABBCC
+     * If you pass in an invalid string, the rgb values will
+     * all be zero
+     * @return
+     */
+    public static int[] getRGBFromHex(String hex)
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
-        return suite;
-    }
-    
-    public void testSimpleComboSwing()
-    {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public static void main(String args[])
-    {
+        int result[] = new int[3];
         try
         {
-            new ComboTest("ComboTest").testSimpleComboSwt();
-        }
-        catch(Exception e)
+        if (hex.length() == 6)
         {
-            e.printStackTrace(System.err);
-            System.exit(0);
+            result[0] = Integer.parseInt(hex.substring(0,2),16);
+            result[1] = Integer.parseInt(hex.substring(2,4),16);
+            result[2] = Integer.parseInt(hex.substring(4,6),16);
         }
+        else if (hex.length() == 3)
+        {
+            result[0] = Integer.parseInt(hex.substring(0,1)+hex.substring(0,1),16);
+            result[1] = Integer.parseInt(hex.substring(1,2)+hex.substring(1,2),16);
+            result[2] = Integer.parseInt(hex.substring(2,3)+hex.substring(2,3),16);
+        }
+        }
+        catch(NumberFormatException nfe)
+        {
+            Arrays.fill(result, 0);
+        }
+        return result;
     }
-    
-    
-    
 
 }

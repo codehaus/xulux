@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: SWTUtilTest.java,v 1.1 2003-01-08 02:37:08 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,68 +43,60 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.gui.swt.util;
 
-import java.io.InputStream;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.xulux.nyx.gui.utils.ColorUtils;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
+ * Tests for the swt util class.
  * 
- * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: SWTUtilTest.java,v 1.1 2003-01-08 02:37:08 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public class SWTUtilTest extends TestCase
 {
 
     /**
-     * Constructor for ComboTest.
+     * Constructor for SWTUtilTest.
+     * @param name
      */
-    public ComboTest(String name)
+    public SWTUtilTest(String name)
     {
         super(name);
     }
-    
+
     public static Test suite()
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
+        TestSuite suite = new TestSuite(SWTUtilTest.class);
         return suite;
     }
     
-    public void testSimpleComboSwing()
+    
+    public void testGetRGB()
     {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
+        System.out.println("testGetRGB");
+        int rgb[] = ColorUtils.getRGBFromHex("AABBCC");
+        RGB result = SWTUtil.getRGB(rgb);
+        assertEquals(result.red, rgb[0]);
+        assertEquals(result.green, rgb[1]);
+        assertEquals(result.blue, rgb[2]);
     }
     
-    public void testSimpleComboSwt()
+    /** 
+     * TODO.
+     * Need to review how to test swt in a usefull
+     * way..
+     */
+    public void testGetColor()
     {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new ComboTest("ComboTest").testSimpleComboSwt();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
+        Color color = SWTUtil.getColor("AABBCC", null);
+        
     }
     
     

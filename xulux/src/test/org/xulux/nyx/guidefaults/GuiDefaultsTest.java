@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: GuiDefaultsTest.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,71 +43,54 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.guidefaults;
 
 import java.io.InputStream;
+import java.util.HashMap;
 
 import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.context.WidgetConfig;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
+ * Tests processing of guiDefaults.
  * 
- * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: GuiDefaultsTest.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public class GuiDefaultsTest extends TestCase
 {
 
     /**
-     * Constructor for ComboTest.
+     * Constructor for GuiDefaultsTest.
+     * @param name
      */
-    public ComboTest(String name)
+    public GuiDefaultsTest(String name)
     {
         super(name);
     }
-    
+
     public static Test suite()
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
+        TestSuite suite = new TestSuite(GuiDefaultsTest.class);
         return suite;
     }
-    
-    public void testSimpleComboSwing()
+
+    public void testGuiDefaults()
+    throws Exception
     {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
+        GuiDefaultsHandler handler = new GuiDefaultsHandler();
+        InputStream stream = this.getClass().getClassLoader().getResourceAsStream(ApplicationContext.GUIDEFAULTS_XML);
+        handler.read(stream);
+        HashMap map = ApplicationContext.getInstance().getWidgets();
+        WidgetConfig config = (WidgetConfig)map.get("combo");
+        assertNotNull(config);
+        assertEquals(Class.forName("org.xulux.nyx.gui.swing.Combo"),config.get("swing"));
+        assertEquals(Class.forName("org.xulux.nyx.gui.swt.Combo"),config.get("swt"));
+        assertEquals(Class.forName("org.xulux.nyx.gui.Combo"),config.get("core"));
     }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new ComboTest("ComboTest").testSimpleComboSwt();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
-    }
-    
-    
-    
 
 }

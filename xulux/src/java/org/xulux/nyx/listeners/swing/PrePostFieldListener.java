@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.9 2002-12-05 14:50:18 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,7 +43,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.listeners;
+package org.xulux.nyx.listeners.swing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,39 +52,34 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
-import org.xulux.nyx.gui.Entry;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.swing.Entry;
+import org.xulux.nyx.listeners.NyxListener;
 import org.xulux.nyx.rules.IRule;
 import org.xulux.nyx.rules.Rule;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.9 2002-12-05 14:50:18 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class PrePostFieldListener 
+public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener
 {
-    
-    Widget widget;
-    
-    private static boolean processing = false;
-    
-    
-    public PrePostFieldListener()
-    {
-    }
     
     /**
      * Constructor for PrePostFieldListener.
      */
     public PrePostFieldListener(Widget widget)
     {
-        this.widget = widget;
+        super(widget);
     }
 
     /**
@@ -93,7 +88,7 @@ implements FocusListener, ActionListener
      */
     public void focusGained(FocusEvent e)
     {
-        if (processing)
+        if (isProcessing())
         {
             return;
         }
@@ -101,10 +96,7 @@ implements FocusListener, ActionListener
         {
             return;
         }
-        processing = true;
-        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
-        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
-        processing = false;
+        started();
     }
 
     /**
@@ -113,7 +105,7 @@ implements FocusListener, ActionListener
      */
     public void focusLost(FocusEvent e)
     {
-        if (processing)
+        if (isProcessing())
         {
             return;
         }
@@ -126,12 +118,7 @@ implements FocusListener, ActionListener
         {
             System.out.println("Widget value : "+widget.getValue());
         }
-        processing = true;
-        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
-        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
-        // preform all pre rules.
-        ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
-        processing = false;
+        completed();
     }
 
     /**
@@ -139,42 +126,12 @@ implements FocusListener, ActionListener
      */
     public void actionPerformed(ActionEvent e)
     {
-        if (processing)
+        if (isProcessing())
         {
             return;
         }
-        processing = true;
-        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
-        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
-        ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
-        processing = false;
+        completed();
     }
     
-    /**
-     * Returns the widget.
-     * @return Widget
-     */
-    public Widget getWidget()
-    {
-        return widget;
-    }
-
-    /**
-     * Sets the widget.
-     * @param widget The widget to set
-     */
-    public void setWidget(Widget widget)
-    {
-        this.widget = widget;
-    }
-
-    /**
-     * Returns the processing.
-     * @return boolean
-     */
-    public static boolean isProcessing()
-    {
-        return processing;
-    }
 
 }

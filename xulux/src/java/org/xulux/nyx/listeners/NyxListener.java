@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: NyxListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,71 +43,86 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
-
-import java.io.InputStream;
+package org.xulux.nyx.listeners;
 
 import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.context.impl.WidgetRequestImpl;
+import org.xulux.nyx.gui.Widget;
 
 /**
+ * An abstract to which all listeners must obey.
  * 
- * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: NyxListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public abstract class NyxListener
 {
+    protected Widget widget;
+    private static boolean processing = false;
+    
+    public NyxListener()
+    {
+    }
+    /**
+     * Constructor
+     * @param widget
+     */
+    public NyxListener(Widget widget)
+    {
+        this.widget = widget;
+    }
 
     /**
-     * Constructor for ComboTest.
+     * Should be called when a field is completed
      */
-    public ComboTest(String name)
+    public void completed()
     {
-        super(name);
+        processing = true;
+        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
+        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
+        // preform all pre rules.
+        ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+        processing = false;
     }
     
-    public static Test suite()
+    /**
+     * Should be called when a field is entered
+     */
+    public void started()
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
-        return suite;
+        processing = true;
+        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
+        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
+        processing = false;
     }
     
-    public void testSimpleComboSwing()
+    /**
+     * Returns the widget.
+     * @return Widget
+     */
+    public Widget getWidget()
     {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
+        return widget;
     }
-    
-    public void testSimpleComboSwt()
+
+    /**
+     * Sets the widget.
+     * @param widget The widget to set
+     */
+    public void setWidget(Widget widget)
     {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
+        this.widget = widget;
     }
-    
-    public static void main(String args[])
+
+    /**
+     * Returns the processing.
+     * @return boolean
+     */
+    public static boolean isProcessing()
     {
-        try
-        {
-            new ComboTest("ComboTest").testSimpleComboSwt();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
+        return processing;
     }
-    
-    
-    
+
 
 }

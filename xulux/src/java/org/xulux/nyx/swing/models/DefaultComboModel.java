@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.12 2003-01-05 16:53:13 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.13 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,13 +54,13 @@ import javax.swing.event.ListDataListener;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
-import org.xulux.nyx.gui.Combo;
+import org.xulux.nyx.gui.swing.Combo;
 
 /**
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.12 2003-01-05 16:53:13 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.13 2003-01-08 02:37:07 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {

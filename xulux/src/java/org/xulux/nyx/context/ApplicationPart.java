@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.32 2002-12-23 01:48:38 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.33 2003-01-08 02:37:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,8 @@ import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
-import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.listeners.NyxListener;
+import org.xulux.nyx.listeners.swing.PrePostFieldListener;
 
 /**
  * An Application is a part of the application
@@ -83,7 +84,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.32 2002-12-23 01:48:38 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.33 2003-01-08 02:37:06 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -118,7 +119,7 @@ public class ApplicationPart
     public final static int INVALID_STATE = 1;
     public final static int OK_STATE =2;
     private int state = NO_STATE;
-    private PrePostFieldListener fieldEventHandler;
+    private NyxListener fieldEventHandler;
     
     /**
      * Constructor for GuiPart.
@@ -745,26 +746,25 @@ public class ApplicationPart
 
     /**
      * Returns a new instance of the fieldEventHandler.
-     * @return Object
+     * You can override this in the applicationpart
+     * xml by adding the listener tag with the class
+     * specified.
+     * @return PrePostFieldListener
      */
-    public PrePostFieldListener getFieldEventHandler()
+    public NyxListener getFieldEventHandler(Widget widget)
     {
-        PrePostFieldListener listener = null;
+        NyxListener listener = null;
         if (fieldEventHandler != null)
         {
             try
             {
-                listener = (PrePostFieldListener)fieldEventHandler.getClass().newInstance();
+                listener = (NyxListener)fieldEventHandler.getClass().newInstance();
+                listener.setWidget(widget);
             }
             catch (Exception e)
             {
             }
         }
-        if (listener == null)
-        {
-            listener = new PrePostFieldListener();
-        }
-            
         return listener;
     }
 

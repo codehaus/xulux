@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: ColorUtilsTest.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,12 +43,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
-
-import java.io.InputStream;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
+package org.xulux.nyx.gui.utils;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -56,58 +51,62 @@ import junit.framework.TestSuite;
 
 /**
  * 
- * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: ColorUtilsTest.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public class ColorUtilsTest extends TestCase
 {
 
     /**
-     * Constructor for ComboTest.
+     * Constructor for ColorUtilsTest.
+     * @param arg0
      */
-    public ComboTest(String name)
+    public ColorUtilsTest(String name)
     {
         super(name);
     }
     
     public static Test suite()
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
+        TestSuite suite = new TestSuite(ColorUtilsTest.class);
         return suite;
     }
     
-    public void testSimpleComboSwing()
+    /**
+     * Test the rgb from hex method.
+     * Seems more like a test of Integer.parseInt() though :)
+     */
+    public void testGetRGBFromHex()
     {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
+        System.out.println("testGetRGBFromHex");
+        int result[] = ColorUtils.getRGBFromHex("AABBCC");
+        assertEquals(170, result[0]);
+        assertEquals(187, result[1]);
+        assertEquals(204, result[2]);
+        result = ColorUtils.getRGBFromHex("ABC");
+        assertEquals(170, result[0]);
+        assertEquals(187, result[1]);
+        assertEquals(204, result[2]);
+        result = ColorUtils.getRGBFromHex("012345");
+        assertEquals(01, result[0]);
+        assertEquals(35, result[1]);
+        assertEquals(69, result[2]);
+        result = ColorUtils.getRGBFromHex("FFFFFF");
+        assertEquals(255, result[0]);
+        assertEquals(255, result[1]);
+        assertEquals(255, result[2]);
+        result = ColorUtils.getRGBFromHex("FF00FF");
+        assertEquals(255, result[0]);
+        assertEquals(00, result[1]);
+        assertEquals(255, result[2]);
+        result = ColorUtils.getRGBFromHex("000");
+        assertEquals(0, result[0]);
+        assertEquals(0, result[1]);
+        assertEquals(0, result[2]);
+        result = ColorUtils.getRGBFromHex("XXXXXX");
+        assertEquals(0, result[0]);
+        assertEquals(0, result[1]);
+        assertEquals(0, result[2]);
     }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new ComboTest("ComboTest").testSimpleComboSwt();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
-    }
-    
-    
-    
 
 }

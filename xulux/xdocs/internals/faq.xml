@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Internals FAQ</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="FAQ">
+  <p>
+    This answers questions about the internals of nyx
+  </p>
+  <subsection name="Widget positioning and sizing">
+  <p>
+    You can set the size and the position of the widget
+    via xml or programmatically. The default layout for swing
+    that is used is the XYLayout. This is mostly used for eg
+    business applications that have to run on a specific client
+    (only tested under win32 btw).
+    In ApplicationPart in the method activate() the widget is 
+    added to a swing JPanel and this will call the XYLayout 
+    manager. So size and position are only set on initial 
+    activation and are never refreshed. Settings sizes will not
+    come to a referesh of the widget, but when setting the gui
+    calls the layoutmanager again, it will layou it according
+    to the size being set.
+  </p>
+  </subsection>
+</section>
+
+</body>
+
+</document>

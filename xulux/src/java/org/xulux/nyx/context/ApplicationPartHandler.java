@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.12 2002-11-28 21:45:07 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.13 2003-01-08 02:37:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,14 +61,14 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.rules.IRule;
-import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.listeners.swing.PrePostFieldListener;
 
 /**
  * Reads in a part definition and creates an ApplicationPart
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.12 2002-11-28 21:45:07 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.13 2003-01-08 02:37:06 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {

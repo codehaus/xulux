@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,71 +43,66 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.listeners.swing;
 
-import java.io.InputStream;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.context.impl.WidgetRequestImpl;
+import org.xulux.nyx.gui.Widget;
 
 /**
+ * The immidiate listeners fires events based on typed keys.
+ * For now unsupported
  * 
- * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.2 2003-01-08 02:37:07 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: ImmidiateListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ComboTest extends TestCase
+public class ImmidiateListener extends KeyAdapter
 {
+    Widget widget;
+    ApplicationPart part;
+
+    public ImmidiateListener()
+    {
+    }
+    /**
+     * Constructor for ImmidiateListener.
+     */
+    public ImmidiateListener(Widget widget)
+    {
+        this.widget = widget;
+        this.part = part;
+    }
 
     /**
-     * Constructor for ComboTest.
+     * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
      */
-    public ComboTest(String name)
+    public void keyTyped(KeyEvent e)
     {
-        super(name);
+        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
+        ApplicationContext.fireFieldRequests(impl, ApplicationContext.EXECUTE_REQUEST);
     }
-    
-    public static Test suite()
+
+    /**
+     * Returns the widget.
+     * @return Widget
+     */
+    public Widget getWidget()
     {
-        TestSuite suite = new TestSuite(ComboTest.class);
-        return suite;
+        return widget;
     }
-    
-    public void testSimpleComboSwing()
+
+    /**
+     * Sets the widget.
+     * @param widget The widget to set
+     */
+    public void setWidget(Widget widget)
     {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
+        this.widget = widget;
     }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-    }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new ComboTest("ComboTest").testSimpleComboSwt();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
-    }
-    
-    
-    
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.5 2002-11-27 02:33:44 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,66 +43,41 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.listeners;
+package org.xulux.nyx.listeners.swt;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.context.impl.WidgetRequestImpl;
-import org.xulux.nyx.gui.Widget;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.xulux.nyx.gui.swt.Combo;
 
 /**
- * The immidiate listeners fires events based on typed keys.
- * For now unsupported
  * 
- * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.5 2002-11-27 02:33:44 mvdb Exp $
+ * @author Martin van den Bemt
+ * @version $Id: ImmidiateListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
  */
-public class ImmidiateListener extends KeyAdapter
+public class ImmidiateListener implements KeyListener
 {
-    Widget widget;
-    ApplicationPart part;
+    Combo combo;
 
-    public ImmidiateListener()
-    {
-    }
     /**
      * Constructor for ImmidiateListener.
      */
-    public ImmidiateListener(Widget widget)
+    public ImmidiateListener(Combo combo)
     {
-        this.widget = widget;
-        this.part = part;
+        this.combo = combo;
     }
 
     /**
-     * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
+     * @see org.eclipse.swt.events.KeyListener#keyPressed(KeyEvent)
      */
-    public void keyTyped(KeyEvent e)
+    public void keyPressed(KeyEvent arg0)
     {
-        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
-        ApplicationContext.fireFieldRequests(impl, ApplicationContext.EXECUTE_REQUEST);
     }
 
     /**
-     * Returns the widget.
-     * @return Widget
+     * @see org.eclipse.swt.events.KeyListener#keyReleased(KeyEvent)
      */
-    public Widget getWidget()
+    public void keyReleased(KeyEvent arg0)
     {
-        return widget;
-    }
-
-    /**
-     * Sets the widget.
-     * @param widget The widget to set
-     */
-    public void setWidget(Widget widget)
-    {
-        this.widget = widget;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.2 2002-12-23 01:48:38 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.3 2003-01-08 02:37:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,12 +53,13 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.context.WidgetConfig;
 
 /**
  * It should be case insensitive, but isn't really ;)
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.2 2002-12-23 01:48:38 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.3 2003-01-08 02:37:06 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
@@ -69,6 +70,7 @@ public class GuiDefaultsHandler extends DefaultHandler
     public static String ATTRIBUTE_TYPE = "type";
     public static String ATTRIBUTE_CLASS = "class";
     public static String ATTRIBUTE_NAME = "name";
+    public static String ATTRIBUTE_DEFAULT = "defaultType";
     
     private boolean widgetsStarted = false;
 
@@ -120,12 +122,19 @@ public class GuiDefaultsHandler extends DefaultHandler
         if (qName.equals(ELEMENT_WIDGETS))
         {
             widgetsStarted = true;
+            String defaultType = atts.getValue(ATTRIBUTE_DEFAULT);
+            if (defaultType != null)
+            {
+                defaultType = defaultType.toLowerCase();
+            }
+            ApplicationContext.getInstance().setDefaultWidgetType(defaultType);
         }
         else if (qName.equals(ELEMENT_WIDGET) && widgetsStarted)
         {
             String name = atts.getValue(ATTRIBUTE_NAME).toLowerCase();
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
-            ApplicationContext.getInstance().registerWidget(name, clazz);
+            String type = atts.getValue(ATTRIBUTE_TYPE);
+            ApplicationContext.getInstance().registerWidget(name, clazz, type);
         }
     }
 
