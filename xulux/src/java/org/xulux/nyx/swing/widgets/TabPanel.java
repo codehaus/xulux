@@ -1,7 +1,7 @@
 /*
- $Id: TabPanel.java,v 1.15 2003-11-18 02:33:47 mvdb Exp $
+ $Id: TabPanel.java,v 1.16 2003-11-18 16:48:49 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -47,9 +47,13 @@ package org.xulux.nyx.swing.widgets;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
+import java.util.Iterator;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
@@ -66,7 +70,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  *
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.15 2003-11-18 02:33:47 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.16 2003-11-18 16:48:49 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
 
@@ -81,6 +85,8 @@ public class TabPanel extends ContainerWidget {
     public static String TABID = "nyx-tab-id";
 
     private String initialFocus;
+    private RepaintComponent repaintComponent;
+    private Thread repaintThread;
 
     /**
      * @param name
@@ -97,6 +103,10 @@ public class TabPanel extends ContainerWidget {
         super.destroy();
         if (tabPanel == null) {
             return;
+        }
+        if (repaintComponent != null) {
+            tabPanel.removeHierarchyListener(repaintComponent);
+            repaintComponent = null;
         }
         Container container = tabPanel.getParent();
         tabPanel.setVisible(false);
@@ -159,10 +169,14 @@ public class TabPanel extends ContainerWidget {
         // we default to XYLayout for now..
         initialized = true;
         tabPanel = new JTabbedPane();
+        repaintComponent = new RepaintComponent();
+        tabPanel.addHierarchyListener(repaintComponent);
+        repaintThread  = new Thread(repaintComponent);
+        repaintThread.start();
+        System.err.println("Still running");
         initializeChildren();
         refresh();
         processInit();
-        new Thread(new RepaintComponent()).start();
     }
 
     /**
@@ -171,24 +185,7 @@ public class TabPanel extends ContainerWidget {
     public void refresh() {
         isRefreshing = true;
         initialize();
-        System.out.println("ISSHOWING ?? "+tabPanel.isShowing());
-//        if (!tabPanel.isShowing()) {
-//            
-//        }
-//
-//        if (getProperty("select") != null) {
-//            int select = Integer.parseInt(getProperty("select"));
-//            tabPanel.setSelectedIndex(select);
-//        }
-//        tabPanel.validate();
-//        tabPanel.paint();
-//        System.out.println("insets : "+tabPanel.getInsets());
-//        System.out.println("size : "+tabPanel.getSize());
-//        System.out.println("preferred size : "+tabPanel.getPreferredSize());
-//        System.out.println("Bounds : "+tabPanel.getBounds());
-//        System.out.println("PANEL PANEL : "+getName());
-        // dig into panels a bit deeper..
-        // for now we don't need anything here..
+        tabPanel.setVisible(isVisible());
         isRefreshing = false;
     }
 
@@ -232,10 +229,6 @@ public class TabPanel extends ContainerWidget {
                 initialFocus = String.valueOf(tabCount);
                 tabPanel.setSelectedIndex(tabCount);
             }
-//            ((JComponent)widget.getNativeWidget()).validate();
-//            ((JComponent)widget.getNativeWidget()).repaint();
-//            ((JComponent)widget.getNativeWidget()).requestFocus();
-//            tabPanel.repaint();
             tabCount++;
         } else {
             // do not yet allow any addition of other widgets.
@@ -285,8 +278,12 @@ public class TabPanel extends ContainerWidget {
      * 
      * @todo : dig in this deeper, probably fixable some other way!
      */
-    public class RepaintComponent implements Runnable{
+    public class RepaintComponent implements Runnable,HierarchyListener {
         private int index = 0;
+        private boolean isRunning;
+        
+        public RepaintComponent() {
+        }
         /**
          * @see java.lang.Runnable#run()
          */
@@ -294,14 +291,26 @@ public class TabPanel extends ContainerWidget {
             if (getPart() == null) {
                 return;
             }
-            while (!tabPanel.isShowing());
-            tabPanel.setVisible(false);
+            while (!tabPanel.isShowing()) {
+                //System.err.println("isShowing ? "+tabPanel.isShowing());
+                boolean sleep = true;
+                if (sleep) {
+                    try {
+                        Thread.sleep(100000);
+                    }catch(InterruptedException ie) {
+                        // please repaint everything..
+                        ie.printStackTrace(System.err);
+                        sleep = false;
+                        break;
+                    }
+                }
+            }
             int selected = tabPanel.getSelectedIndex(); 
             for (int i = 0; i < tabPanel.getTabCount(); i++) {
                 selectIndex(i);
             }
             selectIndex(selected);
-            tabPanel.setVisible(true);
+            //tabPanel.setVisible(true);
             tabPanel.validate();
             tabPanel.repaint();
         }
@@ -309,7 +318,7 @@ public class TabPanel extends ContainerWidget {
         public void selectIndex(final int index) {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
-                                
+
                     /**
                      * @see java.lang.Runnable#run()
                      */
@@ -322,10 +331,33 @@ public class TabPanel extends ContainerWidget {
                 e.printStackTrace(System.out);
             }
         }
-        
-        
-            
 
+        /**
+         * @see java.awt.event.HierarchyListener#hierarchyChanged(java.awt.event.HierarchyEvent)
+         */
+        public void hierarchyChanged(HierarchyEvent e) {
+            if (isRunning) {
+                return;
+            }
+            //System.out.println("e getChanged : "+e.getChanged());
+            Iterator it = getPart().getWidgets().iterator();
+            while (it.hasNext()) {
+                Widget w = (Widget) it.next();
+                if (e.getChanged().equals(w.getNativeWidget())) {
+                    System.out.println("WIDGET : "+w+" "+e);
+                    break;
+                }
+            }
+                    
+            if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
+                System.out.println("e getChanged : "+e.getChanged());
+//                if (!(e.getChanged() instanceof JPanel)) {
+//                    return;
+//                }
+                System.out.println("Hierarchy changed : "+e);
+                repaintThread.interrupt();
+            }
+        }
+        
     }
-
 }
