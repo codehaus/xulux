@@ -1,5 +1,5 @@
 /*
- $Id: ToggleButton.java,v 1.5 2003-11-18 02:30:51 mvdb Exp $
+ $Id: ToggleButton.java,v 1.6 2003-11-18 18:37:23 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -71,7 +71,7 @@ import org.xulux.nyx.utils.BooleanUtils;
  * Represents a togglebutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ToggleButton.java,v 1.5 2003-11-18 02:30:51 mvdb Exp $
+ * @version $Id: ToggleButton.java,v 1.6 2003-11-18 18:37:23 mvdb Exp $
  */
 public class ToggleButton extends Widget {
 
@@ -212,7 +212,6 @@ public class ToggleButton extends Widget {
                      */
                     public void focusGained(FocusEvent e)
                     {
-                        System.out.println("Gained : "+e);
                         if (normalIcon == null) {
                             normalIcon = toggleButton.getIcon();
                         }
@@ -224,12 +223,13 @@ public class ToggleButton extends Widget {
                      */
                     public void focusLost(FocusEvent e)
                     {
-                        System.out.println("lost : "+e);
                         String image = getProperty("image");
                         if (image != null) {
                             ImageIcon normalIcon = SwingUtils.getIcon(image,this);
-                            toggleButton.setIcon(normalIcon);
-                            toggleButton.setFocusPainted(true);
+                            if (toggleButton != null) {
+                                toggleButton.setIcon(normalIcon);
+                                toggleButton.setFocusPainted(true);
+                            }
                         }
                     }
                 };
