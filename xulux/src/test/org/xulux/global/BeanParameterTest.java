@@ -1,5 +1,5 @@
 /*
- $Id: BeanParameterTest.java,v 1.1 2003-12-18 00:17:26 mvdb Exp $
+ $Id: BeanParameterTest.java,v 1.2 2003-12-22 15:25:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -53,7 +53,7 @@ import junit.framework.TestSuite;
  * Test the beanparameter class.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanParameterTest.java,v 1.1 2003-12-18 00:17:26 mvdb Exp $
+ * @version $Id: BeanParameterTest.java,v 1.2 2003-12-22 15:25:37 mvdb Exp $
  */
 public class BeanParameterTest extends TestCase {
 
@@ -89,19 +89,19 @@ public class BeanParameterTest extends TestCase {
      */
     public void testStaticType() {
         System.out.println("testStaticType");
-        BeanParameter p = new BeanParameter("Static", "org.xulux.nyx.global.ParameterType.FIRST");
+        BeanParameter p = new BeanParameter("Static", "org.xulux.global.ParameterType.FIRST");
         assertEquals(ParameterType.FIRST, p.getObject());
         p = new BeanParameter("Static", "test");
         System.out.println("p : " + p.getObject());
         assertNull(p.getObject());
         // private non static
-        p = new BeanParameter("Static", "org.xulux.nyx.global.ParameterType.type");
+        p = new BeanParameter("Static", "org.xulux.global.ParameterType.type");
         assertNull(p.getObject());
         // private static
-        p = new BeanParameter("Static", "org.xulux.nyx.global.ParameterType.FIFTH");
+        p = new BeanParameter("Static", "org.xulux.global.ParameterType.FIFTH");
         assertEquals("fifth", p.getObject());
         // unknown static
-        p = new BeanParameter("Static", "org.xulux.nyx.global.ParameterType.XXXX");
+        p = new BeanParameter("Static", "org.xulux.global.ParameterType.XXXX");
         assertNull(p.getObject());
     }
 

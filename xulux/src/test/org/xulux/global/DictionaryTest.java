@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.1 2003-12-18 00:17:26 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.2 2003-12-22 15:29:50 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.1 2003-12-18 00:17:26 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.2 2003-12-22 15:29:50 mvdb Exp $
  */
 public class DictionaryTest extends TestCase {
 
@@ -88,7 +88,7 @@ public class DictionaryTest extends TestCase {
     public void testInitialize() {
         System.out.println("testInitialize");
         Dictionary dictionary = Dictionary.getInstance();
-        dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/global/dictionary.xml"));
         assertEquals("Test", Dictionary.getInstance().getMapping("Test").getName());
         assertEquals(DictionaryBean.class, dictionary.getMapping("Test").getBean());
         ArrayList list = dictionary.getMapping("Test").getFields();
@@ -169,7 +169,7 @@ public class DictionaryTest extends TestCase {
     public void testFieldElements() {
         System.out.println("testFieldElements");
         Dictionary d = Dictionary.getInstance();
-        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/global/dictionary.xml"));
         BeanMapping mapping = d.getMapping("Manual");
         assertNotNull(mapping.getField("straat"));
         assertNull(mapping.getField("street"));
@@ -204,7 +204,7 @@ public class DictionaryTest extends TestCase {
     public void testParameters() {
         System.out.println("testParameters");
         Dictionary d = Dictionary.getInstance();
-        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/global/dictionary.xml"));
         ParameteredBean bean = new ParameteredBean();
         BeanMapping mapping = d.getMapping("pb");
         assertEquals("pb", mapping.getName());
@@ -227,7 +227,7 @@ public class DictionaryTest extends TestCase {
     public void testDoubleParameters() {
         System.out.println("testDoubleParameters");
         Dictionary d = Dictionary.getInstance();
-        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/global/dictionary.xml"));
         ParameteredBean bean = new ParameteredBean();
         BeanMapping mapping = d.getMapping("db");
         IField fieldno1 = mapping.getField("no1");
@@ -251,7 +251,7 @@ public class DictionaryTest extends TestCase {
     public void testSetMethod() {
         System.out.println("testSetMethod");
         Dictionary d = Dictionary.getInstance();
-        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/global/dictionary.xml"));
         ParameteredBean bean = new ParameteredBean();
         BeanMapping mapping = d.getMapping("set");
         IField fieldno1 = mapping.getField("no1");
@@ -283,7 +283,7 @@ public class DictionaryTest extends TestCase {
     public void testConverterXml() {
         System.out.println("testConvertersXml");
         Dictionary dictionary = Dictionary.getInstance();
-        dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/global/dictionary.xml"));
         Map converters = Dictionary.getConverters();
         assertEquals(2, converters.size());
         assertEquals(IntegerConverter.class, Dictionary.getConverter(Integer.class).getClass());

@@ -1,5 +1,5 @@
 /*
- $Id: BeanFieldTest.java,v 1.1 2003-12-18 00:17:26 mvdb Exp $
+ $Id: BeanFieldTest.java,v 1.2 2003-12-22 15:24:23 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,7 +57,7 @@ import junit.framework.TestSuite;
  * debug too much..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van dn Bemt</a>
- * @version $Id: BeanFieldTest.java,v 1.1 2003-12-18 00:17:26 mvdb Exp $
+ * @version $Id: BeanFieldTest.java,v 1.2 2003-12-22 15:24:23 mvdb Exp $
  */
 public class BeanFieldTest extends TestCase {
 
@@ -153,7 +153,7 @@ public class BeanFieldTest extends TestCase {
         bean.setDouble(ParameteredBean.NO1, "No1Value");
         Method method = ParameteredBean.class.getMethod("getDouble", new Class[] { String.class });
         BeanField field = new BeanField(method);
-        BeanParameter parm = new BeanParameter("static", "org.xulux.nyx.global.ParameteredBean.NO1");
+        BeanParameter parm = new BeanParameter("static", "org.xulux.global.ParameteredBean.NO1");
         ArrayList list = new ArrayList();
         list.add(parm);
         field.setParameters(list);
@@ -175,7 +175,7 @@ public class BeanFieldTest extends TestCase {
         Method method = ParameteredBean.class.getMethod("getParameter", new Class[] { String.class });
         BeanField field = new BeanField(method);
         field.setAlias("first");
-        BeanParameter parm = new BeanParameter("static", "org.xulux.nyx.global.ParameterType.FIRST");
+        BeanParameter parm = new BeanParameter("static", "org.xulux.global.ParameterType.FIRST");
         ArrayList list = new ArrayList();
         list.add(parm);
         field.setParameters(list);
