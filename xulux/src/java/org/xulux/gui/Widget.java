@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.17 2004-05-24 18:12:35 mvdb Exp $
+   $Id: Widget.java,v 1.18 2004-07-12 11:20:21 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.17 2004-05-24 18:12:35 mvdb Exp $
+ * @version $Id: Widget.java,v 1.18 2004-07-12 11:20:21 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -1020,5 +1020,16 @@ public abstract class Widget implements Serializable
           }
         }
         return this.provider;
+    }
+    
+    /**
+     * This method can be used to obtain the real value set for the widget.
+     * In case of a provider, it is otherwise impossible to get the real value
+     * with getValue
+     *
+     * @return the real value that is set. 
+     */
+    public Object getRealValue() {
+        return this.value;
     }
 }
