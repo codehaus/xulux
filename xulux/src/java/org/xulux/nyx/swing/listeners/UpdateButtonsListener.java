@@ -1,5 +1,5 @@
 /*
- $Id: UpdateButtonsListener.java,v 1.1 2003-08-07 16:41:15 mvdb Exp $
+ $Id: UpdateButtonsListener.java,v 1.2 2003-08-09 00:09:06 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,13 +50,20 @@ import java.awt.event.ActionListener;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.context.ApplicationPartHandler;
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.IContentWidget;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.widgets.Table;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
@@ -64,10 +71,10 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.1 2003-08-07 16:41:15 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.2 2003-08-09 00:09:06 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener
-implements ActionListener 
+implements ActionListener, ListSelectionListener
 {
     
     protected static Log log = LogFactory.getLog(UpdateButtonsListener.class);
@@ -79,6 +86,16 @@ implements ActionListener
      * The source
      */
     protected Widget source;
+    
+    /**
+     * Hack to reduce mess in table.
+     */
+    protected Table table;
+    
+    
+    public UpdateButtonsListener(Table table) {
+        this.table = table;
+    }
     
     /**
      * 
@@ -96,20 +113,24 @@ implements ActionListener
         if (actionType == null) {
             return;
         }
-        Object partBean = null;
+        Object partBean = parent.getGuiValue();
         if (actionType.equals("add")) {
             System.out.println("Adding");
-            Object value = parent.getValue();
+            Object value = partBean;
             if (value == null) {
                 // figure out what object type to create
                 if (parent instanceof IContentWidget) {
                     List content = ((IContentWidget)parent).getContent();
-                    if (content != null && content.size() > 0) {
+                    String classType = parent.getProperty("classType");
+                    if (classType != null) {
+                        partBean = ClassLoaderUtils.getObjectFromClassString(classType);
+                    } else if (content != null && content.size() > 0) {
                         partBean = ClassLoaderUtils.getObjectFromClass(content.get(0).getClass());
-                    } else {
+                    }
+                    if (partBean == null) {
                         if (log.isWarnEnabled()) {
                             log.warn("Cannot determine type to create for widget "+ 
-                                parent.getName() + " please create a rule to call" +                                    " the updateform");
+                                parent.getName() + " please create a rule to call" +                                    " the updateform or add the classType property to the table");
                         }
                         // TODO: the nyx magic stops here for now 
                         return;
@@ -118,10 +139,12 @@ implements ActionListener
             } else {
                 partBean = ClassLoaderUtils.getObjectFromClass(value.getClass());
             }
+            setLocatorValue(partBean);
         } else if (actionType.equals("delete")) {
-            System.out.println("Deleting");
+            log.warn("Deleting");
         } else if (actionType.equals("update")) {
-            System.out.println("Updating");
+            log.warn("Updating");
+            System.out.println("parent : "+parent.getName());
         } else {
             return;
         }
@@ -133,10 +156,45 @@ implements ActionListener
             }
             return;
         }
+        System.out.println("PartBean : "+partBean);
         ApplicationPartHandler handler = new ApplicationPartHandler();
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = handler.read(stream,partBean);
         part.activate();
+    }
+    
+    /**
+     * Set the locator value if such a locator is present
+     * properties used for tables : locator and locator.field
+     * @param bean
+     */
+    private void setLocatorValue(Object bean) {
+        String locator = parent.getProperty("locator");
+        if (bean == null) {
+            return;
+        }
+        if (locator != null) {
+            String locatorField = parent.getProperty("locator.field");
+            Widget widget = parent.getPart().getWidget(locator);
+            if (widget != null && locatorField != null) {
+                Object value = widget.getValue();
+                String field = widget.getField();
+                if (field != null && value != null) {
+                    BeanMapping mapping = Dictionary.getInstance().getMapping(bean);
+                    IField f = mapping.getField(locatorField);
+                    f.setValue(bean,value);
+                }
+            }
+        }
+        
+    }
+    /**
+     * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+     */
+    public void valueChanged(ListSelectionEvent e) {
+        if (table != null) {
+            table.refreshUpdateButtons();
+        }
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.9 2003-08-07 09:54:27 mvdb Exp $
+ $Id: NyxListener.java,v 1.10 2003-08-09 00:09:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,13 +45,11 @@
  */
 package org.xulux.nyx.gui;
 
-import java.io.InputStream;
 import java.util.Iterator;
 
 import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.context.ApplicationPartHandler;
 import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.swing.widgets.Button;
 import org.xulux.nyx.swing.widgets.Entry;
@@ -62,7 +60,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.9 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.10 2003-08-09 00:09:06 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -95,6 +93,16 @@ public abstract class NyxListener
     }
     
     /**
+     * Call this when the part has completed processing.
+     * It will fire the post rules of the registered part rules
+     */
+    public void completedPart() {
+        processing = true;
+        PartRequestImpl impl = new PartRequestImpl(widget.getPart(), PartRequest.ACTION_OK_REQUEST);
+        ApplicationContext.fireRequest(impl, ApplicationContext.POST_REQUEST);
+    }
+    
+    /**
      * If a value is "accepted" (eg entry filled in
      * , button clicked, etc preform this code.
      * 
@@ -116,8 +124,8 @@ public abstract class NyxListener
         {
             // if the widget is required, a value must
             // exist.
-            if (widget.isRequired()) {
-                Object guiValue = widget.getGuiValue();
+//            if (widget.isRequired()) {
+//                Object guiValue = widget.getGuiValue();
                 // TODO: Make an option to check for immidiate required fields
 //                if (guiValue instanceof String || guiValue == null) {
 //                    if (guiValue == null || ((String)guiValue).trim().equals("")) {
@@ -126,7 +134,7 @@ public abstract class NyxListener
 //                        return false;
 //                    }
 //                }
-            }
+//            }
             widget.setValue(widget.getGuiValue());
             // refresh the all widgets who references this field
             widget.getPart().refreshFields(widget);
@@ -151,6 +159,8 @@ public abstract class NyxListener
                     // we handle the completed ourselves,
                     // since otherwise the widgets are already destroyed.
                     completed();
+                    // process the post rules of the form.
+                    completedPart();
                     widget.getPart().destroy();
                     return false;
                 } else if (defAction.equalsIgnoreCase("cancel")) {
@@ -159,27 +169,7 @@ public abstract class NyxListener
                     return false;
                 }
                     
-            } else {
-                // check if there is a type..
-                String actionType = widget.getProperty("action.type");
-                if (actionType == null) {
-                    return true;
-                }
-                if (actionType.equalsIgnoreCase("add") ||
-                      actionType.equalsIgnoreCase("update") ||
-                         actionType.equalsIgnoreCase("delete")) {
-                    //if (bt != null && bt.equalsIgnoreCase("
-                    String xml = widget.getProperty("action");
-                    if (xml == null || "".equals(xml)) {
-                        return true;
-                    }
-                    ApplicationPartHandler handler = new ApplicationPartHandler();
-                    InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-                    ApplicationPart part = handler.read(stream,widget.getValue());
-                    part.activate();
-                }
-            }                 
-            return true;
+            }
         }
         return true;
     }

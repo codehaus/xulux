@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
+ $Id: Table.java,v 1.10 2003-08-09 00:09:05 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,8 +52,6 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,6 +64,7 @@ import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.swing.listeners.PopupListener;
+import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
 import org.xulux.nyx.swing.models.NyxTableColumnModel;
 import org.xulux.nyx.swing.models.NyxTableModel;
 import org.xulux.nyx.swing.util.SwingUtils;
@@ -80,7 +79,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
+ * @version $Id: Table.java,v 1.10 2003-08-09 00:09:05 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -200,7 +199,7 @@ implements IContentWidget
                 this.model = new NyxTableModel(this);
             }
             table = new JTable(this.model,this.columnModel);
-            table.getSelectionModel().addListSelectionListener(new SelectionListener());
+            table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
             table.setPreferredSize(SwingUtils.getDimension(getRectangle()));
             scrollPane.setViewportView(this.table);
             scrollPane.setVisible(true);
@@ -269,7 +268,7 @@ implements IContentWidget
      * @see org.xulux.nyx.gui.Widget#isValueEmpty()
      */
     public boolean isValueEmpty() {
-        return true;
+        return getGuiValue() == null;
     }
     
     /**
@@ -297,7 +296,7 @@ implements IContentWidget
                 field = mapping.getField(content.substring(index+1));
             }
             if (field != null) {
-                System.out.println("Field : "+field);
+                //System.out.println("Field : "+field);
                 this.content = NyxCollectionUtils.getList(field.getValue(getPart().getBean()));
                 contentChanged = true;
             } else {
@@ -314,7 +313,7 @@ implements IContentWidget
      * row is selected.
      *
      */
-    protected void refreshUpdateButtons() {
+    public void refreshUpdateButtons() {
         Object value = getGuiValue();
         boolean buttonState = value!=null;
         // we need to disable update and delete
@@ -324,11 +323,13 @@ implements IContentWidget
             Iterator it = strList.iterator();
             while (it.hasNext()) {
                 Widget widget = getPart().getWidget((String)it.next());
-                String actionType = widget.getProperty("action.type");
-                if (actionType != null && ( 
-                      actionType.equals("update") ||
-                        actionType.equals("delete"))) {
-                    widget.setEnable(buttonState);
+                if (widget != null) {
+                    String actionType = widget.getProperty("action.type");
+                    if (actionType != null && ( 
+                          actionType.equals("update") ||
+                            actionType.equals("delete"))) {
+                        widget.setEnable(buttonState);
+                    }
                 }
             }
         }
@@ -374,14 +375,23 @@ implements IContentWidget
                 }
                 if (updateAction != null) {
                     widget.setProperty("action", updateAction);
+                    widget.addNyxListener(new UpdateButtonsListener(this, widget));
                 }
                 list.add(widget);
             }
             menu = WidgetFactory.getPopupFromButtons(list,"Popup:"+getName());
             menu.setParent(this);
+            List children = menu.getChildWidgets();
+            if (children != null) {
+                for (Iterator cit = children.iterator(); cit.hasNext();) {
+                    Widget cw = (Widget)cit.next();
+                    cw.addNyxListener(new UpdateButtonsListener(this, cw));
+                }
+            }
             addChildWidget(menu);
             table.addMouseListener(new PopupListener(this.menu));
         }
+        // we also add UpdateButtonsListener here..
         if (!childPopupsChecked) {
             childPopupsChecked = true;
             List list = getChildWidgets();
@@ -410,6 +420,7 @@ implements IContentWidget
                 for (Iterator it = getChildWidgets().iterator(); it.hasNext();) {
                     Widget cw = (Widget) it.next();
                     if (cw instanceof MenuItem) {
+                        cw.addNyxListener(new UpdateButtonsListener(this, cw));
                         cw.setParent(menu);
                         menu.addChildWidget(cw);
                     }
@@ -438,7 +449,9 @@ implements IContentWidget
     public void setContent(List list) {
         contentChanged = true;
         this.content = list;
-        refresh();
+        if (initialized) {
+            refresh();
+        }
     }
     
     /**
@@ -449,19 +462,32 @@ implements IContentWidget
         return this.table;
     }
     
-    public class SelectionListener implements ListSelectionListener {
-        /**
-         * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
-         */
-        public void valueChanged(ListSelectionEvent e) {
-            refreshUpdateButtons();
-        }
-    }
     /**
      * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
      */
     public void addNyxListener(NyxListener listener) {
         // TODO
+    }
+
+    /**
+     * Sets the current selected value in the table.
+     * @see org.xulux.nyx.gui.Widget#setValue(java.lang.Object)
+     */
+    public void setValue(Object value) {
+        this.previousValue = getGuiValue();
+        initialize();
+        int index = content.indexOf(value);
+        if (index != -1) {
+            // select the row found
+            table.setRowSelectionInterval(index,index);
+        }
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#getValue()
+     */
+    public Object getValue() {
+        return getGuiValue();
     }
 
 }

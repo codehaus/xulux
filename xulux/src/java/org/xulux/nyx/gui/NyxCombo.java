@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
+ $Id: NyxCombo.java,v 1.10 2003-08-09 00:09:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.10 2003-08-09 00:09:06 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 implements IContentWidget
@@ -258,7 +258,11 @@ implements IContentWidget
     {
         setValue(object, true);
     }
-    
+    /**
+     * TODO: Provide some tests to prove if this stuff actually works!
+     * @param object
+     * @param refresh
+     */    
     public void setValue(Object object, boolean refresh) {
         if (getField() == null) {
             this.previousValue = this.value;
@@ -266,11 +270,15 @@ implements IContentWidget
         } else {
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             IField field = map.getField(getField());
-            Object currentValue =  field.getValue(getPart().getBean());
-            if (currentValue != null && currentValue != object) {
-                this.previousValue = currentValue;
-                field.setValue(getPart().getBean(),object);
-                this.value = object;
+            if (field != null) {
+                Object currentValue =  field.getValue(getPart().getBean());
+                if (currentValue != null ) {
+                    this.previousValue = currentValue;
+                }
+                if (currentValue != object) {
+                    field.setValue(getPart().getBean(),object);
+                    this.value = object;
+                }
             }
             if (this.value == null) {
                 this.value = object;

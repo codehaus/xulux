@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.11 2003-08-07 16:41:14 mvdb Exp $
+ $Id: Button.java,v 1.12 2003-08-09 00:09:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,8 @@ import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -65,7 +67,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.11 2003-08-07 16:41:14 mvdb Exp $
+ * @version $Id: Button.java,v 1.12 2003-08-09 00:09:05 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
@@ -219,6 +221,18 @@ public class Button extends SwingWidget
             button.removeFocusListener(focusListener);
         }
         focusListener = null;
+        if (listenerList != null) {
+            for (Iterator it = listenerList.iterator(); it.hasNext();) {
+                Object l = it.next();
+                // weird swing stuff. Why not have an addListener and
+                // just a removelistener ???
+                if (l instanceof ActionListener) {
+                    button.removeActionListener((ActionListener)l);
+                } else if (l instanceof FocusListener) {
+                    button.removeFocusListener((FocusListener)l);
+                }
+            }
+        }
         removeAllRules();
         button.setVisible(false);
         if (container != null)
@@ -257,9 +271,15 @@ public class Button extends SwingWidget
     public void addNyxListener(NyxListener listener) {
         if (listener instanceof ActionListener) {
             if (listenerList == null) {
-                listenerList.add(listener);
+                listenerList = new ArrayList();
             }
-            this.button.addActionListener((ActionListener)listener);
+            listenerList.add(listener);
+            initialize();
+            if (listener instanceof ActionListener) {
+                this.button.addActionListener((ActionListener)listener);
+            } else if (listener instanceof FocusListener) {
+                button.addFocusListener((FocusListener)listener);
+            }
         }
     }
 
