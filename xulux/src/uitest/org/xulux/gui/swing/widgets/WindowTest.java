@@ -1,5 +1,5 @@
 /*
- $Id: WindowTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: WindowTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.gui.Widget;
  * Testcase for an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: WindowTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class WindowTest extends TestCase {
 
@@ -83,7 +83,7 @@ public class WindowTest extends TestCase {
      * Test a simple window
      */
     public void testSimpleWindow() {
-        String xml = "org/xulux/nyx/gui/swing/widgets/WindowTest1.xml";
+        String xml = "org/xulux/gui/swing/widgets/WindowTest1.xml";
         //        ((SimpleLog)LogFactory.getLog(NyxWindowListener.class)).setLevel(SimpleLog.LOG_LEVEL_TRACE);
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(null, stream);

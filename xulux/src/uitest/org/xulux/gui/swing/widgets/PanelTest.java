@@ -1,5 +1,5 @@
 /*
- $Id: PanelTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: PanelTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -58,7 +58,7 @@ import org.xulux.gui.PartCreator;
  * Tests the panel. This is a visual test btw..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PanelTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: PanelTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class PanelTest extends TestCase {
 
@@ -83,7 +83,7 @@ public class PanelTest extends TestCase {
      */
     public void testPanel() {
         PersonBean bean = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/swing/widgets/PanelTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/PanelTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(bean, stream);
         part.activate();

@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
-<!-- $Id: EntryComboTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<!-- $Id: EntryComboTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
 <part name="PersonBeanForm" prefix="Person">
   <rules>
-    <rule>org.xulux.nyx.gui.rules.MainEntryComboRule</rule>
+    <rule>org.xulux.gui.rules.MainEntryComboRule</rule>
   </rules>
   <field type="window" name="Window">
     <title>EntryComboTest</title>
     <icon>resources/Car.ico</icon>
-    <size>300,300</size>
-    <autosize>true</autosize>
+    <size>auto</size>
 	  <field type="label" name="Label:PersonList">
 	    <text>Person:</text>
 	    <size>120,21</size>
@@ -17,7 +16,7 @@
 	  <field type="combo" name="PersonList">
 	    <combofields>fullname</combofields>
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.EntryComboPersonListRule</rule>
+	      <rule>org.xulux.gui.rules.EntryComboPersonListRule</rule>
 	    </rules>
 	    <size>250,21</size>
 	    <position>125,10</position>
@@ -34,7 +33,7 @@
 	  <field type="entry" name="PersonEntry">
 	    <combofields>fullname</combofields>
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.EntryComboPersonEntryRule</rule>
+	      <rule>org.xulux.gui.rules.EntryComboPersonEntryRule</rule>
 	    </rules>
 	    <size>250,21</size>
 	    <position>125,40</position>

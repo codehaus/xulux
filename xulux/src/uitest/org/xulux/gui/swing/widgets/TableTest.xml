@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: TableTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<!-- $Id: TableTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
 <part name="LabelTestForm" prefix="Person">
   <field type="window" name="Window">
     <title>TableTest</title>
@@ -39,7 +39,7 @@
       <size>125,31</size>
       <text>Set Content</text>
       <rules>
-        <rule>org.xulux.nyx.gui.rules.TableContentRule</rule>
+        <rule>org.xulux.gui.rules.TableContentRule</rule>
       </rules>
     </field>
   </field>

@@ -1,5 +1,5 @@
 /*
- $Id: WindowWithCancelButtonTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: WindowWithCancelButtonTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -60,7 +60,7 @@ import org.xulux.gui.Widget;
  * Testcase for an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowWithCancelButtonTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: WindowWithCancelButtonTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class WindowWithCancelButtonTest extends TestCase {
 
@@ -84,7 +84,7 @@ public class WindowWithCancelButtonTest extends TestCase {
      * Test the simple window
      */
     public void testSimpleWindow() {
-        String xml = "org/xulux/nyx/gui/swing/widgets/WindowWithCancelButtonTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/WindowWithCancelButtonTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(null, stream);
         ApplicationContext.getInstance().register(part, true);

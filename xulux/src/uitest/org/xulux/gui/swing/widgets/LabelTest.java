@@ -1,5 +1,5 @@
 /*
- $Id: LabelTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: LabelTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -58,7 +58,7 @@ import junit.framework.TestSuite;
  * Test for the label.
  *
  * @author <a href="mailto:marti@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LabelTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: LabelTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class LabelTest extends TestCase {
 
@@ -83,7 +83,7 @@ public class LabelTest extends TestCase {
      */
     public void testLabel() {
         PersonBean bean = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/swing/widgets/LabelTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/LabelTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(bean, stream);
         part.activate();

@@ -1,5 +1,5 @@
 /*
- $Id: RadioButtonTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: RadioButtonTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -58,7 +58,7 @@ import org.xulux.gui.PartCreator;
  * Testcase for a radiobutton
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButtonTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: RadioButtonTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class RadioButtonTest extends TestCase {
 
@@ -82,7 +82,7 @@ public class RadioButtonTest extends TestCase {
      * Test the checkbox
      */
     public void testCheckBox() {
-        String xml = "org/xulux/nyx/gui/swing/widgets/RadioButtonTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/RadioButtonTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         RadioButtonBean bean = new RadioButtonBean();
         bean.setBar(true);

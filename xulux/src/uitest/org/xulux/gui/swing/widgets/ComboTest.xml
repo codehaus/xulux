@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<!-- $Id: ComboTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<!-- $Id: ComboTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
 <part name="PersonBeanForm" prefix="Person">
   <rules>
-    <rule>org.xulux.nyx.gui.rules.MainComboRule</rule>
+    <rule>org.xulux.gui.rules.MainComboRule</rule>
   </rules>
   <field type="window" name="Window">
     <title>ComboTest</title>
@@ -17,7 +17,7 @@
 	  <field type="combo" name="3PersonList">
 	    <combofields>fullname</combofields>
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.PersonListRule</rule>
+	      <rule>org.xulux.gui.rules.PersonListRule</rule>
 	    </rules>
 	    <size>250,21</size>
 	    <position>125,10</position>
@@ -34,7 +34,7 @@
 	  <field type="combo" name="3PersonListWithNotSelectedValue">
 	    <combofields>fullname</combofields>
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.PersonListRule</rule>
+	      <rule>org.xulux.gui.rules.PersonListRule</rule>
 	    </rules>
 	    <size>250,21</size>
 	    <position>125,40</position>
@@ -51,7 +51,7 @@
 	  <field type="combo" name="1PersonList">
 	    <combofields>fullname</combofields>
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.PersonListRule</rule>
+	      <rule>org.xulux.gui.rules.PersonListRule</rule>
 	    </rules>
 	    <size>250,21</size>
 	    <position>125,70</position>
@@ -68,7 +68,7 @@
 	  <field type="combo" name="1PersonListWithNotSelectedValue">
 	    <combofields>fullname</combofields>
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.PersonListRule</rule>
+	      <rule>org.xulux.gui.rules.PersonListRule</rule>
 	    </rules>
 	    <size>250,21</size>
 	    <position>125,100</position>
@@ -98,7 +98,7 @@
 	  </field>
 	  <field type="combo" name="FieldContent">
 	    <combofields>fullname</combofields>
-	    <content type="field">org.xulux.nyx.gui.swing.widgets.ComboTest.getValues</content>
+	    <content type="field">org.xulux.gui.swing.widgets.ComboTest.getValues</content>
 	    <size>250,21</size>
 	    <position>125,160</position>
 	    <required>true</required>

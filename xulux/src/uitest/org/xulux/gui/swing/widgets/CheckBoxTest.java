@@ -1,5 +1,5 @@
 /*
- $Id: CheckBoxTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: CheckBoxTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.gui.PartCreator;
  * Testcase for an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBoxTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: CheckBoxTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class CheckBoxTest extends TestCase {
 
@@ -83,7 +83,7 @@ public class CheckBoxTest extends TestCase {
      * Test the checkbox
      */
     public void testCheckBox() {
-        String xml = "org/xulux/nyx/gui/swing/widgets/CheckBoxTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/CheckBoxTest.xml";
         //        ((SimpleLog)LogFactory.getLog(NyxWindowListener.class)).setLevel(SimpleLog.LOG_LEVEL_TRACE);
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         CheckBoxBean bean = new CheckBoxBean();

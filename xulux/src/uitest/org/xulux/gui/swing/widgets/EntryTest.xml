@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<!-- $Id: EntryTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<!-- $Id: EntryTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
 <part name="PersonBeanForm" prefix="Person">
   <rules>
-    <rule>org.xulux.nyx.gui.rules.MainEntryRule</rule>
+    <rule>org.xulux.gui.rules.MainEntryRule</rule>
   </rules>
   <field type="window" name="Window">
     <title>EntryTest</title>
@@ -16,7 +16,7 @@
 	  </field>
 	  <field type="entry" name="PersonBeanEntry" use="fullname">
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.PersonEntryRule</rule>
+	      <rule>org.xulux.gui.rules.PersonEntryRule</rule>
 	    </rules>
 	    <size>250,21</size>
 	    <position>125,10</position>
@@ -32,7 +32,7 @@
 	  </field>
 	  <field type="entry" name="String">
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.PersonEntryRule</rule>
+	      <rule>org.xulux.gui.rules.PersonEntryRule</rule>
 	    </rules>
 	    <size>250,21</size>
 	    <position>125,40</position>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: RadioButtonTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<!-- $Id: RadioButtonTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
 <part name="RadioButtonForm" prefix="RadioButtonBean">
   <field type="window" name="Window">
     <title>RadioButtonTest</title>
@@ -18,7 +18,7 @@
       </field>
       <field type="label" name="label:foo:value">
         <rules>
-          <rule>org.xulux.nyx.gui.rules.RadioButtonTestRule</rule>
+          <rule>org.xulux.gui.rules.RadioButtonTestRule</rule>
         </rules>
         <size>140,21</size>
         <position>60,0</position>
@@ -31,7 +31,7 @@
       </field>
       <field type="label" name="label:bar:value">
         <rules>
-          <rule>org.xulux.nyx.gui.rules.RadioButtonTestRule</rule>
+          <rule>org.xulux.gui.rules.RadioButtonTestRule</rule>
         </rules>
         <size>140,21</size>
         <position>60,20</position>
@@ -104,7 +104,7 @@
           <size>200,21</size>
           <position>10,0</position>
           <rules>
-            <rule>org.xulux.nyx.gui.rules.RadioButtonTestRule</rule>
+            <rule>org.xulux.gui.rules.RadioButtonTestRule</rule>
           </rules>
         </field>
         <field type="radiobutton" name="male" use="male">

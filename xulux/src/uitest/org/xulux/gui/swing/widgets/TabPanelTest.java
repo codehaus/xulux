@@ -1,5 +1,5 @@
 /*
- $Id: TabPanelTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: TabPanelTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -56,12 +56,12 @@ import junit.framework.TestCase;
  * A test for tabpanels.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanelTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: TabPanelTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class TabPanelTest extends TestCase {
 
     /**
-     * Constructor for TabPenelTest.
+     * Constructor for TabPanelTest.
      * @param name the name of the test
      */
     public TabPanelTest(String name) {
@@ -73,7 +73,7 @@ public class TabPanelTest extends TestCase {
      *
      */
     public void testTabs() {
-        String xml = "org/xulux/nyx/gui/swing/widgets/TabPanelTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/TabPanelTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(null, stream);
         part.activate();

@@ -1,5 +1,5 @@
 /*
- $Id: TableTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: TableTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -60,7 +60,7 @@ import junit.framework.TestSuite;
  * We keep it simple for now.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TableTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: TableTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class TableTest extends TestCase {
 
@@ -92,7 +92,7 @@ public class TableTest extends TestCase {
     public void showSimpleTable() {
         PersonCollection persons = new PersonCollection();
         persons.setPersonList(getData());
-        String xml = "org/xulux/nyx/gui/swing/widgets/TableTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/TableTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(persons, stream);
         part.activate();

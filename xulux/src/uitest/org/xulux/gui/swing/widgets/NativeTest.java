@@ -1,5 +1,5 @@
 /*
- $Id: NativeTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: NativeTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import junit.framework.TestSuite;
  * on top of nyx.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: NativeTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class NativeTest extends TestCase {
 
@@ -85,7 +85,7 @@ public class NativeTest extends TestCase {
      */
     public void testOnNyxPanel() {
         PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/swing/widgets/NativeWithPanelTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/NativeWithPanelTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(person, stream);
         part.activate();

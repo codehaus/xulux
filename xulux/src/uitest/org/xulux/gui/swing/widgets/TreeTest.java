@@ -1,5 +1,5 @@
 /*
- $Id: TreeTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: TreeTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,14 +68,14 @@ import org.xulux.gui.PartCreator;
  * We keep it simple for now.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: TreeTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class TreeTest extends TestCase {
 
     /**
      * the xml
      */
-    public static String xml = "org/xulux/nyx/gui/swing/widgets/TreeTest.xml";
+    public static String xml = "org/xulux/gui/swing/widgets/TreeTest.xml";
 
     /**
      * Constructor for TableTest.

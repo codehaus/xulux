@@ -1,5 +1,5 @@
 /*
- $Id: EntryComboTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ $Id: EntryComboTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -58,7 +58,7 @@ import org.xulux.gui.PartCreator;
  * Tests combination of entry and combo
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: EntryComboTest.java,v 1.1 2003-12-18 00:17:29 mvdb Exp $
+ * @version $Id: EntryComboTest.java,v 1.2 2003-12-22 13:05:13 mvdb Exp $
  */
 public class EntryComboTest extends TestCase {
 
@@ -83,7 +83,7 @@ public class EntryComboTest extends TestCase {
      */
     public void testSimpleEntryCombo() {
         PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/swing/widgets/EntryComboTest.xml";
+        String xml = "org/xulux/gui/swing/widgets/EntryComboTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(person, stream);
         part.activate();

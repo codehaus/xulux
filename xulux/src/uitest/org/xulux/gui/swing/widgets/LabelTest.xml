@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: LabelTest.xml,v 1.1 2003-12-18 00:17:29 mvdb Exp $ -->
+<!-- $Id: LabelTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
 <part name="LabelTestForm" prefix="Person">
   <field type="window" name="Window">
     <title>LabelTest</title>
@@ -17,7 +17,7 @@
 	    <size>120,21</size>
 	    <position>120,10</position>
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.LabelRule</rule>
+	      <rule>org.xulux.gui.rules.LabelRule</rule>
 	    </rules>
 	  </field>
 	  <field type="label" name="Label:Variable">
@@ -34,7 +34,7 @@
 	    <size>60,21</size>
 	    <position>250,40</position>
 	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.LabelRule</rule>
+	      <rule>org.xulux.gui.rules.LabelRule</rule>
 	    </rules>
 	  </field>
 	  
@@ -67,7 +67,7 @@
 	     <text>Disable</text>
 	     <position>240,90</position>
 	     <rules>
-	      <rule>org.xulux.nyx.gui.rules.LabelRule</rule>
+	      <rule>org.xulux.gui.rules.LabelRule</rule>
 	     </rules>
 	  </field>
   </field>
