@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.18 2003-07-10 22:40:21 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.19 2003-07-14 01:39:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.18 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.19 2003-07-14 01:39:39 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -137,16 +137,26 @@ public class ApplicationPartHandler extends DefaultHandler
     private boolean processListener = false;
     private boolean processingNative = false;
     private boolean processingTranslation = false;
+    private boolean processIncludePart = false;
+    
+    /**
+     * Specifies if normal handling should not be
+     * done in case of including other xml documents
+     * within the current one.
+     */
+    private boolean ignorePart = false;
     
     private String currentqName;
     private String currentValue;
     private String lastField;
+    
+    private static SAXParserFactory factory;
 
     /**
      * Contains the fields if there are more than 
      * where field.get(0) is the parent field definition
      */
-    Stack stack;
+    private Stack stack;
 
     /**
      * Constructor for ApplicationPartHandler.
@@ -173,12 +183,13 @@ public class ApplicationPartHandler extends DefaultHandler
 
     public void read(InputStream stream)
     {
-        SAXParser saxParser = null;
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        factory.setValidating(false);
+        if (factory == null) {
+            factory = SAXParserFactory.newInstance();
+            factory.setValidating(false);
+        }
         try
         {
-            saxParser = factory.newSAXParser();
+            SAXParser saxParser = factory.newSAXParser();
             try
             {
                 saxParser.parse(stream, this);
@@ -192,6 +203,10 @@ public class ApplicationPartHandler extends DefaultHandler
                     log.fatal("Exception during parsing of part xml",se.getException());
                 }
             }
+            finally {
+                // and clean up..
+                saxParser = null;
+            }
         }
         catch (Exception e)
         {
@@ -200,9 +215,6 @@ public class ApplicationPartHandler extends DefaultHandler
                 log.fatal("Exception during paring of part xml",e);
             }
         }
-        // and clean up..
-        saxParser = null;
-        factory = null;
     }
 
     /**
@@ -260,6 +272,9 @@ public class ApplicationPartHandler extends DefaultHandler
         {
             processListener = true;
         }
+        else if (qName.equals(INCLUDE_ELEMENT)) {
+            processIncludePart = true;
+        }
         else
         {
             currentqName = qName;
@@ -276,6 +291,8 @@ public class ApplicationPartHandler extends DefaultHandler
         throws SAXException
     {
         if (currentValue != null) {
+            // trim it..
+            currentValue = currentValue.trim();
             currentValue = Translator.translate(part.getTranslationList(),currentValue);
         }
         qName = qName.toLowerCase();
@@ -423,6 +440,22 @@ public class ApplicationPartHandler extends DefaultHandler
             }
             currentValue = null;
         }
+        else if (qName.equals(INCLUDE_ELEMENT)) {
+            // start a new ApplicationPartHandler
+            // to parse the new part..
+            try {
+                if (log.isDebugEnabled()) {
+                    log.debug("Starting processing of include "+currentValue);                }
+                ApplicationPartHandler handler = new ApplicationPartHandler(this.part);
+                InputStream stream = getClass().getClassLoader().getResourceAsStream(currentValue.trim());
+                handler.setStack(this.stack);
+                handler.read(stream);
+            }catch(Exception e) {
+                log.warn("Exception during processing of includePart",e);
+            }
+            currentValue = null;
+            
+        }
         else if (processUnknown && currentqName != null)
         {
             processUnknown = false;
@@ -432,7 +465,15 @@ public class ApplicationPartHandler extends DefaultHandler
             currentValue = null;
         }
     }
-
+    
+    public void setStack(Stack stack) {
+        this.stack = stack;
+    }
+    
+    public void ignorePart(boolean ignore) {
+        this.ignorePart = true;
+    }
+    
     /**
      * Creates the objects and pushes it on the stack
      * @param atts
@@ -476,7 +517,8 @@ public class ApplicationPartHandler extends DefaultHandler
     {
         if (processText || (processPosition || processSize) || 
             processValue || (processUnknown && currentqName!=null) ||
-            processRule || processListener || processingTranslation)
+            processRule || processListener || processingTranslation ||
+            processIncludePart)
         {
             if (currentValue == null)
             {
@@ -497,10 +539,12 @@ public class ApplicationPartHandler extends DefaultHandler
             IRule rule = (IRule)clazz.newInstance();
             if (widget != null)
             {
+                System.out.println("Registring rule with widget");
                 widget.registerRule(rule);
             }
             else
             {
+                System.out.println("Not Registring rule with widget");
                 part.registerRule(rule);
             }
         }
@@ -527,7 +571,9 @@ public class ApplicationPartHandler extends DefaultHandler
      */
     public void endDocument() throws SAXException
     {
-        ApplicationContext.getInstance().register(this.part, isApplication);
+        if (ignorePart) {
+            ApplicationContext.getInstance().register(this.part, isApplication);
+        }
     }
 
 }

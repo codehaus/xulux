@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtils.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
+ $Id: ClassLoaderUtils.java,v 1.2 2003-07-14 01:39:40 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import org.apache.commons.logging.LogFactory;
  * This util class contains classloader utils
  * so we can do actual code reuse. 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.1 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.2 2003-07-14 01:39:40 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -69,6 +69,7 @@ public class ClassLoaderUtils {
      * @return an object from the specified classString or null when errors occur
      */
     public static Object getObjectFromClassString(String classString) {
+        System.out.println("classString : "+classString);
         Class clazz;
         try {
             clazz = Class.forName(classString);
@@ -85,16 +86,19 @@ public class ClassLoaderUtils {
      * @return an object from the specified class or null when errors occur
      */
     public static Object getObjectFromClass(Class clazz) {
+        if (clazz == null) {
+            return null;
+        }
         Object object;
         try {
             object = clazz.newInstance();
             return object;
         }
         catch (InstantiationException e) {
-            log.warn("Cannot instantiate class", e);
+            log.warn("Cannot instantiate class "+clazz.getName());
         }
         catch (IllegalAccessException e) {
-            log.warn("Cannot access class ",e);
+            log.warn("Cannot access class "+clazz.getName());
         }
         return null;
         

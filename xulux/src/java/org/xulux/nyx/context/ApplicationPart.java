@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.40 2003-07-10 22:40:21 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.41 2003-07-14 01:39:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -80,7 +80,7 @@ import org.xulux.nyx.utils.Translation;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.40 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.41 2003-07-14 01:39:39 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -740,6 +740,10 @@ public class ApplicationPart
             catch (Exception e)
             {
             }
+        } else {
+            // we try the one in GuiDefaults (if used that is..)
+            listener = ApplicationContext.getInstance().getFieldEventHandler(null);
+            listener.setWidget(widget);
         }
         return listener;
     }

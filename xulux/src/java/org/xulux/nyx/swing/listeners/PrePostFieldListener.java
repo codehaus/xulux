@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.14 2003-07-11 00:06:34 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.15 2003-07-14 01:39:40 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.widgets.Entry;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.14 2003-07-11 00:06:34 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.15 2003-07-14 01:39:40 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -70,6 +70,9 @@ implements FocusListener, ActionListener, ItemListener
     
     private static Log log = LogFactory.getLog(PrePostFieldListener.class);
     
+    public PrePostFieldListener() {
+        super();
+    }
     /**
      * Constructor for PrePostFieldListener.
      */

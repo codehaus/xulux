@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.10 2003-07-10 22:40:21 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.11 2003-07-14 01:39:40 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.context.ApplicationContext;
  * Case insensitive processing of the guidefaults.
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.10 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.11 2003-07-14 01:39:40 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
@@ -70,6 +70,7 @@ public class GuiDefaultsHandler extends DefaultHandler
     private static final String ELEMENT_WIDGETS = "widgets";
     private static final String ELEMENT_PARENTWIDGETHANDLER = "parentwidgethandler";
     private static final String ELEMENT_NATIVEWIDGETHANDLER = "nativewidgethandler";
+    private static final String ELEMENT_FIELDEVENTHANDLER = "fieldeventhandler";
     private static final String ELEMENT_WIDGET = "widget";
     private static final String ELEMENT_GUI = "gui";
     private static final String ELEMENT_ROOT = "guidefaults";
@@ -142,7 +143,7 @@ public class GuiDefaultsHandler extends DefaultHandler
         }
         else if (qName.equals(ELEMENT_PARENTWIDGETHANDLER))
         {
-            String type = atts.getValue(ATTRIBUTE_TYPE);
+            String type = getType(atts);
             if (type == null) {
                 type = ApplicationContext.getInstance().getDefaultWidgetType();
             }
@@ -151,12 +152,14 @@ public class GuiDefaultsHandler extends DefaultHandler
         }
         else if (qName.equals(ELEMENT_NATIVEWIDGETHANDLER)) 
         {
-            String type = atts.getValue(ATTRIBUTE_TYPE);
-            if (type == null) {
-                type = ApplicationContext.getInstance().getDefaultWidgetType();
-            }
+            String type = getType(atts);
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             ApplicationContext.getInstance().registerNativeWidgetHandler(type, clazz);
+        }
+        else if (qName.equals(ELEMENT_FIELDEVENTHANDLER)) {
+            String type = getType(atts);
+            String clazz = atts.getValue(ATTRIBUTE_CLASS);
+            ApplicationContext.getInstance().registerFieldEventHandler(type, clazz);
         }
         else if (qName.equals(ELEMENT_WIDGETS))
         {
@@ -166,9 +169,23 @@ public class GuiDefaultsHandler extends DefaultHandler
         {
             String name = atts.getValue(ATTRIBUTE_NAME).toLowerCase();
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
-            String type = atts.getValue(ATTRIBUTE_TYPE);
+            String type = getType(atts);
             ApplicationContext.getInstance().registerWidget(name, clazz, type);
         }
+    }
+    
+    /**
+     * Convenient method
+     * 
+     * @param atts
+     * @return the type or the default type
+     */
+    private String getType(Attributes atts) {
+        String type = atts.getValue(ATTRIBUTE_TYPE);
+        if (type == null) {
+            type = ApplicationContext.getInstance().getDefaultWidgetType();
+        }
+        return type;
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.26 2003-07-10 22:40:21 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.27 2003-07-14 01:39:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,6 +56,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.INativeWidgetHandler;
 import org.xulux.nyx.gui.IParentWidgetHandler;
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.guidefaults.GuiDefaultsHandler;
 import org.xulux.nyx.rules.IRule;
@@ -66,7 +67,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.26 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.27 2003-07-14 01:39:39 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -108,6 +109,12 @@ public class ApplicationContext
      * They key is the type
      */
     private HashMap nativeWidgetHandlerMap;
+    
+    /**
+     * Map of the fieldEventHandlers.
+     * The key is the type
+     */
+    private HashMap fieldEventHandlerMap;
     
     /** 
      * The currently registered rules
@@ -485,8 +492,45 @@ public class ApplicationContext
         }
         catch (Exception e)
         {
-            log.warn("Could not find "+clazz+" for nativeWidgetHandler named for "+type);
+            log.warn("Could not find the nativeWidgetHandler "+clazz+" for type "+type);
         }
+    }
+    
+    public void registerFieldEventHandler(String type, String clazz) {
+        if (fieldEventHandlerMap == null) {
+            fieldEventHandlerMap = new HashMap();
+        }
+        try {
+            if (type == null) {
+                type = defaultType;
+            }
+            Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
+            if (!(object instanceof NyxListener)) {
+                if (log.isWarnEnabled()) {
+                    log.warn(clazz+" is not an instance of NyxListener");
+                }
+            }
+            fieldEventHandlerMap.put(type,object.getClass());
+        }
+        catch(Exception e) {
+            log.warn("Could not find the fieldEventHandler "+clazz+" for type "+type);
+        }
+    }
+    
+    /**
+     * Returns a new instance of the event Handler 
+     *  
+     * @param type
+     * @return the fieldEventHandler.
+     */
+    public NyxListener getFieldEventHandler(String type) {
+        if (fieldEventHandlerMap != null) {
+            if (type == null) {
+                type = defaultType;
+            }
+            return (NyxListener) ClassLoaderUtils.getObjectFromClass((Class)fieldEventHandlerMap.get(type));
+        }
+        return null;
     }
     
     /**

@@ -1,7 +1,7 @@
 /*
- $Id: NyxListener.java,v 1.1 2003-06-17 12:53:29 mvdb Exp $
+ $Id: NyxListener.java,v 1.2 2003-07-14 01:39:39 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -53,7 +53,7 @@ import org.xulux.nyx.context.impl.WidgetRequestImpl;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.1 2003-06-17 12:53:29 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.2 2003-07-14 01:39:39 mvdb Exp $
  */
 public abstract class NyxListener
 {

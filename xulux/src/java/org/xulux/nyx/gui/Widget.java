@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.26 2003-07-10 22:40:21 mvdb Exp $
+ $Id: Widget.java,v 1.27 2003-07-14 01:39:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.26 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: Widget.java,v 1.27 2003-07-14 01:39:39 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -265,6 +265,10 @@ public abstract class Widget implements Serializable
         rectangle.setSize(width, height);
     }
     
+    /**
+     * 
+     * @return the rectangle for the widget
+     */
     public WidgetRectangle getRectangle()
     {
         if (this.rectangle == null)
@@ -287,7 +291,12 @@ public abstract class Widget implements Serializable
     {
         return field;
     }
-        
+    
+    /**
+     * Registers a rule in the widget
+     * 
+     * @param rule
+     */
     public void registerRule(IRule rule)
     {
         if (rules == null)
@@ -297,13 +306,23 @@ public abstract class Widget implements Serializable
         rules.add(rule);
     }
     
+    /**
+     * 
+     * @return a list with the rules for that widget
+     */
     public ArrayList getRules()
     {
         return rules;
     }
     
     /** 
-     * To make equals checking a bit easier
+     * To make equals checking a bit easier.
+     * This checks to see if the passed in object
+     * is the same widget as this one, based on naming
+     * If you pass in a string with the correct name,
+     * it will return true, else there must be an exact
+     * object match.
+     * 
      * @param object (normally a string)
      */
     public boolean equals(Object object)
@@ -323,13 +342,14 @@ public abstract class Widget implements Serializable
      * Override this method when the widget can 
      * contains child widgets.
      * You don't have to override this one when
-     * the widget can be a root widgets, sicne that
+     * the widget can be a root widgets, since that
      * assumes it can contain children.
      * 
      * @return
      */
     public boolean canContainChildren()
     {
+        // prevents the override (see javadoc)
         return canBeRootWidget();
     }
     
@@ -370,23 +390,39 @@ public abstract class Widget implements Serializable
     }
     
     /** 
-     * Doesn't do anything
+     * Doesn't do anything by default.
+     * Override this when there canHaveChildren
+     * returns true.
+     * 
      */
     public void addChildWidget(Widget widget)
     {
         return;
     }
     
+    /**
+     * 
+     * @return the list of childwidgets. Defaults to null
+     */
     public ArrayList getChildWidgets()
     {
         return null;
     }
     
+    /**
+     * Set the name of the widget.
+     * 
+     * @param name
+     */
     public void setName(String name)
     {
         this.name = name;
     }
     
+    /**
+     * 
+     * @return the name of the widget
+     */
     public String getName()
     {
         return this.name;
@@ -466,6 +502,11 @@ public abstract class Widget implements Serializable
         this.field = field;
     }
     
+    /**
+     * Removes all rules from this widget.
+     * Normally only used when cleaning up
+     * after us.
+     */
     protected void removeAllRules()
     {
         if (rules != null)
@@ -475,6 +516,7 @@ public abstract class Widget implements Serializable
     }
 
     /**
+     * Defaults to getName()
      * @see java.lang.Object#toString()
      */
     public String toString()
@@ -482,6 +524,10 @@ public abstract class Widget implements Serializable
         return getName();
     }
     
+    /**
+     * 
+     * @return the value associated with this widget
+     */
     public Object getValue()
     {
         return this.value;
@@ -614,6 +660,14 @@ public abstract class Widget implements Serializable
         return dependencies;
     }
     
+    /**
+     * Specifies if the widget is currently
+     * refreshing. Check this to prevent
+     * infinite loops when another field
+     * is calling this widget again.
+     * 
+     * @return true when currently refreshing and false when not
+     */
     public boolean isRefreshing()
     {
         return isRefreshing;
