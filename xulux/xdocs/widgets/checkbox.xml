@@ -21,9 +21,23 @@
     <table>
       <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
       <tr>
-        <td>xxx</td>
+        <td>required-background-color</td>
         <td>swing</td>
-        <td>xxx</td>
+        <td>This color will only be set when the field is required
+            and not disabled. If it is disabled it will uset the
+            disabled color</td>
+      </tr>
+      <tr>
+        <td>disabled-background-color</td>
+        <td>swing</td>
+        <td>This will always be set when the entry is disabled</td>
+      </tr>
+      <tr>
+        <td>default-background-color</td>
+        <td>swing</td>
+        <td>This color will be used as the default background and
+            when the field is not disabled and not required
+        </td>
       </tr>
     </table>
   </subsection>
