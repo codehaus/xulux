@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetTest.java,v 1.4 2004-05-11 15:26:03 mvdb Exp $
+   $Id: WidgetTest.java,v 1.5 2004-05-24 18:12:35 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.xulux.swing.widgets.Entry;
  * Test of widget class.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetTest.java,v 1.4 2004-05-11 15:26:03 mvdb Exp $
+ * @version $Id: WidgetTest.java,v 1.5 2004-05-24 18:12:35 mvdb Exp $
  */
 public class WidgetTest extends TestCase {
 
@@ -106,6 +106,29 @@ public class WidgetTest extends TestCase {
         entry.processDestroy();
         assertEquals(1, destroyCallCount);
     }
+
+    public void testSetPosition() {
+        System.out.println("testSetPosition");
+        Widget widget = WidgetFactory.getWidget("label", "label");
+        assertEquals(0, widget.getRectangle().getX());
+        assertEquals(0, widget.getRectangle().getY());
+        widget.setPosition(10, 11);
+        assertEquals(10, widget.getRectangle().getX());
+        assertEquals(11, widget.getRectangle().getY());
+        assertEquals("10,11", widget.getProperty("position"));
+        widget.setProperty("position", "12,13");
+        assertEquals(12, widget.getRectangle().getX());
+        assertEquals(13, widget.getRectangle().getY());
+        assertEquals("12,13", widget.getProperty("position"));
+        widget.setProperty("position", null);
+        assertEquals(null, widget.getProperty("position"));
+        assertEquals(0, widget.getRectangle().getX());
+        assertEquals(0, widget.getRectangle().getY());
+        widget.setProperty("position", "a,b");
+        assertEquals(0, widget.getRectangle().getX());
+        assertEquals(0, widget.getRectangle().getY());
+    }
+
     public static int initCallCount = 0;
     public static int destroyCallCount = 0;
     

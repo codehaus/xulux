@@ -1,5 +1,5 @@
 /*
-   $Id: XYLayout.java,v 1.5 2004-05-10 14:05:50 mvdb Exp $
+   $Id: XYLayout.java,v 1.6 2004-05-24 18:12:34 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,7 +28,6 @@ import java.util.HashMap;
 
 import javax.swing.JComponent;
 
-import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.Widget;
 
 /**
@@ -41,17 +40,14 @@ import org.xulux.gui.Widget;
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.5 2004-05-10 14:05:50 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.6 2004-05-24 18:12:34 mvdb Exp $
  */
-public class XYLayout implements LayoutManager2, Serializable, IXuluxLayout {
+public class XYLayout extends SwingLayoutAbstract implements LayoutManager2, Serializable {
     /**
      * the map with widgets
      */
     protected HashMap map;
-    /**
-     * This is the widget that actually created the layout..
-     */
-    private Widget parentWidget;
+
     /**
      * Is this the first time the gui is layout?
      */
@@ -71,22 +67,6 @@ public class XYLayout implements LayoutManager2, Serializable, IXuluxLayout {
     public XYLayout(Widget parent) {
         map = new HashMap();
         setParent(parent);
-    }
-
-    /**
-     * Set the parent
-     * @param parent the parent widget
-     */
-    public void setParent(Widget parent) {
-        this.parentWidget = parent;
-    }
-
-    /**
-     *
-     * @return the current parent or null of none present
-     */
-    public Widget getParent() {
-        return this.parentWidget;
     }
 
     /**

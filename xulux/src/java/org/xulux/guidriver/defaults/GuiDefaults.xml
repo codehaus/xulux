@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-   $Id: GuiDefaults.xml,v 1.6 2004-05-11 14:58:06 mvdb Exp $
+   $Id: GuiDefaults.xml,v 1.7 2004-05-24 18:12:35 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,6 +28,8 @@
   <nyxToolkit type="swt" class="org.xulux.swt.util.SWTToolkit"/>
   <layouts>
     <layout name="xylayout" default="true" class="org.xulux.swing.layouts.XYLayout"/>
+    <layout name="box" class="org.xulux.swing.layouts.SwingBoxLayout"/>
+    <layout name="gridbag" class="org.xulux.swing.layouts.SwingGridBagLayout"/>
   </layouts>
   <widgets>
     <widget name="button" class="org.xulux.swing.widgets.Button"/>

@@ -1,5 +1,5 @@
 /*
-   $Id: CheckBoxTestRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+   $Id: CheckBoxTestRule.java,v 1.4 2004-05-24 18:12:34 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,7 +26,7 @@ import org.xulux.rules.Rule;
  * A rule to test setting of checkboxes and stuff..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBoxTestRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+ * @version $Id: CheckBoxTestRule.java,v 1.4 2004-05-24 18:12:34 mvdb Exp $
  */
 public class CheckBoxTestRule extends Rule {
 
@@ -56,6 +56,26 @@ public class CheckBoxTestRule extends Rule {
         }
         if (request.getWidget().getName().equals("strFoo")) {
             System.out.println("value strFoo: " + request.getValue());
+        }
+        if (request.getWidget().getName().equals("disableButton")) {
+            Widget widget = request.getWidget("disabled");
+            boolean enable = !widget.isEnabled();
+            if (enable) {
+                request.getWidget().setProperty("text", "Disable");
+            } else {
+                request.getWidget().setProperty("text", "Enable");
+            }
+            widget.setEnable(enable);
+        }
+        if (request.getWidget().getName().equals("hiddenButton")) {
+            Widget widget = request.getWidget("hidden");
+            boolean visible = !widget.isVisible();
+            if (visible) {
+                request.getWidget().setProperty("text", "Hide");
+            } else {
+                request.getWidget().setProperty("text", "UnHide");
+            }
+            widget.setVisible(visible);
         }
     }
 

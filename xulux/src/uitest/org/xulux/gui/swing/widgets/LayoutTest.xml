@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!-- 
+/*
+   $Id: LayoutTest.xml,v 1.1 2004-05-24 18:12:35 mvdb Exp $
+   
+   Copyright 2002-2004 The Xulux Project
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+-->
+<part name="LabelTestForm" prefix="Person">
+  <field type="window" name="Window">
+    <title>LayoutTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>auto</size>
+    <field type="tabpanel" name="TabPanel:Lab">
+      <size>600,400</size>    
+      <field type="tab" name="Tab:BoxLayout">
+        <size>600,400</size>
+        <title>BoxLayout</title>
+        <tip>The BoxLayout</tip>
+        <field type="panel" name="Panel:BoxLayout:y:">
+          <size>150,80</size>
+          <border>titled</border>
+          <border-title>BoxLayout Y Axis</border-title>
+          <layout>box</layout>
+          <layout-orientation>y</layout-orientation>
+          <field type="label" name="BoxLabel1y">
+            <size>200,50</size>
+            <text>Label 1</text>
+          </field>
+          <field type="label" name="BoxLabel2y">
+            <size>200,50</size>
+            <text>Label 2</text>
+          </field>
+          <field type="label" name="BoxLabel3y">
+            <size>200,50</size>
+            <text>Label 3</text>
+          </field>
+          <field type="label" name="BoxLabel4y">
+            <size>200,50</size>
+            <text>Label 4</text>
+          </field>
+        </field>
+        <field type="panel" name="Panel:BoxLayout:x">
+          <size>240,80</size>
+          <position>0,90</position>
+          <border>titled</border>
+          <border-title>BoxLayout X Axis</border-title>
+          <layout>box</layout>
+          <layout-orientation>x</layout-orientation>
+          <field type="label" name="BoxLabel1x">
+            <size>200,50</size>
+            <text>Label 1</text>
+          </field>
+          <field type="label" name="BoxLabel2x">
+            <size>200,50</size>
+            <text>Label 2</text>
+          </field>
+          <field type="label" name="BoxLabel3x">
+            <size>200,50</size>
+            <text>Label 3</text>
+          </field>
+          <field type="label" name="BoxLabel4x">
+            <size>200,50</size>
+            <text>Label 4</text>
+          </field>
+        </field>
+      </field>
+      <field type="tab" name="Tab:GridBagLayout">
+        <layout>gridbag</layout>
+        <size>600,400</size>
+        <title>GridBagLayout</title>
+        <tip>The GridBagLayout</tip>
+        <field type="label" name="GBLabel1">
+          <size>200,31</size>
+          <position>0,0</position>
+          <text>Label 1</text>
+        </field>
+        <field type="label" name="GBLabel2">
+          <size>200,31</size>
+          <position>1,0</position>
+          <text>Label 2</text>
+        </field>
+        <field type="label" name="GBLabel3">
+          <size>200,31</size>
+          <position>0,1</position>
+          <text>Label 3</text>
+        </field>
+        <field type="label" name="GBLabel4">
+          <size>200,31</size>
+          <position>2,0</position>
+          <text>Label 4</text>
+        </field>
+      </field>
+    </field>
+  </field>
+</part>

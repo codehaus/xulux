@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: CheckBoxTest.xml,v 1.2 2003-12-22 13:05:13 mvdb Exp $ -->
+<!-- $Id: CheckBoxTest.xml,v 1.3 2004-05-24 18:12:35 mvdb Exp $ -->
 <part name="CheckBoxForm" prefix="CheckBoxBean">
   <field type="window" name="Window">
     <title>CheckboxTest</title>
@@ -28,6 +28,33 @@
        <size>100,21</size>
        <position>10,100</position>
        <text>strBar</text>
+    </field>
+    <field type="checkbox" name="disabled">
+       <size>150,21</size>
+       <position>10,130</position>
+       <text>I am disabled</text>
+       <enabled>false</enabled>
+    </field>
+    <field type="button" name="disableButton">
+       <size>100,21</size>
+       <position>170,130</position>
+       <text>Enable</text>
+       <rules>
+         <rule>org.xulux.gui.rules.CheckBoxTestRule</rule>
+       </rules>
+    </field>
+    <field type="checkbox" name="hidden">
+       <size>150,21</size>
+       <position>10,160</position>
+       <text>I am visible</text>
+    </field>
+    <field type="button" name="hiddenButton">
+       <size>100,21</size>
+       <position>170,160</position>
+       <text>Hide</text>
+       <rules>
+         <rule>org.xulux.gui.rules.CheckBoxTestRule</rule>
+       </rules>
     </field>
   </field>
 </part>

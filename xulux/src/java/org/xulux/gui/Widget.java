@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.16 2004-05-17 22:58:06 mvdb Exp $
+   $Id: Widget.java,v 1.17 2004-05-24 18:12:35 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.16 2004-05-17 22:58:06 mvdb Exp $
+ * @version $Id: Widget.java,v 1.17 2004-05-24 18:12:35 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -264,6 +264,9 @@ public abstract class Widget implements Serializable
      */
     public void setPosition(int x, int y) {
         getRectangle().setPosition(x,y);
+        if (x != 0 && x != y) {
+          setLazyProperty("position", x+","+y);
+        }
     }
     /**
      * Sets the size of the current widget
@@ -540,8 +543,8 @@ public abstract class Widget implements Serializable
         } else if (key.equals("use")) {
             setField((String) value);
         } else if (key.equals("position")) {
-            int x = -1;
-            int y = -1;
+            int x = 0;
+            int y = 0;
             try {
                 StringTokenizer stn = new StringTokenizer((String)value, ",");
                 String xStr = stn.nextToken().trim();
@@ -554,7 +557,6 @@ public abstract class Widget implements Serializable
                     log.warn("Parsing error with property "+key+" with value " + value);
                     log.warn("Widget : " + this.getName());
                 }
-                return;
             }
             setPosition(x,y);
         } else if (key.equals("size")) {
@@ -583,7 +585,11 @@ public abstract class Widget implements Serializable
     }
     
     /**
-     * Set a property and call refresh manually..
+     * Set a property and call refresh manually.
+     * There is no logic in this method, so if you want
+     * to process "known" values, like position, call
+     * setProperty.
+     *
      * @param key the key
      * @param value the object
      */
