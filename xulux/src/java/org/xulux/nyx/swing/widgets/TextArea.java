@@ -1,5 +1,5 @@
 /*
- $Id: TextArea.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
+ $Id: TextArea.java,v 1.2 2003-07-16 14:34:17 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,16 +59,16 @@ import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.gui.NyxListener;
-import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * The swing textare widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.2 2003-07-16 14:34:17 mvdb Exp $
  */
-public class TextArea extends Widget {
+public class TextArea extends SwingWidget {
     
     private JTextArea textArea;
     private PrePostFieldListener focusListener;
@@ -351,13 +351,5 @@ public class TextArea extends Widget {
     {
         this.text = text;
     }
-    
-    /**
-     * @see org.xulux.nyx.gui.Widget#focus()
-     */
-    public void focus() {
-        textArea.requestFocus();
-    }
-
 
 }

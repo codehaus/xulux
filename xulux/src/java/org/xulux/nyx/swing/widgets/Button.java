@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.4 2003-07-16 13:59:22 mvdb Exp $
+ $Id: Button.java,v 1.5 2003-07-16 14:34:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.xulux.nyx.gui.NyxListener;
-import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 import org.xulux.nyx.swing.util.SwingUtils;
 
@@ -63,9 +63,9 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.4 2003-07-16 13:59:22 mvdb Exp $
+ * @version $Id: Button.java,v 1.5 2003-07-16 14:34:17 mvdb Exp $
  */
-public class Button extends Widget
+public class Button extends SwingWidget
 {
     
     private JButton button;
@@ -218,13 +218,6 @@ public class Button extends Widget
         }
         getPart().removeWidget(this,this);
         button = null;
-    }
-    
-    /**
-     * @see org.xulux.nyx.gui.Widget#focus()
-     */
-    public void focus() {
-        button.requestFocus();
     }
 
 }

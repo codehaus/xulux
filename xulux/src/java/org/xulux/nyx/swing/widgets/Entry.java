@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.6 2003-07-15 21:37:12 mvdb Exp $
+ $Id: Entry.java,v 1.7 2003-07-16 14:34:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,17 +56,17 @@ import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.gui.NyxListener;
-import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.6 2003-07-15 21:37:12 mvdb Exp $
+ * @version $Id: Entry.java,v 1.7 2003-07-16 14:34:17 mvdb Exp $
  */
 public class Entry 
-extends Widget
+extends SwingWidget
 {
     private static Log log = LogFactory.getLog(Entry.class);
     private Dimension size;
@@ -214,9 +214,11 @@ extends Widget
         {
             String text2 = null;
             // we ignore multiple values for now.. 
-            BeanMapping map = Dictionary.getInstance().getMapping(this.value.getClass());
+            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
             if (map != null)
             {
+                System.err.println("Map : "+map.getFields());
+                System.err.println("getField : "+getField());
                 text2 = (String)map.getField(getField()).getValue(this.value);
             }
             if (text.equals(text2))
@@ -255,7 +257,7 @@ extends Widget
         if (getField()!= null && val != null && getValue() != null)
         {
             // we ignore multiple values for now.. 
-            BeanMapping map = Dictionary.getInstance().getMapping(val.getClass());
+            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
             if (map != null)
             {
                 val = map.getField(getField()).getValue(this.value);
@@ -334,11 +336,4 @@ extends Widget
         this.text = text;
     }
     
-    /**
-     * @see org.xulux.nyx.gui.Widget#focus()
-     */
-    public void focus() {
-        textField.requestFocus();
-    }
-
 }

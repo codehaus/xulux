@@ -1,5 +1,5 @@
 /*
- $Id: CheckBox.java,v 1.3 2003-07-16 13:59:22 mvdb Exp $
+ $Id: CheckBox.java,v 1.4 2003-07-16 14:34:17 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,16 +52,16 @@ import javax.swing.JCheckBox;
 import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
-import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * The nyx to swing implementation of a checkbox
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.3 2003-07-16 13:59:22 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.4 2003-07-16 14:34:17 mvdb Exp $
  */
-public class CheckBox extends Widget {
+public class CheckBox extends SwingWidget {
     
     private JCheckBox checkBox;
     private PrePostFieldListener itemListener;
@@ -136,12 +136,6 @@ public class CheckBox extends Widget {
         isRefreshing = false;
     }
 
-    /**
-     * @see org.xulux.nyx.gui.Widget#focus()
-     */
-    public void focus() {
-        checkBox.requestFocus();
-    }
     /**
      * @see org.xulux.nyx.gui.Widget#getValue()
      */

@@ -1,7 +1,7 @@
 /*
- $Id: Label.java,v 1.5 2003-07-16 14:34:17 mvdb Exp $
+ $Id: SwingWidget.java,v 1.1 2003-07-16 14:34:18 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,116 +43,52 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
+package org.xulux.nyx.swing;
 
-package org.xulux.nyx.swing.widgets;
+import javax.swing.JComponent;
 
-import java.awt.Container;
-
-import javax.swing.JLabel;
-
-import org.xulux.nyx.swing.SwingWidget;
+import org.xulux.nyx.gui.Widget;
 
 /**
+ * A convenience class for swing widgets to override..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.5 2003-07-16 14:34:17 mvdb Exp $
+ * @version $Id: SwingWidget.java,v 1.1 2003-07-16 14:34:18 mvdb Exp $
  */
-public class Label extends SwingWidget
-{
-    
-    private JLabel label;
-    
-    public Label(String name)
-    {
+public abstract class SwingWidget extends Widget {
+
+    /**
+     * @param name
+     */
+    public SwingWidget(String name) {
         super(name);
     }
 
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
-    public void destroy()
-    {
-        if (label != null)
-        {
-            Container container = label.getParent();
-            label.setVisible(false);
-            if (container != null)
-            {
-                container.remove(label);
-            }
-            label = null;
-        }
-        removeAllRules();
-        getPart().removeWidget(this,this);
-    }
+    public abstract void destroy();
 
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
-    public Object getNativeWidget()
-    {
-        initialize();
-        return label;
-    }
+    public abstract Object getNativeWidget();
 
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
-    public void initialize()
-    {
-        if (this.initialized)
-        {
-            return;
-        }
-        this.initialized = true;
-        this.label = new JLabel();
-        refresh();
-    }
+    public abstract void initialize();
+
     /**
-     * For now aligns to the right by default.
-     * 
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
-    public void refresh()
-    {
-        initialize();
-        if (getProperty("text")!=null)
-        {
-            label.setText(getProperty("text"));
-        }
-        else
-        {
-            label.setText("");
-        }
-        if (getProperties() == null)
-        {
-            label.setHorizontalAlignment(JLabel.RIGHT);
-        }
-        else
-        {
-            String ha = (String)getProperties().get("horizontalalignment");
-            if (ha != null) {
-                if (ha.equalsIgnoreCase("left"))
-                {
-                    label.setHorizontalAlignment(JLabel.LEFT);
-                }
-                else if (ha.equalsIgnoreCase("center"))
-                {
-                    label.setHorizontalAlignment(JLabel.CENTER);
-                }
-                else
-                {
-                    label.setHorizontalAlignment(JLabel.RIGHT);
-                }
-            }
-        }
-        label.repaint();
-    }
+    public abstract void refresh();
+
     /**
      * @see org.xulux.nyx.gui.Widget#focus()
      */
     public void focus() {
-        label.requestFocus();
+        ((JComponent)getNativeWidget()).requestFocus();
     }
 
 }
