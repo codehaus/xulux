@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.7 2002-11-16 14:23:43 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.8 2002-11-29 01:05:53 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,12 +55,14 @@ import javax.swing.event.ListDataListener;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.Combo;
+import org.xulux.nyx.gui.Widget;
 
 /**
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.7 2002-11-16 14:23:43 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.8 2002-11-29 01:05:53 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -70,6 +72,7 @@ public class DefaultComboModel implements ComboBoxModel
     private ComboShowable selectedItem;
     private String field;
     private BeanMapping mapping;
+    private Combo combo;
     
     
     public DefaultComboModel()
@@ -80,10 +83,11 @@ public class DefaultComboModel implements ComboBoxModel
     /**
      * Constructor for DefaultComboModel.
      */
-    public DefaultComboModel(ArrayList list, String field)
+    public DefaultComboModel(ArrayList list, String field, Combo combo)
     {
         this.field = field;
         this.original = list;
+        this.combo = combo;
         initialize();
     }
 
@@ -93,7 +97,7 @@ public class DefaultComboModel implements ComboBoxModel
     public void setSelectedItem(Object anItem)
     {
         this.selectedItem = (ComboShowable)anItem;
-        
+        combo.setLazyValue(getRealSelectedValue());
     }
     
     public void setSelectedItem(int index)
@@ -237,6 +241,26 @@ public class DefaultComboModel implements ComboBoxModel
         {
             return index;
         }
+    }
+    /**
+     * Clean up combomodel (if at all needed)
+     */
+    public void destroy()
+    {
+        this.combo = null;
+        if (this.list != null)
+        {
+            this.list.clear();
+            this.list = null;
+        }
+        this.mapping = null;
+        this.original = null;
+        this.field = null;
+        if (listeners != null || listeners.size() > 0)
+        {
+            listeners.clear();
+        }
+        listeners = null;
     }
     
 }

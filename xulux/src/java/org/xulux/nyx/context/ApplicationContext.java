@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.15 2002-11-28 21:32:53 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.16 2002-11-29 01:05:53 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.15 2002-11-28 21:32:53 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.16 2002-11-29 01:05:53 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -305,14 +305,14 @@ public class ApplicationContext
                     case EXECUTE_REQUEST :
                         if (log.isTraceEnabled())
                         {
-                            log.trace("Processing pre rule : " + rule.getClass().getName());
+                            log.trace("Processing execute rule : " + rule.getClass().getName());
                         }
                         rule.execute(request);
                         continue;
                     case POST_REQUEST :
                         if (log.isTraceEnabled())
                         {
-                            log.trace("Processing pre rule : " + rule.getClass().getName());
+                            log.trace("Processing post rule : " + rule.getClass().getName());
                         }
                         rule.post(request);
                         continue;

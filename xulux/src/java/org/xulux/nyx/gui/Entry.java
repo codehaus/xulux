@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.21 2002-11-28 18:46:49 mvdb Exp $
+ $Id: Entry.java,v 1.22 2002-11-29 01:05:53 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JTextField;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.swing.listeners.ImmidiateListener;
@@ -59,11 +61,12 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.21 2002-11-28 18:46:49 mvdb Exp $
+ * @version $Id: Entry.java,v 1.22 2002-11-29 01:05:53 mvdb Exp $
  */
 public class Entry 
 extends Widget
 {
+    private static Log log = LogFactory.getLog(Entry.class);
     private Dimension size;
     private String text;
     
@@ -161,7 +164,7 @@ extends Widget
         textField.setEnabled(isEnabled());
         textField.setVisible(isVisible());
         textField.setPreferredSize(this.size);
-        if (value!=null)
+        if (getValue()!=null)
         {
             textField.setText(getText());
         }
