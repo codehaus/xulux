@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.3 2003-05-06 12:39:19 mvdb Exp $
+ $Id: Button.java,v 1.4 2003-06-17 12:50:26 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,17 +53,17 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.gui.swing.util.SwingUtils;
-import org.xulux.nyx.listeners.NyxListener;
-import org.xulux.nyx.listeners.swing.PrePostFieldListener;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.swing.util.SwingUtils;
 
 
 /**
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.3 2003-05-06 12:39:19 mvdb Exp $
+ * @version $Id: Button.java,v 1.4 2003-06-17 12:50:26 mvdb Exp $
  */
 public class Button extends Widget
 {

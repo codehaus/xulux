@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.1 2003-01-08 02:37:06 mvdb Exp $
+ $Id: Entry.java,v 1.2 2003-06-17 12:50:26 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,15 +55,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.listeners.NyxListener;
-import org.xulux.nyx.listeners.swing.PrePostFieldListener;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.1 2003-01-08 02:37:06 mvdb Exp $
+ * @version $Id: Entry.java,v 1.2 2003-06-17 12:50:26 mvdb Exp $
  */
 public class Entry 
 extends Widget
