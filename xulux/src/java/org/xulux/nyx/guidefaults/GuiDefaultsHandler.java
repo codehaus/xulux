@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.5 2003-01-25 23:17:57 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.6 2003-01-26 01:35:10 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.guidefaults;
 
 import java.io.InputStream;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -53,25 +54,27 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.WidgetConfig;
 
 /**
  * It should be case insensitive, but isn't really ;)
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.5 2003-01-25 23:17:57 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.6 2003-01-26 01:35:10 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
     
-    public static String ELEMENT_WIDGETS = "widgets";
-    public static String ELEMENT_WIDGET = "widget";
-    public static String ELEMENT_GUI = "gui";
-    public static String ELEMENT_ROOT = "guidefaults";
-    public static String ATTRIBUTE_TYPE = "type";
-    public static String ATTRIBUTE_CLASS = "class";
-    public static String ATTRIBUTE_NAME = "name";
-    public static String ATTRIBUTE_DEFAULT = "defaultType";
+    /*
+     * Element and attribute statics
+     */
+    private static final String ELEMENT_WIDGETS = "widgets";
+    private static final String ELEMENT_WIDGET = "widget";
+    private static final String ELEMENT_GUI = "gui";
+    private static final String ELEMENT_ROOT = "guidefaults";
+    private static final String ATTRIBUTE_TYPE = "type";
+    private static final String ATTRIBUTE_CLASS = "class";
+    private static final String ATTRIBUTE_NAME = "name";
+    private static final String ATTRIBUTE_DEFAULT = "defaultType";
     
     private boolean widgetsStarted = false;
 
@@ -82,6 +85,10 @@ public class GuiDefaultsHandler extends DefaultHandler
     {
     }
     
+    /**
+     * Reads the ApplicationPart from a stream and 
+     * initializes it.
+     */
     public void read(InputStream stream)
     {
         SAXParser saxParser = null;
