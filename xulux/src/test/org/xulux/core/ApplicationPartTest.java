@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPartTest.java,v 1.3 2004-06-30 11:59:00 mvdb Exp $
+   $Id: ApplicationPartTest.java,v 1.4 2004-06-30 12:55:56 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,8 +17,11 @@
 */
 package org.xulux.core;
 
+import java.io.ByteArrayInputStream;
+
 import org.xulux.gui.IInvalidValueStrategy;
 import org.xulux.gui.Widget;
+import org.xulux.guidriver.XuluxGuiDriver;
 import org.xulux.swing.util.NyxEventQueue;
 import org.xulux.swing.widgets.CheckBox;
 import org.xulux.swing.widgets.Combo;
@@ -32,7 +35,7 @@ import junit.framework.TestSuite;
  * The ApplicationPart test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartTest.java,v 1.3 2004-06-30 11:59:00 mvdb Exp $
+ * @version $Id: ApplicationPartTest.java,v 1.4 2004-06-30 12:55:56 mvdb Exp $
  */
 public class ApplicationPartTest extends TestCase {
 
@@ -112,10 +115,17 @@ public class ApplicationPartTest extends TestCase {
         assertEquals("partProvider", part.getProvider());
     }
     
-    public void testInvalidValuStrategy() {
-        System.out.println("testInvalidValuStrategy");
+    public void testInvalidValueStrategy() {
+        System.out.println("testInvalidValueStrategy");
         ApplicationPart part = new ApplicationPart();
         part.setInvalidValueStrategy(MockInvalidValueStrategy.class.getName());
+        assertEquals(true, part.getInvalidValueStrategy() instanceof MockInvalidValueStrategy);
+        XuluxGuiDriver driver = new XuluxGuiDriver();
+        String xml="<part name='LabelTestForm' prefix='Person'>"+
+                    "<invalidvaluestrategy strategy='org.xulux.core.ApplicationPartTest$MockInvalidValueStrategy'/>" +
+                    "</part>";
+        ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes());
+        part = driver.read(stream, new Object());
         assertEquals(true, part.getInvalidValueStrategy() instanceof MockInvalidValueStrategy);
     }
     

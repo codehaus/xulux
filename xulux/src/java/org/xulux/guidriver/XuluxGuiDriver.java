@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxGuiDriver.java,v 1.5 2004-06-30 11:59:01 mvdb Exp $
+   $Id: XuluxGuiDriver.java,v 1.6 2004-06-30 12:55:56 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -49,7 +49,7 @@ import org.xulux.utils.Translator;
  * @todo Move out "generic" code, so we can have a helper class to do all the nyx magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxGuiDriver.java,v 1.5 2004-06-30 11:59:01 mvdb Exp $
+ * @version $Id: XuluxGuiDriver.java,v 1.6 2004-06-30 12:55:56 mvdb Exp $
  */
 public class XuluxGuiDriver extends DefaultHandler {
 
@@ -432,7 +432,7 @@ public class XuluxGuiDriver extends DefaultHandler {
             part.addTranslation(currentValue, null);
             currentValue = null;
         } else if (qName.equals(IVVSTRATEGY_ELEMENT)) {
-            part.setInvalidValueStrategy(currentValue);
+            part.setInvalidValueStrategy((String) currentAtts.get("invalidvaluestrategy.strategy"));
             currentValue = null;
         }
         else if (qName.equals(RULES_ELEMENT)) {
