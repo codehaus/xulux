@@ -1,5 +1,5 @@
 /*
- $Id: NyxJComboBox.java,v 1.1 2003-07-29 09:17:37 mvdb Exp $
+ $Id: NyxJComboBox.java,v 1.2 2003-08-28 23:32:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import javax.swing.JComboBox;
  * This prevents that situation.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJComboBox.java,v 1.1 2003-07-29 09:17:37 mvdb Exp $
+ * @version $Id: NyxJComboBox.java,v 1.2 2003-08-28 23:32:18 mvdb Exp $
  */
 public class NyxJComboBox extends JComboBox
 {
@@ -90,10 +90,6 @@ public class NyxJComboBox extends JComboBox
      */
     public void setSelectedItem(Object object)
     {
-        if (newModelIsSet)
-        {
-            Object selectedItem = getModel().getSelectedItem();
-        }
         if (!newModelIsSet)
         {
             super.setSelectedItem(object);
