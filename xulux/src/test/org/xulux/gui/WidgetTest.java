@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetTest.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
+   $Id: WidgetTest.java,v 1.4 2004-05-11 15:26:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,18 +17,21 @@
 */
 package org.xulux.gui;
 
-import org.xulux.core.ApplicationPart;
-import org.xulux.swing.widgets.Entry;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.xulux.core.ApplicationPart;
+import org.xulux.core.WidgetConfig;
+import org.xulux.core.XuluxContext;
+import org.xulux.guidriver.defaults.GuiDefaults;
+import org.xulux.swing.widgets.Entry;
 
 /**
  * Test of widget class.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetTest.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: WidgetTest.java,v 1.4 2004-05-11 15:26:03 mvdb Exp $
  */
 public class WidgetTest extends TestCase {
 
@@ -82,5 +85,44 @@ public class WidgetTest extends TestCase {
         entry.setProvider(null);
         assertEquals("partProvider", entry.getProvider());
     }
+    
+    /**
+     * This was giving an npe..
+     */
+    public void testProcessInitAndDestroy() {
+        System.out.println("testProcessInitAndDestroy");
+        Entry entry = new Entry("entry");
+        entry.processInit();
+        entry.processDestroy();
+        entry.setWidgetType("temp");
+        GuiDefaults defaults = XuluxContext.getGuiDefaults();
+        defaults.registerWidget("temp", Entry.class.getName(), "swing");
+        WidgetConfig config = defaults.getWidgetConfig("temp");
+        entry.processInit();
+        entry.processDestroy();
+        config.addWidgetTool("swing", InitAndDestroyWidgetInitializer.class.getName());
+        entry.processInit();
+        assertEquals(1, initCallCount);
+        entry.processDestroy();
+        assertEquals(1, destroyCallCount);
+    }
+    public static int initCallCount = 0;
+    public static int destroyCallCount = 0;
+    
+    public class InitAndDestroyWidgetInitializer implements IWidgetInitializer {
 
+      /**
+       * @see org.xulux.gui.IWidgetInitializer#initialize(org.xulux.gui.Widget)
+       */
+      public void initialize(Widget widget) {
+          initCallCount++;
+      }
+
+      /**
+       * @see org.xulux.gui.IWidgetInitializer#destroy(org.xulux.gui.Widget)
+       */
+      public void destroy(Widget widget) {
+          destroyCallCount++;
+      }
+    }
 }
