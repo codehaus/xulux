@@ -1,5 +1,5 @@
 /*
- $Id: TextArea.java,v 1.8 2003-11-17 14:00:20 mvdb Exp $
+ $Id: TextArea.java,v 1.9 2003-11-18 20:27:56 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -64,7 +64,7 @@ import org.xulux.nyx.utils.BooleanUtils;
  * The swing textare widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.8 2003-11-17 14:00:20 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.9 2003-11-18 20:27:56 mvdb Exp $
  */
 public class TextArea extends Entry {
 
@@ -188,6 +188,22 @@ public class TextArea extends Entry {
         if (backgroundColor != null)
         {
             textComponent.setBackground(ColorUtils.getSwingColor(backgroundColor));
+        }
+        String foreGroundColor = null;
+        if (isRequired()  && isEnabled()) {
+            foreGroundColor = getProperty("required-foreground-color");
+        } else if (!isEnabled()) {
+            foreGroundColor = getProperty("disabled-foreground-color");
+            if (foreGroundColor != null) {
+                textComponent.setDisabledTextColor(ColorUtils.getSwingColor(foreGroundColor));
+                foreGroundColor = null;
+            }
+        }
+        if (foreGroundColor == null) {
+            foreGroundColor = getProperty("default-foreground-color");
+        }
+        if (foreGroundColor != null) {
+            textComponent.setForeground(ColorUtils.getSwingColor(foreGroundColor));
         }
         String border = getProperty("border");
         if (border != null) {
