@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.18 2002-11-28 12:21:51 mvdb Exp $
+ $Id: Entry.java,v 1.19 2002-11-28 14:05:24 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,12 +59,13 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.18 2002-11-28 12:21:51 mvdb Exp $
+ * @version $Id: Entry.java,v 1.19 2002-11-28 14:05:24 mvdb Exp $
  */
 public class Entry 
 extends Widget
 {
     private Dimension size;
+    private String text;
     
     /** 
      * For now internally very swing specific
@@ -160,7 +161,14 @@ extends Widget
         textField.setEnabled(isEnabled());
         textField.setVisible(isVisible());
         textField.setPreferredSize(this.size);
-        textField.setText(getText());
+        if (value!=null)
+        {
+            textField.setText(getText());
+        }
+        else
+        {
+            textField.setText("");
+        }
         String enabled = getProperty("enabled");
         if (enabled != null)
         {
@@ -193,16 +201,16 @@ extends Widget
      */
     public Object getValue()
     {
-        String text = null;
         if (textField != null)
         {
             //System.out.println("returning text value :"+textField.getText());
-            text = textField.getText();
+            return textField.getText();
         }
         else if (this.value != null)
         {
             return this.value;
         }
+        /*
         if (text!=null)
         {
             if (getField()!= null && this.value != null)
@@ -224,6 +232,7 @@ extends Widget
                 return text;
             }
         }
+        */
         return null;
     }
 
@@ -233,13 +242,9 @@ extends Widget
      */
     public void setValue(Object val)
     {
-        this.previousValue = val;
+        this.previousValue = this.value;
         boolean update = true;
         String text = null;
-        if (val!=null && val.equals(getValue()))
-        {
-            return;
-        }
         this.value = val;
         if (getField()!= null && val != null)
         {
@@ -254,6 +259,10 @@ extends Widget
         {
             text = val.toString();
             setText(text);
+        }
+        else
+        {
+            setText("");
         }
         if (update && initialized)
         {
@@ -278,6 +287,24 @@ extends Widget
         {
             refresh();
         }
+    }
+
+    /**
+     * Returns the text.
+     * @return String
+     */
+    public String getText()
+    {
+        return text;
+    }
+
+    /**
+     * Sets the text.
+     * @param text The text to set
+     */
+    public void setText(String text)
+    {
+        this.text = text;
     }
 
 }

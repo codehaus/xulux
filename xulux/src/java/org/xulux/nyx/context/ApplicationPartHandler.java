@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.10 2002-11-27 02:33:44 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.11 2002-11-28 14:05:24 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -66,7 +66,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.10 2002-11-27 02:33:44 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.11 2002-11-28 14:05:24 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -250,7 +250,7 @@ public class ApplicationPartHandler extends DefaultHandler
         else if (qName.equals(TEXT_ELEMENT))
         {
             processText = false;
-            ((Widget) stack.get(stack.size()-1)).setText(currentValue);
+            ((Widget) stack.get(stack.size()-1)).setValue(currentValue);
             currentValue = null;
         }
         else if (qName.equals(RULES_ELEMENT))
@@ -304,7 +304,7 @@ public class ApplicationPartHandler extends DefaultHandler
         else if (qName.equals(VALUE_ELEMENT))
         {
             processValue = false;
-            ((Widget) stack.get(stack.size())).setText(currentValue);
+            ((Widget) stack.get(stack.size())).setValue(currentValue);
             currentValue = null;
         }
         else if (qName.equals(LISTENER_ELEMENT))
