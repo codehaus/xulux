@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfigTest.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
+   $Id: WidgetConfigTest.java,v 1.6 2004-05-11 13:02:42 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.5 2004-04-01 16:15:09 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.6 2004-05-11 13:02:42 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase {
 
@@ -97,6 +97,7 @@ public class WidgetConfigTest extends TestCase {
         config.add("swing", Integer.class);
         config.addWidgetInitializer("swing", initOne.class);
         assertEquals(1, config.getWidgetInitializers("swing").size());
+        assertEquals(false, config.getWidgetInitializers("swing").get(0) instanceof Class);
         config.addWidgetInitializer("swing", initOne.class);
         assertEquals(1, config.getWidgetInitializers("swing").size());
         config.addWidgetInitializer("swing", initTwo.class);
