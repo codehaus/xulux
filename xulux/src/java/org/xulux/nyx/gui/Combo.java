@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.20 2002-12-02 20:46:37 mvdb Exp $
+ $Id: Combo.java,v 1.21 2002-12-02 22:06:58 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.20 2002-12-02 20:46:37 mvdb Exp $
+ * @version $Id: Combo.java,v 1.21 2002-12-02 22:06:58 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -136,13 +136,21 @@ public class Combo extends Widget
         }
         else
         {
+            boolean replaceFirstEntry = false;
             if (notSelectedValueSet)
             {
-                String oldValue = (String)content.get(0);
-                if (oldValue.equals(getNotSelectedValue()))
+                Object firstValue = content.get(0);
+                if (firstValue instanceof String)
                 {
-                    return;
+                    if (firstValue.equals(getNotSelectedValue()))
+                    {
+                        return;
+                    }
+                    replaceFirstEntry = true;
                 }
+            }
+            if (replaceFirstEntry)
+            {
                 content.set(0,nsv);
             }
             else

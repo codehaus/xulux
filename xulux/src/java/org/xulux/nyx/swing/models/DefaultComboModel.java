@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.9 2002-12-02 20:46:37 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.10 2002-12-02 22:06:58 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.gui.Widget;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.9 2002-12-02 20:46:37 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.10 2002-12-02 22:06:58 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -186,37 +186,42 @@ public class DefaultComboModel implements ComboBoxModel
             {
                 startMappingAt = 1;
             }
-            Class tmpClazz = original.get(startMappingAt).getClass();
-            mapping = Dictionary.getInstance().getMapping(tmpClazz);
+            if ((startMappingAt == 1 && original.size() > 1)
+                || startMappingAt == 0)
+            {
+                Class tmpClazz = original.get(startMappingAt).getClass();
+                mapping = Dictionary.getInstance().getMapping(tmpClazz);
+            }
         }
         list = new ArrayList();
         for (int i=0; i < original.size(); i++)
         {
             Object object = original.get(i);
-            if (object != null && (i == 0 && object.equals(combo.getNotSelectedValue())))
+            if (object != null && (i == 0 && object.equals(combo.getNotSelectedValue()))
+               || this.field == null)
             {
                 list.add(new ComboShowable(i, object.toString()));
             }
             else
             {
-                StringTokenizer stn = new StringTokenizer(field, ",");
                 String value = "";
-                while (stn.hasMoreTokens())
-                {
-                    String token = stn.nextToken();
-                    String strPart = "";
-                    IField iField = mapping.getField(token);
-                    if (iField != null)
+                StringTokenizer stn = new StringTokenizer(field, ",");
+                    while (stn.hasMoreTokens())
                     {
-                        strPart = iField.getValue(object).toString();
+                        String token = stn.nextToken();
+                        String strPart = "";
+                        IField iField = mapping.getField(token);
+                        if (iField != null)
+                        {
+                            strPart = iField.getValue(object).toString();
+                        }
+                        else
+                        {
+                            //allow seperators in the field list.
+                            strPart = token;
+                        }
+                        value+=strPart;
                     }
-                    else
-                    {
-                        //allow seperators in the field list.
-                        strPart = token;
-                    }
-                    value+=strPart;
-                }
                 list.add(new ComboShowable(i, value));
             }
         }
