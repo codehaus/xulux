@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.3 2002-11-11 09:49:22 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,11 +51,14 @@ import java.util.Iterator;
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataListener;
 
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
+
 /**
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.2 2002-11-11 01:45:40 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.3 2002-11-11 09:49:22 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -64,6 +67,7 @@ public class DefaultComboModel implements ComboBoxModel
     private ArrayList listeners;
     private ComboShowable selectedItem;
     private String field;
+    private BeanMapping mapping;
 
     /**
      * Constructor for DefaultComboModel.
@@ -82,6 +86,11 @@ public class DefaultComboModel implements ComboBoxModel
     {
         this.selectedItem = (ComboShowable)anItem;
         
+    }
+    
+    public void setSelectedItem(int index)
+    {
+        this.selectedItem = (ComboShowable) list.get(index);
     }
 
     /**
@@ -136,6 +145,12 @@ public class DefaultComboModel implements ComboBoxModel
         return original.get(selectedItem.getIndex());
     }
     
+    public Object getComboObject(int index)
+    {
+        return list.get(index);
+    }
+        
+    
     public void setRealSelectedValue(Object selectedItem)
     {
         int index = original.indexOf(selectedItem);
@@ -148,11 +163,24 @@ public class DefaultComboModel implements ComboBoxModel
     
     private void initialize()
     {
+        
+        if (field != null && original.size() > 1)
+        {
+            mapping = Dictionary.getInstance().getMapping(original.get(2).getClass());
+        }
         list = new ArrayList();
         for (int i=0; i < original.size(); i++)
         {
             Object object = original.get(i);
-            list.add(new ComboShowable(i, object.toString()));
+            if (field == null || mapping == null || i == 0)
+            {
+                list.add(new ComboShowable(i, object.toString()));
+            }
+            else
+            {
+                Object value = mapping.getField(field).getValue(object);
+                list.add(new ComboShowable(i, object.toString()));
+            }
         }
     }
     

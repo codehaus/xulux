@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.15 2002-11-11 01:45:40 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.16 2002-11-11 09:49:22 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -83,7 +83,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.15 2002-11-11 01:45:40 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.16 2002-11-11 09:49:22 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -492,12 +492,16 @@ public class ApplicationPart
     /**
      * Clears the specified field
      */
-    public void clear(String field)
+    public void clear(String name)
     {
-        Widget widget = widgets.get(field);
-        if (widget instanceof ValueWidget)
+        Widget widget = widgets.get(name);
+        if (widget != null)
         {
-            ((ValueWidget)widget).setValue(getBeanValue(widget.getField()));
+            widget.clear();
+        }
+        else
+        {
+            System.err.println("Widget "+name+" does not exist");
         }
     }
     
@@ -577,4 +581,25 @@ public class ApplicationPart
             container.remove((Component)parentWidget);
         }
     }
+    
+    /**
+     * Sets focus to the field specified
+     * @param name - the name of the fiel
+     */
+    public void select(String name)
+    {
+        Widget widget = getWidget(name);
+        if (widget != null)
+        {
+            try
+            {
+                ((Component)widget.getNativeWidget()).requestFocus();
+            }
+            catch(Exception e)
+            {
+                System.err.println("Could not set focus to "+name);
+            }
+        }
+    }
+        
 }

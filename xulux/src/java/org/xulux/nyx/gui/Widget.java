@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.8 2002-11-11 01:45:39 mvdb Exp $
+ $Id: Widget.java,v 1.9 2002-11-11 09:49:22 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.8 2002-11-11 01:45:39 mvdb Exp $
+ * @version $Id: Widget.java,v 1.9 2002-11-11 09:49:22 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -381,5 +381,17 @@ public abstract class Widget
     {
         return null;
     }
+    
+    public void setValue(Object object)
+    {
+    }
+    
+    /**
+     * Clears the field
+     */
+    public void clear()
+    {
+    }
+        
 
 }

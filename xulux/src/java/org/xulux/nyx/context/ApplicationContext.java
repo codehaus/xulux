@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.6 2002-11-10 21:44:11 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.7 2002-11-11 09:49:22 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.6 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.7 2002-11-11 09:49:22 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -243,18 +243,25 @@ public class ApplicationContext
         while (it.hasNext())
         {
             IRule rule = (IRule) it.next();
-//            System.out.println("Processing rule : " + rule.getUseCount());
-            switch (type)
+            try
             {
-                case PRE_REQUEST :
-                    rule.pre(request);
-                    continue;
-                case EXECUTE_REQUEST :
-                    rule.execute(request);
-                    continue;
-                case POST_REQUEST :
-                    rule.post(request);
-                    continue;
+                switch (type)
+                {
+                    case PRE_REQUEST :
+                        rule.pre(request);
+                        continue;
+                    case EXECUTE_REQUEST :
+                        rule.execute(request);
+                        continue;
+                    case POST_REQUEST :
+                        rule.post(request);
+                        continue;
+                }
+            }
+            catch(Exception e)
+            {
+                System.err.println("Exception during Processing of rule : " + rule.getClass().getName());
+                e.printStackTrace(System.err);
             }
         }
         currentRules.clear();

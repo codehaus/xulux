@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.6 2002-11-11 01:45:39 mvdb Exp $
+ $Id: Combo.java,v 1.7 2002-11-11 09:49:22 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.6 2002-11-11 01:45:39 mvdb Exp $
+ * @version $Id: Combo.java,v 1.7 2002-11-11 09:49:22 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -228,6 +228,37 @@ public class Combo extends Widget
     public Object getValue()
     {
         return content.get(combo.getSelectedIndex());
+    }
+    
+    public void setValue(Object object)
+    {
+        if (object instanceof DefaultComboModel.ComboShowable)
+        {
+            model.setSelectedItem(object);
+        }
+        else
+        {
+            int index = content.indexOf(object);
+            if (index != -1)
+            {
+                model.setSelectedItem(index);
+            }
+        }
+    }
+    /**
+     * @see org.xulux.nyx.gui.Widget#clear()
+     */
+    public void clear()
+    {
+        if (notSelectedValue == null)
+        {
+            model.setSelectedItem(null);
+        }
+        else
+        {
+            combo.setSelectedIndex(0);
+        }
+        combo.repaint();
     }
 
 }
