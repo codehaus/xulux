@@ -1,5 +1,5 @@
 /*
- $Id: TextArea.java,v 1.5 2003-08-03 20:53:03 mvdb Exp $
+ $Id: TextArea.java,v 1.6 2003-09-29 15:03:35 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,13 +57,14 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.NyxListener;
+import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * The swing textare widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.5 2003-08-03 20:53:03 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.6 2003-09-29 15:03:35 mvdb Exp $
  */
 public class TextArea extends Entry {
     
@@ -186,7 +187,7 @@ public class TextArea extends Entry {
         }
         if (backgroundColor != null)
         {
-            textComponent.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
+            textComponent.setBackground(ColorUtils.getSwingColor(backgroundColor));
         }
         String border = getProperty("border");
         if (border != null) {
@@ -205,7 +206,7 @@ public class TextArea extends Entry {
             }
             Color bColor = null;
             if (borderColor != null) {
-                bColor = new Color(Integer.parseInt(borderColor));
+                bColor = ColorUtils.getSwingColor(borderColor);
             }else {
                 // we default to black border color
                 if (getParent() != null) {
