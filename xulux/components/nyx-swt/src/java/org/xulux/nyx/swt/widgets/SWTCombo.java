@@ -1,5 +1,5 @@
 /*
- $Id: SWTCombo.java,v 1.8 2003-09-10 07:41:28 mvdb Exp $
+ $Id: SWTCombo.java,v 1.9 2003-09-23 14:29:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * Represents the swt combo and cCombo.
  * 
  * @author <a href="mailo:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTCombo.java,v 1.8 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: SWTCombo.java,v 1.9 2003-09-23 14:29:12 mvdb Exp $
  */
 public class SWTCombo extends NyxCombo
 implements SWTWidget
@@ -242,6 +242,13 @@ implements SWTWidget
      */
     public void addNyxListener(NyxListener listener) {
         // TODO
+    }
+
+    /**
+     * Don't do anything. The model will take care of that.
+     * @see org.xulux.nyx.gui.IContentWidget#contentChanged()
+     */
+    public void contentChanged() {
     }
 
 }
