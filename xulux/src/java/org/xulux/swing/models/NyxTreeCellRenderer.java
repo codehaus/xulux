@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTreeCellRenderer.java,v 1.8 2004-07-14 15:05:31 mvdb Exp $
+   $Id: NyxTreeCellRenderer.java,v 1.9 2004-10-26 12:07:37 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,7 +18,9 @@
 package org.xulux.swing.models;
 
 import java.awt.Component;
+import java.awt.Dimension;
 
+import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
@@ -35,7 +37,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * For now extends the defaultreeCellRenderer.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTreeCellRenderer.java,v 1.8 2004-07-14 15:05:31 mvdb Exp $
+ * @version $Id: NyxTreeCellRenderer.java,v 1.9 2004-10-26 12:07:37 mvdb Exp $
  */
 public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
 
@@ -91,8 +93,6 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
         boolean leaf,
         int row,
         boolean hasFocus) {
-//        System.out.println("NyxTreeCellRenderer called");
-//        System.out.println("ChildWidget : " + getChildWidget());
         String clazz = widget.getProperty("treefield.class");
         if (value != null && clazz != null) {
             if (ClassLoaderUtils.getClass(clazz) == value.getClass()) {
@@ -116,8 +116,15 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
                 Widget w = getChildWidget();
                 String icon = w.getProperty("icon");
                 if (icon != null) {
-                    setIcon(SwingUtils.getIcon(icon, this));
+                    Icon iconImage = SwingUtils.getIcon(icon, this);
+                    setIcon(iconImage);
+                    // if we don't expand the preferred size with the iconwidth
+                    // it will result in dots in the node name.
+                    Dimension dim = getPreferredSize();
+                    dim.width+=iconImage.getIconWidth();
+                    setPreferredSize(dim);
                 }
+                
             }
         } catch (Exception e) {
           // an exception occured, we need to have some value, so we show the exception
