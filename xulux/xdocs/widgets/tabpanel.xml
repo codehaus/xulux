@@ -11,7 +11,8 @@
 <section name="The TabPanel Widget">
   <subsection name="General">
     <p>
-      Explain..
+      The tabPanel will automatically select the first tab available 
+      that is not disabled and visible.
     </p>
   </subsection>
   <subsection name="Properties">
