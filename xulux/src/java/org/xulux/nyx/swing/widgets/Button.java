@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.18 2003-11-24 15:00:05 mvdb Exp $
+ $Id: Button.java,v 1.19 2003-12-15 18:16:09 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,19 +59,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.xulux.nyx.gui.NyxListener;
+import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 import org.xulux.nyx.swing.util.SwingUtils;
-
 
 /**
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.18 2003-11-24 15:00:05 mvdb Exp $
+ * @version $Id: Button.java,v 1.19 2003-12-15 18:16:09 mvdb Exp $
  */
-public class Button extends SwingWidget
-{
+public class Button extends SwingWidget {
 
     /**
      * the native button
@@ -109,16 +108,19 @@ public class Button extends SwingWidget
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
-    public void initialize()
-    {
-        if (initialized)
-        {
+    public void initialize() {
+        if (initialized) {
             return;
         }
         button = new JButton();
         initialized = true;
-        if (!isRefreshing())
-        {
+        if ("cancel".equalsIgnoreCase(getProperty("defaultaction"))) {
+            Widget p = getParent();
+            while (p.getParent() != null) {
+                p = p.getParent();
+            }
+        }
+        if (!isRefreshing()) {
             refresh();
         }
         processInit();
@@ -127,34 +129,29 @@ public class Button extends SwingWidget
     /**
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
-    public void refresh()
-    {
+    public void refresh() {
         isRefreshing = true;
         initialize();
         String image = getProperty("image");
-        if (image != null)
-        {
+        if (image != null) {
             ImageIcon icon = SwingUtils.getIcon(image, this);
             button.setIcon(icon);
             button.setFocusPainted(true);
         }
         String disabledImage = getProperty("image-disabled");
-        if (disabledImage != null)
-        {
+        if (disabledImage != null) {
             ImageIcon icon = SwingUtils.getIcon(disabledImage, this);
             button.setDisabledIcon(icon);
             button.setDisabledSelectedIcon(icon);
         }
         String rolloverImage = getProperty("image-rollover");
-        if (rolloverImage != null)
-        {
+        if (rolloverImage != null) {
             ImageIcon icon = SwingUtils.getIcon(rolloverImage, this);
             button.setRolloverIcon(icon);
             button.setRolloverEnabled(true);
         }
         String selectedImage = getProperty("image-selected");
-        if (selectedImage != null)
-        {
+        if (selectedImage != null) {
             ImageIcon icon = SwingUtils.getIcon(selectedImage, this);
             button.setSelectedIcon(icon);
             button.setPressedIcon(icon);
@@ -162,16 +159,13 @@ public class Button extends SwingWidget
             button.setRolloverEnabled(true);
             // we need to add a focuslistener to set the image
             // when focus is there to the selected image
-            if (this.focusListener == null)
-            {
-                this.focusListener = new FocusListener()
-                {
+            if (this.focusListener == null) {
+                this.focusListener = new FocusListener() {
                     private Icon normalIcon;
                     /**
                      * @see java.awt.event.FocusListener#focusGained(FocusEvent)
                      */
-                    public void focusGained(FocusEvent e)
-                    {
+                    public void focusGained(FocusEvent e) {
                         normalIcon = button.getIcon();
                         button.setIcon(button.getSelectedIcon());
                     }
@@ -179,10 +173,8 @@ public class Button extends SwingWidget
                     /**
                      * @see java.awt.event.FocusListener#focusLost(FocusEvent)
                      */
-                    public void focusLost(FocusEvent e)
-                    {
-                        if (normalIcon != null)
-                        {
+                    public void focusLost(FocusEvent e) {
+                        if (normalIcon != null) {
                             button.setIcon(normalIcon);
                             normalIcon = null;
                         }
@@ -192,12 +184,10 @@ public class Button extends SwingWidget
             }
 
         }
-        if (getProperty("text") != null)
-        {
+        if (getProperty("text") != null) {
             button.setText(getProperty("text"));
         }
-        if (actionListener == null)
-        {
+        if (actionListener == null) {
             NyxListener listener = getPart().getFieldEventHandler(this);
             if (listener == null) {
                 actionListener = new PrePostFieldListener(this);
@@ -235,21 +225,18 @@ public class Button extends SwingWidget
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
-    public void destroy()
-    {
+    public void destroy() {
         processDestroy();
         if (button == null) {
             getPart().removeWidget(this, this);
             return;
         }
         Container container = button.getParent();
-        if (actionListener != null)
-        {
+        if (actionListener != null) {
             button.removeActionListener(actionListener);
         }
         actionListener = null;
-        if (focusListener != null)
-        {
+        if (focusListener != null) {
             button.removeFocusListener(focusListener);
         }
         focusListener = null;
@@ -280,7 +267,6 @@ public class Button extends SwingWidget
     public Object getGuiValue() {
         return null;
     }
-
 
     /**
      * @see org.xulux.nyx.gui.Widget#canContainValue()

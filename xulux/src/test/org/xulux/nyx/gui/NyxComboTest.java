@@ -1,5 +1,5 @@
 /*
- $Id: NyxComboTest.java,v 1.2 2003-12-13 16:37:13 mvdb Exp $
+ $Id: NyxComboTest.java,v 1.3 2003-12-15 18:16:09 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -56,7 +56,7 @@ import junit.framework.TestSuite;
  * Test the NyxCombo box.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxComboTest.java,v 1.2 2003-12-13 16:37:13 mvdb Exp $
+ * @version $Id: NyxComboTest.java,v 1.3 2003-12-15 18:16:09 mvdb Exp $
  */
 public class NyxComboTest extends TestCase {
 
@@ -76,6 +76,9 @@ public class NyxComboTest extends TestCase {
         return suite;
     }
 
+    /**
+     * Test the notSelectedvalue
+     */
     public void testNotSelectedValue() {
         System.out.println("testNotSelectedValue");
         C combo = new C("Combo");
