@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModelTest.java,v 1.6 2003-11-27 19:39:19 mvdb Exp $
+ $Id: DefaultComboModelTest.java,v 1.7 2003-12-13 16:37:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -46,6 +46,7 @@
 package org.xulux.nyx.swing.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -58,7 +59,7 @@ import org.xulux.nyx.swing.widgets.Combo;
  * Tests the swing defaultcombomodel
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModelTest.java,v 1.6 2003-11-27 19:39:19 mvdb Exp $
+ * @version $Id: DefaultComboModelTest.java,v 1.7 2003-12-13 16:37:12 mvdb Exp $
  */
 public class DefaultComboModelTest extends TestCase {
 
@@ -183,9 +184,14 @@ public class DefaultComboModelTest extends TestCase {
         model.setSelectedItem(persons.get(0));
         assertEquals(persons.get(0).toString(), model.getSelectedItem().toString());
         combo.setContent(persons);
+        System.out.println("Not selected value : " + combo.getNotSelectedValue());
         combo.setNotSelectedValue("notselected");
         combo.refresh();
-        assertEquals("notselected", model.getRealSelectedValue());
+        System.out.println("Persons : " + persons);
+        System.out.println("Model : " + model.getRealSelectedValue());
+        assertEquals("notselected", ((List)combo.getContent()).get(0));
+        assertEquals("notselected", model.getSelectedItem());
+        assertNull(model.getSelectedItem());
     }
 
     /**

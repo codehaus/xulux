@@ -1,5 +1,5 @@
 /*
- $Id: NyxComboTest.java,v 1.1 2003-12-11 19:57:37 mvdb Exp $
+ $Id: NyxComboTest.java,v 1.2 2003-12-13 16:37:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -45,6 +45,9 @@
  */
 package org.xulux.nyx.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -53,7 +56,7 @@ import junit.framework.TestSuite;
  * Test the NyxCombo box.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxComboTest.java,v 1.1 2003-12-11 19:57:37 mvdb Exp $
+ * @version $Id: NyxComboTest.java,v 1.2 2003-12-13 16:37:13 mvdb Exp $
  */
 public class NyxComboTest extends TestCase {
 
@@ -73,7 +76,55 @@ public class NyxComboTest extends TestCase {
         return suite;
     }
 
-    public void testDefault() {
+    public void testNotSelectedValue() {
+        System.out.println("testNotSelectedValue");
+        C combo = new C("Combo");
+        combo.initialize();
+        // content should stay null
+        combo.initializeNotSelectedValue();
+        assertNull(combo.getContent());
+        assertNull(combo.getNotSelectedValue());
+        String nsv = "notselectedvalue";
+        assertEquals(0, combo.refreshCount);
+        // if we just set the not selected value
+        // we get an arraylist with only the nsv back..
+        combo.setNotSelectedValue(nsv);
+        assertEquals(1, combo.refreshCount);
+        assertNotNull(combo.getContent());
+        assertEquals(nsv, ((List)combo.getContent()).get(0));
+        // although we only have one not selectedvalue in the list
+        // that gets removed now, we will keep the list, since people
+        // can use it as a reference in their code..
+        combo.setNotSelectedValue(null);
+        assertEquals(2, combo.refreshCount);
+        assertEquals(0, ((List)combo.getContent()).size());
+        assertNull(combo.getNotSelectedValue());
+        combo.setNotSelectedValue(nsv);
+        assertEquals(nsv, combo.getNotSelectedValue());
+        // the list is now 1 bigger again..
+        assertEquals(3, combo.refreshCount);
+        assertEquals(nsv, combo.getNotSelectedValue());
+        ArrayList list = new ArrayList();
+        list.add("choice1");
+        list.add("choice2");
+        list.add("choice3");
+        combo.setContent(list);
+        assertEquals(4, combo.refreshCount);
+        assertEquals(list, combo.getContent());
+        assertEquals(4, ((List)combo.getContent()).size());
+        // set the notselectedvalue to some differentvalue.
+        // it should replace the old one
+        combo.setNotSelectedValue(nsv);
+        // nothing should happen...
+        assertEquals(4, combo.refreshCount);
+        combo.setNotSelectedValue("different");
+        assertEquals(4, ((List)combo.getContent()).size());
+        assertEquals("different", ((List)combo.getContent()).get(0));
+        assertEquals(5, combo.refreshCount);
+        // reset the notselected value..
+        combo.setNotSelectedValue(null);
+        assertEquals(6, combo.refreshCount);
+        assertEquals(3, ((List)combo.getContent()).size());
     }
 
     /**
@@ -81,6 +132,7 @@ public class NyxComboTest extends TestCase {
      */
     public class C extends NyxCombo {
 
+        public int refreshCount = 0;
         /**
          * The main constructor
          * @param name the widget name
@@ -99,12 +151,15 @@ public class NyxComboTest extends TestCase {
          * @see org.xulux.nyx.gui.NyxCombo#initialize()
          */
         public void initialize() {
+            initialized = true;
         }
 
         /**
          * @see org.xulux.nyx.gui.NyxCombo#refresh()
          */
         public void refresh() {
+            refreshCount++;
+            initializeNotSelectedValue();
         }
 
         /**
