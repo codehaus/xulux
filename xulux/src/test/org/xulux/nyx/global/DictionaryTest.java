@@ -1,6 +1,6 @@
 
 /*
- $Id: DictionaryTest.java,v 1.8 2003-07-14 03:37:36 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.9 2003-07-14 23:42:25 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,7 +56,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.8 2003-07-14 03:37:36 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.9 2003-07-14 23:42:25 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -179,12 +179,6 @@ public class DictionaryTest extends TestCase
         assertEquals("parameter",mapping.getField("tp").getName());
         assertEquals("sp",mapping.getField("sp").getAlias());
         assertEquals("fp",mapping.getField("fp").getAlias());
-        // this one is here, since I got a nullpointer exception
-        // which wasn't handled..
-//        System.out.println("Mapping : "+mapping.getFields());
-//        System.out.println(bean.getParameter(ParameterType.FIRST));
-//        System.out.println(bean.getParameter(ParameterType.SECOND));
-//        System.out.println(bean.getParameter(ParameterType.THIRD));
     }
     
     /**
