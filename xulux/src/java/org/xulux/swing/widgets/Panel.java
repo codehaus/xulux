@@ -1,5 +1,5 @@
 /*
-   $Id: Panel.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: Panel.java,v 1.4 2004-05-10 12:31:26 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.swing.layouts.XYLayout;
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: Panel.java,v 1.4 2004-05-10 12:31:26 mvdb Exp $
  */
 public class Panel extends ContainerWidget {
 
@@ -180,6 +180,8 @@ public class Panel extends ContainerWidget {
             //            System.out.println("Insets panel : "+panel.getInsets());
             //            System.out.println("Border insets : "+panel.getBorder().getBorderInsets(panel));
             //            System.out.println("End : "+getName());
+        } else {
+          panel.setBorder(null);
         }
         // Add tab widget instead of panel widget..
         String tabId = getProperty(TabPanel.TABID);
