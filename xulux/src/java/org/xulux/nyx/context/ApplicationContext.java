@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.8 2002-11-12 00:55:42 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.9 2002-11-12 11:22:56 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.8 2002-11-12 00:55:42 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.9 2002-11-12 11:22:56 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -197,7 +197,7 @@ public class ApplicationContext
     public static void fireRequest(PartRequest request, int type)
     {
         ApplicationPart part = request.getPart();
-        ArrayList rules = part.getRules();
+        ArrayList rules = (ArrayList)part.getRules().clone();
         System.out.println("Rules : " + rules);
         synchronized (rules)
         {
@@ -206,17 +206,25 @@ public class ApplicationContext
             {
                 IRule rule = (IRule) it.next();
                 System.out.println("Processing rule : " + rule.getUseCount());
-                switch (type)
+                try
                 {
-                    case PRE_REQUEST :
-                        rule.pre(request);
-                        continue;
-                    case EXECUTE_REQUEST :
-                        rule.execute(request);
-                        continue;
-                    case POST_REQUEST :
-                        rule.post(request);
-                        continue;
+                    switch (type)
+                    {
+                        case PRE_REQUEST :
+                            rule.pre(request);
+                            continue;
+                        case EXECUTE_REQUEST :
+                            rule.execute(request);
+                            continue;
+                        case POST_REQUEST :
+                            rule.post(request);
+                            continue;
+                    }
+                }
+                catch(Exception e)
+                {
+                    System.err.println("Exception during Processing of rule : " + rule.getClass().getName());
+                    e.printStackTrace(System.err);
                 }
             }
         }
