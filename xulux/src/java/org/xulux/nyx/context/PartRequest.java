@@ -1,5 +1,5 @@
 /*
- $Id: PartRequest.java,v 1.3 2002-11-16 14:23:43 mvdb Exp $
+ $Id: PartRequest.java,v 1.4 2002-12-06 00:27:03 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,9 +53,9 @@ import org.xulux.nyx.rules.IRule;
  * field or action (action not in the Swing sence)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequest.java,v 1.3 2002-11-16 14:23:43 mvdb Exp $
+ * @version $Id: PartRequest.java,v 1.4 2002-12-06 00:27:03 mvdb Exp $
  */
-public interface PartRequest
+public interface PartRequest extends Cloneable
 {
     /**
      * No action, just felt the need to call you
@@ -101,4 +101,6 @@ public interface PartRequest
      * Returns the widget
      */
     public Widget getWidget();
+    
+    public Object clone();
 }

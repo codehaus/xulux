@@ -1,5 +1,5 @@
 /*
- $Id: PartCreator.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
+ $Id: PartCreator.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.factories.TestFactory;
  * Creates a gui representation of a part
  * 
  * @author Martin van den Bemt
- * @version $Id: PartCreator.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
+ * @version $Id: PartCreator.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
  */
 public class PartCreator
 {
@@ -83,9 +83,9 @@ public class PartCreator
         ApplicationContext.getInstance();
         // first initialize the dictionary (not really necessary though
         ApplicationPart part = TestFactory.getForm(stream, object);
+        part.activate();
         ArrayList widgets = part.getWidgets();
         Iterator it = widgets.iterator();
-        part.activate();
         addToFrame(part);
         return part;
     }

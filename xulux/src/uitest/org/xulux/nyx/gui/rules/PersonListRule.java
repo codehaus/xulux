@@ -1,5 +1,5 @@
 /*
- $Id: PersonListRule.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
+ $Id: PersonListRule.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: PersonListRule.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
+ * @version $Id: PersonListRule.java,v 1.2 2002-12-06 00:27:02 mvdb Exp $
  */
 public class PersonListRule extends Rule
 {
@@ -80,15 +80,6 @@ public class PersonListRule extends Rule
      */
     public void post(PartRequest request)
     {
-/*        if (request.getWidget().isRequired())
-        {
-            request.getWidget().setRequired(false);
-        }
-        else if (request.getWidget().isEnabled())
-        {
-            request.getWidget().setEnable(false);
-        }
-        */
         System.out.println("Selected value : "+request.getValue());
     }
     

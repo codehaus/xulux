@@ -24,9 +24,9 @@
     <p>
       If you replace the content and in between the value
       is never set, it will try to use the current value
-      to select the correct item. So if you change the combo
-      content and don't want the current value to "live on"
-      call the clear method to reset the value.
+      to select the correct item. If the item is not in the
+      list, it will reset the current value to be the first
+      item.
     </p>
   </subsection>
   <subsection name="Properties">
