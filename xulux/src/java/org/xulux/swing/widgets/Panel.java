@@ -1,5 +1,5 @@
 /*
-   $Id: Panel.java,v 1.9 2004-10-18 14:10:47 mvdb Exp $
+   $Id: Panel.java,v 1.10 2004-10-21 13:23:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -47,7 +47,7 @@ import org.xulux.swing.util.SwingUtils;
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.9 2004-10-18 14:10:47 mvdb Exp $
+ * @version $Id: Panel.java,v 1.10 2004-10-21 13:23:23 mvdb Exp $
  */
 public class Panel extends ContainerWidget {
 
@@ -104,7 +104,6 @@ public class Panel extends ContainerWidget {
         if (layout == null) {
             layout = XuluxContext.getGuiDefaults().getDefaultLayout();
         }
-        System.out.println("Layout : "+ layout);
         layout.setParent(this);
         panel = new JPanel((LayoutManager) layout);
         initializeChildren();
