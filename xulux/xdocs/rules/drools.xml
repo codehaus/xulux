@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The Drools Rule Engine</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="General">
+  <p>
+    Work is on the way to integrate <a href="http://drools.codehaus.org">Drools</a>
+    with xulux. After the refactor of the current internal rule engine, we will
+    start working on it.
+  </p>
+</section>
+
+</body>
+
+</document>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - JSR 94 Rule Engine</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="General">
+  <p>
+    High on the list, after drools is implemented, will be the ability
+    to add any jsr-94 compliant rule engine.
+  </p>
+</section>
+
+</body>
+
+</document>

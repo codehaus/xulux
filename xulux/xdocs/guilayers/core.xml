@@ -22,6 +22,16 @@
 </section>
 <section name="The big picture">
   <p>
+    <table>
+      <tr>
+        <td><img src="../images/widgetoverview.png"/></td>
+        <td>
+          <p>
+           This is a nice picture that took a lot of work to make.
+          </p>
+        </td>
+      </tr>
+    </table>
   </p>
 </section>
 <section name="Future of the Widgets">

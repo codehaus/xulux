@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>XULUX - GuiDrivers HowTo</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="General">
+  <p>
+   Since you can create your own gui drivers, a simple howto will
+   provide you with the necessary information to create one yourself,
+   or to adapt a format that already exists.
+   For now the drivers are very simple to create :
+   <b>Just write a handler (you can choose your own format) and use
+   it to generate xulux parts and let it create widgets</b>
+   <b><i>In a later stage there will be some kind of api
+   to be able to customize the way the gui behaves. Eg some
+   formats don't support the rule systems that we support.
+   We will come to this specification during development of the
+   XUL driver</i></b>
+  </p>
+</section>
+
+</body>
+
+</document>

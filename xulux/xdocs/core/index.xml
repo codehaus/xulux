@@ -13,7 +13,7 @@
    Although XULUX still needs a lot of work, the graph below gives you a global
    overview of how the differnt XULUX parts work together.
   </p>
-  <p><img src="images/coreapi.png"/></p>
+  <p><img src="../images/coreapi.png"/></p>
 </section>
 
 <section name="Core API">

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>XULUX - The Xulux Gui Driver</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="General">
+  <p>
+    XULUX by default, comes with its own gui driver. This xml format
+    has been thought up based on the needs that I had when developing
+    it. The format is pretty straightforward and doesn't add any
+    dependencies to xulux than just a SAXParser, that already is present
+    on most platforms on which xulux should run. 
+  </p>
+</section>
+<section name="How to use">
+  <p>
+   The <a href="../apidocs/org\xulux\nyx\context\ApplicationPartHandler.html">
+   XuluxHandler</a> is the parser to create 
+   <a href="../apidocs/org\xulux\nyx\context\ApplicationPart.html">XuluxParts</a>
+   from xml. You can just call the handler with an inpustream to get a part
+   back to be used in an application. The part you get back, just needs
+   a call to <code>part.activate()</code> to show the gui and do it's magic.
+   So a part can be processed from your current with these lines of code
+   <source>
+        // for now mandatory, sorry :(
+        XuluxContext.getInstance();
+        String xml = "org/xulux/screens/person.xml";
+        Object object = new PersonBean();
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        XuluxPart part = new XuluxPartHandler().read(stream, object);
+        part.activate();
+   </source>
+   This piece of sourcecode gets the screen xml from the classloader,
+   creates a bean to store the data and parses the screen xml, which returns
+   a part. Just call part.activate and the screen will be shown to the user
+   and can edit the person data.
+   If you specify the class used by the part, you can also not pass in a bean
+   , in which case xulux will create such an object for you.
+   <p>
+     <b>Note : </b> The parsing will change in the near future, since in the future
+     there will be a mapping associated with the form, which will handle the data
+     part.
+  </p>
+ </p>
+</section>
+
+</body>
+
+</document>

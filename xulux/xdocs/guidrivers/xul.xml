@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>XULUX - The XUL Gui Driver</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="General">
+  <p>
+    Although the name of the project is XULUX and one of the goals
+    was to make a XUL Gui Driver, there is not any work on the way
+    to have that implemented yet. This will be started on whenever I
+    have the itch to start it, but finishing other parts of Xulux are
+    a bit higher on the list for now, like expanding the number of widgets,
+    refactoring the widgets, adding rule engines, adding scripting languages,
+    creating the SWT gui layer and starting the work on ide integration
+    for easier creation of applications.
+  </p>
+</section>
+
+</body>
+
+</document>

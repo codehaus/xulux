@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Internals Questions">
+  <part id="general" title="General">
+    <faq id="positioningandsizing">
+      <question>
+        How does widget positioning and sizing work ?
+        I cannot seem to find any code that handles that for me.
+      </question>
+      <answer>
+       <p>
+          You can set the size and the position of the widget
+          via xml or programmatically. The default layout for swing
+          that is used is the XYLayout. This is mostly used for eg
+          business applications that have to run on a specific client
+          (only tested under win32 btw).
+          In ApplicationPart in the method activate() the widget is 
+          added to a swing JPanel and this will call the XYLayout 
+          manager. Setting sizes will not refresh the widget on the screen
+          in all cases, but when on refresh the gui is repainted, the layoutmanager
+          is called again and does the resize / location setting correctly.
+       </p>
+     </answer>
+    </faq>
+  </part>
+</faqs>

@@ -9,37 +9,44 @@
       <item name="xulux.org" href="http://www.xulux.org/"/>
       <item name="codehaus" href="http://www.codehaus.org/"/>
     </links>
-    <menu name="NYX">
+    <menu name="XULUX">
       <item name="Overview" href="/index.html"/>
       <item name="Features" href="/features.html"/>
       <item name="Notes" href="/notes.html"/>
       <item name="ToDo" href="/tasks.html"/>
       <item name="Examples" href="/examples.html"/>
+      <item name="JavaDoc" href="/apidocs/index.html"/>
       <item name="Powered by" href="/powered.html"/>
       <item name="Acknowledgements" href="/acknowledgements.html"/>
     </menu>
     <menu name="Documentation">
-      <item name="Core" href="/howitallworks.html">
-        <item name="Context" href="/internals/applicationcontext.html"/>
-        <item name="ApplicationParts" href="/applicationpart.html">
-          <item name="ApplicationHandlers" href="/internals/applicationhandlers.html"/>
-        </item>
-        <item name="Widgets" href="/widgets/index.html"/>
+      <item name="Core" href="/core/index.html">
+        <item name="Context" href="/core/xuluxcontext.html"/>
+        <item name="XuluxParts" href="/core/xuluxparts.html"/>
+        <item name="FAQ" href="/core/faq.html"/>
       </item>
-      <item name="Gui Layers" href="/guilayer/index.html">
-        <item name="Core" href="/guilayer/core.html"/>
-        <item name="Swing" href="/swing/index.html"/>
-        <item name="SWT" href="/swt/index.html"/>
+      <item name="Gui Layers" href="/guilayers/index.html">
+        <item name="Core" href="/guilayers/core.html"/>
+        <item name="Widgets" href="/guilayers/widgets/index.html"/>
+        <item name="Swing" href="/guilayers/swing/index.html"/>
+        <item name="SWT" href="/guilayers/index.html"/>
       </item>
-      <item name="DataProviders" href="/dictionary/index.html">
-        <item name="Converters" href="/dictionary/converters.html"/>
-        <item name="Bean" href="dictionary/bean/index.html"/>
+      <item name="Gui Drivers" href="/guidrivers/index.html">
+        <item name="XuluxHandler" href="/guidrivers/xuluxhandler.html"/>
+        <item name="XUL" href="/guidrivers/xul.html"/>
+      </item>
+      <item name="DataProviders" href="/dataproviders/index.html">
+        <item name="Converters" href="/dataproviders/converters.html"/>
+        <item name="Bean" href="/dataproviders/bean/index.html"/>
       </item>
       <item name="Rule Engines" href="/rules/index.html">
       <!-- nice to have when there are more rule engines available :) -->
 <!--        <item name="Core Engine" href="/rules/core.html"/> -->
+        <item name="Drools" href="/rules/drools.html"/>
+        <item name="JSR-94" href="/rules/jsr94.html"/>
         <item name="FAQ" href="/rules/faq.html"/>
       </item>
     </menu>
+    <search/>
   </body>
 </project>
