@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.15 2003-09-01 09:38:15 mvdb Exp $
+ $Id: Table.java,v 1.16 2003-09-01 11:45:37 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -82,7 +82,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.15 2003-09-01 09:38:15 mvdb Exp $
+ * @version $Id: Table.java,v 1.16 2003-09-01 11:45:37 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -583,9 +583,6 @@ implements IContentWidget
     }
     
     public void stopEditing() {
-       System.out.println("StopCellediting is called");
-       System.out.println("isEditing : "+table.isEditing());
-       System.out.println("value : "+table.getValueAt(table.getEditingRow(),table.getEditingColumn()));
        editor.stopCellEditing(table);
     }
     
