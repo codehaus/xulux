@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Swing</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Swing">
+  <p>
+    Nyx supports swing. There are a couple of issues however with
+    Swing that neede fixing for it to work the same way as the SWT part
+    This document explain what you can do to customize the things
+    that nyx ueses internally. This is btw done via properties that can be
+    passed to the jvm (NOTE: it needs to be improved, since nyx should be 
+    able to run perfectly without any jvm commandline parameters and still
+    allowing to add those parameters).
+  </p>
+</section>
+<section name="Properties">
+  <p>
+    This section will describe the properties that nyx will use to customize
+    it's internals.
+  </p>
+  <subsection name="nyx.swing.imageloader">
+    <p>
+      This property will set the imageloader to be used.
+      It defaults to looking for jimi in the classpath, The property is always
+      overrides the default property. The class to load images via JIMI is 
+      org.xulux.nyx.gui.swing.util.JimiImageLoader. If jimi is not on 
+      your classpath or the specified imageloader is not on the classpath
+      (or has problems instantiating) then it will fallback to standard
+      swing ImageIcon.getImage() for image loading. It will give feedback
+      on the level warning that the custom imageloader could not be loaded
+      and if images used in the application couldn't be loaded by the swing
+      ImageIcon class, since they are icompatible. 
+      It is advized to add jimi to your classpath if you want to use .ico files
+    </p>
+    <p>
+      You can write your own imageLoader by implementing the 
+      <code>org.xulux.nyx.gui.swing.util.ImageLoaderInterface</code> interface.
+      It is a very simple api. If you written a custom one, don't hasitate to send
+      us a patch.
+    </p>
+  </subsection>
+
+</section>
+
+</body>
+
+</document>
