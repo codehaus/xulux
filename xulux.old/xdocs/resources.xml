@@ -17,7 +17,7 @@
 
     <section name="XUL implementations">
       <ul>
-        <li><a href="http://luxor-xul.sourceforge.net" target="_blank">Luxor XUL</a> - Luxor is a free, open-source XML User Interface Language (XUL) toolkit in Java released under the GNU General Public License (GPL) that supports hand-picked Mozilla XUL goodies and also includes a ultra-light weight, multi-threaded web server, a portal engine and Apache Velocity  as its template engine.</li>
+        <li><a href="http://luxor-xul.sourceforge.net" target="_blank">Luxor XUL</a> - Luxor is a free, open-source XML User Interface Language (XUL) toolkit in Java released under the GNU Library General Public License (LGPL) that supports hand-picked Mozilla XUL goodies and also includes a ultra-light weight, multi-threaded web server, a portal engine and Apache Velocity  as its template engine.</li>
       </ul>
               
     </section>
