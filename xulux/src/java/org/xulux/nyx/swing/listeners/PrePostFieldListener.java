@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.16 2003-07-17 01:09:34 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.17 2003-07-17 02:49:00 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,6 +54,7 @@ import java.awt.event.ItemListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.CheckBox;
@@ -62,7 +63,7 @@ import org.xulux.nyx.swing.widgets.Entry;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.16 2003-07-17 01:09:34 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.17 2003-07-17 02:49:00 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -112,10 +113,9 @@ implements FocusListener, ActionListener, ItemListener
         {
             return;
         }
-        //System.out.println("Widget clazz : "+widget.getClass().getName());
         if (widget instanceof Entry)
         {
-            //System.out.println("Widget value : "+widget.getValue());
+            widget.setValue(widget.getGuiValue());
         }
         completed();
     }
@@ -128,6 +128,12 @@ implements FocusListener, ActionListener, ItemListener
         if (isProcessing())
         {
             return;
+        }
+        if (widget.isRefreshing()) {
+            return;
+        }
+        if (widget instanceof NyxCombo) {
+            ((NyxCombo)widget).setValue(widget.getGuiValue());
         }
         completed();
     }
