@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.23 2003-11-24 16:06:58 mvdb Exp $
+ $Id: Combo.java,v 1.24 2003-11-24 16:11:47 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -53,7 +53,7 @@ import java.awt.event.KeyListener;
 import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.utils.ColorUtils;
-import org.xulux.nyx.swing.NyxJComboBox;
+import org.xulux.nyx.swing.extensions.NyxJComboBox;
 import org.xulux.nyx.swing.listeners.ImmidiateListener;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 import org.xulux.nyx.swing.models.DefaultComboModel;
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.util.NyxEventQueue;
  * The swing combo widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.23 2003-11-24 16:06:58 mvdb Exp $
+ * @version $Id: Combo.java,v 1.24 2003-11-24 16:11:47 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {

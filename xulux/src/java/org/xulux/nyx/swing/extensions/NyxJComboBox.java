@@ -1,5 +1,5 @@
 /*
- $Id: NyxJComboBox.java,v 1.5 2003-11-24 16:09:45 mvdb Exp $
+ $Id: NyxJComboBox.java,v 1.1 2003-11-24 16:11:47 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -43,7 +43,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
-package org.xulux.nyx.swing;
+package org.xulux.nyx.swing.extensions;
 
 import java.awt.Component;
 import java.awt.event.FocusListener;
@@ -62,7 +62,7 @@ import org.xulux.nyx.gui.NyxListener;
  * This prevents that situation.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJComboBox.java,v 1.5 2003-11-24 16:09:45 mvdb Exp $
+ * @version $Id: NyxJComboBox.java,v 1.1 2003-11-24 16:11:47 mvdb Exp $
  */
 public class NyxJComboBox extends JComboBox
 {
