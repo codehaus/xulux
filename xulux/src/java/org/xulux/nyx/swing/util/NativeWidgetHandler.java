@@ -1,5 +1,5 @@
 /*
- $Id: NativeWidgetHandler.java,v 1.10 2003-11-11 11:04:30 mvdb Exp $
+ $Id: NativeWidgetHandler.java,v 1.11 2003-12-11 20:03:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -59,10 +59,13 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * The native widgets handler for swing.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeWidgetHandler.java,v 1.10 2003-11-11 11:04:30 mvdb Exp $
+ * @version $Id: NativeWidgetHandler.java,v 1.11 2003-12-11 20:03:18 mvdb Exp $
  */
 public class NativeWidgetHandler implements INativeWidgetHandler {
 
+    /**
+     * The log instance
+     */
     private static Log log = LogFactory.getLog(INativeWidgetHandler.class);
 
     /**
@@ -78,17 +81,15 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
      * @see org.xulux.nyx.gui.INativeWidgetHandler#getWidget(java.lang.Object, org.xulux.nyx.gui.Widget)
      */
     public Widget getWidget(Object nativeWidget, Widget parent) {
-        if (nativeWidget != null) {
+        if (nativeWidget != null && nativeWidget instanceof JComponent) {
             if (parent.canContainChildren()) {
                 Object nativeParent = parent.getNativeWidget();
                 if (nativeParent instanceof JComponent) {
-                    if (nativeWidget instanceof JComponent) {
-                        ((JComponent)nativeParent).add((JComponent)nativeWidget);
-                        return parent;
-                    }
+                    ((JComponent) nativeParent).add((JComponent) nativeWidget);
+                    return parent;
                 }
             }
-        }else{
+        } else {
             log.warn("Native widget cannot be added, since it is not of type JComponent or null");
         }
         return null;
@@ -107,25 +108,38 @@ public class NativeWidgetHandler implements INativeWidgetHandler {
      * @see org.xulux.nyx.gui.INativeWidgetHandler#setLocationOnWidget(org.xulux.nyx.gui.Widget, int, int)
      */
     public void setLocationOnWidget(Widget parent, int x, int y) {
-        if (parent != null) {
-            JComponent comp = (JComponent)parent.getNativeWidget();
+        if (parent != null && parent.getNativeWidget() != null) {
+            JComponent comp = (JComponent) parent.getNativeWidget();
             // set the location on the last component added..
-            comp.getComponent(comp.getComponentCount()-1).setLocation(x,y);
+            if (comp.getComponentCount() > 0) {
+                Component childComp = comp.getComponent(comp.getComponentCount() - 1);
+                setLocationOnWidget(childComp, x, y);
+            }
         }
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.INativeWidgetHandler#setLocationOnWidget(java.lang.Object, int, int)
+     */
+    public void setLocationOnWidget(Object widget, int x, int y) {
+        if (!(widget instanceof Component)) {
+            return;
+        }
+        Component comp = (Component) widget;
+        comp.setLocation(x, y);
     }
 
     /**
      * @see org.xulux.nyx.gui.INativeWidgetHandler#addWidgetToParent(org.xulux.nyx.gui.Widget, java.lang.Object)
      */
     public void addWidgetToParent(Widget widget, Object parentWidget) {
-        if (!(parentWidget instanceof JComponent)) {
+        if (!(parentWidget instanceof JComponent) || widget == null) {
             return;
         }
-        JComponent comp = (JComponent)parentWidget;
+        JComponent comp = (JComponent) parentWidget;
         Object nativeWidget = widget.getNativeWidget();
-        if (nativeWidget instanceof Component) { 
-            comp.add((Component)widget.getNativeWidget(), widget);
+        if (nativeWidget instanceof Component) {
+            comp.add((Component) widget.getNativeWidget(), widget);
         }
     }
-
 }
