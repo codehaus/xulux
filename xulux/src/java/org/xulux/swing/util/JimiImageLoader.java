@@ -1,5 +1,5 @@
 /*
- $Id: JimiImageLoader.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: JimiImageLoader.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -58,18 +58,19 @@ import com.sun.jimi.core.Jimi;
  * get any strange exceptions when jimi is not there.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: JimiImageLoader.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: JimiImageLoader.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
  */
-public class JimiImageLoader implements ImageLoaderInterface
-{
-    
+public class JimiImageLoader implements ImageLoaderInterface {
+
+    /**
+     * The JIMI Main class
+     */
     private static String JIMI_MAIN_CLASS = "com.sun.jimi.core.Jimi";
-    
+
     /**
      * Constructor for JimiImageLoader.
      */
-    public JimiImageLoader()
-    {
+    public JimiImageLoader() {
     }
 
     /**
@@ -78,19 +79,17 @@ public class JimiImageLoader implements ImageLoaderInterface
      *
      * @see org.xulux.nyx.swing.util.ImageLoaderInterface#getImage(java.net.URL)
      */
-    public Image getImage(URL url)
-    {
+    public Image getImage(URL url) {
         try {
             return Jimi.getImage(url);
-        }catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
     /**
      * @see org.xulux.nyx.swing.util.ImageLoaderInterface#getIcon(java.net.URL)
      */
-    public ImageIcon getIcon(URL url)
-    {
+    public ImageIcon getIcon(URL url) {
         Image image = getImage(url);
         if (image != null) {
             return new ImageIcon(image);
@@ -98,15 +97,14 @@ public class JimiImageLoader implements ImageLoaderInterface
             return null;
         }
     }
-    
+
     /**
      * @see org.xulux.nyx.swing.util.ImageLoaderInterface#isUsable()
      */
     public boolean isUsable() {
         try {
             Class.forName(JIMI_MAIN_CLASS);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             return false;
         }
         return true;

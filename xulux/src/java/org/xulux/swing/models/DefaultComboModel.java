@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.1 2003-12-18 00:17:22 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,7 +61,7 @@ import org.xulux.swing.widgets.Combo;
  * The default combobox model.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.1 2003-12-18 00:17:22 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
  */
 public class DefaultComboModel extends AbstractListModel implements ComboBoxModel {
     /**
@@ -277,10 +277,16 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
         this.selectedItem = null;
     }
 
+    /**
+     * @return the original data
+     */
     protected List getOriginal() {
         return this.original;
     }
-    
+
+    /**
+     * @return the data in the combo
+     */
     protected List getList() {
         return this.list;
     }

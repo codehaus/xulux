@@ -1,7 +1,7 @@
 /*
- $Id: DefaultTableRule.java,v 1.1 2003-12-18 00:17:37 mvdb Exp $
+ $Id: DefaultTableRule.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -55,7 +55,7 @@ import org.xulux.swing.widgets.Table;
  * Else the edited data will get lost..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultTableRule.java,v 1.1 2003-12-18 00:17:37 mvdb Exp $
+ * @version $Id: DefaultTableRule.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
  */
 public class DefaultTableRule extends Rule {
 
@@ -74,7 +74,7 @@ public class DefaultTableRule extends Rule {
         String action = request.getWidget().getProperty("defaultaction");
         if (action != null && action.equalsIgnoreCase("save")) {
             // get the owner of this rule..
-            Table table = (Table)getOwner();
+            Table table = (Table) getOwner();
             table.stopEditing();
         }
     }

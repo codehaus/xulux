@@ -1,5 +1,5 @@
 /*
- $Id: WidgetRectangle.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ $Id: WidgetRectangle.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -51,18 +51,39 @@ import java.awt.Rectangle;
  * Placeholder for position and for width and heigth
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetRectangle.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ * @version $Id: WidgetRectangle.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
  */
 public class WidgetRectangle {
+    /**
+     * the x position
+     */
     private int x = 0;
+    /**
+     * the y position
+     */
     private int y = 0;
+    /**
+     * the width
+     */
     private int width = 0;
+    /**
+     * the height
+     */
     private int height = 0;
 
-    public WidgetRectangle() {
-    }
     /**
      * Constructor for WidgetRectangle.
+     */
+    public WidgetRectangle() {
+    }
+
+    /**
+     * Constructor for WidgetRectangle.
+     *
+     * @param x the x position
+     * @param y the y position
+     * @param width the width of the widget
+     * @param height the height of the widget
      */
     public WidgetRectangle(int x, int y, int width, int height) {
         setX(x);
@@ -93,7 +114,7 @@ public class WidgetRectangle {
     }
 
     /**
-     * @return the y position 
+     * @return the y position
      */
     public int getY() {
         return y;

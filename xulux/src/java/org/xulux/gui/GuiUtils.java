@@ -1,5 +1,5 @@
 /*
- $Id: GuiUtils.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ $Id: GuiUtils.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * Like firing rules when the cancel button is pressed or the window is closed.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtils.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ * @version $Id: GuiUtils.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
  */
 public class GuiUtils {
 
@@ -151,7 +151,7 @@ public class GuiUtils {
     public static void fireFieldRule(Widget caller, Widget widget, int action, int type) {
         WidgetRequestImpl impl = new WidgetRequestImpl(caller, action);
         ApplicationContext.fireFieldRequest(widget, impl, type);
-    } 
+    }
     /**
      * @param property the property to look for
      * @param caller the caller widget to get the part from

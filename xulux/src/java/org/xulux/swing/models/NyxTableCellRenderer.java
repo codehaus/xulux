@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableCellRenderer.java,v 1.1 2003-12-18 00:17:22 mvdb Exp $
+ $Id: NyxTableCellRenderer.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,19 +59,28 @@ import org.xulux.swing.widgets.Table;
 
 /**
  * The cellrenderer takes care of the look and content of a cell.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellRenderer.java,v 1.1 2003-12-18 00:17:22 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
  */
-public class NyxTableCellRenderer extends DefaultTableCellRenderer 
-{
-//implements TableCellRenderer {
+public class NyxTableCellRenderer extends DefaultTableCellRenderer {
 
-    protected Widget widget;
-    protected Table parent;
-    protected PartRequest request;
     /**
-     *
+     * the widget
+     */
+    protected Widget widget;
+    /**
+     * the parent table
+     */
+    protected Table parent;
+    /**
+     * the request
+     */
+    protected PartRequest request;
+
+    /**
+     * @param widget the widget
+     * @param parent the parent table
      */
     public NyxTableCellRenderer(Widget widget, Table parent) {
         super();
@@ -81,18 +90,25 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer
     }
 
     /**
-     * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+     * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object,
+     *                       boolean, boolean, int, int)
      */
-    public Component getTableCellRendererComponent( JTable table, Object value,  boolean isSelected, boolean hasFocus, int row,  int column) {
-        super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+    public Component getTableCellRendererComponent(
+        JTable table,
+        Object value,
+        boolean isSelected,
+        boolean hasFocus,
+        int row,
+        int column) {
+        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         if (widget.getNativeWidget() instanceof Component) {
             request.setValue(value);
             ApplicationContext.fireFieldRequest(widget, request, ApplicationContext.PRE_REQUEST);
             widget.refresh();
             // refresh widget so gui changes can propegate.
-            Component comp = (Component)widget.getNativeWidget();
-//            System.err.println("fg : "+table.getForeground());
-//            System.err.println("sfg : "+table.getSelectionForeground());
+            Component comp = (Component) widget.getNativeWidget();
+            //            System.err.println("fg : "+table.getForeground());
+            //            System.err.println("sfg : "+table.getSelectionForeground());
             if (!isSelected) {
                 String bgColor = widget.getProperty("background-color-enabled");
                 if (bgColor == null) {
@@ -105,11 +121,11 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer
             String fgColor = widget.getProperty("foreground-color-enabled");
             //System.out.println("fg color : "+fgColor);
             //System.out.println("Font  : "+getFont());
-//            if (fgColor == null) {
-//                setForeground(table.getForeground());
-//            } else {
-//                setForeground(comp.getForeground());
-//            }
+            //            if (fgColor == null) {
+            //                setForeground(table.getForeground());
+            //            } else {
+            //                setForeground(comp.getForeground());
+            //            }
             //new Exception().printStackTrace(System.err);
             //(Compotable.getSelectionForeground()
             //widget.refresh();
@@ -117,7 +133,7 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer
         }
         return this;
     }
-    
+
     /**
      * Destroys all data know to the cellrenderer.
      *
@@ -125,12 +141,24 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer
     public void destroy() {
         widget = null;
     }
-    
+
+    /**
+     * The cellPartRequest
+     */
     public class CellPartRequest implements PartRequest {
-        
+
+        /**
+         * the widget
+         */
         private Widget widget;
+        /**
+         * the value
+         */
         private Object value;
-        
+
+        /**
+         * @param widget the widget
+         */
         public CellPartRequest(Widget widget) {
             this.widget = widget;
         }
@@ -201,7 +229,7 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer
         /**
          * @see java.lang.Object#clone()
          */
-        public Object clone()  {
+        public Object clone() {
             return null;
         }
 

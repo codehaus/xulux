@@ -1,5 +1,5 @@
 /*
- $Id: SwingTreeModel.java,v 1.1 2003-12-18 00:17:22 mvdb Exp $
+ $Id: SwingTreeModel.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -58,15 +58,20 @@ import org.xulux.global.contenthandlers.TreeContentHandler;
  * A cutom tree root, so we can do magic of our own
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingTreeModel.java,v 1.1 2003-12-18 00:17:22 mvdb Exp $
+ * @version $Id: SwingTreeModel.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
  */
-public class SwingTreeModel extends TreeContentHandler
-implements TreeModel {
+public class SwingTreeModel extends TreeContentHandler implements TreeModel {
 
-    TreeContentHandler contentHandler;
-    ArrayList listenerList;
     /**
-     * @param the tree contentHandler to use..
+     * the contenthandler
+     */
+    private TreeContentHandler contentHandler;
+    /**
+     * the listenerlist
+     */
+    private ArrayList listenerList;
+    /**
+     * @param contentHandler the tree contentHandler to use..
      */
     public SwingTreeModel(TreeContentHandler contentHandler) {
         this.contentHandler = contentHandler;
@@ -159,14 +164,14 @@ implements TreeModel {
             return;
         }
         TreeModelEvent event = null;
-        for (int i = listenerList.size()-1; i >= 0; i--) {
+        for (int i = listenerList.size() - 1; i >= 0; i--) {
             Object listener = listenerList.get(i);
-            System.err.println("Listener : "+listener);
+            System.err.println("Listener : " + listener);
             if (listener instanceof TreeModelListener) {
                 if (event == null) {
                     event = new TreeModelEvent(this, new TreePath(getRoot()));
                 }
-                ((TreeModelListener)listener).treeStructureChanged(event);
+                ((TreeModelListener) listener).treeStructureChanged(event);
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- $Id: WidgetFactory.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ $Id: WidgetFactory.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,40 +57,32 @@ import org.xulux.rules.IRule;
  * Factory to create the widget class..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.1 2003-12-18 00:17:21 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
  */
-public class WidgetFactory
-{
+public class WidgetFactory {
 
     /**
      * Constructor for WidgetFactory.
      */
-    public WidgetFactory()
-    {
+    protected WidgetFactory() {
     }
 
     /**
      * Creates a widget from the widget Registry.
      *
-     * @param name - the name of the widget
-     * @param field - the field to use on the widget
+     * @param type the type of widget
+     * @param name the name of the widget
+     * @return the widget or null when no widget could be created
      */
-    public static Widget getWidget(String type, String name)
-    {
+    public static Widget getWidget(String type, String name) {
         Class clazz = ApplicationContext.getInstance().getWidget(type);
         Widget instance = null;
-        if (clazz != null)
-        {
-            try
-            {
-                Constructor constructor =
-                    clazz.getConstructor(new Class[] { String.class });
-                instance =
-                    (Widget) constructor.newInstance(new String[] { name });
+        if (clazz != null) {
+            try {
+                Constructor constructor = clazz.getConstructor(new Class[] { String.class });
+                instance = (Widget) constructor.newInstance(new String[] { name });
                 instance.setWidgetType(type);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -100,9 +92,8 @@ public class WidgetFactory
     /**
      * Creates a popmenu from a list of buttons.
      *
-     * @param list
-     * @param the name of the menu
-     * @param properties to be set in the widget.
+     * @param list the list
+     * @param name the name of the menu
      * @return a popmenu from a list with button widgets
      */
     public static Widget getPopupFromButtons(List list, String name) {
@@ -110,12 +101,12 @@ public class WidgetFactory
         Iterator it = list.iterator();
         while (it.hasNext()) {
             if (menu == null) {
-               menu = getWidget("popupmenu", name);
+                menu = getWidget("popupmenu", name);
             }
             Widget widget = (Widget) it.next();
             Class clazz = ApplicationContext.getInstance().getWidget("button");
             if (widget.getClass().isAssignableFrom(clazz)) {
-                Widget item = getWidget("menuitem", "menuItem:"+widget.getName());
+                Widget item = getWidget("menuitem", "menuItem:" + widget.getName());
                 cloneWidget(widget, item);
                 menu.addChildWidget(item);
             }
@@ -123,21 +114,20 @@ public class WidgetFactory
         return menu;
     }
 
-
     /**
      * Clones all settings of a widget into the target widget
-     * @param source
-     * @param target
+     * @param source the source widget
+     * @param target the target widgets
      */
     public static void cloneWidget(Widget source, Widget target) {
         target.setPart(source.getPart());
-        target.setName(target.getWidgetType()+":"+source.getName());
+        target.setName(target.getWidgetType() + ":" + source.getName());
         target.setImmidiate(source.isImmidiate());
         target.setEnable(source.isEnabled());
         target.setField(source.getField());
         target.setParent(source.getParent());
-        target.setPosition(source.getRectangle().getX(),target.getRectangle().getX());
-        target.setSize(source.getRectangle().getWidth(),target.getRectangle().getHeight());
+        target.setPosition(source.getRectangle().getX(), target.getRectangle().getX());
+        target.setSize(source.getRectangle().getWidth(), target.getRectangle().getHeight());
         target.setPrefix(source.getPrefix());
         target.setRequired(source.isRequired());
         target.setSkip(source.isSkip());
@@ -147,23 +137,23 @@ public class WidgetFactory
         if (map != null) {
             for (Iterator keys = map.keySet().iterator(); keys.hasNext();) {
                 String key = (String) keys.next();
-                String value = (String)map.get(key);
+                String value = (String) map.get(key);
                 target.setProperty(key, value);
             }
         }
         if (source.getRules() != null) {
             for (Iterator rules = source.getRules().iterator(); rules.hasNext();) {
-                target.registerRule((IRule)rules.next());
+                target.registerRule((IRule) rules.next());
             }
         }
         if (source.getChildWidgets() != null) {
             for (Iterator children = source.getChildWidgets().iterator(); children.hasNext();) {
-                target.addChildWidget((Widget)children.next());
+                target.addChildWidget((Widget) children.next());
             }
         }
         if (source.getDependencies() != null) {
             for (Iterator deps = source.getChildWidgets().iterator(); deps.hasNext();) {
-                target.addDependency((String)deps.next());
+                target.addDependency((String) deps.next());
             }
         }
 

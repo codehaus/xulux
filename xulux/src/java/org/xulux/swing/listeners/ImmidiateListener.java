@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.1 2003-12-18 00:17:24 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -59,21 +59,29 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * For now only used for checkbox.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.1 2003-12-18 00:17:24 mvdb Exp $
+ * @version $Id: ImmidiateListener.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
  */
-public class ImmidiateListener extends KeyAdapter
-{
-    Widget widget;
-    ApplicationPart part;
+public class ImmidiateListener extends KeyAdapter {
+    /**
+     * the widget
+     */
+    private Widget widget;
+    /**
+     * the part
+     */
+    private ApplicationPart part;
 
-    public ImmidiateListener()
-    {
+    /**
+     * the constructor
+     */
+    public ImmidiateListener() {
     }
+
     /**
      * Constructor for ImmidiateListener.
+     * @param widget the widget
      */
-    public ImmidiateListener(Widget widget)
-    {
+    public ImmidiateListener(Widget widget) {
         this.widget = widget;
         this.part = widget.getPart();
     }
@@ -81,8 +89,7 @@ public class ImmidiateListener extends KeyAdapter
     /**
      * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
      */
-    public void keyTyped(KeyEvent e)
-    {
+    public void keyTyped(KeyEvent e) {
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
         ApplicationContext.fireFieldRequests(impl, ApplicationContext.EXECUTE_REQUEST);
     }
@@ -91,8 +98,7 @@ public class ImmidiateListener extends KeyAdapter
      * Returns the widget.
      * @return Widget
      */
-    public Widget getWidget()
-    {
+    public Widget getWidget() {
         return widget;
     }
 
@@ -100,10 +106,8 @@ public class ImmidiateListener extends KeyAdapter
      * Sets the widget.
      * @param widget The widget to set
      */
-    public void setWidget(Widget widget)
-    {
+    public void setWidget(Widget widget) {
         this.widget = widget;
     }
-
 
 }

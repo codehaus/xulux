@@ -1,5 +1,5 @@
 /*
- $Id: UpdateButtonsListener.java,v 1.1 2003-12-18 00:17:24 mvdb Exp $
+ $Id: UpdateButtonsListener.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -72,13 +72,14 @@ import org.xulux.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.1 2003-12-18 00:17:24 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
  */
-public class UpdateButtonsListener extends NyxListener
-implements ActionListener, ListSelectionListener
-{
+public class UpdateButtonsListener extends NyxListener implements ActionListener, ListSelectionListener {
 
-    protected static Log log = LogFactory.getLog(UpdateButtonsListener.class);
+    /**
+     * The log instance
+     */
+    private static Log log = LogFactory.getLog(UpdateButtonsListener.class);
     /**
      * The parent
      */
@@ -93,13 +94,17 @@ implements ActionListener, ListSelectionListener
      */
     protected Table table;
 
-
+    /**
+     * @param table the table
+     */
     public UpdateButtonsListener(Table table) {
         this.table = table;
     }
 
     /**
      *
+     * @param parent the parent widget
+     * @param source the source widget
      */
     public UpdateButtonsListener(Widget parent, Widget source) {
         super(source);
@@ -123,8 +128,8 @@ implements ActionListener, ListSelectionListener
             if (value == null) {
                 // figure out what object type to create
                 if (parent instanceof IContentWidget) {
-                    Object objContent = ((IContentWidget)parent).getContent();
-                    // TODO: Only supports content lists...
+                    Object objContent = ((IContentWidget) parent).getContent();
+                    // @todo Only supports content lists...
                     if (objContent instanceof List) {
                         List content = (List) objContent;
                         String classType = parent.getProperty("classType");
@@ -135,11 +140,13 @@ implements ActionListener, ListSelectionListener
                         }
                         if (partBean == null) {
                             if (log.isWarnEnabled()) {
-                                log.warn("Cannot determine type to create for widget "+
-                                    parent.getName() + " please create a rule to call" +
-                                        " the updateform or add the classType property to the table");
+                                log.warn(
+                                    "Cannot determine type to create for widget "
+                                        + parent.getName()
+                                        + " please create a rule to call"
+                                        + " the updateform or add the classType property to the table");
                             }
-                            // TODO: the nyx magic stops here for now
+                            // @todo the nyx magic stops here for now
                             return;
                         }
                     }
@@ -161,16 +168,16 @@ implements ActionListener, ListSelectionListener
         }
         String xml = source.getProperty("action");
         if (xml == null || "".equals(xml)) {
-            // TODO: Do some rule magic here, since rules can be part of actions!
+            // @todo Do some rule magic here, since rules can be part of actions!
             if (log.isWarnEnabled()) {
-                log.warn("No action to preform on widget "+source.getName());
+                log.warn("No action to preform on widget " + source.getName());
             }
             return;
         }
         ApplicationPartHandler handler = new ApplicationPartHandler();
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = handler.read(stream,partBean);
-        part.getSession().setValue("nyx.callerwidget",parent);
+        ApplicationPart part = handler.read(stream, partBean);
+        part.getSession().setValue("nyx.callerwidget", parent);
         part.setParentPart(parent.getPart());
         part.activate();
     }
@@ -178,7 +185,7 @@ implements ActionListener, ListSelectionListener
     /**
      * Set the locator value if such a locator is present
      * properties used for tables : locator and locator.field
-     * @param bean
+     * @param bean the bean
      */
     private void setLocatorValue(Object bean) {
         String locator = parent.getProperty("locator");
@@ -194,7 +201,7 @@ implements ActionListener, ListSelectionListener
                 if (field != null && value != null) {
                     BeanMapping mapping = Dictionary.getInstance().getMapping(bean);
                     IField f = mapping.getField(locatorField);
-                    f.setValue(bean,value);
+                    f.setValue(bean, value);
                 }
             }
         }

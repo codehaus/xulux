@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModelTest.java,v 1.1 2003-12-18 00:17:38 mvdb Exp $
+ $Id: DefaultComboModelTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.swing.widgets.Combo;
  * Tests the swing defaultcombomodel
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModelTest.java,v 1.1 2003-12-18 00:17:38 mvdb Exp $
+ * @version $Id: DefaultComboModelTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
  */
 public class DefaultComboModelTest extends TestCase {
 
@@ -109,7 +109,7 @@ public class DefaultComboModelTest extends TestCase {
         assertEquals(-1, model.getSelectedIndex());
         assertNull(model.getSelectedItem());
         assertEquals(DefaultComboModel.ComboShowable.class, model.getElementAt(0).getClass());
-        assertEquals(((Person) persons.get(0)).firstName+"!", model.getElementAt(0).toString());
+        assertEquals(((Person) persons.get(0)).firstName + "!", model.getElementAt(0).toString());
         // set the selecteditem to 0
         model.setSelectedItem(0);
         assertEquals("Martin!", model.getSelectedItem().toString());

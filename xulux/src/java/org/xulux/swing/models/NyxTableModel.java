@@ -1,7 +1,7 @@
 /*
- $Id: NyxTableModel.java,v 1.1 2003-12-18 00:17:22 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -60,14 +60,20 @@ import org.xulux.swing.widgets.Table;
 
 /**
  * The nyx tablemodel contains all magic for tables.
- * TODO: Assumes lists right now.. Should support more probably..
+ * @todo Assumes lists right now.. Should support more probably..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.1 2003-12-18 00:17:22 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
  */
 public class NyxTableModel extends NyxListener implements TableModel {
 
+    /**
+     * the table
+     */
     protected Table table;
+    /**
+     * the tablemodel
+     */
     protected TableModel model;
 
     /**
@@ -77,26 +83,40 @@ public class NyxTableModel extends NyxListener implements TableModel {
         super();
     }
 
+    /**
+     * @param table the table
+     */
     public NyxTableModel(Table table) {
         setTable(table);
     }
 
+    /**
+     * @param model the model
+     * @param table the table
+     */
     public NyxTableModel(TableModel model, Table table) {
         setTable(table);
         setModel(model);
     }
-    
+
+    /**
+     *
+     * @param model the model
+     */
     public void setModel(TableModel model) {
         this.model = model;
     }
-    
+
+    /**
+     * @return if the model has a model already
+     */
     public boolean hasModel() {
         return this.model != null;
     }
 
     /**
      * Set the table to be used in this tablemodel
-     * @param table
+     * @param table the table
      */
     public void setTable(Table table) {
         this.table = table;
@@ -111,8 +131,8 @@ public class NyxTableModel extends NyxListener implements TableModel {
         }
         int rowCount = 0;
         if (table != null) {
-            if (table.getContent()!=null) {
-                rowCount = ((List)table.getContent()).size();
+            if (table.getContent() != null) {
+                rowCount = ((List) table.getContent()).size();
             }
         }
         return rowCount;
@@ -136,9 +156,9 @@ public class NyxTableModel extends NyxListener implements TableModel {
      */
     public String getColumnName(int columnIndex) {
         if (hasModel()) {
-            return ""+model.getColumnName(columnIndex);
+            return "" + model.getColumnName(columnIndex);
         }
-        return ""+columnIndex;
+        return "" + columnIndex;
     }
 
     /**
@@ -158,7 +178,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
         if (hasModel()) {
             return model.isCellEditable(rowIndex, columnIndex);
         }
-        String editable = ((Widget)table.getChildWidgets().get(columnIndex)).getProperty("editable");
+        String editable = ((Widget) table.getChildWidgets().get(columnIndex)).getProperty("editable");
 
         return "true".equalsIgnoreCase(editable);
     }
@@ -173,14 +193,14 @@ public class NyxTableModel extends NyxListener implements TableModel {
             return model.getValueAt(rowIndex, columnIndex);
         }
         if (columnIndex == -1) {
-            return ((List)table.getContent()).get(rowIndex);
+            return ((List) table.getContent()).get(rowIndex);
         }
-        Widget w = (Widget)table.getChildWidgets().get(columnIndex);
+        Widget w = (Widget) table.getChildWidgets().get(columnIndex);
         if (w.getField() != null) {
-            BeanMapping map = Dictionary.getInstance().getMapping(((List)table.getContent()).get(rowIndex));
+            BeanMapping map = Dictionary.getInstance().getMapping(((List) table.getContent()).get(rowIndex));
             IField field = map.getField(w.getField());
             if (field != null) {
-                Object value = field.getValue(((List)table.getContent()).get(rowIndex));
+                Object value = field.getValue(((List) table.getContent()).get(rowIndex));
                 if (value == null) {
                     value = "";
                 }
@@ -204,12 +224,12 @@ public class NyxTableModel extends NyxListener implements TableModel {
             model.setValueAt(aValue, rowIndex, columnIndex);
             return;
         }
-        Widget w = (Widget)table.getChildWidgets().get(columnIndex);
+        Widget w = (Widget) table.getChildWidgets().get(columnIndex);
         if (w.getField() != null) {
-            BeanMapping map = Dictionary.getInstance().getMapping(((List)table.getContent()).get(rowIndex));
+            BeanMapping map = Dictionary.getInstance().getMapping(((List) table.getContent()).get(rowIndex));
             IField field = map.getField(w.getField());
             if (field != null) {
-                field.setValue(((List)table.getContent()).get(rowIndex), aValue);
+                field.setValue(((List) table.getContent()).get(rowIndex), aValue);
             }
         }
         // process rules, etc..

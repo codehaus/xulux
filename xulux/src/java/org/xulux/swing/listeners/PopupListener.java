@@ -1,7 +1,7 @@
 /*
- $Id: PopupListener.java,v 1.1 2003-12-18 00:17:24 mvdb Exp $
+ $Id: PopupListener.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -59,10 +59,9 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * A popuplistener. Shows the popup when the right mousebutton is clicked
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupListener.java,v 1.1 2003-12-18 00:17:24 mvdb Exp $
+ * @version $Id: PopupListener.java,v 1.2 2003-12-18 01:18:06 mvdb Exp $
  */
-public class PopupListener extends NyxListener
-implements MouseListener {
+public class PopupListener extends NyxListener implements MouseListener {
 
     /**
      *
@@ -71,30 +70,39 @@ implements MouseListener {
         super();
     }
 
+    /**
+     * @param widget the widget
+     */
     public PopupListener(Widget widget) {
         super(widget);
     }
 
+    /**
+     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+     */
     public void mousePressed(MouseEvent e) {
     }
 
+    /**
+     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+     */
     public void mouseReleased(MouseEvent e) {
         // fire pre rules of menuitems..
         WidgetRequestImpl impl = new WidgetRequestImpl(getWidget().getParent(), PartRequest.ACTION_VALUE_CHANGED);
-//        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
-//        // preform all pre rules if postOnly is false
-//            ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
-////        fi
+        //        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
+        //        // preform all pre rules if postOnly is false
+        //            ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+        ////        fi
         ApplicationContext.fireFieldRequest(getWidget(), impl, ApplicationContext.PRE_REQUEST);
         List list = getWidget().getChildWidgets();
         if (list != null) {
-            for (int i=0; i < list.size(); i++) {
-                Widget widget = (Widget)list.get(i);
+            for (int i = 0; i < list.size(); i++) {
+                Widget widget = (Widget) list.get(i);
                 ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
             }
         }
         if (e.isPopupTrigger()) {
-            getWidget().setPosition(e.getX(),e.getY());
+            getWidget().setPosition(e.getX(), e.getY());
             getWidget().setVisible(true);
         }
     }

@@ -1,8 +1,8 @@
 /*
- $Id: JimiImageLoaderTest.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: JimiImageLoaderTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,29 +10,29 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
- 
+
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
- 
+
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -41,7 +41,7 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 package org.xulux.swing.util;
 
@@ -57,7 +57,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: JimiImageLoaderTest.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: JimiImageLoaderTest.java,v 1.2 2003-12-18 01:17:35 mvdb Exp $
  */
 public class JimiImageLoaderTest extends TestCase {
 
@@ -77,10 +77,15 @@ public class JimiImageLoaderTest extends TestCase {
     /**
      * @return The test suite
      */
-    public static Test suite(){
+    public static Test suite() {
         TestSuite suite = new TestSuite(JimiImageLoaderTest.class);
         return suite;
     }
+    /**
+     * Test if it usable
+     *
+     * @throws Exception just in case
+     */
     public void testIsUsable() throws Exception {
         System.out.println("testIsUsable");
         TestClassLoader loader = new TestClassLoader(getJimiUrl());
@@ -97,10 +102,10 @@ public class JimiImageLoaderTest extends TestCase {
         System.out.println("testGetImage");
         JimiImageLoader l = new JimiImageLoader();
         assertNull(l.getImage(null));
-        URL imageURL = getClass().getClassLoader().getResource(RESOURCEROOT+"Car.gif");
+        URL imageURL = getClass().getClassLoader().getResource(RESOURCEROOT + "Car.gif");
         assertNotNull(imageURL);
         assertNotNull(l.getImage(imageURL));
-        imageURL = getClass().getClassLoader().getResource(RESOURCEROOT+"Car.ico");
+        imageURL = getClass().getClassLoader().getResource(RESOURCEROOT + "Car.ico");
         assertNotNull(imageURL);
         assertNotNull(l.getImage(imageURL));
     }
@@ -112,14 +117,17 @@ public class JimiImageLoaderTest extends TestCase {
         System.out.println("testGetIcon");
         JimiImageLoader l = new JimiImageLoader();
         assertNull(l.getIcon(null));
-        URL iconURL = getClass().getClassLoader().getResource(RESOURCEROOT+"Car.gif");
+        URL iconURL = getClass().getClassLoader().getResource(RESOURCEROOT + "Car.gif");
         assertNotNull(iconURL);
         assertNotNull(l.getIcon(iconURL));
-        iconURL = getClass().getClassLoader().getResource(RESOURCEROOT+"Car.ico");
+        iconURL = getClass().getClassLoader().getResource(RESOURCEROOT + "Car.ico");
         assertNotNull(iconURL);
         assertNotNull(l.getIcon(iconURL));
     }
-    
+
+    /**
+     * @return urls from the classpath.
+     */
     public URL[] getJimiUrl() {
         String jcp = System.getProperty("java.class.path");
         StringTokenizer stn = new StringTokenizer(jcp, File.pathSeparator);
@@ -135,14 +143,16 @@ public class JimiImageLoaderTest extends TestCase {
         }
         return urls;
     }
-    
+
     /**
      * A testclassloader, so we can get exception that are otherwize
-     * impossible.. Would be a nice extension to junit :) 
+     * impossible.. Would be a nice extension to junit :)
      */
     public class TestClassLoader extends URLClassLoader {
-
-        URL[] urls;
+        /**
+         * the urls to investigate
+         */
+        private URL[] urls;
         /**
          * Set the current classloader to a null url
          * @param urls the urls to get the classpath from
@@ -158,8 +168,7 @@ public class JimiImageLoaderTest extends TestCase {
         public Class loadClass(String name) throws ClassNotFoundException {
             if (name.indexOf("com.sun.jimi") != -1) {
                 throw new ClassNotFoundException("FAKING JIMI CANNOT BE FOUND");
-            } else 
-            if (name.indexOf("JimiImage") != -1) {
+            } else if (name.indexOf("JimiImage") != -1) {
                 String r = name.replace('.', '/').concat(".class");
                 for (int i = 0; i < urls.length; i++) {
                     URL url = urls[i];
@@ -173,7 +182,7 @@ public class JimiImageLoaderTest extends TestCase {
                             byte[] theClass = new byte[stream.available()];
                             stream.read(theClass);
                             Class clz = defineClass(name, theClass, 0, theClass.length);
-                        } catch(Exception e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: SwingUtils.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,9 +63,9 @@ import org.xulux.utils.NyxCollectionUtils;
  * Contains several utilities to make life with swing easier.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.2 2003-12-18 01:18:05 mvdb Exp $
  */
-public final class SwingUtils {
+public class SwingUtils {
 
     /**
      * The log factory, so we can log the necssary information
@@ -89,6 +89,12 @@ public final class SwingUtils {
      */
     static {
         initializeImageLoader();
+    }
+
+    /**
+     * Override constructor.
+     */
+    protected SwingUtils() {
     }
 
     /**
