@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfigTest.java,v 1.6 2004-05-11 13:02:42 mvdb Exp $
+   $Id: WidgetConfigTest.java,v 1.7 2004-05-13 15:30:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.6 2004-05-11 13:02:42 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.7 2004-05-13 15:30:15 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase {
 
@@ -172,6 +172,8 @@ public class WidgetConfigTest extends TestCase {
         config.addContentHandler("java.lang.String", "java.lang.String");
         // test where the contenthandler fails to instantiate the handler..
         config.addContentHandler(FailInstantiateHandler.class.getName(), "java.lang.String");
+        // test for an npe when there is no contenthandler is found.
+        config.getContentHandler(this.getClass());
     }
     
     public void testWidgetDefaults() {

@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfig.java,v 1.6 2004-05-11 12:56:57 mvdb Exp $
+   $Id: WidgetConfig.java,v 1.7 2004-05-13 15:30:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.6 2004-05-11 12:56:57 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.7 2004-05-13 15:30:15 mvdb Exp $
  */
 public class WidgetConfig {
 
@@ -248,7 +248,7 @@ public class WidgetConfig {
                 }
             }
             IContentHandler retValue = (IContentHandler) ClassLoaderUtils.getObjectFromClass(clz);
-            if (contentHandlerViews != null) {
+            if (retValue != null && contentHandlerViews != null) {
                 retValue.setView((Class) contentHandlerViews.get(finalClass));
             }
             return retValue; 
