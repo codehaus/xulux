@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.20 2003-12-13 16:37:13 mvdb Exp $
+ $Id: NyxCombo.java,v 1.21 2003-12-15 20:02:23 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,24 +61,36 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.20 2003-12-13 16:37:13 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.21 2003-12-15 20:02:23 mvdb Exp $
  */
-public abstract class NyxCombo extends Widget
-implements IContentWidget
-{
+public abstract class NyxCombo extends Widget implements IContentWidget {
 
+    /**
+     * the content
+     */
     protected List content;
+    /**
+     * the notselected value
+     */
     protected String notSelectedValue;
+    /**
+     * Is the content changed ?
+     */
     protected boolean contentChanged;
+    /**
+     * Is the notselected value set
+     */
     protected boolean notSelectedValueSet;
+    /**
+     * The log instance
+     */
     protected static Log log = LogFactory.getLog(NyxCombo.class);
 
     /**
      * Constructor for NyxCombo.
-     * @param name
+     * @param name the name of the combo
      */
-    public NyxCombo(String name)
-    {
+    public NyxCombo(String name) {
         super(name);
     }
 
@@ -89,8 +101,7 @@ implements IContentWidget
      * and call super for this to work
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
-    public void destroy()
-    {
+    public void destroy() {
         getPart().removeWidget(this, this);
         removeAllRules();
     }
@@ -116,18 +127,17 @@ implements IContentWidget
      * If the content is a basetype, fields can be specified
      * to say which one is used, in any other situation, toString is used
      * to represent a field.
+     * @param object the content
      */
-    public void setContent(Object object)
-    {
+    public void setContent(Object object) {
         if (object instanceof List) {
-            this.content = (List)object;
+            this.content = (List) object;
             if (getNotSelectedValue() != null) {
                 this.content.add(0, getNotSelectedValue());
             }
             contentChanged = true;
         }
-        if (initialized)
-        {
+        if (initialized) {
             refresh();
         }
     }
@@ -144,17 +154,17 @@ implements IContentWidget
         }
         if (contentType.equalsIgnoreCase("string")) {
             this.content = NyxCollectionUtils.getListFromCSV(content);
-        }else if (contentType.equalsIgnoreCase("field")) {
+        } else if (contentType.equalsIgnoreCase("field")) {
             int index = content.lastIndexOf(".");
-            Class clz = ClassLoaderUtils.getClass(content.substring(0,index));
+            Class clz = ClassLoaderUtils.getClass(content.substring(0, index));
             if (clz == null) {
                 if (log.isWarnEnabled()) {
-                    log.warn("content field "+content+" of widget "+getName()+" could not be found");
+                    log.warn("content field " + content + " of widget " + getName() + " could not be found");
                 }
             }
             BeanMapping mapping = Dictionary.getInstance().getMapping(clz);
             if (mapping != null) {
-                IField field = mapping.getField(content.substring(index+1));
+                IField field = mapping.getField(content.substring(index + 1));
                 if (field != null) {
                     this.content = NyxCollectionUtils.getList(field.getValue(null));
                 }
@@ -165,8 +175,7 @@ implements IContentWidget
     /**
      * Initializes the not selected value.
      */
-    protected void initializeNotSelectedValue()
-    {
+    protected void initializeNotSelectedValue() {
         String nsv = getNotSelectedValue();
         if (nsv == null) {
             if (notSelectedValueSet) {
@@ -176,7 +185,7 @@ implements IContentWidget
             }
             return;
         }
-        if (this.content == null ||  content.size() == 0) {
+        if (this.content == null || content.size() == 0) {
             if (this.content == null) {
                 this.content = new ArrayList();
             }
@@ -211,8 +220,7 @@ implements IContentWidget
      * Does nothing when value is null
      * @param notSelectedValue the text representing the notselected text.
      */
-    public void setNotSelectedValue(String notSelectedValue)
-    {
+    public void setNotSelectedValue(String notSelectedValue) {
         if (notSelectedValueSet) {
             // we don't want to do anything when
             // the not selected value is the same
@@ -237,8 +245,7 @@ implements IContentWidget
     /**
      * @see org.xulux.nyx.gui.Widget#getValue()
      */
-    public Object getValue()
-    {
+    public Object getValue() {
         if (getField() == null) {
             if (this.value != null && this.value.equals(getNotSelectedValue())) {
                 return null;
@@ -257,14 +264,16 @@ implements IContentWidget
         }
     }
 
-    public void setValue(Object object)
-    {
+    /**
+     * @see org.xulux.nyx.gui.Widget#setValue(java.lang.Object)
+     */
+    public void setValue(Object object) {
         setValue(object, true);
     }
     /**
-     * TODO: Provide some tests to prove if this stuff actually works!
-     * @param object
-     * @param refresh
+     * @todo Provide some tests to prove if this stuff actually works!
+     * @param object the value to set
+     * @param refresh should the widget be refreshed?
      */
     public void setValue(Object object, boolean refresh) {
         if (isUseIgnored()) {
@@ -288,19 +297,18 @@ implements IContentWidget
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             IField field = map.getField(getField());
             if (field != null) {
-                Object currentValue =  field.getValue(getPart().getBean());
-                if (currentValue != null ) {
+                Object currentValue = field.getValue(getPart().getBean());
+                if (currentValue != null) {
                     this.previousValue = currentValue;
                 }
-                field.setValue(getPart().getBean(),object);
+                field.setValue(getPart().getBean(), object);
                 this.value = object;
             }
             if (this.value == null) {
                 this.value = object;
             }
         }
-        if (initialized && refresh)
-        {
+        if (initialized && refresh) {
             refresh();
         }
     }
@@ -309,21 +317,18 @@ implements IContentWidget
      * Sets the value without updating the screen
      * Normally only called by the classes that handle
      * the combo box, like combo listeners.
-     * @param object
+     * @param object the value
      */
-    public void setLazyValue(Object object)
-    {
+    public void setLazyValue(Object object) {
         setValue(object, false);
     }
 
     /**
      * @see org.xulux.nyx.gui.Widget#clear()
      */
-    public void clear()
-    {
+    public void clear() {
         setValue(null);
-        if (initialized)
-        {
+        if (initialized) {
             refresh();
         }
     }
@@ -332,12 +337,9 @@ implements IContentWidget
      * Returns the content.
      * @return ArrayList
      */
-    public Object getContent()
-    {
+    public Object getContent() {
         return content;
     }
-
-
 
     /**
      * @see org.xulux.nyx.gui.Widget#canContainValue()
