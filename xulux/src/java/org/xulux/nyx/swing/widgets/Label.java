@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.24 2003-11-13 00:20:48 mvdb Exp $
+ $Id: Label.java,v 1.25 2003-11-13 00:31:50 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.24 2003-11-13 00:20:48 mvdb Exp $
+ * @version $Id: Label.java,v 1.25 2003-11-13 00:31:50 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -152,14 +152,14 @@ public class Label extends SwingWidget
             label.setForeground(ColorUtils.getSwingColor(color));
         } else {
             // try to find the parent use that foreground color
-            if (getParent() != null) {
-                //System.out.println("getParent() != null");
-                Object p = getParent().getNativeWidget();
-                if (p instanceof Component) {
-                    //System.out.println("Setting foreground to " +((Component)p).getForeground());
-                    label.setForeground(((Component)p).getForeground());
-                }
-            }
+//            if (getParent() != null) {
+//                //System.out.println("getParent() != null");
+//                Object p = getParent().getNativeWidget();
+//                if (p instanceof Component) {
+//                    //System.out.println("Setting foreground to " +((Component)p).getForeground());
+//                    label.setForeground(((Component)p).getForeground());
+//                }
+//            }
         }
         String bgColor = null;
         if (isEnabled()) {
@@ -171,12 +171,12 @@ public class Label extends SwingWidget
             label.setBackground(ColorUtils.getSwingColor(bgColor));
         } else {
             // try to find the parent and use that color..
-            if (getParent() != null) {
-                Object p = getParent().getNativeWidget();
-                if (p instanceof Component) {
-                    label.setBackground(((Component)p).getBackground());
-                }
-            }
+//            if (getParent() != null) {
+//                Object p = getParent().getNativeWidget();
+//                if (p instanceof Component) {
+//                    label.setBackground(((Component)p).getBackground());
+//                }
+//            }
         }
         if (getProperty("enabled.depends")!= null) {
             String value = getProperty("enabled.depends");
