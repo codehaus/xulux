@@ -1,5 +1,5 @@
 /*
- $Id: SessionPart.java,v 1.4 2003-05-20 16:10:04 mvdb Exp $
+ $Id: SessionPart.java,v 1.5 2003-05-21 11:01:30 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,12 +46,13 @@
 package org.xulux.nyx.context;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Contains application wide part data.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SessionPart.java,v 1.4 2003-05-20 16:10:04 mvdb Exp $
+ * @version $Id: SessionPart.java,v 1.5 2003-05-21 11:01:30 mvdb Exp $
  */
 public class SessionPart
 {
@@ -108,6 +109,10 @@ public class SessionPart
         return map.remove(key);
     }
     
+    /**
+     * Clears all values in the session
+     *
+     */
     public void clear()
     {
         if (map!= null)
@@ -116,6 +121,34 @@ public class SessionPart
         }
         map = null;
     }
+    
+    /**
+     * Sample code :
+     * <code>
+     * 
+     * Iterator it = part.iterator();
+     * while (it.hasNext()) {
+     *   Object value = part.getValue(it.next());
+     * }
+     * 
+     * @return an iterator containing keys
+     */
+    public Iterator iterator() {
+        return map.keySet().iterator();
+    }
+    
+    /** 
+     * 
+     * @return the size of the current session
+     */
+    public int size() {
+        if (map == null) {
+            return 0;
+        } else {
+            return map.size();
+        }
+    }
+        
     
     public String toString()
     {
@@ -128,5 +161,5 @@ public class SessionPart
             return "session is empty";
         }
     }
-
+    
 }
