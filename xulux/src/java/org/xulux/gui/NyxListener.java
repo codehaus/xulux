@@ -1,5 +1,5 @@
 /*
-   $Id: NyxListener.java,v 1.10 2004-07-19 22:07:31 mvdb Exp $
+   $Id: NyxListener.java,v 1.11 2004-11-18 23:34:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,13 +17,16 @@
 */
 package org.xulux.gui;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.core.ApplicationPart;
 import org.xulux.core.PartRequest;
 import org.xulux.core.XuluxContext;
+import org.xulux.guidriver.XuluxGuiDriver;
 import org.xulux.rules.impl.PartRequestImpl;
 import org.xulux.rules.impl.WidgetRequestImpl;
 import org.xulux.swing.widgets.Button;
@@ -35,7 +38,7 @@ import org.xulux.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.10 2004-07-19 22:07:31 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.11 2004-11-18 23:34:03 mvdb Exp $
  */
 public abstract class NyxListener {
     /**
@@ -141,6 +144,15 @@ public abstract class NyxListener {
         }
 
         if (widget instanceof Button || widget instanceof MenuItem) {
+            String xml = widget.getProperty("action");
+            if (xml != null) { 
+	            XuluxGuiDriver handler = new XuluxGuiDriver();
+	            InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+	            ApplicationPart part = handler.read(stream, widget.getPart().getBean());
+	            part.getSession().setValue("nyx.callerwidget", widget);
+	            part.setParentPart(widget.getPart());
+	            part.activate();
+            }
             String defAction = widget.getProperty("defaultaction");
             if (defAction != null) {
                 if (defAction.equalsIgnoreCase("save")) {
