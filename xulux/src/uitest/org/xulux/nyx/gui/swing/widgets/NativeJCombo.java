@@ -1,5 +1,5 @@
 /*
- $Id: NativeJButton.java,v 1.2 2003-08-28 23:22:09 mvdb Exp $
+ $Id: NativeJCombo.java,v 1.1 2003-08-28 23:22:09 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,54 +46,53 @@
 package org.xulux.nyx.gui.swing.widgets;
 
 import java.awt.Dimension;
+import java.util.Vector;
 
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.JButton;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 /**
+ * An example of use of a native swing combo
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NativeJButton.java,v 1.2 2003-08-28 23:22:09 mvdb Exp $
+ * @version $Id: NativeJCombo.java,v 1.1 2003-08-28 23:22:09 mvdb Exp $
  */
-public class NativeJButton extends JButton {
+public class NativeJCombo extends JComboBox {
+    
+    /**
+     * @param aModel
+     */
+    public NativeJCombo(ComboBoxModel aModel) {
+        super(aModel);
+    }
+
+    /**
+     * @param items
+     */
+    public NativeJCombo(Object[] items) {
+        super(items);
+    }
+
+    /**
+     * @param items
+     */
+    public NativeJCombo(Vector items) {
+        super(items);
+    }
 
     /**
      * 
      */
-    public NativeJButton() {
+    public NativeJCombo() {
         super();
-        setPreferredSize(new Dimension(135,31));
-        setText("Native JButton");
+        setPreferredSize(new Dimension(135,21));
+        Vector vector = new Vector();
+        vector.add("1");
+        vector.add("2");
+        vector.add("3");
+        vector.add("4");
+        vector.add("5");
+        setModel(new DefaultComboBoxModel(vector));
     }
-
-    /**
-     * @param icon
-     */
-    public NativeJButton(Icon icon) {
-        super(icon);
-    }
-
-    /**
-     * @param text
-     */
-    public NativeJButton(String text) {
-        super(text);
-    }
-
-    /**
-     * @param a
-     */
-    public NativeJButton(Action a) {
-        super(a);
-    }
-
-    /**
-     * @param text
-     * @param icon
-     */
-    public NativeJButton(String text, Icon icon) {
-        super(text, icon);
-    }
-
 }
