@@ -1,7 +1,7 @@
 /*
-   $Id: license2header.txt,v 1.1 2004-01-28 12:24:00 mvdb Exp $
+   $Id: license2header.txt,v 1.2 2004-01-28 23:18:34 mvdb Exp $
    
-   Copyright 2002-2003 The Xulux Project
+   Copyright 2002-2004 The Xulux Project
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
