@@ -23,7 +23,7 @@
   <shortDescription>XUL based gui generator</shortDescription>
 
   <url>http://www.xulux.org/</url>
-  <issueTrackingUrl>http://www.xulux.org</issueTrackingUrl>
+  <issueTrackingUrl>http://jira.werken.com/BrowseProject.jspa?id=10025</issueTrackingUrl>
   <siteAddress>eng.werken.com</siteAddress>
   <siteDirectory>/www/xulux.org/</siteDirectory>
   <distributionDirectory>/www/xulux.org/builds/xulux/</distributionDirectory>
