@@ -1,5 +1,5 @@
 /*
-   $Id: MainEntryComboRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+   $Id: MainEntryComboRule.java,v 1.4 2004-10-20 17:37:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,9 +18,9 @@
 package org.xulux.gui.rules;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.xulux.core.PartRequest;
-import org.xulux.gui.NyxCombo;
 import org.xulux.gui.swing.widgets.PersonBean;
 import org.xulux.rules.Rule;
 import org.xulux.swing.widgets.Entry;
@@ -28,7 +28,7 @@ import org.xulux.swing.widgets.Entry;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MainEntryComboRule.java,v 1.3 2004-03-16 15:04:14 mvdb Exp $
+ * @version $Id: MainEntryComboRule.java,v 1.4 2004-10-20 17:37:08 mvdb Exp $
  */
 public class MainEntryComboRule extends Rule {
 
@@ -45,10 +45,10 @@ public class MainEntryComboRule extends Rule {
         Entry entry = (Entry) request.getPart().getWidget("PersonEntry");
         System.out.println("Setting value to : " + request.getPart().getBean());
         entry.setValue(request.getPart().getBean());
-        NyxCombo combo = (NyxCombo) request.getPart().getWidget("PersonList");
-        ArrayList list = createContent();
-        combo.setContent(list);
-        combo.setValue(list.get(2));
+//        NyxCombo combo = (NyxCombo) request.getPart().getWidget("PersonList");
+//        List list = createContent();
+//        combo.setContent(list);
+//        combo.setValue(list.get(2));
     }
 
     /**
@@ -60,7 +60,7 @@ public class MainEntryComboRule extends Rule {
     /**
      * @return the content
      */
-    public ArrayList createContent() {
+    public static List createContent() {
         ArrayList list = new ArrayList();
         list.add(new PersonBean("John", "Doe"));
         list.add(new PersonBean("Jane", "Tarzan"));
