@@ -1,5 +1,5 @@
 /*
- $Id: NyxComboTest.java,v 1.3 2003-12-15 18:16:09 mvdb Exp $
+ $Id: NyxComboTest.java,v 1.4 2003-12-15 20:17:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -56,7 +56,7 @@ import junit.framework.TestSuite;
  * Test the NyxCombo box.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxComboTest.java,v 1.3 2003-12-15 18:16:09 mvdb Exp $
+ * @version $Id: NyxComboTest.java,v 1.4 2003-12-15 20:17:49 mvdb Exp $
  */
 public class NyxComboTest extends TestCase {
 
@@ -94,13 +94,13 @@ public class NyxComboTest extends TestCase {
         combo.setNotSelectedValue(nsv);
         assertEquals(1, combo.refreshCount);
         assertNotNull(combo.getContent());
-        assertEquals(nsv, ((List)combo.getContent()).get(0));
+        assertEquals(nsv, ((List) combo.getContent()).get(0));
         // although we only have one not selectedvalue in the list
         // that gets removed now, we will keep the list, since people
         // can use it as a reference in their code..
         combo.setNotSelectedValue(null);
         assertEquals(2, combo.refreshCount);
-        assertEquals(0, ((List)combo.getContent()).size());
+        assertEquals(0, ((List) combo.getContent()).size());
         assertNull(combo.getNotSelectedValue());
         combo.setNotSelectedValue(nsv);
         assertEquals(nsv, combo.getNotSelectedValue());
@@ -114,20 +114,20 @@ public class NyxComboTest extends TestCase {
         combo.setContent(list);
         assertEquals(4, combo.refreshCount);
         assertEquals(list, combo.getContent());
-        assertEquals(4, ((List)combo.getContent()).size());
+        assertEquals(4, ((List) combo.getContent()).size());
         // set the notselectedvalue to some differentvalue.
         // it should replace the old one
         combo.setNotSelectedValue(nsv);
         // nothing should happen...
         assertEquals(4, combo.refreshCount);
         combo.setNotSelectedValue("different");
-        assertEquals(4, ((List)combo.getContent()).size());
-        assertEquals("different", ((List)combo.getContent()).get(0));
+        assertEquals(4, ((List) combo.getContent()).size());
+        assertEquals("different", ((List) combo.getContent()).get(0));
         assertEquals(5, combo.refreshCount);
         // reset the notselected value..
         combo.setNotSelectedValue(null);
         assertEquals(6, combo.refreshCount);
-        assertEquals(3, ((List)combo.getContent()).size());
+        assertEquals(3, ((List) combo.getContent()).size());
     }
 
     /**
@@ -135,6 +135,9 @@ public class NyxComboTest extends TestCase {
      */
     public class C extends NyxCombo {
 
+        /**
+         * the refreshcount
+         */
         public int refreshCount = 0;
         /**
          * The main constructor
@@ -171,6 +174,5 @@ public class NyxComboTest extends TestCase {
         public void contentChanged() {
         }
     }
-
 
 }
