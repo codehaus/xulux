@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.5 2002-11-11 01:45:39 mvdb Exp $
+ $Id: Button.java,v 1.6 2002-11-13 02:44:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.5 2002-11-11 01:45:39 mvdb Exp $
+ * @version $Id: Button.java,v 1.6 2002-11-13 02:44:50 mvdb Exp $
  */
 public class Button extends Widget
 {
@@ -120,12 +120,6 @@ public class Button extends Widget
         {
             ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(image));
             button.setIcon(icon);
-        }
-        String enabled = (String)properties.get("enabled");
-        if (enabled != null)
-        {
-            setEnable((enabled.equalsIgnoreCase("true")?true:false));
-            button.setEnabled(isEnabled());
         }
         isRefreshing = false;
     }

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.10 2002-11-13 00:12:29 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.11 2002-11-13 02:44:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.10 2002-11-13 00:12:29 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.11 2002-11-13 02:44:50 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -239,23 +239,51 @@ public class ApplicationContext
             return;
         }
         ArrayList currentWidgets = (ArrayList)widgets.clone();
+        //System.err.println("pre fieldRequests : "+currentWidgets);
         Iterator wit = currentWidgets.iterator();
         boolean stopAllRules = false;
         while (wit.hasNext() && !stopAllRules)
         {
+            Widget widget = (Widget) wit.next();
+            if (widget == request.getWidget())
+            {
+                // don't process the caller again..
+                continue;
+            }
             stopAllRules = request.getPart().needToStopAllRules(getInstance());
             if (stopAllRules)
             {
+                //System.err.println("stopping all rules");
                 return;
             }
-            Widget widget = (Widget) wit.next();
+            //System.out.println("Widget name :"+widget.getName());
+            if (widget.canContainChildren())
+            {
+                //System.err.println("Can contain children");
+                ArrayList cw = widget.getChildWidgets();
+                if (cw != null || cw.size() > 0)
+                {
+                    ArrayList currentW = (ArrayList)cw.clone();
+                    Iterator it = currentW.iterator();
+                    while (it.hasNext())
+                    {
+                        fireFieldRequest((Widget)it.next(),request, type);
+                    }
+                }
+            }
+            else
+            {
+                //System.out.println("widget "+widget.getName()+" has no rules");
+            }
             ArrayList rules = widget.getRules();
             if (rules == null || rules.size() == 0)
             {
-                return;
+                //System.err.println("no rules");
+                continue;
             }
             ArrayList currentRules = (ArrayList)rules.clone();
             Iterator it = currentRules.iterator();
+            //System.err.println("Firing request for "+currentRules);
             stopAllRules = fireRequests(it, request, type);
         }
     }
@@ -289,7 +317,7 @@ public class ApplicationContext
                         rule.execute(request);
                         continue;
                     case POST_REQUEST :
-                        System.out.println("Processing post rule : " + rule.getClass().getName());
+                        System.err.println("Processing post rule : " + rule.getClass().getName());
                         rule.post(request);
                         continue;
                 }

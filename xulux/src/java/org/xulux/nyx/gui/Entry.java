@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.13 2002-11-12 18:16:11 mvdb Exp $
+ $Id: Entry.java,v 1.14 2002-11-13 02:44:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,7 +56,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.13 2002-11-12 18:16:11 mvdb Exp $
+ * @version $Id: Entry.java,v 1.14 2002-11-13 02:44:50 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -144,17 +144,16 @@ extends Widget
         textField.setEnabled(isEnabled());
         textField.setVisible(isVisible());
         textField.setPreferredSize(this.size);
-        if (getProperties() == null)
+        if (getProperties() != null)
         {
-            isRefreshing = false;
-            return;
+            String enabled = (String)properties.get("enabled");
+            if (enabled != null)
+            {
+                setEnable((enabled.equalsIgnoreCase("true")?true:false));
+                textField.setEditable(isEnabled());
+            }
         }
-        String enabled = (String)properties.get("enabled");
-        if (enabled != null)
-        {
-            setEnable((enabled.equalsIgnoreCase("true")?true:false));
-            textField.setEditable(isEnabled());
-        }
+        textField.repaint();
         isRefreshing = false;
     }
 
@@ -165,6 +164,7 @@ extends Widget
     {
         if (textField != null)
         {
+            System.out.println("returning text value :"+textField.getText());
             return textField.getText();
         }
         else if (this.value != null)
@@ -204,4 +204,23 @@ extends Widget
             refresh();
         }
     }
+    /**
+     * @see org.xulux.nyx.gui.Widget#clear()
+     */
+    public void clear()
+    {
+        if (textField == null)
+        {
+            this.value = null;
+        }
+        else
+        {
+            textField.setText("");
+        }
+        if (initialized)
+        {
+            refresh();
+        }
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.11 2002-11-12 18:20:16 mvdb Exp $
+ $Id: Widget.java,v 1.12 2002-11-13 02:44:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.11 2002-11-12 18:20:16 mvdb Exp $
+ * @version $Id: Widget.java,v 1.12 2002-11-13 02:44:50 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -85,6 +85,8 @@ public abstract class Widget
     private String text;
     
     protected HashMap properties;
+    
+    private boolean required = false;
     
     /**
      * Specfies if the widget is refreshing
@@ -346,6 +348,14 @@ public abstract class Widget
             properties = new HashMap();
         }
         properties.put(key, value);
+        if (key.equalsIgnoreCase("required"))
+        {
+            setRequired((value.equalsIgnoreCase("true")?true:false));
+        }
+        if (key.equalsIgnoreCase("enabled"))
+        {
+            setEnable((value.equalsIgnoreCase("true")?true:false));
+        }
         // refresh the widget when it is initialized
         if (initialized)
         {
@@ -400,5 +410,27 @@ public abstract class Widget
     {
     }
         
+
+    /**
+     * Returns the required.
+     * @return boolean
+     */
+    public boolean isRequired()
+    {
+        return required;
+    }
+
+    /**
+     * Sets the required.
+     * @param required The required to set
+     */
+    public void setRequired(boolean required)
+    {
+        this.required = required;
+        if (this.initialized)
+        {
+            refresh();
+        }
+    }
 
 }

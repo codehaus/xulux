@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.5 2002-11-12 17:16:43 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.6 2002-11-13 02:44:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.global.IField;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.5 2002-11-12 17:16:43 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.6 2002-11-13 02:44:50 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -168,7 +168,11 @@ public class DefaultComboModel implements ComboBoxModel
         
         if (field != null && original.size() > 1)
         {
-            mapping = Dictionary.getInstance().getMapping(original.get(2).getClass());
+            Class tmpClazz = original.get(2).getClass();
+            if (tmpClazz != String.class)
+            {
+                mapping = Dictionary.getInstance().getMapping(original.get(2).getClass());
+            }
         }
         list = new ArrayList();
         for (int i=0; i < original.size(); i++)

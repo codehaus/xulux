@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.9 2002-11-12 12:36:05 mvdb Exp $
+ $Id: Combo.java,v 1.10 2002-11-13 02:44:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.9 2002-11-12 12:36:05 mvdb Exp $
+ * @version $Id: Combo.java,v 1.10 2002-11-13 02:44:50 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -101,7 +101,7 @@ public class Combo extends Widget
      */
     public void setContent(ArrayList list)
     {
-        System.out.println("content : "+list);
+        //System.out.println("content : "+list);
         this.content = list;
         contentChanged = true;
         refresh();
@@ -211,6 +211,8 @@ public class Combo extends Widget
         {
             combo.removeKeyListener(keyListener);
         }
+        combo.setEnabled(isEnabled());
+        combo.setVisible(isVisible());
         if (contentChanged)
         {
             contentChanged = false;
@@ -227,6 +229,7 @@ public class Combo extends Widget
                 combo.addActionListener(this.actionListener);
             }
         }
+        combo.repaint();
     }
     /**
      * @see org.xulux.nyx.gui.Widget#getValue()
@@ -238,18 +241,28 @@ public class Combo extends Widget
     
     public void setValue(Object object)
     {
+        if (object != null)
+        {
+            System.out.println(object.getClass());
+        }
         if (object instanceof DefaultComboModel.ComboShowable)
         {
             model.setSelectedItem(object);
         }
         else
         {
-            int index = content.indexOf(object);
+            int index = -1;
+            if (content != null)
+            {
+                content.indexOf(object);
+            }
+            System.err.println("Index of specialismList :"+index);
             if (index != -1)
             {
                 model.setSelectedItem(index);
             }
         }
+        refresh();
     }
     /**
      * @see org.xulux.nyx.gui.Widget#clear()
@@ -258,13 +271,25 @@ public class Combo extends Widget
     {
         if (notSelectedValue == null)
         {
-            model.setSelectedItem(null);
+            if (model != null)
+            {
+                model.setSelectedItem(null);
+            }
         }
         else
         {
             combo.setSelectedIndex(0);
         }
-        combo.repaint();
+        refresh();
+    }
+
+    /**
+     * Returns the content.
+     * @return ArrayList
+     */
+    public ArrayList getContent()
+    {
+        return content;
     }
 
 }
