@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.4 2003-09-23 14:22:45 mvdb Exp $
+ $Id: Tree.java,v 1.5 2003-09-23 23:00:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.swing.widgets;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
 import org.xulux.nyx.context.ApplicationContext;
@@ -56,11 +57,12 @@ import org.xulux.nyx.swing.models.SwingTreeModel;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.4 2003-09-23 14:22:45 mvdb Exp $
+ * @version $Id: Tree.java,v 1.5 2003-09-23 23:00:14 mvdb Exp $
  */
 public class Tree extends Widget implements IContentWidget {
     
     protected JTree jtree;
+    protected JScrollPane scrollPane;
     protected Object content;
     protected boolean contentChanged;
     protected SwingTreeModel contentHandler;
@@ -86,7 +88,7 @@ public class Tree extends Widget implements IContentWidget {
      */
     public Object getNativeWidget() {
         initialize();
-        return this.jtree;
+        return this.scrollPane;
     }
 
     /**
@@ -104,7 +106,8 @@ public class Tree extends Widget implements IContentWidget {
         if (this.contentHandler == null) {
             this.contentHandler = new SwingTreeModel(null);
         }
-        this.jtree = new JTree(this.contentHandler);
+        jtree = new JTree(this.contentHandler);
+        scrollPane = new JScrollPane(jtree);
         initialized = true;
         refresh();
     }
