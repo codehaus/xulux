@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Askes Rule Engine Questions">
+  <part id="general" title="General">
+    <faq id="invalid-value">
+      <question>
+        I want to specify that an invalid value is present in the field, based
+        on the rule and reselect the field again? Is that possible ?
+      </question>
+      <answer>
+        <p>
+        When using rules and you are checking valid values from within a pre
+        or post method, you can call the widgets setValidValue(boolean) to 
+        specify if the value was valid or not. Default will be that everything
+        is a valid value, so normal processing takes place by default.
+        If you call setValidValue(false) don't forget to set it back to true
+        when the value is Ok!
+        The setting of this value, will prevent the user from leaving the form
+        through the specified ok (or save) button and select the fields with
+        invalid values.
+        </p>
+     </answer>
+    </faq>
+  </part>
+</faqs>

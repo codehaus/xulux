@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Gui Layer Core</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Gui Layer Core">
+  <p>
+    The core of the gui layer, consists of several abstract classes and
+    interfaces that guilayers can implement, so widgets are correctly processed
+    in the gui. 
+    We seperate two type of widgets in xulux : native widgets and xulux widgets. A 
+    native widget is always specific to the gui layer implementation. A xulux widget
+    (which will be completely replaces by interfaces and abstracts), is the wrapper
+    around the native widget and should be used in eg rules to prevent XULUX from not
+    being gui independend anymore.
+  </p>
+</section>
+<section name="The big picture">
+  <p>
+  </p>
+</section>
+<section name="Future of the Widgets">
+  <p>
+    As stated in the general core section, the future of widgets will that you actually
+    don't know what kind of widget you are talking too, since you simply don't know what
+    the widget is made up of, through it's propertyhandlers. The only thing you can do,
+    which is also present in small atm, is see if the widget supports certain functionality.
+    This will be completely handled by Interface and properties.
+  </p>
+  <subsection name="Why switch the way it works now?">
+    <p>
+      The things we noticed during development of gui layers (only swing and a small bit of SWT),
+      is that we alrady got stuck with the SWT layer, because of the way we chose the first
+      setup of xulux. To name a few : 
+      <ul>
+      <li>In swing it is normal to add the child to the parent, but in SWT you add
+      the parent to the child</li>
+      <li>In SWT you have to maintain a loop to keep your gui onscreen.</li>
+      <li>In SWT you have to dispose <b>everything</b> you create. Which
+          means if you do a color change on an SWT widget, you have to dispose
+          the old color.</li>
+      </ul>
+      To make sure that in other gui layers xulux also is still able to show you
+      a gui, without creating too much hacks, I think we have to have as much interfacing
+      as possible, so people can create their own way of adding widget to eg a window 
+      (a <code>ContainerWidget</code> in xulux terms).
+    </p>
+  </subsection>
+  <subsection name="Interfaces">
+    <p>
+      XULUX currently already uses interfaces to have some processing keep the gui independ
+      nature of xulux. Interfaces describe the functionality that is supported by the native
+      widget. A good example is the combo. A combo supports content (and contenthandlers),
+      which you can specify implementing the interface <code>IContentWidget</code>. Content
+      meaning in this case, that choices in the combobox can have multiple items and those
+      values don't express that it is the current value of the widget itself (the value that
+      was selected by the user). So if you know you are dealing with a contentwidget and need
+      to do some content processing in a rule, you just cast the widget ti IContentWidget and
+      do your magic. The future will be that the widget doesn't actually contain much for people
+      to interact with, unless they really want to break the gui independend nature. 
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      Properties will be processed using <code>propertyhandlers</code> (name can change though). Everytime
+      a property is set, it will call the appropiate propertyhandler to do it's magic (like setting a
+      background color). PropertyHandlers can be reused for different native widgets and may contain
+      gui layer specific code.
+      Property processing is simple, just set the property through <code>setProperty(key, value)</code>
+      and hope it has a meaning for that widget. There should be an <code>isPropertySupported(key)</code>
+      to check for existing properties, if your rules or custom propertyhandlers rely on such a property.
+    </p>
+  </subsection>
+</section>
+</body>
+
+</document>

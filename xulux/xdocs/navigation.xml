@@ -26,7 +26,8 @@
         </item>
         <item name="Widgets" href="/widgets/index.html"/>
       </item>
-      <item name="Gui Layers" href="/guilayers.html">
+      <item name="Gui Layers" href="/guilayer/index.html">
+        <item name="Core" href="/guilayer/core.html"/>
         <item name="Swing" href="/swing/index.html"/>
         <item name="SWT" href="/swt/index.html"/>
       </item>
@@ -37,7 +38,7 @@
       <item name="Rule Engines" href="/rules/index.html">
       <!-- nice to have when there are more rule engines available :) -->
 <!--        <item name="Core Engine" href="/rules/core.html"/> -->
-        <item name="FAQ" href="/faqs/rulesfaq.html"/>
+        <item name="FAQ" href="/rules/faq.html"/>
       </item>
     </menu>
   </body>

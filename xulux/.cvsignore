@@ -7,3 +7,5 @@ nyx.manifest
 nyx.jardesc
 .clover
 .checkstyle
+.jetproperties
+jcoverage.ser
