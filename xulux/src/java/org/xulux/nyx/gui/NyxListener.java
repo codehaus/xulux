@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.15 2003-08-20 12:34:48 mvdb Exp $
+ $Id: NyxListener.java,v 1.16 2003-08-29 01:00:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.15 2003-08-20 12:34:48 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.16 2003-08-29 01:00:34 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -180,7 +180,8 @@ public abstract class NyxListener
                     while (it.hasNext()) {
                         Widget w = (Widget)it.next();
                         boolean process = false;
-                        if (w.isRequired() && (w.canContainValue() && w.isValueEmpty())) {
+                        if (w.isRequired() && (w.canContainValue() && w.isValueEmpty())
+                            || !w.isValidValue()) {
                             NYXToolkit.getInstance().beep();
                             w.focus();
                             return false;
