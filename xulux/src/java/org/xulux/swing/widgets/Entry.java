@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.16 2004-06-29 13:09:34 mvdb Exp $
+   $Id: Entry.java,v 1.17 2004-07-12 13:44:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -33,6 +33,7 @@ import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.InvalidValueException;
 import org.xulux.dataprovider.converters.IConverter;
+import org.xulux.gui.IInvalidValueStrategy;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.utils.ColorUtils;
 import org.xulux.swing.SwingWidget;
@@ -44,7 +45,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.16 2004-06-29 13:09:34 mvdb Exp $
+ * @version $Id: Entry.java,v 1.17 2004-07-12 13:44:14 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -411,7 +412,7 @@ public class Entry extends SwingWidget {
           if (!(object instanceof String) && this.value == null) {
             this.value = object;
           } else {
-            System.err.println("This.value : " + this.value.getClass());
+            //System.err.println("This.value : " + this.value.getClass());
             mapping = pr.getMapping(this.value);
             if (getField() != null) {
                 field = mapping.getField(getField());
@@ -422,7 +423,10 @@ public class Entry extends SwingWidget {
               field.setValue(this.value, object);
               setValidValue(true);
             } catch(InvalidValueException ive) {
-              setValidValue(false);
+                IInvalidValueStrategy strategy = getPart().getInvalidValueStrategy();
+                if (strategy != null) {
+                    strategy.handleInvalidValueException(this, ive);
+                }
             }
           }
         } else if (getField() == null) {
