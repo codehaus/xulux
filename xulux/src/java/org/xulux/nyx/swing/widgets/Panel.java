@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.14 2003-09-23 11:20:57 mvdb Exp $
+ $Id: Panel.java,v 1.15 2003-09-23 12:29:47 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.14 2003-09-23 11:20:57 mvdb Exp $
+ * @version $Id: Panel.java,v 1.15 2003-09-23 12:29:47 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -118,14 +118,7 @@ public class Panel extends ContainerWidget
      */
     public void initialize()
     {
-        List children = getChildWidgets();
-        if (children != null && children.size() > 0) {
-            for (int i = 0; i < children.size();i++) {
-                ((Widget)children.get(i)).initialize();
-            }
-        } 
-        if (initialized)
-        {
+        if (initialized) {
             return;
         }
         // we default to XYLayout for now..
