@@ -1,5 +1,5 @@
 /*
- $Id: LayoutTest.java,v 1.8 2003-11-25 19:23:53 mvdb Exp $
+ $Id: LayoutTest.java,v 1.9 2003-11-27 00:54:32 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.swing.layouts;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -53,6 +54,8 @@ import java.awt.Rectangle;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -68,7 +71,7 @@ import org.xulux.nyx.swing.widgets.Window;
  * A class to to test the layoutmanagers for swing
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.8 2003-11-25 19:23:53 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.9 2003-11-27 00:54:32 mvdb Exp $
  */
 public class LayoutTest extends TestCase
 {
@@ -93,7 +96,8 @@ public class LayoutTest extends TestCase
     /**
      * Test the addLayoutComponent
      */
-    public void testAddLayoutCompenent() {
+    public void testAddLayoutComponent() {
+        System.out.println("testAddLayoutComponent");
         MockWidget parent = new MockWidget("parent");
         XYLayout layout = new XYLayout(parent);
         assertEquals(parent, layout.getParent());
@@ -145,7 +149,7 @@ public class LayoutTest extends TestCase
      * Test the getRectangle Swing method
      */
     public void testGetRectangleSwing() {
-        System.out.println("testRectangleWidget");
+        System.out.println("testRectangleSwing");
         MockWidget widget = new MockWidget("parent");
         assertEquals(0, widget.getRectangle().getWidth());
         assertEquals(0, widget.getRectangle().getHeight());
@@ -175,7 +179,172 @@ public class LayoutTest extends TestCase
     }
 
     /**
+     * Test getLayoutSize method and the getPreferredLayoutSize
+     */
+    public void testGetLayoutSize() {
+        System.out.println("testGetLayoutSize");
+        XYLayout layout = new XYLayout();
+        JPanel nativePanel = new JPanel();
+        nativePanel.setPreferredSize(new Dimension(100, 100));
+        JLabel nativeLabel1 = new JLabel();
+        JLabel nativeLabel2 = new JLabel();
+        JLabel nativeLabel3 = new JLabel();
+        nativeLabel1.setPreferredSize(new Dimension(25, 25));
+        nativeLabel2.setPreferredSize(new Dimension(25, 25));
+        nativeLabel3.setPreferredSize(new Dimension(25, 25));
+        MockWidget panel = new MockWidget("panel");
+        panel.setNativeWidget(nativePanel);
+        panel.setSize(100, 100);
+        MockWidget label1 = new MockWidget("label1");
+        label1.setNativeWidget(nativeLabel1);
+        //label1.setSize(50, 50);
+        MockWidget label2 = new MockWidget("label2");
+        label2.setNativeWidget(nativeLabel2);
+        //label2.setSize(50, 50);
+        nativePanel.setLayout(layout);
+        nativePanel.add(nativeLabel1, label1);
+        nativePanel.add(nativeLabel2, label2);
+        // we now have 2 widgets in the layout mapping..
+        assertEquals(2, layout.map.size());
+        Dimension dim = layout.getLayoutSize(nativePanel);
+        assertEquals(50, dim.width);
+        assertEquals(50, dim.height);
+        dim = layout.preferredLayoutSize(nativePanel);
+        assertEquals(50, dim.width);
+        assertEquals(50, dim.height);
+        // just add a native component, without any nyx magic
+        nativePanel.add(nativeLabel3);
+        dim = layout.getLayoutSize(nativePanel);
+        assertEquals(75, dim.width);
+        assertEquals(75, dim.height);
+        dim = layout.preferredLayoutSize(nativePanel);
+        assertEquals(75, dim.width);
+        assertEquals(75, dim.height);
+        TitledBorder border = new TitledBorder("title");
+        nativePanel.setBorder(border);
+        int height = nativePanel.getInsets().bottom + nativePanel.getInsets().top;
+        int width = nativePanel.getInsets().left + nativePanel.getInsets().right;
+        dim = layout.getLayoutSize(nativePanel);
+        assertEquals(75 + width, dim.width);
+        assertEquals(75 + height, dim.height);
+        dim = layout.preferredLayoutSize(nativePanel);
+        assertEquals(75 + width, dim.width);
+        assertEquals(75 + height, dim.height);
+        label1.setVisible(false);
+        label2.setVisible(false);
+        dim = layout.preferredLayoutSize(nativePanel);
+        assertEquals(25 + width, dim.width);
+        assertEquals(25 + height, dim.height);
+    }
+
+    /**
+     * Test the method layoutContainer()
+     */
+    public void testLayoutContainer() {
+        XYLayout layout = new XYLayout();
+        JPanel nativePanel = new JPanel(layout);
+        JLabel nativeLabel1 = new JLabel();
+        JLabel nativeLabel2 = new JLabel();
+        JLabel nativeLabel3 = new JLabel();
+        MockWidget label1 = new MockWidget("label1");
+        label1.setNativeWidget(nativeLabel1);
+        nativePanel.add(nativeLabel1, label1);
+        MockWidget label2 = new MockWidget("label2");
+        nativePanel.add(nativeLabel2, label2);
+        assertEquals(2, layout.map.size());
+        label1.setSize(100, 75);
+        label2.setSize(110, 85);
+        layout.layoutContainer(nativePanel);
+        assertEquals(100, nativeLabel1.getPreferredSize().width);
+        assertEquals(75, nativeLabel1.getPreferredSize().height);
+        assertEquals(110, nativeLabel2.getPreferredSize().width);
+        assertEquals(85, nativeLabel2.getPreferredSize().height);
+        assertEquals(100, nativeLabel1.getBounds().width);
+        assertEquals(75, nativeLabel1.getBounds().height);
+        assertEquals(110, nativeLabel2.getBounds().width);
+        assertEquals(85, nativeLabel2.getBounds().height);
+        nativeLabel3.setPreferredSize(new Dimension(10, 11));
+        nativePanel.add(nativeLabel3);
+        layout.layoutContainer(nativePanel);
+        assertEquals(100, nativeLabel1.getPreferredSize().width);
+        assertEquals(75, nativeLabel1.getPreferredSize().height);
+        assertEquals(110, nativeLabel2.getPreferredSize().width);
+        assertEquals(85, nativeLabel2.getPreferredSize().height);
+        assertEquals(100, nativeLabel1.getBounds().width);
+        assertEquals(75, nativeLabel1.getBounds().height);
+        assertEquals(110, nativeLabel2.getBounds().width);
+        assertEquals(85, nativeLabel2.getBounds().height);
+        assertEquals(10, nativeLabel3.getBounds().width);
+        assertEquals(11, nativeLabel3.getBounds().height);
+        assertEquals(0, nativeLabel1.getBounds().x);
+        assertEquals(0, nativeLabel1.getBounds().y);
+        assertEquals(0, nativeLabel2.getBounds().x);
+        assertEquals(0, nativeLabel2.getBounds().y);
+    }
+    /**
+     * test layoutContainer method using insets.
+     */
+    public void testLayoutContainerWithInsets() {
+        System.out.println("testLayoutContainerWithInsets");
+        // start with a new layout and fresh widgest
+        XYLayout layout = new XYLayout();
+        JPanel nativePanel = new JPanel(layout);
+        LineBorder border = new LineBorder(Color.black);
+        nativePanel.setBorder(border);
+        JLabel nativeLabel1 = new JLabel();
+        JLabel nativeLabel2 = new JLabel();
+        JLabel nativeLabel3 = new JLabel();
+        MockWidget label1 = new MockWidget("label1");
+        label1.setNativeWidget(nativeLabel1);
+        nativePanel.add(nativeLabel1, label1);
+        MockWidget label2 = new MockWidget("label2");
+        nativePanel.add(nativeLabel2, label2);
+        assertEquals(2, layout.map.size());
+        label1.setSize(100, 75);
+        label2.setSize(110, 85);
+        layout.layoutContainer(nativePanel);
+        assertEquals(100, nativeLabel1.getPreferredSize().width);
+        assertEquals(75, nativeLabel1.getPreferredSize().height);
+        assertEquals(110, nativeLabel2.getPreferredSize().width);
+        assertEquals(85, nativeLabel2.getPreferredSize().height);
+        assertEquals(100, nativeLabel1.getBounds().width);
+        assertEquals(75, nativeLabel1.getBounds().height);
+        assertEquals(110, nativeLabel2.getBounds().width);
+        assertEquals(85, nativeLabel2.getBounds().height);
+        assertEquals(1, nativeLabel1.getBounds().x);
+        assertEquals(1, nativeLabel1.getBounds().y);
+        assertEquals(1, nativeLabel2.getBounds().x);
+        assertEquals(1, nativeLabel2.getBounds().y);
+        // layout again and x,y should still be 1,1
+        layout.layoutContainer(nativePanel);
+        assertEquals(1, nativeLabel1.getBounds().x);
+        assertEquals(1, nativeLabel1.getBounds().y);
+        assertEquals(1, nativeLabel2.getBounds().x);
+        assertEquals(1, nativeLabel2.getBounds().y);
+    }
+
+    /**
+     * Test layoutContainer with Component which isn't a JComponent
+     */
+    public void testLayoutContainerWithComponent() {
+        System.out.println("testLayoutContainerWithComponent");
+        XYLayout layout = new XYLayout();
+        JPanel nativePanel = new JPanel(layout);
+        java.awt.Label nativeLabel = new java.awt.Label();
+        MockWidget label1 = new MockWidget("label1");
+        label1.setNativeWidget(nativeLabel);
+        label1.setSize(10, 9);
+        nativePanel.add(nativeLabel, label1);
+        layout.layoutContainer(nativePanel);
+        assertEquals(10, nativeLabel.getSize().width);
+        assertEquals(9, nativeLabel.getSize().height);
+        assertEquals(10, nativeLabel.getPreferredSize().width);
+        assertEquals(9, nativeLabel.getPreferredSize().height);
+    }
+
+    /**
      * This will only test things that are actually being used
+     * @todo move this test to gui test, since if fires up a frame
      */
     public void testXYLayout()
     {
@@ -240,14 +409,15 @@ public class LayoutTest extends TestCase
      * Test null values passed into all methods.
      */
     public void testNulls() {
+        System.out.println("testNulls");
         XYLayout layout = new XYLayout(null);
         layout.addLayoutComponent((Component) null, (Object) null);
         layout.addLayoutComponent((String) null, (Component) null);
         assertFalse(layout.equals(null));
         layout.getLayoutAlignmentX(null);
         layout.getLayoutAlignmentY(null);
-        layout.getRectangle((Widget) null, (Component) null);
-        layout.getRectangle((Component) null, (Insets) null);
+        assertNull(layout.getRectangle((Widget) null, (Component) null));
+        assertNull(layout.getRectangle((Component) null, (Insets) null));
         layout.invalidateLayout(null);
         layout.layoutContainer(null);
         layout.maximumLayoutSize(null);
@@ -259,6 +429,7 @@ public class LayoutTest extends TestCase
      * Test the Simple Getters.
      */
     public void testSimpleGetters() {
+        System.out.println("testSimpleGetters");
         Window window = new Window("window");
         XYLayout layout = new XYLayout(window);
         assertEquals(window, layout.getParent());

@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.13 2003-11-25 19:23:54 mvdb Exp $
+ $Id: XYLayout.java,v 1.14 2003-11-27 00:54:32 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,7 +68,7 @@ import org.xulux.nyx.gui.Widget;
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.13 2003-11-25 19:23:54 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.14 2003-11-27 00:54:32 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
@@ -168,53 +168,37 @@ public class XYLayout implements LayoutManager2, Serializable
     /**
      * @see java.awt.LayoutManager#layoutContainer(Container)
      */
-    public void layoutContainer(Container parent)
-    {
+    public void layoutContainer(Container parent) {
         if (parent == null) {
             return;
         }
         Insets insets = parent.getInsets();
         int count = parent.getComponentCount();
-        for (int i = 0; i < count; i++)
-        {
+        for (int i = 0; i < count; i++) {
             Component component = parent.getComponent(i);
             Widget widget = (Widget) map.get(component);
             Rectangle r = null;
-            if (widget != null && widget.isVisible())
-            {
+            if (widget != null && widget.isVisible()) {
                 r = getRectangle(widget, component);
                 if (component instanceof JComponent) {
                     ((JComponent) component).setPreferredSize(new Dimension(r.width, r.height));
                 }
                 component.setSize(r.width, r.height);
-            } else if (component != null) {
+            } else {
                 // if component is not a widget
                 // so layed on top of nyx.
                 // try to get all the info from
                 // the component. It's up to the component
                 // to set sizes etc and handle all other
                 // logic.
-
-//                if (parentWidget != null) {
-//                    if (parent.equals(parentWidget.getNativeWidget())) {
-//                        // this component has a nyx widget as parent
-////                        System.err.println("PARENT IS THE WIDGET");
-//                        // first layout has been processed..
-//                    } else {
-////                        System.err.println("REMOVING INSETS!");
-//                    }
-//                } else {
-////                    System.err.println("PARENT IS NOT THE WIDGET");
-//                }
                 r = getRectangle(component, insets);
             }
-            if (r != null) {
-                component.setBounds(
-                    insets.left + r.x,
-                    insets.top + r.y,
-                    r.width,
-                    r.height);
-            }
+            // r cannot be null in this scenario
+            component.setBounds(
+                insets.left + r.x,
+                insets.top + r.y,
+                r.width,
+                r.height);
         }
     }
 
@@ -293,27 +277,33 @@ public class XYLayout implements LayoutManager2, Serializable
 
     /**
      * is almost the same as layoutContainer,
-     * except using setBounds
+     * except using setBounds.
+     * If the size of the widget is not set (0 or less than zero)
+     * it will use the preferredsize of the native component, which
+     * is gotten from getRectangle().
+     * @todo write a helper class to give some feedback to the developer
+     *       on what sizes should be preferred, to have everything fit!
+     *       now it just makes the sizes of eg a panel bigger if the insets
+     *       are bigger than 0
+     * @todo dig into the insets stuff deeper and find scenarios where it can fail
      * @param parent the parent container
      * @return the layoutsize
      */
     protected Dimension getLayoutSize(Container parent)
     {
         Dimension dim = new Dimension(0, 0);
-        for (int i = 0; i < parent.getComponentCount(); i++)
-        {
+        for (int i = 0; i < parent.getComponentCount(); i++) {
             Component component = parent.getComponent(i);
             Widget widget = (Widget) map.get(component);
             if (widget != null && widget.isVisible()) {
                 Rectangle r = getRectangle(widget, component);
-                if (r.width <= 0 && r.height <= 0)
-                {
-                    Dimension d = component.getPreferredSize();
-                    r.width = d.width;
-                    r.height = d.height;
-                }
-                dim.width = r.x + r.width;
-                dim.height = r.y + r.height;
+                dim.width += r.x + r.width;
+                dim.height += r.y + r.height;
+            } else if (widget == null) { //if (widget == null) {
+                // only process when there is no widget
+                Dimension compDim = component.getPreferredSize();
+                dim.width += compDim.width;
+                dim.height += compDim.height;
             }
         }
         Insets insets = parent.getInsets();
