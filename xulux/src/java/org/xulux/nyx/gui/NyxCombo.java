@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.5 2003-07-31 13:00:28 mvdb Exp $
+ $Id: NyxCombo.java,v 1.6 2003-08-03 22:58:42 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.5 2003-07-31 13:00:28 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.6 2003-08-03 22:58:42 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 {
@@ -239,7 +239,10 @@ public abstract class NyxCombo extends Widget
         } else {
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             IField field = map.getField(getField());
-            return field.getValue(getPart().getBean());
+            if (field != null) {
+                return field.getValue(getPart().getBean());
+            }
+            return null;
         }
     }
     

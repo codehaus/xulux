@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.5 2003-08-03 22:48:49 mvdb Exp $
+ $Id: Table.java,v 1.6 2003-08-03 22:58:42 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.xulux.nyx.swing.NyxJTable;
  * A nyx table.. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.5 2003-08-03 22:48:49 mvdb Exp $
+ * @version $Id: Table.java,v 1.6 2003-08-03 22:58:42 mvdb Exp $
  */
 public class Table extends ContainerWidget {
 
@@ -155,7 +155,9 @@ public class Table extends ContainerWidget {
      * @see org.xulux.nyx.gui.ContainerWidget#addToParent(org.xulux.nyx.gui.Widget)
      */
     public void addToParent(Widget widget) {
-
+        if (widget instanceof Label) {
+            
+        } 
     }
 
     /**
