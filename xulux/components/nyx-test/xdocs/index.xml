@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Test Framework</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The NYX test Framework">
+ <p>
+    The nyx test framework contains a complete mock implementation of a gui 
+    layer and extensions to junit. This way you can test the applications
+    behaviour without the need for a gui.
+ </p>
+</section>
+</body>
+</document>
