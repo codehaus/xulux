@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtils.java,v 1.2 2004-12-16 06:44:06 mvdb Exp $
+   $Id: ClassLoaderUtils.java,v 1.3 2004-12-16 08:17:26 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,14 +25,13 @@ import java.util.List;
 
 import org.xulux.core.XuluxContext;
 import org.xulux.logging.ILog;
-import org.xulux.logging.Logger;
 
 /**
  * This util class contains classloader utils
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.2 2004-12-16 06:44:06 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.3 2004-12-16 08:17:26 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
