@@ -1,5 +1,5 @@
 /*
-   $Id: ScrollPane.java,v 1.2 2004-06-28 13:11:43 mvdb Exp $
+   $Id: ScrollPane.java,v 1.3 2004-06-29 22:49:33 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.gui.Widget;
  * of the widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ScrollPane.java,v 1.2 2004-06-28 13:11:43 mvdb Exp $
+ * @version $Id: ScrollPane.java,v 1.3 2004-06-29 22:49:33 mvdb Exp $
  */
 public class ScrollPane extends ContainerWidget {
 
@@ -86,8 +86,9 @@ public class ScrollPane extends ContainerWidget {
         }
         initialized = true;
         this.pane = new JScrollPane();
-        pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        // @todo make scrollpane properties to set policies..
+        pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 //        pane.setPreferredSize(getRectangle().getRectangle().getSize());
 //        System.out.println("init port : " + pane.getViewport());
 //        if (pane.getViewport() != null) {
