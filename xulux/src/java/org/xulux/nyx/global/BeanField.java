@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.5 2003-01-26 01:51:02 mvdb Exp $
+ $Id: BeanField.java,v 1.6 2003-01-26 02:01:08 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.5 2003-01-26 01:51:02 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.6 2003-01-26 02:01:08 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -113,7 +113,7 @@ public class BeanField implements IField
     /**
      * Contructor that takes a method
      * 
-     * @param method
+     * @param method - the method to use for reading the value
      */
     public BeanField(Method method)
     {
@@ -242,8 +242,12 @@ public class BeanField implements IField
     /**
      * Checks if we are taling about the same field..
      * 
-     * @param object should be a beanField
-     * @return 
+     * @param object - the obejct to perform the equals on
+     * @return If the object is a String it will compare it with
+     *          withe tha Alias (case insensitive).
+     *          If the object is another BeanField, it will see
+     *          if the declaringclass and the methodname is the same
+     *          In all other cases it will return false
      */
     public boolean equals(Object object)
     {
