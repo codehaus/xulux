@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.6 2003-07-17 01:09:33 mvdb Exp $
+ $Id: Label.java,v 1.7 2003-07-23 10:53:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.6 2003-07-17 01:09:33 mvdb Exp $
+ * @version $Id: Label.java,v 1.7 2003-07-23 10:53:21 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -124,41 +124,56 @@ public class Label extends SwingWidget
         {
             label.setText("");
         }
-        if (getProperties() == null)
-        {
-            label.setHorizontalAlignment(JLabel.RIGHT);
-        }
-        else
-        {
-            String ha = (String)getProperties().get("horizontalalignment");
-            if (ha != null) {
-                if (ha.equalsIgnoreCase("left"))
-                {
-                    label.setHorizontalAlignment(JLabel.LEFT);
-                }
-                else if (ha.equalsIgnoreCase("center"))
-                {
-                    label.setHorizontalAlignment(JLabel.CENTER);
-                }
-                else
-                {
-                    label.setHorizontalAlignment(JLabel.RIGHT);
-                }
+        String ha = getProperty("horizontalalignment");
+        if (ha != null) {
+            if (ha.equalsIgnoreCase("left"))
+            {
+                label.setHorizontalAlignment(JLabel.LEFT);
             }
+            else if (ha.equalsIgnoreCase("center"))
+            {
+                label.setHorizontalAlignment(JLabel.CENTER);
+            }
+            else
+            {
+                label.setHorizontalAlignment(JLabel.RIGHT);
+            }
+        } else {
+            // default to right align
+            label.setHorizontalAlignment(JLabel.RIGHT);
         }
         label.repaint();
     }
-    /**
-     * @see org.xulux.nyx.gui.Widget#focus()
-     */
-    public void focus() {
-        label.requestFocus();
-    }
+    
     /**
      * @see org.xulux.nyx.gui.Widget#getGuiValue()
      */
     public Object getGuiValue() {
         return null;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#setValue(java.lang.Object)
+     */
+    public void setValue(Object value) {
+        if (value == null) {
+            value = "";
+        }
+        String currentText = getProperty("text");
+        if (currentText != null && currentText.equals(value)) {
+            return;
+        }
+        this.previousValue = currentText;
+        // no refresh needed, since it will
+        // refresh on setProperty..
+        setProperty("text", String.valueOf(value));
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#getValue()
+     */
+    public Object getValue() {
+        return getProperty("text");
     }
 
 }

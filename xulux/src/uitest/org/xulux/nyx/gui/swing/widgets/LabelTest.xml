@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<part name="LabelTestForm" prefix="Person">
+  <field type="window" name="Window">
+    <title>LabelTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>300,300</size>
+    <autosize>true</autosize>
+	  <field type="label" name="Label:Fixed">
+	    <text>Fixed label:</text>
+	    <size>120,21</size>
+	    <position>4,10</position>
+	  </field>
+	  <field type="label" name="Label:Variable">
+	    <text>Variable</text>
+	    <size>120,21</size>
+	    <position>4,40</position>
+	  </field>
+	  <field type="entry" name="Name">
+	    <size>120,21</size>
+	    <position>4,70</position>
+	  </field>
+	  <field type="button" name="button">
+	    <text>set</text>
+	    <size>60,21</size>
+	    <position>130,70</position>
+	    <rules>
+	      <rule>org.xulux.nyx.gui.rules.LabelRule</rule>
+	    </rules>
+	  </field>
+  </field>
+</part>
