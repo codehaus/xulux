@@ -1,5 +1,5 @@
 /*
- $Id: NyxJTable.java,v 1.1 2003-11-13 00:20:49 mvdb Exp $
+ $Id: NyxJTable.java,v 1.2 2003-11-17 10:30:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -46,7 +46,6 @@
 package org.xulux.nyx.swing.extensions;
 
 import java.awt.Color;
-import java.awt.Component;
 
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -59,7 +58,7 @@ import javax.swing.table.TableModel;
  * things we'll never use..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJTable.java,v 1.1 2003-11-13 00:20:49 mvdb Exp $
+ * @version $Id: NyxJTable.java,v 1.2 2003-11-17 10:30:14 mvdb Exp $
  */
 public class NyxJTable extends JTable {
     

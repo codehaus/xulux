@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.25 2003-11-13 00:31:50 mvdb Exp $
+ $Id: Label.java,v 1.26 2003-11-17 10:30:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -46,7 +46,6 @@
 
 package org.xulux.nyx.swing.widgets;
 
-import java.awt.Component;
 import java.awt.Container;
 
 import javax.swing.JLabel;
@@ -62,7 +61,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.25 2003-11-13 00:31:50 mvdb Exp $
+ * @version $Id: Label.java,v 1.26 2003-11-17 10:30:37 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
