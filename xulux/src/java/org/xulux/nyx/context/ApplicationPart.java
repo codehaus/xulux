@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.30.2.3 2003-05-04 15:31:07 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.30.2.4 2003-05-04 18:06:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.DefaultFocusManager;
 import javax.swing.FocusManager;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -86,7 +87,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.30.2.3 2003-05-04 15:31:07 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.30.2.4 2003-05-04 18:06:20 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -668,6 +669,7 @@ public class ApplicationPart
      */
     public void destroy()
     {
+        FocusManager.setCurrentManager(new DefaultFocusManager());
         if (session != null)
         {
             getSession().clear();

@@ -1,5 +1,5 @@
 /*
- $Id: NyxFocusManager.java,v 1.1.2.2 2003-05-04 15:31:07 mvdb Exp $
+ $Id: NyxFocusManager.java,v 1.1.2.3 2003-05-04 18:06:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,8 @@
 package org.xulux.nyx.swing.layouts;
 
 import java.awt.Component;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -63,12 +65,11 @@ import org.xulux.nyx.gui.Widget;
  * In the xml definition this corresponds to the order element
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxFocusManager.java,v 1.1.2.2 2003-05-04 15:31:07 mvdb Exp $
+ * @version $Id: NyxFocusManager.java,v 1.1.2.3 2003-05-04 18:06:20 mvdb Exp $
  */
 public class NyxFocusManager extends DefaultFocusManager {
 
     private ApplicationPart part;
-    private int currentlySelected = 0;
     private boolean emptyOrderList = false;
     
     /**
@@ -127,13 +128,10 @@ public class NyxFocusManager extends DefaultFocusManager {
             return;
         }
         boolean enabledWidgetFound = false;
-        int widgetIndex = currentlySelected+1;
-        // when we moved to the last widget,
-        // we reset the widgetIndex to 0..
-        if (widgetIndex >= part.getTabOrder().size()) {
-            widgetIndex = 0;
-        }
+        int widgetIndex = aComponent==null?0:part.getTabOrder().indexOf((String)part.getWidgets().findWithNative(aComponent).getName());
         while (true) {
+            // when we moved to the last widget,
+            // we reset the widgetIndex to 0..
             if (widgetIndex >= part.getTabOrder().size()) {
                 widgetIndex = 0;
             }
@@ -142,13 +140,16 @@ public class NyxFocusManager extends DefaultFocusManager {
                 if (widget.isEnabled() && ((widget.getValue() == null ||
                      widget.getValue().equals("")) || widget instanceof Button)) {
                     enabledWidgetFound = true;
-                    currentlySelected = widgetIndex;
                     break;
                 }
             }
             widgetIndex++;
         }
         Widget widget = part.getWidgets().get((String)part.getTabOrder().get(widgetIndex));
+        System.out.println("Setting focus to widget "+widget);
+        if (widget != null) {
+            System.out.println("with name :"+widget.getName());
+        }
         setFocus(widget);
     }
     
@@ -159,6 +160,7 @@ public class NyxFocusManager extends DefaultFocusManager {
     private void setFocus(Widget widget) {
         
         Object comp = widget.getNativeWidget();
+        System.out.println("comp : "+comp);
         if (comp instanceof JComponent) {
             ((JComponent)comp).grabFocus();
         }
@@ -174,6 +176,7 @@ public class NyxFocusManager extends DefaultFocusManager {
     public void setFocusToFirstWidget(JComponent component) {
         new Thread(new FocusToFirstWidget(component)).start();
     }
+    
     
     /**
      * A runnable to check in a seperate thread if the component
@@ -199,16 +202,71 @@ public class NyxFocusManager extends DefaultFocusManager {
          * Pretty messy this one. In a seperate thread it checks
          * to see if the component has a parent
          * if so, it starts another thread to request the focus
-         * for that component
+         * for that component. 
+         * NOTE: If the first selectable component is on a panel,
+         *       it will find the correct one, but more nesting is
+         *       impossible in this version.
          * @see java.lang.Runnable#run()
          */
         public void run() {
-            while (component.getParent() == null) {}
+            
+            while (this.component.getParent() == null ) { }
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    focusNextComponent(null);
+                    focusNextComponent(null);                    
                 }
             });
         }
     }
+    
+    /**
+     * Since the FocusToFirstWidget scenario isn't always
+     * working correctly, we'll try to use a listener
+     */
+    private class FocusManagerListener implements WindowListener
+    {
+        /* (non-Javadoc)
+         * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
+         */
+        public void windowActivated(WindowEvent e) {
+        }
+
+        /* (non-Javadoc)
+         * @see java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
+         */
+        public void windowClosed(WindowEvent e) {
+        }
+
+        /* (non-Javadoc)
+         * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+         */
+        public void windowClosing(WindowEvent e) {
+        }
+
+        /* (non-Javadoc)
+         * @see java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent)
+         */
+        public void windowDeactivated(WindowEvent e) {
+        }
+
+        /* (non-Javadoc)
+         * @see java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent)
+         */
+        public void windowDeiconified(WindowEvent e) {
+        }
+
+        /* (non-Javadoc)
+         * @see java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
+         */
+        public void windowIconified(WindowEvent e) {
+        }
+
+        /* (non-Javadoc)
+         * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
+         */
+        public void windowOpened(WindowEvent e) {
+            focusNextComponent(null);
+        }
+    }
+    
 }
