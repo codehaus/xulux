@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.39 2003-11-18 02:29:28 mvdb Exp $
+ $Id: Entry.java,v 1.40 2003-11-18 17:25:17 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -45,7 +45,6 @@
  */
 package org.xulux.nyx.swing.widgets;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.util.StringTokenizer;
@@ -60,6 +59,7 @@ import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IConverter;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.NyxListener;
+import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 import org.xulux.nyx.utils.BooleanUtils;
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.39 2003-11-18 02:29:28 mvdb Exp $
+ * @version $Id: Entry.java,v 1.40 2003-11-18 17:25:17 mvdb Exp $
  */
 public class Entry
 extends SwingWidget
@@ -211,11 +211,29 @@ extends SwingWidget
             backgroundColor = getProperty("required-background-color");
         } else if (!isEnabled()) {
             backgroundColor = getProperty("disabled-background-color");
-        } else  {
+        }
+        if (backgroundColor == null) {
             backgroundColor = getProperty("default-background-color");
         }
         if (backgroundColor != null) {
-            textComponent.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
+            textComponent.setBackground(ColorUtils.getSwingColor(backgroundColor));
+        }
+        
+        String foreGroundColor = null;
+        if (isRequired()  && isEnabled()) {
+            foreGroundColor = getProperty("required-foreground-color");
+        } else if (!isEnabled()) {
+            foreGroundColor = getProperty("disabled-foreground-color");
+            if (foreGroundColor != null) {
+                textComponent.setDisabledTextColor(ColorUtils.getSwingColor(foreGroundColor));
+                foreGroundColor = null;
+            }
+        }
+        if (foreGroundColor == null) {
+            foreGroundColor = getProperty("default-foreground-color");
+        }
+        if (foreGroundColor != null) {
+            textComponent.setForeground(ColorUtils.getSwingColor(foreGroundColor));
         }
         if (getField() != null && getField().startsWith("?")) {
             initializeValue();
