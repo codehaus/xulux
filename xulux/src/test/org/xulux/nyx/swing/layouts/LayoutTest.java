@@ -1,5 +1,5 @@
 /*
- $Id: LayoutTest.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ $Id: LayoutTest.java,v 1.2 2002-10-29 16:26:15 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,7 @@ import javax.swing.SwingUtilities;
  * A cleass to to test the funcionality of the Formlayout manager.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.2 2002-10-29 16:26:15 mvdb Exp $
  */
 public class LayoutTest
 {
@@ -76,7 +76,6 @@ public class LayoutTest
         String data = new String("12345678901234567890");
         int width = SwingUtilities.computeStringWidth(frame.getFontMetrics(frame.getFont()),data);
         field1.setText("Field 1 value");
-        field1.setWi
         JTextField field2 = new JTextField();
         field2.setText("field 2 value");
         frame.getContentPane().add(field1);
