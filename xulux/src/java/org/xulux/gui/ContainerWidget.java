@@ -1,5 +1,5 @@
 /*
-   $Id: ContainerWidget.java,v 1.3 2004-01-28 15:00:22 mvdb Exp $
+   $Id: ContainerWidget.java,v 1.4 2004-11-29 17:34:26 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,7 +25,7 @@ import java.util.Iterator;
  * It makes overriding a bit easier.
  *
  * @author Martin van den Bemt
- * @version $Id: ContainerWidget.java,v 1.3 2004-01-28 15:00:22 mvdb Exp $
+ * @version $Id: ContainerWidget.java,v 1.4 2004-11-29 17:34:26 mvdb Exp $
  */
 public abstract class ContainerWidget extends Widget {
     /**
@@ -114,16 +114,23 @@ public abstract class ContainerWidget extends Widget {
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
     public void destroy() {
-        ArrayList children = getChildWidgets();
-        if (children != null) {
-            Iterator it = children.iterator();
-            while (it.hasNext()) {
-                Widget cw = (Widget) it.next();
-                cw.destroy();
-            }
-            children.clear();
-            children = null;
-        }
+      destroyChildren();
+    }
+    
+    /**
+     * Destroys all children.
+     */
+    public void destroyChildren() {
+      ArrayList children = getChildWidgets();
+      if (children != null) {
+          Iterator it = children.iterator();
+          while (it.hasNext()) {
+              Widget cw = (Widget) it.next();
+              cw.destroy();
+          }
+          children.clear();
+          children = null;
+      }
     }
 
 }
