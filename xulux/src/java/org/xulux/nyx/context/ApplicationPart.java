@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.61 2003-11-11 13:06:46 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.62 2003-11-13 02:45:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -83,7 +83,7 @@ import org.xulux.nyx.utils.Translation;
  * TODO: Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.61 2003-11-11 13:06:46 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.62 2003-11-13 02:45:39 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -133,6 +133,12 @@ public class ApplicationPart {
      *
      */
     private ApplicationPart parentPart;
+    
+    /**
+     * Holds the current use. Only used when including parts.
+     */
+    protected String use;
+    
 
     /**
      * Constructor for GuiPart.
@@ -523,7 +529,8 @@ public class ApplicationPart {
             while (it.hasNext()) {
                 Widget w = (Widget) it.next();
                 if (w.getField() != null) {
-                    if (w.getField().equalsIgnoreCase(field)) {
+                    if (w.getField().equalsIgnoreCase(field) || 
+                        w.getField().startsWith("?"+field)) {
                         col.add(w);
                     }
                 }
@@ -796,6 +803,29 @@ public class ApplicationPart {
      */
     public void refreshFields(Widget widget) {
         String field = widget.getField();
+        refreshFields(field,widget);
+    }
+
+    /**
+     * Refreshes widgets which have a pointer to the caller in their use.
+     * 
+     * @param caller
+     */
+    public void refreshWidgets(Widget caller) {
+        if (caller == null) {
+            return;
+        }
+        refreshFields(caller.getName(), caller);
+    }
+    
+    /**
+     * Utility method that refreshes all fields that have pointers to
+     * a field or depend on a field
+     * 
+     * @param field the field name to find
+     * @param widget - the source widget that called the refresh
+     */
+    protected void refreshFields(String field, Widget widget) {
         if (field == null) {
             return;
         }
@@ -811,6 +841,7 @@ public class ApplicationPart {
             }
         }
     }
+    
 
     /**
      * Updates the widgets that depends on the widget
@@ -850,5 +881,12 @@ public class ApplicationPart {
     public boolean isPartDestroyed() {
         return destroyed;
     }
-
+    
+    public void setUse(String use) {
+        this.use = use;
+    }
+    
+    public String getUse() {
+        return this.use;
+    }
 }

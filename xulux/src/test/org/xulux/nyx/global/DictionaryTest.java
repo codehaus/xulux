@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.19 2003-11-10 12:52:11 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.20 2003-11-13 02:45:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.19 2003-11-10 12:52:11 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.20 2003-11-13 02:45:39 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -114,6 +114,15 @@ public class DictionaryTest extends TestCase
         IField field = mapping.getField("name");
         field.setValue(bean, "name");
         assertEquals("name",field.getValue(bean));
+        // test if the widget pointer is actually stripped..
+        field = mapping.getField("?Prefix:Table.name");
+        assertNotNull(field);
+        // a bad name, we shouldn't crash!
+        field = mapping.getField("?Prefix:Table.");
+        assertNull(field);
+        // another bad name, we shouldn't crash!
+        field = mapping.getField("?Prefix:Table");
+        assertNull(field);
         mapping = d.getMapping(bean.getClass(), true);
         assertEquals("DictionaryBean1", mapping.getName());
         mapping = d.getMapping(bean.getClass(), true);

@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.24 2003-11-13 00:20:48 mvdb Exp $
+ $Id: Table.java,v 1.25 2003-11-13 02:45:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -65,6 +65,7 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.swing.extensions.NyxJTable;
 import org.xulux.nyx.swing.listeners.LockedColumnSelectionListener;
+import org.xulux.nyx.swing.listeners.NewSelectionListener;
 import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
 import org.xulux.nyx.swing.listeners.ValueChangedListener;
@@ -83,7 +84,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.24 2003-11-13 00:20:48 mvdb Exp $
+ * @version $Id: Table.java,v 1.25 2003-11-13 02:45:39 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
         
@@ -124,9 +125,11 @@ public class Table extends ContainerWidget implements IContentWidget {
 
     protected NyxTableCellEditor editor;
     protected LockedColumnSelectionListener lockedListener;
+    protected NewSelectionListener newSelectionListener;
 
     private int oldListSize = 0;
     private int listSize = 0;
+    
 
     /**
      * @param name
@@ -144,6 +147,9 @@ public class Table extends ContainerWidget implements IContentWidget {
             if (lockedTable != null) {
                 lockedTable.getSelectionModel().removeListSelectionListener(lockedListener);
             }
+        }
+        if (newSelectionListener != null) {
+            table.getSelectionModel().removeListSelectionListener(newSelectionListener);
         }
         if (this.columnModel != null) {
             this.columnModel.destroy();
@@ -273,6 +279,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             table = new NyxJTable(this.model,this.columnModel);
             table.setCellEditor(this.editor);
             table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
+            table.getSelectionModel().addListSelectionListener(new NewSelectionListener(this));
             scrollPane.setViewportView(table);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             if (hasLockedColumns) {

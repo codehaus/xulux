@@ -1,5 +1,5 @@
 /*
- $Id: WidgetListTest.java,v 1.2 2003-07-23 13:14:43 mvdb Exp $
+ $Id: WidgetListTest.java,v 1.3 2003-11-13 02:45:39 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import junit.framework.TestSuite;
  * Test the inner ApplicationPart.WidgetList class
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetListTest.java,v 1.2 2003-07-23 13:14:43 mvdb Exp $
+ * @version $Id: WidgetListTest.java,v 1.3 2003-11-13 02:45:39 mvdb Exp $
  */
 public class WidgetListTest extends TestCase {
 
@@ -130,11 +130,14 @@ public class WidgetListTest extends TestCase {
         Entry entry2 = new Entry("test2");
         entry2.setField("field1");
         Entry entry3 = new Entry("test3");
+        Entry entry4 = new Entry("test4");
+        entry4.setField("?test3.test");
         
         list.add(entry);
         list.add(entry1);
         list.add(entry2);
         list.add(entry3);
+        list.add(entry4);
         assertNull(list.getWidgetsWithField("bogus"));
         Collection field1List = list.getWidgetsWithField("field1");
         assertEquals(2,field1List.size());
@@ -143,5 +146,9 @@ public class WidgetListTest extends TestCase {
         Collection field2List = list.getWidgetsWithField("field2");
         assertEquals(1,field2List.size());
         assertTrue(field2List.contains(entry1));
+        // check if the widgetlist can also find fields with pointers to other fields..
+        Collection field3List = list.getWidgetsWithField("test3");
+        assertEquals(1, field3List.size());
+        assertTrue(field3List.contains(entry4));
     }
 }

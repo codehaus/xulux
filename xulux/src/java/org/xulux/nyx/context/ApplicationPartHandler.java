@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.33 2003-11-11 14:46:15 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.34 2003-11-13 02:45:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.33 2003-11-11 14:46:15 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.34 2003-11-13 02:45:39 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler {
 
@@ -231,9 +231,13 @@ public class ApplicationPartHandler extends DefaultHandler {
         qName = qName.toLowerCase();
         if (qName.equals(PART_ELEMENT)) {
             if (this.part == null) {
+                // a use on a part that cannot get a hold of other parts,
+                // makes no sense, so not processing it here.
                 this.part = new ApplicationPart(this.bean);
                 part.setName(atts.getValue(NAME_ATTRIBUTE));
                 isApplication = BooleanUtils.toBoolean(atts.getValue(APPLICATION_ATTRIBUTE));
+            } else {
+                part.setUse(atts.getValue(USE_ATTRIBUTE));
             }
         }
         else if (qName.equals(TRANSLATION_ELEMENT)) {

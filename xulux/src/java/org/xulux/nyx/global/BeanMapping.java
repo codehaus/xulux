@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.18 2003-11-10 12:42:54 mvdb Exp $
+ $Id: BeanMapping.java,v 1.19 2003-11-13 02:45:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -62,7 +62,7 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.18 2003-11-10 12:42:54 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.19 2003-11-13 02:45:39 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -298,9 +298,17 @@ public class BeanMapping
      */
     public IField getField(String name)
     {
-        if (fields == null) {
+        if (fields == null || name == null) {
             return null;
         }
+        // we by default strip out the widget pointer
+        if (name.startsWith("?")) {
+            int dotIndex = name.indexOf('.');
+            if (dotIndex != -1) {
+                name = name.substring(dotIndex+1);
+            }
+        }
+            
         int dotIndex = name.lastIndexOf(".");
         String realField = null;
         if (dotIndex != -1) {

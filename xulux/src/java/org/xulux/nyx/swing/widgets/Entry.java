@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.35 2003-11-06 19:53:13 mvdb Exp $
+ $Id: Entry.java,v 1.36 2003-11-13 02:45:39 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.35 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: Entry.java,v 1.36 2003-11-13 02:45:39 mvdb Exp $
  */
 public class Entry
 extends SwingWidget
@@ -217,6 +217,9 @@ extends SwingWidget
         if (backgroundColor != null) {
             textComponent.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
+        if (getField() != null && getField().startsWith("?")) {
+            initializeValue();
+        }
         if (getProperty("enabled.depends")!= null) {
             String value = getProperty("enabled.depends");
             Object depValue = getPart().getWidget(value).getValue();
@@ -292,7 +295,22 @@ extends SwingWidget
             }
             return;
         }
-        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+        // TODO: Make this all utility classes, since this is a lot of code reproducing !
+        Object bean = null;
+        if (getField().startsWith("?")) {
+            int dotIndex = getField().indexOf('.');
+            if (dotIndex != -1) {
+                bean = getPart().getWidget(getField().substring(1,dotIndex)).getValue();
+                if (bean == null) {
+                    // TODO : Clear the field!
+                    return;
+                }
+            }
+        }
+        if (bean == null) {
+            bean = getPart().getBean();
+        }
+        BeanMapping map = Dictionary.getInstance().getMapping(bean);
         if (map == null) {
             textComponent.setText("");
             return;
@@ -306,7 +324,7 @@ extends SwingWidget
             textComponent.setText("");
             return;
         }
-        Object beanValue = field.getValue(getPart().getBean());
+        Object beanValue = field.getValue(bean);
         this.value = beanValue;
         if (this.value == null) {
             textComponent.setText("");
