@@ -14,6 +14,12 @@
     <widget name="checkbox" class="org.xulux.nyx.swing.widgets.CheckBox"/>
     <widget name="label" class="org.xulux.nyx.swing.widgets.Label"/>
     <widget name="panel" class="org.xulux.nyx.swing.widgets.Panel"/>
+    <!-- a tab is the same as a panel, only different properties are
+         used. The properties are however read by the tabpanel
+         and not by panel itself
+     -->
+    <widget name="tab" class="org.xulux.nyx.swing.widgets.Panel"/>
+    <widget name="tabpanel" class="org.xulux.nyx.swing.widgets.TabPanel"/>
     <widget name="window" class="org.xulux.nyx.swing.widgets.Window"/>
     <widget name="window" type="swt" class="org.xulux.nyx.swt.widgets.Window"/>
     <widget name="textarea" class="org.xulux.nyx.swing.widgets.TextArea"/>
