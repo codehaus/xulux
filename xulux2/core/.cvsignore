@@ -2,3 +2,5 @@
 .classpath
 *.log
 junit*.properties
+.clover
+target

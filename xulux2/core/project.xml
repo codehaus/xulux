@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <pomVersion>3</pomVersion>
+  <id>xulux</id>
+  <name>xulux-core</name>
+  <currentVersion>2.0-SNAPSHOT</currentVersion>
+  <organization>
+    <name>xulux.org</name>
+    <url>http://www.xulux.org/</url>
+    <logo>http://www.xulux.org/images/logo1.jpg</logo>
+  </organization>
+  <inceptionYear>2002</inceptionYear>
+  <package>org.xulux</package>
+  
+  <!-- Gump integration -->
+  <gumpRepositoryId>xulux</gumpRepositoryId>
+
+  <description>
+    The XULUX core project defines the Frontend API
+  </description>
+
+  <shortDescription>Xulux Core Gui Independend Framework</shortDescription>
+
+  <url>http://www.xulux.org/</url>
+  <issueTrackingUrl>http://jira.codehaus.org</issueTrackingUrl>
+  <siteAddress>xulux.org</siteAddress>
+  <siteDirectory>/home/projects/xulux/public_html/</siteDirectory>
+  <distributionDirectory>/home/projects/xulux/dist/</distributionDirectory>
+
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.xulux.org:/home/projects/scm/xulux:xulux</connection>
+    <url>http://cvs.xulux.org/xulux</url>
+  </repository>
+
+  <versions>
+  </versions>
+
+  <branches>
+  </branches>
+
+  <mailingLists>
+    <mailingList>
+      <name>XULUX User list</name>
+      <archive>http://archive.xulux.org/user</archive>
+      <subscribe>user-subscribe@xulux.codehaus.org</subscribe>
+      <unsubscribe>user-unsubscribe@xulux.codehaus.org</unsubscribe>
+    </mailingList>
+    <mailingList>
+      <name>XULUX dev list</name>
+      <archive>http://archive.xulux.org/dev</archive>
+      <subscribe>dev-subscribe@xulux.codehaus.org</subscribe>
+      <unsubscribe>dev-unsubscribe@xulux.codehaus.org</unsubscribe>
+    </mailingList>
+    <mailingList>
+      <name>XULUX scm list</name>
+      <archive>http://archive.xulux.org/scm</archive>
+      <subscribe>scm-subscribe@xulux.codehaus.org</subscribe>
+      <unsubscribe>scm-unsubscribe@xulux.codehaus.org</unsubscribe>
+    </mailingList>
+    <mailingList>
+      <name>XULUX announcement list</name>
+      <archive>http://archive.xulux.org/announce</archive>
+      <subscribe>announce-subscribe@xulux.codehaus.org</subscribe>
+      <unsubscribe>announce-unsubscribe@xulux.codehaus.org</unsubscribe>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+
+    <developer>
+      <name>Martin van den Bemt</name>
+      <id>mvdb</id>
+      <email>martin@mvdb.net</email>
+      <organization>mvdb.com</organization>
+      <roles>
+        <role>Founder</role>
+        <role>Architect</role>
+      </roles>
+    </developer>
+  </developers>
+
+ <contributors>
+    <contributor>
+      <name>Erik Fransen</name>
+      <email>erik@mvdb.net</email>
+      <organization>mvdb.com</organization>
+      <roles>
+        <role>Logo Designer</role>
+      </roles>
+    </contributor>
+  </contributors>
+
+  <!-- Need to mark these as compile-time/run-time -->
+  <dependencies>
+    <dependency>
+      <id>crimson</id>
+      <version>1.1.3</version>
+      <url>http://xml.apache.org</url>
+    </dependency>
+    
+    <dependency>
+      <id>junit</id>
+      <version>3.8.1</version>
+      <url>http://www.junit.org</url>
+    </dependency>
+    
+  </dependencies>
+
+  <build>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <!-- Unit test cases -->
+    <unitTest>
+      <directory>src/test</directory>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+      <resources>
+         <resource>
+           <directory>src/test</directory>
+           <includes>
+             <include>**/*.properties</include>
+             <include>**/*.xml</include>
+             <include>**/*.gif</include>
+             <include>**/*.ico</include>
+           </includes>
+         </resource>
+      </resources>
+    </unitTest>
+
+    <nagEmailAddress>dev@xulux.org</nagEmailAddress>
+    <sourceDirectory>src/java</sourceDirectory>
+    <resources>
+       <resource>
+        <directory>src/java</directory>
+         <includes>
+           <include>**/*.properties</include>
+           <include>**/*.xml</include>
+         </includes>
+       </resource>
+    </resources>
+    <jars>
+    </jars>
+  </build>
+
+  <reports>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-junit-report-plugin</report>
+    <report>maven-tasklist-plugin</report>
+    <report>maven-pmd-plugin</report>
+    <report>maven-simian-plugin</report>
+    <report>maven-faq-plugin</report>
+    <report>maven-clover-plugin</report>
+    <report>maven-jcoverage-plugin</report>
+  </reports>
+
+</project>
+
