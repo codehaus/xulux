@@ -1,5 +1,5 @@
 /*
-   $Id: PopupListener.java,v 1.8 2004-11-24 08:57:29 mvdb Exp $
+   $Id: PopupListener.java,v 1.9 2004-11-25 09:49:48 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import org.xulux.core.PartRequest;
@@ -37,10 +38,14 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * A popuplistener. Shows the popup when the right mousebutton is clicked
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupListener.java,v 1.8 2004-11-24 08:57:29 mvdb Exp $
+ * @version $Id: PopupListener.java,v 1.9 2004-11-25 09:49:48 mvdb Exp $
  */
 public class PopupListener extends NyxListener implements MouseListener {
 
+    /**
+     * The widget that instantiated the popuplistener
+     */
+    private Widget parent;
     /**
      *
      */
@@ -50,9 +55,11 @@ public class PopupListener extends NyxListener implements MouseListener {
 
     /**
      * @param widget the widget
+     * @param parent the widget that instantiated the popuplistener.
      */
-    public PopupListener(Widget widget) {
+    public PopupListener(Widget widget, Widget parent) {
         super(widget);
+        this.parent = parent;
     }
 
     /**
@@ -71,6 +78,16 @@ public class PopupListener extends NyxListener implements MouseListener {
     
     public void showPopup(MouseEvent e) {
       if (e.isPopupTrigger()) {
+        Object value = null;
+        Component component = e.getComponent();
+        if (component instanceof JTable) {
+          JTable table = (JTable) component;
+          int row = table.rowAtPoint(e.getPoint());
+          table.setRowSelectionInterval(row, row);
+          value = table.getValueAt(row, -1);
+        }
+        parent.setLazyProperty("rowValue", value);
+        System.out.println("Comp : " + e.getComponent().getComponentAt(e.getPoint()).getComponentAt(e.getPoint()));
         WidgetRequestImpl impl = new WidgetRequestImpl(getWidget().getParent(), PartRequest.ACTION_VALUE_CHANGED);
         XuluxContext.fireFieldRequest(getWidget(), impl, XuluxContext.PRE_REQUEST);
         List list = getWidget().getChildWidgets();
@@ -80,6 +97,7 @@ public class PopupListener extends NyxListener implements MouseListener {
                 XuluxContext.fireFieldRequest(widget, impl, XuluxContext.PRE_REQUEST);
             }
         }
+//        parent.setLazyProperty("rowValue", null);
         JComponent comp = (JComponent) getWidget().getNativeWidget();
         if (comp instanceof JPopupMenu) {
           ((JPopupMenu) comp).show((Component) e.getSource(), e.getX(), e.getY());
@@ -91,7 +109,6 @@ public class PopupListener extends NyxListener implements MouseListener {
      * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
      */
     public void mouseClicked(MouseEvent e) {
-      System.out.println("mousClicked : " + e);
       if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
         // if detected a doubleclick and item is doubleclick item.
         String dblName = widget.getProperty("doubleclick");
@@ -100,8 +117,15 @@ public class PopupListener extends NyxListener implements MouseListener {
           dblName = widget.getParent().getProperty("doubleclick");
         }
         if (dblName != null) {
+          Component component = e.getComponent();
+          if (component instanceof JTable) {
+            JTable jt = (JTable) component;
+            widget.getParent().setLazyProperty("rowValue", jt.getValueAt(jt.getSelectedRow(), -1));
+          }
           Widget widget = (Widget) getWidget().getPart().getWidget(dblName);
           GuiUtils.fireFieldPostRule(widget, widget, PartRequest.NO_ACTION);
+          // clear the rowValue..
+          widget.setLazyProperty("rowValue", null);
           return;
         }
       }

@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.15 2004-11-24 08:57:29 mvdb Exp $
+   $Id: Table.java,v 1.16 2004-11-25 09:49:45 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -59,7 +59,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.15 2004-11-24 08:57:29 mvdb Exp $
+ * @version $Id: Table.java,v 1.16 2004-11-25 09:49:45 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -579,9 +579,9 @@ public class Table extends ContainerWidget implements IContentWidget {
                 }
             }
             addChildWidget(menu);
-            table.addMouseListener(new PopupListener(this.menu));
+            table.addMouseListener(new PopupListener(this.menu, this));
             if (this.lockedTable != null) {
-              this.lockedTable.addMouseListener(new PopupListener(this.menu));
+              this.lockedTable.addMouseListener(new PopupListener(this.menu, this));
             }
         }
         // we also add UpdateButtonsListener here..

@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.16 2004-10-26 07:43:04 mvdb Exp $
+   $Id: Tree.java,v 1.17 2004-11-25 09:49:45 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -48,7 +48,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.16 2004-10-26 07:43:04 mvdb Exp $
+ * @version $Id: Tree.java,v 1.17 2004-11-25 09:49:45 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -519,7 +519,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
         if (menu != null) {
             menu.setParent(this);
             menu.initialize();
-            jtree.addMouseListener(new PopupListener(this.menu));
+            jtree.addMouseListener(new PopupListener(this.menu, this));
         }
     }
 
