@@ -1,5 +1,5 @@
 /*
- $Id: MainEntryRule.java,v 1.1 2002-12-02 21:50:03 mvdb Exp $
+ $Id: MainEntryRule.java,v 1.1.2.1 2003-04-29 16:52:47 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: MainEntryRule.java,v 1.1 2002-12-02 21:50:03 mvdb Exp $
+ * @version $Id: MainEntryRule.java,v 1.1.2.1 2003-04-29 16:52:47 mvdb Exp $
  */
 public class MainEntryRule extends Rule
 {

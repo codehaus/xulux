@@ -1,5 +1,5 @@
 /*
- $Id: TestExample.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
+ $Id: TestExample.java,v 1.6.2.1 2003-04-29 16:52:43 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -73,7 +73,7 @@ import org.xulux.nyx.utils.Resources;
  * A simple example of a form
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestExample.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: TestExample.java,v 1.6.2.1 2003-04-29 16:52:43 mvdb Exp $
  */
 public class TestExample
 {

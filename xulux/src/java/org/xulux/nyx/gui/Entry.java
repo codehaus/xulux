@@ -1,7 +1,7 @@
 /*
- $Id: Entry.java,v 1.30 2002-12-12 14:42:26 mvdb Exp $
+ $Id: Entry.java,v 1.30.2.1 2003-04-29 16:52:44 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.30 2002-12-12 14:42:26 mvdb Exp $
+ * @version $Id: Entry.java,v 1.30.2.1 2003-04-29 16:52:44 mvdb Exp $
  */
 public class Entry 
 extends Widget

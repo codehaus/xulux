@@ -1,7 +1,7 @@
 /*
- $Id: FieldFactory.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ $Id: FieldFactory.java,v 1.1.2.1 2003-04-29 16:52:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -45,18 +45,16 @@
  */
 package org.xulux.nyx.swing.factories;
 
-import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 /**
  * A factory to create fields based on GuiField entries.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: FieldFactory.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ * @version $Id: FieldFactory.java,v 1.1.2.1 2003-04-29 16:52:45 mvdb Exp $
  */
 public class FieldFactory
 {

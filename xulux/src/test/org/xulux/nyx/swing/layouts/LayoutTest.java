@@ -1,5 +1,5 @@
 /*
- $Id: LayoutTest.java,v 1.2 2002-10-29 16:26:15 mvdb Exp $
+ $Id: LayoutTest.java,v 1.2.2.1 2003-04-29 16:52:46 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,7 @@ import javax.swing.SwingUtilities;
  * A cleass to to test the funcionality of the Formlayout manager.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.2 2002-10-29 16:26:15 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.2.2.1 2003-04-29 16:52:46 mvdb Exp $
  */
 public class LayoutTest
 {

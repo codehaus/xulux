@@ -1,7 +1,7 @@
 /*
- $Id: XYLayout.java,v 1.2 2002-11-10 21:44:12 mvdb Exp $
+ $Id: XYLayout.java,v 1.2.2.1 2003-04-29 16:52:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -54,17 +54,14 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import javax.swing.text.Position;
-
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.gui.WidgetRectangle;
 
 /**
  * A layout manager that positions it's controls
  * using the size and the position of the control
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.2 2002-11-10 21:44:12 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.2.2.1 2003-04-29 16:52:45 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {

@@ -1,7 +1,7 @@
 /*
- $Id: Combo.java,v 1.24 2002-12-05 14:50:17 mvdb Exp $
+ $Id: Combo.java,v 1.24.2.1 2003-04-29 16:52:44 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.24 2002-12-05 14:50:17 mvdb Exp $
+ * @version $Id: Combo.java,v 1.24.2.1 2003-04-29 16:52:44 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -345,6 +345,13 @@ public class Combo extends Widget
      */
     public Object getValue()
     {
+        if (getName().equalsIgnoreCase("careTypeList")) {
+            System.err.println("*******************");
+            System.err.println("content : "+content);
+            System.err.println("combo : "+combo);
+            System.err.println("value  : "+this.value);
+            System.err.println("*******************");
+        }
         if ((content == null || combo == null) && this.value != null)
         {
             return this.value;

@@ -1,7 +1,7 @@
 /*
- $Id: ImmidiateListener.java,v 1.5 2002-11-27 02:33:44 mvdb Exp $
+ $Id: ImmidiateListener.java,v 1.5.2.1 2003-04-29 16:52:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -59,7 +59,7 @@ import org.xulux.nyx.gui.Widget;
  * For now unsupported
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.5 2002-11-27 02:33:44 mvdb Exp $
+ * @version $Id: ImmidiateListener.java,v 1.5.2.1 2003-04-29 16:52:45 mvdb Exp $
  */
 public class ImmidiateListener extends KeyAdapter
 {
@@ -75,7 +75,6 @@ public class ImmidiateListener extends KeyAdapter
     public ImmidiateListener(Widget widget)
     {
         this.widget = widget;
-        this.part = part;
     }
 
     /**

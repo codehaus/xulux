@@ -1,7 +1,7 @@
 /*
- $Id: NewForm.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
+ $Id: NewForm.java,v 1.2.2.1 2003-04-29 16:52:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -50,7 +50,7 @@ import javax.swing.JComponent;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NewForm.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
+ * @version $Id: NewForm.java,v 1.2.2.1 2003-04-29 16:52:45 mvdb Exp $
  */
 public class NewForm extends BaseForm
 {

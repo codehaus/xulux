@@ -12,7 +12,7 @@ import org.xulux.nyx.guidefaults.GuiDefaults;
  * NOTE: Probably getting obsolete.. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiFieldTest.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: GuiFieldTest.java,v 1.3.2.1 2003-04-29 16:52:46 mvdb Exp $
  */
 public class GuiFieldTest extends TestCase
 {

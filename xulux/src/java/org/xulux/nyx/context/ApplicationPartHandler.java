@@ -1,7 +1,7 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.12 2002-11-28 21:45:07 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.12.2.1 2003-04-29 16:52:43 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -46,6 +46,7 @@
 package org.xulux.nyx.context;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 import java.util.StringTokenizer;
@@ -68,7 +69,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.12 2002-11-28 21:45:07 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.12.2.1 2003-04-29 16:52:43 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -85,9 +86,11 @@ public class ApplicationPartHandler extends DefaultHandler
     private static String RULES_ELEMENT = "rules";
     private static String RULE_ELEMENT = "rule";
     private static String LISTENER_ELEMENT = "listener";
+    private static String ORDER_ELEMENT = "order";
     private static String TYPE_ATTRIBUTE = "type";
     private static String NAME_ATTRIBUTE = "name";
     private static String USE_ATTRIBUTE = "use";
+    private static String DEFAULT_ORDERTYPE = "default";
 
     private boolean processingField = false;
 
@@ -104,6 +107,7 @@ public class ApplicationPartHandler extends DefaultHandler
     private boolean rulesStarted = false;
     private boolean processRule = false;
     private boolean processListener = false;
+    private boolean processOrder = false;
     
     private String currentqName;
     
@@ -222,6 +226,15 @@ public class ApplicationPartHandler extends DefaultHandler
         else if (qName.equals(LISTENER_ELEMENT))
         {
             processListener = true;
+        }
+        else if (qName.equals(ORDER_ELEMENT))
+        {
+            processOrder = true;
+            String orderType = atts.getValue(TYPE_ATTRIBUTE);
+            if (orderType == null) 
+            {
+                orderType = DEFAULT_ORDERTYPE;
+            }
         }
         else
         {
@@ -345,6 +358,13 @@ public class ApplicationPartHandler extends DefaultHandler
             }
             currentValue = null;
         }
+        else if (qName.equals(ORDER_ELEMENT))
+        {
+            processOrder = false;
+            processOrder(currentValue);
+            currentValue = null;
+            currentqName = null;
+        }
         else if (processUnknown && currentqName != null)
         {
             processUnknown = false;
@@ -353,6 +373,24 @@ public class ApplicationPartHandler extends DefaultHandler
             currentqName = null;
             currentValue = null;
         }
+    }
+    
+    /**
+     * Process tab order to a list
+     * @param order - comma seperated list of orders
+     */
+    private void processOrder(String order) {
+        if (order == null) 
+        {
+            return;
+        }
+        ArrayList orderList = new ArrayList();
+        StringTokenizer stn = new StringTokenizer(order,",");
+        while (stn.hasMoreTokens())
+        {
+            orderList.add(stn.nextToken());
+        }
+        part.setTabOrder(orderList);
     }
 
     /**
@@ -377,7 +415,7 @@ public class ApplicationPartHandler extends DefaultHandler
     {
         if (processText || (processPosition || processSize) || 
             processValue || (processUnknown && currentqName!=null) ||
-            processRule || processListener)
+            processRule || processListener || processOrder)
         {
             if (currentValue == null)
             {

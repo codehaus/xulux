@@ -7,7 +7,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: EntryComboPersonEntryRule.java,v 1.1 2002-12-03 17:12:01 mvdb Exp $
+ * @version $Id: EntryComboPersonEntryRule.java,v 1.1.2.1 2003-04-29 16:52:47 mvdb Exp $
  */
 public class EntryComboPersonEntryRule extends Rule
 {

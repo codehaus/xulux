@@ -1,7 +1,7 @@
 /*
- $Id: Widget.java,v 1.21 2002-12-03 02:19:08 mvdb Exp $
+ $Id: Widget.java,v 1.21.2.1 2003-04-29 16:52:44 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -46,8 +46,11 @@
 
 package org.xulux.nyx.gui;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.JComponent;
 
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.rules.IRule;
@@ -61,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.21 2002-12-03 02:19:08 mvdb Exp $
+ * @version $Id: Widget.java,v 1.21.2.1 2003-04-29 16:52:44 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -530,6 +533,20 @@ public abstract class Widget
     public boolean isRefreshing()
     {
         return isRefreshing;
+    }
+    
+    /**
+     * Sets the next widget that should get focus 
+     * when eg tab is used.
+     * @param name
+     */
+    public void setNextWidget(String name)
+    {
+        Widget widget = part.getWidget(name);
+        if (widget != null)
+        {
+            ((JComponent)getNativeWidget()).setNextFocusableComponent((Component)widget.getNativeWidget());
+        }
     }
 
 }

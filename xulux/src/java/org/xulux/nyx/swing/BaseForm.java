@@ -1,7 +1,7 @@
 /*
- $Id: BaseForm.java,v 1.3 2002-10-29 00:10:02 mvdb Exp $
+ $Id: BaseForm.java,v 1.3.2.1 2003-04-29 16:52:44 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -61,7 +61,7 @@ import org.xulux.nyx.utils.Resources;
  * The BaseForm 
  * 
  * @author <a href="martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BaseForm.java,v 1.3 2002-10-29 00:10:02 mvdb Exp $
+ * @version $Id: BaseForm.java,v 1.3.2.1 2003-04-29 16:52:44 mvdb Exp $
  */
 public abstract class BaseForm implements IComponent
 {

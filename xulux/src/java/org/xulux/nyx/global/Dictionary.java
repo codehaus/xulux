@@ -1,7 +1,7 @@
 /*
- $Id: Dictionary.java,v 1.4 2002-11-12 17:16:42 mvdb Exp $
+ $Id: Dictionary.java,v 1.4.2.1 2003-04-29 16:52:43 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -47,7 +47,6 @@ package org.xulux.nyx.global;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.logging.Log;
@@ -57,7 +56,7 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.4 2002-11-12 17:16:42 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.4.2.1 2003-04-29 16:52:43 mvdb Exp $
  */
 public class Dictionary
 {

@@ -1,5 +1,5 @@
 /*
- $Id: FormFactoryTest.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
+ $Id: FormFactoryTest.java,v 1.3.2.1 2003-04-29 16:52:46 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import junit.framework.TestSuite;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: FormFactoryTest.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: FormFactoryTest.java,v 1.3.2.1 2003-04-29 16:52:46 mvdb Exp $
  */
 public class FormFactoryTest extends TestCase
 {

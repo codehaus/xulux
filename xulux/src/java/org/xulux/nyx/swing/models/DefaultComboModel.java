@@ -1,7 +1,7 @@
 /*
- $Id: DefaultComboModel.java,v 1.11 2002-12-05 14:50:18 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.11.2.1 2003-04-29 16:52:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -46,7 +46,6 @@
 package org.xulux.nyx.swing.models;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import javax.swing.ComboBoxModel;
@@ -56,13 +55,12 @@ import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.Combo;
-import org.xulux.nyx.gui.Widget;
 
 /**
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.11 2002-12-05 14:50:18 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.11.2.1 2003-04-29 16:52:45 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {

@@ -1,7 +1,7 @@
 /*
- $Id: ApplicationContext.java,v 1.18.2.1 2003-02-20 13:31:28 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.18.2.2 2003-04-29 16:52:43 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -46,9 +46,7 @@
 package org.xulux.nyx.context;
 
 import java.awt.Component;
-import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -65,7 +63,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.18.2.1 2003-02-20 13:31:28 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.18.2.2 2003-04-29 16:52:43 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -143,7 +141,6 @@ public class ApplicationContext
     /** 
      * Register a certain rule to a certain part.
      * If the rulecount is zero, it will add it by default..
-     * TODO : Use th
      * 
      * @param partName can be eg TestForm or TestForm.fieldname If the emapping already exists,
      *         this will add it to the new mapping. Need to do some work here, since 2 identical
@@ -288,7 +285,6 @@ public class ApplicationContext
      */
     private static boolean fireRequests(Iterator it, PartRequest request, int type)
     {
-//        Widget widget = request.getWidget();        
         boolean stopAllRules = false;
         while (it.hasNext() && !stopAllRules)
         {
@@ -321,7 +317,9 @@ public class ApplicationContext
                         {
                             log.trace("Processing post rule : " + rule.getClass().getName());
                         }
+                        System.out.println("Processing post rule : " + rule.getClass().getName());
                         rule.post(request);
+                        System.out.println("appContext value " +request.getPart().getGuiValue("careTypeList"));
                         continue;
                 }
             }

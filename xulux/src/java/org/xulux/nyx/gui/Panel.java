@@ -1,7 +1,7 @@
 /*
- $Id: Panel.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
+ $Id: Panel.java,v 1.3.2.1 2003-04-29 16:52:44 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -54,13 +54,12 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import org.xulux.nyx.swing.layouts.XYLayout;
-import sun.security.action.GetPropertyAction;
 
 /**
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.3 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: Panel.java,v 1.3.2.1 2003-04-29 16:52:44 mvdb Exp $
  */
 public class Panel extends Widget
 {

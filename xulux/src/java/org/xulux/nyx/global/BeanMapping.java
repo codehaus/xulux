@@ -1,7 +1,7 @@
 /*
- $Id: BeanMapping.java,v 1.6 2002-12-02 20:46:10 mvdb Exp $
+ $Id: BeanMapping.java,v 1.6.2.1 2003-04-29 16:52:43 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -49,9 +49,6 @@ package org.xulux.nyx.global;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
 
 /**
  * Contains the the Bean to Name mapping
@@ -62,7 +59,7 @@ import java.util.HashMap;
  * of concept I am reinventing the wheel a bit..;)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.6 2002-12-02 20:46:10 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.6.2.1 2003-04-29 16:52:43 mvdb Exp $
  */
 public class BeanMapping
 {

@@ -1,7 +1,7 @@
 /*
- $Id: Button.java,v 1.10 2002-12-04 11:29:14 mvdb Exp $
+ $Id: Button.java,v 1.10.2.1 2003-04-29 16:52:44 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -52,6 +52,8 @@ import java.awt.event.FocusListener;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JRootPane;
+import javax.swing.SwingUtilities;
 
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
@@ -60,7 +62,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.10 2002-12-04 11:29:14 mvdb Exp $
+ * @version $Id: Button.java,v 1.10.2.1 2003-04-29 16:52:44 mvdb Exp $
  */
 public class Button extends Widget
 {
@@ -120,6 +122,19 @@ public class Button extends Widget
             actionListener.setWidget(this);
             button.addActionListener(actionListener);
         }
+        String defButton = getProperty("defaultbutton");
+        if (defButton != null) {
+            if (defButton.equalsIgnoreCase("true")){
+                this.button.setDefaultCapable(true);
+                JRootPane pane = SwingUtilities.getRootPane(this.button);
+                if ( pane != null ) 
+                {
+                    System.out.println("Pane is not null");
+                    pane.setDefaultButton(this.button);
+                }
+            }
+        }
+        
         String image = getProperty("image");
         if (image != null)
         {

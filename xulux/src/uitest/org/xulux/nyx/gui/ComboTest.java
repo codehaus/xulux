@@ -1,5 +1,5 @@
 /*
- $Id: ComboTest.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
+ $Id: ComboTest.java,v 1.1.2.1 2003-04-29 16:52:47 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,7 +56,7 @@ import junit.framework.TestSuite;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: ComboTest.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
+ * @version $Id: ComboTest.java,v 1.1.2.1 2003-04-29 16:52:47 mvdb Exp $
  */
 public class ComboTest extends TestCase
 {

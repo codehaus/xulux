@@ -1,7 +1,7 @@
 /*
- $Id: SimpleForm.java,v 1.4 2002-10-29 00:10:02 mvdb Exp $
+ $Id: SimpleForm.java,v 1.4.2.1 2003-04-29 16:52:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -47,13 +47,9 @@
 package org.xulux.nyx.swing;
 
 import java.awt.Component;
-import java.awt.FlowLayout;
-import java.io.InputStream;
-import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JRootPane;
-import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,7 +62,7 @@ import org.xulux.nyx.swing.factories.FieldCollection;
  * A simpleForm which contructs a for based on the fields
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SimpleForm.java,v 1.4 2002-10-29 00:10:02 mvdb Exp $
+ * @version $Id: SimpleForm.java,v 1.4.2.1 2003-04-29 16:52:45 mvdb Exp $
  */
 public class SimpleForm 
 extends BaseForm 

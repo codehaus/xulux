@@ -1,7 +1,7 @@
 /*
- $Id: FormFieldArea.java,v 1.2 2002-10-29 00:10:02 mvdb Exp $
+ $Id: FormFieldArea.java,v 1.2.2.1 2003-04-29 16:52:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -47,29 +47,25 @@ package org.xulux.nyx.swing;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
-import javax.swing.JTextField;
 
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.swing.factories.FieldCollection;
 import org.xulux.nyx.swing.factories.FieldFactory;
 import org.xulux.nyx.swing.factories.GuiField;
-import org.xulux.nyx.swing.layouts.FormLayout;
 
 /**
  * The area where the fields of the form reside
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: FormFieldArea.java,v 1.2 2002-10-29 00:10:02 mvdb Exp $
+ * @version $Id: FormFieldArea.java,v 1.2.2.1 2003-04-29 16:52:45 mvdb Exp $
  */
 public class FormFieldArea extends JPanel
 {

@@ -1,7 +1,7 @@
 /*
- $Id: BeanField.java,v 1.4 2002-11-03 14:29:21 mvdb Exp $
+ $Id: BeanField.java,v 1.4.2.1 2003-04-29 16:52:43 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -57,7 +57,7 @@ import java.lang.reflect.Method;
  * normally. Also need to check thread safety.
  * 
  * @author <a href="mailto:martin@mvdb.net>Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.4 2002-11-03 14:29:21 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.4.2.1 2003-04-29 16:52:43 mvdb Exp $
  */
 public class BeanField implements IField
 {

@@ -1,7 +1,7 @@
 /*
- $Id: WidgetRectangle.java,v 1.1 2002-11-05 17:11:26 mvdb Exp $
+ $Id: WidgetRectangle.java,v 1.1.2.1 2003-04-29 16:52:44 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -51,7 +51,7 @@ import java.awt.Rectangle;
  * Placeholder for position and for width and heigth
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetRectangle.java,v 1.1 2002-11-05 17:11:26 mvdb Exp $
+ * @version $Id: WidgetRectangle.java,v 1.1.2.1 2003-04-29 16:52:44 mvdb Exp $
  */
 public class WidgetRectangle
 {

@@ -1,7 +1,7 @@
 /*
- $Id: PrePostFieldListener.java,v 1.9 2002-12-05 14:50:18 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.9.2.1 2003-04-29 16:52:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -49,22 +49,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.gui.Entry;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.rules.IRule;
-import org.xulux.nyx.rules.Rule;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.9 2002-12-05 14:50:18 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.9.2.1 2003-04-29 16:52:45 mvdb Exp $
  */
 public class PrePostFieldListener 
 implements FocusListener, ActionListener

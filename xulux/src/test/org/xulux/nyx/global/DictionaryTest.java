@@ -1,6 +1,6 @@
 
 /*
- $Id: DictionaryTest.java,v 1.4 2002-11-03 15:17:49 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.4.2.1 2003-04-29 16:52:46 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.4 2002-11-03 15:17:49 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.4.2.1 2003-04-29 16:52:46 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {

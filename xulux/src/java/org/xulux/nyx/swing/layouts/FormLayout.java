@@ -1,7 +1,7 @@
 /*
- $Id: FormLayout.java,v 1.2 2002-10-29 00:10:02 mvdb Exp $
+ $Id: FormLayout.java,v 1.2.2.1 2003-04-29 16:52:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -50,17 +50,14 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.LayoutManager;
 import java.awt.LayoutManager2;
 import java.util.ArrayList;
-
-import javax.swing.JPanel;
 
 /**
  * A layout based on the layout specified in toCure standards
  * 
- * @author Martin van den Bemt
- * @version $Id: FormLayout.java,v 1.2 2002-10-29 00:10:02 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.met">Martin van den Bemt</a>
+ * @version $Id: FormLayout.java,v 1.2.2.1 2003-04-29 16:52:45 mvdb Exp $
  */
 public class FormLayout implements LayoutManager2
 {

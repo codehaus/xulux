@@ -1,7 +1,7 @@
 /*
- $Id: NotYetSupportedException.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ $Id: NotYetSupportedException.java,v 1.1.2.1 2003-04-29 16:52:46 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -50,7 +50,7 @@ package org.xulux.nyx.utils;
  * Specifies that a certain functionality is not yet supported
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NotYetSupportedException.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ * @version $Id: NotYetSupportedException.java,v 1.1.2.1 2003-04-29 16:52:46 mvdb Exp $
  */
 public class NotYetSupportedException extends UnsupportedOperationException
 {

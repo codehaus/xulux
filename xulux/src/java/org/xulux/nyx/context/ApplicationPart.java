@@ -1,7 +1,7 @@
 /*
- $Id: ApplicationPart.java,v 1.30 2002-11-28 21:45:07 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.30.2.1 2003-04-29 16:52:43 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -49,9 +49,10 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.LayoutManager2;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
+import javax.swing.FocusManager;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -59,14 +60,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 import org.xulux.nyx.context.impl.PartRequestImpl;
 import org.xulux.nyx.context.impl.WidgetRequestImpl;
-import org.xulux.nyx.global.BeanField;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
-import org.xulux.nyx.swing.factories.GuiField;
+import org.xulux.nyx.swing.layouts.NyxFocusManager;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
@@ -86,7 +86,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.30 2002-11-28 21:45:07 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.30.2.1 2003-04-29 16:52:43 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -109,6 +109,10 @@ public class ApplicationPart
     private boolean activated;
 
     boolean stopRules = false;
+    /** 
+     * Container for the taborder
+     */
+    private List order;
     
     private String name;
     
@@ -379,11 +383,12 @@ public class ApplicationPart
         {
             return;
         }
+        /**
         Iterator it = widgets.iterator();
         while (it.hasNext())
         {
             Widget widget = (Widget) it.next();
-        }
+        }*/
         runIndex++;
     }
     
@@ -440,7 +445,7 @@ public class ApplicationPart
         else
         {
             PartRequestImpl req = new PartRequestImpl(this, PartRequest.NO_ACTION);
-            ApplicationContext.getInstance().fireRequest(req, ApplicationContext.PRE_REQUEST);
+            ApplicationContext.fireRequest(req, ApplicationContext.PRE_REQUEST);
         }
             
         Iterator it = widgets.iterator();
@@ -465,6 +470,30 @@ public class ApplicationPart
                 }
             }
         }
+        if (log.isDebugEnabled()) {
+            log.debug("Processing widget tab order");
+        }
+        FocusManager.setCurrentManager(new NyxFocusManager(this));
+//        if (order != null && order.size() > 0)
+//        {
+//            Iterator oit = order.iterator();
+//            String previousName = null;
+//            while (oit.hasNext())
+//            {
+//                String name = (String)oit.next();
+//                if (previousName != null) {
+//                    Widget widget = getWidget(previousName);
+//                    widget.setNextWidget(name);
+//                }else{
+//                    // TODO: set this one to the first one in the taborder...
+//                    JComponent rootw = (JComponent)getRootWidget();
+//                    if (rootw != null) {
+//                        System.out.println("ROOTW IS NOT NULL");
+//                    }
+//                }
+//                previousName = name;
+//            }
+//        }
     }
     
     /**
@@ -539,6 +568,31 @@ public class ApplicationPart
             }
             return null;
         }
+        
+        /** 
+         * Finds the widget using the native widget.
+         * (eg a swing component)
+         * @param object
+         * @return
+         */
+        public Widget findWithNative(Object object) {
+            if (object == null) {
+                return null;
+            }
+            Widget retValue = null;
+            for (int i = 0; i < size(); i++)
+            {
+                Object data = get(i);
+                if (data instanceof Widget) {
+                    if (object.equals(((Widget)data).getNativeWidget())) {
+                        retValue = (Widget)data;
+                        break;
+                    }
+                } 
+            }
+            return retValue;
+        }
+            
     }
     
     public WidgetList getWidgets()
@@ -779,5 +833,22 @@ public class ApplicationPart
     {
         return "Name : "+getName()+" "+super.toString();
     }
-
+    
+    /**
+     * Sets the tab order
+     * @param order
+     */
+    public void setTabOrder(List order)
+    {
+        this.order = order;
+    }
+    
+    /**
+     * 
+     * @return the taborder list
+     */
+    public List getTabOrder() {
+        return this.order;
+    }
+    
 }
