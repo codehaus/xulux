@@ -1,5 +1,5 @@
 /*
-   $Id: Window.java,v 1.10 2004-07-07 17:43:42 mvdb Exp $
+   $Id: Window.java,v 1.11 2004-10-28 20:13:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -47,7 +47,7 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.10 2004-07-07 17:43:42 mvdb Exp $
+ * @version $Id: Window.java,v 1.11 2004-10-28 20:13:08 mvdb Exp $
  */
 public class Window extends NyxWindow {
     /**
@@ -178,8 +178,8 @@ public class Window extends NyxWindow {
             //button.setFocusPainted(true);
         }
         window.setTitle(getProperty("title"));
-        window.setEnabled(isEnabled());
         window.setVisible(isVisible());
+        window.setEnabled(isEnabled());
         isRefreshing = false;
     }
 
