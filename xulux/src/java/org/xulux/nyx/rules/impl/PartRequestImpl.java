@@ -1,5 +1,5 @@
 /*
- $Id: PartRequestImpl.java,v 1.2 2003-09-01 12:04:20 mvdb Exp $
+ $Id: PartRequestImpl.java,v 1.3 2003-10-10 17:28:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.xulux.nyx.rules.IRule;
  * This class should not be used directly, it is only for internal use.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequestImpl.java,v 1.2 2003-09-01 12:04:20 mvdb Exp $
+ * @version $Id: PartRequestImpl.java,v 1.3 2003-10-10 17:28:27 mvdb Exp $
  */
 public class PartRequestImpl implements PartRequest
 {
@@ -106,7 +106,7 @@ public class PartRequestImpl implements PartRequest
         int dotIndex = field.indexOf(".");
         if (dotIndex == -1)
         {
-            getPart().getGuiValue(field);
+            return getPart().getGuiValue(field);
         }
         else
         {

@@ -17,8 +17,8 @@
   <gumpRepositoryId>nyx</gumpRepositoryId>
 
   <description>
-  NYX provides an easy way to display dynamicaly
-  generated Swing components, driven by data.
+    NYX is gui layer independend framework, driven by rules and data provided
+    by the user
   </description>
 
   <shortDescription>NYX data driven gui's</shortDescription>

@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.29 2003-10-06 12:59:13 mvdb Exp $
+ $Id: Entry.java,v 1.30 2003-10-10 17:28:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,19 +63,19 @@ import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.29 2003-10-06 12:59:13 mvdb Exp $
+ * @version $Id: Entry.java,v 1.30 2003-10-10 17:28:27 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
 {
     private static Log log = LogFactory.getLog(Entry.class);
     private Dimension size;
-//    private String text;
     protected boolean setValueCalled = false;
     
     /** 
@@ -84,8 +84,10 @@ extends SwingWidget
      */
     protected JTextComponent textComponent;
     
-    PrePostFieldListener focusListener;
-    PrePostFieldListener immidiateListener;
+    protected PrePostFieldListener focusListener;
+    protected PrePostFieldListener immidiateListener;
+    
+    protected Class valueClass;
     
     
     /**
@@ -131,15 +133,16 @@ extends SwingWidget
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
-    public void initialize()
-    {
-        if (this.initialized)
-        {
+    public void initialize() {
+        if (this.initialized) {
             return;
         }
         this.initialized = true;
         this.setValueCalled = true;
         textComponent = new JTextField();
+        if (getProperty("valueclass") != null) {
+            this.valueClass = ClassLoaderUtils.getClass(getProperty("valueclass"));
+        }
         if (isImmidiate())
         {
             if (this.immidiateListener == null)
@@ -249,6 +252,16 @@ extends SwingWidget
     public Object getValue()
     {
         return this.value;
+//        Object object = null;
+//        IConverter converter = Dictionary.getConverter(this.value);
+//        System.err.println("converter : "+converter);
+//        if (converter != null) {
+//            object = converter.getBeanValue(this.value);
+//        } else {
+//            object = this.value;
+//        }
+//        System.err.println("Object : "+object);
+//        return object;
     }
     
     /**
@@ -342,17 +355,38 @@ extends SwingWidget
         // and check to see if the field
         // needs updating or not.
         if (getField() == null) {
-            if (getValue() != null) {
-                if (getValue() != object) {
-                    this.value = object;
-                    this.previousValue = getValue();
-                } else {
-                    // nothing changed, so return
-                    return;
+            if (object != null) {
+                if (valueClass != null && 
+                   !valueClass.isAssignableFrom(object.getClass())) {
+                    IConverter converter = Dictionary.getConverter(valueClass);
+                    if (converter != null) {
+                        object = converter.getBeanValue(object);
+                    }
                 }
-            } else {
-                this.value = object;
             }
+            if (object != this.value) {
+                this.previousValue = this.value;
+            }
+            this.value = object;
+//            if (getValue() != null) {
+//                if (valueClass != null) {
+//                    if (valueClass.isAssignableFrom(getValue())) {
+//                        IConverter converter =  Dictionary.getConverter(valueClass);
+//                        if (converter != null) {
+//                            this.previousValue = getValue();
+//                            this.value = converter.getBeanValue(object);
+//                        }
+//                    }
+//                if (getValue() != object) {
+//                    this.previousValue = getValue();
+//                    this.value = object;
+//                } else {
+//                    // nothing changed, so return
+//                    return;
+//                }
+//            } else {
+//                this.value = object;
+//            }
         } else {
             BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
             if (map != null) {
@@ -368,8 +402,7 @@ extends SwingWidget
                 }
             }
         }
-        if (initialized)
-        {
+        if (initialized) {
             initializeValue();
         }
     }
