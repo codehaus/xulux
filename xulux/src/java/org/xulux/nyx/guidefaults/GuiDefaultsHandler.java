@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.8 2003-01-26 02:43:34 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.9 2003-06-17 17:02:30 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.context.ApplicationContext;
  * It should be case insensitive, but isn't really ;)
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.8 2003-01-26 02:43:34 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.9 2003-06-17 17:02:30 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
@@ -68,6 +68,7 @@ public class GuiDefaultsHandler extends DefaultHandler
      * Element and attribute statics
      */
     private static final String ELEMENT_WIDGETS = "widgets";
+    private static final String ELEMENT_PARENTWIDGETHANDLER = "parentWidgetHandler";
     private static final String ELEMENT_WIDGET = "widget";
     private static final String ELEMENT_GUI = "gui";
     private static final String ELEMENT_ROOT = "guidefaults";
@@ -137,6 +138,12 @@ public class GuiDefaultsHandler extends DefaultHandler
                 defaultType = defaultType.toLowerCase();
             }
             ApplicationContext.getInstance().setDefaultWidgetType(defaultType);
+        }
+        else if (qName.equals(ELEMENT_PARENTWIDGETHANDLER))
+        {
+            String type = atts.getValue(ATTRIBUTE_TYPE);
+            String clazz = atts.getValue(ATTRIBUTE_CLASS);
+            ApplicationContext.getInstance().registerParentWidgetHandler(type, clazz);
         }
         else if (qName.equals(ELEMENT_WIDGETS))
         {

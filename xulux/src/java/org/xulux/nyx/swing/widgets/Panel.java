@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
+ $Id: Panel.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
+ * @version $Id: Panel.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -157,6 +157,13 @@ public class Panel extends ContainerWidget
     public void addToParent(Widget widget)
     {
         panel.add((Component)widget.getNativeWidget(), widget);
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#focus()
+     */
+    public void focus() {
+        panel.requestFocus();
     }
 
 }

@@ -4,14 +4,15 @@
     to defaultType.
 -->
 <guidefaults defaultType="swing">
+  <parentWidgetHandler type="swing" class="org.xulux.nyx.swing.util.SwingParentWidgetHandler"/>
   <widgets>
-    <widget name="button" class="org.xulux.nyx.gui.Button"/>
-    <widget name="combo" type="swing" class="org.xulux.nyx.gui.swing.Combo"/>
-    <widget name="combo" type="swt" class="org.xulux.nyx.gui.swt.Combo"/>
-    <widget name="entry" class="org.xulux.nyx.gui.Entry"/>
-    <widget name="label" class="org.xulux.nyx.gui.Label"/>
-    <widget name="panel" class="org.xulux.nyx.gui.Panel"/>
-    <widget name="window" type="swing" class="org.xulux.nyx.gui.swing.Window"/>
-    <widget name="window" type="swt" class="org.xulux.nyx.gui.swt.Window"/>
+    <widget name="button" class="org.xulux.nyx.swing.widgets.Button"/>
+    <widget name="combo" type="swing" class="org.xulux.nyx.swing.widgets.Combo"/>
+    <widget name="combo" type="swt" class="org.xulux.nyx.swt.Combo"/>
+    <widget name="entry" class="org.xulux.nyx.swing.widgets.Entry"/>
+    <widget name="label" class="org.xulux.nyx.swing.widgets.Label"/>
+    <widget name="panel" class="org.xulux.nyx.swing.widgets.Panel"/>
+    <widget name="window" type="swing" class="org.xulux.nyx.swing.widgets.Window"/>
+    <widget name="window" type="swt" class="org.xulux.nyx.swt.Window"/>
   </widgets>
 </guidefaults>

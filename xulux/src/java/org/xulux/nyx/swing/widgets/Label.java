@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
+ $Id: Label.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.gui.Widget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
+ * @version $Id: Label.java,v 1.2 2003-06-17 17:02:30 mvdb Exp $
  */
 public class Label extends Widget
 {
@@ -146,4 +146,11 @@ public class Label extends Widget
         }
         label.repaint();
     }
+    /**
+     * @see org.xulux.nyx.gui.Widget#focus()
+     */
+    public void focus() {
+        label.requestFocus();
+    }
+
 }

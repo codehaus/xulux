@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.38 2003-06-17 12:53:29 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.39 2003-06-17 17:02:30 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,13 +45,8 @@
  */
 package org.xulux.nyx.context;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.LayoutManager2;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.swing.JComponent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,11 +55,11 @@ import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.IParentWidgetHandler;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
-import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * An Application is a part of the application
@@ -83,7 +78,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.38 2003-06-17 12:53:29 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.39 2003-06-17 17:02:30 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -112,7 +107,6 @@ public class ApplicationPart
     public static int runIndex = 0;
     
     private SessionPart session;
-    private LayoutManager2 layout;
     
     public final static int NO_STATE = 0;
     public final static int INVALID_STATE = 1;
@@ -612,15 +606,6 @@ public class ApplicationPart
         widget.setValue(null);
     }
     
-    public void setLayoutManager(LayoutManager2 layout)
-    {
-        this.layout = layout;
-        if (parentWidget != null)
-        {
-            ((JComponent)parentWidget).setLayout(layout);
-        }
-    }
-        
     
     /** 
      * Destroys the applicationPart
@@ -666,9 +651,8 @@ public class ApplicationPart
         mapping = null;
         if (parentWidget != null)
         {
-            Container container = ((Component)parentWidget).getParent();
-            container.removeAll();
-            container.remove((Component)parentWidget);
+            IParentWidgetHandler handler = ApplicationContext.getInstance().getParentWidgetHandler();
+            handler.destroy(parentWidget);
         }
         ApplicationContext.getInstance().removePart(getName());
     }
@@ -682,17 +666,7 @@ public class ApplicationPart
         Widget widget = getWidget(name);
         if (widget != null)
         {
-            try
-            {
-                ((Component)widget.getNativeWidget()).requestFocus();
-            }
-            catch(Exception e)
-            {
-                if (log.isWarnEnabled())
-                {
-                    log.warn("Could not set focus to "+name);
-                }
-            }
+            widget.focus();
         }
     }
     
@@ -767,7 +741,7 @@ public class ApplicationPart
      * Sets the fieldEventHandler.
      * @param fieldEventHandler The fieldEventHandler to set
      */
-    public void setFieldEventHandler(PrePostFieldListener fieldEventHandler)
+    public void setFieldEventHandler(NyxListener fieldEventHandler)
     {
         this.fieldEventHandler = fieldEventHandler;
     }

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.24 2003-01-27 00:35:51 mvdb Exp $
+ $Id: Widget.java,v 1.25 2003-06-17 17:02:30 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.24 2003-01-27 00:35:51 mvdb Exp $
+ * @version $Id: Widget.java,v 1.25 2003-06-17 17:02:30 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -576,5 +576,10 @@ public abstract class Widget implements Serializable
     {
         return isRefreshing;
     }
+    
+    /**
+     * Set the focus to this widget
+     */
+    public abstract void focus();
 
 }

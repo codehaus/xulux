@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.24 2003-06-16 22:29:00 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.25 2003-06-17 17:02:30 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,6 +54,7 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.gui.IParentWidgetHandler;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.guidefaults.GuiDefaultsHandler;
 import org.xulux.nyx.rules.IRule;
@@ -63,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.24 2003-06-16 22:29:00 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.25 2003-06-17 17:02:30 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -93,7 +94,13 @@ public class ApplicationContext
     private HashMap parts;
     
     private HashMap widgets;
-
+    
+    /**
+     * Map of parentWidgetHandlers
+     * The key is the type
+     */
+    private HashMap parentWidgetHandlerMap;
+    
     /** 
      * The currently registered rules
      */
@@ -405,6 +412,54 @@ public class ApplicationContext
         {
             log.warn("Could not find "+clazz+" for widget named "+name+" and type "+type);
         }
+    }
+    
+    /**
+     * Registers the parent widget handler.
+     * This is used when cleaning up the applicationpart
+     * to eg remove all widgets from the parent in one go.
+     * Initially it will be read from the default GuiDefaults.xml
+     * and can be overriden.
+     * @param type
+     * @param clazz
+     */
+    public void registerParentWidgetHandler(String type, String clazz) {
+        if (parentWidgetHandlerMap == null) {
+            parentWidgetHandlerMap = new HashMap();
+        }
+        try
+        {
+            Class parentClass = Class.forName(clazz);
+            if (type == null)
+            {
+                type = defaultType;
+            }
+            Object object = parentClass.newInstance();
+            if (!(object instanceof IParentWidgetHandler)) {
+                if (log.isWarnEnabled()) {
+                    log.warn(parentClass+" is not an instance of IParentWidgetHandler");
+                }
+            }
+                
+            parentWidgetHandlerMap.put(type,parentClass.newInstance());
+        }
+        catch (Exception e)
+        {
+            log.warn("Could not find "+clazz+" for parentWidgetHandler named for "+type);
+        }
+    }
+    
+    /**
+     * 
+     * @return the handler for the current gui framework
+     *          or null of not found
+     */
+    public IParentWidgetHandler getParentWidgetHandler() {
+        
+        if (parentWidgetHandlerMap != null) {
+            return (IParentWidgetHandler) parentWidgetHandlerMap.get(defaultType);
+        }
+        return null;
     }
     
     /**
