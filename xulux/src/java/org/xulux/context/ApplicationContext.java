@@ -1,7 +1,7 @@
 /*
-   $Id: ApplicationContext.java,v 1.3 2004-01-28 12:22:45 mvdb Exp $
+   $Id: ApplicationContext.java,v 1.4 2004-01-28 14:57:03 mvdb Exp $
    
-   Copyright 2002-2003 The Xulux Project
+   Copyright 2002-2004 The Xulux Project
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * known to the system.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.3 2004-01-28 12:22:45 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.4 2004-01-28 14:57:03 mvdb Exp $
  */
 public class ApplicationContext {
     /**

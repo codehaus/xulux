@@ -1,7 +1,7 @@
 /*
-   $Id: SessionPart.java,v 1.2 2004-01-28 12:22:45 mvdb Exp $
+   $Id: SessionPart.java,v 1.3 2004-01-28 14:57:03 mvdb Exp $
    
-   Copyright 2002-2003 The Xulux Project
+   Copyright 2002-2004 The Xulux Project
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import java.util.Iterator;
  * Contains application wide part data.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SessionPart.java,v 1.2 2004-01-28 12:22:45 mvdb Exp $
+ * @version $Id: SessionPart.java,v 1.3 2004-01-28 14:57:03 mvdb Exp $
  */
 public class SessionPart {
 
