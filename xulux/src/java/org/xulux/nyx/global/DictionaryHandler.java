@@ -1,7 +1,7 @@
 /*
- $Id: DictionaryHandler.java,v 1.4 2003-05-06 12:39:19 mvdb Exp $
+ $Id: DictionaryHandler.java,v 1.5 2003-05-21 11:03:58 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -60,7 +60,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * The default dictionary.xml reader
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.4 2003-05-06 12:39:19 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.5 2003-05-21 11:03:58 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {

@@ -1,7 +1,7 @@
 /*
- $Id: Dictionary.java,v 1.5 2002-12-22 23:32:05 mvdb Exp $
+ $Id: Dictionary.java,v 1.6 2003-05-21 11:03:58 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -57,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.5 2002-12-22 23:32:05 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.6 2003-05-21 11:03:58 mvdb Exp $
  */
 public class Dictionary
 {
