@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.9 2002-11-28 14:05:24 mvdb Exp $
+ $Id: Button.java,v 1.10 2002-12-04 11:29:14 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,22 +46,28 @@
 package org.xulux.nyx.gui;
 
 import java.awt.Container;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
+
 /**
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.9 2002-11-28 14:05:24 mvdb Exp $
+ * @version $Id: Button.java,v 1.10 2002-12-04 11:29:14 mvdb Exp $
  */
 public class Button extends Widget
 {
     
     private JButton button;
     private PrePostFieldListener actionListener;
+    private FocusListener focusListener;
 
     /**
      * Constructor for Button.
@@ -91,7 +97,10 @@ public class Button extends Widget
         }
         button = new JButton();
         initialized = true;
-        refresh();
+        if (!isRefreshing())
+        {
+            refresh();
+        }
     }
 
     /**
@@ -116,6 +125,61 @@ public class Button extends Widget
         {
             ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(image));
             button.setIcon(icon);
+            button.setFocusPainted(true);
+        }
+        String disabledImage = getProperty("image-disabled");
+        if (disabledImage != null)
+        {
+            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(disabledImage));
+            button.setDisabledIcon(icon);
+            button.setDisabledSelectedIcon(icon);
+        }
+        String rolloverImage = getProperty("image-rollover");
+        if (rolloverImage!=null)
+        {
+            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(rolloverImage));
+            button.setRolloverIcon(icon);
+            button.setRolloverEnabled(true);
+        }
+        String selectedImage = getProperty("image-selected");
+        if (selectedImage != null)
+        {
+            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(selectedImage));
+            button.setSelectedIcon(icon);
+            button.setPressedIcon(icon);
+            button.setRolloverSelectedIcon(icon);
+            button.setRolloverEnabled(true);
+            // we need to add a focuslistener to set the image
+            // when focus is there to the selected image
+            if (this.focusListener == null)
+            {
+                this.focusListener = new FocusListener()
+                {
+                    Icon normalIcon;
+                    /**
+                     * @see java.awt.event.FocusListener#focusGained(FocusEvent)
+                     */
+                    public void focusGained(FocusEvent e)
+                    {
+                        normalIcon = button.getIcon();
+                        button.setIcon(button.getSelectedIcon());
+                    }
+
+                    /**
+                     * @see java.awt.event.FocusListener#focusLost(FocusEvent)
+                     */
+                    public void focusLost(FocusEvent e)
+                    {
+                        if (normalIcon != null)
+                        {
+                            button.setIcon(normalIcon);
+                            normalIcon = null;
+                        }
+                    }
+                };
+                button.addFocusListener(focusListener);
+            }
+            
         }
         button.setEnabled(isEnabled());
         isRefreshing = false;
@@ -132,6 +196,11 @@ public class Button extends Widget
             button.removeActionListener(actionListener);
         }
         actionListener = null;
+        if (focusListener != null)
+        {
+            button.removeFocusListener(focusListener);
+        }
+        focusListener = null;
         removeAllRules();
         button.setVisible(false);
         if (container != null)
