@@ -1,5 +1,5 @@
 /*
-   $Id: NyxListener.java,v 1.9 2004-06-30 11:59:00 mvdb Exp $
+   $Id: NyxListener.java,v 1.10 2004-07-19 22:07:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.9 2004-06-30 11:59:00 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.10 2004-07-19 22:07:31 mvdb Exp $
  */
 public abstract class NyxListener {
     /**
@@ -45,7 +45,7 @@ public abstract class NyxListener {
     /**
      * Is the listener still processing ?
      */
-    private static boolean processing = false;
+    protected static boolean processing = false;
     /**
      * The log instanace
      */

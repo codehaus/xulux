@@ -1,5 +1,5 @@
 /*
-   $Id: NyxEventQueueTest.java,v 1.3 2004-01-28 15:22:08 mvdb Exp $
+   $Id: NyxEventQueueTest.java,v 1.4 2004-07-19 22:07:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,6 +19,7 @@ package org.xulux.swing.util;
 
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
+import org.xulux.gui.WidgetFactory;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -28,7 +29,7 @@ import junit.framework.TestSuite;
  * Testcase for the nyxeventqueue
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxEventQueueTest.java,v 1.3 2004-01-28 15:22:08 mvdb Exp $
+ * @version $Id: NyxEventQueueTest.java,v 1.4 2004-07-19 22:07:31 mvdb Exp $
  */
 public class NyxEventQueueTest extends TestCase {
 
@@ -91,6 +92,25 @@ public class NyxEventQueueTest extends TestCase {
         assertEquals(1, listener2.getAcceptedCount());
         assertEquals(0, listener2.getCompletedCount());
     }
+    
+    /**
+     * There is a scenario when in the accepted loop, accepted would
+     * be reset to null and cause a npe. clearAccepted should wait
+     * to clear when the loop is done.
+     */
+    public void testNPEInProcessAccepted() {
+        System.out.println("testNPEInProcessAccepted");
+        NyxEventQueue q = NyxEventQueue.getInstance();
+        q.holdEvents(true);
+        Widget label = WidgetFactory.getWidget("label", "label");
+        InternalListener listener = new InternalListener(label);
+        InternalListener listener2 = new InternalListener(label);
+        listener.resetQueue = true;
+        q.holdAccepted(listener);
+        q.holdAccepted(listener2);
+        q.holdEvents(false);
+    }
+
 
     /**
      * An internal test listener..
@@ -109,6 +129,8 @@ public class NyxEventQueueTest extends TestCase {
          * Is the completed a success ?
          */
         private boolean succesCompleted = true;
+        
+        public boolean resetQueue = false;
 
         /**
          * @param widget the widget the listener is for
@@ -133,6 +155,9 @@ public class NyxEventQueueTest extends TestCase {
          */
         public boolean accepted(Widget widget) {
             acceptedCount++;
+            if (resetQueue) {
+                NyxEventQueue.getInstance().clearAccepted();
+            }
             return succesCompleted;
         }
         /**

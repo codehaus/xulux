@@ -1,5 +1,5 @@
 /*
-   $Id: SwingWidget.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
+   $Id: SwingWidget.java,v 1.4 2004-07-19 22:07:32 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,7 +25,7 @@ import org.xulux.gui.Widget;
  * A convenience class for swing widgets to override..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingWidget.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: SwingWidget.java,v 1.4 2004-07-19 22:07:32 mvdb Exp $
  */
 public abstract class SwingWidget extends Widget {
 
@@ -62,7 +62,9 @@ public abstract class SwingWidget extends Widget {
      */
     public void focus() {
         JComponent j = (JComponent) getNativeWidget();
+        isRefreshing = true;
         j.requestFocus();
+        isRefreshing = false;
         // if widget is not showing we have
         // to make it showing..
         if (!j.isShowing() && getParent() != null) {

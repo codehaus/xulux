@@ -1,5 +1,5 @@
 /*
-   $Id: Button.java,v 1.8 2004-05-11 11:59:21 mvdb Exp $
+   $Id: Button.java,v 1.9 2004-07-19 22:07:32 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,6 +36,7 @@ import org.xulux.gui.Widget;
 import org.xulux.swing.SwingWidget;
 import org.xulux.swing.listeners.DefaultButtonChangeListener;
 import org.xulux.swing.listeners.PrePostFieldListener;
+import org.xulux.swing.listeners.WidgetFocusListener;
 import org.xulux.swing.util.SwingUtils;
 import org.xulux.utils.BooleanUtils;
 
@@ -43,7 +44,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.8 2004-05-11 11:59:21 mvdb Exp $
+ * @version $Id: Button.java,v 1.9 2004-07-19 22:07:32 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -56,9 +57,15 @@ public class Button extends SwingWidget {
      */
     private PrePostFieldListener actionListener;
     /**
-     * the focuslistener
+     * the image focuslistener
      */
     private FocusListener imageFocusListener;
+    /**
+     * The focuslistener. This way we receive focusevents
+     * when someone has selected the button by leaving another field
+     * by way of pressing tab.
+     */
+    private FocusListener focusListener;
     
     private DefaultButtonChangeListener changeListener;
     /**
@@ -173,6 +180,10 @@ public class Button extends SwingWidget {
             }
             button.addActionListener(actionListener);
         }
+        if (focusListener == null) {
+          focusListener = new WidgetFocusListener(this);
+          button.addFocusListener(focusListener);
+        }
         String alignment = getProperty("alignment");
         if (alignment != null) {
             // defaults to center..
@@ -226,8 +237,8 @@ public class Button extends SwingWidget {
         Container container = button.getParent();
         if (actionListener != null) {
             button.removeActionListener(actionListener);
+            actionListener = null;
         }
-        actionListener = null;
         if (imageFocusListener != null) {
             button.removeFocusListener(imageFocusListener);
         }
@@ -236,6 +247,10 @@ public class Button extends SwingWidget {
           changeListener = null;
         }
         imageFocusListener = null;
+        if (focusListener != null) {
+          button.removeFocusListener(focusListener);
+          focusListener = null;
+        }
         if (listenerList != null) {
             for (Iterator it = listenerList.iterator(); it.hasNext();) {
                 Object l = it.next();

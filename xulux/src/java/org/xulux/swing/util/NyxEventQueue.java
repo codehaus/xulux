@@ -1,5 +1,5 @@
 /*
-   $Id: NyxEventQueue.java,v 1.4 2004-03-02 14:02:37 mvdb Exp $
+   $Id: NyxEventQueue.java,v 1.5 2004-07-19 22:07:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.gui.NyxListener;
  * doing rule processing..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxEventQueue.java,v 1.4 2004-03-02 14:02:37 mvdb Exp $
+ * @version $Id: NyxEventQueue.java,v 1.5 2004-07-19 22:07:31 mvdb Exp $
  */
 public class NyxEventQueue { // extends EventQueue {
 
@@ -50,7 +50,15 @@ public class NyxEventQueue { // extends EventQueue {
      * The accepted queue
      */
     private ArrayList accepted;
-
+    /**
+     * Is currently accepted being processed ?
+     */
+    private boolean processingAccepted;
+    /**
+     * Should we currently reset the queue ?
+     */
+    private boolean shouldResetQueue;
+    
     /**
      * Creates an instance of the event queue.
      */
@@ -86,6 +94,10 @@ public class NyxEventQueue { // extends EventQueue {
         if (accepted == null || accepted.size() == 0) {
             return;
         }
+        if (processingAccepted) {
+            return;
+        }
+        processingAccepted = true;
         for (int i = 0; i < accepted.size(); i++) {
             NyxListener listener = ((NyxListener) accepted.get(i));
             if (listener != null) {
@@ -93,8 +105,13 @@ public class NyxEventQueue { // extends EventQueue {
                     listener.completed();
                 }
             }
+            if (shouldResetQueue) {
+                new Exception().printStackTrace();
+            }
         }
-        accepted = null;
+        processingAccepted = false;
+        clearAccepted();
+        shouldResetQueue = false;
     }
 
     /**
@@ -112,10 +129,13 @@ public class NyxEventQueue { // extends EventQueue {
 
     /**
      * Clears out the accepted queue.
-     *
      */
     public void clearAccepted() {
-        accepted = null;
+        if (processingAccepted) {
+            shouldResetQueue = true;
+        } else {
+          accepted = null;
+        }
     }
 
 }
