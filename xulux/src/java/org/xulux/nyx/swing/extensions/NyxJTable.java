@@ -1,5 +1,5 @@
 /*
- $Id: NyxJTable.java,v 1.2 2003-11-17 10:30:14 mvdb Exp $
+ $Id: NyxJTable.java,v 1.3 2003-11-17 11:37:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -45,8 +45,6 @@
  */
 package org.xulux.nyx.swing.extensions;
 
-import java.awt.Color;
-
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
@@ -58,12 +56,12 @@ import javax.swing.table.TableModel;
  * things we'll never use..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJTable.java,v 1.2 2003-11-17 10:30:14 mvdb Exp $
+ * @version $Id: NyxJTable.java,v 1.3 2003-11-17 11:37:18 mvdb Exp $
  */
 public class NyxJTable extends JTable {
     
-    protected Color cellBackground;
-    protected boolean rendererPrepared;
+    protected NyxJTable siblingTable;
+    protected boolean changing;
     
     /**
      *
@@ -100,39 +98,37 @@ public class NyxJTable extends JTable {
     }
 
     /**
-     * We have to override this method to allow custom background color per cell.
-     * We probably need to fire rules of the fields before we get the color..
-     * 
-     * @see javax.swing.JTable#prepareRenderer(javax.swing.table.TableCellRenderer, int, int)
+     * @see javax.swing.JTable#changeSelection(int, int, boolean, boolean)
      */
-//    public Component prepareRenderer( TableCellRenderer renderer, int row, int column) {
-//        new Exception().printStackTrace(System.err);
-//        Component c = super.prepareRenderer(renderer, row, column);
-//        if (column == 1) {
-//            //System.out.println("c : "+c);
-//            System.out.println("Setting cellbg "+column);
-//            c.setBackground(Color.green);
-//            setCellBackground(Color.green);
-//            rendererPrepared = true;
-//        }
-//        return c;
-//    }
-    
-    public void setCellBackground(Color cbg) {
-        cellBackground = cbg;
+    public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
+        super.changeSelection(rowIndex, columnIndex, toggle, extend);
+        if (getSiblingTable() != null && !getSiblingTable().isChanging()) {
+            changing = true;
+            getSiblingTable().changeSelection(rowIndex, columnIndex, toggle, extend);
+            changing = false;
+        }
+    }
+
+    /**
+     * @return the sublingtable or null if non present.
+     */
+    public NyxJTable getSiblingTable() {
+        return siblingTable;
+    }
+
+    /**
+     * @param siblingTable - the table that should behave exactly like the other..
+     */
+    public void setSiblingTable(NyxJTable siblingTable) {
+        this.siblingTable = siblingTable;
     }
     
-    public Color getCellBackground() {
-        return this.cellBackground;
-    }
-    
-//    public Color getBackground() {
-//        if (rendererPrepared) {
-//            rendererPrepared = false;
-//            System.out.println("rendererPrepared : "+getCellBackground());
-//            return getCellBackground();
-//        }
-//        return super.getBackground();
-//    } 
+    /**
+     * 
+     * @return if the table is currently changing.
+     */
+    public boolean isChanging() {
+        return changing;
+    } 
 
 }

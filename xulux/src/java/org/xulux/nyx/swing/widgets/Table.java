@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.27 2003-11-17 10:28:59 mvdb Exp $
+ $Id: Table.java,v 1.28 2003-11-17 11:37:18 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -65,7 +65,6 @@ import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.swing.extensions.NyxJTable;
-import org.xulux.nyx.swing.listeners.LockedColumnSelectionListener;
 import org.xulux.nyx.swing.listeners.NewSelectionListener;
 import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
@@ -85,19 +84,19 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.27 2003-11-17 10:28:59 mvdb Exp $
+ * @version $Id: Table.java,v 1.28 2003-11-17 11:37:18 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
         
     /**
      * The native swing table
      */
-    protected JTable table;
+    protected NyxJTable table;
     
     /**
      * The native locked table
      */
-    protected JTable lockedTable;
+    protected NyxJTable lockedTable;
 
     /**
      * This is the native widget
@@ -125,7 +124,6 @@ public class Table extends ContainerWidget implements IContentWidget {
     protected NyxTableModel model;
 
     protected NyxTableCellEditor editor;
-    protected LockedColumnSelectionListener lockedListener;
     protected NewSelectionListener newSelectionListener;
 
     private int oldListSize = 0;
@@ -142,12 +140,6 @@ public class Table extends ContainerWidget implements IContentWidget {
     public void destroyTable() {
         if (!initialized) {
             return;
-        }
-        if (lockedListener != null) {
-            table.getSelectionModel().removeListSelectionListener(lockedListener);
-            if (lockedTable != null) {
-                lockedTable.getSelectionModel().removeListSelectionListener(lockedListener);
-            }
         }
         if (newSelectionListener != null) {
             table.getSelectionModel().removeListSelectionListener(newSelectionListener);
@@ -288,6 +280,8 @@ public class Table extends ContainerWidget implements IContentWidget {
             scrollPane.setViewportView(table);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             if (hasLockedColumns) {
+                table.setSiblingTable(lockedTable);
+                lockedTable.setSiblingTable(table);
                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 lockedTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 lockedTable.getTableHeader().setReorderingAllowed(false);
@@ -297,20 +291,6 @@ public class Table extends ContainerWidget implements IContentWidget {
 //                System.out.println("ColumnModel : "+columnModel.getLockedColumnWidth());
                 scrollPane.setRowHeaderView(lockedTable);
                 scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, lockedTable.getTableHeader());
-                // add the listeners.. 
-                if (lockedListener == null) {
-                    lockedListener = new LockedColumnSelectionListener(this);
-                }
-                lockedTable.getSelectionModel().addListSelectionListener(lockedListener);
-                table.getSelectionModel().addListSelectionListener(lockedListener);
-            } else {
-                // at least try to remove the listener.
-                if (lockedListener != null) {
-                   if (lockedTable != null) {
-                       lockedTable.getSelectionModel().removeListSelectionListener(lockedListener);
-                   }
-                   table.getSelectionModel().removeListSelectionListener(lockedListener);
-                }
             }
             scrollPane.setVisible(true);
             table.setVisible(true);
