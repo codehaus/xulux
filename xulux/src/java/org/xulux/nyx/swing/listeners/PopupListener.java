@@ -1,5 +1,5 @@
 /*
- $Id: PopupListener.java,v 1.1 2003-08-07 09:54:27 mvdb Exp $
+ $Id: PopupListener.java,v 1.2 2003-09-24 11:10:21 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,20 +45,24 @@
  */
 package org.xulux.nyx.swing.listeners;
 
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.List;
 
+import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.rules.impl.WidgetRequestImpl;
 
 /**
  * A popuplistener. Shows the popup when the right mousebutton is clicked
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupListener.java,v 1.1 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: PopupListener.java,v 1.2 2003-09-24 11:10:21 mvdb Exp $
  */
-public class PopupListener extends MouseAdapter {
-
-    protected Widget menu;
+public class PopupListener extends NyxListener 
+implements MouseListener {
 
     /**
      * 
@@ -67,17 +71,52 @@ public class PopupListener extends MouseAdapter {
         super();
     }
     
-    public PopupListener(Widget menu) {
-        this.menu = menu;
+    public PopupListener(Widget widget) {
+        super(widget);
     }
         
     public void mousePressed(MouseEvent e) {
     }
 
     public void mouseReleased(MouseEvent e) {
+        // fire pre rules of menuitems..
+        WidgetRequestImpl impl = new WidgetRequestImpl(getWidget().getParent(), PartRequest.ACTION_VALUE_CHANGED);
+//        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
+//        // preform all pre rules if postOnly is false
+//            ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+////        fi
+        ApplicationContext.fireFieldRequest(getWidget(), impl, ApplicationContext.PRE_REQUEST);
+        List list = getWidget().getChildWidgets();
+        if (list != null) {
+            for (int i=0; i < list.size(); i++) {
+                Widget widget = (Widget)list.get(i);
+                ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
+            }
+        }
         if (e.isPopupTrigger()) {
-            this.menu.setPosition(e.getX(),e.getY());
-            this.menu.setVisible(true);
+            getWidget().setPosition(e.getX(),e.getY());
+            getWidget().setVisible(true);
         }
     }
+    /**
+     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+     */
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    /**
+     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+     */
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    /**
+     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+     */
+    public void mouseExited(MouseEvent e) {
+
+    }
+
 }

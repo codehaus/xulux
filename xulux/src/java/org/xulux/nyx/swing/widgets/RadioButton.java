@@ -1,5 +1,5 @@
 /*
- $Id: MenuItem.java,v 1.4 2003-09-24 11:10:21 mvdb Exp $
+ $Id: RadioButton.java,v 1.1 2003-09-24 11:10:21 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,36 +45,24 @@
  */
 package org.xulux.nyx.swing.widgets;
 
-import java.awt.Container;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import javax.swing.JRadioButton;
 
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-
-import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
- * Creates a menuitem or a seperator, based on the type of 
- * menuitem
- * 
+ * Represents a radiobutton in the gui.
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MenuItem.java,v 1.4 2003-09-24 11:10:21 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.1 2003-09-24 11:10:21 mvdb Exp $
  */
-public class MenuItem extends Widget {
+public class RadioButton extends Widget {
     
-    protected JMenuItem item;
-    protected JSeparator separator;
-    protected ActionListener actionListener;
-    protected List listenerList;
+    protected JRadioButton radioButton;
+    
     /**
      * @param name
      */
-    public MenuItem(String name) {
+    public RadioButton(String name) {
         super(name);
     }
 
@@ -82,35 +70,14 @@ public class MenuItem extends Widget {
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
     public void destroy() {
-        if (item != null && this.actionListener != null) {
-            this.item.removeActionListener(this.actionListener);
-        }
-        this.actionListener = null;
-        if (listenerList != null) {
-            for (Iterator it = listenerList.iterator(); it.hasNext();) {
-                this.item.removeActionListener((ActionListener)it.next());
-            }
-        }
-        if (item!= null && item.getParent() != null) {
-            Container container = item.getParent();
-            container.remove(item);
-        }
-        item = null;
-        processDestroy();
+
     }
 
     /**
      * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
     public Object getNativeWidget() {
-        if (!initialized) {
-            initialize();
-        }
-        if (item != null) {
-            return item;
-        } else {
-            return separator;
-        }
+        return null;
     }
 
     /**
@@ -120,19 +87,10 @@ public class MenuItem extends Widget {
         if (initialized) {
             return;
         }
-        String type = getProperty("type");
-        if (type == null || (type != null && !type.equals("separator"))) {
-            item = new JMenuItem();
-            // allways add an actionlistener..
-            this.actionListener = new PrePostFieldListener(this);
-            item.addActionListener(this.actionListener);
-        } else {
-            // not other things are needed..
-            separator = new JSeparator();
-        }
+        radioButton = new JRadioButton();
         initialized = true;
         refresh();
-        processInit();
+        
     }
 
     /**
@@ -143,37 +101,9 @@ public class MenuItem extends Widget {
             return;
         }
         isRefreshing = true;
-        if (!initialized) {
-            initialize();
-        }
-        if (item != null) {
-            refreshItem();
-        } else if (separator != null) {
-            refreshSeperator();
-        }
+        initialize();
         isRefreshing = false;
     }
-    
-    /**
-     * Refreshes the menuitem
-     */
-    private void refreshItem() {
-        String text = getProperty("text");
-        if (text != null) {
-            item.setText(text);
-        }
-        item.setEnabled(isEnabled());
-        item.setVisible(isVisible());
-    }
-    
-    /**
-     * Refreshes the separator (no code yet..)
-     *
-     */
-    private void refreshSeperator() {
-        // do nothing..
-    }
-        
 
     /**
      * @see org.xulux.nyx.gui.Widget#getGuiValue()
@@ -186,7 +116,6 @@ public class MenuItem extends Widget {
      * @see org.xulux.nyx.gui.Widget#focus()
      */
     public void focus() {
-        item.requestFocus();
 
     }
 
@@ -201,21 +130,7 @@ public class MenuItem extends Widget {
      * @see org.xulux.nyx.gui.Widget#canContainValue()
      */
     public boolean canContainValue() {
-        return false;
+        return true;
     }
 
-    /**
-     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
-     */
-    public void addNyxListener(NyxListener listener) {
-        if (listener instanceof ActionListener) {
-            if (listenerList == null) {
-                listenerList = new ArrayList();
-            }
-            listenerList.add(listener);
-            initialize();
-            this.item.addActionListener((ActionListener)listener);
-        }
-    }
-    
 }
