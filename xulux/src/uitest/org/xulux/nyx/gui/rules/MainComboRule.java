@@ -1,5 +1,5 @@
 /*
- $Id: MainComboRule.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
+ $Id: MainComboRule.java,v 1.2 2002-12-03 19:05:15 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.rules.Rule;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: MainComboRule.java,v 1.1 2002-12-02 20:44:43 mvdb Exp $
+ * @version $Id: MainComboRule.java,v 1.2 2002-12-03 19:05:15 mvdb Exp $
  */
 public class MainComboRule extends Rule
 {
@@ -83,7 +83,7 @@ public class MainComboRule extends Rule
         Combo combo = (Combo)request.getPart().getWidget("3PersonList");
         ArrayList threePersonContent = createContent();
         combo.setContent(threePersonContent);
-        combo.setValue(threePersonContent.get(2));
+        //combo.setValue(threePersonContent.get(2));
     }
     
     public void setup3PersonsWithNotSelectedValue(PartRequest request)
@@ -91,7 +91,7 @@ public class MainComboRule extends Rule
         Combo combo = (Combo)request.getPart().getWidget("3PersonListWithNotSelectedValue");
         ArrayList list = createContent();
         combo.setContent(list);
-        combo.setValue(list.get(2));
+        //combo.setValue(list.get(2));
         combo.setNotSelectedValue("<nothing selected>");
     }
     

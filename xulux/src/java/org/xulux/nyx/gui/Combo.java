@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.22 2002-12-03 17:12:01 mvdb Exp $
+ $Id: Combo.java,v 1.23 2002-12-03 19:05:15 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.22 2002-12-03 17:12:01 mvdb Exp $
+ * @version $Id: Combo.java,v 1.23 2002-12-03 19:05:15 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -223,6 +223,11 @@ public class Combo extends Widget
             return;
         }
         this.initialized = true;
+        String nsv = getProperty("notselectedvalue");
+        if (nsv != null)
+        {
+            this.notSelectedValue = nsv;
+        }
         combo = new NyxComboBox();
         refresh();
     }
@@ -282,6 +287,17 @@ public class Combo extends Widget
             if (content != null && value != null)
             {
                 model.setRealSelectedValue(getValue());
+            }
+            else if (content != null &&
+                       value == null)
+            {
+                // if we don't have a value select
+                // the first one in the list
+                if (!content.isEmpty())
+                {
+                    model.setSelectedItem(0);
+                    this.value = model.getRealSelectedValue();
+                }
             }
         }
         String backgroundColor = null;
@@ -351,25 +367,11 @@ public class Combo extends Widget
      */
     public void clear()
     {
-        if (notSelectedValue == null)
+        setValue(null);
+        if (initialized)
         {
-            if (model != null)
-            {
-                model.setSelectedItem(null);
-            }
+            refresh();
         }
-        else
-        {
-            try
-            {
-               combo.setSelectedIndex(0);
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace(System.out);
-            }
-        }
-        refresh();
     }
 
     /**
