@@ -31,7 +31,7 @@
 
   <repository>
     <connection>scm:cvs:pserver:anoncvs@eng.werken.com:/cvsroot/xulux:nyx</connection>
-    <url>http://cvs.werken.com/viewcvs.cgi/nyx/?cvsroot=xulux/</url>
+    <url>http://cvs.werken.com/viewcvs.cgi/nyx/?cvsroot=xulux</url>
   </repository>
 
   <versions>
@@ -88,6 +88,14 @@
   </contributors>
 
   <!-- Need to mark these as compile-time/run-time -->
+  <dependencies>
+    <dependency>
+      <id>commons-logging</id>
+      <version>1.0.1</version>
+      <url>http://jakarta.apache.org/commons/logging.html</url>
+    </dependency>
+  </dependencies>
+
 
   <build>
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="XULUX">
+ 
+  <title>NYX</title>
+  <organizationLogo href="/images/logo1.jpg">nyx.xulux.org</organizationLogo>
+ 
+  <body>
+    <links>
+      <item name="xulux.org" href="http://www.xulux.org/"/>
+      <item name="The Werken Company" href="http://www.werken.com/"/>
+    </links>
+    <menu name="NYX">
+      <item name="Overview"                href="/index.html"/>
+      <item name="Features"                href="/features.html"/>
+    </menu>
+  </body>
+</project>
