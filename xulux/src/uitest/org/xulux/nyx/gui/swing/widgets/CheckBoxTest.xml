@@ -1,4 +1,4 @@
-<part name="PersonBeanForm" prefix="CheckBoxBean">
+<part name="CheckBoxForm" prefix="CheckBoxBean">
   <field type="window" name="Window">
     <title>ComboTest</title>
     <icon>resources/Car.ico</icon>
