@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.2 2002-10-31 02:00:51 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.3 2002-10-31 02:01:44 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.2 2002-10-31 02:00:51 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.3 2002-10-31 02:01:44 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -136,13 +136,16 @@ public class ApplicationPart
     
     /**
      * No primitive support yet.. sorry ;)
-     * The 
      * This is pretty ignoarant.. If a field does not exists 
      * in the apppart, it will do nothing
      * @param field
      * @param value
      */
-    public void setValue(String field, Object value)
+    public void setBeanValue(String field, Object value)
+    {
+    }
+    
+    public void setGuiValue(String field, Object value)
     {
     }
     
