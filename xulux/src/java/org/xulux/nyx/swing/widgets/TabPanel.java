@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.9 2003-09-25 13:30:30 mvdb Exp $
+ $Id: TabPanel.java,v 1.10 2003-09-25 13:30:59 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,7 +47,6 @@ package org.xulux.nyx.swing.widgets;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.util.Arrays;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -66,7 +65,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * 
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.9 2003-09-25 13:30:30 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.10 2003-09-25 13:30:59 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
     
