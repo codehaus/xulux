@@ -1,5 +1,5 @@
 /*
-   $Id: Combo.java,v 1.6 2004-07-07 17:43:42 mvdb Exp $
+   $Id: Combo.java,v 1.7 2004-10-20 17:26:40 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.swing.util.NyxEventQueue;
  * The swing combo widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.6 2004-07-07 17:43:42 mvdb Exp $
+ * @version $Id: Combo.java,v 1.7 2004-10-20 17:26:40 mvdb Exp $
  */
 public class Combo extends NyxCombo {
     /**
@@ -114,6 +114,7 @@ public class Combo extends NyxCombo {
         if (this.initialized) {
             return;
         }
+        contentChanged = true;
         this.initialized = true;
         String nsv = getProperty("notselectedvalue");
         if (nsv != null) {
