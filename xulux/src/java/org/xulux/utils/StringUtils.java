@@ -1,5 +1,5 @@
 /*
-$Id: StringUtils.java,v 1.1 2004-09-23 07:41:27 mvdb Exp $
+$Id: StringUtils.java,v 1.2 2004-10-18 14:10:47 mvdb Exp $
 
 Copyright 2002-2004 The Xulux Project
 
@@ -19,7 +19,7 @@ package org.xulux.utils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: StringUtils.java,v 1.1 2004-09-23 07:41:27 mvdb Exp $
+ * @version $Id: StringUtils.java,v 1.2 2004-10-18 14:10:47 mvdb Exp $
  */
 public class StringUtils {
   
@@ -54,6 +54,22 @@ public class StringUtils {
       }
     }
     return sb.toString();
+  }
+
+  /**
+   * Capitalizes a string, which means the first character
+   * will be uppercase and the other characters will be lowercase.
+   * @param constraint
+   */
+  public static String capitalize(String constraint) {
+    if (constraint == null || constraint.length() == 0) {
+      return constraint;
+    }
+    constraint = constraint.toLowerCase();
+    StringBuffer buffer = new StringBuffer();
+    buffer.append(Character.toUpperCase(constraint.charAt(0)));
+    buffer.append(constraint.substring(1));
+    return buffer.toString();
   }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxGuiDriver.java,v 1.7 2004-09-23 07:54:27 mvdb Exp $
+   $Id: XuluxGuiDriver.java,v 1.8 2004-10-18 14:10:47 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -49,7 +49,7 @@ import org.xulux.utils.Translator;
  * @todo Move out "generic" code, so we can have a helper class to do all the xulux magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxGuiDriver.java,v 1.7 2004-09-23 07:54:27 mvdb Exp $
+ * @version $Id: XuluxGuiDriver.java,v 1.8 2004-10-18 14:10:47 mvdb Exp $
  */
 public class XuluxGuiDriver extends DefaultHandler {
 
@@ -468,9 +468,9 @@ public class XuluxGuiDriver extends DefaultHandler {
             Widget widget = (Widget) stack.get(stack.size() - 1);
             if (processSize) {
                 if (autoSize) {
-                    widget.setProperty("autosize", "true");
+                    widget.setLazyProperty("autosize", "true");
                 } else {
-                    widget.setProperty("size", currentValue);
+                    widget.setLazyProperty("size", currentValue);
                 }
                 processSize = false;
             }
@@ -496,7 +496,7 @@ public class XuluxGuiDriver extends DefaultHandler {
                     }
                     else {
                         //widget.setPosition(x, y);
-                        widget.setProperty("position", currentValue);
+                        widget.setLazyProperty("position", currentValue);
                         processPosition = false;
                     }
                 }
@@ -563,11 +563,11 @@ public class XuluxGuiDriver extends DefaultHandler {
             processUnknown = false;
             if (stack.size() > 0) {
                 Widget widget = (Widget) stack.get(stack.size() - 1);
-                widget.setProperty(currentqName, currentValue);
+                widget.setLazyProperty(currentqName, currentValue);
                 if (currentAtts != null) {
                     for (Iterator it = currentAtts.keySet().iterator(); it.hasNext();) {
                         String key = (String) it.next();
-                        widget.setProperty(key, (String) currentAtts.get(key));
+                        widget.setLazyProperty(key, (String) currentAtts.get(key));
                     }
                 }
             }

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-   $Id: GuiDefaults.xml,v 1.11 2004-10-14 12:28:00 mvdb Exp $
+   $Id: GuiDefaults.xml,v 1.12 2004-10-18 14:10:47 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,6 +30,8 @@
     <layout name="xylayout" default="true" class="org.xulux.swing.layouts.XYLayout"/>
     <layout name="box" class="org.xulux.swing.layouts.SwingBoxLayout"/>
     <layout name="gridbag" class="org.xulux.swing.layouts.SwingGridBagLayout"/>
+    <layout name="border" class="org.xulux.swing.layouts.SwingBorderLayout"/>
+    <layout name="flow" class="org.xulux.swing.layouts.SwingFlowLayout"/>
   </layouts>
   <invalidValueStrategies>
      <invalidValueStrategy name="saveaction" default="true" class="org.xulux.gui.strategies.SaveActionInvalidValueStrategy"/>

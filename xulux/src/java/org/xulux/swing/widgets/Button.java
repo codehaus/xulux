@@ -1,5 +1,5 @@
 /*
-   $Id: Button.java,v 1.10 2004-10-11 19:14:19 mvdb Exp $
+   $Id: Button.java,v 1.11 2004-10-18 14:10:47 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.10 2004-10-11 19:14:19 mvdb Exp $
+ * @version $Id: Button.java,v 1.11 2004-10-18 14:10:47 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -223,6 +223,12 @@ public class Button extends SwingWidget {
           changeListener = null;
         }
         button.setEnabled(isEnabled());
+        if (getRectangle().getX() > 0 && getRectangle().getY() > 0) {
+	        button.setPreferredSize(getRectangle().getRectangle().getSize());
+	        button.setMinimumSize(getRectangle().getRectangle().getSize());
+	        button.setMaximumSize(getRectangle().getRectangle().getSize());
+	        button.setSize(getRectangle().getRectangle().getSize());
+        }
         isRefreshing = false;
     }
 

@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.20 2004-10-05 10:11:04 mvdb Exp $
+   $Id: Widget.java,v 1.21 2004-10-18 14:10:48 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -42,7 +42,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.20 2004-10-05 10:11:04 mvdb Exp $
+ * @version $Id: Widget.java,v 1.21 2004-10-18 14:10:48 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -265,7 +265,7 @@ public abstract class Widget implements Serializable
     public void setPosition(int x, int y) {
         getRectangle().setPosition(x,y);
         if (x != 0 && x != y) {
-          setLazyProperty("position", x+","+y);
+          properties.put("position", x+","+y);
         }
     }
     /**
@@ -491,20 +491,31 @@ public abstract class Widget implements Serializable
     }
 
     /**
+     * Set a property and refresh the widget
+     * if it is initialized.
+     *
+     * @param key the key
+     * @param value the object
+     */
+    public void setProperty(String key, Object value) {
+      setLazyProperty(key, value);
+      if (initialized) {
+        refresh();
+      }
+    }
+    
+    /**
      * Set the property to the specified value
      * or when value is null clear the property
      * if it exists.
-     * It will also refresh the widget so setProperty
-     * so changes in properties will be reflected
-     * on screen.
      * It will do nothing when the value it currently
      * knows is the same as the value passed in.
      * If the key is null, it will return immidiately
      *
-     * @param key  - case insensitive value
-     * @param value - case insensitive value
+     * @param key  case insensitive value
+     * @param value case insensitive value
      */
-    public void setProperty(String key, Object value)
+    public void setLazyProperty(String key, Object value)
     {
         if (key == null) {
             return;
@@ -578,33 +589,8 @@ public abstract class Widget implements Serializable
             }
             setSize(width,height);
         }
-        // refresh the widget when it is initialized
-        if (initialized) {
-            refresh();
-        }
     }
     
-    /**
-     * Set a property and call refresh manually.
-     * There is no logic in this method, so if you want
-     * to process "known" values, like position, call
-     * setProperty.
-     *
-     * @param key the key
-     * @param value the object
-     */
-    public void setLazyProperty(String key, Object value) {
-        if (properties == null) {
-          properties = new HashMap();
-        }
-        key = key.toLowerCase();
-        if (value == null) {
-            properties.remove(key);
-        } else {
-            properties.put(key, value);
-        }
-        
-    }
     /**
      * You can not use this HashMap to change properties,
      * since it is a clone.

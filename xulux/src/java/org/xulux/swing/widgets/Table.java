@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.10 2004-10-11 19:14:19 mvdb Exp $
+   $Id: Table.java,v 1.11 2004-10-18 14:10:47 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -56,7 +56,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.10 2004-10-11 19:14:19 mvdb Exp $
+ * @version $Id: Table.java,v 1.11 2004-10-18 14:10:47 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -281,6 +281,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                 table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
                 table.getSelectionModel().addListSelectionListener(new NewSelectionListener(this));
                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                table.getTableHeader().setReorderingAllowed(false);
                 scrollPane.setViewportView(table);
                 scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
                 scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -557,6 +558,9 @@ public class Table extends ContainerWidget implements IContentWidget {
                 list.add(widget);
             }
             menu = WidgetFactory.getPopupFromButtons(list, "Popup:" + getName());
+            if (menu == null) {
+              return false;
+            }
             menu.setParent(this);
             List children = menu.getChildWidgets();
             if (children != null) {

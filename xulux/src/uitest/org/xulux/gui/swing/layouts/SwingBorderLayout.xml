@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!-- $Id: SwingBorderLayout.xml,v 1.1 2004-10-18 14:10:48 mvdb Exp $ -->
+<part name="SwingBorderLayout" application="true">
+  <field type="window" name="SwingBorderDemo">
+    <title>SwingBorderLayout Demo</title>
+    <icon>resources/Car.ico</icon>
+    <autosize>true</autosize>
+    <layout>border</layout>
+    <field type="button" name="button1">
+      <text>Button 1 (PAGE_START)</text>
+      <layout-constraint>North</layout-constraint>
+    </field>
+    <field type="button" name="button2">
+      <text>Button 2 (CENTER)</text>
+      <size>300,300</size>
+      <layout-constraint>Center</layout-constraint>
+    </field>
+    <field type="button" name="button3">
+      <text>Button 3 (LINE_START)</text>
+      <layout-constraint>East</layout-constraint>
+    </field>
+    <field type="button" name="button4">
+      <text>Long-Named Button 4 (PAGE_END)</text>
+      <layout-constraint>South</layout-constraint>
+    </field>
+    <field type="button" name="button5">
+      <text>5 (LINE_END)</text>
+      <layout-constraint>West</layout-constraint>
+    </field>
+  </field>
+</part>

@@ -1,5 +1,5 @@
 /*
-$Id: StringUtilsTest.java,v 1.1 2004-09-23 07:41:28 mvdb Exp $
+$Id: StringUtilsTest.java,v 1.2 2004-10-18 14:10:47 mvdb Exp $
 
 Copyright 2002-2004 The Xulux Project
 
@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: StringUtilsTest.java,v 1.1 2004-09-23 07:41:28 mvdb Exp $
+ * @version $Id: StringUtilsTest.java,v 1.2 2004-10-18 14:10:47 mvdb Exp $
  */
 public class StringUtilsTest extends TestCase {
 
@@ -38,6 +38,17 @@ public class StringUtilsTest extends TestCase {
     assertEquals("hi", StringUtils.replace("hi", "karel", '\n'));
     assertEquals("hi\n", StringUtils.replace("hi\\n", "\\n", '\n'));
     assertEquals("line1\nline2", StringUtils.replace("line1\\nline2", "\\n", '\n'));
+  }
+  
+  public void testCapitalize() {
+    System.out.println("testCapitalize");
+    assertEquals("Hi", StringUtils.capitalize("hi"));
+    assertEquals("Hi", StringUtils.capitalize("HI"));
+    assertEquals("Hi", StringUtils.capitalize("Hi"));
+    assertEquals("Hi", StringUtils.capitalize("hI"));
+    assertEquals("H", StringUtils.capitalize("h"));
+    assertEquals(null, StringUtils.capitalize(null));
+    assertEquals("", StringUtils.capitalize(""));
   }
 
 }
