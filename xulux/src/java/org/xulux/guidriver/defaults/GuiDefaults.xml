@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-   $Id: GuiDefaults.xml,v 1.10 2004-10-05 10:11:01 mvdb Exp $
+   $Id: GuiDefaults.xml,v 1.11 2004-10-14 12:28:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -64,7 +64,7 @@
          used. The properties are however read by the tabpanel
          and not by panel itself
      -->
-    <widget name="tab" class="org.xulux.swing.widgets.Panel"/>
+    <widget name="tab" class="org.xulux.swing.widgets.Tab"/>
     <widget name="tabpanel" class="org.xulux.swing.widgets.TabPanel"/>
     <widget name="window" class="org.xulux.swing.widgets.Window"/>
     <widget name="window" type="swt" class="org.xulux.swt.widgets.Window"/>
