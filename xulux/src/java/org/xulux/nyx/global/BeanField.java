@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.28 2003-11-18 02:31:29 mvdb Exp $
+ $Id: BeanField.java,v 1.29 2003-11-18 20:25:24 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,7 +68,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  *       to primitive types.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.28 2003-11-18 02:31:29 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.29 2003-11-18 20:25:24 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -161,7 +161,7 @@ public class BeanField implements IField
     /**
      * Sets a new value in the field
      * Exceptions will be eaten.
-     *
+     * TODO: Fix returntype, if the objec tis 
      * @param bean - the bean to set the value on
      * @param value - the value to set to the bean
      * @return false on failure or if field is read only
@@ -278,9 +278,15 @@ public class BeanField implements IField
                 // gets the real value to get
                 // since this field is just the parent..
                 Class retType = getReturnType();
+                if (retType == Object.class) {
+                    // we need to figure out which returntype we REALLY have..
+                    Object retBean = getMethod().invoke(bean, getArgs());
+                    retType = retBean.getClass();
+                }
                 BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
                 IField field = mapping.getField(realField);
-                return field.getValue(getMethod().invoke(bean, getArgs()));
+                Object fieldValue = field.getValue(getMethod().invoke(bean, getArgs()));
+                return fieldValue;
             }
             else {
                 if (bean != null) {
