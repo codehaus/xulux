@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.3 2002-11-11 09:49:22 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.4 2002-11-12 12:36:05 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,6 +47,7 @@ package org.xulux.nyx.swing.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataListener;
@@ -58,7 +59,7 @@ import org.xulux.nyx.global.Dictionary;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.3 2002-11-11 09:49:22 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.4 2002-11-12 12:36:05 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -178,8 +179,24 @@ public class DefaultComboModel implements ComboBoxModel
             }
             else
             {
-                Object value = mapping.getField(field).getValue(object);
-                list.add(new ComboShowable(i, object.toString()));
+                StringTokenizer stn = new StringTokenizer(field, ",");
+                String value = "";
+                while (stn.hasMoreTokens())
+                {
+                    String token = stn.nextToken();
+                    String strPart = "";
+                    if (!token.trim().equals(""))
+                    {
+                        strPart = mapping.getField(token).getValue(object).toString();
+                    }
+                    else
+                    {
+                        //allow seperators in the field list.
+                        strPart = token;
+                    }
+                    value+=strPart;
+                }
+                list.add(new ComboShowable(i, value));
             }
         }
     }
