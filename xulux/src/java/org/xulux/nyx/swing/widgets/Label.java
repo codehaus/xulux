@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.10 2003-07-29 16:14:26 mvdb Exp $
+ $Id: Label.java,v 1.11 2003-07-31 14:37:40 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,7 @@ import java.awt.Container;
 
 import javax.swing.JLabel;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
@@ -59,7 +60,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.10 2003-07-29 16:14:26 mvdb Exp $
+ * @version $Id: Label.java,v 1.11 2003-07-31 14:37:40 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -153,6 +154,15 @@ public class Label extends SwingWidget
         }
         if (color != null) {
             label.setForeground(ColorUtils.getSwingColor(color));
+        }
+        if (getProperty("enabled.depends")!= null) {
+            String value = getProperty("enabled.depends");
+            Object depValue = getPart().getWidget(value).getValue();
+            if (depValue != null) {
+                setEnable(BooleanUtils.toBoolean(depValue.toString()));
+            } else {
+                setEnable(false);
+            }
         }
         label.repaint();
     }

@@ -51,6 +51,16 @@
           The text color of the label when disabled
         </td>
       </tr>
+      <tr>
+        <td>enabled.depends</td>
+        <td>swing</td>
+        <td>
+          This specifies that this field will be enabled
+          based on the value of another field. The fieldvalue
+          should be able to return to true or false (mostly
+          used icm with checkboxes)
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.32 2003-07-31 14:09:49 mvdb Exp $
+ $Id: Widget.java,v 1.33 2003-07-31 14:37:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.32 2003-07-31 14:09:49 mvdb Exp $
+ * @version $Id: Widget.java,v 1.33 2003-07-31 14:37:41 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -514,18 +514,19 @@ public abstract class Widget implements Serializable
         }
         properties.put(key.toLowerCase(), value);
         if (key.equals("depends")) {
-            this.dependencies = NyxCollectionUtils.getListFromCSV(value);
-        }
-        if (key.equals("required"))
-        {
+            List depList = NyxCollectionUtils.getListFromCSV(value);
+            if (this.dependencies == null) {
+                this.dependencies = depList;
+            } else {
+                this.dependencies.add(depList);
+            }
+        } else if (key.equals("enabled.depends")) {
+            addDependency(value);
+        } else if (key.equals("required"))  {
             setRequired((value.equalsIgnoreCase("true")?true:false));
-        }
-        if (key.equals("enabled"))
-        {
+        } else if (key.equals("enabled")) {
             setEnable((value.equalsIgnoreCase("true")?true:false));
-        }
-        if (key.equals("use"))
-        {
+        } else if (key.equals("use")) {
             setField(value);
         }
         // refresh the widget when it is initialized

@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.16 2003-07-31 14:09:49 mvdb Exp $
+ $Id: Entry.java,v 1.17 2003-07-31 14:37:40 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,6 +52,7 @@ import java.awt.Dimension;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
@@ -66,7 +67,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.16 2003-07-31 14:09:49 mvdb Exp $
+ * @version $Id: Entry.java,v 1.17 2003-07-31 14:37:40 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -199,6 +200,16 @@ extends SwingWidget
         if (backgroundColor != null)
         {
             textComponent.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
+        }
+        if (getProperty("enabled.depends")!= null) {
+            String value = getProperty("enabled.depends");
+            Object depValue = getPart().getWidget(value).getValue();
+            System.out.println("depValue : "+depValue);
+            if (depValue != null) {
+                setEnable(BooleanUtils.toBoolean(depValue.toString()));
+            } else {
+                setEnable(false);
+            }
         }
         textComponent.repaint();
         isRefreshing = false;

@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.22 2003-07-29 16:14:27 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.23 2003-07-31 14:37:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.widgets.CheckBox;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.22 2003-07-29 16:14:27 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.23 2003-07-31 14:37:41 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -170,6 +170,7 @@ implements FocusListener, ActionListener, ItemListener
         }
         if (refresh) {
             widget.getPart().refreshFields(widget);
+            widget.getPart().updateDependandWidgets(widget);
         }
             
         completed();
