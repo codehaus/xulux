@@ -1,5 +1,5 @@
 /*
- $Id: GuiField.java,v 1.4 2002-11-02 13:38:50 mvdb Exp $
+ $Id: GuiField.java,v 1.5 2002-11-10 01:32:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,8 +55,6 @@ import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.utils.Resources;
 
 
-import org.xulux.nyx.swing.masks.IMask;
-import org.xulux.nyx.swing.masks.StringMask;
 import org.xulux.nyx.examples.datamodel.DefaultBase;
 import org.xulux.nyx.global.BeanField;
 
@@ -71,7 +69,7 @@ import org.xulux.nyx.global.BeanField;
  * TODO: Move to a more usefull package!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiField.java,v 1.4 2002-11-02 13:38:50 mvdb Exp $
+ * @version $Id: GuiField.java,v 1.5 2002-11-10 01:32:57 mvdb Exp $
  */
 public class GuiField
 {

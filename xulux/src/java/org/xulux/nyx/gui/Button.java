@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.2 2002-11-09 17:08:05 mvdb Exp $
+ $Id: Button.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,19 +45,21 @@
  */
 package org.xulux.nyx.gui;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.2 2002-11-09 17:08:05 mvdb Exp $
+ * @version $Id: Button.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
  */
 public class Button extends Widget
 {
     
     private JButton button;
-    private boolean initialized = false;
 
     /**
      * Constructor for Button.
@@ -77,10 +79,6 @@ public class Button extends Widget
         return button;
     }
     
-    public void setText(String text)
-    {
-        button.setText(text);
-    }
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
@@ -90,8 +88,10 @@ public class Button extends Widget
         {
             return;
         }
-        button = new JButton(); 
+        button = new JButton();
+        
         initialized = true;
+        refresh();
     }
 
     /**
@@ -106,20 +106,19 @@ public class Button extends Widget
      */
     public void refresh()
     {
+        if (getText()!=null)
+        {
+            button.setText(getText());
+        }
+        if (properties == null)
+        {
+            return;
+        } 
+        String image = (String)properties.get("image");
+        if (image != null)
+        {
+            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(image));
+            button.setIcon(icon);
+        }
     }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#setPosition(int, int)
-     */
-    public void setPosition(int x, int y)
-    {
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#setSize(int, int)
-     */
-    public void setSize(int width, int height)
-    {
-    }
-
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.2 2002-11-07 00:03:23 mvdb Exp $
+ $Id: Label.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,14 +51,12 @@ import javax.swing.JLabel;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.2 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: Label.java,v 1.3 2002-11-10 01:32:57 mvdb Exp $
  */
 public class Label extends Widget
 {
     
     private JLabel label;
-    private boolean initialized;
-    
     
     public Label(String field)
     {
@@ -95,6 +93,7 @@ public class Label extends Widget
         }
         this.initialized = true;
         label = new JLabel(getText());
+        label.setHorizontalAlignment(JLabel.RIGHT);
     }
     /**
      * @see org.xulux.nyx.gui.Widget#refresh()

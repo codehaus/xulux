@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ $Id: Window.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,7 +51,7 @@ import javax.swing.JFrame;
 /**
  * 
  * @author <a href=:mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ * @version $Id: Window.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
  */
 public class Window extends Widget
 {
@@ -96,19 +96,4 @@ public class Window extends Widget
     public void refresh()
     {
     }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#setPosition(int, int)
-     */
-    public void setPosition(int x, int y)
-    {
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#setSize(int, int)
-     */
-    public void setSize(int width, int height)
-    {
-    }
-
 }

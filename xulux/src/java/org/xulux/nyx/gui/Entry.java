@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
+ $Id: Entry.java,v 1.7 2002-11-10 01:32:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,13 +55,12 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: Entry.java,v 1.7 2002-11-10 01:32:57 mvdb Exp $
  */
 public class Entry 
 extends Widget
 implements ValueWidget
 {
-    private boolean initialized;
     private Dimension size;
     
     /** 

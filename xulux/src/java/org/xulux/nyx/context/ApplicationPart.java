@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.12 2002-11-07 00:03:23 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.13 2002-11-10 01:32:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -82,7 +82,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.12 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.13 2002-11-10 01:32:57 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -268,7 +268,23 @@ public class ApplicationPart
     {
         addWidget(widget, widget.getField());
     }
-    
+    /**
+     * Removes a widget. It will call the destroy
+     * method on the widget and if the widget
+     * is calling this, it will remove it from
+     * the application part widget registry.
+     * @param widget
+     * @param caller - the caller of the object. Always pass
+     *         <code>this</code>. 
+     */
+    public void removeWidget(Widget widget, Object caller)
+    {
+        if (caller instanceof Widget)
+        {
+            widgets.remove(widget);
+        }
+        widget.destroy();
+    }
     /** 
      * Replaces the field with the specified widget
      * @param widget

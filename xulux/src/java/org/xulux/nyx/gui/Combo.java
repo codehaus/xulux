@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.3 2002-11-09 17:08:05 mvdb Exp $
+ $Id: Combo.java,v 1.4 2002-11-10 01:32:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,7 +45,11 @@
  */
 package org.xulux.nyx.gui;
 
+import java.awt.Image;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 
 import javax.swing.JComboBox;
 
@@ -56,7 +60,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.3 2002-11-09 17:08:05 mvdb Exp $
+ * @version $Id: Combo.java,v 1.4 2002-11-10 01:32:57 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -64,7 +68,9 @@ public class Combo extends Widget
     private ArrayList content;
     private JComboBox combo;
     private String notSelectedValue;
-    private boolean initialized = false;
+    private KeyListener keyListener;
+    private FocusListener focusListener;
+    private boolean contentChanged;
 
     /**
      * Constructor for Combo.
@@ -93,6 +99,7 @@ public class Combo extends Widget
     public void setContent(ArrayList list)
     {
         this.content = list;
+        contentChanged = true;
     }
     
     /**
@@ -142,7 +149,24 @@ public class Combo extends Widget
      */
     public void destroy()
     {
+        if (combo != null)
+        {
+            if (focusListener != null)
+            {
+                combo.removeFocusListener(focusListener);
+                focusListener = null;
+            }
+            if (keyListener != null)
+            {
+                combo.removeKeyListener(keyListener);
+                keyListener = null;
+            }
+            combo.removeAll();
+            combo = null;
+        }
+        getPart().removeWidget(this, this);
     }
+    
 
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
@@ -156,14 +180,7 @@ public class Combo extends Widget
         }
         this.initialized = true;
         combo = new JComboBox();
-        if (isImmidiate())
-        {
-            combo.addKeyListener(new ImmidiateListener(this));
-        }
-        if (isVisible())
-        {
-            combo.addFocusListener(new PrePostFieldListener(this));
-        }
+        refresh();
     }
 
     /**
@@ -171,6 +188,28 @@ public class Combo extends Widget
      */
     public void refresh()
     {
+        if (isImmidiate() && keyListener == null)
+        {
+            keyListener = new ImmidiateListener(this);
+            combo.addKeyListener(keyListener);
+        }
+        else if (!isImmidiate() && keyListener != null)
+        {
+            combo.removeKeyListener(keyListener);
+        }
+        if (isVisible() && focusListener == null)
+        {
+            focusListener = new PrePostFieldListener(this);
+            combo.addFocusListener(focusListener);
+        }
+        else if (!isVisible() && focusListener != null)
+        {
+            combo.removeFocusListener(focusListener);
+        }
+        if (contentChanged)
+        {
+            contentChanged = false;
+        }
+            
     }
-
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
+ $Id: Panel.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,7 +45,10 @@
  */
 package org.xulux.nyx.gui;
 
+import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.swing.JPanel;
 
 import org.xulux.nyx.swing.layouts.XYLayout;
@@ -55,13 +58,12 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * TODO: Also need to initialize child widgets !!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: Panel.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
  */
 public class Panel extends Widget
 {
     
     private JPanel panel;
-    private boolean initialized = false;
     private ArrayList widgets;
 
     /**
@@ -101,6 +103,17 @@ public class Panel extends Widget
         }
         // we default to XYLayout for now..
         panel = new JPanel(new XYLayout());
+        if (widgets != null)
+        {
+            Iterator it = widgets.iterator();
+            while (it.hasNext())
+            {
+                Widget widget = (Widget) it.next();
+                widget.initialize();
+                panel.add((Component)widget.getNativeWidget(), widget);
+            }
+        }
+            
     }
 
     /**

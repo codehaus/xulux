@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.context;
 
+import java.awt.Image;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -58,13 +59,14 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
+import org.xulux.nyx.rules.IRule;
 
 /**
  * Reads in a part definition and creates an ApplicationPart
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -76,6 +78,8 @@ public class ApplicationPartHandler extends DefaultHandler
     private static String SIZE_ELEMENT = "size";
     private static String POSITION_ELEMENT = "position";
     private static String TEXT_ELEMENT = "text";
+    private static String RULES_ELEMENT = "rules";
+    private static String RULE_ELEMENT = "rule";
     private static String TYPE_ATTRIBUTE = "type";
     private static String NAME_ATTRIBUTE = "name";
     private static String USE_ATTRIBUTE = "use";
@@ -91,6 +95,11 @@ public class ApplicationPartHandler extends DefaultHandler
     private boolean processSize = false;
     private boolean processUse = false;
     private boolean processValue = false;
+    private boolean processUnknown = false;
+    private boolean rulesStarted = false;
+    private boolean processRule = false;
+    
+    private String currentqName;
 
     /**
      * Contains the fields if there are more than 
@@ -167,6 +176,16 @@ public class ApplicationPartHandler extends DefaultHandler
         {
             processField(atts);
         }
+        else if (qName.equals(RULES_ELEMENT))
+        {
+            System.err.println("RulesStarted");
+            rulesStarted = true;
+        }
+        else if (qName.equals(RULE_ELEMENT))
+        {
+            System.err.println("need to process ont rule");
+            processRule = true;
+        }
         else if (qName.equals(TEXT_ELEMENT))
         {
             processText = true;
@@ -183,7 +202,11 @@ public class ApplicationPartHandler extends DefaultHandler
         {
             processValue = true;
         }
-
+        else
+        {
+            currentqName = qName;
+            processUnknown = true;
+        }
     }
 
     /**
@@ -213,6 +236,32 @@ public class ApplicationPartHandler extends DefaultHandler
                 part.addWidget((Widget) stack.pop());
             }
         }
+        else if (qName.equals(TEXT_ELEMENT))
+        {
+            processText = false;
+        }
+        else if (qName.equals(RULES_ELEMENT))
+        {
+            rulesStarted = false;
+        }
+        else if (qName.equals(POSITION_ELEMENT))
+        {
+            processPosition = false;
+        }
+        else if (qName.equals(SIZE_ELEMENT))
+        {
+            processSize = false;
+        }
+        else if (qName.equals(VALUE_ELEMENT))
+        {
+            processValue = false;
+        }
+        else
+        {
+            currentqName = null;
+            processUnknown = false;
+        }
+        
     }
 
     /**
@@ -224,12 +273,10 @@ public class ApplicationPartHandler extends DefaultHandler
 
         String type = atts.getValue(TYPE_ATTRIBUTE);
         String name = atts.getValue(NAME_ATTRIBUTE);
-        System.err.println("using name : "+name);
         String use = atts.getValue(USE_ATTRIBUTE);
         Widget widget = WidgetFactory.getWidget(type, use);
         widget.setName(name);
         stack.push(widget);
-        System.out.println("Stack : "+stack);
     }
 
     /**
@@ -240,7 +287,6 @@ public class ApplicationPartHandler extends DefaultHandler
         if (processText)
         {
             String text = new String(arg0, arg1, arg2);
-            System.out.println("stack size : "+stack.size());
             ((Widget) stack.get(stack.size()-1)).setText(text);
             processText = false;
         }
@@ -263,13 +309,42 @@ public class ApplicationPartHandler extends DefaultHandler
                 processPosition = false;
             }
         }
+        else if (processRule)
+        {
+            System.out.println("processRule is true");
+            String ruleClass = new String(arg0, arg1, arg2);
+            Widget widget = (Widget) stack.get(stack.size()-1);
+            addRule(widget, ruleClass);
+            processRule = false;
+        }
         else if (processValue)
         {
             String value = new String(arg0, arg1, arg2);
             ((Widget) stack.get(stack.size())).setText(value);
             processValue = false;
         }
-
+        else if(processUnknown && currentqName!=null)
+        {
+            Widget widget = (Widget) stack.get(stack.size()-1);
+            widget.setProperty(currentqName, new String(arg0, arg1, arg2));
+            currentqName = null;
+            processUnknown = false;
+        }
     }
-
+    
+    private void addRule(Widget widget, String ruleClass)
+    {
+        System.out.println("addRule called");
+        try
+        {
+            Class clazz = Class.forName(ruleClass);
+            IRule rule = (IRule)clazz.newInstance();
+            widget.registerRule(rule);
+            System.out.println("rule class "+ruleClass+" for widget "+widget.getName()+" registered");
+        }
+        catch(Exception e)
+        {
+            System.err.println("rule class "+ruleClass+" for widget "+widget.getName()+" not found");
+        }
+    }
 }
