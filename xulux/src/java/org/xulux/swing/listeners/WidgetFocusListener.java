@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetFocusListener.java,v 1.1 2004-07-19 22:07:34 mvdb Exp $
+   $Id: WidgetFocusListener.java,v 1.2 2005-02-17 13:48:34 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,7 +29,7 @@ import org.xulux.swing.util.NyxEventQueue;
  * or widgets that just need to release the eventqueue when focus is gained.
  * (eg buttons have this behaviour)
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFocusListener.java,v 1.1 2004-07-19 22:07:34 mvdb Exp $
+ * @version $Id: WidgetFocusListener.java,v 1.2 2005-02-17 13:48:34 mvdb Exp $
  */
 public class WidgetFocusListener extends NyxListener implements FocusListener {
 
@@ -51,7 +51,11 @@ public class WidgetFocusListener extends NyxListener implements FocusListener {
           return;
       }
       NyxEventQueue q = NyxEventQueue.getInstance();
-      q.holdEvents(false);
+      // seems to happen when integrating with native widgets and xulux is 
+      // not yet initialized..
+      if (q != null) {
+          q.holdEvents(false);
+      }
   }
 
   /**
