@@ -1,5 +1,5 @@
 /*
- $Id: Translator.java,v 1.6 2003-11-24 18:19:41 mvdb Exp $
+ $Id: Translator.java,v 1.7 2003-11-25 16:25:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.apache.commons.logging.LogFactory;
  *       yet present will get added to the property file
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Translator.java,v 1.6 2003-11-24 18:19:41 mvdb Exp $
+ * @version $Id: Translator.java,v 1.7 2003-11-25 16:25:10 mvdb Exp $
  */
 public class Translator {
 
@@ -82,7 +82,7 @@ public class Translator {
      * @return the instance of the translator
      */
     protected static Translator getInstance() {
-        if (instance != null) {
+        if (instance == null) {
             instance = new Translator();
         }
         return instance;

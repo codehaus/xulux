@@ -47,7 +47,10 @@
         <td>content.type</td>
         <td>swing</td>
         <td>
-          can contain field or string. Field uses the bean specified or the method specified.
+          can contain bean, field or string. 
+          Field uses the bean specified or the method specified.<br/>
+          String uses the content specified as delimited string.<br/>
+          Bean uses the part bean as the content for the table.
         </td>
       </tr>
       <tr>

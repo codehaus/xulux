@@ -1,5 +1,5 @@
 /*
- $Id: ColorUtils.java,v 1.8 2003-11-25 16:25:10 mvdb Exp $
+ $Id: NyxRunnerTest.java,v 1.1 2003-11-25 16:25:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -43,71 +43,41 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
-package org.xulux.nyx.gui.utils;
+package org.xulux.nyx;
 
-import java.awt.Color;
-import java.util.Arrays;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
- * Color utils to make parsing easier
+ * The test for nyxrunner
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ColorUtils.java,v 1.8 2003-11-25 16:25:10 mvdb Exp $
+ * @version $Id: NyxRunnerTest.java,v 1.1 2003-11-25 16:25:10 mvdb Exp $
  */
-public class ColorUtils
-{
+public class NyxRunnerTest extends TestCase {
 
     /**
-     * Constructor for ColorUtils.
+     * Constructor for NyxRunnerTest.
+     * @param name the name of the test
      */
-    protected ColorUtils()
-    {
+    public NyxRunnerTest(String name) {
+        super(name);
     }
 
     /**
-     * The hex string can be six or three long
-     * Six is the format AABBCC
-     * Three is the format ABC, which resolves to AABBCC
-     * If you pass in an invalid string, the rgb values will
-     * all be zero
-     * @param hex the hex string for the golor
-     * @return an array with the rgb values.
+     * @return the test suite
      */
-    public static int[] getRGBFromHex(String hex)
-    {
-        int[] result = new int[3];
-        if (hex == null) {
-            Arrays.fill(result, 0);
-        } else {
-            try {
-                if (hex.length() == 6)  {
-                    result[0] = Integer.parseInt(hex.substring(0, 2), 16);
-                    result[1] = Integer.parseInt(hex.substring(2, 4), 16);
-                    result[2] = Integer.parseInt(hex.substring(4, 6), 16);
-                } else if (hex.length() == 3) {
-                    result[0] = Integer.parseInt(hex.substring(0, 1) + hex.substring(0, 1), 16);
-                    result[1] = Integer.parseInt(hex.substring(1, 2) + hex.substring(1, 2), 16);
-                    result[2] = Integer.parseInt(hex.substring(2, 3) + hex.substring(2, 3), 16);
-                }
-            } catch (NumberFormatException nfe) {
-                Arrays.fill(result, 0);
-            }
-        }
-        return result;
+    public static Test suite() {
+        TestSuite suite = new TestSuite(NyxRunnerTest.class);
+        return suite;
     }
 
     /**
-     * @param color eg COCOCO
-     * @return the color object or when the color param is not parseable, Color.black
+     * Test the nyxrunner
      */
-    public static Color getSwingColor(String color) {
-        Color result = Color.black;
-        try {
-            int rgb = Integer.parseInt(color, 16);
-            result = new Color(rgb);
-        } catch (NumberFormatException nfe) {
-        }
-        return result;
+    public void testNyxRunner() {
+        NyxRunner runner = new NyxRunner();
+        NyxRunner.main(null);
     }
-
 }

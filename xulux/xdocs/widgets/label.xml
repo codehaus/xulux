@@ -36,6 +36,13 @@
         </td>
       </tr>
       <tr>
+        <td>icon-disabled</td>
+        <td>swing</td>
+        <td>
+          The icon of the label when the label is disabled
+        </td>
+      </tr>
+      <tr>
         <td>horizontalalignment</td>
         <td>swing</td>
         <td>
