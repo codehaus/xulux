@@ -115,12 +115,6 @@
     </dependency>
     
     <dependency>
-      <id>commons-lang</id>
-      <version>2.0</version>
-      <url>http://jakarta.apache.org/commons/lang.html</url>
-    </dependency>
-    
-    <dependency>
       <id>swt</id>
       <version>win32-2.1.0</version>
       <url>http://www.eclipse.org</url>
