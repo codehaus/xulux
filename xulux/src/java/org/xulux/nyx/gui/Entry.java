@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.23 2002-11-29 01:37:54 mvdb Exp $
+ $Id: Entry.java,v 1.24 2002-12-02 21:50:03 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.23 2002-11-29 01:37:54 mvdb Exp $
+ * @version $Id: Entry.java,v 1.24 2002-12-02 21:50:03 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -129,10 +129,6 @@ extends Widget
         }
         this.initialized = true;
         textField = new JTextField();
-        if (value != null)
-        {
-            textField.setText(value.toString());
-        }
         if (isImmidiate())
         {
             if (this.immidiateListener == null)
@@ -164,20 +160,22 @@ extends Widget
         textField.setEnabled(isEnabled());
         textField.setVisible(isVisible());
         textField.setPreferredSize(this.size);
-        if (getValue()!=null)
+        initializeValue();
+/*        if (getValue()!=null)
         {
             textField.setText(getText());
         }
         else
         {
             textField.setText("");
-        }
-        String enabled = getProperty("enabled");
+        }*/
+/*        String enabled = getProperty("enabled");
         if (enabled != null)
         {
             setEnable((enabled.equalsIgnoreCase("true")?true:false));
             textField.setEditable(isEnabled());
         }
+        */
         String backgroundColor = null;
         if (isRequired())
         {
@@ -204,38 +202,68 @@ extends Widget
      */
     public Object getValue()
     {
+        Object retValue = null;
+        //System.out.println("**********getVALUE*********");
+        //System.out.println("Text : "+textField.getText());
+        //System.out.println("Value : "+this.value);
+        //System.out.println("Field : "+this.getField());
         if (textField != null)
         {
             text = textField.getText();
         }
+        if ((text!=null && !"".equals(text)) && getField()!= null && this.value != null)
+        {
+            String text2 = null;
+            // we ignore multiple values for now.. 
+            BeanMapping map = Dictionary.getInstance().getMapping(this.value.getClass());
+            if (map != null)
+            {
+                text2 = (String)map.getField(getField()).getValue(this.value);
+            }
+            //System.out.println("text : "+text);
+            //System.out.println("text2 : "+text2);
+            if (text.equals(text2))
+            {
+                retValue = this.value;
+            }
+        }
         else if (this.value != null)
         {
-            return this.value;
+            retValue = this.value;
         }
-        if (text!=null)
+        else
         {
-            if (getField()!= null && this.value != null)
+            retValue = text;
+        }
+//        System.out.println("Returning : "+retValue);
+        return retValue;
+    }
+    
+    private void initializeValue()
+    {
+        Object val = getValue();
+        //System.out.println("Value : "+val);
+        if (getField()!= null && getValue() != null)
+        {
+            // we ignore multiple values for now.. 
+            BeanMapping map = Dictionary.getInstance().getMapping(val.getClass());
+            //System.out.println("Mapping : "+map);
+            if (map != null)
             {
-                String text2 = null;
-                // we ignore multiple values for now.. 
-                BeanMapping map = Dictionary.getInstance().getMapping(this.value.getClass());
-                if (map != null)
-                {
-                    text2 = (String)map.getField(getField()).getValue(this.value);
-                }
-                if (text.equals(text2))
-                {
-                    return this.value;
-                }
-            }
-            else
-            {
-                return text;
+                val = map.getField(getField()).getValue(this.value);
+                //System.out.println("val : "+val);
             }
         }
-        return null;
+        
+        if (val != null)
+        {
+            textField.setText(String.valueOf(val));
+        }
+        else
+        {
+            textField.setText("");
+        }
     }
-
     /**
      * @see org.xulux.nyx.gui.ValueWidget#setValue(Object)
      * @param val
@@ -243,34 +271,7 @@ extends Widget
     public void setValue(Object val)
     {
         this.previousValue = this.value;
-        String text = null;
         this.value = val;
-        if (getField()!= null && val != null)
-        {
-            // we ignore multiple values for now.. 
-            BeanMapping map = Dictionary.getInstance().getMapping(val.getClass());
-            if (map != null)
-            {
-                val = map.getField(getField()).getValue(this.value);
-            }
-        }
-        if (val != null)
-        {
-            text = val.toString();
-            if (textField != null)
-            {
-                textField.setText(text);
-            }
-            setText(text);
-        }
-        else
-        {
-            if (textField != null)
-            {
-                textField.setText(text);
-            }
-            setText("");
-        }
         if (initialized)
         {
             refresh();

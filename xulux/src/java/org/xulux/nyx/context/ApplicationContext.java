@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.16 2002-11-29 01:05:53 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.17 2002-12-02 21:50:03 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.16 2002-11-29 01:05:53 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.17 2002-12-02 21:50:03 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -320,7 +320,7 @@ public class ApplicationContext
             }
             catch(Exception e)
             {
-                log.warn("Exception during Processing of rule : " + rule.getClass().getName(),e);
+                log.warn("Exception during Processing of rule : " + rule.getClass().getName()+"\n",e);
             }
         }
         return false;
