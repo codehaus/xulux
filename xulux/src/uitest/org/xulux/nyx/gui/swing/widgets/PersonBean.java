@@ -1,5 +1,5 @@
 /*
- $Id: PersonBean.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
+ $Id: PersonBean.java,v 1.2 2003-07-23 13:14:43 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,7 +49,7 @@ package org.xulux.nyx.gui.swing.widgets;
  * A bean to test the gui functionality
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PersonBean.java,v 1.1 2003-07-10 22:40:20 mvdb Exp $
+ * @version $Id: PersonBean.java,v 1.2 2003-07-23 13:14:43 mvdb Exp $
  */
 public class PersonBean
 {
@@ -76,6 +76,10 @@ public class PersonBean
     public String getFullName()
     {
         return this.firstName + " " + this.lastName;
+    }
+    
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
     
     public String toString()

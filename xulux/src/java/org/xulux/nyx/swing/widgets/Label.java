@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.8 2003-07-23 11:33:57 mvdb Exp $
+ $Id: Label.java,v 1.9 2003-07-23 13:14:43 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,13 +50,16 @@ import java.awt.Container;
 
 import javax.swing.JLabel;
 
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.SwingWidget;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.8 2003-07-23 11:33:57 mvdb Exp $
+ * @version $Id: Label.java,v 1.9 2003-07-23 13:14:43 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -117,6 +120,7 @@ public class Label extends SwingWidget
     public void refresh()
     {
         initialize();
+        initializeValue();
         if (getProperty("text")!=null)
         {
             label.setText(getProperty("text"));
@@ -151,6 +155,27 @@ public class Label extends SwingWidget
             label.setForeground(ColorUtils.getSwingColor(color));
         }
         label.repaint();
+    }
+    
+    /**
+     * Initializes the value. This checks to see
+     * if you need a .
+     *
+     */
+    protected void initializeValue() {
+        // only do a set text when there is a field,
+        // else leave it alone..
+        if (getField() != null) {
+            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IField field = map.getField(getField());
+            if (field != null) {
+                Object value = field.getValue(getPart().getBean());
+                if (value == null) {
+                    value = "";
+                }
+                setProperty("text", String.valueOf(value));
+            }
+        }
     }
     
     /**

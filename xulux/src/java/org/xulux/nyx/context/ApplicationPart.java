@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.44 2003-07-22 16:13:46 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.45 2003-07-23 13:14:43 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.context;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -78,9 +79,10 @@ import org.xulux.nyx.utils.Translation;
  * Esp. usefull when concurrent changes of beans occur by different
  * people (although this would be merely convenience, since other code
  * should handle these kind of situation..).
- *  
+ * TODO: Fix naming of field. It is used everywhere with different meanings.
+ * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.44 2003-07-22 16:13:46 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.45 2003-07-23 13:14:43 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -552,6 +554,26 @@ public class ApplicationPart
     {
         
         /**
+         * 
+         * @param field
+         * @return a collection with widgets that reference the
+         *          specified field or null when no fields are found
+         */
+        public Collection getWidgetsWithField(String field) {
+            Collection col = new ArrayList();
+            Iterator it = iterator();
+            while (it.hasNext()) {
+                Widget w = (Widget)it.next();
+                if (w.getField() != null) {
+                    if (w.getField().equalsIgnoreCase(field)) {
+                        col.add(w);
+                    }
+                }
+            }
+            return col.size()>0?col:null;
+        }
+        
+        /**
          * @see java.util.List#indexOf(Object)
          */
         public int indexOf(Object elem)
@@ -843,6 +865,30 @@ public class ApplicationPart
     public String toString()
     {
         return "Name : "+getName()+" "+super.toString();
+    }
+
+    /**
+     * Refreshes all fields that reference the field 
+     * used by the passed in widget
+     * When field is null nothing will be done.
+     * @param widget 
+     */
+    public void refreshFields(Widget widget) {
+        String field = widget.getField();
+        if (field == null) {
+            return;
+        }
+        Collection col = widgets.getWidgetsWithField(field);
+        if (col == null) {
+            return;
+        }
+        Iterator it = col.iterator();
+        while (it.hasNext()) {
+            Widget w = (Widget) it.next();
+            if (w != widget) {
+                w.refresh();
+            }
+        }
     }
 
 }

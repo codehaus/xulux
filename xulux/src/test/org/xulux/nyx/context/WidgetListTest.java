@@ -1,5 +1,5 @@
 /*
- $Id: WidgetListTest.java,v 1.1 2003-07-22 16:13:46 mvdb Exp $
+ $Id: WidgetListTest.java,v 1.2 2003-07-23 13:14:43 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,8 @@
  */
 package org.xulux.nyx.context;
 
+import java.util.Collection;
+
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.Entry;
 
@@ -56,7 +58,7 @@ import junit.framework.TestSuite;
  * Test the inner ApplicationPart.WidgetList class
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetListTest.java,v 1.1 2003-07-22 16:13:46 mvdb Exp $
+ * @version $Id: WidgetListTest.java,v 1.2 2003-07-23 13:14:43 mvdb Exp $
  */
 public class WidgetListTest extends TestCase {
 
@@ -112,4 +114,34 @@ public class WidgetListTest extends TestCase {
         
     }
     
+    /**
+     * Test the widgetWithField method in widgetList.
+     * It should return a list of all widgets
+     * that make use / reference the field specified
+     *
+     */
+    public void testGetWidgetsWithField() {
+        System.out.println("testGetWidgetsWithField");
+        ApplicationPart.WidgetList list = new ApplicationPart().new WidgetList();
+        Entry entry = new Entry("test");
+        entry.setField("field1");
+        Entry entry1 = new Entry("test1");
+        entry1.setField("field2");
+        Entry entry2 = new Entry("test2");
+        entry2.setField("field1");
+        Entry entry3 = new Entry("test3");
+        
+        list.add(entry);
+        list.add(entry1);
+        list.add(entry2);
+        list.add(entry3);
+        assertNull(list.getWidgetsWithField("bogus"));
+        Collection field1List = list.getWidgetsWithField("field1");
+        assertEquals(2,field1List.size());
+        assertTrue(field1List.contains(entry2));
+        assertTrue(field1List.contains(entry));
+        Collection field2List = list.getWidgetsWithField("field2");
+        assertEquals(1,field2List.size());
+        assertTrue(field2List.contains(entry1));
+    }
 }

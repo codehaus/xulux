@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.19 2003-07-21 22:11:03 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.20 2003-07-23 13:14:43 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.19 2003-07-21 22:11:03 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.20 2003-07-23 13:14:43 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -117,10 +117,9 @@ implements FocusListener, ActionListener, ItemListener
         if (widget instanceof Entry ||
             widget instanceof TextArea )
         {
-            if (widget instanceof TextArea) {
-                System.err.println("particluar : "+widget.getGuiValue());
-            }
             widget.setValue(widget.getGuiValue());
+            // refresh the all widgets who references this field
+            widget.getPart().refreshFields(widget);
         }
         completed();
     }
@@ -140,6 +139,8 @@ implements FocusListener, ActionListener, ItemListener
         if (widget instanceof NyxCombo) {
             // set the value, but do not refresh the gui.
             ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
+            // refresh fields that use the same functionality
+            widget.getPart().refreshFields(widget);
         }
         completed();
     }
@@ -158,11 +159,15 @@ implements FocusListener, ActionListener, ItemListener
         if (widget.isRefreshing()) {
             return;
         }
+        boolean refresh = false;
         if (widget instanceof CheckBox) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 widget.setValue("true");
+                refresh = true;
+                
             }else if(e.getStateChange() == ItemEvent.DESELECTED) {
                 widget.setValue("false");
+                refresh = true;
             }
             if (log.isWarnEnabled()) {
                 log.warn("Checkbox clicked on Widget : "+
@@ -170,6 +175,10 @@ implements FocusListener, ActionListener, ItemListener
                        widget.getValue());
             }
         }
+        if (refresh) {
+            widget.getPart().refreshFields(widget);
+        }
+            
         completed();
     }
 }

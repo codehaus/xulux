@@ -3,13 +3,21 @@
   <field type="window" name="Window">
     <title>LabelTest</title>
     <icon>resources/Car.ico</icon>
-    <size>210,160</size>
+    <size>320,200</size>
 	  <field type="label" name="Label:Fixed">
 	    <text>Fixed label:</text>
 	    <size>120,21</size>
 	    <position>4,10</position>
 	    <foreground-color-enabled>000000</foreground-color-enabled>
 	    <foreground-color-disabled>FFFFFF</foreground-color-disabled>
+	  </field>
+	  <field type="button" name="switch">
+	    <text>disable</text>
+	    <size>120,21</size>
+	    <position>120,10</position>
+	    <rules>
+	      <rule>org.xulux.nyx.gui.rules.LabelRule</rule>
+	    </rules>
 	  </field>
 	  <field type="label" name="Label:Variable">
 	    <text>Variable</text>
@@ -18,23 +26,26 @@
 	  </field>
 	  <field type="entry" name="Name">
 	    <size>120,21</size>
-	    <position>4,70</position>
+	    <position>120,40</position>
 	  </field>
 	  <field type="button" name="button">
 	    <text>set</text>
 	    <size>60,21</size>
-	    <position>130,70</position>
+	    <position>250,40</position>
 	    <rules>
 	      <rule>org.xulux.nyx.gui.rules.LabelRule</rule>
 	    </rules>
 	  </field>
-	  <field type="button" name="switch">
-	    <text>disable</text>
+	  
+	  <!-- label with use -->
+	  <field type="label" name="Label:use" use="lastname">
+	    <text>Should not show</text>
 	    <size>120,21</size>
-	    <position>4,100</position>
-	    <rules>
-	      <rule>org.xulux.nyx.gui.rules.LabelRule</rule>
-	    </rules>
+	    <position>4,70</position>
+	  </field>
+	  <field type="entry" name="use" use="lastname">
+	     <size>120,21</size>
+	     <position>120,70</position>
 	  </field>
   </field>
 </part>
