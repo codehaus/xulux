@@ -1,5 +1,5 @@
 /*
-   $Id: LayoutTest.java,v 1.7 2004-04-14 14:16:12 mvdb Exp $
+   $Id: XYLayoutTest.java,v 1.1 2004-05-10 14:05:50 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,8 +35,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
+import org.xulux.core.XuluxContext;
+import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.Widget;
 import org.xulux.guidriver.XuluxGuiDriver;
 import org.xulux.swing.widgets.Combo;
@@ -48,16 +49,16 @@ import org.xulux.swing.widgets.Window;
  * A class to to test the layoutmanagers for swing
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.7 2004-04-14 14:16:12 mvdb Exp $
+ * @version $Id: XYLayoutTest.java,v 1.1 2004-05-10 14:05:50 mvdb Exp $
  */
-public class LayoutTest extends TestCase
+public class XYLayoutTest extends TestCase
 {
 
     /**
      * Constructor for LayoutTest.
      * @param name the testname
      */
-    public LayoutTest(String name)
+    public XYLayoutTest(String name)
     {
         super(name);
     }
@@ -67,7 +68,7 @@ public class LayoutTest extends TestCase
      */
     public static Test suite()
     {
-        TestSuite suite = new TestSuite(LayoutTest.class);
+        TestSuite suite = new TestSuite(XYLayoutTest.class);
         return suite;
     }
     /**
@@ -454,7 +455,38 @@ public class LayoutTest extends TestCase
         System.out.println("Location : " + nC.getLocation());
     }
 
+
+    public void testAddAndRemoveWidget() {
+        System.out.println("testAddAndRemoveWidget");
+        XYLayout layout = new XYLayout();
+        MockWidget label1 = new MockWidget("label1");
+        MockWidget label2 = new MockWidget("label2");
+        JLabel l1 = new JLabel("l1");
+        JLabel l2 = new JLabel("l2");
+        label1.setNativeWidget(l1);
+        label2.setNativeWidget(l2);
+        layout.addWidget(label1);
+        assertEquals(1, layout.map.size());
+        layout.removeWidget(label1);
+        assertEquals(0, layout.map.size());
+        layout.addWidget(label2);
+        assertEquals(label2, layout.map.get(l2));
+        label1.setNativeWidget("bogus");
+        layout.addWidget(label1);
+        assertEquals(1, layout.map.size());
+        layout.removeWidget(label1);
+        assertEquals(1, layout.map.size());
+    }
+    
+    public void testDestroy() {
+        System.out.println("testDestroy");
+        // we don't do anything in destroy yet..
+        IXuluxLayout layout = new XYLayout();
+        layout.destroy();
+    }
+    
+    
     public static void main(String[] args) {
-        new LayoutTest("LayoutTest").testNativeGetLayoutSize();
+        new XYLayoutTest("LayoutTest").testNativeGetLayoutSize();
     }
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: XYLayout.java,v 1.4 2004-01-28 15:09:23 mvdb Exp $
+   $Id: XYLayout.java,v 1.5 2004-05-10 14:05:50 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,6 +28,7 @@ import java.util.HashMap;
 
 import javax.swing.JComponent;
 
+import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.Widget;
 
 /**
@@ -40,9 +41,9 @@ import org.xulux.gui.Widget;
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.4 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.5 2004-05-10 14:05:50 mvdb Exp $
  */
-public class XYLayout implements LayoutManager2, Serializable {
+public class XYLayout implements LayoutManager2, Serializable, IXuluxLayout {
     /**
      * the map with widgets
      */
@@ -302,4 +303,29 @@ public class XYLayout implements LayoutManager2, Serializable {
         map.remove(comp);
     }
 
+    /**
+     * @see org.xulux.gui.IXuluxLayout#destroy()
+     */
+    public void destroy() {
+    }
+
+    /**
+     * @see org.xulux.gui.IXuluxLayout#addWidget(org.xulux.gui.Widget)
+     */
+    public void addWidget(Widget widget) {
+      Object nativeWidget = widget.getNativeWidget();
+      if (nativeWidget instanceof Component) {
+        addLayoutComponent((Component) nativeWidget, widget);
+      }
+    }
+
+    /**
+     * @see org.xulux.gui.IXuluxLayout#removeWidget(org.xulux.gui.Widget)
+     */
+    public void removeWidget(Widget widget) {
+      Object nativeWidget = widget.getNativeWidget();
+      if (nativeWidget instanceof Component) {
+        removeLayoutComponent((Component) nativeWidget);
+      }
+    }
 }
