@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableCellRenderer.java,v 1.10 2004-09-23 07:55:27 mvdb Exp $
+   $Id: NyxTableCellRenderer.java,v 1.11 2004-09-23 08:11:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -34,7 +34,7 @@ import org.xulux.swing.widgets.Table;
  * We should make our own cellRenderer probably, so we can use the functionalily of widgets..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellRenderer.java,v 1.10 2004-09-23 07:55:27 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.11 2004-09-23 08:11:22 mvdb Exp $
  */
 public class NyxTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -95,7 +95,8 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
             thickness = Integer.parseInt(widget.getProperty("border-thickness"));
           } catch(NumberFormatException nfe) {
           }
-          setBorder(new LineBorder(ColorUtils.getSwingColor(border),thickness));
+          String borderColor = widget.getProperty("border-color");
+          setBorder(new LineBorder(ColorUtils.getSwingColor(borderColor),thickness));
         }
         String tooltipText = widget.getProperty("tooltip");
         if (tooltipText != null) {
