@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtilsTest.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ $Id: SwingUtilsTest.java,v 1.2 2003-12-20 17:52:53 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -67,7 +67,7 @@ import org.xulux.gui.WidgetRectangle;
  * Test the SwingUtils class
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtilsTest.java,v 1.1 2003-12-18 00:17:27 mvdb Exp $
+ * @version $Id: SwingUtilsTest.java,v 1.2 2003-12-20 17:52:53 mvdb Exp $
  */
 public class SwingUtilsTest extends TestCase {
 
@@ -105,7 +105,7 @@ public class SwingUtilsTest extends TestCase {
      */
     public void testNotUsableImageLoader() {
         System.out.println("testNotUsableImageLoader");
-        System.setProperty("nyx.swing.imageloader", "org.xulux.nyx.swing.util.SwingUtilsTest$TestImageLoader");
+        System.setProperty("xulux.swing.imageloader", "org.xulux.swing.util.SwingUtilsTest$TestImageLoader");
         SwingUtils.initializeImageLoader();
         assertNull(SwingUtils.getImageLoader());
     }
@@ -115,7 +115,7 @@ public class SwingUtilsTest extends TestCase {
      */
     public void testBogusImageLoader() {
         System.out.println("testBogusImageLoader");
-        System.setProperty("nyx.swing.imageloader", "bogus.class.name");
+        System.setProperty("xulux.swing.imageloader", "bogus.class.name");
         SwingUtils.initializeImageLoader();
         assertNull(SwingUtils.getImageLoader());
         ((SimpleLog) LogFactory.getLog(SwingUtils.class)).setLevel(SimpleLog.LOG_LEVEL_OFF);
@@ -128,7 +128,7 @@ public class SwingUtilsTest extends TestCase {
      */
     public void testUsableImageLoader() {
         System.out.println("testUsableImageLoader");
-        System.setProperty("nyx.swing.imageloader", "org.xulux.nyx.swing.util.SwingUtilsTest$UsableImageLoader");
+        System.setProperty("xulux.swing.imageloader", "org.xulux.swing.util.SwingUtilsTest$UsableImageLoader");
         SwingUtils.initializeImageLoader();
         assertTrue(SwingUtils.getImageLoader() instanceof UsableImageLoader);
         UsableImageLoader l = (UsableImageLoader) SwingUtils.getImageLoader();
@@ -150,7 +150,7 @@ public class SwingUtilsTest extends TestCase {
      */
     public void testSwingImageLoader() {
         System.out.println("testSwingImageLoader");
-        System.setProperty("nyx.swing.imageloader", "bogus.class.name");
+        System.setProperty("xulux.swing.imageloader", "bogus.class.name");
         SwingUtils.initializeImageLoader();
         assertNull(SwingUtils.getImageLoader());
         Image image = SwingUtils.getImage(RESOURCEROOT + "Car.gif", this);

@@ -13,7 +13,7 @@
     Nyx can be modified using vm properties. This is a list
     of the currently supported properties.
   </p>
-  <subsection name="nyx.swing.imageloader">
+  <subsection name="xulux.swing.imageloader">
     <p>
       This property will set the imageloader to be used.
       It defaults to looking for jimi in the classpath, Setting the property 
@@ -29,7 +29,7 @@
     </p>
     <p>
       You can write your own imageLoader by implementing the 
-      <code>org.xulux.nyx.swing.util.ImageLoaderInterface</code> interface.
+      <code>org.xulux.swing.util.ImageLoaderInterface</code> interface.
       It is a very simple api. If you have written a custom one, don't hasitate to send
       us a patch.
     </p>

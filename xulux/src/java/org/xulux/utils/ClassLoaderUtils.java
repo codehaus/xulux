@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtils.java,v 1.1 2003-12-18 00:17:32 mvdb Exp $
+ $Id: ClassLoaderUtils.java,v 1.2 2003-12-20 17:52:53 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.1 2003-12-18 00:17:32 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.2 2003-12-20 17:52:53 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -221,7 +221,13 @@ public class ClassLoaderUtils {
             return null;
         }
         try {
-            Class clazz = Class.forName(clazzString);
+            Class clazz = null;
+            try {
+                clazz = Thread.currentThread().getContextClassLoader().loadClass( clazzString );
+            }
+            catch (ClassNotFoundException e) {
+                clazz = new ClassLoaderUtils().getClass().getClassLoader().loadClass( clazzString );
+            }
             return clazz;
         }
         catch (ClassNotFoundException e) {
