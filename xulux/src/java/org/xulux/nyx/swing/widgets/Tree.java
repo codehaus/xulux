@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.5 2003-09-23 23:00:14 mvdb Exp $
+ $Id: Tree.java,v 1.6 2003-09-23 23:23:08 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,27 +45,35 @@
  */
 package org.xulux.nyx.swing.widgets;
 
+import java.util.Iterator;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.WidgetConfig;
 import org.xulux.nyx.global.contenthandlers.TreeContentHandler;
+import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.IContentWidget;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.WidgetFactory;
+import org.xulux.nyx.swing.listeners.PopupListener;
+import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
 import org.xulux.nyx.swing.models.SwingTreeModel;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.5 2003-09-23 23:00:14 mvdb Exp $
+ * @version $Id: Tree.java,v 1.6 2003-09-23 23:23:08 mvdb Exp $
  */
-public class Tree extends Widget implements IContentWidget {
+public class Tree extends ContainerWidget implements IContentWidget {
     
     protected JTree jtree;
     protected JScrollPane scrollPane;
     protected Object content;
     protected boolean contentChanged;
     protected SwingTreeModel contentHandler;
+    protected boolean hasChildPopups;
+    protected Widget menu;
     //protected TreeContentHandler contentHandler;
     
     /**
@@ -108,6 +116,7 @@ public class Tree extends Widget implements IContentWidget {
         }
         jtree = new JTree(this.contentHandler);
         scrollPane = new JScrollPane(jtree);
+        initializeChildren();
         initialized = true;
         refresh();
     }
@@ -138,6 +147,7 @@ public class Tree extends Widget implements IContentWidget {
             System.err.println("Content : "+contentHandler.getContent());
             contentChanged= false;
         }
+        initializePopupMenu();
         isRefreshing = false;
     }
 
@@ -205,6 +215,46 @@ public class Tree extends Widget implements IContentWidget {
         if (contentHandler != null) {
             contentHandler.refresh();
         }
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.ContainerWidget#addToParent(org.xulux.nyx.gui.Widget)
+     */
+    public void addToParent(Widget widget) {
+        if (widget instanceof PopupMenu || widget instanceof MenuItem) {
+            hasChildPopups = true;
+        }
+    }
+    
+    /**
+     * Initializes the popupmenus of the tree.
+     *
+     */
+    protected void initializePopupMenu() {
+        System.out.println("childPopupinit");
+        if (hasChildPopups) {
+            System.err.println("hasChildPopups !!!");
+            System.err.println("Childwidgets : "+getChildWidgets());
+            if (menu == null) {
+                menu = WidgetFactory.getWidget("popupmenu", "PopupMenu:"+getName());
+            }
+            if (getChildWidgets() != null) {
+                for (Iterator it = getChildWidgets().iterator(); it.hasNext();) {
+                    Widget cw = (Widget) it.next();
+                    if (cw instanceof MenuItem) {
+                        cw.addNyxListener(new UpdateButtonsListener(this, cw));
+                        cw.setParent(menu);
+                        menu.addChildWidget(cw);
+                        System.err.println("Adding childwidget : "+cw);
+                    }
+                }
+            }
+        }
+        if (menu != null) {
+            menu.setParent(this);
+            menu.initialize();
+        }
+        jtree.addMouseListener(new PopupListener(this.menu));
     }
 
 }
