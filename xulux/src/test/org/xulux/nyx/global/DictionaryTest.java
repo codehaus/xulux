@@ -1,5 +1,6 @@
+
 /*
- $Id: FormFactoryTest.java,v 1.2 2002-10-29 00:10:03 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,75 +44,75 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
+package org.xulux.nyx.global;
 
-package org.xulux.nyx.swing.factories;
-
-import javax.swing.JFrame;
-
-import org.xulux.nyx.swing.SimpleForm;
-import org.xulux.nyx.examples.datamodel.TestContained;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
+ * Tests the initialization of the dictionary.
  * 
- * @author Martin van den Bemt
- * @version $Id: FormFactoryTest.java,v 1.2 2002-10-29 00:10:03 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: DictionaryTest.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
  */
-public class FormFactoryTest extends TestCase
+public class DictionaryTest extends TestCase
 {
 
-    private static String FIELD1VALUE = "Field1Value";
-    private static String FIELD2VALUE = "Field2Value";
-    private static String FIELD3VALUE = "Field3Value";
-    private static String FIELD4VALUE = "Field4Value";
-    private static String FIELD5VALUE = "Field5Value";
-    private static String FORM_NAME = "TestForm";
-
     /**
-     * Constructor for FormFactoryTest.
+     * Constructor for DictionaryTest.
      * @param arg0
      */
-    public FormFactoryTest(String name)
+    public DictionaryTest(String name)
     {
         super(name);
     }
 
     public static Test suite()
     {
-        TestSuite suite = new TestSuite(FormFactoryTest.class);
+        TestSuite suite = new TestSuite(DictionaryTest.class);
         return suite;
     }
 
-    /*
-     * Test for BaseForm getForm(DefaultBase, String, Class)
+    /**
+     * Tests the initialization of the dictaionary from an dictionary 
+     * file
      */
-    public void testGetFormDefaultBaseStringClass()
+    public void testInitialize()
     {
-        SimpleForm form =
-            (SimpleForm) FormFactory.getForm(
-                createDefaultTestObject(),
-                FORM_NAME);
-        JFrame frame = new JFrame("testFormFactoryTest");
-        form.addToWindow(frame);
-        frame.show();
+        System.out.println(".testInitialize");
+        Dictionary dictionary = Dictionary.getInstance();
+        dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        assertEquals("Test", dictionary.getInstance().getMapping("Test").getName());
+        assertEquals(DictionaryBean.class, dictionary.getMapping("Test").getBean());
+        ArrayList list = dictionary.getMapping("Test").getFields();
+        assertEquals(3, list.size());
+        assertNotNull(list.get(list.indexOf("name")));
+        assertNotNull(list.get(list.indexOf("city")));
+        assertNotNull(list.get(list.indexOf("street")));
     }
-
-    private org.xulux.nyx.examples.datamodel.Test createDefaultTestObject()
+    
+    /** 
+     * Tests if dynamic mapping actually works..
+     */
+    public void testEasyMapping()
     {
-        org.xulux.nyx.examples.datamodel.Test test = new org.xulux.nyx.examples.datamodel.Test();
-        test.setField1(FIELD1VALUE);
-        test.setField2(FIELD2VALUE);
-        test.setField3(FIELD3VALUE);
-        test.setField4(FIELD4VALUE);
-        TestContained c = new TestContained();
-        c.setField11(FIELD1VALUE);
-        c.setField12(FIELD2VALUE);
-        c.setField13(FIELD3VALUE);
-        test.setContained(c);
-        return test;
+        System.out.println(".testEasyMapping");
+        Dictionary d = Dictionary.getInstance();
+        DictionaryBean bean = new DictionaryBean();
+        BeanMapping mapping = d.getMapping(bean.getClass());
+        assertEquals("DictionaryBean", mapping.getName());
+        mapping = d.getMapping(bean.getClass(), true);
+        assertEquals("DictionaryBean1", mapping.getName());
+        mapping = d.getMapping(bean.getClass(), true);
+        assertEquals("DictionaryBean2", mapping.getName());
+        // this one is here, since I got a nullpointer exception
+        // which wasn't handled..
+        mapping = d.getMapping("Idontexist");
+        assertNull(mapping);
     }
 
 }

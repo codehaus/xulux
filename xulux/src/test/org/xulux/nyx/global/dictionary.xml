@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- $Id: dictionary.xml,v 1.1 2002-10-29 00:10:02 mvdb Exp $ -->
+<dictionary>
+   <prefix-mappings>
+     <prefix name="Test">
+       <!-- 
+            if discovery it true, it will find the fields automatically
+            and you don't have to specify them manually
+        -->
+       <bean discovery="true">org.xulux.nyx.global.DictionaryBean</bean>
+     </prefix>
+     <!--
+     <prefix name="Contained">
+       <bean discovery="true">org.xulux.nyx.examples.datamodel.TestContained</bean>
+     </prefix>
+     -->
+   </prefix-mappings>
+</dictionary>

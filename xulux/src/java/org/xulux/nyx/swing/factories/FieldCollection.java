@@ -1,25 +1,42 @@
 package org.xulux.nyx.swing.factories;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.xulux.nyx.examples.datamodel.DefaultBase;
+import org.xulux.nyx.global.BeanField;
+import org.xulux.nyx.global.BeanMapping;
 
 /**
  * A placeholder object for the fields in a form
  * 
  * @author Martin van den Bemt
- * @version $Id: FieldCollection.java,v 1.1 2002-10-23 00:28:44 mvdb Exp $
+ * @version $Id: FieldCollection.java,v 1.2 2002-10-29 00:10:02 mvdb Exp $
  */
 public class FieldCollection
 {
     private ArrayList fields;
-    private DefaultBase base;
+    private Object base;
     
     
     public FieldCollection()
     {
+    }
+    
+    public FieldCollection(BeanMapping mapping, Object base)
+    {
+        setBase(base);
+        ArrayList values = mapping.getFields();
+        for (Iterator it = values.iterator(); it.hasNext();)
+        {
+            
+            GuiField field = new GuiField((BeanField)it.next());
+            field.setPrefix(mapping.getName());
+            addField(field);
+        }
     }
     /**
      * Constructor for Fields.
@@ -76,7 +93,7 @@ public class FieldCollection
      * Returns the base.
      * @return DefaultBase
      */
-    public DefaultBase getBase()
+    public Object getBase()
     {
         return base;
     }
@@ -98,7 +115,7 @@ public class FieldCollection
      * Sets the base.
      * @param base The base to set
      */
-    public void setBase(DefaultBase base)
+    public void setBase(Object base)
     {
         this.base = base;
     }

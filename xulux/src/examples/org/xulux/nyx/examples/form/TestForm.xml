@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- the TestForm window definition -->
+<window title="%TestForm.title">
+  <layout></layout>
+  <fields layout="equalLayout">
+    <label at="1,1" name="Test.field1Label"/>
+    <entry at="1,2" use="Test.field1" required="true" link="Test.field1Label"/>
+    <label at="2,1" name="Test.field1Label"/>
+    <entry at="2,2" use="Test.field1" required="true" link="Test.field1Label"/>
+    <label at="3,1" name="Test.field1Label"/>
+    <entry at="3,2" use="Test.field1" required="true" link="Test.field1Label"/>
+    <label at="4,1" name="Test.field1Label"/>
+    <entry at="4,2" use="Test.field1" required="true" link="Test.field1Label"/>
+  </fields>
+</window>

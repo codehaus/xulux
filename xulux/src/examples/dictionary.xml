@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- $Id: dictionary.xml,v 1.1 2002-10-29 00:10:03 mvdb Exp $ -->
+<dictionary>
+   <!-- 
+        Base describes the typical data bean (eg an interface, super 
+        class, so nyx knows when we are entering a new "table".
+        If not specified, we will not be "smart".. Using java.lang.Object
+        here is generally a very bad idea.. 
+   -->
+   <base>org.xulux.nyx.examples.datamodel.DefaultBase</base>
+   <prefix-mappings>
+     <prefix name="Test">
+       <!-- 
+            if discovery it true, it will find the fields automatically
+            and you don't have to specify them manually
+        -->
+       <bean discovery="true">org.xulux.nyx.examples.datamodel.Test</bean>
+     </prefix>
+     <prefix name="Contained">
+       <bean discovery="true">org.xulux.nyx.examples.datamodel.TestContained</bean>
+     </prefix>
+   </prefix-mappings>
+</dictionary>

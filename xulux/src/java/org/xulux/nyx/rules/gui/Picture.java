@@ -1,5 +1,6 @@
+
 /*
- $Id: FormFactoryTest.java,v 1.2 2002-10-29 00:10:03 mvdb Exp $
+ $Id: Picture.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,75 +44,85 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
+package org.xulux.nyx.rules.gui;
 
-package org.xulux.nyx.swing.factories;
-
-import javax.swing.JFrame;
-
-import org.xulux.nyx.swing.SimpleForm;
-import org.xulux.nyx.examples.datamodel.TestContained;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.xulux.nyx.utils.NotYetSupportedException;
 
 /**
+ * A picture is a way to present a field to the use
+ * eg the picture @s20 will show a field which can contain
+ * 20 visible characters.
  * 
- * @author Martin van den Bemt
- * @version $Id: FormFactoryTest.java,v 1.2 2002-10-29 00:10:03 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: Picture.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
  */
-public class FormFactoryTest extends TestCase
+public class Picture
 {
-
-    private static String FIELD1VALUE = "Field1Value";
-    private static String FIELD2VALUE = "Field2Value";
-    private static String FIELD3VALUE = "Field3Value";
-    private static String FIELD4VALUE = "Field4Value";
-    private static String FIELD5VALUE = "Field5Value";
-    private static String FORM_NAME = "TestForm";
+    String pictureString;
+    int length = -2;
 
     /**
-     * Constructor for FormFactoryTest.
-     * @param arg0
+     * Allow overrides..
      */
-    public FormFactoryTest(String name)
+    public Picture()
     {
-        super(name);
     }
 
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite(FormFactoryTest.class);
-        return suite;
-    }
-
-    /*
-     * Test for BaseForm getForm(DefaultBase, String, Class)
+    /**
+     * Constructor for Picture.
      */
-    public void testGetFormDefaultBaseStringClass()
+    public Picture(String picture)
     {
-        SimpleForm form =
-            (SimpleForm) FormFactory.getForm(
-                createDefaultTestObject(),
-                FORM_NAME);
-        JFrame frame = new JFrame("testFormFactoryTest");
-        form.addToWindow(frame);
-        frame.show();
+        setPictureString(picture);
     }
 
-    private org.xulux.nyx.examples.datamodel.Test createDefaultTestObject()
+    public String toString()
     {
-        org.xulux.nyx.examples.datamodel.Test test = new org.xulux.nyx.examples.datamodel.Test();
-        test.setField1(FIELD1VALUE);
-        test.setField2(FIELD2VALUE);
-        test.setField3(FIELD3VALUE);
-        test.setField4(FIELD4VALUE);
-        TestContained c = new TestContained();
-        c.setField11(FIELD1VALUE);
-        c.setField12(FIELD2VALUE);
-        c.setField13(FIELD3VALUE);
-        test.setContained(c);
-        return test;
+        return getPictureString();
+    }
+
+    /**
+     * Returns the picture.
+     * If not length can be figured out, it will use -1
+     * to let the caller figure the length based on the current value
+     * or some other fancy stuff.
+     * @return String
+     */
+    public String getPictureString()
+    {
+        return pictureString;
+    }
+
+    public int getFieldLength()
+    {
+        if (this.length == -2)
+        {
+            if (pictureString.startsWith("@s"))
+            {
+                this.length =
+                    Integer.valueOf(pictureString.substring(2)).intValue();
+            }
+            else
+            {
+                this.length = -1;
+            }
+        }
+
+        return this.length;
+    }
+
+    /**
+     * Sets the picture.
+     * @param picture The picture to set
+     * @throws NotYetSupportedException - when the picture is not yet supported
+     */
+    public void setPictureString(String pictureString)
+    {
+        if (!pictureString.startsWith("@"))
+        {
+            throw new NotYetSupportedException("Picture should start with the @ sign");
+        }
+        this.pictureString = pictureString;
     }
 
 }

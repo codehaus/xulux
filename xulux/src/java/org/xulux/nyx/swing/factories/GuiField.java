@@ -1,7 +1,54 @@
+/*
+ $Id: GuiField.java,v 1.2 2002-10-29 00:10:02 mvdb Exp $
+
+ Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ 
+ Redistribution and use of this software and associated documentation
+ ("Software"), with or without modification, are permitted provided
+ that the following conditions are met:
+
+ 1. Redistributions of source code must retain copyright
+    statements and notices.  Redistributions must also contain a
+    copy of this document.
+ 
+ 2. Redistributions in binary form must reproduce the
+    above copyright notice, this list of conditions and the
+    following disclaimer in the documentation and/or other
+    materials provided with the distribution.
+ 
+ 3. The name "xulux" must not be used to endorse or promote
+    products derived from this Software without prior written
+    permission of The Xulux Project.  For written permission,
+    please contact martin@mvdb.net.
+ 
+ 4. Products derived from this Software may not be called "xulux"
+    nor may "xulux" appear in their names without prior written
+    permission of the Xulux Project. "xulux" is a registered
+    trademark of the Xulux Project.
+ 
+ 5. Due credit should be given to the Xulux Project
+    (http://xulux.org/).
+ 
+ THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
+ ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
+ NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ */
 package org.xulux.nyx.swing.factories;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import javax.swing.JComponent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,14 +56,16 @@ import org.xulux.nyx.utils.Resources;
 
 
 import org.xulux.nyx.swing.masks.IMask;
+import org.xulux.nyx.swing.masks.StringMask;
 import org.xulux.nyx.examples.datamodel.DefaultBase;
+import org.xulux.nyx.global.BeanField;
 
 /**
  * This contains specifics for the GuiFields
  * such as the mask etc.
  * 
  * @author Martin van den Bemt
- * @version $Id: GuiField.java,v 1.1 2002-10-23 00:28:44 mvdb Exp $
+ * @version $Id: GuiField.java,v 1.2 2002-10-29 00:10:02 mvdb Exp $
  */
 public class GuiField
 {
@@ -40,6 +89,11 @@ public class GuiField
      * if this field is required
      */
     private boolean required;
+    
+    /**
+     * Specifies if this field is a baseType
+     */
+    private boolean baseType;
     /** 
      * The mask to use for this field
      */
@@ -69,7 +123,18 @@ public class GuiField
 
     private Class returnType;
     private Method method;
-
+    
+    
+    public GuiField(BeanField beanField)
+    {
+        setField(beanField.getName());
+        this.method = beanField.getMethod();
+        setBaseType(beanField.isBaseType());
+        if (this.method.getReturnType() == String.class)
+        {
+            setMask(new StringMask());
+        }
+    }
     /**
      * Constructor for Field.
      * @param field - the field name
@@ -89,11 +154,23 @@ public class GuiField
      * Normally used for an initial setText on the 
      * generated component.
      */
-    public String getCurrentValue(DefaultBase base)
+    public String getCurrentValue(Object base)
+    {
+        Object object = getCurrentObject(base);
+        if (object != null)
+        {
+            return object.toString();
+        }
+        return null;
+    }
+    
+    public Object getCurrentObject(Object base)
     {
         try
         {
-            return this.method.invoke(base, null).toString();
+            //System.out.println("invoking method on : "+base.getClass());
+            //System.out.println("method : "+method.getDeclaringClass().getName());
+            return this.method.invoke(base, null);
         }
         catch (IllegalAccessException e)
         {
@@ -103,6 +180,7 @@ public class GuiField
         }
         return null;
     }
+        
 
     /**
      * Returns the field.
@@ -121,7 +199,7 @@ public class GuiField
     {
         if (label == null || label.equals(EMPTYSTRING)) 
         {
-            return getField();
+            return DEFAULTLABELPREFIX + getField() + DEFAULTLABELPOSTFIX;
         }
         return DEFAULTLABELPREFIX + label + DEFAULTLABELPOSTFIX;
     }
@@ -298,6 +376,14 @@ public class GuiField
         return mf.substring(0, 1).toUpperCase()
             + mf.substring(1);
     }
+    
+    /**
+     * Returns the class type of the field
+     */
+    public Class getFieldClass()
+    {
+        return this.method.getReturnType();
+    }
 
     /** 
      * Sets the constraints of this field
@@ -313,6 +399,42 @@ public class GuiField
                 resourceClass,
                 prefix + DOT + field + DOT + REQUIRED));
         setMask();
+    }
+    
+    /**
+     * Returns the prefix.
+     * @return String
+     */
+    public String getPrefix()
+    {
+        return prefix;
+    }
+
+    /**
+     * Sets the prefix.
+     * @param prefix The prefix to set
+     */
+    public void setPrefix(String prefix)
+    {
+        this.prefix = prefix;
+    }
+
+    /**
+     * Returns the baseType.
+     * @return boolean
+     */
+    public boolean isBaseType()
+    {
+        return baseType;
+    }
+
+    /**
+     * Sets the baseType.
+     * @param baseType The baseType to set
+     */
+    public void setBaseType(boolean baseType)
+    {
+        this.baseType = baseType;
     }
 
 }
