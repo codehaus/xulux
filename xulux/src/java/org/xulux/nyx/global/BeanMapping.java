@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.1 2002-10-29 00:10:03 mvdb Exp $
+ $Id: BeanMapping.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,9 +54,15 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
+ * Contains the the Bean to Name mapping
+ * Every field in the mapping is represented by a BeanField
  * 
- * @author Martin van den Bemt
- * @version $Id: BeanMapping.java,v 1.1 2002-10-29 00:10:03 mvdb Exp $
+ * TODO: Probably should use some kind of discovery / bean 
+ * package to handle basic bean patterns. Just for Proof
+ * of concept I am reinventing the wheel a bit..;)
+ * 
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: BeanMapping.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -160,8 +166,8 @@ public class BeanMapping
             }
             else
             {
-                //System.out.println("superclass : "+clazz.getSuperclass());
-                //System.out.println("clazz : "+clazz);
+                System.out.println("superclass : "+clazz.getSuperclass());
+                System.out.println("clazz : "+clazz);
                 if (baseClass == clazz.getSuperclass())
                 {
                     discoverNestedBean = true;
@@ -173,7 +179,7 @@ public class BeanMapping
         if (discoverNestedBean)
         {
             Dictionary d = Dictionary.getInstance();
-            System.out.println("PlaingbeanName : "+d.getPlainBeanName(clazz));
+            System.out.println("PlainbeanName : "+d.getPlainBeanName(clazz));
             if (d.getMapping(d.getPossibleMappingName(clazz)) == null)
             {
                 d.getMapping(clazz);
@@ -187,12 +193,30 @@ public class BeanMapping
     {
         return fields;
     }
+    
+    /**
+     * @param name
+     * @return the beanfield for the specified 
+     * field or null when no field is present
+     */
+    public BeanField getField(String name)
+    {
+        int index = fields.indexOf(name);
+        if (index != -1)
+        {
+            return (BeanField) fields.get(index);
+        }
+        return null;
+    }
 
     /**
      * Will discover the fields in the bean.
      * if discovery is set and discovery has not yet taken
      * place. Discovery will ignore getters which are private
      * or protected.
+     * It will also discover the set method that is connected
+     * to the getter (assuming it is not a read only field.
+     * 
      */
     public void discover()
     {
@@ -209,6 +233,19 @@ public class BeanMapping
                 {
 
                     BeanField field = new BeanField(method);
+                    // try to find the setter..
+                    try
+                    {
+                        String fieldName = field.getName().substring(0,1).toUpperCase()+field.getName().substring(1);
+                        //System.out.print("Looking up :"+fieldName);
+                        //System.out.println(" with type : "+method.getReturnType());
+                        Method setMethod = bean.getMethod("set"+fieldName, new Class[]{method.getReturnType()});
+                        //System.out.println("setMethod : "+setMethod.getName());
+                        field.setChangeMethod(setMethod);
+                    }
+                    catch (NoSuchMethodException e)
+                    {
+                    }
                     addField(field);
                 }
             }
@@ -225,7 +262,13 @@ public class BeanMapping
         }
         return false;
     }
-
+    
+    /**
+     * Inner ArrayList with an overriden indexOf
+     * Which checks equals on the object In 
+     * the arraylist instead of the object passed
+     * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+     */
     public class FieldList extends ArrayList
     {
         public FieldList()

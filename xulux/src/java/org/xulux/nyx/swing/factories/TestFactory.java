@@ -1,6 +1,7 @@
 
 package org.xulux.nyx.swing.factories;
 
+import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.global.BeanField;
 import org.xulux.nyx.swing.BaseForm;
 import org.xulux.nyx.swing.NewForm;
@@ -11,7 +12,7 @@ import org.xulux.nyx.swing.NewForm;
  * a later stage.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.1 2002-10-31 01:44:26 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.2 2002-11-02 13:38:50 mvdb Exp $
  */
 public class TestFactory
 {
@@ -36,6 +37,7 @@ public class TestFactory
     
     public static NewForm getForm(String form, Object bean)
     {
+        ApplicationPart part = new ApplicationPart(bean);
         GuiField field = new GuiField(new BeanField());
         //field.get
         return null;

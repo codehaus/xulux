@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.1 2002-10-29 00:10:03 mvdb Exp $
+ $Id: Dictionary.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.1 2002-10-29 00:10:03 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
  */
 public class Dictionary
 {
@@ -95,9 +95,15 @@ public class Dictionary
         }
     }
 
+    /**
+     * Returns a clone of the original mapping
+     * map, so alteration doesn't effect the
+     * registry..
+     * @return the mappings in an HashMap
+     */
     public HashMap getMappings()
     {
-        return mappings;
+        return (HashMap)mappings.clone();
     }
 
     public void addMapping(BeanMapping beanMapping)
@@ -241,6 +247,11 @@ public class Dictionary
     public void setBaseClass(Class baseClass)
     {
         this.baseClass = baseClass;
+    }
+    
+    public void clearMappings()
+    {
+        mappings.clear();
     }
 
 }

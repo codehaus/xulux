@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Notes</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Notes">
+  <p>
+    Just some notes about the system. (especially todo kind of
+    things)
+    <ul>
+      <li>
+        Via the ApplicationPart you should be able to initialize
+        data that a field represents.
+        Eg if a bean contains another bean, it could
+        be usefull to have a combobox initialized with that
+        data.. This should be arranged via form rules 
+        (rules that are preformed on initialization of the form
+        pre/execute/post).
+        So if you add a field called TestForm.Contained.Name
+        to a form, you get the field Contained.Name from
+        the part and register the data as a collection.
+        The selecteable values shown in the combo box will
+        be the result of getName(). The current value in will
+        then be the selected one in that combobox.
+      </li>
+      <li>
+        Explain what the term "data bean" means in nyx means.
+      </li>
+      <li>
+        Looking for a better introspection mechanisme (sort
+        of benautils), so I don't have to handle everything
+        myself. For now the "manual" proces wil do however.
+        (James had some notes on his weblog about getting
+         data in a specific way). Although some if this
+         can be handled by registring a rule and implementing
+         pre .. 
+      </li>
+      <li>
+        Messaging should set if the applicationpart is dirty.
+        BeanFields should not (need) to know if they are 
+        connected to a specific ApplicationPart.
+      </li>
+    </ul>
+  </p>
+</section>
+
+</body>
+</document>
+

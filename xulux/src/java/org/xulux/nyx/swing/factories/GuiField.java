@@ -1,5 +1,5 @@
 /*
- $Id: GuiField.java,v 1.3 2002-10-31 01:44:26 mvdb Exp $
+ $Id: GuiField.java,v 1.4 2002-11-02 13:38:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -68,26 +68,17 @@ import org.xulux.nyx.global.BeanField;
  * to xml, since property files are (ehh can get) messy if not
  * solely used for translations ;)
  * 
+ * TODO: Move to a more usefull package!
+ * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiField.java,v 1.3 2002-10-31 01:44:26 mvdb Exp $
+ * @version $Id: GuiField.java,v 1.4 2002-11-02 13:38:50 mvdb Exp $
  */
 public class GuiField
 {
 
     private Log log = LogFactory.getLog(GuiField.class);
-    public static String MASK = "mask"; //$NON-NLS-1$
-    public static String DEFAULT_FIELD_MASK = "default.fieldMask."; //$NON-NLS-1$
-    public static String REQUIRED = "required"; //$NON-NLS-1$
-    public static String LABEL = "label"; //$NON-NLS-1$
-    public static String DOT = "."; //$NON-NLS-1$
-    public static String TYPE = "type"; //$NON-NLS-1$
-    public static String DEFAULT_GET = "get"; //$NON-NLS-1$
-    public static String DEFAULTMASKTYPE = "String"; //$NON-NLS-1$
-    public static String TRUE = "true"; //$NON-NLS-1$
-    public static String EMPTYSTRING = ""; //$NON-NLS-1$
-    public static String DEFAULTLABELPREFIX = EMPTYSTRING;
-    public static String DEFAULTLABELPOSTFIX = EMPTYSTRING;
-    public static String FIELD_PREFIX = "field.prefix"+DOT;
+    private boolean dirty = false;
+    
     
     /**
      * Holds the BeanField
@@ -146,7 +137,7 @@ public class GuiField
         setField(field);
         this.resourceClass = resourceClass;
         this.prefix = prefix;
-        setConstraints();
+//        setConstraints();
     }
 
     /**
@@ -198,6 +189,11 @@ public class GuiField
         return false;
     }
     
+    public void setDirty(boolean dirty)
+    {
+        this.dirty = dirty;
+    }
+    
     /**
      * Resets the value to the original bean value
      */
@@ -221,11 +217,7 @@ public class GuiField
      */
     public String getLabel()
     {
-        if (label == null || label.equals(EMPTYSTRING)) 
-        {
-            return DEFAULTLABELPREFIX + getField() + DEFAULTLABELPOSTFIX;
-        }
-        return DEFAULTLABELPREFIX + label + DEFAULTLABELPOSTFIX;
+        return label;
     }
 
     /**
@@ -273,7 +265,7 @@ public class GuiField
     {
         this.required = required;
     }
-
+    /*
     public static void setDefaultLabelPrefix(String prefix)
     {
         DEFAULTLABELPREFIX = prefix;
@@ -293,10 +285,11 @@ public class GuiField
     {
         return DEFAULTLABELPOSTFIX;
     }
+    */
 
     private void setRequired(String required)
     {
-        setRequired(TRUE.equalsIgnoreCase(required));
+        setRequired("true".equalsIgnoreCase(required));
     }
 
 
@@ -328,6 +321,7 @@ public class GuiField
      * Sets the constraints of this field
      * NOTE: Should be XML!!
      */
+    /*
     private void setConstraints()
     {
         setLabel(
@@ -338,7 +332,7 @@ public class GuiField
             Resources.getResource(
                 resourceClass,
                 prefix + DOT + field + DOT + REQUIRED));
-    }
+    }*/
     
     /**
      * Returns the prefix.

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.3 2002-10-31 02:01:44 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.4 2002-11-02 13:38:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,6 +48,8 @@ package org.xulux.nyx.context;
 import java.util.ArrayList;
 
 import org.xulux.nyx.global.BeanField;
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.swing.factories.GuiField;
 
 /**
@@ -67,7 +69,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.3 2002-10-31 02:01:44 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.4 2002-11-02 13:38:50 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -76,44 +78,33 @@ public class ApplicationPart
      * The original bean
      */
     private Object bean;
-    /**
-     * The gui field
-     */
-    private GuiField field;
     
-    /**
-     * A bean container for the current ApplicationPart
-     */
-    private ArrayList beans;
+    private BeanMapping mapping;
     
-
     /**
      * Constructor for GuiPart.
      */
     public ApplicationPart()
     {
-        this.beans = new ArrayList();
     }
     
     /**
-     * 
+     * Used for single bean representation
      */
-    public ApplicationPart(ArrayList beans)
+    public ApplicationPart(Object bean)
     {
         this();
-        if (beans != null)
-        {
-            this.beans = beans;
-        }
+        this.bean = bean;
+        this.mapping = Dictionary.getInstance().getMapping(bean.getClass());
     }
-    
+        
     
     /** 
      * @return Are there any changes in the part
      */
     public boolean isDirty()
     {
-        return false;
+        return isDirty();
     }
     
     /**
@@ -143,7 +134,20 @@ public class ApplicationPart
      */
     public void setBeanValue(String field, Object value)
     {
+        BeanField bField = mapping.getField(field);
+        if (bField.isReadOnly())
+        {
+            // we cannot change the value,
+            // so let's not try it..
+            return;
+        }
+        
+        if (!bField.setValue(this.bean, value))
+        {
+            System.err.println("Could not set value");
+        }
     }
+    
     
     public void setGuiValue(String field, Object value)
     {
@@ -191,6 +195,20 @@ public class ApplicationPart
     public String getName()
     {
         return null;
+    }
+    
+    /** 
+     * Adds lookup data to the specified field.
+     * 
+     * @param field - the field to connect the data to.
+     * @param data - the arraylist containing the data.
+     * @param type - what type of lookup component it will be, (see GuiDefaults)
+     * @param whichFields - which fields to show in the lookup type.
+     */
+    public void addLookupData(String field, ArrayList data, 
+                                int type, String whichFields)
+    {
+        
     }
     
 }

@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryHandler.java,v 1.1 2002-10-29 00:10:03 mvdb Exp $
+ $Id: DictionaryHandler.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,8 +59,8 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * The default dictionary.xml reader
  * 
- * @author Martin van den Bemt
- * @version $Id: DictionaryHandler.java,v 1.1 2002-10-29 00:10:03 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: DictionaryHandler.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {
@@ -188,7 +188,7 @@ public class DictionaryHandler extends DefaultHandler
             {
                 clazz = Class.forName(new String(arg0, arg1, arg2));
                 Dictionary.getInstance().setBaseClass(clazz);
-                System.err.println("base clazz ; "+clazz.getName());
+                //System.err.println("base clazz ; "+clazz.getName());
             }
             catch (ClassNotFoundException e)
             {

@@ -1,6 +1,6 @@
 
 /*
- $Id: DictionaryTest.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.1 2002-10-29 00:10:02 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -89,14 +89,16 @@ public class DictionaryTest extends TestCase
         assertEquals("Test", dictionary.getInstance().getMapping("Test").getName());
         assertEquals(DictionaryBean.class, dictionary.getMapping("Test").getBean());
         ArrayList list = dictionary.getMapping("Test").getFields();
-        assertEquals(3, list.size());
+        System.out.println("list : "+list);
+        assertEquals(4, list.size());
         assertNotNull(list.get(list.indexOf("name")));
         assertNotNull(list.get(list.indexOf("city")));
         assertNotNull(list.get(list.indexOf("street")));
+        assertNotNull(list.get(list.indexOf("subBean")));
     }
     
     /** 
-     * Tests if dynamic mapping actually works..
+     * Tests for dynamic mapping 
      */
     public void testEasyMapping()
     {
@@ -105,6 +107,10 @@ public class DictionaryTest extends TestCase
         DictionaryBean bean = new DictionaryBean();
         BeanMapping mapping = d.getMapping(bean.getClass());
         assertEquals("DictionaryBean", mapping.getName());
+        // Testing setting a new value on the bean..
+        BeanField field = mapping.getField("name");
+        field.setValue(bean, "name");
+        assertEquals("name",field.getValue(bean));
         mapping = d.getMapping(bean.getClass(), true);
         assertEquals("DictionaryBean1", mapping.getName());
         mapping = d.getMapping(bean.getClass(), true);
@@ -113,6 +119,29 @@ public class DictionaryTest extends TestCase
         // which wasn't handled..
         mapping = d.getMapping("Idontexist");
         assertNull(mapping);
+    }
+    
+    /**
+     * Tests if everything works ok when overriding
+     * of a bean is used
+     */
+    public void testNestedDataBean()
+    {
+        Dictionary d = Dictionary.getInstance();
+        d.setBaseClass(DictionaryBaseBean.class);
+        DictionaryBean bean = new DictionaryBean();
+        BeanMapping mapping = d.getMapping(bean.getClass());
+        System.out.println("mappings : "+d.getMappings());
+        BeanMapping subBean = d.getMapping("DictionarySubSubBean");
+        System.out.println("subBean :"+subBean);
+    }
+    
+    /**
+     * Clean up the dictionary..
+     */
+    protected void tearDown() throws Exception
+    {
+        Dictionary.getInstance().clearMappings();
     }
 
 }

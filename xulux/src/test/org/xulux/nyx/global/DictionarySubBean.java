@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryBean.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ $Id: DictionarySubBean.java,v 1.1 2002-11-02 13:38:49 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,139 +43,84 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-
 package org.xulux.nyx.global;
 
 /**
- * DictionaryBean for testing the dictionary
+ * A "sub" base bean in DictioanryBean to test 
+ * the Dictionary (mapping in specific..)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryBean.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
+ * @version $Id: DictionarySubBean.java,v 1.1 2002-11-02 13:38:49 mvdb Exp $
  */
-public class DictionaryBean extends DictionaryBaseBean
+public class DictionarySubBean extends DictionaryBaseBean
 {
     
-    private String name;
-    private String street;
-    private String city;
-    private String ignorePrivate;
-    private String ignoreProtected;
-    private DictionarySubSubBean subBean;
-    
+    private String phone;
+    private String fax;
+    private String mobile;
+
     /**
-     * Constructor for DictionaryBean.
+     * Constructor for DictionarySubBean.
      */
-    public DictionaryBean()
+    public DictionarySubBean()
     {
         super();
     }
+    
+    
 
     /**
-     * Returns the city.
+     * Returns the fax.
      * @return String
      */
-    public String getCity()
+    public String getFax()
     {
-        return city;
+        return fax;
     }
 
     /**
-     * Returns the name.
+     * Returns the mobile.
      * @return String
      */
-    public String getName()
+    public String getMobile()
     {
-        return name;
+        return mobile;
     }
 
     /**
-     * Returns the street.
+     * Returns the phone.
      * @return String
      */
-    public String getStreet()
+    public String getPhone()
     {
-        return street;
+        return phone;
     }
 
     /**
-     * Sets the city.
-     * @param city The city to set
+     * Sets the fax.
+     * @param fax The fax to set
      */
-    public void setCity(String city)
+    public void setFax(String fax)
     {
-        this.city = city;
+        this.fax = fax;
     }
 
     /**
-     * Sets the name.
-     * @param name The name to set
+     * Sets the mobile.
+     * @param mobile The mobile to set
      */
-    public void setName(String name)
+    public void setMobile(String mobile)
     {
-        this.name = name;
+        this.mobile = mobile;
     }
 
     /**
-     * Sets the street.
-     * @param street The street to set
+     * Sets the phone.
+     * @param phone The phone to set
      */
-    public void setStreet(String street)
+    public void setPhone(String phone)
     {
-        this.street = street;
-    }
-
-    /**
-     * Returns the ignore.
-     * @return String
-     */
-    private String getIgnorePrivate()
-    {
-        return ignorePrivate;
-    }
-
-    /**
-     * Returns the ignoreProtected.
-     * @return String
-     */
-    protected String getIgnoreProtected()
-    {
-        return ignoreProtected;
-    }
-
-    /**
-     * Sets the ignorePrivate.
-     * @param ignorePrivate The ignorePrivate to set
-     */
-    public void setIgnorePrivate(String ignorePrivate)
-    {
-        this.ignorePrivate = ignorePrivate;
-    }
-
-    /**
-     * Sets the ignoreProtected.
-     * @param ignoreProtected The ignoreProtected to set
-     */
-    public void setIgnoreProtected(String ignoreProtected)
-    {
-        this.ignoreProtected = ignoreProtected;
-    }
-
-    /**
-     * Returns the subBean.
-     * @return DictionarySubBean
-     */
-    public DictionarySubSubBean getSubBean()
-    {
-        return subBean;
-    }
-
-    /**
-     * Sets the subBean.
-     * @param subBean The subBean to set
-     */
-    public void setSubBean(DictionarySubSubBean subBean)
-    {
-        this.subBean = subBean;
+        this.phone = phone;
     }
 
 }

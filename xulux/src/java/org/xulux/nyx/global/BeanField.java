@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.1 2002-10-29 00:10:03 mvdb Exp $
+ $Id: BeanField.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,18 +46,29 @@
 
 package org.xulux.nyx.global;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
+ * This class contains all the symantics for working
+ * on a bean. 
+ * TODO: investigate if this can be "static" (or registered
+ * via a registry), since there aren't unlimited data beans
+ * normally. Also need to check thread safety.
  * 
- * @author Martin van den Bemt
- * @version $Id: BeanField.java,v 1.1 2002-10-29 00:10:03 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net>Martin van den Bemt</a>
+ * @version $Id: BeanField.java,v 1.2 2002-11-02 13:38:49 mvdb Exp $
  */
 public class BeanField
 {
     
     private String name;
     private Method method;
+    /**
+     * Place holder for the setter
+     * associated with the get method
+     */
+    private Method changeMethod;
     private boolean baseType;
     
 
@@ -72,6 +83,68 @@ public class BeanField
     {
         setMethod(method);
     }
+    
+    /**
+     * @return specifies if the field is just for display
+     *          (eg doesn't have a setter method)
+     */
+    public boolean isReadOnly()
+    {
+        return (changeMethod==null);
+    }
+    
+    /** 
+     * Sets a new value in the field
+     * The (should) contain all the logic for conversio
+     * of primitive types.
+     * 
+     * @param bean - the bean to set the value on
+     * @param value - the value to set to the bean
+     * @return false on failure or if field is read only
+     */
+    public boolean setValue(Object bean, Object value)
+    {
+        boolean success = false;
+        if (isReadOnly())
+        {
+            return success;
+        }
+        try
+        {
+            this.changeMethod.invoke(bean, new Object[]{value});
+            success = true;
+        }
+        catch (IllegalAccessException e)
+        {
+        }
+        catch (InvocationTargetException e)
+        {
+        }
+        return success;
+    }
+    
+    /**
+     * Will return 
+     * @param bean
+     * @return the value of the field
+     * or null when an error has happened or no value exists
+     *  
+     */
+    public Object getValue(Object bean)
+    {
+        try
+        {
+            return this.method.invoke(bean, null);
+        }
+        catch (IllegalAccessException e)
+        {
+        }
+        catch (InvocationTargetException e)
+        {
+        }
+        return null;
+    }
+    
     
 
     /**
@@ -152,6 +225,11 @@ public class BeanField
     public void setBaseType(boolean baseType)
     {
         this.baseType = baseType;
+    }
+    
+    public void setChangeMethod(Method method)
+    {
+        this.changeMethod = method;
     }
 
 }
