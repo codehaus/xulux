@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.30 2003-11-24 11:47:19 mvdb Exp $
+ $Id: BeanField.java,v 1.31 2003-12-11 20:00:15 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -68,7 +68,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  *       to primitive types.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.30 2003-11-24 11:47:19 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.31 2003-12-11 20:00:15 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -195,7 +195,7 @@ public class BeanField implements IField
 //                    log.warn("ChildObject ; "+childObject);
                     getChangeMethod().invoke(bean, getSetMethodArgs(childObject));
 
-                    // TODO : Preform some magic to set the object to the bean!!
+                    // @todo Preform some magic to set the object to the bean!!
                     if (childObject == null) {
                         if (log.isWarnEnabled()) {
                             log.warn("Cannot set value on " + toString() + "  Please set the value in a rule "
