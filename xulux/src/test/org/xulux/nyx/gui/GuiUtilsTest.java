@@ -1,5 +1,5 @@
 /*
- $Id: GuiUtilsTest.java,v 1.2 2003-12-15 20:17:13 mvdb Exp $
+ $Id: GuiUtilsTest.java,v 1.3 2003-12-15 23:37:45 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -60,7 +60,7 @@ import junit.framework.TestSuite;
  * Test case for the GuiUtils.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtilsTest.java,v 1.2 2003-12-15 20:17:13 mvdb Exp $
+ * @version $Id: GuiUtilsTest.java,v 1.3 2003-12-15 23:37:45 mvdb Exp $
  */
 public class GuiUtilsTest extends TestCase {
 
@@ -127,7 +127,7 @@ public class GuiUtilsTest extends TestCase {
         ApplicationPart part = new ApplicationPart("test");
         widget.setPart(part);
         part.addWidget(widget);
-        assertFalse(GuiUtils.processCancel(widget));
+        assertTrue(GuiUtils.processCancel(widget));
         MockWidget parent = new MockWidget("parent");
         MockWidget child = new MockWidget("child");
         part.addWidget(parent);

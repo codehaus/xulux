@@ -1,5 +1,5 @@
 /*
- $Id: BeanParameterTest.java,v 1.2 2003-12-01 02:08:21 mvdb Exp $
+ $Id: BeanParameterTest.java,v 1.3 2003-12-15 23:37:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -51,9 +51,9 @@ import junit.framework.TestSuite;
 
 /**
  * Test the beanparameter class.
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanParameterTest.java,v 1.2 2003-12-01 02:08:21 mvdb Exp $
+ * @version $Id: BeanParameterTest.java,v 1.3 2003-12-15 23:37:14 mvdb Exp $
  */
 public class BeanParameterTest extends TestCase {
 
@@ -122,5 +122,5 @@ public class BeanParameterTest extends TestCase {
         BeanParameter p = new BeanParameter();
         assertNotNull(p.toString());
     }
-        
+
 }
