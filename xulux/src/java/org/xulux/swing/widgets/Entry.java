@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.5 2004-03-23 08:42:22 mvdb Exp $
+   $Id: Entry.java,v 1.6 2004-03-31 09:37:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -41,7 +41,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.5 2004-03-23 08:42:22 mvdb Exp $
+ * @version $Id: Entry.java,v 1.6 2004-03-31 09:37:59 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -291,6 +291,7 @@ public class Entry extends SwingWidget {
             return;
         }
         Object bean = null;
+        String tmpField = null;
         if (getField().startsWith("?")) {
             int dotIndex = getField().indexOf('.');
             if (dotIndex != -1) {
@@ -298,6 +299,8 @@ public class Entry extends SwingWidget {
                 if (bean == null) {
                     textComponent.setText("");
                     return;
+                } else {
+                  tmpField = getField().substring(dotIndex+1);
                 }
             }
         }
@@ -309,7 +312,12 @@ public class Entry extends SwingWidget {
             textComponent.setText("");
             return;
         }
-        IField field = map.getField(getField());
+        IField field = null;
+        if (tmpField == null) {
+          field = map.getField(getField());
+        } else {
+          field = map.getField(tmpField);
+        }
         if (field == null) {
             if (log.isWarnEnabled()) {
                 log.warn("Field " + getField() + " is not present in the dictionary");

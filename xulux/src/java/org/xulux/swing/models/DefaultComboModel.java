@@ -1,5 +1,5 @@
 /*
-   $Id: DefaultComboModel.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
+   $Id: DefaultComboModel.java,v 1.5 2004-03-31 09:37:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -33,7 +33,7 @@ import org.xulux.swing.widgets.Combo;
  * The default combobox model.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.4 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.5 2004-03-31 09:37:59 mvdb Exp $
  */
 public class DefaultComboModel extends AbstractListModel implements ComboBoxModel {
     /**
@@ -183,7 +183,14 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
         if (original == null) {
             return;
         }
-        int index = original.indexOf(selectedItem);
+        System.out.println("Real selected item : " + selectedItem);
+        int index = -1;
+        try {
+            index = original.indexOf(selectedItem);
+        } catch(Exception e) {
+            // ignore exceptions thrown in an equals method.
+            e.printStackTrace();
+        }
         //        System.err.println("index : "+index);
         //        System.err.println("selectedItem : "+selectedItem.getClass());
         //        System.err.println("selectedItem : "+selectedItem);
@@ -214,7 +221,8 @@ public class DefaultComboModel extends AbstractListModel implements ComboBoxMode
         list = new ArrayList();
         for (int i = 0; i < original.size(); i++) {
             Object object = original.get(i);
-            if (object != null && (i == 0 && object.equals(combo.getNotSelectedValue())) || this.field == null) {
+            System.out.println("Object " + object);
+            if (object != null && (i == 0 && combo.getNotSelectedValue() != null && object.equals(combo.getNotSelectedValue())) || this.field == null) {
                 list.add(new ComboShowable(i, object.toString()));
             } else {
                 String value = "";

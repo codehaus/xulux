@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.2 2004-03-31 09:37:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -56,7 +56,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.1 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.2 2004-03-31 09:37:59 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -371,6 +371,9 @@ public class ApplicationPart {
      *         <code>this</code>.
      */
     public void removeWidget(Widget widget, Object caller) {
+        if (widget == null) {
+          return;
+        }
         if (caller instanceof Widget) {
             widgets.remove(widget);
             return;
@@ -378,6 +381,7 @@ public class ApplicationPart {
         // set the parent to null..
         widget.setParent(null);
         widget.destroy();
+        widgets.remove(widget);
     }
     /**
      * Replaces the field with the specified widget
@@ -509,6 +513,9 @@ public class ApplicationPart {
                 ApplicationContext.fireFieldRequest(widget, req, ApplicationContext.PRE_REQUEST);
                 //                }
             }
+        }
+        if (getRootWidget() != null) {
+          ApplicationContext.getInstance().getNativeWidgetHandler().refresh(getRootWidget());
         }
         isActivating = false;
     }

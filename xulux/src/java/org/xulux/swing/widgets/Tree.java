@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.6 2004-03-23 16:16:22 mvdb Exp $
+   $Id: Tree.java,v 1.7 2004-03-31 09:37:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,6 +29,10 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.xulux.core.ApplicationContext;
 import org.xulux.core.WidgetConfig;
+import org.xulux.dataprovider.Dictionary;
+import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
+import org.xulux.dataprovider.contenthandlers.ContentView;
 import org.xulux.dataprovider.contenthandlers.TreeContentHandler;
 import org.xulux.gui.ContainerWidget;
 import org.xulux.gui.IContentWidget;
@@ -45,7 +49,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.6 2004-03-23 16:16:22 mvdb Exp $
+ * @version $Id: Tree.java,v 1.7 2004-03-31 09:37:59 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -161,6 +165,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
         scrollPane = new JScrollPane(jtree);
         initializeChildren();
         initialized = true;
+        contentChanged();
         refresh();
     }
 
@@ -187,7 +192,6 @@ public class Tree extends ContainerWidget implements IContentWidget {
         if (contentChanged) {
             //            System.err.println("setting model to : "+contentHandler);
             System.out.println("CONTENTVIEW : " + getProperty("contentview"));
-            new Exception().printStackTrace(System.out);
             if (getProperty("contentview") != null) {
                 contentHandler.setView(ClassLoaderUtils.getClass((String)getProperty("contentview")));
             }
@@ -197,13 +201,17 @@ public class Tree extends ContainerWidget implements IContentWidget {
             contentChanged = false;
         }
         if (getProperty("collapse") != null) {
-            setProperty("collapse", null);
+            if (getContent() != null) {
+              setProperty("collapse", null);
+            }
             // collapsetree..
             //            System.err.println("Collapsing!!");
             if (jtree != null && contentHandler != null) {
                 // @todo really make this flexible!
                 String collapseUntill = getProperty("collapse-untill");
-                setProperty("collapse-untill", null);
+                if (getContent() != null) {
+                  setProperty("collapse-untill", null);
+                }
                 jtree.collapsePath(new TreePath(contentHandler.getRoot()));
                 if (collapseUntill != null) {
                     if (collapseUntill != null) {
@@ -216,10 +224,14 @@ public class Tree extends ContainerWidget implements IContentWidget {
             }
         }
         if (getProperty("expand") != null) {
-            setProperty("expand", null);
+            if (getContent() != null) {
+              setProperty("expand", null);
+            }
             if (jtree != null && contentHandler != null) {
                 String expandUntill = getProperty("expand-untill");
-                setProperty("expand-untill", null);
+                if (getContent() != null) {
+                  setProperty("expand-untill", null);
+                }
                 expandTree(expandUntill);
             }
         }
@@ -400,10 +412,14 @@ public class Tree extends ContainerWidget implements IContentWidget {
         //setProperty("content", content);
         this.content = object;
         if (object != null) {
-            //            System.err.println("Content object : "+object.getClass());
-            WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(getWidgetType());
-            System.err.println("Object getClass : " + object.getClass());
-            TreeContentHandler handler = (TreeContentHandler) config.getContentHandler(object.getClass());
+            String cHProp = getProperty("contenthandler");
+            TreeContentHandler handler = null;
+            if (cHProp != null) {
+              handler = (TreeContentHandler) ClassLoaderUtils.getObjectFromClassString(cHProp);
+            } else {
+                WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(getWidgetType());
+                handler = (TreeContentHandler) config.getContentHandler(object.getClass());
+            }
             if (handler == null) {
                 System.err.println("Handler for content " + object.getClass() + " not found");
             } else {
@@ -434,13 +450,26 @@ public class Tree extends ContainerWidget implements IContentWidget {
      * @see org.xulux.nyx.gui.IContentWidget#contentChanged()
      */
     public void contentChanged() {
-        if (contentHandler != null) {
-            if (getProperty("contentview") != null) {
-                //contentHandler.get
-                contentHandler.getInnerContentHandler().setView(ClassLoaderUtils.getClass((String)getProperty("contentview")));
+        if (getProperty("content") != null) {
+            String c = getProperty("content");
+            String cType = getProperty("content.type");
+            if (cType == null || cType.equalsIgnoreCase("use")) {
+              IMapping mapping = Dictionary.getInstance().getMapping(getPart().getBean());
+              IField field = mapping.getField(c);
+              setContent(field.getValue(getPart().getBean()));
             }
-            contentHandler.refresh();
+        } else if (getProperty("content.type") != null) {
+            if ("bean".equalsIgnoreCase(getProperty("content.type"))) {
+                setContent(getPart().getBean());
+            }
         }
+      if (contentHandler != null) {
+          if (getProperty("contentview") != null) {
+              //contentHandler.get
+              contentHandler.getInnerContentHandler().setView(ClassLoaderUtils.getClass((String)getProperty("contentview")));
+          }
+          contentHandler.refresh();
+      }
     }
 
     /**
@@ -491,7 +520,11 @@ public class Tree extends ContainerWidget implements IContentWidget {
     public Object getValue() {
         if (jtree != null) {
             if (jtree.getSelectionPath() != null) {
-                return jtree.getSelectionPath().getLastPathComponent();
+                Object obj = jtree.getSelectionPath().getLastPathComponent();
+                if (obj instanceof ContentView) {
+                    obj = ((ContentView)obj).getSource();
+                } 
+                return obj;
             }
         }
         return null;

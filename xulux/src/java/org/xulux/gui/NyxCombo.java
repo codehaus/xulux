@@ -1,5 +1,5 @@
 /*
-   $Id: NyxCombo.java,v 1.3 2004-03-16 14:35:15 mvdb Exp $
+   $Id: NyxCombo.java,v 1.4 2004-03-31 09:37:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -33,7 +33,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.3 2004-03-16 14:35:15 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.4 2004-03-31 09:37:59 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget implements IContentWidget {
 
@@ -220,7 +220,7 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
      */
     public Object getValue() {
         if (getField() == null) {
-            if (this.value != null && this.value.equals(getNotSelectedValue())) {
+            if (this.value != null && getNotSelectedValue() != null && this.value.equals(getNotSelectedValue())) {
                 return null;
             }
             return this.value;

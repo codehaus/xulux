@@ -1,5 +1,5 @@
 /*
-   $Id: Window.java,v 1.5 2004-01-28 15:09:23 mvdb Exp $
+   $Id: Window.java,v 1.6 2004-03-31 09:37:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -45,7 +45,7 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.5 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: Window.java,v 1.6 2004-03-31 09:37:59 mvdb Exp $
  */
 public class Window extends NyxWindow {
     /**
@@ -140,7 +140,10 @@ public class Window extends NyxWindow {
         } else {
             window.setSize(getRectangle().getWidth(), getRectangle().getHeight());
         }
-
+        if (getProperty("resizable") != null) {
+          boolean resize = BooleanUtils.toBoolean(getProperty("resizable"));
+            window.setResizable(resize);
+        }
         if (!isRefreshing()) {
             refresh();
         }

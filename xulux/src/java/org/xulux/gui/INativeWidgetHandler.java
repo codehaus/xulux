@@ -1,5 +1,5 @@
 /*
-   $Id: INativeWidgetHandler.java,v 1.2 2004-01-28 15:00:23 mvdb Exp $
+   $Id: INativeWidgetHandler.java,v 1.3 2004-03-31 09:37:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ package org.xulux.gui;
  * via eg the guidefaults xml file.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: INativeWidgetHandler.java,v 1.2 2004-01-28 15:00:23 mvdb Exp $
+ * @version $Id: INativeWidgetHandler.java,v 1.3 2004-03-31 09:37:59 mvdb Exp $
  */
 public interface INativeWidgetHandler {
 
@@ -74,5 +74,12 @@ public interface INativeWidgetHandler {
      * @param parentWidget the parent to add the widget to
      */
     void addWidgetToParent(Widget widget, Object parentWidget);
+    
+    /**
+     * Should refresh the gui when needed. Eg Swing doesn't pick up on
+     * new widgets very well. 
+     *
+     */
+    void refresh(Object widget);
 
 }
