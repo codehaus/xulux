@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.30 2003-08-03 21:35:41 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.31 2003-08-03 21:41:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.30 2003-08-03 21:35:41 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.31 2003-08-03 21:41:03 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -769,7 +769,6 @@ public class ApplicationContext
      */
     public List getWidgetInitializers(String widgetType) {
         WidgetConfig config = (WidgetConfig)widgets.get(widgetType.toLowerCase());
-        System.err.println("WidgetType : "+widgetType);
         List clzs = config.getWidgetInitializers(getDefaultWidgetType());
         if (clzs == null ) {
             return null;
