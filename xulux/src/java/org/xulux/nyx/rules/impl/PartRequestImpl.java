@@ -1,5 +1,5 @@
 /*
- $Id: PartRequestImpl.java,v 1.5 2003-11-06 19:53:13 mvdb Exp $
+ $Id: PartRequestImpl.java,v 1.6 2003-12-15 23:38:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -56,17 +56,27 @@ import org.xulux.nyx.rules.IRule;
  * This class should not be used directly, it is only for internal use.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequestImpl.java,v 1.5 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: PartRequestImpl.java,v 1.6 2003-12-15 23:38:49 mvdb Exp $
  */
-public class PartRequestImpl implements PartRequest
-{
+public class PartRequestImpl implements PartRequest {
+    /**
+     * the part
+     */
     private ApplicationPart part;
+    /**
+     * the action
+     */
     private int action;
+    /**
+     * the caller
+     */
     private IRule caller;
 
-
-    public PartRequestImpl(ApplicationPart part, int action)
-    {
+    /**
+     * @param part the part
+     * @param action the action
+     */
+    public PartRequestImpl(ApplicationPart part, int action) {
         setPart(part);
         setAction(action);
     }
@@ -74,16 +84,14 @@ public class PartRequestImpl implements PartRequest
     /**
      * @see org.xulux.nyx.context.PartRequest#getPart()
      */
-    public ApplicationPart getPart()
-    {
+    public ApplicationPart getPart() {
         return this.part;
     }
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getType()
      */
-    public int getType()
-    {
+    public int getType() {
         return NO_ACTION;
     }
 
@@ -92,57 +100,52 @@ public class PartRequestImpl implements PartRequest
      * @return always returns null, since a part doesn't
      *          have a value.
      */
-    public Object getValue()
-    {
+    public Object getValue() {
         return null;
     }
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getValue(String)
      */
-    public Object getValue(String field)
-    {
+    public Object getValue(String field) {
         int dotIndex = field.indexOf(".");
-        if (dotIndex == -1)
-        {
+        if (dotIndex == -1) {
             return getPart().getGuiValue(field);
-        }
-        else
-        {
+        } else {
             String partName = field.substring(0, dotIndex);
             ApplicationPart newPart = ApplicationContext.getInstance().getPart(partName);
-            if (newPart != null)
-            {
-                String fieldName = field.substring(dotIndex);
+            if (newPart != null) {
+                String fieldName = field.substring(dotIndex + 1);
                 return newPart.getGuiValue(fieldName);
             }
         }
         return null;
     }
 
-
     /**
      * @see org.xulux.nyx.context.PartRequest#setValue(Object)
      */
-    public void setValue(Object value)
-    {
+    public void setValue(Object value) {
     }
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getName()
      */
-    public String getName()
-    {
+    public String getName() {
         return part.getName();
     }
 
-    private void setPart(ApplicationPart part)
-    {
-        this.part= part;
+    /**
+     * @param part the part
+     */
+    private void setPart(ApplicationPart part) {
+        this.part = part;
     }
 
-    private void setAction(int action)
-    {
+    /**
+     * @param action the action
+     */
+    private void setAction(int action) {
         this.action = action;
     }
 
@@ -150,23 +153,20 @@ public class PartRequestImpl implements PartRequest
      * @see org.xulux.nyx.context.PartRequest#getWidget()
      * @return always null, since this a partrequest.
      */
-    public Widget getWidget()
-    {
+    public Widget getWidget() {
         return null;
     }
     /**
      * @see java.lang.Object#clone()
      */
-    public Object clone()
-    {
+    public Object clone() {
         return new PartRequestImpl(getPart(), getType());
     }
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getSession()
      */
-    public SessionPart getSession()
-    {
+    public SessionPart getSession() {
         return getPart().getSession();
     }
 

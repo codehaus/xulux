@@ -1,5 +1,5 @@
 /*
- $Id: IRule.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
+ $Id: IRule.java,v 1.9 2003-12-15 23:38:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -52,10 +52,9 @@ import org.xulux.nyx.gui.Widget;
  * All rules must implement this interfaces.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IRule.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: IRule.java,v 1.9 2003-12-15 23:38:49 mvdb Exp $
  */
-public interface IRule
-{
+public interface IRule {
 
     /**
      * Initializes the rule
@@ -63,63 +62,64 @@ public interface IRule
      * So any processing done here, will
      * preserve state among all calls to the rule
      */
-    public void init();
-
+    void init();
 
     /**
      * Preprocessing of the rule.
      * This is mainly changes state of eg the current
      * component that is about to process
+     * @param request the request object
      */
-    public void pre(PartRequest request);
+    void pre(PartRequest request);
 
     /**
      * The actual rule will be processed here.
+     * @param request the request object
      */
-    public void execute(PartRequest request);
+    void execute(PartRequest request);
 
     /**
      * Post processing of the rule
      * This is mainly changing states in eg components
      * after the executer has been process.
+     * @param request the request object
      */
-    public void post(PartRequest request);
+    void post(PartRequest request);
 
     /**
      * Destroys the rule when removed from
      * the context
      */
-    public void destroy();
+    void destroy();
 
     /**
      * How many times is the current rule used
+     * @return the usecount for this rule
      */
-    public int getUseCount();
+    int getUseCount();
 
     /**
      * Method registerPartName.
-     * @param partName
+     * @param partName the name of the part
      */
-    public void registerPartName(String partName);
+    void registerPartName(String partName);
 
     /**
      * Method derigsterPartName.
-     * @param partName
+     * @param partName the name of the part
      */
-    public void deregisterPartName(String partName);
+    void deregisterPartName(String partName);
 
     /**
      * Method isRegistered.
-     * @param partName
-     * @return boolean
+     * @param partName the name of the part
+     * @return boolean if the part was registered
      */
-    public boolean isRegistered(String partName);
+    boolean isRegistered(String partName);
 
     /**
-     *
      * @return the owner of this rule
      */
-    public Widget getOwner();
-
+    Widget getOwner();
 
 }

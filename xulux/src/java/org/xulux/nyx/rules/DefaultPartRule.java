@@ -1,5 +1,5 @@
 /*
- $Id: DefaultPartRule.java,v 1.7 2003-11-06 19:53:10 mvdb Exp $
+ $Id: DefaultPartRule.java,v 1.8 2003-12-15 23:38:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -51,26 +51,23 @@ import org.xulux.nyx.context.PartRequest;
 /**
  * The default part rule, initializes the the part , and makes it visible.
  * It is always last in line when registring the part.
- * TODO: Figure out how to be always last....
+ * @todo Figure out how to be always last....
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultPartRule.java,v 1.7 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: DefaultPartRule.java,v 1.8 2003-12-15 23:38:49 mvdb Exp $
  */
-public class DefaultPartRule extends Rule
-{
+public class DefaultPartRule extends Rule {
 
     /**
      * Constructor for DefaultPartRule.
      */
-    public DefaultPartRule()
-    {
+    public DefaultPartRule() {
     }
 
     /**
      * @see org.xulux.nyx.rules.IRule#pre(PartRequest)
      */
-    public void pre(PartRequest request)
-    {
+    public void pre(PartRequest request) {
         ApplicationPart part = request.getPart();
         part.initialize(this);
     }
@@ -78,8 +75,7 @@ public class DefaultPartRule extends Rule
     /**
      * @see org.xulux.nyx.rules.IRule#post(PartRequest)
      */
-    public void post(PartRequest request)
-    {
+    public void post(PartRequest request) {
     }
 
 }

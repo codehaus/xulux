@@ -1,5 +1,5 @@
 /*
- $Id: WidgetRequestImpl.java,v 1.6 2003-11-06 19:53:13 mvdb Exp $
+ $Id: WidgetRequestImpl.java,v 1.7 2003-12-15 23:38:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -55,17 +55,28 @@ import org.xulux.nyx.gui.Widget;
  * This class should not be used directly, it is only for internal use.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetRequestImpl.java,v 1.6 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: WidgetRequestImpl.java,v 1.7 2003-12-15 23:38:49 mvdb Exp $
  */
-public class WidgetRequestImpl implements PartRequest
-{
+public class WidgetRequestImpl implements PartRequest {
+    /**
+     * The widget
+     */
     private Widget widget;
+    /**
+     * the action
+     */
     private int action;
+    /**
+     * the part
+     */
     private ApplicationPart part;
 
-
-    public WidgetRequestImpl(Widget widget, int action)
-    {
+    /**
+     *
+     * @param widget the widget
+     * @param action the action
+     */
+    public WidgetRequestImpl(Widget widget, int action) {
         setWidget(widget);
         setAction(action);
     }
@@ -73,10 +84,8 @@ public class WidgetRequestImpl implements PartRequest
     /**
      * @see org.xulux.nyx.context.PartRequest#getPart()
      */
-    public ApplicationPart getPart()
-    {
-        if (this.part != null)
-        {
+    public ApplicationPart getPart() {
+        if (this.part != null) {
             return part;
         }
         return getWidget().getPart();
@@ -85,36 +94,29 @@ public class WidgetRequestImpl implements PartRequest
     /**
      * @see org.xulux.nyx.context.PartRequest#getType()
      */
-    public int getType()
-    {
+    public int getType() {
         return NO_ACTION;
     }
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getValue()
      */
-    public Object getValue()
-    {
+    public Object getValue() {
         return widget.getValue();
     }
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getValue(String)
      */
-    public Object getValue(String field)
-    {
+    public Object getValue(String field) {
         int dotIndex = field.indexOf(".");
-        if (dotIndex == -1)
-        {
+        if (dotIndex == -1) {
             return getPart().getGuiValue(field);
-        }
-        else
-        {
+        } else {
             String partName = field.substring(0, dotIndex);
             ApplicationPart newPart = ApplicationContext.getInstance().getPart(partName);
-            if (newPart != null)
-            {
-                String fieldName = field.substring(dotIndex);
+            if (newPart != null) {
+                String fieldName = field.substring(dotIndex + 1);
                 return newPart.getGuiValue(fieldName);
             }
         }
@@ -124,56 +126,58 @@ public class WidgetRequestImpl implements PartRequest
     /**
      * @see org.xulux.nyx.context.PartRequest#setValue(Object)
      */
-    public void setValue(Object value)
-    {
+    public void setValue(Object value) {
         getPart().setGuiValue(getName(), value);
     }
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getName()
      */
-    public String getName()
-    {
+    public String getName() {
         return widget.getName();
     }
 
-    private void setWidget(Widget widget)
-    {
+    /**
+     * @param widget the widget
+     */
+    private void setWidget(Widget widget) {
         this.widget = widget;
     }
 
-    private void setAction(int action)
-    {
+    /**
+     * @param action the action
+     */
+    private void setAction(int action) {
         this.action = action;
     }
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getWidget()
      */
-    public Widget getWidget()
-    {
+    public Widget getWidget() {
         return this.widget;
     }
 
-    public void setPart(ApplicationPart part)
-    {
+    /**
+     * @param part the part
+     */
+    public void setPart(ApplicationPart part) {
         this.part = part;
     }
-
 
     /**
      * @see java.lang.Object#clone()
      */
-    public Object clone()
-    {
-        return new WidgetRequestImpl(getWidget(), getType());
+    public Object clone() {
+        WidgetRequestImpl impl = new WidgetRequestImpl(getWidget(), getType());
+        impl.setPart(getPart());
+        return impl;
     }
 
     /**
      * @see org.xulux.nyx.context.PartRequest#getSession()
      */
-    public SessionPart getSession()
-    {
+    public SessionPart getSession() {
         return getPart().getSession();
     }
 
