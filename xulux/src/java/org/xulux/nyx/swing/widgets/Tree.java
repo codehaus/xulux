@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.15 2003-10-27 17:14:28 mvdb Exp $
+ $Id: Tree.java,v 1.16 2003-10-28 20:10:07 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -70,7 +70,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.15 2003-10-27 17:14:28 mvdb Exp $
+ * @version $Id: Tree.java,v 1.16 2003-10-28 20:10:07 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
     
@@ -372,13 +372,17 @@ public class Tree extends ContainerWidget implements IContentWidget {
             WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(getWidgetType());
             System.err.println("Object getClass : "+object.getClass());
             TreeContentHandler handler = (TreeContentHandler)config.getContentHandler(object.getClass());
-            handler.setWidget(this);
-            handler.setContent(object);
-//            System.err.println("handler content "+handler.getContent());
-            this.contentHandler = new SwingTreeModel(handler);
-            this.contentHandler.setWidget(this);
-            this.contentHandler.setContent(object);
-//            System.err.println("contentHandler content : "+contentHandler.getContent());
+            if (handler == null) {
+                System.err.println("Handler for content "+object.getClass()+" not found");
+            } else {
+                handler.setWidget(this);
+                handler.setContent(object);
+    //            System.err.println("handler content "+handler.getContent());
+                this.contentHandler = new SwingTreeModel(handler);
+                this.contentHandler.setWidget(this);
+                this.contentHandler.setContent(object);
+    //            System.err.println("contentHandler content : "+contentHandler.getContent());
+            }
         }
         contentChanged = true;
         refresh();

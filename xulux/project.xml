@@ -138,12 +138,21 @@
       <url>http://java.sun.com/products/jimi/</url>
     </dependency>
     
+    <!--
+       Only needed if you want to use the DOM4j contenthandler
+    -->
+    <dependency>
+      <id>dom4j</id>
+      <version>1.4</version>
+      <url>http://www.dom4j.org</url>
+    </dependency>
+    
   </dependencies>
 
 
   <build>
 
-    <nagEmailAddress>xulux-interest@eng.werken.com</nagEmailAddress>
+    <nagEmailAddress>xulux-interest@lists.codehaus.org</nagEmailAddress>
 
     <sourceDirectory>src/java</sourceDirectory>
 
