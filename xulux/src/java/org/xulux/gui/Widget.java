@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.2 2003-12-29 14:26:43 mvdb Exp $
+ $Id: Widget.java,v 1.3 2003-12-29 14:52:12 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,7 +69,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.2 2003-12-29 14:26:43 mvdb Exp $
+ * @version $Id: Widget.java,v 1.3 2003-12-29 14:52:12 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -398,7 +398,7 @@ public abstract class Widget implements Serializable
      * Override this method when the widget can
      * contains child widgets.
      * You don't have to override this one when
-     * the widget can be a root widgets, since that
+     * the widget can be a root widget, since that
      * assumes it can contain children.
      *
      * @return true if the widget can contain children
@@ -414,6 +414,8 @@ public abstract class Widget implements Serializable
      * of the part.
      * eg those are elements that are directly under
      * the the main part.
+     * @todo fix naming, since it is very confusing.
+     * @return if the widget lives in the root of the part
      */
     public boolean isRootWidget()
     {
