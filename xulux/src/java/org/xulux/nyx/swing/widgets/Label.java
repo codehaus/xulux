@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.2 2003-05-06 12:40:28 mvdb Exp $
+ $Id: Label.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,66 +43,107 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.listeners.swing;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+package org.xulux.nyx.swing.widgets;
 
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.context.impl.WidgetRequestImpl;
+import java.awt.Container;
+
+import javax.swing.JLabel;
+
 import org.xulux.nyx.gui.Widget;
 
 /**
- * The immidiate listeners fires events based on typed keys.
- * For now unsupported
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImmidiateListener.java,v 1.2 2003-05-06 12:40:28 mvdb Exp $
+ * @version $Id: Label.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
  */
-public class ImmidiateListener extends KeyAdapter
+public class Label extends Widget
 {
-    Widget widget;
-    ApplicationPart part;
-
-    public ImmidiateListener()
+    
+    private JLabel label;
+    
+    public Label(String field)
     {
-    }
-    /**
-     * Constructor for ImmidiateListener.
-     */
-    public ImmidiateListener(Widget widget)
-    {
-        this.widget = widget;
-        this.part = widget.getPart();
+        super(field);
     }
 
     /**
-     * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
+     * @see org.xulux.nyx.gui.Widget#destroy()
      */
-    public void keyTyped(KeyEvent e)
+    public void destroy()
     {
-        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
-        ApplicationContext.fireFieldRequests(impl, ApplicationContext.EXECUTE_REQUEST);
+        if (label != null)
+        {
+            Container container = label.getParent();
+            label.setVisible(false);
+            if (container != null)
+            {
+                container.remove(label);
+            }
+            label = null;
+        }
+        removeAllRules();
+        getPart().removeWidget(this,this);
     }
 
     /**
-     * Returns the widget.
-     * @return Widget
+     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
      */
-    public Widget getWidget()
+    public Object getNativeWidget()
     {
-        return widget;
+        initialize();
+        return label;
     }
 
     /**
-     * Sets the widget.
-     * @param widget The widget to set
+     * @see org.xulux.nyx.gui.Widget#initialize()
      */
-    public void setWidget(Widget widget)
+    public void initialize()
     {
-        this.widget = widget;
+        if (this.initialized)
+        {
+            return;
+        }
+        this.initialized = true;
+        this.label = new JLabel();
+        refresh();
     }
-
+    /**
+     * For now aligns to the right by default.
+     * 
+     * @see org.xulux.nyx.gui.Widget#refresh()
+     */
+    public void refresh()
+    {
+        initialize();
+        if (getValue()!=null)
+        {
+            label.setText(String.valueOf(getValue()));
+        }
+        else
+        {
+            label.setText("");
+        }
+        if (getProperties() == null)
+        {
+            label.setHorizontalAlignment(JLabel.RIGHT);
+        }
+        else
+        {
+            String ha = (String)getProperties().get("horizontalalignment");
+            if (ha.equalsIgnoreCase("left"))
+            {
+                label.setHorizontalAlignment(JLabel.LEFT);
+            }
+            else if (ha.equalsIgnoreCase("center"))
+            {
+                label.setHorizontalAlignment(JLabel.CENTER);
+            }
+            else
+            {
+                label.setHorizontalAlignment(JLabel.RIGHT);
+            }
+        }
+        label.repaint();
+    }
 }

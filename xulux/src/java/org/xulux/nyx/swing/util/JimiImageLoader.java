@@ -1,7 +1,7 @@
 /*
- $Id: PrePostFieldListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ $Id: JimiImageLoader.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,43 +43,45 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.listeners.swt;
+package org.xulux.nyx.swing.util;
 
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.listeners.NyxListener;
+import java.awt.Image;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
+
+import com.sun.jimi.core.Jimi;
 
 /**
+ * Loads images using jini, so also ico, xpm, etc is supported
+ * by NYX. This is wrapped up in an interface so you don't
+ * get any strange exceptions when jimi is not there.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ * @version $Id: JimiImageLoader.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
  */
-public class PrePostFieldListener extends NyxListener
-implements SelectionListener
+public class JimiImageLoader implements ImageLoaderInterface
 {
 
     /**
-     * Constructor for PrePostFieldListener.
+     * Constructor for JimiImageLoader.
      */
-    public PrePostFieldListener(Widget widget)
-    {
-        super(widget);
-    }
-    
-    
-    /**
-     * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(SelectionEvent)
-     */
-    public void widgetDefaultSelected(SelectionEvent arg0)
+    public JimiImageLoader()
     {
     }
 
     /**
-     * @see org.eclipse.swt.events.SelectionListener#widgetSelected(SelectionEvent)
+     * @see org.xulux.nyx.gui.swing.util.ImageInterface#getImage(String, Object)
      */
-    public void widgetSelected(SelectionEvent arg0)
+    public Image getImage(URL url)
     {
+        return Jimi.getImage(url);
+    }
+    
+    public ImageIcon getIcon(URL url)
+    {
+        Image image = getImage(url);
+        return new ImageIcon(image);
     }
 
 }

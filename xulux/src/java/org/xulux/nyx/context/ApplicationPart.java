@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.37 2003-05-20 16:10:04 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.38 2003-06-17 12:53:29 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,11 +60,11 @@ import org.xulux.nyx.context.impl.WidgetRequestImpl;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.listeners.NyxListener;
-import org.xulux.nyx.listeners.swing.PrePostFieldListener;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * An Application is a part of the application
@@ -83,7 +83,7 @@ import org.xulux.nyx.rules.IRule;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.37 2003-05-20 16:10:04 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.38 2003-06-17 12:53:29 mvdb Exp $
  */
 public class ApplicationPart
 {

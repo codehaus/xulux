@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.7 2003-06-17 12:50:26 mvdb Exp $
+ $Id: Window.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,7 +43,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui.swing;
+package org.xulux.nyx.swing.widgets;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -66,7 +66,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.7 2003-06-17 12:50:26 mvdb Exp $
+ * @version $Id: Window.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
  */
 public class Window extends org.xulux.nyx.gui.NyxWindow
 {

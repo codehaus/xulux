@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.3 2003-05-06 12:39:19 mvdb Exp $
+ $Id: Panel.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,7 +43,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui.swing;
+package org.xulux.nyx.swing.widgets;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.3 2003-05-06 12:39:19 mvdb Exp $
+ * @version $Id: Panel.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {

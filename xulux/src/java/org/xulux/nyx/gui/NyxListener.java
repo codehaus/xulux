@@ -1,5 +1,5 @@
 /*
- $Id: ImmidiateListener.java,v 1.2 2003-05-21 11:12:59 mvdb Exp $
+ $Id: NyxListener.java,v 1.1 2003-06-17 12:53:29 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,41 +43,85 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.listeners.swt;
+package org.xulux.nyx.gui;
 
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.xulux.nyx.swt.Combo;
+import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.context.impl.WidgetRequestImpl;
 
 /**
+ * An abstract to which all listeners must obey.
  * 
- * @author Martin van den Bemt
- * @version $Id: ImmidiateListener.java,v 1.2 2003-05-21 11:12:59 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: NyxListener.java,v 1.1 2003-06-17 12:53:29 mvdb Exp $
  */
-public class ImmidiateListener implements KeyListener
+public abstract class NyxListener
 {
-    Combo combo;
-
-    /**
-     * Constructor for ImmidiateListener.
-     */
-    public ImmidiateListener(Combo combo)
+    protected Widget widget;
+    private static boolean processing = false;
+    
+    public NyxListener()
     {
-        this.combo = combo;
+    }
+    /**
+     * Constructor
+     * @param widget
+     */
+    public NyxListener(Widget widget)
+    {
+        this.widget = widget;
     }
 
     /**
-     * @see org.eclipse.swt.events.KeyListener#keyPressed(KeyEvent)
+     * Should be called when a field is completed
      */
-    public void keyPressed(KeyEvent arg0)
+    public void completed()
     {
+        processing = true;
+        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
+        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
+        // preform all pre rules.
+        ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+        processing = false;
+    }
+    
+    /**
+     * Should be called when a field is entered
+     */
+    public void started()
+    {
+        processing = true;
+        WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
+        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
+        processing = false;
+    }
+    
+    /**
+     * Returns the widget.
+     * @return Widget
+     */
+    public Widget getWidget()
+    {
+        return widget;
     }
 
     /**
-     * @see org.eclipse.swt.events.KeyListener#keyReleased(KeyEvent)
+     * Sets the widget.
+     * @param widget The widget to set
      */
-    public void keyReleased(KeyEvent arg0)
+    public void setWidget(Widget widget)
     {
+        this.widget = widget;
     }
+
+    /**
+     * Returns the processing.
+     * @return boolean
+     */
+    public static boolean isProcessing()
+    {
+        return processing;
+    }
+
 
 }

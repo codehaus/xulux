@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModelTest.java,v 1.3 2003-05-21 10:00:14 mvdb Exp $
+ $Id: DefaultComboModelTest.java,v 1.4 2003-06-17 12:53:59 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -51,13 +51,13 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.nyx.gui.swing.Combo;
+import org.xulux.nyx.swing.widgets.Combo;
 
 /**
  * Tests the swing defaultcombomodel
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModelTest.java,v 1.3 2003-05-21 10:00:14 mvdb Exp $
+ * @version $Id: DefaultComboModelTest.java,v 1.4 2003-06-17 12:53:59 mvdb Exp $
  */
 public class DefaultComboModelTest extends TestCase
 {

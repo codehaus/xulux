@@ -1,7 +1,7 @@
 /*
- $Id: PrePostFieldListener.java,v 1.2 2003-05-06 12:39:19 mvdb Exp $
+ $Id: ImageLoaderInterface.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,84 +43,39 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.listeners.swing;
+package org.xulux.nyx.swing.util;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.Image;
+import java.net.URL;
 
-import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.gui.swing.Entry;
-import org.xulux.nyx.listeners.NyxListener;
+import javax.swing.ImageIcon;
 
 /**
+ * A simple interface to make sure there are not classloader
+ * issues when jimi is not on the classpath. 
+ * It also leaves open pluggable image libraries
+ * 
+ * @todo Add support for pluggable image libraries. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.2 2003-05-06 12:39:19 mvdb Exp $
+ * @version $Id: ImageLoaderInterface.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
  */
-public class PrePostFieldListener extends NyxListener
-implements FocusListener, ActionListener
+public interface ImageLoaderInterface
 {
     
     /**
-     * Constructor for PrePostFieldListener.
+     * Returns the specified image
+     * 
+     * @param url - the url to load if from
      */
-    public PrePostFieldListener(Widget widget)
-    {
-        super(widget);
-    }
-
-    /**
-     * now call pre.. 
-     * @see java.awt.event.FocusListener#focusGained(FocusEvent)
-     */
-    public void focusGained(FocusEvent e)
-    {
-        if (isProcessing())
-        {
-            return;
-        }
-        if (e.getID() != FocusEvent.FOCUS_GAINED || e.isTemporary())
-        {
-            return;
-        }
-        started();
-    }
-
-    /**
-     * now call post..
-     * @see java.awt.event.FocusListener#focusLost(FocusEvent)
-     */
-    public void focusLost(FocusEvent e)
-    {
-        if (isProcessing())
-        {
-            return;
-        }
-        if (e.getID() != FocusEvent.FOCUS_LOST || e.isTemporary())
-        {
-            return;
-        }
-        System.out.println("Widget clazz : "+widget.getClass().getName());
-        if (widget instanceof Entry)
-        {
-            System.out.println("Widget value : "+widget.getValue());
-        }
-        completed();
-    }
-
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e)
-    {
-        if (isProcessing())
-        {
-            return;
-        }
-        completed();
-    }
+    public Image getImage(URL url);
     
+    
+    /**
+     * Returns the specified icon
+     * 
+     * @param url - the url to load if from
+     */
+    public ImageIcon getIcon(URL url);
 
 }
