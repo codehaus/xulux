@@ -1,7 +1,7 @@
 /*
- $Id: IRule.java,v 1.4 2002-11-16 14:23:43 mvdb Exp $
+ $Id: IRule.java,v 1.5 2003-05-21 11:34:48 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -51,7 +51,7 @@ import org.xulux.nyx.context.PartRequest;
  * All rules must implement this interfaces.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IRule.java,v 1.4 2002-11-16 14:23:43 mvdb Exp $
+ * @version $Id: IRule.java,v 1.5 2003-05-21 11:34:48 mvdb Exp $
  */
 public interface IRule
 {

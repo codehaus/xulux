@@ -1,7 +1,7 @@
 /*
- $Id: Rule.java,v 1.4 2003-05-21 11:31:39 mvdb Exp $
+ $Id: Rule.java,v 1.5 2003-05-21 11:34:48 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -55,7 +55,7 @@ import org.xulux.nyx.context.PartRequest;
  * makes pre and post mandatory.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Rule.java,v 1.4 2003-05-21 11:31:39 mvdb Exp $
+ * @version $Id: Rule.java,v 1.5 2003-05-21 11:34:48 mvdb Exp $
  */
 public abstract class Rule implements IRule
 {
