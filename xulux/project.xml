@@ -119,6 +119,18 @@
       <url>http://www.eclipse.org</url>
     </dependency>
     
+    <!-- 
+         this jimi dependency is not needed, however nyx will not 
+         support windows ico files or unix xpm files if jimi
+         isn't in the classpath (that is for swing support, swt supports
+         this!)
+    -->
+    <dependency>
+      <id>jimi</id>
+      <version>1.0</version>
+      <url>http://java.sun.com/products/jimi/</url>
+    </dependency>
+    
   </dependencies>
 
 

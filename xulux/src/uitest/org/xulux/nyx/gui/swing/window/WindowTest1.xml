@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
-<!-- $Id: WindowTest1.xml,v 1.1 2003-01-26 15:37:11 mvdb Exp $ -->
+<!-- $Id: WindowTest1.xml,v 1.2 2003-01-26 18:28:51 mvdb Exp $ -->
 <part name="WindowTest1" prefix="window" application="true">
   <field type="window" name="WindowTest1">
     <title>WindowTest1</title>
+    <icon>resources/Car.ico</icon>
     <size>300,300</size>
     <autosize>true</autosize>
     <field type="combo" name="Combo:Window">

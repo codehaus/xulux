@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.4 2003-01-26 18:28:51 mvdb Exp $
+ $Id: JimiImageLoader.java,v 1.1 2003-01-26 18:28:50 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,34 +43,47 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
+package org.xulux.nyx.gui.swing.util;
 
-package org.xulux.nyx.gui;
+import java.awt.Image;
+import java.net.URL;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import com.sun.jimi.core.Jimi;
+import com.sun.jimi.core.decoder.ico.IconImage;
 
 /**
+ * Loads images using jini, so also ico, xpm, etc is supported
+ * by NYX. This is wrapped up in an interface so you don't
+ * get any strange exceptions when jimi is not there.
  * 
- * @author <a href=:mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.4 2003-01-26 18:28:51 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: JimiImageLoader.java,v 1.1 2003-01-26 18:28:50 mvdb Exp $
  */
-public abstract class Window extends ContainerWidget
+public class JimiImageLoader implements ImageLoaderInterface
 {
-    
+
     /**
-     * This doesn't make any sense, but it is,
-     * since you can get a lookup window from a field
-     * @param field
+     * Constructor for JimiImageLoader.
      */
-    public Window(String field)
+    public JimiImageLoader()
     {
-        super(field);
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.swing.util.ImageInterface#getImage(String, Object)
+     */
+    public Image getImage(URL url)
+    {
+        return Jimi.getImage(url);
     }
     
-    /**
-     * @see org.xulux.nyx.gui.Widget#canBeRootWidget()
-     */
-    public boolean canBeRootWidget()
+    public ImageIcon getIcon(URL url)
     {
-        return true;
+        Image image = getImage(url);
+        return new ImageIcon(image);
     }
-    
 
 }

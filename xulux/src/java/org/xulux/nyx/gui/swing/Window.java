@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.3 2003-01-26 02:43:34 mvdb Exp $
+ $Id: Window.java,v 1.4 2003-01-26 18:28:50 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,16 +47,19 @@ package org.xulux.nyx.gui.swing;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.swing.util.SwingUtils;
 import org.xulux.nyx.listeners.swing.NyxWindowListener;
 import org.xulux.nyx.swing.layouts.XYLayout;
 
@@ -64,7 +67,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.3 2003-01-26 02:43:34 mvdb Exp $
+ * @version $Id: Window.java,v 1.4 2003-01-26 18:28:50 mvdb Exp $
  */
 public class Window extends org.xulux.nyx.gui.Window
 {
@@ -174,6 +177,13 @@ public class Window extends org.xulux.nyx.gui.Window
     {
         isRefreshing = true;
         initialize();
+        String image = getProperty("icon");
+        if (image != null)
+        {
+            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(image));
+            window.setIconImage(SwingUtils.getImage(image, this));
+            //button.setFocusPainted(true);
+        }
         window.setEnabled(isEnabled());
         window.setVisible(isVisible());
         isRefreshing = false;
@@ -182,14 +192,6 @@ public class Window extends org.xulux.nyx.gui.Window
      * @see org.xulux.nyx.gui.Widget#canContainChildren()
      */
     public boolean canContainChildren()
-    {
-        return true;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#canBeRootWidget()
-     */
-    public boolean canBeRootWidget()
     {
         return true;
     }

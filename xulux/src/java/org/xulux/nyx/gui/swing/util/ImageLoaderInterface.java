@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.4 2003-01-26 18:28:51 mvdb Exp $
+ $Id: ImageLoaderInterface.java,v 1.1 2003-01-26 18:28:50 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,34 +43,39 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
+package org.xulux.nyx.gui.swing.util;
 
-package org.xulux.nyx.gui;
+import java.awt.Image;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
 
 /**
+ * A simple interface to make sure there are not classloader
+ * issues when jimi is not on the classpath. 
+ * It also leaves open pluggable image libraries
  * 
- * @author <a href=:mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.4 2003-01-26 18:28:51 mvdb Exp $
+ * @todo Add support for pluggable image libraries. 
+ * 
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: ImageLoaderInterface.java,v 1.1 2003-01-26 18:28:50 mvdb Exp $
  */
-public abstract class Window extends ContainerWidget
+public interface ImageLoaderInterface
 {
     
     /**
-     * This doesn't make any sense, but it is,
-     * since you can get a lookup window from a field
-     * @param field
+     * Returns the specified image
+     * 
+     * @param url - the url to load if from
      */
-    public Window(String field)
-    {
-        super(field);
-    }
+    public Image getImage(URL url);
+    
     
     /**
-     * @see org.xulux.nyx.gui.Widget#canBeRootWidget()
+     * Returns the specified icon
+     * 
+     * @param url - the url to load if from
      */
-    public boolean canBeRootWidget()
-    {
-        return true;
-    }
-    
+    public ImageIcon getIcon(URL url);
 
 }

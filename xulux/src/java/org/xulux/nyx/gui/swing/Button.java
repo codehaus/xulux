@@ -1,7 +1,7 @@
 /*
- $Id: Button.java,v 1.1 2003-01-08 02:37:06 mvdb Exp $
+ $Id: Button.java,v 1.2 2003-01-26 18:28:50 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -55,6 +55,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.swing.util.SwingUtils;
 import org.xulux.nyx.listeners.NyxListener;
 import org.xulux.nyx.listeners.swing.PrePostFieldListener;
 
@@ -63,7 +64,7 @@ import org.xulux.nyx.listeners.swing.PrePostFieldListener;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.1 2003-01-08 02:37:06 mvdb Exp $
+ * @version $Id: Button.java,v 1.2 2003-01-26 18:28:50 mvdb Exp $
  */
 public class Button extends Widget
 {
@@ -133,8 +134,7 @@ public class Button extends Widget
         String image = getProperty("image");
         if (image != null)
         {
-            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(image));
-            button.setIcon(icon);
+            button.setIcon(SwingUtils.getIcon(image,this));
             button.setFocusPainted(true);
         }
         String disabledImage = getProperty("image-disabled");
