@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <pomVersion>3</pomVersion>
+  <id>xulux</id>
+  <name>NYX</name>
+  <currentVersion>dev</currentVersion>
+  <organization>
+    <name>xulux.org</name>
+    <url>http://nyx.xulux.org/</url>
+    <logo>http://images.werken.com/xulux.gif</logo>
+  </organization>
+  <inceptionYear>2002</inceptionYear>
+  <package>org.xulux.nyx</package>
+  
+  <!-- Gump integration -->
+  <gumpRepositoryId>nyx</gumpRepositoryId>
+
+  <description>
+  NYX provides an easy way to display dynamicaly
+  generated Swing components, driven by data.
+  </description>
+
+  <shortDescription>NYX data driven gui's</shortDescription>
+
+  <url>http://nyx.xulux.org/</url>
+  <issueTrackingUrl>http://www.xulux.org</issueTrackingUrl>
+  <siteAddress>eng.werken.com</siteAddress>
+  <siteDirectory>/www/nyx.xulux.org/</siteDirectory>
+  <distributionDirectory>/www/nyx.xulux.org/builds/nyx/</distributionDirectory>
+
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@eng.werken.com:/cvsroot/xulux:nyx</connection>
+    <url>http://cvs.werken.com/viewcvs.cgi/nyx/?cvsroot=xulux/</url>
+  </repository>
+
+  <versions>
+    <version>
+      <id>dev</id>
+      <name>dev</name>
+      <tag>HEAD</tag>
+    </version>
+  </versions>
+
+  <branches>
+  </branches>
+
+  <mailingLists>
+    <mailingList>
+      <name>Xulux interest list</name>
+      <archive>http://lists.werken.com/pipermail/xulux-interest</archive>
+      <subscribe>http://lists.werken.com/mailman/listinfo/xulux-interest</subscribe>
+      <unsubscribe>http://lists.werken.com/mailman/listinfo/xulux-interest</unsubscribe>
+    </mailingList>
+    <mailingList>
+      <name>Xulux CVS List</name>
+      <archive>http://lists.werken.com/pipermail/xulux-cvs</archive>
+      <subscribe>http://lists.werken.com/mailman/listinfo/xulux-cvs</subscribe>
+      <unsubscribe>http://lists.werken.com/mailman/listinfo/xulux-cvs</unsubscribe>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+
+    <developer>
+      <name>Martin van den Bemt</name>
+      <id>mvdb</id>
+      <email>martin@mvdb.net</email>
+      <organization>mvdb.com</organization>
+      <roles>
+        <role>Founder</role>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+ <contributors>
+
+    <contributor>
+      <name>Erik Fransen</name>
+      <email>erik@mvdb.net</email>
+      <organization>mvdb.com</organization>
+      <roles>
+        <role>Designer</role>
+      </roles>
+    </contributor>
+
+  </contributors>
+
+  <!-- Need to mark these as compile-time/run-time -->
+
+  <build>
+
+    <nagEmailAddress>xulux-interest@eng.werken.com</nagEmailAddress>
+
+    <sourceDirectory>src/java</sourceDirectory>
+
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <integrationUnitTestSourceDirectory/>
+
+    <aspectSourceDirectory></aspectSourceDirectory>
+
+    <!-- Unit test classes
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+      <excludes>
+        <exclude>**/RepositoryTest.java</exclude>
+      </excludes>
+    </unitTest>
+    -->
+
+    <!-- Integration unit test classes -->
+    <integrationUnitTestPatterns>
+    </integrationUnitTestPatterns>
+
+    <!-- J A R  R E S O U R C E S -->
+    <!-- Resources that are packaged up inside the JAR file -->
+
+    <jars>
+    </jars>
+  </build>
+</project>
+
