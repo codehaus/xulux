@@ -1,5 +1,5 @@
 /*
- $Id: TreeContentHandler.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
+ $Id: TreeContentHandler.java,v 1.3 2003-10-27 15:35:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,11 +48,11 @@ package org.xulux.nyx.global.contenthandlers;
 import org.xulux.nyx.gui.IContentWidget;
 
 /**
- * A contenthandler for the tree. Sicne it is the main interface for having
+ * A contenthandler for the tree. Since it is the main interface for having
  * trees at all in default java, it will be located in the global package.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeContentHandler.java,v 1.2 2003-09-17 11:49:31 mvdb Exp $
+ * @version $Id: TreeContentHandler.java,v 1.3 2003-10-27 15:35:49 mvdb Exp $
  */
 public abstract class TreeContentHandler extends ContentHandlerAbstract
 {
