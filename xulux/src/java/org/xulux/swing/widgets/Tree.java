@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.11 2004-06-30 09:12:06 mvdb Exp $
+   $Id: Tree.java,v 1.12 2004-06-30 09:12:49 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -49,7 +49,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.11 2004-06-30 09:12:06 mvdb Exp $
+ * @version $Id: Tree.java,v 1.12 2004-06-30 09:12:49 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -251,7 +251,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
                 }
             }
         }
-        jtree.setEditable(isEnabled());
+        jtree.setEnabled(isEnabled());
         initializePopupMenu();
         isRefreshing = false;
     }
