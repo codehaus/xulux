@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.25 2002-11-27 02:33:44 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.26 2002-11-28 12:21:51 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -84,7 +84,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.25 2002-11-27 02:33:44 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.26 2002-11-28 12:21:51 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -214,6 +214,17 @@ public class ApplicationPart
             return null;
         }
         return widget.getValue();
+    }
+    
+    public Object getPreviousGuiValue(String name)
+    {
+        Widget widget = (Widget)widgets.get(name);
+        if (widget == null)
+        {
+            System.err.println("Cannot find widget "+name+" to get previous value from");
+            return null;
+        }
+        return widget.getPreviousValue();
     }
     
     /**

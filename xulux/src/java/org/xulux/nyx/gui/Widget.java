@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.17 2002-11-27 02:33:44 mvdb Exp $
+ $Id: Widget.java,v 1.18 2002-11-28 12:21:51 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.17 2002-11-27 02:33:44 mvdb Exp $
+ * @version $Id: Widget.java,v 1.18 2002-11-28 12:21:51 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -74,6 +74,7 @@ public abstract class Widget
     private boolean skip = false;
     
     protected Object value;
+    protected Object previousValue;
     
     private ArrayList rules;
     private ApplicationPart part;
@@ -416,10 +417,19 @@ public abstract class Widget
         return this.value;
     }
     
+    public Object getPreviousValue()
+    {
+        return this.previousValue;
+    }
+    
     public void setValue(Object value)
     {
+        this.previousValue = this.value;
         this.value = value;
-        getPart().refreshAllWidgets();
+        if (initialized)
+        {
+            refresh();
+        }
     }
     
     /**
