@@ -1,5 +1,5 @@
 /*
-   $Id: ChangeViewRule.java,v 1.1 2004-03-23 16:16:21 mvdb Exp $
+   $Id: ChangeViewRule.java,v 1.2 2004-06-30 09:21:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,7 +29,7 @@ import org.xulux.rules.Rule;
  * This is to test if dynamic viewchanges actually work.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ChangeViewRule.java,v 1.1 2004-03-23 16:16:21 mvdb Exp $
+ * @version $Id: ChangeViewRule.java,v 1.2 2004-06-30 09:21:23 mvdb Exp $
  */
 public class ChangeViewRule extends Rule {
 
@@ -51,18 +51,28 @@ public class ChangeViewRule extends Rule {
      * @see org.xulux.rules.IRule#post(org.xulux.core.PartRequest)
      */
     public void post(PartRequest request) {
-        Widget w = request.getWidget("DomTree");
-        String view = w.getProperty("contentview");
-        if (view == null || view.endsWith("SimpleDOMView")) {
-            request.getWidget().setProperty("text", "SimpleDOMView");
-            w.setLazyProperty("contentview", ToStringView.class.getName());
-            ((IContentWidget) w).contentChanged();
-        } else {
-            request.getWidget().setProperty("text", "ToStringView");
-            w.setLazyProperty("contentview", SimpleDOMView.class.getName());
-            ((IContentWidget) w).contentChanged();
+        if (request.getWidget().getName().equals("ChangeView")) {
+            Widget w = request.getWidget("DomTree");
+            String view = w.getProperty("contentview");
+            if (view == null || view.endsWith("SimpleDOMView")) {
+                request.getWidget().setProperty("text", "SimpleDOMView");
+                w.setLazyProperty("contentview", ToStringView.class.getName());
+                ((IContentWidget) w).contentChanged();
+            } else {
+                request.getWidget().setProperty("text", "ToStringView");
+                w.setLazyProperty("contentview", SimpleDOMView.class.getName());
+                ((IContentWidget) w).contentChanged();
+            }
+            w.refresh();
+        } else if (request.getWidget().getName().equals("enabletree")) {
+            Widget w = request.getWidget("DomTree");
+            w.setEnable(!w.isEnabled());
+            if (w.isEnabled()) {
+                request.getWidget().setProperty("text", "Disable Tree");
+            } else {
+                request.getWidget().setProperty("text", "Enable Tree");
+            }
         }
-        w.refresh();
 //        w.refresh();
     }
 
