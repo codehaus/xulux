@@ -1,5 +1,5 @@
 /*
-   $Id: BeanFieldTest.java,v 1.1 2004-04-14 14:16:11 mvdb Exp $
+   $Id: BeanFieldTest.java,v 1.2 2004-10-20 17:28:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,21 +19,26 @@ package org.xulux.dataprovider.bean;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
-import org.xulux.dataprovider.Parameter;
-import org.xulux.dataprovider.ParameterType;
-import org.xulux.dataprovider.ParameteredBean;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.xulux.core.XuluxContext;
+import org.xulux.dataprovider.IDataProvider;
+import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
+import org.xulux.dataprovider.Parameter;
+import org.xulux.dataprovider.ParameterType;
+import org.xulux.dataprovider.ParameteredBean;
 
 /**
  * Test the beanfield class intensively, since it sucks to
  * debug too much..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van dn Bemt</a>
- * @version $Id: BeanFieldTest.java,v 1.1 2004-04-14 14:16:11 mvdb Exp $
+ * @version $Id: BeanFieldTest.java,v 1.2 2004-10-20 17:28:59 mvdb Exp $
  */
 public class BeanFieldTest extends TestCase {
 
@@ -208,6 +213,16 @@ public class BeanFieldTest extends TestCase {
         assertEquals("test", field.getValue(bean));
         field.setValue(bean, "test1");
         assertEquals("test1", field.getValue(bean));
+    }
+    
+    public void testStaticBean() {
+      	System.out.println("testStaticBean");
+        IDataProvider provider = XuluxContext.getDictionary().getDefaultProvider();
+        IMapping mapping = provider.getMapping(StaticFieldBean.class.getName());
+        IField field = mapping.getField("getContent");
+        Object value = field.getValue(null);
+        assertEquals(true,  value instanceof List);
+        assertEquals(3, ((List) value).size());
     }
 
 }

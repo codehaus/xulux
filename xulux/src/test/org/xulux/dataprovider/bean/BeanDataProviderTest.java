@@ -1,5 +1,5 @@
 /*
-   $Id: BeanDataProviderTest.java,v 1.2 2004-04-22 12:59:02 mvdb Exp $
+   $Id: BeanDataProviderTest.java,v 1.3 2004-10-20 17:28:59 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -43,7 +43,7 @@ import org.xulux.dataprovider.RecursiveBean;
  * how xulux handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanDataProviderTest.java,v 1.2 2004-04-22 12:59:02 mvdb Exp $
+ * @version $Id: BeanDataProviderTest.java,v 1.3 2004-10-20 17:28:59 mvdb Exp $
  */
 public class BeanDataProviderTest extends TestCase {
 
@@ -71,6 +71,7 @@ public class BeanDataProviderTest extends TestCase {
     /**
      * Tests the initialization of the dictaionary from an dictionary
      * file
+     * @todo Fix this.. There needs to be 4, but 18 are returned!
      */
     public void testInitialize() {
         System.out.println("testInitialize");
