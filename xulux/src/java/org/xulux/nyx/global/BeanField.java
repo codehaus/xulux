@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.9 2003-07-15 00:55:14 mvdb Exp $
+ $Id: BeanField.java,v 1.10 2003-07-15 01:28:16 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.9 2003-07-15 00:55:14 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.10 2003-07-15 01:28:16 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -166,20 +166,28 @@ public class BeanField implements IField
         }
         try
         {
-            this.changeMethod.invoke(bean, new Object[]{value});
+            if (this.realField != null) {
+                // gets the real value to get
+                // since this field is just the parent..
+                Class retType = getMethod().getReturnType();
+                BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
+                Object realBean = getMethod().invoke(bean, getArgs());
+                IField field = mapping.getField(realField);
+                field.setValue(realBean, value);
+            } else {
+                this.changeMethod.invoke(bean, new Object[]{value});
+            }
             success = true;
         }
         catch (IllegalAccessException e)
         {
-            if (log.isTraceEnabled())
-            {
+            if (log.isTraceEnabled()) {
                 log.trace("Exception occured ",e);
             }
         }
         catch (InvocationTargetException e)
         {
-            if (log.isTraceEnabled())
-            {
+            if (log.isTraceEnabled()) {
                 log.trace("Exception occured ",e);
             }
         }
@@ -205,7 +213,7 @@ public class BeanField implements IField
                 Class retType = getMethod().getReturnType();
                 BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
                 IField field = mapping.getField(realField);
-                return field.getValue(this.method.invoke(bean, getArgs()));
+                return field.getValue(getMethod().invoke(bean, getArgs()));
             }
             else {
                 return this.method.invoke(bean, getArgs());
