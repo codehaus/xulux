@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.26 2003-08-07 09:54:28 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.27 2003-08-29 01:02:21 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,6 +56,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.util.NyxEventQueue;
+import org.xulux.nyx.swing.widgets.Button;
 import org.xulux.nyx.swing.widgets.CheckBox;
 
 /**
@@ -65,7 +67,7 @@ import org.xulux.nyx.swing.widgets.CheckBox;
  * Also if a user closes the window, widget.destroy should be called
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.26 2003-08-07 09:54:28 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.27 2003-08-29 01:02:21 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -98,6 +100,8 @@ implements FocusListener, ActionListener, ItemListener
         {
             return;
         }
+        NyxEventQueue q = NyxEventQueue.getInstance();
+        q.holdEvents(false);
         started();
     }
 
@@ -115,9 +119,9 @@ implements FocusListener, ActionListener, ItemListener
         {
             return;
         }
-        if (accepted(widget)) {
-            completed();
-        }
+        NyxEventQueue q = NyxEventQueue.getInstance();
+        q.holdEvents(true);
+        q.holdAccepted(this);
     }
 
     /**
@@ -133,6 +137,18 @@ implements FocusListener, ActionListener, ItemListener
         }
         if (widget.isRefreshing()) {
             return;
+        }
+        NyxEventQueue q = NyxEventQueue.getInstance();
+        if (widget instanceof Button) {
+            String cancel = widget.getProperty("defaultaction");
+            boolean isCancel = (cancel!=null)?cancel.equalsIgnoreCase("cancel"):false;
+            if (isCancel) {
+                // drop all events and accepted in the event queue..
+                q.clearAccepted();
+                q.clearQueue();
+            }
+            // free event queue.
+            q.holdEvents(false);
         }
         if (accepted(widget)) {
             completed();
@@ -157,6 +173,8 @@ implements FocusListener, ActionListener, ItemListener
             return;
         }
         boolean refresh = false;
+        // reset the hold events to process previous events..
+        NyxEventQueue.getInstance().holdEvents(false);
         if (widget instanceof CheckBox) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 widget.setValue("true");

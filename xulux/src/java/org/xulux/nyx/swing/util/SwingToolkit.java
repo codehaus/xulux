@@ -1,5 +1,5 @@
 /*
- $Id: SwingToolkit.java,v 1.2 2003-08-28 23:28:13 mvdb Exp $
+ $Id: SwingToolkit.java,v 1.3 2003-08-29 01:02:21 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,7 +45,6 @@
  */
 package org.xulux.nyx.swing.util;
 
-import java.awt.AWTEvent;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
@@ -55,14 +54,14 @@ import org.xulux.nyx.gui.NYXToolkit;
  * The swing toolkit...
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingToolkit.java,v 1.2 2003-08-28 23:28:13 mvdb Exp $
+ * @version $Id: SwingToolkit.java,v 1.3 2003-08-29 01:02:21 mvdb Exp $
  */
 public class SwingToolkit extends NYXToolkit {
     /**
      * Holds the event queue for nyx..
      */
     protected NyxEventQueue eventQueue;
-    private static boolean initialized = true;
+    private static boolean initialized = false;
 
     /**
      * 
@@ -84,30 +83,10 @@ public class SwingToolkit extends NYXToolkit {
         if (initialized) {
             return;
         }
-        System.out.println("Initializing Swing...");
         EventQueue systemQueue = 
             Toolkit.getDefaultToolkit().getSystemEventQueue();
         this.eventQueue = new NyxEventQueue();
         systemQueue.push(this.eventQueue);
-        long eventMask =
-            AWTEvent.ACTION_EVENT_MASK
-                + AWTEvent.ADJUSTMENT_EVENT_MASK
-                + AWTEvent.COMPONENT_EVENT_MASK
-                + AWTEvent.FOCUS_EVENT_MASK
-                + AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK
-                + AWTEvent.HIERARCHY_EVENT_MASK
-                + AWTEvent.INPUT_METHOD_EVENT_MASK
-                + AWTEvent.INVOCATION_EVENT_MASK
-                + AWTEvent.ITEM_EVENT_MASK
-                + AWTEvent.KEY_EVENT_MASK
-                + AWTEvent.MOUSE_EVENT_MASK
-                + AWTEvent.MOUSE_MOTION_EVENT_MASK
-                + AWTEvent.PAINT_EVENT_MASK
-                + AWTEvent.TEXT_EVENT_MASK
-                + AWTEvent.WINDOW_EVENT_MASK;
-        Toolkit.getDefaultToolkit().addAWTEventListener(
-            this.eventQueue,
-            eventMask);
         initialized = true;
     }
 

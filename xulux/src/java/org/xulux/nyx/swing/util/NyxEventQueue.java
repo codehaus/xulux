@@ -1,5 +1,5 @@
 /*
- $Id: NyxEventQueue.java,v 1.1 2003-08-28 23:28:13 mvdb Exp $
+ $Id: NyxEventQueue.java,v 1.2 2003-08-29 01:02:21 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,29 +47,44 @@ package org.xulux.nyx.swing.util;
 
 import java.awt.AWTEvent;
 import java.awt.EventQueue;
-import java.awt.event.AWTEventListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.xulux.nyx.gui.NyxListener;
 
 /**
  * The nyx eventqueue..
+ * It is there to store events when the queue is on hold 
+ * (for now no events have been seen yet, but you never know).
+ * It also fires of the accepted and completed methods in the listener
+ * so we are eg able to process the cancel button without actually
+ * doing rule processing..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxEventQueue.java,v 1.1 2003-08-28 23:28:13 mvdb Exp $
+ * @version $Id: NyxEventQueue.java,v 1.2 2003-08-29 01:02:21 mvdb Exp $
  */
-public class NyxEventQueue extends EventQueue implements AWTEventListener{
+public class NyxEventQueue extends EventQueue {
     
-    ArrayList queue;
+    private ArrayList queue;
+    private boolean holdEvents;
+    private static NyxEventQueue instance;
+    private ArrayList accepted;
+    
     /**
-     * 
+     * Creates an instance of the event queue. 
      */
     public NyxEventQueue() {
         super();
-        System.out.println("Eventqueue created..");
-        //queue = new ArrayList();
+        instance = this;
     }
     
+    /**
+     * 
+     * @return the instance created by the SwingToolkit.
+     */    
+    public static NyxEventQueue getInstance() {
+        return instance;
+    }
 
     /**
      * @see java.awt.EventQueue#postEvent(java.awt.AWTEvent)
@@ -79,30 +94,94 @@ public class NyxEventQueue extends EventQueue implements AWTEventListener{
         super.postEvent(theEvent);
     }
 
-
-    /**
-     * @see java.awt.event.AWTEventListener#eventDispatched(java.awt.AWTEvent)
-     */
-    public void eventDispatched(AWTEvent event) {
-        if (!(event instanceof MouseEvent)) { 
-            System.out.println("dispatch : "+event);
-        }
-        if (event instanceof KeyEvent) {
-            KeyEvent ke = (KeyEvent)event;
-            if (ke.getKeyCode() == 40) {
-                System.out.println("Keycode 40 start debugging!");
-            }
-        } 
-    }
-
     /**
      * @see java.awt.EventQueue#dispatchEvent(java.awt.AWTEvent)
      */
     protected void dispatchEvent(AWTEvent event) {
-        if (!(event instanceof MouseEvent)) { 
-            System.out.println("dispatch : "+event);
+        if (holdEvents) {
+            // queue the event..
+            if (queue == null) {
+                queue = new ArrayList();
+            }
+            queue.add(event);
+        } else {
+            // do a normal dispatch
+            super.dispatchEvent(event);
         }
-        super.dispatchEvent(event);
+    }
+    
+    /**
+     * Process the events that are queued when the hold events
+     * status changes..
+     * This will call super.dispatchEvent to prevent misunderstandig
+     * of holdEventsCalled..
+     */
+    private void processQueuedEvents() {
+        if (queue == null || queue.size() == 0) {
+            return;
+        }
+        for (int i = 0; i < queue.size(); i++) {
+            super.dispatchEvent((AWTEvent)queue.get(i));
+        }
+        queue = null;
+    }
+    
+    /**
+     * 
+     * @return the events that are hold up to now..
+     */
+    public List getEventHoldQueue() {
+        return queue;
+    }
+    
+    /**
+     * Holds the events so we can see what events are 
+     * @param hold
+     */
+    public void holdEvents(boolean hold) {
+        if (this.holdEvents && !hold) {
+            processAccepted();
+            processQueuedEvents();
+        }
+        this.holdEvents = hold;
+    }
+    
+    private void processAccepted() {
+        if (accepted == null || accepted.size() == 0) {
+            return;
+        }
+        for (int i = 0; i < accepted.size(); i++) {
+            NyxListener listener = ((NyxListener)accepted.get(i));
+            if (listener.accepted(listener.getWidget())) {
+                listener.completed();
+            }
+        }
+        accepted = null;
+    }
+        
+        
+
+    /**
+     * @param listener
+     * @param widget
+     */
+    public void holdAccepted(NyxListener listener) {
+        if (accepted == null) {
+            accepted = new ArrayList();
+        }
+        accepted.add(listener);
+    }
+    
+    /**
+     * Clears out the accepted queue.
+     *
+     */
+    public void clearAccepted() {
+        accepted = null;
+    }
+    
+    public void clearQueue() {
+        queue = null;
     }
 
 }
