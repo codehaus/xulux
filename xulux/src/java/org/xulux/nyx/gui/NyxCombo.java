@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.1 2003-05-21 11:22:52 mvdb Exp $
+ $Id: NyxCombo.java,v 1.2 2003-07-17 02:49:51 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,11 +47,15 @@ package org.xulux.nyx.gui;
 
 import java.util.ArrayList;
 
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
+
 /**
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.1 2003-05-21 11:22:52 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.2 2003-07-17 02:49:51 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 {
@@ -221,9 +225,22 @@ public abstract class NyxCombo extends Widget
     
     public void setValue(Object object)
     {
-        this.previousValue = this.value;
-        this.value = object;
-        
+        if (getField() == null) {
+            this.previousValue = this.value;
+            this.value = object;
+        } else {
+            BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+            IField field = map.getField(getField());
+            Object currentValue =  field.getValue(getPart().getBean());
+            if (currentValue != null && currentValue != object) {
+                this.previousValue = currentValue;
+                field.setValue(getPart().getBean(),object);
+                this.value = object;
+            }
+            if (this.value == null) {
+                this.value = object;
+            }
+        }
         if (initialized)
         {
             refresh();
