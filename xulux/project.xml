@@ -148,6 +148,7 @@
     <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
     <!-- Unit test cases -->
     <unitTest>
+      <directory>src/test</directory>
       <includes>
         <include>**/*Test.java</include>
       </includes>
