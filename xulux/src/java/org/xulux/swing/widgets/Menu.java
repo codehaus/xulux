@@ -1,5 +1,5 @@
 /*
-   $Id: Menu.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: Menu.java,v 1.4 2004-10-30 11:21:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,7 +27,7 @@ import org.xulux.gui.Widget;
  * The menu widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Menu.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: Menu.java,v 1.4 2004-10-30 11:21:02 mvdb Exp $
  */
 public class Menu extends ContainerWidget {
 
@@ -120,9 +120,7 @@ public class Menu extends ContainerWidget {
      * @see org.xulux.gui.ContainerWidget#addToParent(org.xulux.gui.Widget)
      */
     public void addToParent(Widget widget) {
-        System.out.println("Widget : " + widget);
         if (widget.getNativeWidget() instanceof JMenuItem) {
-            System.out.println("menu item....");
             menu.add((JMenuItem)widget.getNativeWidget());
         } else {
             System.err.println("NOT A MENU ITEM");
