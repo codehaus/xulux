@@ -1,5 +1,5 @@
 /*
-   $Id: MockLayout.java,v 1.1 2004-05-18 00:01:14 mvdb Exp $
+   $Id: MockLayout.java,v 1.2 2004-05-25 16:06:44 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -10,7 +10,7 @@
        http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
+   distributed unprder the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
@@ -29,7 +29,7 @@ import org.xulux.gui.Widget;
  * A mock layoutmanager.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MockLayout.java,v 1.1 2004-05-18 00:01:14 mvdb Exp $
+ * @version $Id: MockLayout.java,v 1.2 2004-05-25 16:06:44 mvdb Exp $
  */
 public class MockLayout implements IXuluxLayout, LayoutManager {
 

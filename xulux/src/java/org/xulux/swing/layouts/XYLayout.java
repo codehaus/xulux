@@ -1,5 +1,5 @@
 /*
-   $Id: XYLayout.java,v 1.6 2004-05-24 18:12:34 mvdb Exp $
+   $Id: XYLayout.java,v 1.7 2004-05-25 16:06:44 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -40,7 +40,7 @@ import org.xulux.gui.Widget;
  * on first entry it doesn't do the bounds restore..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.6 2004-05-24 18:12:34 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.7 2004-05-25 16:06:44 mvdb Exp $
  */
 public class XYLayout extends SwingLayoutAbstract implements LayoutManager2, Serializable {
     /**
@@ -158,9 +158,14 @@ public class XYLayout extends SwingLayoutAbstract implements LayoutManager2, Ser
         Rectangle r = widget.getRectangle().getRectangle();
         if (r.width <= 0 && r.height <= 0) {
             Dimension d = component.getPreferredSize();
-            r.width = d.width;
-            r.height = d.height;
-            widget.getRectangle().setSize(r.width, r.height);
+            if (d != null) {
+              // prevent crashes on bad layoutmanagers.
+              // a layoutmanager which returns null on preferredLayoutSize
+              // would result in a crash here, preventing the a further layout..
+              r.width = d.width;
+              r.height = d.height;
+              widget.getRectangle().setSize(r.width, r.height);
+            }
         }
         return r;
     }

@@ -1,5 +1,5 @@
 /*
-   $Id: XYLayoutTest.java,v 1.2 2004-05-18 00:01:14 mvdb Exp $
+   $Id: XYLayoutTest.java,v 1.3 2004-05-25 16:06:44 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -39,7 +39,9 @@ import org.xulux.core.ApplicationPart;
 import org.xulux.core.XuluxContext;
 import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.Widget;
+import org.xulux.gui.WidgetFactory;
 import org.xulux.guidriver.XuluxGuiDriver;
+import org.xulux.guidriver.defaults.GuiDefaults;
 import org.xulux.swing.widgets.Combo;
 import org.xulux.swing.widgets.Label;
 import org.xulux.swing.widgets.Window;
@@ -49,7 +51,7 @@ import org.xulux.swing.widgets.Window;
  * A class to to test the layoutmanagers for swing
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayoutTest.java,v 1.2 2004-05-18 00:01:14 mvdb Exp $
+ * @version $Id: XYLayoutTest.java,v 1.3 2004-05-25 16:06:44 mvdb Exp $
  */
 public class XYLayoutTest extends TestCase
 {
@@ -122,7 +124,7 @@ public class XYLayoutTest extends TestCase
         assertEquals(150, widget.getRectangle().getWidth());
         assertEquals(250, widget.getRectangle().getHeight());
     }
-
+    
     /**
      * Test the getRectangle Swing method
      */
@@ -451,8 +453,6 @@ public class XYLayoutTest extends TestCase
         frame.pack();
         Widget bC = part.getWidget("Button:Save");
         JComponent nC = (JComponent) bC.getNativeWidget();
-        System.out.println("Preferred size : "  + nC.getPreferredSize());
-        System.out.println("Location : " + nC.getLocation());
     }
 
 
@@ -494,6 +494,24 @@ public class XYLayoutTest extends TestCase
         layout.setParent(window);
         assertEquals(window, layout.getParent());
     }    
+    
+    /**
+     * See the source for more comments on this issue
+     */
+    public void testGetRectangleNPE() {
+        System.out.println("testGetRectangleNPE");
+        GuiDefaults defaults = XuluxContext.getGuiDefaults();
+        defaults.registerLayout("mock", false, MockLayout.class.getName(), "swing");
+        Widget widget = WidgetFactory.getWidget("panel", "panel");
+        widget.setProperty("layout", "mock");
+        //widget.setSize(100, 110);
+        JComponent component = (JComponent) widget.getNativeWidget();
+        XYLayout layout = new XYLayout();
+        component.setPreferredSize(null);
+        Rectangle rectangle = layout.getRectangle(widget, component);
+        assertEquals(0, rectangle.x);
+        assertEquals(0, rectangle.y);
+    }
     
     public static void main(String[] args) {
         new XYLayoutTest("LayoutTest").testNativeGetLayoutSize();
