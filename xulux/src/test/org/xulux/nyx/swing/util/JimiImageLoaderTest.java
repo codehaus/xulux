@@ -1,5 +1,5 @@
 /*
- $Id: JimiImageLoaderTest.java,v 1.1 2003-12-15 03:28:53 mvdb Exp $
+ $Id: JimiImageLoaderTest.java,v 1.2 2003-12-15 12:03:23 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,7 +47,6 @@ package org.xulux.nyx.swing.util;
 
 import java.io.File;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.StringTokenizer;
@@ -58,7 +57,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: JimiImageLoaderTest.java,v 1.1 2003-12-15 03:28:53 mvdb Exp $
+ * @version $Id: JimiImageLoaderTest.java,v 1.2 2003-12-15 12:03:23 mvdb Exp $
  */
 public class JimiImageLoaderTest extends TestCase {
 
@@ -88,8 +87,8 @@ public class JimiImageLoaderTest extends TestCase {
         URL jimUrl = loader.getResource(JimiImageLoader.class.getName());
         Class clz = loader.loadClass("org.xulux.nyx.swing.util.JimiImageLoader");
         Object obj = clz.newInstance();
-        Method method = obj.getClass().getMethod("isUsable", null);
-        assertFalse(((Boolean)method.invoke(obj, null)).booleanValue());
+        ImageLoaderInterface ili = (ImageLoaderInterface) obj;
+        assertFalse(ili.isUsable());
     }
     /**
      * Test the getImage
