@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Features</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Features">
+  <p>
+    This package (for now) is completely based on Swing from Sun,
+    since that is the GUI platform my focus is on during my day job.<br>
+    As stated on the <a href="index.html">home page</a>, there
+    is seperation between the data, view and the business logic.
+    This sepration is exposed for the programming, however to connect
+    the different parts together, there needs to be some kind of
+    configuration, which is currently handled in a messy properties file.<br>
+    The seperation makes it easy to devide tasks and set the priorities
+    in a project to the way they should be : first the data model, second
+    second the business logic and if that is working correctly a little
+    bit of focus on the gui ;)<br>
+  </p>
+</section>
+
+<section name="Data Driven">
+  <p>
+    The system in driven by data beans, so there is no involvment at all
+    from NYX with regards to datasrouce (don't care which database,
+    drivers, persistence layer, etc), as long as they follow bean rules
+    (simple setter and getters), based on an interface or superclass of
+    whatever form. Since most applications actually adopts
+    to this model, it actually is a pretty generic way of approach, without
+    having to leave your current model for yet another tool ;)
+    <p>The exposure of the data, will be provided to the business logic by use
+    of <i>prefixes</i>. A prefix is a logical identifier for the bean.<br>
+    One bean can have unlimited prefixes.<br>
+    So eg we have a bean called Person we can just give it the prefix Person,
+    SmallPerson, BigPerson, which all connect to the same data bean.
+    If you want to get the street from SmallPerson, you just have to 
+    use SmallPerson.street in the configuration. 
+  </p>
+</section>
+
+<section name="Business Logic">
+  <p>
+    Business logic is provided by rules. Rules are stored in a RuleSet of
+    a certain type. Default rules will be provided for the following 
+    functionality :
+    <ul>
+      <li>
+        <b>Pre and Post rules</b>
+        Every view can have pre or post rules added. 
+      </li>
+      <li>
+        <b>Field masks</b><br>
+        A mask can check on the rules while typing, leaving the field or
+        on leaving the form.
+      </li>
+      <li>
+        <b>Inter related field rules</b><br>
+        The state of one field or more fields will trigger a change in state 
+        on another field or other fields.
+      </li>
+      <li>
+        <b>Form rules</b><br>
+        This wil take care of processing the form after all other
+        validations are complete. So this will be the rule to actually
+        save the bean. Especially this rule will make integration in 
+        currently running system easy, since you can just copy & paste
+        the code that saves the data.
+      </li>
+      <li>
+        <b>Presentation rules</b><br>
+        These rules will create a for the user visual representation of a
+        rule. Say a rule is that a password should be typed and they should
+        be matched for correct password storage, you can add a an extra
+        field by the view, so people have an extra field to re-type their 
+        password.
+      </li>
+    <ul>
+  </p>
+</section>
+
+<section name="Automatic view creation">
+  <p>
+    All views are created by specific factories. The factories take the 
+    data bean as a parameter, the name of the view (which has a definitition
+    in the configuration). For every view there will be a base object, where
+    specific implementation can derive from.<br>
+    As an example for forms there is an abstract class called BaseForm 
+    (the base object) and the default implementation of a form as the class
+    SimpleForm, a form in his turn consist for areas<br>
+    The fieldarea is the placeholder for all the fields that need to be present
+    on the form (either via the data model or/and rules set and there is a 
+    button area where default actions are provided to eg save, cancel, delete,
+    etc.
+  </p>
+</section>
+
+</body>
+
+</document>

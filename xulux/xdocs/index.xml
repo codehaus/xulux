@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - "Not Yet Xulux"</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Introduction to NYX">
+<p>
+  NYX provides an easy way to display dynamicaly 
+  generated Swing components, driven by data.
+  The main focus will be creation forms and tables, which
+  are the components most widely used in data driven applications.
+  The main goal is to get rid of the horrible code that forms and
+  tables seems to be producing and to completely seperate
+  data, view and business logic. You can learn a bit more about this 
+  on the <a href="features.html">features</a> page. 
+</p>
+</section>
+<section name="What's up with the name??">
+  <p>
+  My main goal (not in life btw ;) is to get xulux up and running, 
+  but I just haven't found the time yet to make time available
+  to make the "perfect" solution, I started to solve some immediate 
+  problems. Since the project could be usefull for the xulux project 
+  in terms of learning experience (at least for me), it just isn't 
+  xulux yet. To not mess up a project with higher goals, my opinion
+  is that it also doesn't belong at that codebase.
+  So there was the name <b>Not Yet Xulux</b>, in short <b>NYX</b>.<br>
+  NYX, pronounced with a dutch tongue in Holland, actually translates
+  to the enlgish word <b>nothing</b> (which I hope this will not end up 
+  as that ;)).
+  According to the website <a href="http://homepage.mac.com/cparada/GML/Nyx.html>Greek Methology Link</a> Nyx is this :
+  </p>
+  <p>
+  <b>Nyx is Night, a powerful goddess whose dark light falls from the stars, and who dictates not only to men but also to gods. Even Zeus does not wish to upset Night</b>
+  </p>
+  <p> 
+    Very appropiate I must say ;) I refrain myself from explenation of this
+    appropiate statement for now ;)
+  </p>
+</section>
+</body>
+</document>
