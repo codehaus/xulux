@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.26 2003-11-13 15:20:57 mvdb Exp $
+ $Id: Table.java,v 1.27 2003-11-17 10:28:59 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -85,7 +85,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.26 2003-11-13 15:20:57 mvdb Exp $
+ * @version $Id: Table.java,v 1.27 2003-11-17 10:28:59 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
         
@@ -292,6 +292,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                 lockedTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 lockedTable.getTableHeader().setReorderingAllowed(false);
                 ((NyxTableColumnModel)table.getColumnModel()).removeLockedColumns();
+                ((NyxTableColumnModel)table.getColumnModel()).removeUnlockedColumns();
                 lockedTable.setPreferredScrollableViewportSize(columnModel.getLockedColumnWidth());
 //                System.out.println("ColumnModel : "+columnModel.getLockedColumnWidth());
                 scrollPane.setRowHeaderView(lockedTable);
@@ -303,7 +304,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                 lockedTable.getSelectionModel().addListSelectionListener(lockedListener);
                 table.getSelectionModel().addListSelectionListener(lockedListener);
             } else {
-            // at least try to remove the listener.
+                // at least try to remove the listener.
                 if (lockedListener != null) {
                    if (lockedTable != null) {
                        lockedTable.getSelectionModel().removeListSelectionListener(lockedListener);

@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableColumn.java,v 1.1 2003-11-12 02:53:34 mvdb Exp $
+ $Id: NyxTableColumn.java,v 1.2 2003-11-17 10:28:59 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,9 @@
  */
 package org.xulux.nyx.swing.models;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -52,17 +55,19 @@ import javax.swing.table.TableColumn;
 import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.swing.widgets.Table;
 
 /**
  * Override the standard TableColumn, so we can use instances of widgets to set columns
  * , instead of dynamically creating it them all the time.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumn.java,v 1.1 2003-11-12 02:53:34 mvdb Exp $
+ * @version $Id: NyxTableColumn.java,v 1.2 2003-11-17 10:28:59 mvdb Exp $
  */
 public class NyxTableColumn extends TableColumn {
     
     protected Widget widget;
+    protected NyxTableColumnModel model;
     
     /**
      * 
@@ -71,8 +76,39 @@ public class NyxTableColumn extends TableColumn {
         super();
     }
     
+    /**
+     * 
+     * @param widget - the widget the create the column for.
+     * @widgetproperty resizable - specifies if the widget is resizable in a table or not
+     */
     public NyxTableColumn(Widget widget) {
         this.widget = widget;
+        addPropertyChangeListener(new PropertyChangeListener() {
+
+            public void propertyChange(PropertyChangeEvent evt) {
+                String property = evt.getPropertyName();
+                if ("preferredWith".equals(property) || "width".equals(property)) {
+                    // do something..
+                    if (isLocked()) {
+                        if (getModel() != null && !getModel().isInitializing()) { 
+                            int chgValue = ((Integer)evt.getNewValue()).intValue() - ((Integer)evt.getOldValue()).intValue();
+                            int resultValue = (int)getModel().getLockedColumnWidth().getWidth()+chgValue;
+                            getModel().setLockedColumnWidth(resultValue);
+                            Table table = (Table)NyxTableColumn.this.widget.getParent();
+                            table.getLockedJTable().setPreferredScrollableViewportSize(getModel().getLockedColumnWidth());
+                        }
+                    }
+                }
+            }
+            
+        });
+        String resizable = widget.getProperty("resizable");
+        if ("false".equals(resizable)) {
+            setResizable(false);
+        } else {
+            // we default to resizable.. 
+            setResizable(true);
+        }
         setHeaderValue(widget.getProperty("text"));
         setPreferredWidth(widget.getRectangle().getWidth());
         setWidth(widget.getRectangle().getWidth());
@@ -116,6 +152,22 @@ public class NyxTableColumn extends TableColumn {
      */
     public boolean isLocked() {
         return BooleanUtils.toBoolean(widget.getProperty("locked"));
+    }
+    
+    /**
+     * Set the model for easy access to the model.
+     * @param model - the nyx columnmodel.
+     */
+    public void setModel(NyxTableColumnModel model) {
+        this.model = model;
+    }
+    
+    /**
+     * 
+     * @return - the nyx column model.
+     */
+    public NyxTableColumnModel getModel() {
+        return this.model;
     }
 
 }

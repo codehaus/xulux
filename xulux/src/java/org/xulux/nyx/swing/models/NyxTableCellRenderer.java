@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableCellRenderer.java,v 1.3 2003-11-13 00:20:48 mvdb Exp $
+ $Id: NyxTableCellRenderer.java,v 1.4 2003-11-17 10:28:59 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -45,12 +45,10 @@
  */
 package org.xulux.nyx.swing.models;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
@@ -63,7 +61,7 @@ import org.xulux.nyx.swing.widgets.Table;
  * The cellrenderer takes care of the look and content of a cell.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellRenderer.java,v 1.3 2003-11-13 00:20:48 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.4 2003-11-17 10:28:59 mvdb Exp $
  */
 public class NyxTableCellRenderer extends DefaultTableCellRenderer 
 {

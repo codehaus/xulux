@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableColumnModel.java,v 1.8 2003-11-13 00:20:48 mvdb Exp $
+ $Id: NyxTableColumnModel.java,v 1.9 2003-11-17 10:28:59 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.nyx.swing.widgets.Table;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumnModel.java,v 1.8 2003-11-13 00:20:48 mvdb Exp $
+ * @version $Id: NyxTableColumnModel.java,v 1.9 2003-11-17 10:28:59 mvdb Exp $
  */
 public class NyxTableColumnModel extends DefaultTableColumnModel
 {
@@ -67,6 +67,7 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
     protected Table table;
     protected NyxTableColumnModel lockedModel;
     protected int lockedColumnWidth;
+    protected boolean initializing;
     /**
      *
      */
@@ -81,6 +82,29 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
     public NyxTableColumnModel(Table table) {
         setTable(table);
         initializeColumns();
+//        addColumnModelListener(new TableColumnModelListener() {
+//
+//            public void columnAdded(TableColumnModelEvent e) {
+//                System.out.println("columnAdded : "+e);
+//            }
+//
+//            public void columnRemoved(TableColumnModelEvent e) {
+//                System.out.println("columnRemoved : "+e);
+//            }
+//
+//            public void columnMoved(TableColumnModelEvent e) {
+//                System.out.println("columnMoved : "+e);
+//            }
+//
+//            public void columnMarginChanged(ChangeEvent e) {
+//                System.out.println("columnMarginChanged : "+e);
+//            }
+//
+//            public void columnSelectionChanged(ListSelectionEvent e) {
+//                System.out.println("columnSelectionChanged : "+e);
+//            }
+//            
+//        });
     }
 
     public void setTable(Table table) {
@@ -88,6 +112,7 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
     }
 
     private void initializeColumns() {
+        initializing = true;
         int maxHeight = 0;
         List list = table.getChildWidgets();
         if (list == null) {
@@ -101,6 +126,7 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
                 continue;
             }
             NyxTableColumn column = new NyxTableColumn(widget);
+            column.setModel(this);
             column.setModelIndex(i);
             column.setCellRenderer(new NyxTableCellRenderer(widget,table));
             //column.setPreferredWidth(100);
@@ -114,12 +140,12 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
         }
         //System.out.println("columns : "+getColumnCount());
         table.setProperty("rowHeight", String.valueOf(maxHeight));
+        initializing = false;
     }
     
     /**
-     * Checks to see if this columnModel has any columns present which are locked.
      * 
-     * @return
+     * @return if table has columns that are locked.
      */
     public boolean hasLockedColumns() {
         boolean lockedColumns = false;
@@ -160,15 +186,32 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
     }
     
     /**
+     * Removes the unlocked columns from the main table.
+     * Call this one with care, since when there are no locks
+     * all rows will be deleted.
+     * Also wize to call this AFTER the removeLockedColumns.
+     */
+    public void removeUnlockedColumns() {
+        for (int i = 0; i < lockedModel.getColumnCount(); i++) {
+            if (i >= getColumnCount()) {
+                // we are finished..
+                return;
+            } 
+            NyxTableColumn column = (NyxTableColumn)lockedModel.getColumn(i);
+            if (!column.isLocked()) {
+                lockedModel.removeColumn(column);
+                i--;
+            }
+        }
+    }
+    /**
      * Removes locked columns from the current list of columns.
      */
     public void removeLockedColumns() {
         for (int i = 0; i < getColumnCount(); i++) {
             NyxTableColumn column = (NyxTableColumn)getColumn(i);
             if (column.isLocked()) {
-                System.out.println("lockedColumnWidth : "+lockedColumnWidth);
                 lockedColumnWidth+=column.getPreferredWidth();
-                System.out.println("lockedColumnWidth : "+lockedColumnWidth);
                 removeColumn(column); 
                 i--;
             }
@@ -181,7 +224,15 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
      */    
     public Dimension getLockedColumnWidth() {
         return new Dimension(lockedColumnWidth,0);
-    }    
+    }
+    
+    /**
+     * Set the columnwidth to the new value.
+     * @param width - the width
+     */
+    public void setLockedColumnWidth(int width) {
+        lockedColumnWidth = width;
+    }
     
     /**
      *
@@ -209,6 +260,14 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
     public TableColumn getColumn(int columnIndex) {
         //System.out.println("Index : "+columnIndex+","+super.getColumn(columnIndex).getModelIndex());
         return super.getColumn(columnIndex);
+    }
+    
+    /**
+     * 
+     * @return true if this component is still initializing..
+     */
+    public boolean isInitializing() {
+        return initializing;
     }
 
 }
