@@ -1,5 +1,5 @@
 /*
- $Id: NyxComboBox.java,v 1.3 2003-05-21 11:22:52 mvdb Exp $
+ $Id: NyxComboBox.java,v 1.4 2003-05-21 11:24:19 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,8 +56,8 @@ import javax.swing.JComboBox;
  * firing of all pre requests (and possibly nulling values!)
  * This prevents that situation.
  * 
- * @author Martin van den Bemt
- * @version $Id: NyxComboBox.java,v 1.3 2003-05-21 11:22:52 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: NyxComboBox.java,v 1.4 2003-05-21 11:24:19 mvdb Exp $
  */
 public class NyxComboBox extends JComboBox
 {
