@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.29 2003-09-29 12:20:23 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.30 2003-09-29 23:52:26 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.29 2003-09-29 12:20:23 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.30 2003-09-29 23:52:26 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -481,10 +481,15 @@ public class ApplicationPartHandler extends DefaultHandler
                 this.fieldPrefix = this.tempFieldPrefix;
                 this.prefix = this.tempPrefix;
                 InputStream stream = getClass().getClassLoader().getResourceAsStream(currentValue.trim());
+                if (stream == null) {
+                    if (log.isWarnEnabled()) {
+                        log.warn("IncludePart: Cannot find "+currentValue.trim());
+                    }
+                }
                 handler.setStack(this.stack);
                 handler.read(stream);
             }catch(Exception e) {
-                log.warn("Exception during processing of includePart",e);
+                log.warn("Exception during processing of includePart ",e);
             }
             currentValue = null;
             
