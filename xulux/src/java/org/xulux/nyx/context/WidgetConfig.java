@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfig.java,v 1.11 2003-12-01 02:08:21 mvdb Exp $
+ $Id: WidgetConfig.java,v 1.12 2003-12-11 19:59:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,7 +61,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.11 2003-12-01 02:08:21 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.12 2003-12-11 19:59:34 mvdb Exp $
  */
 public class WidgetConfig {
 
@@ -216,7 +216,7 @@ public class WidgetConfig {
     }
 
     /**
-     * @return the contenthandlers map or null if no contenthandlers are present 
+     * @return the contenthandlers map or null if no contenthandlers are present
      */
     public Map getContentHandlers() {
         return contentHandlers;
