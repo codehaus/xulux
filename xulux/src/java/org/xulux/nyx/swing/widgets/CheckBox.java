@@ -1,5 +1,5 @@
 /*
- $Id: CheckBox.java,v 1.2 2003-07-11 00:06:34 mvdb Exp $
+ $Id: CheckBox.java,v 1.3 2003-07-16 13:59:22 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,8 @@ import java.awt.Container;
 import javax.swing.JCheckBox;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
@@ -57,7 +59,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * The nyx to swing implementation of a checkbox
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.2 2003-07-11 00:06:34 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.3 2003-07-16 13:59:22 mvdb Exp $
  */
 public class CheckBox extends Widget {
     
@@ -115,7 +117,6 @@ public class CheckBox extends Widget {
         // the value..
         checkBox.addItemListener(this.itemListener);
         refresh();
-
     }
 
     /**
@@ -124,7 +125,14 @@ public class CheckBox extends Widget {
     public void refresh() {
         isRefreshing = true;
         initialize();
-        checkBox.setSelected(BooleanUtils.toBoolean((String)getValue()));
+        if (getProperty("text") != null) {
+            checkBox.setText(getProperty("text"));
+        }
+        if (getValue() instanceof Boolean) {
+            checkBox.setSelected(BooleanUtils.toBoolean((Boolean)getValue()));
+        }else if (getValue() instanceof String) {
+            checkBox.setSelected(BooleanUtils.toBoolean((String)getValue()));
+        }
         isRefreshing = false;
     }
 
@@ -134,4 +142,16 @@ public class CheckBox extends Widget {
     public void focus() {
         checkBox.requestFocus();
     }
+    /**
+     * @see org.xulux.nyx.gui.Widget#getValue()
+     */
+    public Object getValue() {
+        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
+        if (map != null)
+        {
+            return map.getField(getField()).getValue(getPart().getBean());
+        }
+        return super.getValue();
+    }
+
 }

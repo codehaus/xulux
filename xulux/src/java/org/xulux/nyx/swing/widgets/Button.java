@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ $Id: Button.java,v 1.4 2003-07-16 13:59:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ * @version $Id: Button.java,v 1.4 2003-07-16 13:59:22 mvdb Exp $
  */
 public class Button extends Widget
 {
@@ -113,9 +113,9 @@ public class Button extends Widget
     {
         isRefreshing = true;
         initialize();
-        if (getValue()!=null)
+        if (getProperty("text")!=null)
         {
-            button.setText(getValue().toString());
+            button.setText(getProperty("text"));
         }
         if (actionListener == null && getRules()!=null)
         {

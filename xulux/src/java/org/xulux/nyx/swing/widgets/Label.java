@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ $Id: Label.java,v 1.4 2003-07-16 13:59:22 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import org.xulux.nyx.gui.Widget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.3 2003-07-10 22:40:20 mvdb Exp $
+ * @version $Id: Label.java,v 1.4 2003-07-16 13:59:22 mvdb Exp $
  */
 public class Label extends Widget
 {
@@ -116,9 +116,9 @@ public class Label extends Widget
     public void refresh()
     {
         initialize();
-        if (getValue()!=null)
+        if (getProperty("text")!=null)
         {
-            label.setText(String.valueOf(getValue()));
+            label.setText(getProperty("text"));
         }
         else
         {
