@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableCellRenderer.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
+   $Id: NyxTableCellRenderer.java,v 1.6 2004-06-23 10:51:17 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -33,7 +33,7 @@ import org.xulux.swing.widgets.Table;
  * The cellrenderer takes care of the look and content of a cell.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellRenderer.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.6 2004-06-23 10:51:17 mvdb Exp $
  */
 public class NyxTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -101,7 +101,6 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
             //new Exception().printStackTrace(System.err);
             //(Compotable.getSelectionForeground()
             //widget.refresh();
-            setValue(value);
         }
         return this;
     }
