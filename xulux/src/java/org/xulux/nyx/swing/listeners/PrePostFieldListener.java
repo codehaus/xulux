@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.20 2003-07-23 13:14:43 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.21 2003-07-24 12:55:27 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.swing.listeners;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -64,7 +65,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.20 2003-07-23 13:14:43 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.21 2003-07-24 12:55:27 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -117,6 +118,18 @@ implements FocusListener, ActionListener, ItemListener
         if (widget instanceof Entry ||
             widget instanceof TextArea )
         {
+            // if the widget is required, a value must
+            // exist.
+            if (widget.isRequired()) {
+                Object guiValue = widget.getGuiValue();
+                if (guiValue instanceof String || guiValue == null) {
+                    if (guiValue == null || ((String)guiValue).trim().equals("")) {
+                        Toolkit.getDefaultToolkit().beep();
+                        widget.focus();
+                        return;
+                    }
+                }
+            }
             widget.setValue(widget.getGuiValue());
             // refresh the all widgets who references this field
             widget.getPart().refreshFields(widget);
@@ -125,6 +138,8 @@ implements FocusListener, ActionListener, ItemListener
     }
 
     /**
+     * TODO: Make required check for combo with the notselectedValue..
+     * 
      * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
      */
     public void actionPerformed(ActionEvent e)
@@ -169,8 +184,8 @@ implements FocusListener, ActionListener, ItemListener
                 widget.setValue("false");
                 refresh = true;
             }
-            if (log.isWarnEnabled()) {
-                log.warn("Checkbox clicked on Widget : "+
+            if (log.isTraceEnabled()) {
+                log.trace("Checkbox clicked on Widget : "+
                    widget.getName()+" value: "+
                        widget.getValue());
             }
