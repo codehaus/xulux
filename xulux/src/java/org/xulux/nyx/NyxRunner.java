@@ -1,5 +1,5 @@
 /*
- $Id: NyxRunner.java,v 1.2 2003-11-06 19:09:34 mvdb Exp $
+ $Id: NyxRunner.java,v 1.3 2003-11-25 22:14:10 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -54,7 +54,7 @@ package org.xulux.nyx;
  * just reference a new xml file.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxRunner.java,v 1.2 2003-11-06 19:09:34 mvdb Exp $
+ * @version $Id: NyxRunner.java,v 1.3 2003-11-25 22:14:10 mvdb Exp $
  */
 public class NyxRunner {
 
@@ -64,11 +64,23 @@ public class NyxRunner {
     public NyxRunner() {
         super();
     }
+    
+    public String test() {
+        System.out.println("test");
+        return "Test";
+    }
+    
+    public String getTest(String value) {
+        return value;
+    }
 
     /**
      * The main entry for running a nyx application from the commandline
      * @param args - the commandline arguments
      */
     public static void main(String[] args) {
+        NyxRunner runner = new NyxRunner();
+        NyxRunner ran = null;
+        ran.getTest(runner.test());
     }
 }
