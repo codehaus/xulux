@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.14 2003-11-06 19:53:13 mvdb Exp $
+ $Id: TabPanel.java,v 1.15 2003-11-18 02:33:47 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -51,6 +51,7 @@ import java.awt.Container;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,7 +66,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  *
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.14 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.15 2003-11-18 02:33:47 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
 
@@ -161,6 +162,7 @@ public class TabPanel extends ContainerWidget {
         initializeChildren();
         refresh();
         processInit();
+        new Thread(new RepaintComponent()).start();
     }
 
     /**
@@ -169,7 +171,17 @@ public class TabPanel extends ContainerWidget {
     public void refresh() {
         isRefreshing = true;
         initialize();
-        tabPanel.repaint();
+        System.out.println("ISSHOWING ?? "+tabPanel.isShowing());
+//        if (!tabPanel.isShowing()) {
+//            
+//        }
+//
+//        if (getProperty("select") != null) {
+//            int select = Integer.parseInt(getProperty("select"));
+//            tabPanel.setSelectedIndex(select);
+//        }
+//        tabPanel.validate();
+//        tabPanel.paint();
 //        System.out.println("insets : "+tabPanel.getInsets());
 //        System.out.println("size : "+tabPanel.getSize());
 //        System.out.println("preferred size : "+tabPanel.getPreferredSize());
@@ -220,6 +232,10 @@ public class TabPanel extends ContainerWidget {
                 initialFocus = String.valueOf(tabCount);
                 tabPanel.setSelectedIndex(tabCount);
             }
+//            ((JComponent)widget.getNativeWidget()).validate();
+//            ((JComponent)widget.getNativeWidget()).repaint();
+//            ((JComponent)widget.getNativeWidget()).requestFocus();
+//            tabPanel.repaint();
             tabCount++;
         } else {
             // do not yet allow any addition of other widgets.
@@ -255,6 +271,61 @@ public class TabPanel extends ContainerWidget {
      */
     public void addNyxListener(NyxListener listener) {
         // TODO
+    }
+    
+    /**
+     * Fixes painting issues with the tabPanel.
+     * Eg buttons from another panel would shine through throuhg
+     * the first panel. After selecting the panel with the shine
+     * through buttons on it, the problems would never appear again.
+     * The selection of other tabs needs to be done in seperate runnables,
+     * since else the painting doesn't complete of other components.
+     * Probably calling the listeners with fireStatChanged will do,
+     * but couldn't figure that out yet.. 
+     * 
+     * @todo : dig in this deeper, probably fixable some other way!
+     */
+    public class RepaintComponent implements Runnable{
+        private int index = 0;
+        /**
+         * @see java.lang.Runnable#run()
+         */
+        public void run() {
+            if (getPart() == null) {
+                return;
+            }
+            while (!tabPanel.isShowing());
+            tabPanel.setVisible(false);
+            int selected = tabPanel.getSelectedIndex(); 
+            for (int i = 0; i < tabPanel.getTabCount(); i++) {
+                selectIndex(i);
+            }
+            selectIndex(selected);
+            tabPanel.setVisible(true);
+            tabPanel.validate();
+            tabPanel.repaint();
+        }
+        
+        public void selectIndex(final int index) {
+            try {
+                SwingUtilities.invokeAndWait(new Runnable() {
+                                
+                    /**
+                     * @see java.lang.Runnable#run()
+                     */
+                    public void run() {
+                        tabPanel.setSelectedIndex(index);
+                    }
+                });
+            }
+            catch (Exception e) {
+                e.printStackTrace(System.out);
+            }
+        }
+        
+        
+            
+
     }
 
 }
