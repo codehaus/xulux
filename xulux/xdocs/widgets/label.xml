@@ -29,6 +29,13 @@
         </td>
       </tr>
       <tr>
+        <td>icon</td>
+        <td>swing</td>
+        <td>
+          The icon of the label. 
+        </td>
+      </tr>
+      <tr>
         <td>horizontalalignment</td>
         <td>swing</td>
         <td>

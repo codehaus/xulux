@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: LabelTest.xml,v 1.4 2003-08-03 20:53:03 mvdb Exp $ -->
+<!-- $Id: LabelTest.xml,v 1.5 2003-11-24 12:10:56 mvdb Exp $ -->
 <part name="LabelTestForm" prefix="Person">
   <field type="window" name="Window">
     <title>LabelTest</title>
@@ -47,6 +47,17 @@
 	  <field type="entry" name="use" use="lastname">
 	     <size>120,21</size>
 	     <position>120,70</position>
+	  </field>
+	  <!-- label with image -->
+	  <field type="label" name="Label:Image">
+	    <text>Label with image</text>
+	    <size>120,21</size>
+	    <position>4,90</position>
+	  </field>
+	  <field type="label" name="image">
+	     <size>120,21</size>
+	     <icon>resources/Car.ico</icon>
+	     <position>120,90</position>
 	  </field>
   </field>
 </part>

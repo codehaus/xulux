@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.27 2003-11-17 14:00:20 mvdb Exp $
+ $Id: Label.java,v 1.28 2003-11-24 12:10:56 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -43,7 +43,6 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
-
 package org.xulux.nyx.swing.widgets;
 
 import java.awt.Container;
@@ -56,18 +55,26 @@ import org.xulux.nyx.global.IConverter;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.SwingWidget;
+import org.xulux.nyx.swing.util.SwingUtils;
 import org.xulux.nyx.utils.BooleanUtils;
 
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.27 2003-11-17 14:00:20 mvdb Exp $
+ * @version $Id: Label.java,v 1.28 2003-11-24 12:10:56 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
 
+    /**
+     * The native label
+     */
     private JLabel label;
 
+    /**
+     *
+     * @param name the name of the label
+     */
     public Label(String name) {
         super(name);
     }
@@ -86,7 +93,7 @@ public class Label extends SwingWidget
             label = null;
         }
         removeAllRules();
-        getPart().removeWidget(this,this);
+        getPart().removeWidget(this, this);
     }
 
     /**
@@ -118,10 +125,13 @@ public class Label extends SwingWidget
     {
         initialize();
         initializeValue();
-        if (getProperty("text")!=null) {
+        if (getProperty("text") != null) {
             label.setText(getProperty("text"));
         } else {
             label.setText("");
+        }
+        if (getProperty("icon") != null) {
+            label.setIcon(SwingUtils.getIcon(getProperty("icon"), this));
         }
         String ha = getProperty("horizontalalignment");
         // we use the swing default..
@@ -149,16 +159,6 @@ public class Label extends SwingWidget
         }
         if (color != null) {
             label.setForeground(ColorUtils.getSwingColor(color));
-        } else {
-            // try to find the parent use that foreground color
-//            if (getParent() != null) {
-//                //System.out.println("getParent() != null");
-//                Object p = getParent().getNativeWidget();
-//                if (p instanceof Component) {
-//                    //System.out.println("Setting foreground to " +((Component)p).getForeground());
-//                    label.setForeground(((Component)p).getForeground());
-//                }
-//            }
         }
         String bgColor = null;
         if (isEnabled()) {
@@ -168,16 +168,8 @@ public class Label extends SwingWidget
         }
         if (bgColor != null) {
             label.setBackground(ColorUtils.getSwingColor(bgColor));
-        } else {
-            // try to find the parent and use that color..
-//            if (getParent() != null) {
-//                Object p = getParent().getNativeWidget();
-//                if (p instanceof Component) {
-//                    label.setBackground(((Component)p).getBackground());
-//                }
-//            }
         }
-        if (getProperty("enabled.depends")!= null) {
+        if (getProperty("enabled.depends") != null) {
             String value = getProperty("enabled.depends");
             Object depValue = getPart().getWidget(value).getValue();
             if (depValue != null) {
@@ -259,8 +251,8 @@ public class Label extends SwingWidget
      * @see org.xulux.nyx.gui.Widget#isValueEmpty()
      */
     public boolean isValueEmpty() {
-        if (getProperty("text") == null ||
-             getProperty("text").equals("")) {
+        if (getProperty("text") == null
+            || getProperty("text").equals("")) {
                  return true;
         }
         return false;
