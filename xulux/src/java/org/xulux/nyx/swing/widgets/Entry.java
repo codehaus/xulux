@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.28 2003-09-30 16:09:35 mvdb Exp $
+ $Id: Entry.java,v 1.29 2003-10-06 12:59:13 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,6 +48,7 @@ package org.xulux.nyx.swing.widgets;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.StringTokenizer;
 
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
@@ -67,7 +68,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.28 2003-09-30 16:09:35 mvdb Exp $
+ * @version $Id: Entry.java,v 1.29 2003-10-06 12:59:13 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -258,6 +259,30 @@ extends SwingWidget
     {
         if (getField() == null) {
             if (getValue() != null) {
+                if (getProperty("entryfields") != null) {
+                    String entryFields = getProperty("entryfields");
+                    String entryValue = "";
+                    BeanMapping mapping = Dictionary.getInstance().getMapping(getValue());
+                    StringTokenizer stn = new StringTokenizer(entryFields, ",");
+                        while (stn.hasMoreTokens())
+                        {
+                            String token = stn.nextToken();
+                            String strPart = "";
+                            IField iField = mapping.getField(token);
+                            if (iField != null)
+                            {
+                                strPart = iField.getValue(getValue()).toString();
+                            }
+                            else
+                            {
+                                //allow seperators in the field list.
+                                strPart = token;
+                            }
+                            entryValue+=strPart;
+                        }
+                    textComponent.setText(String.valueOf(entryValue));
+                    return;
+                }
                 IConverter converter = Dictionary.getConverter(getValue());
                 if (converter != null) {
                     textComponent.setText((String)converter.getGuiValue(getValue()));

@@ -67,6 +67,16 @@
           Type can be field or string
         </td>
       </tr>
+      <tr>
+        <td>entryfields</td>
+        <td>swing</td>
+        <td>
+          The entryfields property allows you to specify which value of 
+          a bean you wish to show to the user (eg if the entry contains an
+          Person object and you want to show the value of getLastName, you
+          specifiy lastname as the entryfield.
+        </td>
+      </tr>
     </table>
   </subsection>
 </section>
