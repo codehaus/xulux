@@ -1,7 +1,7 @@
 /*
- $Id: BeanParameter.java,v 1.1 2003-07-14 03:37:36 mvdb Exp $
+ $Id: BeanParameter.java,v 1.2 2003-07-14 14:49:51 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -42,19 +42,26 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
- */package org.xulux.nyx.global;
+ */
+package org.xulux.nyx.global;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
+import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * Place holder and utility class for the parameter list 
  * that a method may need to get or set appropiate data.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanParameter.java,v 1.1 2003-07-14 03:37:36 mvdb Exp $
+ * @version $Id: BeanParameter.java,v 1.2 2003-07-14 14:49:51 mvdb Exp $
  */
 public class BeanParameter {
     
     private String type;
     private String value;
+    private Object object;
     
     /**
      * 
@@ -69,24 +76,28 @@ public class BeanParameter {
      * @param value
      */
     public BeanParameter(String type, String value) {
+        setType(type);
+        setValue(value);
     }
 
     /**
-     * @return
+     * @return the type of parameter
      */
     public String getType() {
         return this.type;
     }
 
     /**
-     * @return
+     * @return the value of the type 
+     *          (eg string, className or className+field) 
      */
     public String getValue() {
         return this.value;
     }
 
     /**
-     * Set the type 
+     * Set the type.
+     * String or static
      * @param string
      */
     public void setType(String type) {
@@ -94,10 +105,42 @@ public class BeanParameter {
     }
 
     /**
+     * Set the value of the type
+     * eg "M" or eg StaticClass.M
      * @param string
      */
     public void setValue(String value) {
         this.value = value;
+    }
+    
+    /** 
+     * 
+     * @return the object that contains the value
+     *          we need to pass as the parameter
+     */
+    public Object getObject() {
+        if (this.object == null) {
+            if (getType().equalsIgnoreCase("string")) {
+                this.object = value;
+            }else if (getType().equalsIgnoreCase("static")) {
+                // static format is like package.Class.Field, so first
+                // the class needs processing.
+                String field = getValue().substring(getValue().lastIndexOf('.')+1);
+                String classString = getValue().substring(0, getValue().lastIndexOf("."));
+                Class clazz = ClassLoaderUtils.getClass(classString);
+                try {
+                    Field f = clazz.getDeclaredField(field);
+                    // we can pass in null, since it (should) be static
+                    if (Modifier.isStatic(f.getModifiers())) {
+                        this.object = f.get(null);
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return this.object;
     }
 
 }

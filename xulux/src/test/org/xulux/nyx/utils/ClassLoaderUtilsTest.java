@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtils.java,v 1.3 2003-07-14 14:49:51 mvdb Exp $
+ $Id: ClassLoaderUtilsTest.java,v 1.1 2003-07-14 14:49:51 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,78 +45,50 @@
  */
 package org.xulux.nyx.utils;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.global.AnotherRecursiveBean;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
- * This util class contains classloader utils
- * so we can do actual code reuse.
- *  
+ * Test for the classLoaderUtils
+ * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.3 2003-07-14 14:49:51 mvdb Exp $
+ * @version $Id: ClassLoaderUtilsTest.java,v 1.1 2003-07-14 14:49:51 mvdb Exp $
  */
-public class ClassLoaderUtils {
+public class ClassLoaderUtilsTest extends TestCase {
 
-    private static Log log = LogFactory.getLog(ClassLoaderUtils.class);
-    
     /**
-     * Make it possible to extend..
+     * Constructor for ClassLoaderUtilsTest.
+     * @param name
      */
-    public ClassLoaderUtils() {
+    public ClassLoaderUtilsTest(String name) {
+        super(name);
     }
     
-    /**
-     * 
-     * @param classString
-     * @return an object from the specified classString or null when errors occur
-     */
-    public static Object getObjectFromClassString(String classString) {
-        Class clazz = getClass(classString);
-        return getObjectFromClass(clazz);
-    }
-    /**
-     * 
-     * @param clazz
-     * @return an object from the specified class or null when errors occur
-     */
-    public static Object getObjectFromClass(Class clazz) {
-        if (clazz == null) {
-            return null;
-        }
-        Object object;
-        try {
-            object = clazz.newInstance();
-            return object;
-        }
-        catch (InstantiationException e) {
-            log.warn("Cannot instantiate class "+clazz.getName());
-        }
-        catch (IllegalAccessException e) {
-            log.warn("Cannot access class "+clazz.getName());
-        }
-        return null;
+    public static Test suite() {
+        TestSuite suite = new TestSuite(ClassLoaderUtilsTest.class);
+        return suite;
     }
     
     /**
-     * 
-     * @param clazzString
-     * @return the clazz created from the specified String or null 
-     *          when it could not be created
+     * Test the objectFromClass 
+     * and the objectFromClassString
      */
-    public static Class getClass(String clazzString) {
-        if (clazzString == null) {
-            return null;
-        }
-        try {
-            Class clazz = Class.forName(clazzString);
-            return clazz;
-        }
-        catch (ClassNotFoundException e) {
-            if (log.isWarnEnabled()) {
-                log.warn("Cannot find class "+clazzString);
-            }
-        }
-        return null;
+    public void testObjectFromClass() {
+        System.out.println("testObjectFromClass");
+        assertEquals(new String(),ClassLoaderUtils.getObjectFromClassString("java.lang.String"));
+        assertEquals(new String(),ClassLoaderUtils.getObjectFromClass(String.class));
+        assertNull(ClassLoaderUtils.getObjectFromClassString("bogus.class.name"));
+        
     }
+    
+    public void testGetClass() {
+        System.out.println("testGetClass");
+        assertEquals(String.class,ClassLoaderUtils.getClass("java.lang.String"));
+        assertEquals(AnotherRecursiveBean.class, ClassLoaderUtils.getClass("org.xulux.nyx.global.AnotherRecursiveBean"));
+        assertNull(ClassLoaderUtils.getClass("bogus.class.name"));
+    } 
 
 }
