@@ -1,7 +1,7 @@
 /*
- $Id: Native.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
+ $Id: Native.java,v 1.7 2003-11-24 16:06:58 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -53,12 +53,12 @@ import org.xulux.nyx.gui.Widget;
  * It should just return the native widget when requested..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Native.java,v 1.6 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: Native.java,v 1.7 2003-11-24 16:06:58 mvdb Exp $
  */
 public class Native extends Widget {
 
     /**
-     * @param name
+     * @param name the native widget name
      */
     public Native(String name) {
         super(name);
@@ -79,6 +79,9 @@ public class Native extends Widget {
         return null;
     }
 
+    /**
+     * @param object the nativewidget.
+     */
     public void setNativeWidget(Object object) {
     }
 

@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.22 2003-11-06 19:53:12 mvdb Exp $
+ $Id: Combo.java,v 1.23 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -45,7 +45,6 @@
  */
 package org.xulux.nyx.swing.widgets;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -53,6 +52,7 @@ import java.awt.event.KeyListener;
 
 import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.NyxListener;
+import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.NyxJComboBox;
 import org.xulux.nyx.swing.listeners.ImmidiateListener;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
@@ -63,13 +63,25 @@ import org.xulux.nyx.swing.util.NyxEventQueue;
  * The swing combo widget.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.22 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: Combo.java,v 1.23 2003-11-24 16:06:58 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
+    /**
+     * The native combobox
+     */
     private NyxJComboBox combo;
+    /**
+     * The key listener
+     */
     private KeyListener keyListener;
+    /**
+     * the combo model
+     */
     private DefaultComboModel model;
+    /**
+     * the actionlistener
+     */
     private PrePostFieldListener actionListener;
     /**
      * The focus event listener. We cannot use
@@ -81,10 +93,10 @@ public class Combo extends NyxCombo
 
     /**
      * Constructor for NyxCombo.
+     * @param name the name of the combo
      */
-    public Combo(String field)
-    {
-        super(field);
+    public Combo(String name) {
+        super(name);
     }
 
     /**
@@ -190,7 +202,7 @@ public class Combo extends NyxCombo
             }
             if (content != null)
             {
-                this.model = new DefaultComboModel(content, comboFields,this);
+                this.model = new DefaultComboModel(content, comboFields, this);
             }
             else
             {
@@ -202,7 +214,7 @@ public class Combo extends NyxCombo
                 NyxListener listener = getPart().getFieldEventHandler(this);
                 if (listener != null)
                 {
-                    this.actionListener = (PrePostFieldListener)listener;
+                    this.actionListener = (PrePostFieldListener) listener;
                 }
                 else
                 {
@@ -220,13 +232,11 @@ public class Combo extends NyxCombo
             if (content != null && getValue() != null)
             {
                 if (log.isTraceEnabled()) {
-                    log.trace("Setting value to : "+getValue());
+                    log.trace("Setting value to : " + getValue());
                 }
                 model.setRealSelectedValue(getValue());
             }
-            else if (model!=null && content != null &&
-                       getValue() == null)
-            {
+            else if (model != null && content != null && getValue() == null) {
                 // if we don't have a value select
                 // the first one in the list
                 if (log.isTraceEnabled()) {
@@ -238,7 +248,7 @@ public class Combo extends NyxCombo
                     if (getField() == null) {
                         this.value = model.getRealSelectedValue();
                     } else {
-                        setValue(model.getRealSelectedValue(),false);
+                        setValue(model.getRealSelectedValue(), false);
                     }
                 }
             }
@@ -263,7 +273,7 @@ public class Combo extends NyxCombo
         }
         if (backgroundColor != null)
         {
-            combo.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
+            combo.setBackground(ColorUtils.getSwingColor(backgroundColor));
         }
         isRefreshing = false;
     }
@@ -292,12 +302,9 @@ public class Combo extends NyxCombo
      * @see org.xulux.nyx.gui.Widget#isValueEmpty()
      */
     public boolean isValueEmpty() {
-        if (getGuiValue() == null ||
-            getGuiValue().equals("") ||
-            getGuiValue().equals(getNotSelectedValue()))
-        {
+        if (getGuiValue() == null || getGuiValue().equals("")
+            || getGuiValue().equals(getNotSelectedValue())) {
             return true;
-
         }
         return false;
     }

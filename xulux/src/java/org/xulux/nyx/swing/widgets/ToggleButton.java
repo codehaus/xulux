@@ -1,5 +1,5 @@
 /*
- $Id: ToggleButton.java,v 1.6 2003-11-18 18:37:23 mvdb Exp $
+ $Id: ToggleButton.java,v 1.7 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -49,12 +49,9 @@ import java.awt.Container;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.ButtonModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
@@ -71,16 +68,25 @@ import org.xulux.nyx.utils.BooleanUtils;
  * Represents a togglebutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ToggleButton.java,v 1.6 2003-11-18 18:37:23 mvdb Exp $
+ * @version $Id: ToggleButton.java,v 1.7 2003-11-24 16:06:58 mvdb Exp $
  */
 public class ToggleButton extends Widget {
 
+    /**
+     * The native togglebutton
+     */
     protected JToggleButton toggleButton;
+    /**
+     * the itemlistner
+     */
     protected PrePostFieldListener itemListener;
+    /**
+     * the focuslistener
+     */
     protected FocusListener focusListener;
 
     /**
-     * @param name
+     * @param name the name of the togglebutton
      */
     public ToggleButton(String name) {
         super(name);
@@ -106,7 +112,7 @@ public class ToggleButton extends Widget {
             toggleButton = null;
         }
         removeAllRules();
-        getPart().removeWidget(this,this);
+        getPart().removeWidget(this, this);
 
     }
 
@@ -151,13 +157,13 @@ public class ToggleButton extends Widget {
             setProperty("selected", null);
         }
         if (getValue() instanceof Boolean) {
-            toggleButton.setSelected(BooleanUtils.toBoolean((Boolean)getValue()));
-        }else if (getValue() instanceof String) {
-            toggleButton.setSelected(BooleanUtils.toBoolean((String)getValue()));
+            toggleButton.setSelected(BooleanUtils.toBoolean((Boolean) getValue()));
+        } else if (getValue() instanceof String) {
+            toggleButton.setSelected(BooleanUtils.toBoolean((String) getValue()));
         }
         toggleButton.setEnabled(isEnabled());
         String backgroundColor = null;
-        // TODO: check to see the repainting problem nyx has with togglebuttons.
+        // @todo check to see the repainting problem nyx has with togglebuttons.
         // currently I got to the point when the rollover image was still active
         // when leaving the button with the mouse, no events were fired or eaten?
         // need to investigate further.
@@ -168,12 +174,12 @@ public class ToggleButton extends Widget {
 //                toggleButton.invalidate();
 //                toggleButton.repaint();
 //            }
-//            
+//
 //        });
         String image = getProperty("image");
         if (image != null)
         {
-            ImageIcon normalIcon = SwingUtils.getIcon(image,this);
+            ImageIcon normalIcon = SwingUtils.getIcon(image, this);
             toggleButton.setIcon(normalIcon);
             toggleButton.setFocusPainted(true);
         }
@@ -185,17 +191,17 @@ public class ToggleButton extends Widget {
             toggleButton.setDisabledSelectedIcon(icon);
         }
         String rolloverImage = getProperty("image-rollover");
-        if (rolloverImage!=null)
+        if (rolloverImage != null)
         {
             ImageIcon icon = SwingUtils.getIcon(rolloverImage, this);
             toggleButton.setRolloverEnabled(true);
             toggleButton.setRolloverIcon(icon);
         }
-        
+
         String selectedImage = getProperty("image-selected");
         if (selectedImage != null)
         {
-            ImageIcon icon = SwingUtils.getIcon(selectedImage,this);
+            ImageIcon icon = SwingUtils.getIcon(selectedImage, this);
             toggleButton.setSelectedIcon(icon);
             toggleButton.setPressedIcon(icon);
             toggleButton.setRolloverSelectedIcon(icon);
@@ -225,7 +231,7 @@ public class ToggleButton extends Widget {
                     {
                         String image = getProperty("image");
                         if (image != null) {
-                            ImageIcon normalIcon = SwingUtils.getIcon(image,this);
+                            ImageIcon normalIcon = SwingUtils.getIcon(image, this);
                             if (toggleButton != null) {
                                 toggleButton.setIcon(normalIcon);
                                 toggleButton.setFocusPainted(true);
@@ -308,14 +314,14 @@ public class ToggleButton extends Widget {
                 Class cClass = f.getReturnType();
                 if (cClass == Boolean.class || cClass == Boolean.TYPE) {
                     if (value.getClass() == String.class) {
-                        value = BooleanUtils.toBooleanObject((String)value);
+                        value = BooleanUtils.toBooleanObject((String) value);
                     }
                 } else if (cClass == String.class) {
                     if (value.getClass() == Boolean.class) {
-                        value = BooleanUtils.toStringTrueFalse((Boolean)value);
+                        value = BooleanUtils.toStringTrueFalse((Boolean) value);
                     }
                 }
-                f.setValue(getPart().getBean(),value);
+                f.setValue(getPart().getBean(), value);
             }
         }
         this.value = value;

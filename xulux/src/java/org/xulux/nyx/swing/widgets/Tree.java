@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.20 2003-11-18 10:09:32 mvdb Exp $
+ $Id: Tree.java,v 1.21 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -71,32 +71,57 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.20 2003-11-18 10:09:32 mvdb Exp $
+ * @version $Id: Tree.java,v 1.21 2003-11-24 16:06:58 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
+    /**
+     * The native jtree
+     */
     protected JTree jtree;
+    /**
+     * the native scrollpane
+     */
     protected JScrollPane scrollPane;
+    /**
+     * the content
+     */
     protected Object content;
+    /**
+     * the content has changed
+     */
     protected boolean contentChanged;
+    /**
+     * the contenthandler
+     */
     protected SwingTreeModel contentHandler;
+    /**
+     * has childpopups
+     */
     protected boolean hasChildPopups;
+    /**
+     * the menu
+     */
     protected Widget menu;
+    /**
+     * the cell renderer
+     */
     protected NyxTreeCellRenderer cellRenderer;
+    /**
+     * the selectionlistener
+     */
     protected NewSelectionListener selectionListener;
-    //protected TreeContentHandler contentHandler;
 
     /**
-     * @param name
+     * @param name the name of the tree
      */
     public Tree(String name) {
         super(name);
-
     }
 
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
-     * TODO: Destroy it better than now!
+     * @todo Destroy it better than now!
      */
     public void destroy() {
         if (!initialized) {
@@ -175,16 +200,16 @@ public class Tree extends ContainerWidget implements IContentWidget {
 //            System.err.println("setting model to : "+contentHandler);
             jtree.setModel(contentHandler);
 //            System.err.println("Content : "+contentHandler.getContent());
-            contentChanged= false;
+            contentChanged = false;
         }
         if (getProperty("collapse") != null) {
             setProperty("collapse", null);
             // collapsetree..
 //            System.err.println("Collapsing!!");
             if (jtree != null && contentHandler != null) {
-                // TODO: really make this flexible!
+                // @todo really make this flexible!
                 String collapseUntill = getProperty("collapse-untill");
-                setProperty("collapse-untill",null);
+                setProperty("collapse-untill", null);
                 jtree.collapsePath(new TreePath(contentHandler.getRoot()));
                 if (collapseUntill != null ) {
                     if (collapseUntill != null) {
@@ -208,7 +233,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
         if (!BooleanUtils.toBoolean(getProperty("showicons"))) {
             if (jtree != null) {
                 if (jtree.getCellRenderer() instanceof DefaultTreeCellRenderer) {
-                    DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer)jtree.getCellRenderer();
+                    DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) jtree.getCellRenderer();
                     renderer.setOpenIcon(null);
                     renderer.setClosedIcon(null);
                     renderer.setLeafIcon(null);
@@ -225,7 +250,8 @@ public class Tree extends ContainerWidget implements IContentWidget {
      * Level 0 is the root of the tree.
      * If level is higher than the levels present, it will just collapse all.
      *
-     * @param level - the level
+     * @param root the root level
+     * @param level the level
      */
     protected void expandToLevel(Object root, int level) {
         if (level == 0) {
@@ -243,7 +269,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
         int childCount = contentHandler.getChildCount(root);
         for (int i = 0; i < childCount; i++) {
             Object ele = contentHandler.getChild(root, i);
-            if (expandPath.size()-1 != level) {
+            if (expandPath.size() - 1 != level) {
                 expandToLevel(ele, level);
             } else {
                 if (expandPath != null) {
@@ -259,6 +285,10 @@ public class Tree extends ContainerWidget implements IContentWidget {
         expandPath.remove(root);
     }
 
+    /**
+     * Does not do anything atm.
+     * @param root the root object
+     */
     protected void expandToLevel(Object root) {
 
     }
@@ -276,7 +306,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
             return;
         }
         if (untill.equalsIgnoreCase("leaf")) {
-            expand(root,true);
+            expand(root, true);
             return;
         }
         if (untill.equalsIgnoreCase("all")) {
@@ -295,8 +325,8 @@ public class Tree extends ContainerWidget implements IContentWidget {
      */
     private List expandPath;
     /**
-     * TODO: Document this... or move to treecontenthandler!
-     * @param root
+     * @todo Document this... or move to treecontenthandler!
+     * @param root the root object
      * @param leaf true or false. If true it will NOT show the leaf, otherwise it will
      */
     protected void expand(Object root, boolean leaf) {
@@ -335,7 +365,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
 
     /**
      * The default method to expand.
-     * @param root
+     * @param root the root object
      */
     protected void expandDefault(Object root) {
         jtree.expandPath(new TreePath(root));
@@ -378,10 +408,10 @@ public class Tree extends ContainerWidget implements IContentWidget {
         if (object != null) {
 //            System.err.println("Content object : "+object.getClass());
             WidgetConfig config = ApplicationContext.getInstance().getWidgetConfig(getWidgetType());
-            System.err.println("Object getClass : "+object.getClass());
-            TreeContentHandler handler = (TreeContentHandler)config.getContentHandler(object.getClass());
+            System.err.println("Object getClass : " + object.getClass());
+            TreeContentHandler handler = (TreeContentHandler) config.getContentHandler(object.getClass());
             if (handler == null) {
-                System.err.println("Handler for content "+object.getClass()+" not found");
+                System.err.println("Handler for content " + object.getClass() + " not found");
             } else {
                 handler.setWidget(this);
                 handler.setContent(object);
@@ -431,7 +461,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
 //            System.err.println("hasChildPopups !!!");
 //            System.err.println("Childwidgets : "+getChildWidgets());
             if (menu == null) {
-                menu = WidgetFactory.getWidget("popupmenu", "PopupMenu:"+getName());
+                menu = WidgetFactory.getWidget("popupmenu", "PopupMenu:" + getName());
                 menu.setPart(getPart());
             }
             if (getChildWidgets() != null) {

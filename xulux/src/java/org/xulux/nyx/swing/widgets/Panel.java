@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.25 2003-11-13 02:45:39 mvdb Exp $
+ $Id: Panel.java,v 1.26 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -72,16 +72,19 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.25 2003-11-13 02:45:39 mvdb Exp $
+ * @version $Id: Panel.java,v 1.26 2003-11-24 16:06:58 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
 
+    /**
+     * the native panel
+     */
     private JPanel panel;
 
     /**
      * Constructor for Panel.
-     * @param name
+     * @param name the panel name
      */
     public Panel(String name)
     {
@@ -118,7 +121,7 @@ public class Panel extends ContainerWidget
     }
 
     /**
-     * TODO: Make layouts flexible.
+     * @todo Make layouts flexible.
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
     public void initialize() {
@@ -149,7 +152,7 @@ public class Panel extends ContainerWidget
          * too small..
          */
         String border = getProperty("border");
-        if (border!=null)
+        if (border != null)
         {
             Color color = panel.getForeground();
             String borderColor = getProperty("border-color");
@@ -161,12 +164,11 @@ public class Panel extends ContainerWidget
                 String borderType = getProperty("border-type");
                 // defaults to lowered.
                 int bType = BevelBorder.LOWERED;
-                if (borderType != null &&
-                       borderType.equalsIgnoreCase("raised")) {
+                if (borderType != null && borderType.equalsIgnoreCase("raised")) {
                     bType = BevelBorder.RAISED;
                 }
                 panel.setBorder(new BevelBorder(bType));
-            }else if (border.equalsIgnoreCase("titled")) {
+            } else if (border.equalsIgnoreCase("titled")) {
                 String borderTitle = getProperty("border-title");
                 if (borderTitle == null) {
                     borderTitle = "";
@@ -175,13 +177,13 @@ public class Panel extends ContainerWidget
                 Color titleColor = null;
                 if (getProperty("border-title-color") != null) {
                     titleColor = ColorUtils.getSwingColor(getProperty("border-title-color"));
-                    System.out.println("title color : "+titleColor);
+                    System.out.println("title color : " + titleColor);
                 }
                 int borderSize = 1;
                 if (getProperty("border-size") != null) {
                     try {
                         borderSize = Integer.parseInt(getProperty("border-size"));
-                    } catch(NumberFormatException nfe) {
+                    } catch (NumberFormatException nfe) {
                         nfe.printStackTrace();
                     }
                 }
@@ -196,7 +198,7 @@ public class Panel extends ContainerWidget
                 if (getProperty("border-size") != null) {
                     try {
                         borderSize = Integer.parseInt(getProperty("border-size"));
-                    } catch(NumberFormatException nfe) {
+                    } catch (NumberFormatException nfe) {
                         nfe.printStackTrace();
                     }
                 }
@@ -214,12 +216,12 @@ public class Panel extends ContainerWidget
 //            System.out.println("Border insets : "+panel.getBorder().getBorderInsets(panel));
 //            System.out.println("End : "+getName());
         }
-        // TODO: Add tab widget instead of panel widget..
+        // Add tab widget instead of panel widget..
         String tabId = getProperty(TabPanel.TABID);
         if (tabId == null) {
             panel.setEnabled(isEnabled());
         } else {
-            ((JTabbedPane)getParent().getNativeWidget()).setEnabledAt(Integer.parseInt(tabId), isEnabled());
+            ((JTabbedPane) getParent().getNativeWidget()).setEnabledAt(Integer.parseInt(tabId), isEnabled());
         }
         panel.repaint();
     }
@@ -251,11 +253,11 @@ public class Panel extends ContainerWidget
                 Iterator it = children.iterator();
                 while (it.hasNext()) {
                     Widget w = (Widget) it.next();
-                    panel.add((JComponent)w.getNativeWidget(), w);
+                    panel.add((JComponent) w.getNativeWidget(), w);
                 }
             }
         } else {
-            panel.add((Component)widget.getNativeWidget(), widget);
+            panel.add((Component) widget.getNativeWidget(), widget);
         }
     }
 
@@ -298,7 +300,6 @@ public class Panel extends ContainerWidget
      * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
      */
     public void addNyxListener(NyxListener listener) {
-        //TODO
     }
 
 }

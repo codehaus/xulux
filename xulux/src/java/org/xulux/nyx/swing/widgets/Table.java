@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.30 2003-11-20 12:15:24 mvdb Exp $
+ $Id: Table.java,v 1.31 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -81,18 +81,18 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * A nyx table can do without a popupmenu field and can add
  * a menuitem directly to its table.
  *
- * TODO: Redo this completely! It sucks big time!!
+ * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.30 2003-11-20 12:15:24 mvdb Exp $
+ * @version $Id: Table.java,v 1.31 2003-11-24 16:06:58 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
-        
+
     /**
      * The native swing table
      */
     protected NyxJTable table;
-    
+
     /**
      * The native locked table
      */
@@ -102,11 +102,26 @@ public class Table extends ContainerWidget implements IContentWidget {
      * This is the native widget
      */
     protected JScrollPane scrollPane;
+    /**
+     * The table context menu
+     */
     protected Widget menu;
+    /**
+     * does the table have childpopups
+     */
     protected boolean hasChildPopups;
+    /**
+     * are the child popups checked
+     */
     private boolean childPopupsChecked;
 
+    /**
+     * The content of the table
+     */
     protected Object content;
+    /**
+     * has the contentchanged ?
+     */
     protected boolean contentChanged;
     /**
      * The log class
@@ -122,20 +137,33 @@ public class Table extends ContainerWidget implements IContentWidget {
      * The tablemodel
      */
     protected NyxTableModel model;
-
-    protected NyxTableCellEditor editor;
-    protected NewSelectionListener newSelectionListener;
-
-    private int oldListSize = 0;
-    private int listSize = 0;
-    
     /**
-     * @param name
+     * the celleditor
+     */
+    protected NyxTableCellEditor editor;
+    /**
+     * the new selection listener
+     */
+    protected NewSelectionListener newSelectionListener;
+    /**
+     * the oldsize list
+     */
+    private int oldListSize = 0;
+    /**
+     * the current list size
+     */
+    private int listSize = 0;
+
+    /**
+     * @param name the name of the table
      */
     public Table(String name) {
         super(name);
     }
 
+    /**
+     * Destroys the current table
+     */
     public void destroyTable() {
         if (!initialized) {
             return;
@@ -156,15 +184,11 @@ public class Table extends ContainerWidget implements IContentWidget {
             this.editor = null;
         }
         if (this.scrollPane != null) {
-            try {
+            if (this.table != null) {
                 this.scrollPane.remove(this.table);
-            }catch(NullPointerException npe) {
-                // eat it..
             }
-            try {
+            if (this.lockedTable != null) {
                 this.scrollPane.remove(lockedTable);
-            }catch(NullPointerException npe) {
-                // eat it..
             }
         }
         this.table = null;
@@ -224,7 +248,7 @@ public class Table extends ContainerWidget implements IContentWidget {
     /**
      * Sets all children of the table to ignore their use
      * variable when setting values..
-     * TODO: Add documentation about this. The widget should
+     * @todo Add documentation about this. The widget should
      * possibly do something with this if it wants to live
      * in a table
      */
@@ -236,7 +260,7 @@ public class Table extends ContainerWidget implements IContentWidget {
         Iterator it = list.iterator();
         ValueChangedListener vcl = new ValueChangedListener(this);
         while (it.hasNext()) {
-            Widget widget = (Widget)it.next();
+            Widget widget = (Widget) it.next();
             widget.ignoreUse(true);
             widget.addNyxListener(vcl);
         }
@@ -260,7 +284,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             }
             if (this.model == null) {
                 if (content instanceof TableModel) {
-                    this.model = new NyxTableModel((TableModel)content, this);
+                    this.model = new NyxTableModel((TableModel) content, this);
                 } else {
                     this.model = new NyxTableModel(this);
                 }
@@ -274,7 +298,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                 lockedTable.setCellEditor(editor);
                 lockedTable.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
             }
-            table = new NyxJTable(this.model,this.columnModel);
+            table = new NyxJTable(this.model, this.columnModel);
             table.setCellEditor(this.editor);
             table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
             table.getSelectionModel().addListSelectionListener(new NewSelectionListener(this));
@@ -286,8 +310,8 @@ public class Table extends ContainerWidget implements IContentWidget {
                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 lockedTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 lockedTable.getTableHeader().setReorderingAllowed(false);
-                ((NyxTableColumnModel)table.getColumnModel()).removeLockedColumns();
-                ((NyxTableColumnModel)table.getColumnModel()).removeUnlockedColumns();
+                ((NyxTableColumnModel) table.getColumnModel()).removeLockedColumns();
+                ((NyxTableColumnModel) table.getColumnModel()).removeUnlockedColumns();
                 lockedTable.setPreferredScrollableViewportSize(columnModel.getLockedColumnWidth());
 //                System.out.println("ColumnModel : "+columnModel.getLockedColumnWidth());
                 scrollPane.setRowHeaderView(lockedTable);
@@ -303,20 +327,20 @@ public class Table extends ContainerWidget implements IContentWidget {
         String height = getProperty("rowHeight");
         if (height != null) {
             int rowHeight = Integer.valueOf(height).intValue();
-            if (rowHeight >0 ) {
+            if (rowHeight > 0 ) {
                 table.setRowHeight(Integer.valueOf(height).intValue());
             }
         }
         // we want to set some things on initialization of the widget..
-        // TODO: Move this to propertyhandlers..
+        // @todo Move this to propertyhandlers..
         if (content != null) {
             String initialSelection = getProperty("initialselection");
             if (initialSelection != null) {
-                System.out.println("initialSelection : "+initialSelection);
+                System.out.println("initialSelection : " + initialSelection);
                 if ("last".equalsIgnoreCase(initialSelection)) {
-                    table.changeSelection(table.getRowCount()-1,1,false,false);
+                    table.changeSelection(table.getRowCount() - 1, 1, false, false);
                 } else if ("first".equalsIgnoreCase(initialSelection)) {
-                    table.changeSelection(0,1, false, false);
+                    table.changeSelection(0, 1, false, false);
                 } else if ("all".equalsIgnoreCase(initialSelection)) {
                     table.selectAll();
                 }
@@ -410,27 +434,27 @@ public class Table extends ContainerWidget implements IContentWidget {
      * content and content.type is present
      */
     protected void initializeContent() {
-        String content = getProperty("content");
+        String contentProp = getProperty("content");
         String contentType = getProperty("content.type");
         if (contentType == null) {
             return;
         }
-        if (content == null && !contentType.equalsIgnoreCase("bean")) {
+        if (contentProp == null && !contentType.equalsIgnoreCase("bean")) {
             return;
         }
         if (contentType.equalsIgnoreCase("string")) {
-            this.content = NyxCollectionUtils.getListFromCSV(content);
+            this.content = NyxCollectionUtils.getListFromCSV(contentProp);
             contentChanged = true;
-        }else if (contentType.equalsIgnoreCase("field")) {
-            int index = content.lastIndexOf(".");
+        } else if (contentType.equalsIgnoreCase("field")) {
+            int index = contentProp.lastIndexOf(".");
             BeanMapping mapping = null;
             IField field = null;
             if (index == -1 ) {
                 mapping = Dictionary.getInstance().getMapping(getPart().getBean());
-                field = mapping.getField(content);
+                field = mapping.getField(contentProp);
             } else {
-                mapping = Dictionary.getInstance().getMapping(ClassLoaderUtils.getClass(content.substring(0,index)));
-                field = mapping.getField(content.substring(index+1));
+                mapping = Dictionary.getInstance().getMapping(ClassLoaderUtils.getClass(contentProp.substring(0, index)));
+                field = mapping.getField(contentProp.substring(index + 1));
             }
             if (field != null) {
                 //System.out.println("Field : "+field);
@@ -440,7 +464,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                 contentChanged = true;
             } else {
                 if (log.isWarnEnabled()) {
-                    log.warn("Field "+content+" for table "+getName()+" could not be found");
+                    log.warn("Field " + content + " for table " + getName() + " could not be found");
                 }
             }
         } else if (contentType.equalsIgnoreCase("bean")) {
@@ -457,19 +481,18 @@ public class Table extends ContainerWidget implements IContentWidget {
      */
     public void refreshUpdateButtons() {
         Object value = getGuiValue();
-        boolean buttonState = value!=null;
+        boolean buttonState = value != null;
         // we need to disable update and delete
         String buttons = getProperty("updatebuttons");
         if (buttons != null) {
             List strList = NyxCollectionUtils.getListFromCSV(buttons);
             Iterator it = strList.iterator();
             while (it.hasNext()) {
-                Widget widget = getPart().getWidget((String)it.next());
+                Widget widget = getPart().getWidget((String) it.next());
                 if (widget != null) {
                     String actionType = widget.getProperty("action.type");
                     if (actionType != null && (
-                          actionType.equals("update") ||
-                            actionType.equals("delete"))) {
+                          actionType.equals("update") || actionType.equals("delete"))) {
                         widget.setEnable(buttonState);
                     }
                 }
@@ -482,8 +505,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                     if (cw instanceof MenuItem) {
                         String actionType = cw.getProperty("action.type");
                         if (actionType != null && (
-                              actionType.equals("update") ||
-                                actionType.equals("delete"))) {
+                              actionType.equals("update") || actionType.equals("delete"))) {
                             cw.setEnable(buttonState);
                         }
                     }
@@ -507,11 +529,11 @@ public class Table extends ContainerWidget implements IContentWidget {
             List strList = NyxCollectionUtils.getListFromCSV(buttons);
             Iterator it = strList.iterator();
             while (it.hasNext()) {
-                String wName =(String)it.next();
+                String wName = (String) it.next();
                 Widget widget = getPart().getWidget(wName);
                 if (widget == null) {
                     if (log.isWarnEnabled()) {
-                        log.warn("Button "+wName+" does not exist, check your part xml");
+                        log.warn("Button " + wName + " does not exist, check your part xml");
                         continue;
                     }
                 }
@@ -521,12 +543,12 @@ public class Table extends ContainerWidget implements IContentWidget {
                 }
                 list.add(widget);
             }
-            menu = WidgetFactory.getPopupFromButtons(list,"Popup:"+getName());
+            menu = WidgetFactory.getPopupFromButtons(list, "Popup:" + getName());
             menu.setParent(this);
             List children = menu.getChildWidgets();
             if (children != null) {
                 for (Iterator cit = children.iterator(); cit.hasNext();) {
-                    Widget cw = (Widget)cit.next();
+                    Widget cw = (Widget) cit.next();
                     cw.addNyxListener(new UpdateButtonsListener(this, cw));
                 }
             }
@@ -549,14 +571,14 @@ public class Table extends ContainerWidget implements IContentWidget {
         }
         if (hasChildPopups && buttons != null) {
             // just add a seperator by default
-            Widget item = WidgetFactory.getWidget("menuitem", "Separator:"+getName());
+            Widget item = WidgetFactory.getWidget("menuitem", "Separator:" + getName());
             item.setProperty("type", "separator");
             item.setParent(menu);
             menu.addChildWidget(item);
         }
         if (hasChildPopups) {
             if (menu == null) {
-                menu = WidgetFactory.getWidget("popupmenu", "PopupMenu:"+getName());
+                menu = WidgetFactory.getWidget("popupmenu", "PopupMenu:" + getName());
             }
             if (getChildWidgets() != null) {
                 for (Iterator it = getChildWidgets().iterator(); it.hasNext();) {
@@ -586,14 +608,14 @@ public class Table extends ContainerWidget implements IContentWidget {
 
     /**
      * Set the content of the table
-     * @param list
+     * @param object the content
      */
     public void setContent(Object object) {
         contentChanged = true;
         this.content = object;
         if (object instanceof List) {
             this.oldListSize = this.listSize;
-            listSize = ((List)content).size();            
+            listSize = ((List) content).size();
         }
         if (initialized) {
             refresh();
@@ -607,9 +629,8 @@ public class Table extends ContainerWidget implements IContentWidget {
     public JTable getJTable() {
         return table;
     }
-    
+
     /**
-     * 
      * @return the native locked JTable.
      */
     public JTable getLockedJTable() {
@@ -620,7 +641,6 @@ public class Table extends ContainerWidget implements IContentWidget {
      * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
      */
     public void addNyxListener(NyxListener listener) {
-        // TODO
     }
 
     /**
@@ -639,7 +659,7 @@ public class Table extends ContainerWidget implements IContentWidget {
                 if (currentValue != null ) {
                     this.previousValue = currentValue;
                 }
-                field.setValue(getPart().getBean(),value);
+                field.setValue(getPart().getBean(), value);
                 this.value = value;
             }
             if (this.value == null) {
@@ -647,16 +667,16 @@ public class Table extends ContainerWidget implements IContentWidget {
             }
         }
         initialize();
-        // TODO: Add getting the index of the current value in the table,
-        // so we can select that one (mostly used on initial activation of 
+        // @todo Add getting the index of the current value in the table,
+        // so we can select that one (mostly used on initial activation of
         // table or after adding an entry to the table.
         if (content instanceof List) {
-            int index = ((List)content).indexOf(value);
+            int index = ((List) content).indexOf(value);
             if (index != -1) {
                 // select the row found
-                table.setRowSelectionInterval(index,index);
+                table.setRowSelectionInterval(index, index);
             }
-        }   
+        }
         getPart().refreshFields(this);
         getPart().updateDependandWidgets(this);
     }
@@ -675,6 +695,9 @@ public class Table extends ContainerWidget implements IContentWidget {
         super.setProperty(key, value);
     }
 
+    /**
+     * Stop editing the table if currently editing.
+     */
     public void stopEditing() {
        editor.stopCellEditing(table);
     }

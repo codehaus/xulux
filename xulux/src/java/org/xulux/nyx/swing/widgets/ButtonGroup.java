@@ -1,5 +1,5 @@
 /*
- $Id: ButtonGroup.java,v 1.3 2003-11-06 19:53:13 mvdb Exp $
+ $Id: ButtonGroup.java,v 1.4 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -61,16 +61,19 @@ import org.xulux.nyx.gui.Widget;
  * that this widget cannot be shown on screen, but it's children do..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ButtonGroup.java,v 1.3 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: ButtonGroup.java,v 1.4 2003-11-24 16:06:58 mvdb Exp $
  */
 public class ButtonGroup extends ContainerWidget
 implements IShowChildWidgets
 {
 
-    protected javax.swing.ButtonGroup group;
+    /**
+     * The native buttongroup
+     */
+    private javax.swing.ButtonGroup group;
 
     /**
-     * @param name
+     * @param name the name of the buttongroup
      */
     public ButtonGroup(String name) {
         super(name);
@@ -82,7 +85,7 @@ implements IShowChildWidgets
     public void addToParent(Widget widget) {
         initialize();
         if (widget.getNativeWidget() instanceof AbstractButton) {
-            this.group.add((AbstractButton)widget.getNativeWidget());
+            this.group.add((AbstractButton) widget.getNativeWidget());
             widget.setParent(this);
         }
     }
@@ -149,7 +152,7 @@ implements IShowChildWidgets
         while (it.hasNext()) {
             Widget w = (Widget) it.next();
             if (w.getNativeWidget() instanceof AbstractButton) {
-                AbstractButton button = (AbstractButton)w.getNativeWidget();
+                AbstractButton button = (AbstractButton) w.getNativeWidget();
                 if (button.isSelected()) {
                     w.getValue();
                 }

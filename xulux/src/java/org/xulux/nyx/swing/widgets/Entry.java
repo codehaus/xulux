@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.43 2003-11-20 12:18:56 mvdb Exp $
+ $Id: Entry.java,v 1.44 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -69,13 +69,22 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.43 2003-11-20 12:18:56 mvdb Exp $
+ * @version $Id: Entry.java,v 1.44 2003-11-24 16:06:58 mvdb Exp $
  */
 public class Entry
 extends SwingWidget
 {
+    /**
+     * The log instance
+     */
     private static Log log = LogFactory.getLog(Entry.class);
+    /**
+     * The dimensions
+     */
     private Dimension size;
+    /**
+     * is setValue called ?
+     */
     protected boolean setValueCalled = false;
 
     /**
@@ -84,17 +93,25 @@ extends SwingWidget
      */
     protected JTextComponent textComponent;
 
+    /**
+     * The focuslistener
+     */
     protected PrePostFieldListener focusListener;
+    /**
+     * the immidiatelistener
+     */
     protected PrePostFieldListener immidiateListener;
-
-    protected Class valueClass;
+    /**
+     * the value class
+     */
+    private Class valueClass;
 
 
     /**
      * Constructor for Entry.
+     * @param name the name of the entry
      */
-    public Entry(String name)
-    {
+    public Entry(String name) {
         super(name);
     }
 
@@ -115,7 +132,7 @@ extends SwingWidget
             textComponent = null;
         }
         removeAllRules();
-        getPart().removeWidget(this,this);
+        getPart().removeWidget(this, this);
         initialized = false;
     }
 
@@ -147,7 +164,7 @@ extends SwingWidget
             if (this.immidiateListener == null) {
                 NyxListener listener = getPart().getFieldEventHandler(this);
                 if (listener != null) {
-                    this.immidiateListener = (PrePostFieldListener)listener;
+                    this.immidiateListener = (PrePostFieldListener) listener;
                 } else {
                     this.immidiateListener = new PrePostFieldListener(this);
                 }
@@ -157,7 +174,7 @@ extends SwingWidget
             if (focusListener == null) {
                 NyxListener listener = getPart().getFieldEventHandler(this);
                 if (listener == null) {
-                    focusListener = (PrePostFieldListener)listener;
+                    focusListener = (PrePostFieldListener) listener;
                 } else {
                     focusListener = new PrePostFieldListener(this);
                 }
@@ -189,7 +206,7 @@ extends SwingWidget
                         textComponent.setText(String.valueOf(this.value));
                     }
                 }
-            }else if (ivType == null || ivType.equals("string")) {
+            } else if (ivType == null || ivType.equals("string")) {
                 this.value = iv;
                 textComponent.setText(iv);
             }
@@ -218,7 +235,7 @@ extends SwingWidget
         if (backgroundColor != null) {
             textComponent.setBackground(ColorUtils.getSwingColor(backgroundColor));
         }
-        
+
         String foreGroundColor = null;
         if (isRequired()  && isEnabled()) {
             foreGroundColor = getProperty("required-foreground-color");
@@ -238,7 +255,7 @@ extends SwingWidget
         if (getField() != null && getField().startsWith("?")) {
             initializeValue();
         }
-        if (getProperty("enabled.depends")!= null) {
+        if (getProperty("enabled.depends") != null) {
             String value = getProperty("enabled.depends");
             Object depValue = getPart().getWidget(value).getValue();
             if (depValue != null) {
@@ -274,6 +291,8 @@ extends SwingWidget
     /**
      * Lets changes reflect onscreen.
      * @param value
+     * @todo Make this all utility classes, since this is a lot of code reproducing !
+
      */
     protected void initializeValue()
     {
@@ -298,14 +317,14 @@ extends SwingWidget
                                 //allow seperators in the field list.
                                 strPart = token;
                             }
-                            entryValue+=strPart;
+                            entryValue += strPart;
                         }
                     textComponent.setText(String.valueOf(entryValue));
                     return;
                 }
                 IConverter converter = Dictionary.getConverter(getValue());
                 if (converter != null) {
-                    textComponent.setText((String)converter.getGuiValue(getValue()));
+                    textComponent.setText((String) converter.getGuiValue(getValue()));
                 } else {
                     textComponent.setText(String.valueOf(getValue()));
                 }
@@ -314,12 +333,11 @@ extends SwingWidget
             }
             return;
         }
-        // TODO: Make this all utility classes, since this is a lot of code reproducing !
         Object bean = null;
         if (getField().startsWith("?")) {
             int dotIndex = getField().indexOf('.');
             if (dotIndex != -1) {
-                bean = getPart().getWidget(getField().substring(1,dotIndex)).getValue();
+                bean = getPart().getWidget(getField().substring(1, dotIndex)).getValue();
                 if (bean == null) {
                     textComponent.setText("");
                     return;
@@ -337,8 +355,8 @@ extends SwingWidget
         IField field = map.getField(getField());
         if (field == null) {
             if (log.isWarnEnabled()) {
-                log.warn("Field "+getField()+" is not present in the dictionary");
-                log.warn("Widget : "+getName());
+                log.warn("Field " + getField() + " is not present in the dictionary");
+                log.warn("Widget : " + getName());
             }
             textComponent.setText("");
             return;
@@ -349,7 +367,7 @@ extends SwingWidget
             textComponent.setText("");
         } else {
             // we assume toString method here.
-            // TODO: Implement fields some more
+            // Implement fields some more
             // so it can be a comination of fields
             // that turn up here.
 
@@ -357,7 +375,7 @@ extends SwingWidget
             if (!this.value.getClass().isArray()) {
                 IConverter converter = Dictionary.getConverter(this.value);
                 if (converter != null) {
-                    textComponent.setText((String)converter.getGuiValue(this.value));
+                    textComponent.setText((String) converter.getGuiValue(this.value));
                 } else {
                     textComponent.setText(this.value.toString());
                 }
@@ -378,8 +396,8 @@ extends SwingWidget
         // needs updating or not.
         if (getField() == null) {
             if (object != null) {
-                if (valueClass != null &&
-                   !valueClass.isAssignableFrom(object.getClass())) {
+                if (valueClass != null
+                    && !valueClass.isAssignableFrom(object.getClass())) {
                     IConverter converter = Dictionary.getConverter(valueClass);
                     if (converter != null) {
                         object = converter.getBeanValue(object);
@@ -469,9 +487,8 @@ extends SwingWidget
      * @see org.xulux.nyx.gui.Widget#isValueEmpty()
      */
     public boolean isValueEmpty() {
-        if (getGuiValue() == null ||
-            getGuiValue().equals("")) {
-                return true;
+        if (getGuiValue() == null || getGuiValue().equals("")) {
+            return true;
         }
         return false;
     }
@@ -480,7 +497,6 @@ extends SwingWidget
      * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
      */
     public void addNyxListener(NyxListener listener) {
-        // TODO
     }
 
 }

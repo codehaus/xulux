@@ -1,5 +1,5 @@
 /*
- $Id: NyxJCheckBox.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
+ $Id: NyxJCheckBox.java,v 1.4 2003-11-24 16:09:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -49,7 +49,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 
-import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
 
@@ -61,14 +60,21 @@ import javax.swing.JCheckBox;
  * color.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJCheckBox.java,v 1.3 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: NyxJCheckBox.java,v 1.4 2003-11-24 16:09:58 mvdb Exp $
  */
 public class NyxJCheckBox extends JCheckBox {
 
+    /**
+     * the real background color
+     */
     private Color realBg;
+    /**
+     * return the real background ?
+     */
     private boolean returnRealBackground;
 
     /**
+     * the main contructor.
      *
      */
     public NyxJCheckBox() {
@@ -76,62 +82,8 @@ public class NyxJCheckBox extends JCheckBox {
     }
 
     /**
-     * @param icon
-     */
-    public NyxJCheckBox(Icon icon) {
-        super(icon);
-    }
-
-    /**
-     * @param icon
-     * @param selected
-     */
-    public NyxJCheckBox(Icon icon, boolean selected) {
-        super(icon, selected);
-    }
-
-    /**
-     * @param text
-     */
-    public NyxJCheckBox(String text) {
-        super(text);
-    }
-
-    /**
-     * @param a
-     */
-    public NyxJCheckBox(Action a) {
-        super(a);
-    }
-
-    /**
-     * @param text
-     * @param selected
-     */
-    public NyxJCheckBox(String text, boolean selected) {
-        super(text, selected);
-    }
-
-    /**
-     * @param text
-     * @param icon
-     */
-    public NyxJCheckBox(String text, Icon icon) {
-        super(text, icon);
-    }
-
-    /**
-     * @param text
-     * @param icon
-     * @param selected
-     */
-    public NyxJCheckBox(String text, Icon icon, boolean selected) {
-        super(text, icon, selected);
-    }
-
-    /**
      * Set the real background for the icon.
-     * @param color
+     * @param color the real background color
      */
     public void setRealBackground(Color color) {
         this.realBg = color;
@@ -167,8 +119,15 @@ public class NyxJCheckBox extends JCheckBox {
      * with the correct background set in the widget
      */
     public class IconStub implements Icon {
+        /**
+         * the icon
+         */
         private Icon icon;
 
+        /**
+         * the icon stub
+         * @param icon the icon
+         */
         public IconStub(Icon icon) {
             this.icon = icon;
         }
@@ -196,7 +155,7 @@ public class NyxJCheckBox extends JCheckBox {
             if (NyxJCheckBox.this.getRealBackground() != null) {
                 g.setColor(getRealBackground());
             }
-            g.fillRect(x,y,getIconWidth(), getIconHeight());
+            g.fillRect(x, y, getIconWidth(), getIconHeight());
             icon.paintIcon(c, g, x, y);
         }
     }

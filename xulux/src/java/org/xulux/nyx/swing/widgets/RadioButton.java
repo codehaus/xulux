@@ -1,5 +1,5 @@
 /*
- $Id: RadioButton.java,v 1.6 2003-11-17 14:00:20 mvdb Exp $
+ $Id: RadioButton.java,v 1.7 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -63,15 +63,21 @@ import org.xulux.nyx.utils.BooleanUtils;
  * Represents a radiobutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButton.java,v 1.6 2003-11-17 14:00:20 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.7 2003-11-24 16:06:58 mvdb Exp $
  */
 public class RadioButton extends Widget {
 
+    /**
+     * the native radiobutton
+     */
     protected NyxJRadioButton radioButton;
+    /**
+     * the itemlistener
+     */
     protected PrePostFieldListener itemListener;
 
     /**
-     * @param name
+     * @param name the name of the radiobutton
      */
     public RadioButton(String name) {
         super(name);
@@ -97,7 +103,7 @@ public class RadioButton extends Widget {
             radioButton = null;
         }
         removeAllRules();
-        getPart().removeWidget(this,this);
+        getPart().removeWidget(this, this);
 
     }
 
@@ -118,8 +124,8 @@ public class RadioButton extends Widget {
         }
         radioButton = new NyxJRadioButton();
         // set the icon to what is default in Swing..
-        radioButton.setIcon((Icon)UIManager.get("RadioButton.icon"));
-        radioButton.setSelectedIcon((Icon)UIManager.get("RadioButton.icon"));
+        radioButton.setIcon((Icon) UIManager.get("RadioButton.icon"));
+        radioButton.setSelectedIcon((Icon) UIManager.get("RadioButton.icon"));
         itemListener = new PrePostFieldListener(this);
         radioButton.addItemListener(this.itemListener);
         initialized = true;
@@ -141,9 +147,9 @@ public class RadioButton extends Widget {
             radioButton.setText(getProperty("text"));
         }
         if (getValue() instanceof Boolean) {
-            radioButton.setSelected(BooleanUtils.toBoolean((Boolean)getValue()));
-        }else if (getValue() instanceof String) {
-            radioButton.setSelected(BooleanUtils.toBoolean((String)getValue()));
+            radioButton.setSelected(BooleanUtils.toBoolean((Boolean) getValue()));
+        } else if (getValue() instanceof String) {
+            radioButton.setSelected(BooleanUtils.toBoolean((String) getValue()));
         } else {
             radioButton.setSelected(BooleanUtils.toBoolean(getProperty("selected")));
         }
@@ -229,14 +235,14 @@ public class RadioButton extends Widget {
                 Class cClass = f.getReturnType();
                 if (cClass == Boolean.class || cClass == Boolean.TYPE) {
                     if (value.getClass() == String.class) {
-                        value = BooleanUtils.toBooleanObject((String)value);
+                        value = BooleanUtils.toBooleanObject((String) value);
                     }
                 } else if (cClass == String.class) {
                     if (value.getClass() == Boolean.class) {
-                        value = BooleanUtils.toStringTrueFalse((Boolean)value);
+                        value = BooleanUtils.toStringTrueFalse((Boolean) value);
                     }
                 }
-                f.setValue(getPart().getBean(),value);
+                f.setValue(getPart().getBean(), value);
             }
         }
         this.value = value;

@@ -1,5 +1,5 @@
 /*
- $Id: CheckBox.java,v 1.16 2003-11-17 14:00:20 mvdb Exp $
+ $Id: CheckBox.java,v 1.17 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -64,14 +64,22 @@ import org.xulux.nyx.utils.BooleanUtils;
  * The nyx to swing implementation of a checkbox
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.16 2003-11-17 14:00:20 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.17 2003-11-24 16:06:58 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
 
-    private NyxJCheckBox checkBox;
-    private PrePostFieldListener itemListener;
     /**
-     * @param name
+     * The native checkbox
+     */
+    private NyxJCheckBox checkBox;
+
+    /**
+     * The checkbox listener
+     */
+    private PrePostFieldListener itemListener;
+
+    /**
+     * @param name the name of the checkbox
      */
     public CheckBox(String name) {
         super(name);
@@ -97,7 +105,7 @@ public class CheckBox extends SwingWidget {
             checkBox = null;
         }
         removeAllRules();
-        getPart().removeWidget(this,this);
+        getPart().removeWidget(this, this);
     }
 
     /**
@@ -118,8 +126,8 @@ public class CheckBox extends SwingWidget {
         this.initialized = true;
         this.checkBox = new NyxJCheckBox();
         // set the icon to what is default in Swing..
-        this.checkBox.setIcon((Icon)UIManager.get("CheckBox.icon"));
-        this.checkBox.setSelectedIcon((Icon)UIManager.get("CheckBox.icon"));
+        this.checkBox.setIcon((Icon) UIManager.get("CheckBox.icon"));
+        this.checkBox.setSelectedIcon((Icon) UIManager.get("CheckBox.icon"));
         this.itemListener = new PrePostFieldListener(this);
         // we always need to add a itemlistener to change
         // the value..
@@ -138,9 +146,9 @@ public class CheckBox extends SwingWidget {
             checkBox.setText(getProperty("text"));
         }
         if (getValue() instanceof Boolean) {
-            checkBox.setSelected(BooleanUtils.toBoolean((Boolean)getValue()));
-        }else if (getValue() instanceof String) {
-            checkBox.setSelected(BooleanUtils.toBoolean((String)getValue()));
+            checkBox.setSelected(BooleanUtils.toBoolean((Boolean) getValue()));
+        } else if (getValue() instanceof String) {
+            checkBox.setSelected(BooleanUtils.toBoolean((String) getValue()));
         }
         checkBox.setEnabled(isEnabled());
         String backgroundColor = null;
@@ -190,14 +198,14 @@ public class CheckBox extends SwingWidget {
                 Class cClass = f.getReturnType();
                 if (cClass == Boolean.class || cClass == Boolean.TYPE) {
                     if (value.getClass() == String.class) {
-                        value = BooleanUtils.toBooleanObject((String)value);
+                        value = BooleanUtils.toBooleanObject((String) value);
                     }
                 } else if (cClass == String.class) {
                     if (value.getClass() == Boolean.class) {
-                        value = BooleanUtils.toStringTrueFalse((Boolean)value);
+                        value = BooleanUtils.toStringTrueFalse((Boolean) value);
                     }
                 }
-                f.setValue(getPart().getBean(),value);
+                f.setValue(getPart().getBean(), value);
             }
         }
         this.value = value;
@@ -232,7 +240,6 @@ public class CheckBox extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
      */
     public void addNyxListener(NyxListener listener) {
-        // TODO
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.19 2003-11-18 17:28:50 mvdb Exp $
+ $Id: TabPanel.java,v 1.20 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,26 +69,44 @@ import org.xulux.nyx.swing.util.SwingUtils;
  *
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.19 2003-11-18 17:28:50 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.20 2003-11-24 16:06:58 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
 
+    /**
+     * The native tabbedPane
+     */
     private JTabbedPane tabPanel;
+    /**
+     * The log instance
+     */
     private Log log = LogFactory.getLog(TabPanel.class);
+    /**
+     * The tabCount
+     */
     private int tabCount;
     /**
      * The tabid key that is used internally
      * by nyx. Made it public so people can use
      * it if they want to in their rules.
      */
-    public static String TABID = "nyx-tab-id";
+    public static final String TABID = "nyx-tab-id";
 
+    /**
+     * Which tab has initialfocus
+     */
     private String initialFocus;
+    /**
+     * The repaintcomponent class
+     */
     private RepaintComponent repaintComponent;
+    /**
+     * the repaintthreads
+     */
     private Thread repaintThread;
 
     /**
-     * @param name
+     * @param name the name of the tabPanel
      */
     public TabPanel(String name) {
         super(name);
@@ -119,14 +137,14 @@ public class TabPanel extends ContainerWidget {
 
     /**
      * @see org.xulux.nyx.gui.Widget#focus()
-     * TODO: This is bad coding
+     * @todo This is bad coding
      */
     public void focus() {
         Object object = getPart().getSession().getValue("nyx.focusrequest");
         if (object != null) {
-            Widget w = (Widget)object;
+            Widget w = (Widget) object;
             w = findChildAndParentForFocus(w);
-            this.tabPanel.setSelectedComponent((JComponent)w.getNativeWidget());
+            this.tabPanel.setSelectedComponent((JComponent) w.getNativeWidget());
         }
         this.tabPanel.requestFocus();
     }
@@ -134,7 +152,7 @@ public class TabPanel extends ContainerWidget {
     /**
      * Tries to find the widget of the parent of the widget passed
      * and which is also a child of this widget
-     * @param w
+     * @param w the widget
      * @return null when it is not found.
      */
     private Widget findChildAndParentForFocus(Widget w) {
@@ -193,14 +211,14 @@ public class TabPanel extends ContainerWidget {
      * is a panel. For now no support for other
      * widget types. Need to dig in deep into
      * panels to see what can be usefull here
-     * TODO: Tooltips don't seem to work...
+     * @todo Tooltips don't seem to work...
      * @see org.xulux.nyx.gui.ContainerWidget#addToParent(org.xulux.nyx.gui.Widget)
      */
     public void addToParent(Widget widget) {
 
         if (widget instanceof Panel) {
             if (log.isDebugEnabled()) {
-                log.debug("Adding panel "+widget);
+                log.debug("Adding panel " + widget);
             }
             String tabTitle = widget.getProperty("title");
             String tabTip = widget.getProperty("tip");
@@ -209,20 +227,20 @@ public class TabPanel extends ContainerWidget {
             if (tabIcon != null) {
                 try {
                     icon = SwingUtils.getIcon(tabIcon, this);
-                }catch(Exception e) {
+                } catch (Exception e) {
                     if (log.isWarnEnabled()) {
-                        log.warn("Icon resource "+tabIcon+" cannot be found");
+                        log.warn("Icon resource " + tabIcon + " cannot be found");
                     }
                 }
             }
             // always add the parent to the added widget..
             widget.setParent(this);
-            tabPanel.addTab(tabTitle,icon,(Component)widget.getNativeWidget(), tabTip);
+            tabPanel.addTab(tabTitle, icon, (Component) widget.getNativeWidget(), tabTip);
             // just in case, but this doesn't seem to
             // work either. Who know jdk1.4 does..
             tabPanel.setToolTipTextAt(tabCount, tabTip);
             // add the tabId to the property of the widget.
-            widget.setProperty(TABID,String.valueOf(tabCount));
+            widget.setProperty(TABID, String.valueOf(tabCount));
             // Set the selectedIndex to the first tab that is not disabled.
             if (initialFocus == null && widget.isEnabled() && widget.isVisible() ) {
                 initialFocus = String.valueOf(tabCount);
@@ -233,7 +251,7 @@ public class TabPanel extends ContainerWidget {
             // do not yet allow any addition of other widgets.
             // tabPanel.add((Component)widget.getNativeWidget(), widget);
             if (log.isWarnEnabled()) {
-                log.warn("Only panel widgets are allowed on top of a tabPanel, skipping widget "+widget);
+                log.warn("Only panel widgets are allowed on top of a tabPanel, skipping widget " + widget);
             }
         }
     }
@@ -262,9 +280,8 @@ public class TabPanel extends ContainerWidget {
      * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
      */
     public void addNyxListener(NyxListener listener) {
-        // TODO
     }
-    
+
     /**
      * Fixes painting issues with the tabPanel.
      * Eg buttons from another panel would shine through throuhg
@@ -273,16 +290,26 @@ public class TabPanel extends ContainerWidget {
      * The selection of other tabs needs to be done in seperate runnables,
      * since else the painting doesn't complete of other components.
      * Probably calling the listeners with fireStatChanged will do,
-     * but couldn't figure that out yet.. 
-     * 
+     * but couldn't figure that out yet..
+     *
      * @todo : dig in this deeper, probably fixable some other way!
      */
-    public class RepaintComponent implements Runnable,HierarchyListener {
+    public class RepaintComponent implements Runnable, HierarchyListener {
+        /**
+         * The index
+         */
         private int index = 0;
+        /**
+         * if the component is running
+         */
         private boolean isRunning;
-        
+
+        /**
+         * the constructor
+         */
         public RepaintComponent() {
         }
+
         /**
          * @see java.lang.Runnable#run()
          */
@@ -296,14 +323,14 @@ public class TabPanel extends ContainerWidget {
                 if (sleep) {
                     try {
                         Thread.sleep(100000);
-                    }catch(InterruptedException ie) {
+                    } catch (InterruptedException ie) {
                         // please repaint everything..
                         sleep = false;
                         break;
                     }
                 }
             }
-            int selected = tabPanel.getSelectedIndex(); 
+            int selected = tabPanel.getSelectedIndex();
             for (int i = 0; i < tabPanel.getTabCount(); i++) {
                 selectIndex(i);
             }
@@ -312,7 +339,11 @@ public class TabPanel extends ContainerWidget {
             tabPanel.validate();
             tabPanel.repaint();
         }
-        
+
+        /**
+         * Select the specified index
+         * @param index the index
+         */
         public void selectIndex(final int index) {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
@@ -344,11 +375,11 @@ public class TabPanel extends ContainerWidget {
                     break;
                 }
             }
-                    
+
             if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
                 repaintThread.interrupt();
             }
         }
-        
+
     }
 }

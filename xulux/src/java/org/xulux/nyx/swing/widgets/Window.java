@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.16 2003-11-17 14:00:20 mvdb Exp $
+ $Id: Window.java,v 1.17 2003-11-24 16:06:58 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -72,20 +72,28 @@ import org.xulux.nyx.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.16 2003-11-17 14:00:20 mvdb Exp $
+ * @version $Id: Window.java,v 1.17 2003-11-24 16:06:58 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
+    /**
+     * the native window
+     */
     protected JFrame window;
+    /**
+     * the window listener
+     */
     protected WindowListener windowListener;
+    /**
+     * the log instance
+     */
     protected static Log log = LogFactory.getLog(Window.class);
 
     /**
      * Constructor for NyxWindow.
-     * @param name
+     * @param name the name of the window
      */
-    public Window(String name)
-    {
+    public Window(String name) {
         super(name);
     }
 
@@ -101,7 +109,7 @@ public class Window extends NyxWindow
             Iterator it = children.iterator();
             while (it.hasNext())
             {
-                Widget cw = (Widget)it.next();
+                Widget cw = (Widget) it.next();
                 cw.destroy();
             }
             children.clear();
@@ -197,9 +205,9 @@ public class Window extends NyxWindow
             try {
                 ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(image));
                 window.setIconImage(SwingUtils.getImage(image, this));
-            }catch(Exception e) {
+            } catch (Exception e) {
                 if (log.isWarnEnabled()) {
-                    log.warn("Image resource "+image+" cannot be found");
+                    log.warn("Image resource " + image + " cannot be found");
                 }
             }
             //button.setFocusPainted(true);
@@ -227,11 +235,11 @@ public class Window extends NyxWindow
                 Iterator it = children.iterator();
                 while (it.hasNext()) {
                     Widget w = (Widget) it.next();
-                    window.getContentPane().add((JComponent)w.getNativeWidget(), w);
+                    window.getContentPane().add((JComponent) w.getNativeWidget(), w);
                 }
             }
         } else {
-            window.getContentPane().add((JComponent)widget.getNativeWidget(), widget);
+            window.getContentPane().add((JComponent) widget.getNativeWidget(), widget);
         }
     }
 
@@ -249,7 +257,10 @@ public class Window extends NyxWindow
         return null;
     }
 
-    public class RepaintComponent implements Runnable{
+    /**
+     * Repaints the window when it is shown.
+     */
+    public class RepaintComponent implements Runnable {
         /**
          * @see java.lang.Runnable#run()
          */
@@ -257,7 +268,7 @@ public class Window extends NyxWindow
             if (getPart() == null) {
                 return;
             }
-            while (getPart().isActivating());
+            while (getPart().isActivating()) { };
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
                     /**
@@ -270,7 +281,7 @@ public class Window extends NyxWindow
                         window.repaint();
                     }
                 });
-            }catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace(System.out);
             }
         }
