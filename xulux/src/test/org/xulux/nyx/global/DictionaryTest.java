@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.16 2003-10-27 11:22:58 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.17 2003-10-27 15:30:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,9 +57,11 @@ import junit.framework.TestSuite;
 
 /**
  * Tests the initialization of the dictionary.
+ * Note: the warnings you get during the test are anticipated, it is just to test 
+ * how nyx handles bogus entry in the dictionary xml. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.16 2003-10-27 11:22:58 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.17 2003-10-27 15:30:14 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {

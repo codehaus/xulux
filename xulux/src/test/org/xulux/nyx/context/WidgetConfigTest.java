@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfigTest.java,v 1.4 2003-08-03 20:53:04 mvdb Exp $
+ $Id: WidgetConfigTest.java,v 1.5 2003-10-27 15:30:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,7 @@
  */
 package org.xulux.nyx.context;
 
+import org.xulux.nyx.global.IContentHandler;
 import org.xulux.nyx.gui.IWidgetInitializer;
 import org.xulux.nyx.gui.Widget;
 
@@ -56,7 +57,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.4 2003-08-03 20:53:04 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.5 2003-10-27 15:30:14 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase
 {
@@ -105,6 +106,7 @@ public class WidgetConfigTest extends TestCase
     }
     
     public void testWidgetInitializers() {
+        System.out.println("testWidgetInitializers");
         WidgetConfig config = new WidgetConfig();
         config.add("swt", Integer.class);
         config.add("swing", Integer.class);
@@ -115,6 +117,56 @@ public class WidgetConfigTest extends TestCase
         assertNull(config.getWidgetInitializers("swt"));
         config.addWidgetInitializer("swt", initTwo.class);
         assertEquals(1, config.getWidgetInitializers("swt").size());
+    }
+    
+    public void testgetContentHandler() {
+        System.out.println("testGetContentHandler");
+        WidgetConfig config = new WidgetConfig();
+        Content1 content1 = new Content1();
+        config.addWidgetTool(null,content1.getClass());
+        assertEquals(Content1.class, config.getContentHandler(Content1.class).getClass());
+        // now test if we get content1 handler back when using content2 which extends from content1 
+        // (in this scenario content1 and 2 are used as handlers AS well AS the object to to handle :)
+        assertEquals(Content1.class, config.getContentHandler(Content2.class).getClass());
+    }
+    
+    public class Content2 extends Content1 {
+        
+        public Content2() {
+        }
+    }
+    
+    public class Content1 implements IContentHandler {
+        
+        public Content1() {
+        }
+        /**
+         * @see org.xulux.nyx.global.IContentHandler#getContent()
+         */
+        public Object getContent() {
+            return null;
+        }
+
+        /**
+         * @see org.xulux.nyx.global.IContentHandler#getType()
+         */
+        public Class getType() {
+            return Content1.class;
+        }
+
+        /**
+         * @see org.xulux.nyx.global.IContentHandler#refresh()
+         */
+        public void refresh() {
+
+        }
+
+        /**
+         * @see org.xulux.nyx.global.IContentHandler#setContent(java.lang.Object)
+         */
+        public void setContent(Object content) {
+
+        }
     }
     
     public class initOne implements IWidgetInitializer {

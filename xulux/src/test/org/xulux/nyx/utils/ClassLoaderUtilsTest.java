@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtilsTest.java,v 1.1 2003-07-14 14:49:51 mvdb Exp $
+ $Id: ClassLoaderUtilsTest.java,v 1.2 2003-10-27 15:30:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,20 +45,22 @@
  */
 package org.xulux.nyx.utils;
 
-import org.xulux.nyx.global.AnotherRecursiveBean;
+import java.util.ArrayList;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xulux.nyx.global.AnotherRecursiveBean;
+
 /**
  * Test for the classLoaderUtils
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtilsTest.java,v 1.1 2003-07-14 14:49:51 mvdb Exp $
+ * @version $Id: ClassLoaderUtilsTest.java,v 1.2 2003-10-27 15:30:14 mvdb Exp $
  */
 public class ClassLoaderUtilsTest extends TestCase {
-
+    
     /**
      * Constructor for ClassLoaderUtilsTest.
      * @param name
@@ -89,6 +91,62 @@ public class ClassLoaderUtilsTest extends TestCase {
         assertEquals(String.class,ClassLoaderUtils.getClass("java.lang.String"));
         assertEquals(AnotherRecursiveBean.class, ClassLoaderUtils.getClass("org.xulux.nyx.global.AnotherRecursiveBean"));
         assertNull(ClassLoaderUtils.getClass("bogus.class.name"));
-    } 
+    }
+
+    public void testgetParentObjectForInnerClass() {
+        System.out.println("testgetParentObjectForInnerClass");
+        Object parent = ClassLoaderUtils.getParentObjectForInnerClass(NormalInner.class);
+        assertNotNull(parent);
+        assertEquals(this.getClass(), parent.getClass());
+        parent = ClassLoaderUtils.getParentObjectForInnerClass(AnotherNormalInner.class);
+        assertNotNull(parent);
+        assertEquals(this.getClass(), parent.getClass());
+    }
+    
+    
+    /**
+     * Test instantiation of innerclasses...
+     *
+     */
+    public void testInnerClassInstantiation() {
+        System.out.println("testInnerClassInstantation");
+        // test static inner classes
+        assertEquals(StaticInner.class,ClassLoaderUtils.getObjectFromClass(StaticInner.class).getClass());
+        // test non static inner classes
+        Object object = ClassLoaderUtils.getObjectFromClass(NormalInner.class);
+        assertNotNull(object);
+        assertEquals(NormalInner.class,object.getClass());
+        ArrayList parms = new ArrayList();
+        parms.add("test");
+        object = ClassLoaderUtils.getObjectFromClass(NormalInner.class,parms);
+        assertNotNull(object);
+        assertEquals(NormalInner.class, object.getClass());
+        assertEquals("test", ((NormalInner)object).getName());
+    }
+    
+    public static class StaticInner {
+        public StaticInner() {
+        }
+    }
+    
+    public class NormalInner {
+        public NormalInner() {
+        }
+        
+        private String name;
+        
+        public NormalInner(String name) {
+            this.name = name;
+        }
+        
+        public String getName() {
+            return this.name;
+        }
+    }
+    
+    public class AnotherNormalInner {
+        public AnotherNormalInner() {
+        }
+    }
 
 }

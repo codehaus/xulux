@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtils.java,v 1.5 2003-08-09 00:04:35 mvdb Exp $
+ $Id: ClassLoaderUtils.java,v 1.6 2003-10-27 15:30:27 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,9 @@
 package org.xulux.nyx.utils;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -56,7 +59,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.5 2003-08-09 00:04:35 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.6 2003-10-27 15:30:27 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -78,7 +81,9 @@ public class ClassLoaderUtils {
         return getObjectFromClass(clazz);
     }
     /**
-     * 
+     * Also instantiates static AND non static innerclasses. 
+     * The parent class needs to have an empty constructor! 
+     * You can overcome this problem by adding this to the paramlist! 
      * @param clazz
      * @return an object from the specified class or null when errors occur
      */
@@ -88,8 +93,23 @@ public class ClassLoaderUtils {
         }
         Object object = null;
         try {
-            object = clazz.newInstance();
+            if (isInner(clazz) && !Modifier.isStatic(clazz.getModifiers())) {
+                Object parent = getParentObjectForInnerClass(clazz);
+                if (parent != null) {
+                    Constructor constructor = clazz.getConstructor(new Class[] {parent.getClass()});
+                    object = constructor.newInstance(new Object[] {parent} );
+                } 
+            } else {
+                // static inner classes can be instantiated without a problem.. 
+                object = clazz.newInstance();
+            }
             return object;
+        }
+        catch (InvocationTargetException e) {
+            log.warn("Cannot invocate target on "+clazz.getName());
+        }
+        catch (NoSuchMethodException e) {
+            log.warn("Cannot find method on "+clazz.getName());
         }
         catch (InstantiationException e) {
             log.warn("Cannot instantiate class "+clazz.getName());
@@ -99,6 +119,55 @@ public class ClassLoaderUtils {
         }
         return null;
     }
+    
+    /**
+     * Instantiates the parent object of an inner class.
+     * @param class
+     * @return
+     */
+    protected static Object getParentObjectForInnerClass(Class clazz) {
+        String name = clazz.getName();
+        int index = name.indexOf("$");
+        if (index != -1 ) {
+            name = name.substring(0,index);
+            Class clz = getClass(name.substring(0,index));
+            if (clz != null) {
+                ArrayList parms = new ArrayList();
+                boolean hasEmptyConstructor = false;
+                Constructor[] css = clz.getConstructors();
+                for (int i = 0; i < css.length;i++) {
+                    Constructor cs = css[i];
+                    if (cs.getParameterTypes().length == 0) {
+                        hasEmptyConstructor = true;
+                        parms = new ArrayList();
+                        break;
+                    } else {
+                        for (int j = 0; j < cs.getParameterTypes().length ; j++) {
+                            Class c = cs.getParameterTypes()[j];
+                            Object object = null;
+                            try {
+                                object = c.newInstance();
+                            }
+                            catch(Exception e) {
+                            } finally { 
+                                parms.add(object);
+                            }
+                        }
+                    }
+                }
+                return getObjectFromClass(getClass(name.substring(0,index)),parms);
+            }
+            
+        }
+        return null;
+    }
+    
+    public static boolean isInner(Class clazz) {
+        if (clazz == null) {
+            return false;
+        }
+        return clazz.getName().indexOf("$") != -1;
+    } 
     
     /**
      * Tries to find a constructor with the parameters specified in the list
@@ -111,6 +180,9 @@ public class ClassLoaderUtils {
     public static Object getObjectFromClass(Class clazz, List parms) {
         try {
             if (parms != null && parms.size() > 0) {
+                if (isInner(clazz) && !Modifier.isStatic(clazz.getModifiers())) {
+                    parms.add(0, getParentObjectForInnerClass(clazz));
+                }
                 Class[] clzList = new Class[parms.size()];
                 for (int i = 0; i < parms.size(); i++) {
                     clzList[i] = parms.get(i).getClass();
