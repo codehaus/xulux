@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.6 2002-12-02 20:46:10 mvdb Exp $
+ $Id: BeanMapping.java,v 1.7 2002-12-22 23:32:05 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import java.util.HashMap;
  * of concept I am reinventing the wheel a bit..;)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.6 2002-12-02 20:46:10 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.7 2002-12-22 23:32:05 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -260,7 +260,10 @@ public class BeanMapping
                     d.getMapping(d.getPlainBeanName(clazz)) == null  &&
                     field.getMethod().getDeclaringClass() != clazz)
                 {
-                    d.getMapping(clazz);
+                    if (!d.isInCache(clazz))
+                    {
+                        d.getMapping(clazz);
+                    }
                 }
             }
             field.setBaseType(isBaseTypeField);
