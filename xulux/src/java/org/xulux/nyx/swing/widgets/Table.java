@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.29 2003-11-17 12:14:57 mvdb Exp $
+ $Id: Table.java,v 1.30 2003-11-20 12:15:24 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -84,7 +84,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.29 2003-11-17 12:14:57 mvdb Exp $
+ * @version $Id: Table.java,v 1.30 2003-11-20 12:15:24 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
         
@@ -295,6 +295,7 @@ public class Table extends ContainerWidget implements IContentWidget {
             }
             scrollPane.setVisible(true);
             table.setVisible(true);
+            getPart().refreshWidgets(this);
             contentChanged = false;
         }
         initializeUpdateButtons();
@@ -411,7 +412,10 @@ public class Table extends ContainerWidget implements IContentWidget {
     protected void initializeContent() {
         String content = getProperty("content");
         String contentType = getProperty("content.type");
-        if (content == null || contentType == null) {
+        if (contentType == null) {
+            return;
+        }
+        if (content == null && !contentType.equalsIgnoreCase("bean")) {
             return;
         }
         if (contentType.equalsIgnoreCase("string")) {
@@ -439,6 +443,9 @@ public class Table extends ContainerWidget implements IContentWidget {
                     log.warn("Field "+content+" for table "+getName()+" could not be found");
                 }
             }
+        } else if (contentType.equalsIgnoreCase("bean")) {
+            this.content = NyxCollectionUtils.getList(getPart().getBean());
+            contentChanged = true;
         }
     }
 
