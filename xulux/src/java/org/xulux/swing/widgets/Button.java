@@ -1,5 +1,5 @@
 /*
-   $Id: Button.java,v 1.11 2004-10-18 14:10:47 mvdb Exp $
+   $Id: Button.java,v 1.12 2004-10-20 17:33:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a button in the gui
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.11 2004-10-18 14:10:47 mvdb Exp $
+ * @version $Id: Button.java,v 1.12 2004-10-20 17:33:31 mvdb Exp $
  */
 public class Button extends SwingWidget {
 
@@ -203,10 +203,7 @@ public class Button extends SwingWidget {
                 button.setMargin(insets);
             }
         }
-        String tooltip = getProperty("tooltip");
-        if (tooltip != null) {
-            button.setToolTipText(tooltip);
-        }
+        button.setToolTipText(getProperty("tooltip"));
         if (BooleanUtils.toBoolean(getProperty("defaultbutton"))) {
             button.setDefaultCapable(true);
             JRootPane pane = button.getRootPane();
