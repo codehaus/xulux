@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfigTest.java,v 1.1 2002-12-22 22:27:13 mvdb Exp $
+ $Id: WidgetConfigTest.java,v 1.2 2002-12-23 00:01:09 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,7 +55,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.1 2002-12-22 22:27:13 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.2 2002-12-23 00:01:09 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase
 {
@@ -79,9 +79,9 @@ public class WidgetConfigTest extends TestCase
     {
         System.out.println("testWidgetConfig");
         WidgetConfig config = new WidgetConfig();
-        Class coreClass = Combo.class;
-        Class swingClass = org.xulux.nyx.gui.swing.Combo.class;
-        Class swtClass = org.xulux.nyx.gui.swt.Combo.class;
+        Class coreClass = Byte.class;
+        Class swingClass = Long.class;
+        Class swtClass = Integer.class;
         config.setCoreClass(coreClass);
         config.add("swing", swingClass);
         config.add("swt", swtClass);
