@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaults.java,v 1.3 2004-05-11 11:50:01 mvdb Exp $
+   $Id: GuiDefaults.java,v 1.4 2004-05-11 12:56:57 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.xulux.core.WidgetConfig;
 import org.xulux.gui.INativeWidgetHandler;
 import org.xulux.gui.IParentWidgetHandler;
+import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.XuluxToolkit;
 import org.xulux.utils.ClassLoaderUtils;
@@ -34,7 +35,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * properties.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaults.java,v 1.3 2004-05-11 11:50:01 mvdb Exp $
+ * @version $Id: GuiDefaults.java,v 1.4 2004-05-11 12:56:57 mvdb Exp $
  */
 public class GuiDefaults {
 
@@ -352,5 +353,11 @@ public class GuiDefaults {
     public IParentWidgetHandler getParentWidgetHandler() {
         return getParentWidgetHandler(getDefaultWidgetType());
     }
-
+    
+    public void registerLayout(String name, boolean isDefault, String clazz, String type) {
+    }
+    
+    public IXuluxLayout getLayout(String type, String name) {
+        return null;
+    }
 }

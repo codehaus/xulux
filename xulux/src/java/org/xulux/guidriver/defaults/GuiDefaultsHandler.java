@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.7 2004-05-11 11:50:01 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.8 2004-05-11 12:56:57 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import org.xulux.core.XuluxContext;
  * @todo move the contenthandlers to the dataprovider API.
  * @todo do some code reuse of setting the properties.. eg util method or something
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.7 2004-05-11 11:50:01 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.8 2004-05-11 12:56:57 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 
@@ -58,10 +58,13 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private static final String ELEMENT_PROPERTIES="properties";
     private static final String ELEMENT_PROPERTY="property";
     private static final String ELEMENT_DEFAULTS="defaults";
+    private static final String ELEMENT_LAYOUTS="layouts";
+    private static final String ELEMENT_LAYOUT="layout";
     private static final String ATTRIBUTE_TYPE = "type";
     private static final String ATTRIBUTE_CLASS = "class";
     private static final String ATTRIBUTE_NAME = "name";
-    private static final String ATTRIBUTE_DEFAULT = "defaultType";
+    private static final String ATTRIBUTE_DEFAULT = "default";
+    private static final String ATTRIBUTE_DEFAULTTYPE = "defaultType";
     private static final String ATTRIBUTE_DEFAULTVIEW = "defaultView";
     private static final String ATTRIBUTE_USE = "use";
     private static boolean superDefaultsProcessed = false;
@@ -70,6 +73,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private boolean propertiesStarted = false;
     private boolean contentHandlersStarted = false;
     private boolean defaultsStarted = false;
+    private boolean layoutsStarted = false;
 
     private String initClass;
     private String initType;
@@ -136,7 +140,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
           defaultQName = qName;
           defaultAtts = getAttributeMap(atts);
         } else  if (qName.equals(ELEMENT_ROOT)) {
-            String defaultType = atts.getValue(ATTRIBUTE_DEFAULT);
+            String defaultType = atts.getValue(ATTRIBUTE_DEFAULTTYPE);
             if (defaultType != null) {
                 defaultType = defaultType.toLowerCase();
             }
@@ -201,6 +205,8 @@ public class GuiDefaultsHandler extends DefaultHandler {
                 WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(widgetName);
                 config.addContentHandler(clazz, defaultView); 
             }
+        } else if (qName.equals(ELEMENT_DEFAULTS)) {
+            layoutsStarted = true;
         }
     }
 

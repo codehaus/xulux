@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfig.java,v 1.5 2004-05-11 11:50:00 mvdb Exp $
+   $Id: WidgetConfig.java,v 1.6 2004-05-11 12:56:57 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.5 2004-05-11 11:50:00 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.6 2004-05-11 12:56:57 mvdb Exp $
  */
 public class WidgetConfig {
 
@@ -152,7 +152,15 @@ public class WidgetConfig {
         if (initializers == null) {
             return null;
         }
-        return (List) initializers.get(type);
+        List list = (List) initializers.get(type);
+        if (list == null) {
+            return null;
+        }
+        List result = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            result.add(ClassLoaderUtils.getObjectFromClass((Class)list.get(i)));
+        }
+        return result;
     }
 
     /**
@@ -306,14 +314,14 @@ public class WidgetConfig {
      * @param value the value of the property
      */
     public void registerWidgetDefault(String key, Object value) {
-      if (widgetDefaults == null) {
-        widgetDefaults = new HashMap();
-      }
-      widgetDefaults.put(key, value);
+        if (widgetDefaults == null) {
+            widgetDefaults = new HashMap();
+        }
+        widgetDefaults.put(key, value);
     }
     
     public Map getWidgetDefaults() {
-      return widgetDefaults;
+        return widgetDefaults;
     }
     
 }

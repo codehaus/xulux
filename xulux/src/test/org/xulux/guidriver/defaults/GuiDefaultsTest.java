@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsTest.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
+   $Id: GuiDefaultsTest.java,v 1.8 2004-05-11 12:56:57 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -41,7 +41,7 @@ import org.xulux.swing.widgets.Combo;
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.8 2004-05-11 12:56:57 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -237,6 +237,12 @@ public class GuiDefaultsTest extends TestCase {
         assertNotNull(defaults.getParentWidgetHandler());
         defaults.registerParentWidgetHandler("swt", this.getClass().getName());
         assertEquals(null, defaults.getParentWidgetHandler("swt"));
+    }
+
+    public void testLayouts() {
+        System.out.println("testLayouts");
+        GuiDefaults defaults = new GuiDefaults();
+        //defaults.get
     }
 
     public class Temp2XuluxToolkit extends TempXuluxToolkit {
