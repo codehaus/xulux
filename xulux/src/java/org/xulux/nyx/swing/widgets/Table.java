@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.20 2003-11-06 19:53:12 mvdb Exp $
+ $Id: Table.java,v 1.21 2003-11-11 10:27:44 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -70,7 +70,6 @@ import org.xulux.nyx.swing.models.NyxTableCellEditor;
 import org.xulux.nyx.swing.models.NyxTableColumnModel;
 import org.xulux.nyx.swing.models.NyxTableModel;
 import org.xulux.nyx.swing.rules.DefaultTableRule;
-import org.xulux.nyx.swing.util.SwingUtils;
 import org.xulux.nyx.utils.ClassLoaderUtils;
 import org.xulux.nyx.utils.NyxCollectionUtils;
 
@@ -82,7 +81,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.20 2003-11-06 19:53:12 mvdb Exp $
+ * @version $Id: Table.java,v 1.21 2003-11-11 10:27:44 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -242,7 +241,6 @@ implements IContentWidget
             table = new JTable(this.model,this.columnModel);
             table.setCellEditor(this.editor);
             table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
-            table.setPreferredSize(SwingUtils.getDimension(getRectangle()));
             scrollPane.setViewportView(this.table);
             scrollPane.setVisible(true);
             table.setVisible(true);
@@ -360,6 +358,8 @@ implements IContentWidget
             if (field != null) {
                 //System.out.println("Field : "+field);
                 this.content = NyxCollectionUtils.getList(field.getValue(getPart().getBean()));
+                System.err.println("CONTENT : "+this.content);
+                System.err.println("field : "+((List)field.getValue(getPart().getBean())).size());
                 contentChanged = true;
             } else {
                 if (log.isWarnEnabled()) {

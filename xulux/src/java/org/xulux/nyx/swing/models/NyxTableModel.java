@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableModel.java,v 1.12 2003-11-06 19:53:11 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.13 2003-11-11 10:27:44 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.widgets.Table;
  * TODO: Assumes lists right now.. Should support more probably..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.12 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.13 2003-11-11 10:27:44 mvdb Exp $
  */
 public class NyxTableModel extends NyxListener implements TableModel {
 
@@ -92,10 +92,13 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * @see javax.swing.table.TableModel#getRowCount()
      */
     public int getRowCount() {
-        if (table == null) {
-            return 0;
+        int rowCount = 0;
+        if (table != null) {
+            if (table.getContent()!=null) {
+                rowCount = ((List)table.getContent()).size();
+            }
         }
-        return (table.getContent()!=null)?((List)table.getContent()).size():0;
+        return rowCount;
     }
 
     /**

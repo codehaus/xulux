@@ -47,6 +47,7 @@
         <td>content.type</td>
         <td>swing</td>
         <td>
+          can contain field or string. Field uses the bean specified or the method specified.
         </td>
       </tr>
       <tr>
@@ -64,6 +65,13 @@
         <td>
           Specifies if the field in the table should be inline editable
           Valid values are true or false. It defaults to false.
+        </td>
+      </tr>
+      <tr>
+        <td>rowheight</td>
+        <td>swing</td>
+        <td>
+          Specifies the height of a row
         </td>
       </tr>
       

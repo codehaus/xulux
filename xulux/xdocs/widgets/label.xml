@@ -52,6 +52,20 @@
         </td>
       </tr>
       <tr>
+        <td>background-color-enabled</td>
+        <td>swing</td>
+        <td>
+          The background color of the label when enabled
+        </td>
+      </tr>
+      <tr>
+        <td>background-color-disabled</td>
+        <td>swing</td>
+        <td>
+          The background color of the label when disabled
+        </td>
+      </tr>
+      <tr>
         <td>enabled.depends</td>
         <td>swing</td>
         <td>

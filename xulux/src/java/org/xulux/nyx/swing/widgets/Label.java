@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.22 2003-11-06 19:53:13 mvdb Exp $
+ $Id: Label.java,v 1.23 2003-11-11 10:27:44 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.22 2003-11-06 19:53:13 mvdb Exp $
+ * @version $Id: Label.java,v 1.23 2003-11-11 10:27:44 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -156,6 +156,15 @@ public class Label extends SwingWidget
         }
         if (color != null) {
             label.setForeground(ColorUtils.getSwingColor(color));
+        }
+        String bgColor = null;
+        if (isEnabled()) {
+            bgColor = getProperty("background-color-enabled");
+        } else {
+            bgColor = getProperty("background-color-disabled");
+        }
+        if (bgColor != null) {
+            label.setBackground(ColorUtils.getSwingColor(bgColor));
         }
         if (getProperty("enabled.depends")!= null) {
             String value = getProperty("enabled.depends");

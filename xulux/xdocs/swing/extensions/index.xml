@@ -2,25 +2,20 @@
 
 <document>
   <properties>
-    <title>NYX - Swing</title>
+    <title>NYX - Swing - Extensions</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
 <body>
 
-<section name="Swing">
+<section name="Swing Extensions">
   <p>
-    Nyx supports swing. There are a couple of issues however with
-    Swing that needed fixing for it to work the same way as the SWT part
-    will work.
-    This document explains what you can do to customize the things
-    that nyx uses internally. This is btw done via properties that can be
-    passed to the jvm (NOTE: it needs to be improved, since nyx should be 
-    able to run perfectly without any jvm commandline parameters and still
-    allowing to add those parameters).
+    To make nyx work the way it does, a lot of times Swing components need to be extended to
+    get some basic jobs done. Below a list of widgets that are extended, with links to the docs
+    which explain why they were extended.
   </p>
 </section>
-<section name="Details">
+<section name="Extended Swing Components">
   <p>
     This section contains links to other pages, with topics 
     of the inner workings of swing nyx integration. Also
@@ -30,7 +25,7 @@
   <table>
     <tr>
       <td>A must read if you want to create swing widgets!<br/>
-      <a href="extensions/index.html">Swing extensions</a></td>
+      <a href="swingextensions.html">Swing extensions</a></td>
     <tr>
       <td><a href="positioningandsizing.html">Positioning and Sizing of Widgets</a></td>
     </tr>
