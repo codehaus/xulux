@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-Name: Xulux Plug-in
+Bundle-SymbolicName: xulux; singleton=true
+Bundle-Version: 1.0.0
+Bundle-ClassPath: xulux-plugin.jar,
+ xulux-SNAPSHOT.jar
+Bundle-Activator: org.xulux.eclipse.XuluxPlugin
+Bundle-Vendor: xulux.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.help,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.jdt.ui,
+ org.eclipse.jdt.core
+Eclipse-AutoStart: true
