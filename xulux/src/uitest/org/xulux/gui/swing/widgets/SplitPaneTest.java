@@ -1,5 +1,5 @@
 /*
-   $Id: SplitPaneTest.java,v 1.6 2004-04-14 14:16:11 mvdb Exp $
+   $Id: SplitPaneTest.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import junit.framework.TestCase;
  * A testcase for splitpanes.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SplitPaneTest.java,v 1.6 2004-04-14 14:16:11 mvdb Exp $
+ * @version $Id: SplitPaneTest.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
  */
 public class SplitPaneTest extends TestCase {
 
@@ -54,7 +54,7 @@ public class SplitPaneTest extends TestCase {
      */
     public void show() {
         String xml = "org/xulux/gui/swing/widgets/SplitPaneTest.xml";
-        WidgetConfig config = XuluxContext.getInstance().getWidgetConfig("tree");
+        WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig("tree");
         config.addWidgetTool("swing", TreeNodeContentHandler.class);
         config.addWidgetTool(null, DOMTreeContentHandler.class);
         PersonCollection persons = new PersonCollection();

@@ -1,5 +1,5 @@
 /*
-   $Id: SwingToolkit.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+   $Id: SwingToolkit.java,v 1.4 2004-05-11 11:50:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,15 +19,15 @@ package org.xulux.swing.util;
 
 import java.awt.Toolkit;
 
-import org.xulux.gui.NYXToolkit;
+import org.xulux.gui.XuluxToolkit;
 
 /**
  * The swing toolkit...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingToolkit.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+ * @version $Id: SwingToolkit.java,v 1.4 2004-05-11 11:50:00 mvdb Exp $
  */
-public class SwingToolkit extends NYXToolkit {
+public class SwingToolkit extends XuluxToolkit {
     /**
      * Holds the event queue for nyx..
      */
@@ -44,14 +44,14 @@ public class SwingToolkit extends NYXToolkit {
     }
 
     /**
-     * @see org.xulux.nyx.gui.NYXToolkit#beep()
+     * @see org.xulux.nyx.gui.XuluxToolkit#beep()
      */
     public void beep() {
         Toolkit.getDefaultToolkit().beep();
     }
 
     /**
-     * @see org.xulux.nyx.gui.NYXToolkit#initialize()
+     * @see org.xulux.nyx.gui.XuluxToolkit#initialize()
      */
     public void initialize() {
         if (initialized) {
@@ -62,7 +62,7 @@ public class SwingToolkit extends NYXToolkit {
     }
 
     /**
-     * @see org.xulux.nyx.gui.NYXToolkit#destroy()
+     * @see org.xulux.nyx.gui.XuluxToolkit#destroy()
      */
     public void destroy() {
     }

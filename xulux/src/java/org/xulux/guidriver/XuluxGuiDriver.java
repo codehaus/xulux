@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxGuiDriver.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
+   $Id: XuluxGuiDriver.java,v 1.4 2004-05-11 11:50:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -49,7 +49,7 @@ import org.xulux.utils.Translator;
  * @todo Move out "generic" code, so we can have a helper class to do all the nyx magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxGuiDriver.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: XuluxGuiDriver.java,v 1.4 2004-05-11 11:50:02 mvdb Exp $
  */
 public class XuluxGuiDriver extends DefaultHandler {
 
@@ -484,7 +484,7 @@ public class XuluxGuiDriver extends DefaultHandler {
                                 log.warn("with widget : " + ((Widget) stack.get(stack.size() - 1)).getName());
                             }
                         }
-                        INativeWidgetHandler nativeHandler = XuluxContext.getInstance().getNativeWidgetHandler();
+                        INativeWidgetHandler nativeHandler = XuluxContext.getGuiDefaults().getNativeWidgetHandler();
                         nativeHandler.setLocationOnWidget((Widget) stack.peek(), x, y);
                     }
                     else {
@@ -622,7 +622,7 @@ public class XuluxGuiDriver extends DefaultHandler {
         // TODO : Move the logic for native handling somewhere else
         if (type.equalsIgnoreCase("native")) {
             processingNative = true;
-            INativeWidgetHandler handler = XuluxContext.getInstance().getNativeWidgetHandler();
+            INativeWidgetHandler handler = XuluxContext.getGuiDefaults().getNativeWidgetHandler();
             String clazz = atts.getValue(CLAZZ_ATTRIBUTE);
             Widget wg = handler.getWidget(clazz, (Widget) stack.pop());
             stack.push(wg);

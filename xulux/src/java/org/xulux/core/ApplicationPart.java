@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.6 2004-04-22 12:59:03 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -55,7 +55,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.6 2004-04-22 12:59:03 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -447,7 +447,7 @@ public class ApplicationPart {
         activated = true;
         isActivating = true;
         // initialize the gui system.
-        XuluxContext.getInstance().getNYXToolkit().initialize();
+        XuluxContext.getGuiDefaults().getXuluxToolkit().initialize();
         if (getRules() == null) {
             if (log.isDebugEnabled()) {
                 log.debug("No part rules to process");
@@ -469,7 +469,7 @@ public class ApplicationPart {
                 if (getRootWidget() != null) {
                     // only widgets without parents should be added
                     if (widget.getParent() == null) {
-                        XuluxContext.getInstance().getNativeWidgetHandler().addWidgetToParent(widget, getRootWidget());
+                        XuluxContext.getGuiDefaults().getNativeWidgetHandler().addWidgetToParent(widget, getRootWidget());
                     }
                 }
                 //                if (widget.canBeRootWidget() ||
@@ -482,7 +482,7 @@ public class ApplicationPart {
             }
         }
         if (getRootWidget() != null) {
-          XuluxContext.getInstance().getNativeWidgetHandler().refresh(getRootWidget());
+          XuluxContext.getGuiDefaults().getNativeWidgetHandler().refresh(getRootWidget());
         }
         isActivating = false;
     }
@@ -708,9 +708,9 @@ public class ApplicationPart {
         System.out.println("ParentWidget : " + this.parentWidget);
         System.out.println("Root widget : " + this.getRootWidget());
         if (getRootWidget() != null) {
-            IParentWidgetHandler handler = XuluxContext.getInstance().getParentWidgetHandler();
+            IParentWidgetHandler handler = XuluxContext.getGuiDefaults().getParentWidgetHandler();
             handler.destroy(parentWidget);
-            INativeWidgetHandler h = XuluxContext.getInstance().getNativeWidgetHandler();
+            INativeWidgetHandler h = XuluxContext.getGuiDefaults().getNativeWidgetHandler();
             System.out.println("Refreshing widget...");
             h.refresh(getRootWidget());
         }
@@ -797,7 +797,7 @@ public class ApplicationPart {
         }
         else {
             // we try the one in GuiDefaults (if used that is..)
-            listener = XuluxContext.getInstance().getFieldEventHandler(null);
+            listener = XuluxContext.getGuiDefaults().getFieldEventHandler(null);
             listener.setWidget(widget);
         }
         return listener;

@@ -1,5 +1,5 @@
 /*
-   $Id: Tree.java,v 1.8 2004-04-14 14:16:12 mvdb Exp $
+   $Id: Tree.java,v 1.9 2004-05-11 11:50:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -49,7 +49,7 @@ import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.8 2004-04-14 14:16:12 mvdb Exp $
+ * @version $Id: Tree.java,v 1.9 2004-05-11 11:50:02 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -417,7 +417,7 @@ public class Tree extends ContainerWidget implements IContentWidget {
             if (cHProp != null) {
               handler = (TreeContentHandler) ClassLoaderUtils.getObjectFromClassString(cHProp);
             } else {
-                WidgetConfig config = XuluxContext.getInstance().getWidgetConfig(getWidgetType());
+                WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(getWidgetType());
                 handler = (TreeContentHandler) config.getContentHandler(object.getClass());
             }
             if (handler == null) {

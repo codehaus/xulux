@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxContext.java,v 1.3 2004-05-10 15:03:56 mvdb Exp $
+   $Id: XuluxContext.java,v 1.4 2004-05-11 11:50:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,28 +22,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.dataprovider.Dictionary;
-import org.xulux.gui.INativeWidgetHandler;
-import org.xulux.gui.IParentWidgetHandler;
-import org.xulux.gui.IWidgetInitializer;
-import org.xulux.gui.NYXToolkit;
-import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
 import org.xulux.guidriver.defaults.GuiDefaults;
 import org.xulux.guidriver.defaults.GuiDefaultsHandler;
 import org.xulux.rules.IRule;
-import org.xulux.utils.ClassLoaderUtils;
 
 /**
  * The context contains all the components currently
  * known to the system.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxContext.java,v 1.3 2004-05-10 15:03:56 mvdb Exp $
+ * @version $Id: XuluxContext.java,v 1.4 2004-05-11 11:50:00 mvdb Exp $
  */
 public class XuluxContext {
     /**
@@ -78,41 +71,6 @@ public class XuluxContext {
      * contains all the known parts
      */
     private HashMap parts;
-
-    /**
-     * contains all the known widgets
-     */
-    private HashMap widgets;
-
-    /**
-     * Map of parentWidgetHandlers
-     * The key is the type
-     */
-    private HashMap parentWidgetHandlerMap;
-
-    /**
-     * Map of the nativeWidgetHandlers
-     * They key is the type
-     */
-    private HashMap nativeWidgetHandlerMap;
-
-    /**
-     * Map of the fieldEventHandlers.
-     * The key is the type
-     */
-    private HashMap fieldEventHandlerMap;
-
-    /**
-     * Container for the nyx toolkits
-     * Normal situations just have 1 toolkit..
-     */
-    private HashMap nyxToolkits;
-
-    /**
-     * Map contains widget Initializers and
-     * destroyers.
-     */
-    private HashMap widgetInitMap;
 
     /**
      * The currently registered rules
@@ -176,7 +134,6 @@ public class XuluxContext {
     public static XuluxContext getInstance() {
         if (instance == null) {
             instance = new XuluxContext();
-            instance.initializeGuiDefaults();
         }
         return instance;
     }
@@ -373,198 +330,14 @@ public class XuluxContext {
     }
 
     /**
-     * Registers a widget that can be used to construct
-     * an ui.
-     * @param name - the widget name (eg combo)
-     * @param clazz - the class that needs to be used
-     * @param type - the widget type (eg swt, core, swing)
-     *                core is used for later. Most of the time
-     *                the coretype represent an generic extension
-     *                of widget for eg a combo)
+     * @return the guidefaults object. It will also initialize the defaults on instantiation
      */
-    public void registerWidget(String name, String clazz, String type) {
-        if (this.widgets == null) {
-            widgets = new HashMap();
-        }
-        try {
-            Class widgetClass = Class.forName(clazz);
-            WidgetConfig config = (WidgetConfig) widgets.get(name);
-            if (config == null) {
-                config = new WidgetConfig();
-            }
-            if (type == null) {
-                type = getGuiDefaults().getDefaultWidgetType();
-            }
-            if ("core".equals(type)) {
-                config.setCoreClass(widgetClass);
-            }
-            else {
-                config.add(type, widgetClass);
-            }
-            widgets.put(name, config);
-        }
-        catch (ClassNotFoundException e) {
-            log.warn("Could not find " + clazz + " for widget named " + name + " and type " + type);
-        }
-    }
-
-    /**
-     * Registers the parent widget handler.
-     * This is used when cleaning up the applicationpart
-     * to eg remove all widgets from the parent in one go.
-     * Initially it will be read from the default GuiDefaults.xml
-     * and can be overriden.
-     * @param type specifies the gui type to register the parent handler for
-     * @param clazz the class name of the parenthandler.
-     * @deprecated No replacement yet.
-     */
-    public void registerParentWidgetHandler(String type, String clazz) {
-        if (parentWidgetHandlerMap == null) {
-            parentWidgetHandlerMap = new HashMap();
-        }
-        try {
-            if (type == null) {
-                type = getGuiDefaults().getDefaultWidgetType();
-            }
-            Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
-            if (!(object instanceof IParentWidgetHandler)) {
-                if (log.isWarnEnabled()) {
-                    log.warn(clazz + " is not an instance of IParentWidgetHandler");
-                }
-            }
-
-            parentWidgetHandlerMap.put(type, object);
-        }
-        catch (Exception e) {
-            log.warn("Could not find " + clazz + " for parentWidgetHandler named for " + type);
-        }
-    }
-    
     public static GuiDefaults getGuiDefaults() {
         if (guiDefaults == null) {
             guiDefaults = new GuiDefaults();
+            XuluxContext.getInstance().initializeGuiDefaults();
         }
         return guiDefaults;
-    }
-
-    /**
-     * Registers the native widget handler.
-     * The handler will contain all logic to be able
-     * to use native widgets on top of the nyx widgets
-     *
-     * @param type specifies the gui type to register the native handler for
-     * @param clazz the classname of the nativehandler.
-     * @deprecated No replacement yet
-     */
-    public void registerNativeWidgetHandler(String type, String clazz) {
-        if (nativeWidgetHandlerMap == null) {
-            nativeWidgetHandlerMap = new HashMap();
-        }
-        try {
-            if (type == null) {
-                type = getGuiDefaults().getDefaultWidgetType();
-            }
-            Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
-            if (!(object instanceof INativeWidgetHandler)) {
-                if (log.isWarnEnabled()) {
-                    log.warn(clazz + " is not an instance of INativeWidgetHandler");
-                }
-            }
-
-            nativeWidgetHandlerMap.put(type, object);
-        }
-        catch (Exception e) {
-            log.warn("Could not find the nativeWidgetHandler " + clazz + " for type " + type);
-        }
-    }
-
-    /**
-     *
-     * @param type specifies the gui type to register the field event handler for
-     * @param clazz the class name of the field event handler.
-     * @deprecated No replacement yet
-     */
-    public void registerFieldEventHandler(String type, String clazz) {
-        if (fieldEventHandlerMap == null) {
-            fieldEventHandlerMap = new HashMap();
-        }
-        try {
-            if (type == null) {
-                type = getGuiDefaults().getDefaultWidgetType();
-            }
-            Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
-            if (!(object instanceof NyxListener)) {
-                if (log.isWarnEnabled()) {
-                    log.warn(clazz + " is not an instance of NyxListener");
-                }
-            }
-            fieldEventHandlerMap.put(type, object.getClass());
-        }
-        catch (Exception e) {
-            log.warn("Could not find the fieldEventHandler " + clazz + " for type " + type);
-        }
-    }
-
-    /**
-     * Returns a new instance of the event Handler
-     *
-     * @param type specifies the gui type to get the eventhandler for
-     * @return the fieldEventHandler.
-     * @deprecated No replacement yet.
-     */
-    public NyxListener getFieldEventHandler(String type) {
-        if (fieldEventHandlerMap != null) {
-            if (type == null) {
-                type = getGuiDefaults().getDefaultWidgetType();
-            }
-            return (NyxListener) ClassLoaderUtils.getObjectFromClass((Class) fieldEventHandlerMap.get(type));
-        }
-        return null;
-    }
-
-    /**
-     *
-     * @param type specifies the gui type to get the parent widget handler for
-     * @return the handler of parent widgets, or null when not found
-     * @deprecated No replacement yet
-     */
-    public IParentWidgetHandler getParentWidgetHandler(String type) {
-        if (parentWidgetHandlerMap != null) {
-            return (IParentWidgetHandler) parentWidgetHandlerMap.get(type);
-        }
-        return null;
-    }
-
-    /**
-     *
-     * @return the handler for the current gui framework
-     *          or null if not found
-     * @deprecated No replacement yet
-     */
-    public IParentWidgetHandler getParentWidgetHandler() {
-        return getParentWidgetHandler(getGuiDefaults().getDefaultWidgetType());
-    }
-
-    /**
-     *
-     * @param type specifies the gui type to get the native widget handler for
-     * @return the native widget handler for the specified type
-     * @deprecated No replacement yet
-     */
-    public INativeWidgetHandler getNativeWidgetHandler(String type) {
-        if (nativeWidgetHandlerMap != null) {
-            return (INativeWidgetHandler) nativeWidgetHandlerMap.get(type);
-        }
-        return null;
-    }
-
-    /**
-     *
-     * @return the native widgets handler for the defaulttype
-     * @deprecated No replacement yet.
-     */
-    public INativeWidgetHandler getNativeWidgetHandler() {
-        return getNativeWidgetHandler(getGuiDefaults().getDefaultWidgetType());
     }
 
     /**
@@ -587,43 +360,6 @@ public class XuluxContext {
         GuiDefaultsHandler handler = new GuiDefaultsHandler();
         InputStream stream = this.getClass().getClassLoader().getResourceAsStream(xmlFile);
         handler.read(stream);
-    }
-
-    /**
-     * Returns the class that corresponds to the name or null
-     * when not found
-     * See GuiDefaults.xml for more info on defining widgets or
-     * call registerWidget(name, clazz) to register one yourself..
-     *
-     * @param name the widget
-     * @param type specifies the gui type to get widgetclass for.
-     * @return the class for the widget
-     */
-    public Class getWidget(String name, String type) {
-        if (name == null) {
-          return null;
-        }
-        name = name.toLowerCase();
-        WidgetConfig config = getWidgetConfig(name);
-        if (config == null) {
-            return null;
-        }
-        return config.get(type);
-    }
-
-    /**
-     * Returns the class that corresponds to the name or null
-     * when not found
-     * See GuiDefaults.xml for more info on defining widgets or
-     * call registerWidget(name, clazz) to register one yourself..
-     * This will return the widget from the set defaulttype
-     * (system default is swing).
-     *
-     * @param name - the widget name
-     * @return the class for the widget
-     */
-    public Class getWidget(String name) {
-        return getWidget(name, getGuiDefaults().getDefaultWidgetType());
     }
 
     /**
@@ -686,179 +422,5 @@ public class XuluxContext {
     public static void setTest(boolean testMode) {
         test = testMode;
     }
-    /**
-     * Sets the application wide default widget type
-     * (eg. swt, core, swing)
-     *
-     * @param type the default gui type for this application
-     * @deprecated use XuluxContext.getGuiDefaults().setDefaultWidgetType(type)
-     */
-    public void setDefaultWidgetType(String type) {
-        getGuiDefaults().setDefaultWidgetType(type);
-    }
 
-    /**
-     * @return a map with widgets.
-     */
-    public HashMap getWidgets() {
-        return this.widgets;
-    }
-
-    /**
-     * @return the NYX toolkit of the default type or null
-     *          when not present
-     * @deprecated Use XuluxContext.getGuiDefaults.getNyxToolkit()
-     */
-    public NYXToolkit getNYXToolkit() {
-        return getNYXToolkit(getGuiDefaults().getDefaultWidgetType());
-    }
-
-    /**
-     *
-     * @param type the toolkit type (eg swt, swing)
-     * @return the NYX toolkit type specified or null
-     *          when not present
-     * @deprecated Use XuluxContext.getGuiDefaults.getNyxToolkit(type)
-     */
-    public NYXToolkit getNYXToolkit(String type) {
-        if (this.nyxToolkits != null) {
-            return (NYXToolkit) this.nyxToolkits.get(type);
-        }
-        return null;
-    }
-
-    /**
-     * Add a toolkit of specified type
-     *
-     * @param clazz the toolkit class
-     * @param type if the type is null, it deaults to getDefaultWidgetType
-     * @deprecated Use registerWidgetTool.
-     */
-    public void registerNYXToolkit(String clazz, String type) {
-        if (this.nyxToolkits == null) {
-            this.nyxToolkits = new HashMap();
-        }
-        if (type == null) {
-            type = getGuiDefaults().getDefaultWidgetType();
-        }
-        Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
-        if (object instanceof NYXToolkit) {
-            this.nyxToolkits.put(type, object);
-        }
-        else {
-            log.warn("NYXToolkit class " + clazz + " is not of type NYXToolkit or cannot be instantiated");
-        }
-    }
-
-    /**
-     * Register a widget tool for the specified widget.
-     *
-     * @param clazz the clazzname of the widget tool
-     * @param widgetName the name of the widget
-     * @param type the guilayer type to register it for.
-     * @deprecated No replacement yet.
-     */
-    public void registerWidgetTool(String clazz, String widgetName, String type) {
-        WidgetConfig config = getWidgetConfig(widgetName);
-        if (config != null) {
-            config.addWidgetTool(type, clazz);
-        }
-    }
-
-    /**
-     * Register a widgettool or the  specified widget.
-     * It registers this or the defaulttype.
-     *
-     * @param clazz the clazzname of the widget tool
-     * @param widgetName the name of the widget
-     * @deprecated No replacement yet.
-     */
-    public void registerWidgetTool(String clazz, String widgetName) {
-        registerWidgetTool(clazz, widgetName, getGuiDefaults().getDefaultWidgetType());
-    }
-
-    /**
-     *
-     * @param widgetName the name of the widget to get the config for
-     * @return the widgetconfig for the widget or null if not found
-     */
-    public WidgetConfig getWidgetConfig(String widgetName) {
-        if (widgetName == null) {
-            return null;
-        }
-        widgetName = widgetName.toLowerCase();
-        return (WidgetConfig) widgets.get(widgetName);
-    }
-
-    /**
-     * Add a widget initializer
-     *
-     * @param initializerClass - the class that implements IWidgetInitializer
-     * @param widgetName the name of the widget to register the initializer for
-     * @param type the type of gui to register the initializer for
-     * @deprecated Use registerWidgetTool now.
-     */
-    public void registerWidgetInitializer(String initializerClass, String widgetName, String type) {
-        if (type == null) {
-            type = getGuiDefaults().getDefaultWidgetType();
-        }
-        Class clz = ClassLoaderUtils.getClass(initializerClass);
-        if (clz != null) {
-            if (!IWidgetInitializer.class.isAssignableFrom(clz)) {
-                if (log.isWarnEnabled()) {
-                    log.warn("Widget initializer " + initializerClass + " is not of type IWidgetInitializer");
-                }
-                return;
-            }
-            WidgetConfig config = (WidgetConfig) widgets.get(widgetName);
-            if (config != null) {
-                config.addWidgetInitializer(type, clz);
-            }
-            else {
-                if (log.isWarnEnabled()) {
-                    log.warn(
-                        "Cannot register widget initializer "
-                            + initializerClass
-                            + " since there is no widget with the name "
-                            + widgetName);
-                }
-            }
-        }
-        else {
-            if (log.isWarnEnabled()) {
-                log.warn("Widget initializer " + initializerClass + " cannot be initialized");
-            }
-        }
-    }
-
-    /**
-     *
-     * @param widgetType the type of widget to get the widgetinitializer for
-     * @return a new instance of the widget initializer that is part of this widget
-     *          or null when not present
-     * @deprecated use getWidgetConfig
-     */
-    public List getWidgetInitializers(String widgetType) {
-        if (widgetType == null) {
-            return null;
-        }
-        WidgetConfig config = (WidgetConfig) widgets.get(widgetType.toLowerCase());
-        if (config == null) {
-            return null;
-        }
-        List clzs = config.getWidgetInitializers(getGuiDefaults().getDefaultWidgetType());
-        if (clzs == null) {
-            return null;
-        }
-        Iterator it = clzs.iterator();
-        ArrayList list = new ArrayList();
-        while (it.hasNext()) {
-            Class clz = (Class) it.next();
-            list.add((IWidgetInitializer) ClassLoaderUtils.getObjectFromClass(clz));
-        }
-        if (list.size() == 0) {
-            return null;
-        }
-        return list;
-    }
 }

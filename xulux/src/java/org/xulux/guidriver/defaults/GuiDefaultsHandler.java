@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.6 2004-05-10 15:03:56 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.7 2004-05-11 11:50:01 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,8 +28,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xulux.core.XuluxContext;
 import org.xulux.core.WidgetConfig;
+import org.xulux.core.XuluxContext;
 
 /**
  * Case insensitive processing of the guidefaults.
@@ -37,7 +37,7 @@ import org.xulux.core.WidgetConfig;
  * @todo move the contenthandlers to the dataprovider API.
  * @todo do some code reuse of setting the properties.. eg util method or something
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.6 2004-05-10 15:03:56 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.7 2004-05-11 11:50:01 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 
@@ -147,19 +147,19 @@ public class GuiDefaultsHandler extends DefaultHandler {
                 type = XuluxContext.getGuiDefaults().getDefaultWidgetType();
             }
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
-            XuluxContext.getInstance().registerParentWidgetHandler(type, clazz);
+            XuluxContext.getGuiDefaults().registerParentWidgetHandler(type, clazz);
         } else if (qName.equals(ELEMENT_NATIVEWIDGETHANDLER)) {
             String type = getType(atts);
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
-            XuluxContext.getInstance().registerNativeWidgetHandler(type, clazz);
+            XuluxContext.getGuiDefaults().registerNativeWidgetHandler(type, clazz);
         } else if (qName.equals(ELEMENT_FIELDEVENTHANDLER)) {
             String type = getType(atts);
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
-            XuluxContext.getInstance().registerFieldEventHandler(type, clazz);
+            XuluxContext.getGuiDefaults().registerFieldEventHandler(type, clazz);
         } else if (qName.equals(ELEMENT_NYXTOOLKIT)) {
             String type = getType(atts);
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
-            XuluxContext.getInstance().registerNYXToolkit(clazz, type);
+            XuluxContext.getGuiDefaults().registerXuluxToolkit(clazz, type);
         } else if (qName.equals(ELEMENT_WIDGETS)) {
             widgetsStarted = true;
         } else if (qName.equals(ELEMENT_WIDGET) && widgetsStarted) {
@@ -170,7 +170,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             String type = getType(atts);
             if (clazz != null) {
-                XuluxContext.getInstance().registerWidget(name, clazz, type);
+                XuluxContext.getGuiDefaults().registerWidget(name, clazz, type);
             }
             this.widgetName = name;
         } else if (qName.equals(ELEMENT_DEFAULTS) && widgetsStarted && widgetName != null) {
@@ -178,7 +178,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
         } else if (qName.equals(ELEMENT_PROPERTIES) && widgetsStarted && widgetName != null) {
         	propertiesStarted = true;
         } else if (qName.equals(ELEMENT_PROPERTY) && propertiesStarted) {
-        	WidgetConfig config = XuluxContext.getInstance().getWidgetConfig(widgetName);
+        	WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(widgetName);
         	String use = atts.getValue(ATTRIBUTE_USE);
         	String clz = atts.getValue(ATTRIBUTE_CLASS);
         	String name = atts.getValue(ATTRIBUTE_NAME);
@@ -198,7 +198,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
                     System.out.println("Clazz attribute should not be null");
                     return;
                 }
-                WidgetConfig config = XuluxContext.getInstance().getWidgetConfig(widgetName);
+                WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(widgetName);
                 config.addContentHandler(clazz, defaultView); 
             }
         }
@@ -226,7 +226,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
         if (qName.equalsIgnoreCase(ELEMENT_DEFAULTS)) {
             defaultsStarted = false;
         } else if (defaultsStarted) {
-            WidgetConfig config = XuluxContext.getInstance().getWidgetConfig(widgetName);
+            WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(widgetName);
             config.registerWidgetDefault(defaultQName, defaultValue.trim());
             if (defaultAtts != null) {
                 Iterator it = defaultAtts.keySet().iterator();
@@ -241,7 +241,13 @@ public class GuiDefaultsHandler extends DefaultHandler {
             widgetName = null;
         } else if (qName.equals(ELEMENT_INITIALIZER)) {
             if (widgetName != null) {
-                XuluxContext.getInstance().registerWidgetInitializer(initClass, widgetName, initType);
+                WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(widgetName);
+                if (config != null) {
+                  if (initType == null) {
+                    initType = XuluxContext.getGuiDefaults().getDefaultWidgetType();
+                  }
+                  config.addWidgetTool(initType, initClass);
+                }
                 this.initType = null;
                 this.initClass = null;
             }

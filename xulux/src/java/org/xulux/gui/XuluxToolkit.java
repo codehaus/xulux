@@ -1,5 +1,5 @@
 /*
-   $Id: NYXToolkit.java,v 1.4 2004-04-14 14:16:11 mvdb Exp $
+   $Id: XuluxToolkit.java,v 1.1 2004-05-11 11:50:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,34 +29,34 @@ import org.xulux.core.XuluxContext;
  * (didn't check yet if swt uses something different though)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NYXToolkit.java,v 1.4 2004-04-14 14:16:11 mvdb Exp $
+ * @version $Id: XuluxToolkit.java,v 1.1 2004-05-11 11:50:00 mvdb Exp $
  */
-public abstract class NYXToolkit {
+public abstract class XuluxToolkit {
 
     /**
      * The toolkit instance
      */
-    private static NYXToolkit instance;
+    private static XuluxToolkit instance;
     /**
      * The log instance
      */
-    private static Log log = LogFactory.getLog(NYXToolkit.class);
+    private static Log log = LogFactory.getLog(XuluxToolkit.class);
     /**
      *
      */
-    public NYXToolkit() {
+    public XuluxToolkit() {
         super();
     }
 
     /**
-     * @return the NYXToolkit used for the gui
+     * @return the XuluxToolkit used for the gui
      */
-    protected static NYXToolkit getInstance() {
+    protected static XuluxToolkit getInstance() {
         if (instance == null) {
-            instance = XuluxContext.getInstance().getNYXToolkit();
+            instance = XuluxContext.getGuiDefaults().getXuluxToolkit();
             if (instance == null) {
                 if (log.isWarnEnabled()) {
-                    log.warn("No toolkits present for nyx, please check your configuration or guidefaults xml file");
+                    log.warn("No toolkits present for xulux, please check your configuration or guidefaults xml file");
                 }
             }
 

@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetFactory.java,v 1.6 2004-04-14 14:16:11 mvdb Exp $
+   $Id: WidgetFactory.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -32,7 +32,7 @@ import org.xulux.rules.IRule;
  * Factory to create the widget class..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.6 2004-04-14 14:16:11 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.7 2004-05-11 11:50:00 mvdb Exp $
  */
 public class WidgetFactory {
 
@@ -50,8 +50,8 @@ public class WidgetFactory {
      * @return the widget or null when no widget could be created
      */
     public static Widget getWidget(String type, String name) {
-        WidgetConfig config = XuluxContext.getInstance().getWidgetConfig(type);
-        Class clazz = XuluxContext.getInstance().getWidget(type);
+        WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(type);
+        Class clazz = XuluxContext.getGuiDefaults().getWidget(type);
         Widget instance = null;
         if (clazz != null) {
             try {
@@ -101,7 +101,7 @@ public class WidgetFactory {
                 menu = getWidget("popupmenu", name);
             }
             Widget widget = (Widget) it.next();
-            Class clazz = XuluxContext.getInstance().getWidget("button");
+            Class clazz = XuluxContext.getGuiDefaults().getWidget("button");
             if (widget.getClass().isAssignableFrom(clazz)) {
                 Widget item = getWidget("menuitem", "menuItem:" + widget.getName());
                 cloneWidget(widget, item);

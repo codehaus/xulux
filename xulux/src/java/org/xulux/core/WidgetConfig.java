@@ -1,5 +1,5 @@
 /*
-   $Id: WidgetConfig.java,v 1.4 2004-04-01 16:15:08 mvdb Exp $
+   $Id: WidgetConfig.java,v 1.5 2004-05-11 11:50:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,6 +26,7 @@ import java.util.Map;
 import org.xulux.dataprovider.contenthandlers.ContentView;
 import org.xulux.dataprovider.contenthandlers.IContentHandler;
 import org.xulux.gui.IPropertyHandler;
+import org.xulux.gui.IWidgetInitializer;
 import org.xulux.utils.ClassLoaderUtils;
 
 /**
@@ -35,7 +36,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.4 2004-04-01 16:15:08 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.5 2004-05-11 11:50:00 mvdb Exp $
  */
 public class WidgetConfig {
 
@@ -126,9 +127,8 @@ public class WidgetConfig {
      *
      * @param type the type of gui layer
      * @param initializerClass the initializer class
-     * @deprecated Please use addWidgetTool
      */
-    public void addWidgetInitializer(String type, Class initializerClass) {
+    protected void addWidgetInitializer(String type, Class initializerClass) {
         if (initializers == null) {
             initializers = new HashMap();
         }
@@ -180,6 +180,8 @@ public class WidgetConfig {
         if (IContentHandler.class.isAssignableFrom(clazz)) {
             Class clzType = ((IContentHandler) ClassLoaderUtils.getObjectFromClass(clazz)).getType();
             getContentHandlers().put(clzType, clazz);
+        } else if (IWidgetInitializer.class.isAssignableFrom(clazz)) {
+            addWidgetInitializer(type, clazz);
         }
     }
 
