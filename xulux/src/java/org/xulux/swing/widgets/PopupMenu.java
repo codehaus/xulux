@@ -1,5 +1,5 @@
 /*
-   $Id: PopupMenu.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: PopupMenu.java,v 1.4 2004-11-18 23:15:55 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,8 +21,6 @@ import java.awt.Component;
 
 import javax.swing.JPopupMenu;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.xulux.gui.ContainerWidget;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
@@ -31,7 +29,7 @@ import org.xulux.gui.Widget;
  * A popopmenu
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupMenu.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: PopupMenu.java,v 1.4 2004-11-18 23:15:55 mvdb Exp $
  */
 public class PopupMenu extends ContainerWidget {
 
@@ -39,10 +37,6 @@ public class PopupMenu extends ContainerWidget {
      * the native popupmenu
      */
     protected JPopupMenu menu;
-    /**
-     * the logging instance
-     */
-    protected static Log log = LogFactory.getLog(PopupMenu.class);
 
     /**
      * @param name the popupmenu name
