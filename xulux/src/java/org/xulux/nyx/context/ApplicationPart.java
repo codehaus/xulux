@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.1 2002-10-31 01:44:26 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.2 2002-10-31 02:00:51 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.1 2002-10-31 01:44:26 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.2 2002-10-31 02:00:51 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -144,6 +144,23 @@ public class ApplicationPart
      */
     public void setValue(String field, Object value)
     {
+    }
+    
+    /** 
+     * Returns the current value of the specified field
+     * @param field
+     */
+    public Object getGuiValue(String field)
+    {
+        return null;
+    }
+    
+    /**
+     * @return the current bean value
+     */
+    public Object getBeanValue(String field)
+    {
+        return null;
     }
     
     /**
