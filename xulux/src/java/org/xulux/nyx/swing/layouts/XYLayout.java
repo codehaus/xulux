@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.6 2003-09-11 12:20:57 mvdb Exp $
+ $Id: XYLayout.java,v 1.7 2003-09-25 09:44:51 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,6 +54,8 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import javax.swing.JComponent;
+
 import org.xulux.nyx.gui.Widget;
 
 /**
@@ -61,7 +63,7 @@ import org.xulux.nyx.gui.Widget;
  * using the size and the position of the control
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.6 2003-09-11 12:20:57 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.7 2003-09-25 09:44:51 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
@@ -132,12 +134,18 @@ public class XYLayout implements LayoutManager2, Serializable
         for (int i = 0; i < count; i++)
         {
             Component component = parent.getComponent(i);
+//            System.out.println("Component : "+component);
             Widget widget = (Widget) map.get(component);
-            
             Rectangle r = null;
             if (widget != null && widget.isVisible())
             {
                 r = getRectangle(widget, component);
+                if (component instanceof JComponent) {
+                    ((JComponent)component).setPreferredSize(new Dimension(r.width, r.height));
+                }
+                component.setSize(r.width, r.height);
+//                System.err.println("Widget : "+widget.getName());
+//                System.err.println("r : "+r);
             } else if (component != null) {
                 // if component is not a widget
                 // so layed on top of nyx.
