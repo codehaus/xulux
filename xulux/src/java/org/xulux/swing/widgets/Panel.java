@@ -1,5 +1,5 @@
 /*
-   $Id: Panel.java,v 1.4 2004-05-10 12:31:26 mvdb Exp $
+   $Id: Panel.java,v 1.5 2004-05-18 00:01:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,6 +20,7 @@ package org.xulux.swing.widgets;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,19 +33,20 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import org.xulux.core.XuluxContext;
 import org.xulux.gui.ContainerWidget;
 import org.xulux.gui.IShowChildWidgets;
+import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
 import org.xulux.gui.utils.ColorUtils;
 import org.xulux.swing.extensions.NyxTitledBorder;
-import org.xulux.swing.layouts.XYLayout;
 
 /**
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.4 2004-05-10 12:31:26 mvdb Exp $
+ * @version $Id: Panel.java,v 1.5 2004-05-18 00:01:14 mvdb Exp $
  */
 public class Panel extends ContainerWidget {
 
@@ -97,7 +99,12 @@ public class Panel extends ContainerWidget {
         }
         // we default to XYLayout for now..
         initialized = true;
-        panel = new JPanel(new XYLayout(this));
+        IXuluxLayout layout = XuluxContext.getGuiDefaults().getLayout(null, getProperty("layout"));
+        if (layout == null) {
+            layout = XuluxContext.getGuiDefaults().getDefaultLayout();
+        }
+        layout.setParent(this);
+        panel = new JPanel((LayoutManager) layout);
         initializeChildren();
         refresh();
         processInit();

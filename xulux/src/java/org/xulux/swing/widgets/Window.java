@@ -1,5 +1,5 @@
 /*
-   $Id: Window.java,v 1.8 2004-05-06 12:30:01 mvdb Exp $
+   $Id: Window.java,v 1.9 2004-05-18 00:01:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,6 +19,7 @@ package org.xulux.swing.widgets;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,11 +33,12 @@ import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.core.XuluxContext;
 import org.xulux.gui.IShowChildWidgets;
+import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.NyxWindow;
 import org.xulux.gui.Widget;
-import org.xulux.swing.layouts.XYLayout;
 import org.xulux.swing.listeners.NyxWindowListener;
 import org.xulux.swing.util.SwingUtils;
 import org.xulux.utils.BooleanUtils;
@@ -45,7 +47,7 @@ import org.xulux.utils.BooleanUtils;
  * This is a swing window.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.8 2004-05-06 12:30:01 mvdb Exp $
+ * @version $Id: Window.java,v 1.9 2004-05-18 00:01:14 mvdb Exp $
  */
 public class Window extends NyxWindow {
     /**
@@ -121,7 +123,12 @@ public class Window extends NyxWindow {
             title = "";
         }
         window = new JFrame(title);
-        window.getContentPane().setLayout(new XYLayout(this));
+        IXuluxLayout layout = XuluxContext.getGuiDefaults().getLayout(null, getProperty("layout"));
+        if (layout == null) {
+            layout = XuluxContext.getGuiDefaults().getDefaultLayout();
+        }
+        layout.setParent(this);
+        window.getContentPane().setLayout((LayoutManager) layout);
         this.windowListener = new NyxWindowListener(this);
         window.addWindowListener(this.windowListener);
         String windowType = getProperty("window-type");
@@ -171,6 +178,7 @@ public class Window extends NyxWindow {
             }
             //button.setFocusPainted(true);
         }
+        window.setTitle(getProperty("title"));
         window.setEnabled(isEnabled());
         window.setVisible(isVisible());
         isRefreshing = false;

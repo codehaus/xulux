@@ -1,5 +1,5 @@
 /*
-   $Id: WindowTest.java,v 1.4 2004-03-16 15:04:15 mvdb Exp $
+   $Id: UIPanelTest.java,v 1.1 2004-05-18 00:01:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,21 +25,20 @@ import junit.framework.TestSuite;
 
 import org.xulux.core.ApplicationPart;
 import org.xulux.gui.PartCreator;
-import org.xulux.gui.Widget;
 
 /**
- * Testcase for an entry field
+ * Tests the panel. This is a visual test btw..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowTest.java,v 1.4 2004-03-16 15:04:15 mvdb Exp $
+ * @version $Id: UIPanelTest.java,v 1.1 2004-05-18 00:01:14 mvdb Exp $
  */
-public class WindowTest extends TestCase {
+public class UIPanelTest extends TestCase {
 
     /**
-     * Constructor for EntryTest.
+     * Constructor for PanelTest.
      * @param name the name of the test
      */
-    public WindowTest(String name) {
+    public UIPanelTest(String name) {
         super(name);
     }
 
@@ -47,21 +46,19 @@ public class WindowTest extends TestCase {
      * @return the testsuite
      */
     public static Test suite() {
-        TestSuite suite = new TestSuite(WindowTest.class);
+        TestSuite suite = new TestSuite(UIPanelTest.class);
         return suite;
     }
 
     /**
-     * Test a simple window
+     * a panel test
      */
-    public void testSimpleWindow() {
-        String xml = "org/xulux/gui/swing/widgets/WindowTest1.xml";
-        //        ((SimpleLog)LogFactory.getLog(NyxWindowListener.class)).setLevel(SimpleLog.LOG_LEVEL_TRACE);
+    public void testPanel() {
+        PersonBean bean = new PersonBean("Martin", "van den Bemt");
+        String xml = "org/xulux/gui/swing/widgets/PanelTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(null, stream);
+        ApplicationPart part = PartCreator.createPart(bean, stream);
         part.activate();
-        Widget widget = part.getWidget("WindowTest1");
-        widget.setVisible(true);
     }
 
     /**
@@ -69,7 +66,7 @@ public class WindowTest extends TestCase {
      */
     public static void main(String[] args) {
         try {
-            new WindowTest("WindowTest").testSimpleWindow();
+            new UIPanelTest("PanelTest").testPanel();
         } catch (Exception e) {
             e.printStackTrace(System.err);
             System.exit(0);

@@ -1,5 +1,5 @@
 /*
-   $Id: Dialog.java,v 1.1 2004-05-06 12:30:01 mvdb Exp $
+   $Id: Dialog.java,v 1.2 2004-05-18 00:01:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -20,6 +20,7 @@ package org.xulux.swing.widgets;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.LayoutManager;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,10 +30,11 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JMenuBar;
 
+import org.xulux.core.XuluxContext;
 import org.xulux.gui.IShowChildWidgets;
+import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.NyxWindow;
 import org.xulux.gui.Widget;
-import org.xulux.swing.layouts.XYLayout;
 import org.xulux.swing.listeners.NyxWindowListener;
 import org.xulux.utils.BooleanUtils;
 
@@ -40,7 +42,7 @@ import org.xulux.utils.BooleanUtils;
  * A dialog
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dialog.java,v 1.1 2004-05-06 12:30:01 mvdb Exp $
+ * @version $Id: Dialog.java,v 1.2 2004-05-18 00:01:14 mvdb Exp $
  */
 public class Dialog extends NyxWindow {
   
@@ -108,25 +110,31 @@ public class Dialog extends NyxWindow {
     if (title == null) {
         title = "";
     }
-    Widget parentWindow = getPart().getParentPart().getWidget(getProperty("parentWindow"));
-    if (parentWindow != null) {
-      Object nativeParent = parentWindow.getNativeWidget();
-      if (nativeParent instanceof Frame) {
-        dialog = new JDialog((Frame) nativeParent);
-      } else if (nativeParent instanceof JDialog) {
-        dialog = new JDialog((JDialog) nativeParent);
+    if (getPart().getParentPart() != null) {
+      Widget parentWindow = getPart().getParentPart().getWidget(getProperty("parentWindow"));
+      if (parentWindow != null) {
+        Object nativeParent = parentWindow.getNativeWidget();
+        if (nativeParent instanceof Frame) {
+          dialog = new JDialog((Frame) nativeParent);
+        } else if (nativeParent instanceof JDialog) {
+          dialog = new JDialog((JDialog) nativeParent);
+        }
       }
     }
     if (dialog == null) {    
       dialog = new JDialog();
     }
     dialog.setTitle(title);
-    dialog.getContentPane().setLayout(new XYLayout(this));
+    IXuluxLayout layout = XuluxContext.getGuiDefaults().getLayout(null, getProperty("layout"));
+    if (layout == null) {
+        layout = XuluxContext.getGuiDefaults().getDefaultLayout();
+    }
+    layout.setParent(this);
+    dialog.getContentPane().setLayout((LayoutManager) layout);
     this.windowListener = new NyxWindowListener(this);
     dialog.addWindowListener(this.windowListener);
     initializeChildren();
     boolean autoSize = BooleanUtils.toBoolean(getProperty("autosize"));
-    System.out.println("autoSize : " + autoSize);
     if (autoSize) {
         Dimension dim = dialog.getContentPane().getLayout().preferredLayoutSize(dialog.getContentPane());
         dialog.pack();
@@ -134,7 +142,7 @@ public class Dialog extends NyxWindow {
         dialog.setSize(getRectangle().getWidth(), getRectangle().getHeight());
     }
     if (getProperty("resizable") != null) {
-      boolean resize = BooleanUtils.toBoolean(getProperty("resizable"));
+        boolean resize = BooleanUtils.toBoolean(getProperty("resizable"));
         dialog.setResizable(resize);
     }
     if (!isRefreshing()) {
@@ -201,6 +209,7 @@ public class Dialog extends NyxWindow {
   public void refresh() {
     isRefreshing = true;
     initialize();
+    dialog.setTitle(getProperty("title"));
     dialog.setEnabled(isEnabled());
     dialog.setVisible(isVisible());
     isRefreshing = false;

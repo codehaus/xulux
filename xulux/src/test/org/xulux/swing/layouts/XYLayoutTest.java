@@ -1,5 +1,5 @@
 /*
-   $Id: XYLayoutTest.java,v 1.1 2004-05-10 14:05:50 mvdb Exp $
+   $Id: XYLayoutTest.java,v 1.2 2004-05-18 00:01:14 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -49,7 +49,7 @@ import org.xulux.swing.widgets.Window;
  * A class to to test the layoutmanagers for swing
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayoutTest.java,v 1.1 2004-05-10 14:05:50 mvdb Exp $
+ * @version $Id: XYLayoutTest.java,v 1.2 2004-05-18 00:01:14 mvdb Exp $
  */
 public class XYLayoutTest extends TestCase
 {
@@ -484,7 +484,16 @@ public class XYLayoutTest extends TestCase
         IXuluxLayout layout = new XYLayout();
         layout.destroy();
     }
-    
+
+    public void testConstructor() {
+        System.out.println("testConstructor");
+        Window window = new Window("window");
+        XYLayout layout = new XYLayout(window);
+        assertEquals(window, layout.getParent());
+        layout = new XYLayout();
+        layout.setParent(window);
+        assertEquals(window, layout.getParent());
+    }    
     
     public static void main(String[] args) {
         new XYLayoutTest("LayoutTest").testNativeGetLayoutSize();
