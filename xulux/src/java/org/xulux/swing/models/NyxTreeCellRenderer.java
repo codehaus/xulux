@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTreeCellRenderer.java,v 1.12 2004-11-29 13:48:38 mvdb Exp $
+   $Id: NyxTreeCellRenderer.java,v 1.13 2005-01-04 15:29:15 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,6 +19,7 @@ package org.xulux.swing.models;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.Icon;
 import javax.swing.JTree;
@@ -37,7 +38,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * For now extends the defaultreeCellRenderer.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTreeCellRenderer.java,v 1.12 2004-11-29 13:48:38 mvdb Exp $
+ * @version $Id: NyxTreeCellRenderer.java,v 1.13 2005-01-04 15:29:15 mvdb Exp $
  */
 public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
 
@@ -55,6 +56,11 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
      * the request
      */
     protected PartRequest request;
+    
+    /**
+     * Store a temp font in case java suddenly doesn't know what font use.
+     */
+    protected Font tmpFont;
 
     /**
      * @param tree the tree
@@ -123,19 +129,25 @@ public class NyxTreeCellRenderer extends DefaultTreeCellRenderer {
                     Dimension dim = ui.getPreferredSize(this);
                     int width = 4;
                     if (getFont() != null) {
+                      if (this.tmpFont == null) {
+                      	this.tmpFont = getFont();
+                      }
                       width += getFontMetrics(getFont()).stringWidth(String.valueOf(value));
+                    } else if (tmpFont != null) {
+                    	width += getFontMetrics(tmpFont).stringWidth(String.valueOf(value));
                     }
                     if (iconImage != null) {
                       width+=iconImage.getIconWidth();
                     }
                     dim.width=width;
+                    System.out.println(value + " dim : "+ dim);
                     setPreferredSize(dim);
                 }
             }
         } catch (Exception e) {
-          // an exception occured, we need to have some value, so we show the exception
             super.getTreeCellRendererComponent(tree, e.toString(), sel, expanded, leaf, row, hasFocus);
         }
+        System.out.println("Size of " + value + " : " + getPreferredSize());
         return this;
     }
 
