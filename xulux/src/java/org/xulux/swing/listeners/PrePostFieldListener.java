@@ -1,5 +1,5 @@
 /*
-   $Id: PrePostFieldListener.java,v 1.5 2004-05-04 12:04:42 mvdb Exp $
+   $Id: PrePostFieldListener.java,v 1.6 2004-06-22 00:25:56 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,6 +24,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.JCheckBox;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.gui.GuiUtils;
@@ -43,7 +45,7 @@ import org.xulux.swing.widgets.ToggleButton;
  * 
  * @todo Find a better way to handle the concel button.
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.5 2004-05-04 12:04:42 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.6 2004-06-22 00:25:56 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener implements FocusListener, ActionListener, ItemListener {
 
@@ -94,8 +96,13 @@ public class PrePostFieldListener extends NyxListener implements FocusListener, 
             return;
         }
         NyxEventQueue q = NyxEventQueue.getInstance();
-        q.holdEvents(true);
-        q.holdAccepted(this);
+        // @todo make test..
+        // A checkbox would consume an event, so it wouldn't process 
+        // any further.. Need to make a test of this!
+        if (!(e.getComponent() instanceof JCheckBox)) { 
+            q.holdEvents(true);
+            q.holdAccepted(this);
+        }
     }
 
     /**
