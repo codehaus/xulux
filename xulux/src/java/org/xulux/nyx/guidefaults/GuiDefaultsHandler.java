@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsHandler.java,v 1.4 2003-01-25 19:21:38 mvdb Exp $
+ $Id: GuiDefaultsHandler.java,v 1.5 2003-01-25 23:17:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.context.WidgetConfig;
  * It should be case insensitive, but isn't really ;)
  * 
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.4 2003-01-25 19:21:38 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.5 2003-01-25 23:17:57 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler
 {
@@ -127,7 +127,6 @@ public class GuiDefaultsHandler extends DefaultHandler
             {
                 defaultType = defaultType.toLowerCase();
             }
-            System.out.println("Setting defaultType to :"+defaultType);
             ApplicationContext.getInstance().setDefaultWidgetType(defaultType);
         }
         else if (qName.equals(ELEMENT_WIDGETS))

@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.1 2003-01-08 02:37:06 mvdb Exp $
+ $Id: Panel.java,v 1.2 2003-01-25 23:17:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,6 +53,7 @@ import java.util.Iterator;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
+import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.layouts.XYLayout;
 import sun.security.action.GetPropertyAction;
@@ -61,13 +62,12 @@ import sun.security.action.GetPropertyAction;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.1 2003-01-08 02:37:06 mvdb Exp $
+ * @version $Id: Panel.java,v 1.2 2003-01-25 23:17:57 mvdb Exp $
  */
-public class Panel extends Widget
+public class Panel extends ContainerWidget
 {
     
     private JPanel panel;
-    private ArrayList widgets;
 
     /**
      * Constructor for Panel.
@@ -83,18 +83,7 @@ public class Panel extends Widget
      */
     public void destroy()
     {
-        ArrayList children = getChildWidgets();
-        if (children != null)
-        {
-            Iterator it = children.iterator();
-            while (it.hasNext())
-            {
-                Widget cw = (Widget)it.next();
-                cw.destroy();
-            }
-            children.clear();
-            children = null;
-        }
+        super.destroy();
         Container container = panel.getParent();
         panel.setVisible(false);
         panel.removeAll();
@@ -127,16 +116,7 @@ public class Panel extends Widget
         // we default to XYLayout for now..
         initialized = true;
         panel = new JPanel(new XYLayout());
-        if (widgets != null)
-        {
-            Iterator it = widgets.iterator();
-            while (it.hasNext())
-            {
-                Widget widget = (Widget) it.next();
-                widget.initialize();
-                panel.add((Component)widget.getNativeWidget(), widget);
-            }
-        }
+        initializeChildren();
         refresh();
     }
 
@@ -156,17 +136,6 @@ public class Panel extends Widget
         }
     }
 
-    /**
-     * @see org.xulux.nyx.gui.Widget#addChildWidget(Widget)
-     */
-    public void addChildWidget(Widget widget)
-    {
-        if (widgets == null)
-        {
-            widgets = new ArrayList();
-        }
-        widgets.add(widget);
-    }
 
     /**
      * @see org.xulux.nyx.gui.Widget#canContainChildren()
@@ -182,6 +151,14 @@ public class Panel extends Widget
     public ArrayList getChildWidgets()
     {
         return widgets;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.ContainerWidget#addToParent(Widget)
+     */
+    public void addToParent(Widget widget)
+    {
+        panel.add((Component)widget.getNativeWidget(), widget);
     }
 
 }

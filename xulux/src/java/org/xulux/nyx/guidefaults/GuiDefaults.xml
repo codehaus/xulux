@@ -6,12 +6,12 @@
 <guidefaults defaultType="swing">
   <widgets>
     <widget name="button" class="org.xulux.nyx.gui.Button"/>
-    <widget name="combo" type="core" class="org.xulux.nyx.gui.Combo"/>
     <widget name="combo" type="swing" class="org.xulux.nyx.gui.swing.Combo"/>
     <widget name="combo" type="swt" class="org.xulux.nyx.gui.swt.Combo"/>
     <widget name="entry" class="org.xulux.nyx.gui.Entry"/>
     <widget name="label" class="org.xulux.nyx.gui.Label"/>
     <widget name="panel" class="org.xulux.nyx.gui.Panel"/>
-    <widget name="window" class="org.xulux.nyx.gui.Window"/>
+    <widget name="window" type="swing" class="org.xulux.nyx.gui.swing.Window"/>
+    <widget name="window" type="swt" class="org.xulux.nyx.gui.swt.Window"/>
   </widgets>
 </guidefaults>

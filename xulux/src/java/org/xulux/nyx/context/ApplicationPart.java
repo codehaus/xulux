@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.33 2003-01-08 02:37:06 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.34 2003-01-25 23:17:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -84,7 +84,7 @@ import org.xulux.nyx.listeners.swing.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.33 2003-01-08 02:37:06 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.34 2003-01-25 23:17:57 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -135,7 +135,10 @@ public class ApplicationPart
     {
         this();
         this.bean = bean;
-        this.mapping = Dictionary.getInstance().getMapping(bean.getClass());
+        if (bean != null) 
+        {
+            this.mapping = Dictionary.getInstance().getMapping(bean.getClass());
+        }
     }
         
     
@@ -311,6 +314,7 @@ public class ApplicationPart
             widgets = new WidgetList();
         }
         ((Widget)widget).setPart(this);
+        ((Widget)widget).setRootWidget(true);
         widgets.add(widget);
     }
     
@@ -453,23 +457,15 @@ public class ApplicationPart
         while (it.hasNext())
         {
             Widget widget = (Widget) it.next();
-            if (getRootWidget() instanceof JPanel)
+            if (widget.canBeRootWidget() || 
+                 widget.canContainChildren())
             {
-                try
-                {
-                    ((JPanel)parentWidget).add((Component)widget.getNativeWidget(),widget);
-                    WidgetRequestImpl req = new WidgetRequestImpl(widget,PartRequest.NO_ACTION);
-                    ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
-                }
-                catch(NullPointerException npe)
-                {
-                    if (log.isWarnEnabled())
-                    {
-                        log.warn("Problems getting native widget for widget "+widget.getName());
-                    }
-                    throw npe;
-                }
+                widget.initialize();
+                WidgetRequestImpl req = new WidgetRequestImpl(widget,PartRequest.NO_ACTION);
+                ApplicationContext.fireFieldRequest(widget,req, ApplicationContext.PRE_REQUEST);
             }
+            
+            
         }
     }
     

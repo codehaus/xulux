@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.20 2003-01-08 02:37:06 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.21 2003-01-25 23:17:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,6 +54,7 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.swt.internal.ole.win32.ISpecifyPropertyPages;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.guidefaults.GuiDefaultsHandler;
 import org.xulux.nyx.rules.IRule;
@@ -63,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.20 2003-01-08 02:37:06 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.21 2003-01-25 23:17:57 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -98,6 +99,8 @@ public class ApplicationContext
      * The currently registered rules
      */
     private ArrayList rules;
+    
+    private ApplicationPart isApplication;
 
     /**
      * Request types..
@@ -121,7 +124,24 @@ public class ApplicationContext
     {
         super();
     }
-
+    
+    /**
+     * Checks to see if this part is the application
+     */
+    public static boolean isPartApplication(ApplicationPart part)
+    {
+        return (part == getInstance().isApplication);
+    }
+    
+    /**
+     * Exits the application
+     */
+    public static void exitApplication()
+    {
+        System.exit(0);
+    }
+    
+    
     public static ApplicationContext getInstance()
     {
         if (instance == null)
@@ -137,11 +157,19 @@ public class ApplicationContext
      */
     public void register(ApplicationPart part)
     {
+    }
+    
+    public void register(ApplicationPart part, boolean isApplication)
+    {
         if (registry == null)
         {
             registry = new ArrayList();
         }
         registry.add(part);
+        if (isApplication) 
+        {
+            this.isApplication = part;
+        }
     }
 
     /** 
@@ -410,6 +438,8 @@ public class ApplicationContext
         {
             return null;
         }
+        Class clazz = config.get(type);
+        
         return config.get(type);
     }
     

@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
+ $Id: Window.java,v 1.3 2003-01-25 23:17:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,17 +46,18 @@
 
 package org.xulux.nyx.gui;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.swing.JFrame;
 
 /**
  * 
  * @author <a href=:mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.2 2002-11-10 01:32:57 mvdb Exp $
+ * @version $Id: Window.java,v 1.3 2003-01-25 23:17:57 mvdb Exp $
  */
-public class Window extends Widget
+public abstract class Window extends ContainerWidget
 {
-    
-    JFrame frame;
     
     /**
      * This doesn't make any sense, but it is,
@@ -67,33 +68,5 @@ public class Window extends Widget
     {
         super(field);
     }
-    /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
-     */
-    public void destroy()
-    {
-    }
 
-    /**
-     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
-     */
-    public Object getNativeWidget()
-    {
-        return frame;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#initialize()
-     */
-    public void initialize()
-    {
-    }
-
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#refresh()
-     */
-    public void refresh()
-    {
-    }
 }

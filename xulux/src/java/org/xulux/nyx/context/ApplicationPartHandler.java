@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.13 2003-01-08 02:37:06 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.14 2003-01-25 23:17:57 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,6 +53,7 @@ import java.util.StringTokenizer;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -68,7 +69,7 @@ import org.xulux.nyx.listeners.swing.PrePostFieldListener;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.13 2003-01-08 02:37:06 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.14 2003-01-25 23:17:57 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -88,8 +89,11 @@ public class ApplicationPartHandler extends DefaultHandler
     private static String TYPE_ATTRIBUTE = "type";
     private static String NAME_ATTRIBUTE = "name";
     private static String USE_ATTRIBUTE = "use";
-
+    private static String APPLICATION_ATTRIBUTE = "application";
+    
     private boolean processingField = false;
+    
+    private boolean isApplication = false;
 
     private ApplicationPart part;
 
@@ -155,8 +159,8 @@ public class ApplicationPartHandler extends DefaultHandler
             {
                 if (log.isFatalEnabled())
                 {
-                    log.fatal("Exception during paring of part xml",se);
-                    log.fatal("Exception during paring of part xml",se.getException());
+                    log.fatal("Exception during parsing of part xml",se);
+                    log.fatal("Exception during parsing of part xml",se.getException());
                 }
             }
         }
@@ -189,6 +193,10 @@ public class ApplicationPartHandler extends DefaultHandler
             {
                 this.part = new ApplicationPart(this.bean);
                 part.setName(atts.getValue(NAME_ATTRIBUTE));
+                if (BooleanUtils.toBoolean(atts.getValue(APPLICATION_ATTRIBUTE)))
+                {
+                    ApplicationContext.getInstance().isPartApplication(this.part);
+                }
             }
         }
         else if (qName.equals(FIELD_ELEMENT))
@@ -366,8 +374,23 @@ public class ApplicationPartHandler extends DefaultHandler
         String name = atts.getValue(NAME_ATTRIBUTE);
         String use = atts.getValue(USE_ATTRIBUTE);
         Widget widget = WidgetFactory.getWidget(type, name);
-        widget.setField(use);
-        stack.push(widget);
+        if (widget != null)
+        {
+            widget.setField(use);
+            stack.push(widget);
+            if (log.isTraceEnabled())
+            {
+                log.trace("Adding widget "+name+" of type "+type);
+            }
+        }
+        else
+        {
+            if (log.isWarnEnabled())
+            {
+                log.warn("Skipping widget "+name+" since type "+
+                           type+" is not available");
+            }
+        }
     }
 
     /**
