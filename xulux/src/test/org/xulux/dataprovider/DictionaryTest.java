@@ -1,5 +1,5 @@
 /*
-   $Id: DictionaryTest.java,v 1.3 2004-04-01 16:15:10 mvdb Exp $
+   $Id: DictionaryTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.3 2004-04-01 16:15:10 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
  */
 public class DictionaryTest extends TestCase {
 
@@ -56,6 +56,11 @@ public class DictionaryTest extends TestCase {
         return suite;
     }
 
+    public void testConstructor() {
+        System.out.println("testConstructor");
+        Dictionary dictionary = new Dictionary();
+      
+    }
     /**
      * Tests the initialization of the dictaionary from an dictionary
      * file

@@ -1,5 +1,5 @@
 /*
-   $Id: PartCreator.java,v 1.5 2004-03-16 15:09:39 mvdb Exp $
+   $Id: PartCreator.java,v 1.6 2004-04-14 14:16:11 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ import java.io.InputStream;
 
 import javax.swing.JFrame;
 
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.guidriver.XuluxGuiDriver;
 
@@ -31,7 +31,7 @@ import org.xulux.guidriver.XuluxGuiDriver;
  * Creates a gui representation of a part
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartCreator.java,v 1.5 2004-03-16 15:09:39 mvdb Exp $
+ * @version $Id: PartCreator.java,v 1.6 2004-04-14 14:16:11 mvdb Exp $
  */
 public class PartCreator {
 
@@ -54,7 +54,7 @@ public class PartCreator {
      */
     public static ApplicationPart createPart(Object object, InputStream stream) {
         // this is bad, but for now mandatory...
-        ApplicationContext.getInstance();
+        XuluxContext.getInstance();
         return new XuluxGuiDriver().read(stream, object);
         // first initialize the dictionary (not really necessary though)
     }

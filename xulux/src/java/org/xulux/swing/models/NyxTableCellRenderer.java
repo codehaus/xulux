@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableCellRenderer.java,v 1.4 2004-03-16 15:04:17 mvdb Exp $
+   $Id: NyxTableCellRenderer.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,7 +22,7 @@ import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.core.PartRequest;
 import org.xulux.core.SessionPart;
@@ -33,7 +33,7 @@ import org.xulux.swing.widgets.Table;
  * The cellrenderer takes care of the look and content of a cell.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellRenderer.java,v 1.4 2004-03-16 15:04:17 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
  */
 public class NyxTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -75,7 +75,7 @@ public class NyxTableCellRenderer extends DefaultTableCellRenderer {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         if (widget.getNativeWidget() instanceof Component) {
             request.setValue(value);
-            ApplicationContext.fireFieldRequest(widget, request, ApplicationContext.PRE_REQUEST);
+            XuluxContext.fireFieldRequest(widget, request, XuluxContext.PRE_REQUEST);
             widget.refresh();
             // refresh widget so gui changes can propegate.
             Component comp = (Component) widget.getNativeWidget();

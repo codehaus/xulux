@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsTest.java,v 1.4 2004-04-01 16:15:10 mvdb Exp $
+   $Id: GuiDefaultsTest.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.dom4j.Document;
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.WidgetConfig;
 import org.xulux.dataprovider.contenthandlers.IContentHandler;
 import org.xulux.dataprovider.contenthandlers.SimpleDOMView;
@@ -40,7 +40,7 @@ import org.xulux.gui.WidgetFactory;
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.4 2004-04-01 16:15:10 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -68,15 +68,15 @@ public class GuiDefaultsTest extends TestCase {
     public void testGuiDefaults() throws Exception {
         GuiDefaults defaults = new GuiDefaults();
         System.out.println("testGuiDefaults");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
+        HashMap map = XuluxContext.getInstance().getWidgets();
         WidgetConfig config = (WidgetConfig) map.get("combo");
         assertNotNull(config);
         assertEquals(Class.forName("org.xulux.swing.widgets.Combo"), config.get("swing"));
-        assertEquals("swing", ApplicationContext.getInstance().getDefaultWidgetType());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler("swing"));
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler());
-        assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler("swing"));
+        assertEquals("swing", XuluxContext.getInstance().getDefaultWidgetType());
+        assertNotNull(XuluxContext.getInstance().getParentWidgetHandler());
+        assertNotNull(XuluxContext.getInstance().getParentWidgetHandler("swing"));
+        assertNotNull(XuluxContext.getInstance().getNativeWidgetHandler());
+        assertNotNull(XuluxContext.getInstance().getNativeWidgetHandler("swing"));
     }
 
     /**
@@ -96,8 +96,8 @@ public class GuiDefaultsTest extends TestCase {
         System.out.println("testWithoutDefaultType");
         GuiDefaultsHandler handler = new GuiDefaultsHandler();
         handler.read(getClass().getClassLoader().getResourceAsStream("org/xulux/guidriver/defaults/GuiDefaultsTest2.xml"));
-        assertNotNull(ApplicationContext.getInstance().getWidgetConfig("testbutton"));
-        assertTrue(ApplicationContext.getInstance().getParentWidgetHandler() instanceof BogusParentWidgetHandler);
+        assertNotNull(XuluxContext.getInstance().getWidgetConfig("testbutton"));
+        assertTrue(XuluxContext.getInstance().getParentWidgetHandler() instanceof BogusParentWidgetHandler);
     }
 
     /**
@@ -105,13 +105,13 @@ public class GuiDefaultsTest extends TestCase {
      */
     public void testCustomGuiDefaults() {
         System.out.println("testCustomGuiDefaults");
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/guidriver/defaults/GuiDefaultsTest.xml");
-        HashMap map = ApplicationContext.getInstance().getWidgets();
+        XuluxContext.getInstance();
+        XuluxContext.getInstance().initializeGuiDefaults("org/xulux/guidriver/defaults/GuiDefaultsTest.xml");
+        HashMap map = XuluxContext.getInstance().getWidgets();
         WidgetConfig config = (WidgetConfig) map.get("window");
         List list = config.getWidgetInitializers("swing");
         assertEquals(1, list.size());
-        config = ApplicationContext.getInstance().getWidgetConfig("tree");
+        config = XuluxContext.getInstance().getWidgetConfig("tree");
         IContentHandler handler = config.getContentHandler(Document.class);
         assertNotNull(handler);
         assertEquals(SimpleDOMView.class, handler.getViewClass());
@@ -126,7 +126,7 @@ public class GuiDefaultsTest extends TestCase {
      */
     public void testWidgetDefaults() {
          System.out.println("testWidgetDefaults");
-         ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/guidriver/defaults/WidgetDefaults.xml");
+         XuluxContext.getInstance().initializeGuiDefaults("org/xulux/guidriver/defaults/WidgetDefaults.xml");
          Widget widget = WidgetFactory.getWidget("window", "window");
          Map map = widget.getProperties();
          Object test = map.get("test");

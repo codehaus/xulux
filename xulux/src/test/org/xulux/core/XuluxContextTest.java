@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationContextTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
+   $Id: XuluxContextTest.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,6 +17,8 @@
 */
 package org.xulux.core;
 
+import org.xulux.dataprovider.Dictionary;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -25,15 +27,15 @@ import junit.framework.TestSuite;
  * The applicationContext test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContextTest.java,v 1.1 2004-03-16 15:04:15 mvdb Exp $
+ * @version $Id: XuluxContextTest.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
  */
-public class ApplicationContextTest extends TestCase {
+public class XuluxContextTest extends TestCase {
 
     /**
-     * Constructor for ApplicationContextTest.
+     * Constructor for XuluxContextTest.
      * @param name the name of the test
      */
-    public ApplicationContextTest(String name) {
+    public XuluxContextTest(String name) {
         super(name);
     }
 
@@ -41,7 +43,7 @@ public class ApplicationContextTest extends TestCase {
      * @return the testsuite
      */
     public static Test suite() {
-        TestSuite suite = new TestSuite(ApplicationContextTest.class);
+        TestSuite suite = new TestSuite(XuluxContextTest.class);
         return suite;
     }
 
@@ -52,10 +54,19 @@ public class ApplicationContextTest extends TestCase {
         System.out.println("testGetPart");
         ApplicationPart part = new ApplicationPart("part");
         ApplicationPart part2 = new ApplicationPart("part2");
-        ApplicationContext context = ApplicationContext.getInstance();
+        XuluxContext context = XuluxContext.getInstance();
         context.registerPart(part);
         context.registerPart(part2);
         assertNotNull(context.getParts());
+    }
+    
+    /**
+     * Test retrieval of the dictionary instance.
+     *
+     */
+    public void testGetDictionary() {
+      System.out.println("testGetDictionary");
+      Dictionary dictionary = new Dictionary();    
     }
 
 }

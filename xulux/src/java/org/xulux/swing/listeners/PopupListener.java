@@ -1,5 +1,5 @@
 /*
-   $Id: PopupListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
+   $Id: PopupListener.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,7 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.PartRequest;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
@@ -31,7 +31,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * A popuplistener. Shows the popup when the right mousebutton is clicked
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupListener.java,v 1.4 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: PopupListener.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
  */
 public class PopupListener extends NyxListener implements MouseListener {
 
@@ -65,12 +65,12 @@ public class PopupListener extends NyxListener implements MouseListener {
         //        // preform all pre rules if postOnly is false
         //            ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
         ////        fi
-        ApplicationContext.fireFieldRequest(getWidget(), impl, ApplicationContext.PRE_REQUEST);
+        XuluxContext.fireFieldRequest(getWidget(), impl, XuluxContext.PRE_REQUEST);
         List list = getWidget().getChildWidgets();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 Widget widget = (Widget) list.get(i);
-                ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
+                XuluxContext.fireFieldRequest(widget, impl, XuluxContext.PRE_REQUEST);
             }
         }
         if (e.isPopupTrigger()) {

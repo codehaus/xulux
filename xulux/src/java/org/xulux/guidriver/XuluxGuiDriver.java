@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxGuiDriver.java,v 1.1 2004-03-16 15:09:39 mvdb Exp $
+   $Id: XuluxGuiDriver.java,v 1.2 2004-04-14 14:16:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.gui.INativeWidgetHandler;
 import org.xulux.gui.Widget;
@@ -49,7 +49,7 @@ import org.xulux.utils.Translator;
  * @todo Move out "generic" code, so we can have a helper class to do all the nyx magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxGuiDriver.java,v 1.1 2004-03-16 15:09:39 mvdb Exp $
+ * @version $Id: XuluxGuiDriver.java,v 1.2 2004-04-14 14:16:12 mvdb Exp $
  */
 public class XuluxGuiDriver extends DefaultHandler {
 
@@ -483,7 +483,7 @@ public class XuluxGuiDriver extends DefaultHandler {
                                 log.warn("with widget : " + ((Widget) stack.get(stack.size() - 1)).getName());
                             }
                         }
-                        INativeWidgetHandler nativeHandler = ApplicationContext.getInstance().getNativeWidgetHandler();
+                        INativeWidgetHandler nativeHandler = XuluxContext.getInstance().getNativeWidgetHandler();
                         nativeHandler.setLocationOnWidget((Widget) stack.peek(), x, y);
                     }
                     else {
@@ -620,7 +620,7 @@ public class XuluxGuiDriver extends DefaultHandler {
         // TODO : Move the logic for native handling somewhere else
         if (type.equalsIgnoreCase("native")) {
             processingNative = true;
-            INativeWidgetHandler handler = ApplicationContext.getInstance().getNativeWidgetHandler();
+            INativeWidgetHandler handler = XuluxContext.getInstance().getNativeWidgetHandler();
             String clazz = atts.getValue(CLAZZ_ATTRIBUTE);
             Widget wg = handler.getWidget(clazz, (Widget) stack.pop());
             stack.push(wg);
@@ -693,12 +693,12 @@ public class XuluxGuiDriver extends DefaultHandler {
         }
     }
     /**
-     * The enddocument registers the part in the ApplicationContext.
+     * The enddocument registers the part in the XuluxContext.
      * @throws SAXException when ending the document fails
      */
     public void endDocument() throws SAXException {
         if (!ignorePart) {
-            ApplicationContext.getInstance().register(this.part, isApplication);
+            XuluxContext.getInstance().register(this.part, isApplication);
         }
     }
 

@@ -1,5 +1,5 @@
 /*
-   $Id: FieldListTest.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+   $Id: FieldListTest.java,v 1.1 2004-04-14 14:16:11 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.dataprovider;
+package org.xulux.dataprovider.bean;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -24,7 +24,7 @@ import junit.framework.TestSuite;
 /**
  * 
  * @author Martin van den Bemt
- * @version $Id: FieldListTest.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: FieldListTest.java,v 1.1 2004-04-14 14:16:11 mvdb Exp $
  */
 public class FieldListTest extends TestCase {
 

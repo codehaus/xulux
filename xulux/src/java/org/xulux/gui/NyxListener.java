@@ -1,5 +1,5 @@
 /*
-   $Id: NyxListener.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
+   $Id: NyxListener.java,v 1.6 2004-04-14 14:16:11 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.PartRequest;
 import org.xulux.rules.impl.PartRequestImpl;
 import org.xulux.rules.impl.WidgetRequestImpl;
@@ -36,7 +36,7 @@ import org.xulux.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.5 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.6 2004-04-14 14:16:11 mvdb Exp $
  */
 public abstract class NyxListener {
     /**
@@ -82,10 +82,10 @@ public abstract class NyxListener {
     protected void completed(boolean postOnly) {
         processing = true;
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
-        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
+        XuluxContext.fireFieldRequest(widget, impl, XuluxContext.POST_REQUEST);
         // preform all pre rules if postOnly is false
         if (!postOnly) {
-            ApplicationContext.fireFieldRequests(impl, ApplicationContext.PRE_REQUEST);
+            XuluxContext.fireFieldRequests(impl, XuluxContext.PRE_REQUEST);
         }
         processing = false;
     }
@@ -97,7 +97,7 @@ public abstract class NyxListener {
     public void completedPart() {
         processing = true;
         PartRequestImpl req = new PartRequestImpl(widget.getPart(), PartRequest.ACTION_OK_REQUEST);
-        ApplicationContext.fireRequest(req, ApplicationContext.POST_REQUEST);
+        XuluxContext.fireRequest(req, XuluxContext.POST_REQUEST);
         processing = false;
     }
 
@@ -218,7 +218,7 @@ public abstract class NyxListener {
     public void started() {
         processing = true;
         WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_VALUE_CHANGED);
-        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.PRE_REQUEST);
+        XuluxContext.fireFieldRequest(widget, impl, XuluxContext.PRE_REQUEST);
         processing = false;
     }
 

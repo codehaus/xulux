@@ -1,5 +1,5 @@
 /*
-   $Id: LocalField.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: LocalField.java,v 1.1 2004-04-14 14:16:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,13 +15,15 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.dataprovider;
+package org.xulux.dataprovider.local;
+
+import org.xulux.dataprovider.IField;
 
 /**
  * A localfield.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LocalField.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: LocalField.java,v 1.1 2004-04-14 14:16:12 mvdb Exp $
  */
 public class LocalField implements IField
 {

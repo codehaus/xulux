@@ -1,5 +1,5 @@
 /*
-   $Id: WindowWithButtonsTest.java,v 1.3 2004-03-16 15:04:15 mvdb Exp $
+   $Id: WindowWithButtonsTest.java,v 1.4 2004-04-14 14:16:11 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.gui.PartCreator;
 import org.xulux.gui.Widget;
@@ -32,7 +32,7 @@ import org.xulux.gui.Widget;
  * Testcase for an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WindowWithButtonsTest.java,v 1.3 2004-03-16 15:04:15 mvdb Exp $
+ * @version $Id: WindowWithButtonsTest.java,v 1.4 2004-04-14 14:16:11 mvdb Exp $
  */
 public class WindowWithButtonsTest extends TestCase {
 
@@ -59,7 +59,7 @@ public class WindowWithButtonsTest extends TestCase {
         String xml = "org/xulux/gui/swing/widgets/WindowWithButtonsTest.xml";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = PartCreator.createPart(null, stream);
-        ApplicationContext.getInstance().register(part, true);
+        XuluxContext.getInstance().register(part, true);
         part.activate();
         Widget widget = part.getWidget("Window");
         widget.setVisible(true);

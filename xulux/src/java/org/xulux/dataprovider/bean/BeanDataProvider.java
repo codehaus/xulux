@@ -1,5 +1,5 @@
 /*
-   $Id: Dictionary.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+   $Id: BeanDataProvider.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.dataprovider;
+package org.xulux.dataprovider.bean;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,9 +26,11 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.bean.*;
-import org.xulux.dataprovider.converters.*;
+import org.xulux.dataprovider.DictionaryHandler;
+import org.xulux.dataprovider.IDataProvider;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.converters.DoubleConverter;
+import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.dataprovider.converters.IntegerConverter;
 import org.xulux.utils.ClassLoaderUtils;
 
@@ -37,13 +39,13 @@ import org.xulux.utils.ClassLoaderUtils;
  * It is the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: BeanDataProvider.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
  */
-public final class Dictionary {
+public final class BeanDataProvider implements IDataProvider {
     /**
      * The log instance
      */
-    private static Log log = LogFactory.getLog(Dictionary.class);
+    private static Log log = LogFactory.getLog(BeanDataProvider.class);
     /**
      * The map containing all the mappings
      */
@@ -51,7 +53,7 @@ public final class Dictionary {
     /**
      * the dictionary instance
      */
-    private static Dictionary instance;
+    private static BeanDataProvider instance;
     /**
      * the baseclass of all the mappings
      */
@@ -82,16 +84,15 @@ public final class Dictionary {
     /**
      * Constructor for BeanDataProvider.
      */
-    public Dictionary() {
+    private BeanDataProvider() {
     }
 
     /**
      * @return the one and only instance of the dictionary.
-     * @deprecated
      */
-    public static Dictionary getInstance() {
+    public static BeanDataProvider getInstance() {
         if (instance == null) {
-            instance = new Dictionary();
+            instance = new BeanDataProvider();
         }
         return instance;
     }
@@ -306,7 +307,7 @@ public final class Dictionary {
      *
      */
     public static void reset() {
-        Dictionary d = Dictionary.getInstance();
+        BeanDataProvider d = BeanDataProvider.getInstance();
         d.clearMappings();
         if (converters != null) {
             converters.clear();

@@ -1,5 +1,5 @@
 /*
-   $Id: NYXToolkit.java,v 1.3 2004-03-16 15:04:16 mvdb Exp $
+   $Id: NYXToolkit.java,v 1.4 2004-04-14 14:16:11 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,7 +19,7 @@ package org.xulux.gui;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 
 /**
  * The toolkit class is a class that takes care
@@ -29,7 +29,7 @@ import org.xulux.core.ApplicationContext;
  * (didn't check yet if swt uses something different though)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NYXToolkit.java,v 1.3 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: NYXToolkit.java,v 1.4 2004-04-14 14:16:11 mvdb Exp $
  */
 public abstract class NYXToolkit {
 
@@ -53,7 +53,7 @@ public abstract class NYXToolkit {
      */
     protected static NYXToolkit getInstance() {
         if (instance == null) {
-            instance = ApplicationContext.getInstance().getNYXToolkit();
+            instance = XuluxContext.getInstance().getNYXToolkit();
             if (instance == null) {
                 if (log.isWarnEnabled()) {
                     log.warn("No toolkits present for nyx, please check your configuration or guidefaults xml file");

@@ -1,5 +1,5 @@
 /*
-   $Id: BeanParameter.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: BeanParameter.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.dataprovider;
+package org.xulux.dataprovider.bean;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -27,7 +27,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * that a method may need to get or set appropiate data.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanParameter.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: BeanParameter.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
  */
 public class BeanParameter {
 

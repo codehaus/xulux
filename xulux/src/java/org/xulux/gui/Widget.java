@@ -1,5 +1,5 @@
 /*
-   $Id: Widget.java,v 1.9 2004-04-01 16:15:09 mvdb Exp $
+   $Id: Widget.java,v 1.10 2004-04-14 14:16:11 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.rules.IRule;
 import org.xulux.rules.Rule;
@@ -41,7 +41,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * specific as a generic Widget...
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.9 2004-04-01 16:15:09 mvdb Exp $
+ * @version $Id: Widget.java,v 1.10 2004-04-14 14:16:11 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -862,7 +862,7 @@ public abstract class Widget implements Serializable
      * finished initializing
      */
     protected void processInit() {
-        List list = ApplicationContext.getInstance().getWidgetInitializers(getWidgetType());
+        List list = XuluxContext.getInstance().getWidgetInitializers(getWidgetType());
         if (list == null) {
             return;
         }
@@ -878,7 +878,7 @@ public abstract class Widget implements Serializable
      * destroyed.
      */
     protected void processDestroy() {
-        List list = ApplicationContext.getInstance().getWidgetInitializers(getWidgetType());
+        List list = XuluxContext.getInstance().getWidgetInitializers(getWidgetType());
         if (list == null) {
             return;
         }

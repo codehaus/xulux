@@ -1,5 +1,5 @@
 /*
-   $Id: TestFactory.java,v 1.7 2004-04-01 16:15:10 mvdb Exp $
+   $Id: TestFactory.java,v 1.8 2004-04-14 14:16:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,7 +22,7 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
@@ -38,7 +38,7 @@ import org.xulux.swing.layouts.XYLayout;
  * a later stage.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.7 2004-04-01 16:15:10 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.8 2004-04-14 14:16:12 mvdb Exp $
  */
 public final class TestFactory
 {
@@ -107,7 +107,7 @@ public final class TestFactory
         XYLayout layout = new XYLayout();
         JPanel panel = new JPanel(layout);
         ApplicationPart part = handler.read(form, bean);
-        ApplicationContext.getInstance().registerPart(part);
+        XuluxContext.getInstance().registerPart(part);
         part.setParentWidget(panel);
         return part;
     }
@@ -126,7 +126,7 @@ public final class TestFactory
         JPanel panel = new JPanel(layout);
         ApplicationPart part = handler.read(form, bean);
         part.setName(name);
-        ApplicationContext.getInstance().registerPart(part);
+        XuluxContext.getInstance().registerPart(part);
         part.setParentWidget(panel);
         return part;
     }

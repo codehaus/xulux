@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtilsTest.java,v 1.6 2004-03-25 00:48:09 mvdb Exp $
+   $Id: ClassLoaderUtilsTest.java,v 1.7 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,13 +31,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.SimpleLog;
 import org.xulux.dataprovider.AnotherRecursiveBean;
-import org.xulux.dataprovider.Dictionary;
 
 /**
  * Test for the classLoaderUtils
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtilsTest.java,v 1.6 2004-03-25 00:48:09 mvdb Exp $
+ * @version $Id: ClassLoaderUtilsTest.java,v 1.7 2004-04-14 14:16:10 mvdb Exp $
  */
 public class ClassLoaderUtilsTest extends TestCase {
     /**
@@ -77,7 +76,7 @@ public class ClassLoaderUtilsTest extends TestCase {
         assertNull(ClassLoaderUtils.getObjectFromClass(PrivateInner.class));
         assertNull(ClassLoaderUtils.getObjectFromClass(ExceptionInner.class));
         assertNull(ClassLoaderUtils.getObjectFromClass(AbstractInner.class));
-        assertNull(ClassLoaderUtils.getObjectFromClass(Dictionary.class));
+        assertNull(ClassLoaderUtils.getObjectFromClass(ClassLoaderObject.class));
         assertNull(ClassLoaderUtils.getObjectFromClass(PrivateInnerClassObject.InnerClass.class));
         List list = new ArrayList();
         list.add(null);

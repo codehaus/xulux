@@ -1,5 +1,5 @@
 /*
-   $Id: BeanParameterTest.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+   $Id: BeanParameterTest.java,v 1.1 2004-04-14 14:16:11 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.dataprovider;
+package org.xulux.dataprovider.bean;
+
+import org.xulux.dataprovider.ParameterType;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -25,7 +27,7 @@ import junit.framework.TestSuite;
  * Test the beanparameter class.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanParameterTest.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: BeanParameterTest.java,v 1.1 2004-04-14 14:16:11 mvdb Exp $
  */
 public class BeanParameterTest extends TestCase {
 

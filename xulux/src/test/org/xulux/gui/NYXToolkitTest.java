@@ -1,5 +1,5 @@
 /*
-   $Id: NYXToolkitTest.java,v 1.3 2004-03-16 15:04:17 mvdb Exp $
+   $Id: NYXToolkitTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,7 +19,7 @@ package org.xulux.gui;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.SimpleLog;
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NYXToolkitTest.java,v 1.3 2004-03-16 15:04:17 mvdb Exp $
+ * @version $Id: NYXToolkitTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
  */
 public class NYXToolkitTest extends TestCase {
 
@@ -59,7 +59,7 @@ public class NYXToolkitTest extends TestCase {
      */
     public void testGetInstance() {
         System.out.println("testGetInstance");
-        ApplicationContext c = ApplicationContext.getInstance();
+        XuluxContext c = XuluxContext.getInstance();
         // by default it is the swing toolkit that shows up
         // so before getting it, set it to something bogus
         String def = c.getDefaultWidgetType();

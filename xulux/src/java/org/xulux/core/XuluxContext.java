@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationContext.java,v 1.2 2004-04-01 16:15:08 mvdb Exp $
+   $Id: XuluxContext.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -41,9 +41,9 @@ import org.xulux.utils.ClassLoaderUtils;
  * known to the system.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.2 2004-04-01 16:15:08 mvdb Exp $
+ * @version $Id: XuluxContext.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
  */
-public class ApplicationContext {
+public class XuluxContext {
     /**
      * The default GuiDefaults (can be overridden);
      */
@@ -52,12 +52,12 @@ public class ApplicationContext {
     /**
      * The applicationcontext instance
      */
-    private static ApplicationContext instance;
+    private static XuluxContext instance;
 
     /**
      * The log system.
      */
-    private static Log log = LogFactory.getLog(ApplicationContext.class);
+    private static Log log = LogFactory.getLog(XuluxContext.class);
 
     /**
      * This is the component registery
@@ -152,7 +152,7 @@ public class ApplicationContext {
     /**
      * Constructor for GuiContext.
      */
-    public ApplicationContext() {
+    public XuluxContext() {
         super();
     }
 
@@ -174,9 +174,9 @@ public class ApplicationContext {
     /**
      * @return the applicationcontext instance
      */
-    public static ApplicationContext getInstance() {
+    public static XuluxContext getInstance() {
         if (instance == null) {
-            instance = new ApplicationContext();
+            instance = new XuluxContext();
             instance.initializeGuiDefaults();
         }
         return instance;
@@ -774,9 +774,12 @@ public class ApplicationContext {
     /**
      *
      * @param widgetName the name of the widget to get the config for
-     * @return the widgetconfig for the widget
+     * @return the widgetconfig for the widget or null if not found
      */
     public WidgetConfig getWidgetConfig(String widgetName) {
+        if (widgetName == null) {
+            return null;
+        }
         widgetName = widgetName.toLowerCase();
         return (WidgetConfig) widgets.get(widgetName);
     }

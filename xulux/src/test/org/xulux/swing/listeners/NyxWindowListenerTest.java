@@ -1,5 +1,5 @@
 /*
-   $Id: NyxWindowListenerTest.java,v 1.3 2004-03-16 15:04:16 mvdb Exp $
+   $Id: NyxWindowListenerTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,7 +19,7 @@ package org.xulux.swing.listeners;
 
 import java.security.Permission;
 
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.swing.layouts.MockWidget;
 
@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
  * Tests the nyxwindowlistener
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListenerTest.java,v 1.3 2004-03-16 15:04:16 mvdb Exp $
+ * @version $Id: NyxWindowListenerTest.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
  */
 public class NyxWindowListenerTest extends TestCase {
 
@@ -86,7 +86,7 @@ public class NyxWindowListenerTest extends TestCase {
         assertNull(part.getWidget("mockwidget"));
         widget.initialize();
         part.addWidget(widget);
-        ApplicationContext.getInstance().register(part, true);
+        XuluxContext.getInstance().register(part, true);
         l.windowClosing(null);
         // disallow System.exit(0)
         System.setSecurityManager(new PreventSystemExit());

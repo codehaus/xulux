@@ -1,5 +1,5 @@
 /*
-   $Id: DictionarySubBean.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+   $Id: DictionarySubBean.java,v 1.2 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,10 +19,10 @@ package org.xulux.dataprovider;
 
 /**
  * A "sub" base bean in DictioanryBean to test
- * the Dictionary (mapping in specific..)
+ * the BeanDataProvider (mapping in specific..)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionarySubBean.java,v 1.1 2004-03-16 14:35:13 mvdb Exp $
+ * @version $Id: DictionarySubBean.java,v 1.2 2004-04-14 14:16:10 mvdb Exp $
  */
 public class DictionarySubBean extends DictionaryBaseBean {
 

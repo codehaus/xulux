@@ -1,5 +1,5 @@
 /*
-   $Id: Label.java,v 1.6 2004-04-01 16:15:08 mvdb Exp $
+   $Id: Label.java,v 1.7 2004-04-14 14:16:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,10 +21,10 @@ import java.awt.Container;
 
 import javax.swing.JLabel;
 
-import org.xulux.dataprovider.BeanMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
+import org.xulux.dataprovider.bean.BeanMapping;
 import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.gui.utils.ColorUtils;
 import org.xulux.swing.SwingWidget;
@@ -34,7 +34,7 @@ import org.xulux.utils.BooleanUtils;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.6 2004-04-01 16:15:08 mvdb Exp $
+ * @version $Id: Label.java,v 1.7 2004-04-14 14:16:12 mvdb Exp $
  */
 public class Label extends SwingWidget {
 

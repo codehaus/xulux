@@ -1,5 +1,5 @@
 /*
-   $Id: BeanMapping.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
+   $Id: BeanMapping.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.xulux.dataprovider;
+package org.xulux.dataprovider.bean;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -24,6 +24,9 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.dataprovider.Dictionary;
+import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
 
 /**
  * Contains the the Bean to Name mapping
@@ -35,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
  * @todo Also fix the set when realField is used.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.2 2004-03-23 08:42:22 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
  */
 public class BeanMapping implements IMapping
 {

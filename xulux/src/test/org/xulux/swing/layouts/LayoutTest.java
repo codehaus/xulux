@@ -1,5 +1,5 @@
 /*
-   $Id: LayoutTest.java,v 1.6 2004-03-16 15:09:38 mvdb Exp $
+   $Id: LayoutTest.java,v 1.7 2004-04-14 14:16:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.gui.Widget;
 import org.xulux.guidriver.XuluxGuiDriver;
@@ -48,7 +48,7 @@ import org.xulux.swing.widgets.Window;
  * A class to to test the layoutmanagers for swing
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LayoutTest.java,v 1.6 2004-03-16 15:09:38 mvdb Exp $
+ * @version $Id: LayoutTest.java,v 1.7 2004-04-14 14:16:12 mvdb Exp $
  */
 public class LayoutTest extends TestCase
 {
@@ -429,14 +429,14 @@ public class LayoutTest extends TestCase
         System.out.println("testNativeGetLayoutSize");
         // x,y : 0,0 w,h : 100,21 layoutsize : 100,21
         // x,Y : 0,
-        ApplicationContext.getInstance();
+        XuluxContext.getInstance();
         XuluxGuiDriver handler = new XuluxGuiDriver();
         String xml = "org/xulux/swing/layouts/XuluxOnNative.xml";
         InputStream stream = this.getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = handler.read(stream, null);
         XYLayout layout = new XYLayout();
         JPanel panel = new JPanel(layout);
-        ApplicationContext.getInstance().registerPart(part);
+        XuluxContext.getInstance().registerPart(part);
         part.setParentWidget(panel);
         part.activate();
         JFrame frame = new JFrame("XuluxOnNative");

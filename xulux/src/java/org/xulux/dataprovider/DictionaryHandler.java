@@ -1,5 +1,5 @@
 /*
-   $Id: DictionaryHandler.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: DictionaryHandler.java,v 1.2 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,12 +28,13 @@ import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xulux.dataprovider.bean.*;
 
 /**
  * The default dictionary.xml reader
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.2 2004-04-14 14:16:10 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {

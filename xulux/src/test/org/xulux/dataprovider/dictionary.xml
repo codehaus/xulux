@@ -1,13 +1,21 @@
 <?xml version="1.0"?>
-<!-- $Id: dictionary.xml,v 1.1 2004-03-16 14:35:13 mvdb Exp $ -->
+<!-- $Id: dictionary.xml,v 1.2 2004-04-14 14:16:10 mvdb Exp $ -->
 <dictionary>
-   <converters>
-     <converter class="org.xulux.dataprovider.converters.DoubleConverter"/>
-     <converter class="org.xulux.dataprovider.converters.IntegerConverter"/>
-     <converter class="org.xulux.dataprovider.converters.BogusConverter"/>
-   </converters>
+   <!--
+      Mappings take care of handling gui to data interactions in cooperations with
+      the converters
+   -->
+   <mappings>
+      <mapping name="bean" class="org.xulux.dataprovider.BeanMapping">
+        <converters>
+          <converter class="org.xulux.dataprovider.converters.DoubleConverter"/>
+          <converter class="org.xulux.dataprovider.converters.IntegerConverter"/>
+          <converter class="org.xulux.dataprovider.converters.BogusConverter"/>
+        </converters>
+      </mapping>
+   </mappings>
    <prefix-mappings>
-     <prefix name="Test">
+     <prefix name="Test" type="bean">
        <!-- 
             if discovery is true, it will find the fields automatically
             and you don't have to specify them manually

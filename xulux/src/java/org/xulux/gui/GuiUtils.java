@@ -1,5 +1,5 @@
 /*
-   $Id: GuiUtils.java,v 1.9 2004-04-01 16:15:09 mvdb Exp $
+   $Id: GuiUtils.java,v 1.10 2004-04-14 14:16:11 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.xulux.core.ApplicationContext;
+import org.xulux.core.XuluxContext;
 import org.xulux.core.ApplicationPart;
 import org.xulux.core.PartRequest;
 import org.xulux.rules.impl.WidgetRequestImpl;
@@ -31,7 +31,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * Like firing rules when the cancel button is pressed or the window is closed.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtils.java,v 1.9 2004-04-01 16:15:09 mvdb Exp $
+ * @version $Id: GuiUtils.java,v 1.10 2004-04-14 14:16:11 mvdb Exp $
  */
 public class GuiUtils {
 
@@ -83,8 +83,8 @@ public class GuiUtils {
             } 
         }
         if (parent.canBeRootWidget()) {
-            if (ApplicationContext.isPartApplication(caller.getPart())) {
-                ApplicationContext.exitApplication();
+            if (XuluxContext.isPartApplication(caller.getPart())) {
+                XuluxContext.exitApplication();
             } else if (cancelProcessed) {
               // if it is not an application, just destroy the part..
               parent.getPart().destroy();
@@ -101,7 +101,7 @@ public class GuiUtils {
      * @param action the action
      */
     public static void fireFieldPostRule(Widget caller, Widget widget, int action) {
-        fireFieldRule(caller, widget, action, ApplicationContext.POST_REQUEST);
+        fireFieldRule(caller, widget, action, XuluxContext.POST_REQUEST);
         WidgetRequestImpl impl = new WidgetRequestImpl(caller, action);
     }
 
@@ -113,7 +113,7 @@ public class GuiUtils {
      * @param action the action
      */
     public static void fireFieldExecuteRule(Widget caller, Widget widget, int action) {
-        fireFieldRule(caller, widget, action, ApplicationContext.EXECUTE_REQUEST);
+        fireFieldRule(caller, widget, action, XuluxContext.EXECUTE_REQUEST);
     }
 
     /**
@@ -126,7 +126,7 @@ public class GuiUtils {
      */
     public static void fireFieldRule(Widget caller, Widget widget, int action, int type) {
         WidgetRequestImpl impl = new WidgetRequestImpl(caller, action);
-        ApplicationContext.fireFieldRequest(widget, impl, type);
+        XuluxContext.fireFieldRequest(widget, impl, type);
     }
     /**
      * @param property the property to look for

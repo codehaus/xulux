@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.3 2004-04-01 16:15:08 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -25,7 +25,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.dataprovider.Dictionary;
-import org.xulux.dataprovider.IMapping;
 import org.xulux.gui.INativeWidgetHandler;
 import org.xulux.gui.IParentWidgetHandler;
 import org.xulux.gui.NyxListener;
@@ -56,7 +55,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.3 2004-04-01 16:15:08 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.4 2004-04-14 14:16:10 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -78,7 +77,7 @@ public class ApplicationPart {
     /**
      * The mapping of the bean
      */
-    private IMapping mapping;
+//    private IMapping mapping;
 
     /**
      * The parentwidget of this applicationpart
@@ -168,7 +167,8 @@ public class ApplicationPart {
         this();
         this.bean = bean;
         if (bean != null) {
-            this.mapping = Dictionary.getInstance().getMapping(bean.getClass());
+            // @todo remove this line, since it should be useless.
+            Dictionary.getInstance().getMapping(bean.getClass());
         }
     }
 
@@ -440,7 +440,7 @@ public class ApplicationPart {
         activated = true;
         isActivating = true;
         // initialize the gui system.
-        ApplicationContext.getInstance().getNYXToolkit().initialize();
+        XuluxContext.getInstance().getNYXToolkit().initialize();
         if (getRules() == null) {
             if (log.isDebugEnabled()) {
                 log.debug("No part rules to process");
@@ -448,7 +448,7 @@ public class ApplicationPart {
         }
         else {
             PartRequestImpl req = new PartRequestImpl(this, PartRequest.NO_ACTION);
-            ApplicationContext.fireRequest(req, ApplicationContext.PRE_REQUEST);
+            XuluxContext.fireRequest(req, XuluxContext.PRE_REQUEST);
         }
         if (widgets != null) {
             Iterator it = widgets.iterator();
@@ -462,7 +462,7 @@ public class ApplicationPart {
                 if (getRootWidget() != null) {
                     // only widgets without parents should be added
                     if (widget.getParent() == null) {
-                        ApplicationContext.getInstance().getNativeWidgetHandler().addWidgetToParent(widget, getRootWidget());
+                        XuluxContext.getInstance().getNativeWidgetHandler().addWidgetToParent(widget, getRootWidget());
                     }
                 }
                 //                if (widget.canBeRootWidget() ||
@@ -470,12 +470,12 @@ public class ApplicationPart {
                 //                {
                 widget.initialize();
                 WidgetRequestImpl req = new WidgetRequestImpl(widget, PartRequest.NO_ACTION);
-                ApplicationContext.fireFieldRequest(widget, req, ApplicationContext.PRE_REQUEST);
+                XuluxContext.fireFieldRequest(widget, req, XuluxContext.PRE_REQUEST);
                 //                }
             }
         }
         if (getRootWidget() != null) {
-          ApplicationContext.getInstance().getNativeWidgetHandler().refresh(getRootWidget());
+          XuluxContext.getInstance().getNativeWidgetHandler().refresh(getRootWidget());
         }
         isActivating = false;
     }
@@ -486,7 +486,7 @@ public class ApplicationPart {
     public void runPreRules() {
         if (getRules() != null) {
             PartRequestImpl req = new PartRequestImpl(this, PartRequest.NO_ACTION);
-            ApplicationContext.fireRequest(req, ApplicationContext.PRE_REQUEST);
+            XuluxContext.fireRequest(req, XuluxContext.PRE_REQUEST);
         }
         if (widgets != null) {
             Iterator it = widgets.iterator();
@@ -495,7 +495,7 @@ public class ApplicationPart {
                 if (widget.canBeRootWidget() || widget.canContainChildren()) {
                     widget.initialize();
                     WidgetRequestImpl req = new WidgetRequestImpl(widget, PartRequest.NO_ACTION);
-                    ApplicationContext.fireFieldRequest(widget, req, ApplicationContext.PRE_REQUEST);
+                    XuluxContext.fireFieldRequest(widget, req, XuluxContext.PRE_REQUEST);
                 }
             }
         }
@@ -677,7 +677,6 @@ public class ApplicationPart {
             getSession().clear();
             session = null;
         }
-        mapping = null;
         bean = null;
         activated = false;
         if (widgets != null) {
@@ -699,18 +698,17 @@ public class ApplicationPart {
             partRules.clear();
             partRules = null;
         }
-        mapping = null;
         System.out.println("ParentWidget : " + this.parentWidget);
         System.out.println("Root widget : " + this.getRootWidget());
         if (getRootWidget() != null) {
-            IParentWidgetHandler handler = ApplicationContext.getInstance().getParentWidgetHandler();
+            IParentWidgetHandler handler = XuluxContext.getInstance().getParentWidgetHandler();
             handler.destroy(parentWidget);
-            INativeWidgetHandler h = ApplicationContext.getInstance().getNativeWidgetHandler();
+            INativeWidgetHandler h = XuluxContext.getInstance().getNativeWidgetHandler();
             System.out.println("Refreshing widget...");
             h.refresh(getRootWidget());
         }
         parentWidget = null;
-        ApplicationContext.getInstance().removePart(getName());
+        XuluxContext.getInstance().removePart(getName());
         this.parentPart = null;
     }
 
@@ -742,7 +740,7 @@ public class ApplicationPart {
      */
     public boolean needToStopAllRules(Object caller) {
         boolean retValue = stopRules;
-        if (caller instanceof ApplicationContext) {
+        if (caller instanceof XuluxContext) {
             stopRules = false;
         }
         else {
@@ -792,7 +790,7 @@ public class ApplicationPart {
         }
         else {
             // we try the one in GuiDefaults (if used that is..)
-            listener = ApplicationContext.getInstance().getFieldEventHandler(null);
+            listener = XuluxContext.getInstance().getFieldEventHandler(null);
             listener.setWidget(widget);
         }
         return listener;

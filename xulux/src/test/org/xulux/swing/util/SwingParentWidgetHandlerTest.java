@@ -1,5 +1,5 @@
 /*
-   $Id: SwingParentWidgetHandlerTest.java,v 1.3 2004-01-28 15:22:08 mvdb Exp $
+   $Id: SwingParentWidgetHandlerTest.java,v 1.4 2004-04-14 14:16:12 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingParentWidgetHandlerTest.java,v 1.3 2004-01-28 15:22:08 mvdb Exp $
+ * @version $Id: SwingParentWidgetHandlerTest.java,v 1.4 2004-04-14 14:16:12 mvdb Exp $
  */
 public class SwingParentWidgetHandlerTest extends TestCase {
 
@@ -64,12 +64,10 @@ public class SwingParentWidgetHandlerTest extends TestCase {
         h.destroy(null);
         h.destroy("bogus");
         JPanel panel = new JPanel();
-        System.out.println("component count : " + panel.getComponentCount());
         JLabel label = new JLabel();
         panel.add(label);
         assertEquals(1, panel.getComponentCount());
-        h.destroy(label);
-        assertEquals(0, panel.getComponentCount());
         h.destroy(panel);
+        assertEquals(0, panel.getComponentCount());
     }
 }
