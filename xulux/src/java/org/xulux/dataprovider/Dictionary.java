@@ -1,5 +1,5 @@
 /*
-   $Id: Dictionary.java,v 1.8 2004-06-23 10:48:00 mvdb Exp $
+   $Id: Dictionary.java,v 1.9 2004-10-14 13:01:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * It is the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.8 2004-06-23 10:48:00 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.9 2004-10-14 13:01:16 mvdb Exp $
  */
 public final class Dictionary {
     /**
@@ -220,8 +220,8 @@ public final class Dictionary {
      */
     public BeanMapping getMapping(Class clazz, String preferredName) {
         if (getBaseClass() == null) {
-            if (log.isInfoEnabled()) {
-                log.info("Base class is not set Nyx will possibly not be able to disover data beans correctly");
+            if (log.isDebugEnabled()) {
+                log.debug("Base class is not set. Xulux will possibly not be able to disover data beans correctly");
             }
         }
         BeanMapping mapping = getMapping(preferredName);

@@ -1,5 +1,5 @@
 /*
-   $Id: DictionaryHandler.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
+   $Id: DictionaryHandler.java,v 1.4 2004-10-14 13:01:16 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.dataprovider.bean.*;
  * The default dictionary.xml reader
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.3 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.4 2004-10-14 13:01:16 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {
@@ -225,7 +225,7 @@ public class DictionaryHandler extends DefaultHandler
                 log.error(
                     "Could not find dictionary base "
                         + currentValue + "\n"
-                    + "Nyx will possibly not be able to disover data beans correctly");
+                    + "Xulux will possibly not be able to disover data beans correctly");
             }
             currentValue = null;
             inBaseElement = false;
