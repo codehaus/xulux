@@ -1,5 +1,5 @@
 /*
-   $Id: TestFactory.java,v 1.5 2004-03-16 15:08:25 mvdb Exp $
+   $Id: TestFactory.java,v 1.6 2004-03-16 15:09:39 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,7 +29,7 @@ import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
 import org.xulux.gui.Widget;
 import org.xulux.gui.WidgetFactory;
-import org.xulux.guidriver.ApplicationPartHandler;
+import org.xulux.guidriver.XuluxGuiDriver;
 import org.xulux.swing.layouts.XYLayout;
 
 /**
@@ -38,7 +38,7 @@ import org.xulux.swing.layouts.XYLayout;
  * a later stage.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.5 2004-03-16 15:08:25 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.6 2004-03-16 15:09:39 mvdb Exp $
  */
 public final class TestFactory
 {
@@ -103,7 +103,7 @@ public final class TestFactory
      */
     public static ApplicationPart getForm(InputStream form, Object bean)
     {
-        ApplicationPartHandler handler = new ApplicationPartHandler();
+        XuluxGuiDriver handler = new XuluxGuiDriver();
         XYLayout layout = new XYLayout();
         JPanel panel = new JPanel(layout);
         ApplicationPart part = handler.read(form, bean);
@@ -121,7 +121,7 @@ public final class TestFactory
      */
     public static ApplicationPart getForm(InputStream form, String name, Object bean)
     {
-        ApplicationPartHandler handler = new ApplicationPartHandler();
+        XuluxGuiDriver handler = new XuluxGuiDriver();
         XYLayout layout = new XYLayout();
         JPanel panel = new JPanel(layout);
         ApplicationPart part = handler.read(form, bean);

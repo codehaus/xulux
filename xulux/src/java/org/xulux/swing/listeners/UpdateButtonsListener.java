@@ -1,5 +1,5 @@
 /*
-   $Id: UpdateButtonsListener.java,v 1.6 2004-03-16 15:08:25 mvdb Exp $
+   $Id: UpdateButtonsListener.java,v 1.7 2004-03-16 15:09:39 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -34,7 +34,7 @@ import org.xulux.dataprovider.IField;
 import org.xulux.gui.IContentWidget;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
-import org.xulux.guidriver.ApplicationPartHandler;
+import org.xulux.guidriver.XuluxGuiDriver;
 import org.xulux.swing.util.NyxEventQueue;
 import org.xulux.swing.widgets.Table;
 import org.xulux.utils.ClassLoaderUtils;
@@ -44,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.6 2004-03-16 15:08:25 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.7 2004-03-16 15:09:39 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener implements ActionListener, ListSelectionListener {
 
@@ -146,7 +146,7 @@ public class UpdateButtonsListener extends NyxListener implements ActionListener
             }
             return;
         }
-        ApplicationPartHandler handler = new ApplicationPartHandler();
+        XuluxGuiDriver handler = new XuluxGuiDriver();
         InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
         ApplicationPart part = handler.read(stream, partBean);
         part.getSession().setValue("nyx.callerwidget", parent);
