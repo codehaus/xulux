@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaults.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
+   $Id: GuiDefaults.java,v 1.2 2004-05-10 15:03:56 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -17,14 +17,26 @@
 */
 package org.xulux.guidriver.defaults;
 
+import java.util.Map;
+
+import org.xulux.gui.IXuluxLayout;
+import org.xulux.gui.NYXToolkit;
+import org.xulux.gui.Widget;
+
 /**
  * Just a placeholer for the default gui
- * properties. Currently doesn't do anything
+ * properties.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaults.java,v 1.1 2004-03-16 14:52:00 mvdb Exp $
+ * @version $Id: GuiDefaults.java,v 1.2 2004-05-10 15:03:56 mvdb Exp $
  */
 public class GuiDefaults {
+
+    /**
+     * The default widgetType for the system
+     * (eg swt, swing)
+     */
+    private String defaultType;
 
     /**
      * Constructor for GuiDefaults.
@@ -32,4 +44,43 @@ public class GuiDefaults {
     public GuiDefaults() {
     }
 
+    /**
+     * @return the default widget type.
+     */
+    public String getDefaultWidgetType() {
+        return this.defaultType;
+    }
+
+    /**
+     * Sets the application wide default widget type
+     * (eg. swt, core, swing)
+     *
+     * @param type the default gui type for this application
+     */
+    public void setDefaultWidgetType(String type) {
+        this.defaultType = type;
+    }
+      
+    /**
+     * @return the NYX toolkit of the default type or null
+     *          when not present
+     * @deprecated Use XuluxContext.getGuiDefaults.getNyxToolkit()
+     */
+//    public NYXToolkit getNYXToolkit() {
+//        return getNYXToolkit(getDefaultWidgetType());
+//    }
+  
+    /**
+     *
+     * @param type the toolkit type (eg swt, swing)
+     * @return the NYX toolkit type specified or null
+     *          when not present
+     * @deprecated Use XuluxContext.getGuiDefaults.getNyxToolkit(type)
+     */
+//    public NYXToolkit getNYXToolkit(String type) {
+//        if (this.nyxToolkits != null) {
+//            return (NYXToolkit) this.nyxToolkits.get(type);
+//        }
+//        return null;
+//    }
 }

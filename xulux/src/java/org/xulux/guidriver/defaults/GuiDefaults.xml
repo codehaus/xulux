@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: GuiDefaults.xml,v 1.3 2004-05-06 12:30:01 mvdb Exp $ -->
+<!-- $Id: GuiDefaults.xml,v 1.4 2004-05-10 15:03:56 mvdb Exp $ -->
 <!-- 
     Where no type is specified, it will default
     to defaultType.
@@ -10,6 +10,9 @@
   <fieldEventHandler class="org.xulux.swing.listeners.PrePostFieldListener"/>
   <nyxToolkit class="org.xulux.swing.util.SwingToolkit"/>
   <nyxToolkit type="swt" class="org.xulux.swt.util.SWTToolkit"/>
+  <layouts>
+    <layout name="xylayout" default="true" class="org.xulux.swing.layout.XYLayout"/>
+  </layouts>
   <widgets>
     <widget name="button" class="org.xulux.swing.widgets.Button"/>
     <widget name="dialog" class="org.xulux.swing.widgets.Dialog"/>

@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxContextTest.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
+   $Id: XuluxContextTest.java,v 1.3 2004-05-10 15:03:56 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,6 +18,7 @@
 package org.xulux.core;
 
 import org.xulux.dataprovider.Dictionary;
+import org.xulux.guidriver.defaults.GuiDefaults;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -27,7 +28,7 @@ import junit.framework.TestSuite;
  * The applicationContext test
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxContextTest.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: XuluxContextTest.java,v 1.3 2004-05-10 15:03:56 mvdb Exp $
  */
 public class XuluxContextTest extends TestCase {
 
@@ -71,6 +72,14 @@ public class XuluxContextTest extends TestCase {
       assertNotNull(dictionary);
       // we should get the same instance back..
       assertEquals(dictionary, XuluxContext.getDictionary());
+    }
+    
+    public void testGuiDefaults() {
+        System.out.println("testGuiDefaults");
+        GuiDefaults defaults = XuluxContext.getGuiDefaults();
+        assertNotNull(defaults);
+        GuiDefaults defaults2 = XuluxContext.getGuiDefaults();
+        assertEquals(defaults, defaults2);
     }
 
 }

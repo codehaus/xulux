@@ -1,5 +1,5 @@
 /*
-   $Id: XuluxContext.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
+   $Id: XuluxContext.java,v 1.3 2004-05-10 15:03:56 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -33,6 +33,7 @@ import org.xulux.gui.IWidgetInitializer;
 import org.xulux.gui.NYXToolkit;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
+import org.xulux.guidriver.defaults.GuiDefaults;
 import org.xulux.guidriver.defaults.GuiDefaultsHandler;
 import org.xulux.rules.IRule;
 import org.xulux.utils.ClassLoaderUtils;
@@ -42,7 +43,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * known to the system.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XuluxContext.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: XuluxContext.java,v 1.3 2004-05-10 15:03:56 mvdb Exp $
  */
 public class XuluxContext {
     /**
@@ -144,14 +145,9 @@ public class XuluxContext {
      */
     public static final int DESTROY_REQUEST = 4;
 
-    /**
-     * The default widgetType for the system
-     * (eg swt, swing)
-     */
-    private String defaultType;
-
     private static Dictionary dictionary;
 
+    private static GuiDefaults guiDefaults;
     /**
      * Constructor for GuiContext.
      */
@@ -397,7 +393,7 @@ public class XuluxContext {
                 config = new WidgetConfig();
             }
             if (type == null) {
-                type = defaultType;
+                type = getGuiDefaults().getDefaultWidgetType();
             }
             if ("core".equals(type)) {
                 config.setCoreClass(widgetClass);
@@ -428,7 +424,7 @@ public class XuluxContext {
         }
         try {
             if (type == null) {
-                type = defaultType;
+                type = getGuiDefaults().getDefaultWidgetType();
             }
             Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
             if (!(object instanceof IParentWidgetHandler)) {
@@ -442,6 +438,13 @@ public class XuluxContext {
         catch (Exception e) {
             log.warn("Could not find " + clazz + " for parentWidgetHandler named for " + type);
         }
+    }
+    
+    public static GuiDefaults getGuiDefaults() {
+        if (guiDefaults == null) {
+            guiDefaults = new GuiDefaults();
+        }
+        return guiDefaults;
     }
 
     /**
@@ -459,7 +462,7 @@ public class XuluxContext {
         }
         try {
             if (type == null) {
-                type = defaultType;
+                type = getGuiDefaults().getDefaultWidgetType();
             }
             Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
             if (!(object instanceof INativeWidgetHandler)) {
@@ -487,7 +490,7 @@ public class XuluxContext {
         }
         try {
             if (type == null) {
-                type = defaultType;
+                type = getGuiDefaults().getDefaultWidgetType();
             }
             Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
             if (!(object instanceof NyxListener)) {
@@ -512,7 +515,7 @@ public class XuluxContext {
     public NyxListener getFieldEventHandler(String type) {
         if (fieldEventHandlerMap != null) {
             if (type == null) {
-                type = defaultType;
+                type = getGuiDefaults().getDefaultWidgetType();
             }
             return (NyxListener) ClassLoaderUtils.getObjectFromClass((Class) fieldEventHandlerMap.get(type));
         }
@@ -539,7 +542,7 @@ public class XuluxContext {
      * @deprecated No replacement yet
      */
     public IParentWidgetHandler getParentWidgetHandler() {
-        return getParentWidgetHandler(getDefaultWidgetType());
+        return getParentWidgetHandler(getGuiDefaults().getDefaultWidgetType());
     }
 
     /**
@@ -561,7 +564,7 @@ public class XuluxContext {
      * @deprecated No replacement yet.
      */
     public INativeWidgetHandler getNativeWidgetHandler() {
-        return getNativeWidgetHandler(getDefaultWidgetType());
+        return getNativeWidgetHandler(getGuiDefaults().getDefaultWidgetType());
     }
 
     /**
@@ -620,7 +623,7 @@ public class XuluxContext {
      * @return the class for the widget
      */
     public Class getWidget(String name) {
-        return getWidget(name, getDefaultWidgetType());
+        return getWidget(name, getGuiDefaults().getDefaultWidgetType());
     }
 
     /**
@@ -688,17 +691,10 @@ public class XuluxContext {
      * (eg. swt, core, swing)
      *
      * @param type the default gui type for this application
+     * @deprecated use XuluxContext.getGuiDefaults().setDefaultWidgetType(type)
      */
     public void setDefaultWidgetType(String type) {
-        this.defaultType = type;
-    }
-
-    /**
-     *
-     * @return the default widget type for the context instance
-     */
-    public String getDefaultWidgetType() {
-        return this.defaultType;
+        getGuiDefaults().setDefaultWidgetType(type);
     }
 
     /**
@@ -711,10 +707,10 @@ public class XuluxContext {
     /**
      * @return the NYX toolkit of the default type or null
      *          when not present
-     * @deprecated Use getWidgetConfig
+     * @deprecated Use XuluxContext.getGuiDefaults.getNyxToolkit()
      */
     public NYXToolkit getNYXToolkit() {
-        return getNYXToolkit(getDefaultWidgetType());
+        return getNYXToolkit(getGuiDefaults().getDefaultWidgetType());
     }
 
     /**
@@ -722,7 +718,7 @@ public class XuluxContext {
      * @param type the toolkit type (eg swt, swing)
      * @return the NYX toolkit type specified or null
      *          when not present
-     * @deprecated Use getWidgetConfig
+     * @deprecated Use XuluxContext.getGuiDefaults.getNyxToolkit(type)
      */
     public NYXToolkit getNYXToolkit(String type) {
         if (this.nyxToolkits != null) {
@@ -743,7 +739,7 @@ public class XuluxContext {
             this.nyxToolkits = new HashMap();
         }
         if (type == null) {
-            type = getDefaultWidgetType();
+            type = getGuiDefaults().getDefaultWidgetType();
         }
         Object object = ClassLoaderUtils.getObjectFromClassString(clazz);
         if (object instanceof NYXToolkit) {
@@ -778,7 +774,7 @@ public class XuluxContext {
      * @deprecated No replacement yet.
      */
     public void registerWidgetTool(String clazz, String widgetName) {
-        registerWidgetTool(clazz, widgetName, getDefaultWidgetType());
+        registerWidgetTool(clazz, widgetName, getGuiDefaults().getDefaultWidgetType());
     }
 
     /**
@@ -804,7 +800,7 @@ public class XuluxContext {
      */
     public void registerWidgetInitializer(String initializerClass, String widgetName, String type) {
         if (type == null) {
-            type = getDefaultWidgetType();
+            type = getGuiDefaults().getDefaultWidgetType();
         }
         Class clz = ClassLoaderUtils.getClass(initializerClass);
         if (clz != null) {
@@ -850,7 +846,7 @@ public class XuluxContext {
         if (config == null) {
             return null;
         }
-        List clzs = config.getWidgetInitializers(getDefaultWidgetType());
+        List clzs = config.getWidgetInitializers(getGuiDefaults().getDefaultWidgetType());
         if (clzs == null) {
             return null;
         }

@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsTest.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
+   $Id: GuiDefaultsTest.java,v 1.6 2004-05-10 15:03:56 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -40,7 +40,7 @@ import org.xulux.gui.WidgetFactory;
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.6 2004-05-10 15:03:56 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -72,7 +72,7 @@ public class GuiDefaultsTest extends TestCase {
         WidgetConfig config = (WidgetConfig) map.get("combo");
         assertNotNull(config);
         assertEquals(Class.forName("org.xulux.swing.widgets.Combo"), config.get("swing"));
-        assertEquals("swing", XuluxContext.getInstance().getDefaultWidgetType());
+        assertEquals("swing", XuluxContext.getGuiDefaults().getDefaultWidgetType());
         assertNotNull(XuluxContext.getInstance().getParentWidgetHandler());
         assertNotNull(XuluxContext.getInstance().getParentWidgetHandler("swing"));
         assertNotNull(XuluxContext.getInstance().getNativeWidgetHandler());
@@ -139,5 +139,13 @@ public class GuiDefaultsTest extends TestCase {
          assertEquals("elementValue", element);
          Object elementType = map.get("element.type");
          assertEquals("attribute", elementType);
+    }
+    
+    public void testDefaultWidgetType() {
+        System.out.println("testDefaultWidgetType");
+        GuiDefaults defaults = new GuiDefaults();
+        assertEquals(null, defaults.getDefaultWidgetType());
+        defaults.setDefaultWidgetType("default");
+        assertEquals("default", defaults.getDefaultWidgetType());
     }
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.6 2004-05-10 15:03:56 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import org.xulux.core.WidgetConfig;
  * @todo move the contenthandlers to the dataprovider API.
  * @todo do some code reuse of setting the properties.. eg util method or something
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.5 2004-04-14 14:16:12 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.6 2004-05-10 15:03:56 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 
@@ -140,11 +140,11 @@ public class GuiDefaultsHandler extends DefaultHandler {
             if (defaultType != null) {
                 defaultType = defaultType.toLowerCase();
             }
-            XuluxContext.getInstance().setDefaultWidgetType(defaultType);
+            XuluxContext.getGuiDefaults().setDefaultWidgetType(defaultType);
         } else if (qName.equals(ELEMENT_PARENTWIDGETHANDLER)) {
             String type = getType(atts);
             if (type == null) {
-                type = XuluxContext.getInstance().getDefaultWidgetType();
+                type = XuluxContext.getGuiDefaults().getDefaultWidgetType();
             }
             String clazz = atts.getValue(ATTRIBUTE_CLASS);
             XuluxContext.getInstance().registerParentWidgetHandler(type, clazz);
@@ -213,7 +213,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
     private String getType(Attributes atts) {
         String type = atts.getValue(ATTRIBUTE_TYPE);
         if (type == null) {
-            type = XuluxContext.getInstance().getDefaultWidgetType();
+            type = XuluxContext.getGuiDefaults().getDefaultWidgetType();
         }
         return type;
     }
