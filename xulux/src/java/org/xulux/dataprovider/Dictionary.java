@@ -1,5 +1,5 @@
 /*
-   $Id: Dictionary.java,v 1.7 2004-06-14 13:34:29 mvdb Exp $
+   $Id: Dictionary.java,v 1.8 2004-06-23 10:48:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * It is the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.7 2004-06-14 13:34:29 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.8 2004-06-23 10:48:00 mvdb Exp $
  */
 public final class Dictionary {
     /**
@@ -126,13 +126,9 @@ public final class Dictionary {
 
     /**
      * @return the one and only instance of the dictionary.
-     * @deprecated
+     * @deprecated  use XuluxContext.getDictionary()
      */
     public static Dictionary getInstance() {
-//        if (instance == null) {
-//            instance = new Dictionary();
-//        }
-//        return instance;
         return XuluxContext.getDictionary();
     }
 
@@ -142,10 +138,6 @@ public final class Dictionary {
      */
     public BeanMapping getMapping(String name) {
         return (BeanMapping) getInstance().getProvider(DEFAULT_PROVIDER).getMapping(name);
-//        if (maps != null) {
-//            return (BeanMapping) mappings.get(name);
-//        }
-//        return null;
     }
 
     /**
@@ -187,10 +179,7 @@ public final class Dictionary {
      * @return the mapping of the specified clazz
      */
     public IMapping getMapping(Class clazz) {
-        if (clazz == null) {
-            return null;
-        }
-        return getMapping(clazz, false);
+        return (IMapping) getInstance().getProvider(DEFAULT_PROVIDER).getMapping(clazz);
     }
 
     /**
@@ -203,10 +192,7 @@ public final class Dictionary {
      *          or null when the object is null.
      */
     public IMapping getMapping(Object object) {
-        if (object == null) {
-            return null;
-        }
-        return getMapping(object.getClass());
+        return (IMapping) getInstance().getProvider(DEFAULT_PROVIDER).getMapping(object);
     }
 
     /**
