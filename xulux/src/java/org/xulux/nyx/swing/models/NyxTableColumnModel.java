@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableColumnModel.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
+ $Id: NyxTableColumnModel.java,v 1.7 2003-11-12 02:53:34 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -45,12 +45,12 @@
  */
 package org.xulux.nyx.swing.models;
 
-import java.util.ArrayList;
+import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 
-import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.MenuItem;
 import org.xulux.nyx.swing.widgets.PopupMenu;
@@ -59,43 +59,48 @@ import org.xulux.nyx.swing.widgets.Table;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumnModel.java,v 1.6 2003-11-06 19:53:11 mvdb Exp $
+ * @version $Id: NyxTableColumnModel.java,v 1.7 2003-11-12 02:53:34 mvdb Exp $
  */
 public class NyxTableColumnModel extends DefaultTableColumnModel
 {
-//implements TableColumnModel {
 
     protected Table table;
-
+    protected NyxTableColumnModel lockedModel;
+    protected int lockedColumnWidth;
     /**
      *
      */
     public NyxTableColumnModel() {
         super();
     }
-
+    
+    /**
+     * Initializes the columnModel and sets the table for later reference
+     * @param table - the table that is using the columnModel.
+     */
     public NyxTableColumnModel(Table table) {
         setTable(table);
+        initializeColumns();
     }
 
     public void setTable(Table table) {
         this.table = table;
-        initializeColumns();
     }
 
     private void initializeColumns() {
         int maxHeight = 0;
-        ArrayList list = table.getChildWidgets();
+        List list = table.getChildWidgets();
         if (list == null) {
             return;
         }
+        lockedModel = new NyxTableColumnModel();
+        lockedModel.setTable(table);
         for (int i = 0; i < list.size(); i++) {
             Widget widget = (Widget) list.get(i);
             if (widget instanceof PopupMenu || widget instanceof MenuItem) {
                 continue;
             }
-            TableColumn column = new TableColumn();
-            column.setHeaderValue(widget.getProperty("text"));
+            NyxTableColumn column = new NyxTableColumn(widget);
             column.setModelIndex(i);
             //column.setPreferredWidth(100);
             //System.out.println("Setting width to : "+widget.getRectangle().getWidth());
@@ -103,24 +108,98 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
             if (height > maxHeight) {
                 maxHeight = height;
             }
-            column.setPreferredWidth(widget.getRectangle().getWidth());
-            column.setWidth(widget.getRectangle().getWidth());
-            if (widget instanceof NyxCombo) {
-                column.setCellEditor(new NyxTableCellEditor(widget));
-            }
             addColumn(column);
+            lockedModel.addColumn(column);
         }
         //System.out.println("columns : "+getColumnCount());
         table.setProperty("rowHeight", String.valueOf(maxHeight));
+    }
+    
+    /**
+     * Checks to see if this columnModel has any columns present which are locked.
+     * 
+     * @return
+     */
+    public boolean hasLockedColumns() {
+        boolean lockedColumns = false;
+        for (int i = 0; i < getColumnCount(); i++) {
+            if (((NyxTableColumn)getColumn(i)).isLocked()) {
+                lockedColumns = true;
+                break;
+            }
+        }
+        return lockedColumns;
+    }
+    
+    /**
+     * Refresh the columns especially when widgets have been refreshed.
+     * @todo Espcially needed when adding or removing widgets.
+     */
+    public void refresh() {
+        // first remove all columns
+        removeAllColumns();
+        // and reinitialize the columns.
+        initializeColumns();
+    }
+    
+    /** 
+     * Removes all columns from the column list.
+     * This removes also all columns from the locked
+     * table.
+     */
+    protected void removeAllColumns() {
+        for (int i = 0; i < getColumnCount(); i++) {
+            removeColumn(getColumn(i));
+        }
+        // lockedModel gets rebuild anyway, so just destroy it..
+        if (lockedModel != null) {
+            lockedModel.destroy();
+            lockedModel = null;
+        }
+    }
+    
+    /**
+     * Removes locked columns from the current list of columns.
+     */
+    public void removeLockedColumns() {
+        for (int i = 0; i < getColumnCount(); i++) {
+            NyxTableColumn column = (NyxTableColumn)getColumn(i);
+            if (column.isLocked()) {
+                System.out.println("lockedColumnWidth : "+lockedColumnWidth);
+                lockedColumnWidth+=column.getPreferredWidth();
+                System.out.println("lockedColumnWidth : "+lockedColumnWidth);
+                removeColumn(column); 
+                i--;
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @return the locked columnWidth. This is set when removing columns
+     */    
+    public Dimension getLockedColumnWidth() {
+        return new Dimension(lockedColumnWidth,0);
+    }    
+    
+    /**
+     *
+     * @return The columnModel to lock columns.
+     */
+    public NyxTableColumnModel getLockedColumnModel() {
+        return lockedModel;
     }
 
     /**
      * destroy the instance variables
      * Just in case..
-     *
      */
     public void destroy() {
-        this.table = null;
+        table = null;
+        if (lockedModel != null) {
+            lockedModel.destroy();
+            lockedModel = null;
+        }
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.22 2003-11-11 14:46:15 mvdb Exp $
+ $Id: Table.java,v 1.23 2003-11-12 02:53:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,6 +63,7 @@ import org.xulux.nyx.gui.IContentWidget;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
+import org.xulux.nyx.swing.listeners.LockedColumnSelectionListener;
 import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
 import org.xulux.nyx.swing.listeners.ValueChangedListener;
@@ -81,14 +82,19 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.22 2003-11-11 14:46:15 mvdb Exp $
+ * @version $Id: Table.java,v 1.23 2003-11-12 02:53:34 mvdb Exp $
  */
-public class Table extends ContainerWidget
-implements IContentWidget
-{
-
-
+public class Table extends ContainerWidget implements IContentWidget {
+        
+    /**
+     * The native swing table
+     */
     protected JTable table;
+    
+    /**
+     * The native locked table
+     */
+    protected JTable lockedTable;
 
     /**
      * This is the native widget
@@ -100,6 +106,9 @@ implements IContentWidget
 
     protected List content;
     protected boolean contentChanged;
+    /**
+     * The log class
+     */
     protected static Log log = LogFactory.getLog(Table.class);
 
     /**
@@ -113,6 +122,7 @@ implements IContentWidget
     protected NyxTableModel model;
 
     protected NyxTableCellEditor editor;
+    protected LockedColumnSelectionListener lockedListener;
 
     private int oldListSize = 0;
     private int listSize = 0;
@@ -127,6 +137,12 @@ implements IContentWidget
     public void destroyTable() {
         if (!initialized) {
             return;
+        }
+        if (lockedListener != null) {
+            table.getSelectionModel().removeListSelectionListener(lockedListener);
+            if (lockedTable != null) {
+                lockedTable.getSelectionModel().removeListSelectionListener(lockedListener);
+            }
         }
         if (this.columnModel != null) {
             this.columnModel.destroy();
@@ -146,8 +162,14 @@ implements IContentWidget
             }catch(NullPointerException npe) {
                 // eat it..
             }
+            try {
+                this.scrollPane.remove(lockedTable);
+            }catch(NullPointerException npe) {
+                // eat it..
+            }
         }
         this.table = null;
+        this.lockedTable = null;
     }
     /**
      * @see org.xulux.nyx.gui.Widget#destroy()
@@ -164,8 +186,7 @@ implements IContentWidget
         Container container = this.scrollPane.getParent();
         this.scrollPane.setVisible(false);
         this.scrollPane.removeAll();
-        if (container != null)
-        {
+        if (container != null) {
             container.remove(this.scrollPane);
         }
         this.scrollPane = null;
@@ -234,6 +255,7 @@ implements IContentWidget
             this.destroyTable();
             if (this.columnModel == null) {
                 this.columnModel = new NyxTableColumnModel(this);
+                System.out.println("hasLockedColumns : "+this.columnModel.hasLockedColumns());
             }
             if (this.model == null) {
                 this.model = new NyxTableModel(this);
@@ -241,10 +263,41 @@ implements IContentWidget
             if (this.editor == null) {
                 this.editor = new NyxTableCellEditor(this);
             }
+            boolean hasLockedColumns = columnModel.hasLockedColumns();
+            if (hasLockedColumns) {
+                lockedTable = new JTable(model, columnModel.getLockedColumnModel());
+                lockedTable.setCellEditor(editor);
+                lockedTable.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
+            }
             table = new JTable(this.model,this.columnModel);
             table.setCellEditor(this.editor);
             table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
-            scrollPane.setViewportView(this.table);
+            scrollPane.setViewportView(table);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            if (hasLockedColumns) {
+                table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                lockedTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                lockedTable.getTableHeader().setReorderingAllowed(false);
+                ((NyxTableColumnModel)table.getColumnModel()).removeLockedColumns();
+                lockedTable.setPreferredScrollableViewportSize(columnModel.getLockedColumnWidth());
+                System.out.println("ColumnModel : "+columnModel.getLockedColumnWidth());
+                scrollPane.setRowHeaderView(lockedTable);
+                scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, lockedTable.getTableHeader());
+                // add the listeners.. 
+                if (lockedListener == null) {
+                    lockedListener = new LockedColumnSelectionListener(this);
+                }
+                lockedTable.getSelectionModel().addListSelectionListener(lockedListener);
+                table.getSelectionModel().addListSelectionListener(lockedListener);
+            } else {
+            // at least try to remove the listener.
+                if (lockedListener != null) {
+                   if (lockedTable != null) {
+                       lockedTable.getSelectionModel().removeListSelectionListener(lockedListener);
+                   }
+                   table.getSelectionModel().removeListSelectionListener(lockedListener);
+                }
+            }
             scrollPane.setVisible(true);
             table.setVisible(true);
             contentChanged = false;
@@ -532,7 +585,15 @@ implements IContentWidget
      * @return the native JTable
      */
     public JTable getJTable() {
-        return this.table;
+        return table;
+    }
+    
+    /**
+     * 
+     * @return the native locked JTable.
+     */
+    public JTable getLockedJTable() {
+        return lockedTable;
     }
 
     /**
