@@ -1,5 +1,5 @@
 /*
-   $Id: BeanMapping.java,v 1.4 2004-11-30 17:30:54 mvdb Exp $
+   $Id: BeanMapping.java,v 1.5 2004-11-30 17:46:34 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -38,7 +38,7 @@ import org.xulux.dataprovider.IMapping;
  * @todo Also fix the set when realField is used.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.4 2004-11-30 17:30:54 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.5 2004-11-30 17:46:34 mvdb Exp $
  */
 public class BeanMapping implements IMapping
 {
@@ -191,16 +191,15 @@ public class BeanMapping implements IMapping
         for (int i = 0; i < methods.length; i++) {
             Method method = methods[i];
             if (method.getName().equalsIgnoreCase(pre + name)  ||
-                !setMethod && method.getName().equalsIgnoreCase("is" + name)) {
-                if (result != null) {
-                  if (result.getParameterTypes().length != 0) {
+                (!setMethod && method.getName().equalsIgnoreCase("is" + name))) {
+                if (result != null && result.getParameterTypes().length != 0) {
                     continue;
-                  }
-                  result = method;
-                  if (result.getParameterTypes().length == 0) {
-                      // we found the correct one..
-                      break;
-                  }
+                }
+                result = method;
+                if (result.getParameterTypes().length == 0) {
+                    // we found the correct one..
+                    result = method;
+                    break;
                 }
             }
         }
@@ -378,9 +377,6 @@ public class BeanMapping implements IMapping
                         fieldName = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
                     }
                     Method setMethod = findMethod(fieldName, true);
-                    String mName = setMethod.getName();
-                    // sanity check of having found the correct method..
-                    
                     field.setChangeMethod(setMethod);
                     addField(field);
                 }
