@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.10 2004-05-03 23:46:22 mvdb Exp $
+   $Id: Entry.java,v 1.11 2004-05-04 15:42:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -44,7 +44,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.10 2004-05-03 23:46:22 mvdb Exp $
+ * @version $Id: Entry.java,v 1.11 2004-05-04 15:42:00 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -213,6 +213,7 @@ public class Entry extends SwingWidget {
     public void refresh() {
         isRefreshing = true;
         initialize();
+        initializeValue();
         textComponent.setEnabled(isEnabled());
         textComponent.setVisible(isVisible());
         textComponent.setPreferredSize(this.size);
