@@ -1,5 +1,5 @@
 /*
- $Id: ImageLoaderInterface.java,v 1.3 2003-11-06 19:53:10 mvdb Exp $
+ $Id: ImageLoaderInterface.java,v 1.4 2003-11-18 16:21:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -58,7 +58,7 @@ import javax.swing.ImageIcon;
  * @todo Add support for pluggable image libraries.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ImageLoaderInterface.java,v 1.3 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: ImageLoaderInterface.java,v 1.4 2003-11-18 16:21:36 mvdb Exp $
  */
 public interface ImageLoaderInterface
 {
@@ -77,5 +77,13 @@ public interface ImageLoaderInterface
      * @param url - the url to load if from
      */
     public ImageIcon getIcon(URL url);
+    
+    /**
+     * Specifies if this imageloader is usable.
+     * Eg checking if the image classes are on the classpath,etc
+     * 
+     * @return false if not usable.
+     */
+    public boolean isUsable();
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: JimiImageLoader.java,v 1.5 2003-11-06 19:53:10 mvdb Exp $
+ $Id: JimiImageLoader.java,v 1.6 2003-11-18 16:21:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -58,11 +58,13 @@ import com.sun.jimi.core.Jimi;
  * get any strange exceptions when jimi is not there.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: JimiImageLoader.java,v 1.5 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: JimiImageLoader.java,v 1.6 2003-11-18 16:21:36 mvdb Exp $
  */
 public class JimiImageLoader implements ImageLoaderInterface
 {
-
+    
+    private static String JIMI_MAIN_CLASS = "com.sun.jimi.core.Jimi";
+    
     /**
      * Constructor for JimiImageLoader.
      */
@@ -95,6 +97,19 @@ public class JimiImageLoader implements ImageLoaderInterface
         } else {
             return null;
         }
+    }
+    
+    /**
+     * @see org.xulux.nyx.swing.util.ImageLoaderInterface#isUsable()
+     */
+    public boolean isUsable() {
+        try {
+            Class.forName(JIMI_MAIN_CLASS);
+        }
+        catch (ClassNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 
 }

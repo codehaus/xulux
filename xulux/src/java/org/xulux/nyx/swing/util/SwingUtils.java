@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.6 2003-11-06 19:53:10 mvdb Exp $
+ $Id: SwingUtils.java,v 1.7 2003-11-18 16:21:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,7 +63,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * Contains several utilities to make life with swing easier.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.6 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.7 2003-11-18 16:21:36 mvdb Exp $
  */
 public class SwingUtils
 {
@@ -78,6 +78,8 @@ public class SwingUtils
      */
     private static String DEFAULT_CUSTOMIMAGELOADER =
                     "org.xulux.nyx.swing.util.JimiImageLoader";
+                    
+    private static String JIMI_PRESENT_CLASS = "com.sun.jimi.core.Jimi";
 
     /**
      * Contains the custom image loader
@@ -95,6 +97,10 @@ public class SwingUtils
         try
         {
             imageLoader = (ImageLoaderInterface)Class.forName(il).newInstance();
+            if (!imageLoader.isUsable()) {
+                imageLoader = null;
+                throw new Exception();
+            } 
         }
         catch (Exception e)
         {
