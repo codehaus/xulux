@@ -7,17 +7,17 @@
   <currentVersion>1.0</currentVersion>
   <organization>
     <name>xulux.org</name>
-    <url>http://nyx.xulux.org/</url>
-    <logo>http://nyx.xulux.org/images/xulux.gif</logo>
+    <url>http://www.xulux.org/</url>
+    <logo>http://www.xulux.org/images/xulux.gif</logo>
   </organization>
   <inceptionYear>2002</inceptionYear>
   <package>org.xulux</package>
   
   <!-- Gump integration -->
-  <gumpRepositoryId>nyx</gumpRepositoryId>
+  <gumpRepositoryId>xulux</gumpRepositoryId>
 
   <description>
-    NYX is gui layer independend framework, driven by rules and data provided
+    XULUX is gui layer independend framework, driven by rules and data provided
     by the user
   </description>
 
@@ -26,12 +26,12 @@
   <url>http://nyx.xulux.org/</url>
   <issueTrackingUrl>http://jira.codehaus.org</issueTrackingUrl>
   <siteAddress>codehaus.org</siteAddress>
-  <siteDirectory>/www/nyx.xulux.org/</siteDirectory>
-  <distributionDirectory>/www/nyx.xulux.org/builds/</distributionDirectory>
+  <siteDirectory>/home/projects/xulux/public_html/</siteDirectory>
+  <distributionDirectory>/home/projects/xulux/dist/</distributionDirectory>
 
   <repository>
-    <connection>scm:cvs:pserver:anoncvs@codehaus.org:/cvsroot/xulux:nyx</connection>
-    <url>http://cvs.codehaus.org/viewcvs.cgi/nyx/?cvsroot=xulux</url>
+    <connection>scm:cvs:pserver:anoncvs@codehaus.org:/home/projects/scm/xulux:xulux</connection>
+    <url>http://cvs.xulux.org</url>
   </repository>
 
   <versions>
@@ -47,22 +47,28 @@
 
   <mailingLists>
     <mailingList>
-      <name>Xulux interest list</name>
-      <archive>http://lists.codehaus.org/pipermail/xulux-interest</archive>
-      <subscribe>http://lists.codehaus.org/mailman/listinfo/xulux-interest</subscribe>
-      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/xulux-interest</unsubscribe>
+      <name>XULUX User list</name>
+      <archive>http://archive.xulux.org/user</archive>
+      <subscribe>user-subsribe@xulux.org</subscribe>
+      <unsubscribe>user-unsubscribe@xulux.org</unsubscribe>
     </mailingList>
     <mailingList>
-      <name>Xulux interest list</name>
-      <archive>http://lists.codehaus.org/pipermail/xulux-dev</archive>
-      <subscribe>http://lists.codehaus.org/mailman/listinfo/xulux-dev</subscribe>
-      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/xulux-dev</unsubscribe>
-    </mailingList>    
+      <name>XULUX dev list</name>
+      <archive>http://archive.xulux.org/dev</archive>
+      <subscribe>dev-subsribe@xulux.org</subscribe>
+      <unsubscribe>dev-unsubscribe@xulux.org</unsubscribe>
+    </mailingList>
     <mailingList>
-      <name>Xulux CVS List</name>
-      <archive>http://lists.codehaus.org/pipermail/xulux-cvs</archive>
-      <subscribe>http://lists.codehaus.org/mailman/listinfo/xulux-cvs</subscribe>
-      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/xulux-cvs</unsubscribe>
+      <name>XULUX scm list</name>
+      <archive>http://archive.xulux.org/scm</archive>
+      <subscribe>scm-subscribe@xulux.org</subscribe>
+      <unsubscribe>scm-unsubscribe@xulux.org</unsubscribe>
+    </mailingList>
+    <mailingList>
+      <name>XULUX announcement list</name>
+      <archive>http://archive.xulux.org/announce</archive>
+      <subscribe>announce-subscribe@xulux.org</subscribe>
+      <unsubscribe>announce-unsubscribe@xulux.org</unsubscribe>
     </mailingList>
   </mailingLists>
 
@@ -165,7 +171,7 @@
       </resources>
     </unitTest>
 
-    <nagEmailAddress>xulux-dev@lists.codehaus.org</nagEmailAddress>
+    <nagEmailAddress>dev@xulux.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
     <resources>
        <resource>
