@@ -7,7 +7,7 @@
   <organization>
     <name>xulux.org</name>
     <url>http://www.xulux.org/</url>
-    <logo>http://www.xulux.org/images/xulux.gif</logo>
+    <logo>http://www.xulux.org/images/logo1.jpg</logo>
   </organization>
   <inceptionYear>2002</inceptionYear>
   <package>org.xulux</package>
@@ -24,7 +24,7 @@
 
   <url>http://www.xulux.org/</url>
   <issueTrackingUrl>http://jira.codehaus.org</issueTrackingUrl>
-  <siteAddress>codehaus.org</siteAddress>
+  <siteAddress>xulux.org</siteAddress>
   <siteDirectory>/home/projects/xulux/public_html/</siteDirectory>
   <distributionDirectory>/home/projects/xulux/dist/</distributionDirectory>
 
