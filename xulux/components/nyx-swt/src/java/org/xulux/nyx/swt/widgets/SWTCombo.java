@@ -1,5 +1,5 @@
 /*
- $Id: SWTCombo.java,v 1.5 2003-07-31 13:00:28 mvdb Exp $
+ $Id: SWTCombo.java,v 1.6 2003-08-07 16:40:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,7 +62,7 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * Represents the swt combo and cCombo.
  * 
  * @author <a href="mailo:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTCombo.java,v 1.5 2003-07-31 13:00:28 mvdb Exp $
+ * @version $Id: SWTCombo.java,v 1.6 2003-08-07 16:40:33 mvdb Exp $
  */
 public class SWTCombo extends NyxCombo
 implements SWTWidget
@@ -233,6 +233,13 @@ implements SWTWidget
      */
     public boolean isValueEmpty() {
         return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
+     */
+    public void addNyxListener(NyxListener listener) {
+        // TODO
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.5 2003-07-29 16:14:27 mvdb Exp $
+ $Id: Window.java,v 1.6 2003-08-07 16:40:33 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,7 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.NyxWindow;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swt.SWTWidget;
@@ -59,7 +60,7 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * The SWT window
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.5 2003-07-29 16:14:27 mvdb Exp $
+ * @version $Id: Window.java,v 1.6 2003-08-07 16:40:33 mvdb Exp $
  */
 public class Window extends NyxWindow
 implements SWTWidget
@@ -235,6 +236,13 @@ implements SWTWidget
      */
     public boolean isValueEmpty() {
         return true;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
+     */
+    public void addNyxListener(NyxListener listener) {
+        // TODO
     }
 
 }
