@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.10 2003-12-15 03:28:53 mvdb Exp $
+ $Id: SwingUtils.java,v 1.11 2003-12-15 19:49:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -63,7 +63,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * Contains several utilities to make life with swing easier.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.10 2003-12-15 03:28:53 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.11 2003-12-15 19:49:34 mvdb Exp $
  */
 public final class SwingUtils {
 
@@ -111,7 +111,7 @@ public final class SwingUtils {
     }
 
     /**
-     * 
+     *
      * @return the imagelaoder that was initialized. If the default is used (swing) than null
      *         is returned
      */
@@ -143,7 +143,7 @@ public final class SwingUtils {
                 return icon.getImage();
             }
         }
-        return null; 
+        return null;
     }
 
     /**

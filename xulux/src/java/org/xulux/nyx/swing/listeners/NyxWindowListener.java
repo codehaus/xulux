@@ -1,5 +1,5 @@
 /*
- $Id: NyxWindowListener.java,v 1.4 2003-12-15 18:16:09 mvdb Exp $
+ $Id: NyxWindowListener.java,v 1.5 2003-12-15 19:49:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -47,17 +47,13 @@ package org.xulux.nyx.swing.listeners;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.gui.GuiUtils;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
-import org.xulux.nyx.rules.impl.WidgetRequestImpl;
 
 /**
  * A WindowListener to make sure we pass control
@@ -65,7 +61,7 @@ import org.xulux.nyx.rules.impl.WidgetRequestImpl;
  * the X button.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListener.java,v 1.4 2003-12-15 18:16:09 mvdb Exp $
+ * @version $Id: NyxWindowListener.java,v 1.5 2003-12-15 19:49:34 mvdb Exp $
  */
 public class NyxWindowListener extends NyxListener implements WindowListener {
     /**
@@ -130,22 +126,6 @@ public class NyxWindowListener extends NyxListener implements WindowListener {
             return;
         }
         GuiUtils.processCancel(widget);
-        // find the cancel button if any are present..
-        ApplicationPart part = widget.getPart();
-        ApplicationPart.WidgetList list = part.getWidgets();
-        if (list != null) {
-            for (Iterator it = list.iterator(); it.hasNext();) {
-                Widget w = (Widget) it.next();
-                if ("cancel".equalsIgnoreCase(w.getProperty("defaultaction"))) {
-                    System.out.println("Cancel found");
-                    WidgetRequestImpl impl = new WidgetRequestImpl(widget, PartRequest.ACTION_CANCEL_REQUEST);
-                    ApplicationContext.fireFieldRequest(w, impl, ApplicationContext.POST_REQUEST);
-                    break;
-                }
-                
-            }
-        }
-        // only process the cancel rules (the post form rules)
         completed();
         if (getWidget().isRootWidget()) {
             if (ApplicationContext.isPartApplication(getWidget().getPart())) {

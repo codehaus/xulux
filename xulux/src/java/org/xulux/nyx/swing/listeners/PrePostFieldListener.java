@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.33 2003-12-12 02:47:33 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.34 2003-12-15 19:49:34 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -18,7 +18,7 @@
 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project.  For written permission,
+    permission of The Xulux Project. For written permission,
     please contact martin@mvdb.net.
 
  4. Products derived from this Software may not be called "xulux"
@@ -32,7 +32,7 @@
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -54,6 +54,7 @@ import java.awt.event.ItemListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.gui.GuiUtils;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.util.NyxEventQueue;
@@ -63,28 +64,32 @@ import org.xulux.nyx.swing.widgets.RadioButton;
 import org.xulux.nyx.swing.widgets.ToggleButton;
 
 /**
- * TODO: Find a better way to handle the concel button.
+ * @todo Find a better way to handle the concel button.
  * Maybe use some kind of cache to see what next event comes through??
  * Functionality like hasWaitingRequests() or something like that.
  * Also if a user closes the window, widget.destroy should be called
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.33 2003-12-12 02:47:33 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.34 2003-12-15 19:49:34 mvdb Exp $
  */
-public class PrePostFieldListener extends NyxListener
-implements FocusListener, ActionListener, ItemListener
-{
+public class PrePostFieldListener extends NyxListener implements FocusListener, ActionListener, ItemListener {
 
+    /**
+     * The log instance
+     */
     private static Log log = LogFactory.getLog(PrePostFieldListener.class);
 
+    /**
+     * The constructor
+     */
     public PrePostFieldListener() {
         super();
     }
     /**
      * Constructor for PrePostFieldListener.
+     * @param widget the widget
      */
-    public PrePostFieldListener(Widget widget)
-    {
+    public PrePostFieldListener(Widget widget) {
         super(widget);
     }
 
@@ -92,14 +97,11 @@ implements FocusListener, ActionListener, ItemListener
      * now call pre..
      * @see java.awt.event.FocusListener#focusGained(FocusEvent)
      */
-    public void focusGained(FocusEvent e)
-    {
-        if (isProcessing())
-        {
+    public void focusGained(FocusEvent e) {
+        if (isProcessing()) {
             return;
         }
-        if (e.getID() != FocusEvent.FOCUS_GAINED || e.isTemporary())
-        {
+        if (e.getID() != FocusEvent.FOCUS_GAINED || e.isTemporary()) {
             return;
         }
         NyxEventQueue q = NyxEventQueue.getInstance();
@@ -111,14 +113,11 @@ implements FocusListener, ActionListener, ItemListener
      * now call post..
      * @see java.awt.event.FocusListener#focusLost(FocusEvent)
      */
-    public void focusLost(FocusEvent e)
-    {
-        if (isProcessing())
-        {
+    public void focusLost(FocusEvent e) {
+        if (isProcessing()) {
             return;
         }
-        if (e.getID() != FocusEvent.FOCUS_LOST || e.isTemporary())
-        {
+        if (e.getID() != FocusEvent.FOCUS_LOST || e.isTemporary()) {
             return;
         }
         NyxEventQueue q = NyxEventQueue.getInstance();
@@ -127,14 +126,12 @@ implements FocusListener, ActionListener, ItemListener
     }
 
     /**
-     * TODO: Make required check for combo with the notselectedValue..
+     * @todo Make required check for combo with the notselectedValue..
      *
      * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
      */
-    public void actionPerformed(ActionEvent e)
-    {
-        if (isProcessing())
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (isProcessing()) {
             return;
         }
         if (widget.isRefreshing()) {
@@ -142,8 +139,7 @@ implements FocusListener, ActionListener, ItemListener
         }
         NyxEventQueue q = NyxEventQueue.getInstance();
         if (widget instanceof Button) {
-            String cancel = widget.getProperty("defaultaction");
-            boolean isCancel = (cancel!=null)?cancel.equalsIgnoreCase("cancel"):false;
+            boolean isCancel = GuiUtils.processCancel(widget);
             if (isCancel) {
                 // drop all events and accepted in the event queue..
                 q.clearAccepted();
@@ -161,15 +157,15 @@ implements FocusListener, ActionListener, ItemListener
      * clicked. It will call the post after the
      * value is adjusted.
      *
-     * TODO: optimize this using native boolean ??
+     * @todo optimize this using native boolean ??
      * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
      */
     public void itemStateChanged(ItemEvent e) {
         // make sure we don't end up in a loop by checking
         // the fact if the widget is currently refreshing or not..
-//        if (isProcessing()) {
-//            return;
-//        }
+        //        if (isProcessing()) {
+        //            return;
+        //        }
         if (widget.isRefreshing()) {
             return;
         }
@@ -180,14 +176,12 @@ implements FocusListener, ActionListener, ItemListener
                 widget.setValue("true");
                 refresh = true;
 
-            }else if(e.getStateChange() == ItemEvent.DESELECTED) {
+            } else if (e.getStateChange() == ItemEvent.DESELECTED) {
                 widget.setValue("false");
                 refresh = true;
             }
             if (log.isTraceEnabled()) {
-                log.trace("Checkbox or RadioButton clicked on Widget : "+
-                   widget.getName()+" value: "+
-                       widget.getValue());
+                log.trace("Checkbox or RadioButton clicked on Widget : " + widget.getName() + " value: " + widget.getValue());
             }
         }
         if (refresh) {
