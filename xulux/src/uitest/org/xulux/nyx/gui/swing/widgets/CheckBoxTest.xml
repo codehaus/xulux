@@ -14,15 +14,18 @@
        <position>10, 40</position>
        <text>Bar</text>
     </field>
-    <field type="checkbox" name="foo" use="strfoo">
+    <field type="checkbox" name="strfoo" use="strfoo">
       <size>100,21</size>
       <position>10,70</position>
-      <text>Foo</text>
+      <text>strFoo</text>
+      <rules>
+        <rule>org.xulux.nyx.gui.rules.CheckBoxTestRule</rule>
+      </rules>
     </field>
-    <field type="checkbox" name="bar" use="strbar">
+    <field type="checkbox" name="strbar" use="strbar">
        <size>100,21</size>
        <position>10,100</position>
-       <text>Bar</text>
+       <text>strBar</text>
     </field>
   </field>
 </part>
