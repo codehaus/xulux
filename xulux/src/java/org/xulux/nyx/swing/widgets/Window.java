@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.12 2003-09-25 17:11:40 mvdb Exp $
+ $Id: Window.java,v 1.13 2003-09-25 17:53:24 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -73,7 +73,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.12 2003-09-25 17:11:40 mvdb Exp $
+ * @version $Id: Window.java,v 1.13 2003-09-25 17:53:24 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
@@ -143,7 +143,7 @@ public class Window extends NyxWindow
         }
         initialized = true;
         window = new JFrame(StringUtils.defaultString(getProperty("title")));
-        window.getContentPane().setLayout(new XYLayout());
+        window.getContentPane().setLayout(new XYLayout(this));
         this.windowListener = new NyxWindowListener(this);
         window.addWindowListener(this.windowListener);
         String windowType = getProperty("window-type");

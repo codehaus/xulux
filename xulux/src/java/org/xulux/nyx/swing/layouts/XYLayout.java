@@ -1,5 +1,5 @@
 /*
- $Id: XYLayout.java,v 1.7 2003-09-25 09:44:51 mvdb Exp $
+ $Id: XYLayout.java,v 1.8 2003-09-25 17:53:24 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -62,19 +62,56 @@ import org.xulux.nyx.gui.Widget;
  * A layout manager that positions it's controls
  * using the size and the position of the control
  * 
+ * TODO: Fix insets problem when more native components are present than 1
+ * The insets seems to tamper with the bounds of native components.
+ * We should have a map or list to maintain processed components, so 
+ * on first entry it doesn't do the bounds restore..
+ * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: XYLayout.java,v 1.7 2003-09-25 09:44:51 mvdb Exp $
+ * @version $Id: XYLayout.java,v 1.8 2003-09-25 17:53:24 mvdb Exp $
  */
 public class XYLayout implements LayoutManager2, Serializable
 {
-    HashMap map;
+    protected HashMap map;
+    /** 
+     * This is the widget that actually created the layout..
+     */
+    protected Widget parentWidget;
+    protected boolean firstLayout = true; 
 
     /**
-     * Constructor for XYLayout.
+     * 
+     * @param parent the creator of the XYLayout
      */
     public XYLayout()
     {
         map = new HashMap();
+    }
+
+    /**
+     * Use this contructor if used inside nyx.
+     * @param parent the creator of the XYLayout
+     */
+    public XYLayout(Widget parent)
+    {
+        map = new HashMap();
+        setParent(parent);
+    }
+    
+    /**
+     * Set the parent
+     * @param parent
+     */
+    public void setParent(Widget parent) {
+        this.parentWidget = parent;
+    }
+    
+    /**
+     * 
+     * @return the current parent or null of none present
+     */
+    public Widget getParent() {
+        return this.parentWidget;
     }
     
     /**
@@ -134,7 +171,6 @@ public class XYLayout implements LayoutManager2, Serializable
         for (int i = 0; i < count; i++)
         {
             Component component = parent.getComponent(i);
-//            System.out.println("Component : "+component);
             Widget widget = (Widget) map.get(component);
             Rectangle r = null;
             if (widget != null && widget.isVisible())
@@ -144,8 +180,6 @@ public class XYLayout implements LayoutManager2, Serializable
                     ((JComponent)component).setPreferredSize(new Dimension(r.width, r.height));
                 }
                 component.setSize(r.width, r.height);
-//                System.err.println("Widget : "+widget.getName());
-//                System.err.println("r : "+r);
             } else if (component != null) {
                 // if component is not a widget
                 // so layed on top of nyx.
@@ -153,7 +187,19 @@ public class XYLayout implements LayoutManager2, Serializable
                 // the component. It's up to the component
                 // to set sizes etc and handle all other
                 // logic.
-                r = getRectangle(component);
+                
+                if (parentWidget != null) {
+                    if (parent.equals(parentWidget.getNativeWidget())) {
+                        // this component has a nyx widget as parent
+                        System.err.println("PARENT IS THE WIDGET");
+                        // first layout has been processed..
+                    } else {
+                        System.err.println("REMOVING INSETS!");
+                    }
+                } else {
+                    System.err.println("PARENT IS NOT THE WIDGET");
+                }
+                r = getRectangle(component, insets);
             }
             if (r != null) {
                 component.setBounds(
@@ -170,8 +216,7 @@ public class XYLayout implements LayoutManager2, Serializable
         Rectangle r = widget.getRectangle().getRectangle();
         // we want the preferred size if 
         // size isn't really useable.
-        if (r.width <= 0 && r.height <= 0)
-        {
+        if (r.width <= 0 && r.height <= 0) {
             Dimension d = component.getPreferredSize();
             r.width = d.width;
             r.height = d.height;
@@ -189,9 +234,15 @@ public class XYLayout implements LayoutManager2, Serializable
      * @param component
      * @return the rectangle for a native swing component
      */
-    public Rectangle getRectangle(Component component) {
+    public Rectangle getRectangle(Component component, Insets insets) {
         
         Rectangle r = component.getBounds();
+        if (!firstLayout) {
+            r.x -= insets.left;
+            r.y -= insets.top;
+        } else {
+            firstLayout = false;
+        }
         Dimension d = component.getPreferredSize();
         r.width = d.width;
         r.height = d.height;
