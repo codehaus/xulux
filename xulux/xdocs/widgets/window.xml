@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The Window Widget</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The Window Widget">
+  <subsection name="General">
+    <p>
+      The window is a container for widgets. 
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      This is a list of all supported, Window specific, properties,
+      or standard properties that behave a certain way, which isn't default.
+      (Window overrides some properties so it can add his own logic)
+      See the <a href="index.html">widget page</a> for information
+      about properties used for all widgets.
+    </p>
+    <table>
+      <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
+      <tr>
+        <td>title</td>
+        <td>swing</td>
+        <td>Will set the title of the window</td>
+      </tr>
+      <tr>
+        <td>window-type</td>
+        <td>swing</td>
+        <td>Valid values are modal,mdi or toolbox</td>
+      </tr>
+      <tr>
+        <td>window-mode</td>
+        <td>swing</td>
+        <td>
+          Specifies how a window should be shown when
+          it is opened. Valid values are 
+          iconized, maximized, normal (default)
+        </td>
+      </tr>
+      <tr>
+        <td>icon</td>
+        <td>swing</td>
+        <td>
+          Sets the window icon
+        </td>
+      </tr>
+      <tr>
+        <td>resize</td>
+        <td>swing</td>
+        <td>
+          Specifies if the window should be resizable
+          Valid values are true or false.
+        </td>
+      </tr>
+      <tr>
+        <td>background-color</td>
+        <td>swing</td>
+        <td>
+          Specifies the background color of the window
+          and the default background and selected colors for
+          the widgets in the window.
+        </td>
+      </tr>
+      <tr>
+        <td>wallpaper</td>
+        <td>swing</td>
+        <td>
+          Specifies the background color of the window
+          and the default background and selected colors for
+          the widgets in the window.
+        </td>
+      </tr>
+      <tr>
+        <td>wallpaper-type</td>
+        <td>swing</td>
+        <td>
+          How to show the wallpaper. Valid values are
+          tiled,centered NOTE: Should move these kind
+          of things to attributes.
+        </td>
+      </tr>
+      <tr>
+        <td>font</td>
+        <td>swing</td>
+        <td>
+          Specifies the default font for the window
+          and all it's child widgets. In Swing you have to
+          be carefull with this, since it can be a very 
+          costly operation (eg specifying an unknown font, 
+          will create a font, which takes up a lot resources)
+          Format is typeface,size, color, style
+        </td>
+      </tr>
+      <tr>
+        <td>system</td>
+        <td>swing</td>
+        <td>
+          Specifies if a system menu should be present.
+          (defaults to true)
+        </td>
+      </tr>
+      <tr>
+        <td>status</td>
+        <td>swing</td>
+        <td>
+          Specify the statuswindow.
+          As a parameter you can specify the widths
+          , which means every width will be ended by a 
+          seperator
+        </td>
+      </tr>
+      
+    </table>
+  </subsection>
+</section>
+
+</body>
+
+</document>

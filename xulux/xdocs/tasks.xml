@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Tasks</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Tasks">
+<p>
+<ul>
+  <li>
+    Let nyx run in it's own thread if NYX is THE application
+    The goal is to give control back to the jvm and have 
+    the swing thread dispose of. The main should be stalled
+    and not continue the code.
+  </li>
+</ul>
+</p>
+</section>
+</body>
+</document>
