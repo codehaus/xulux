@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.7 2003-06-17 12:53:29 mvdb Exp $
+ $Id: BeanField.java,v 1.8 2003-07-14 03:37:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,6 +48,8 @@ package org.xulux.nyx.global;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,12 +61,12 @@ import org.apache.commons.logging.LogFactory;
  * @todo investigate if this can be "static" (or registered
  *       via a registry), since there aren't unlimited data beans
  *       normally. 
- * @todo Need to check need to check thread safety.
+ * @todo Need to check thread safety.
  * @todo This class should contain all the logic for conversion
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.7 2003-06-17 12:53:29 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.8 2003-07-14 03:37:36 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -96,6 +98,12 @@ public class BeanField implements IField
      * baseType or not
      */
     private boolean baseType;
+    
+    /**
+     * The parameterlist
+     */
+    private List parameterList;
+    
     
     /**
      * the logger
@@ -242,7 +250,7 @@ public class BeanField implements IField
     /**
      * Checks if we are talking about the same field..
      * 
-     * @param object - the obejct to perform the equals on
+     * @param object - the object to perform the equals on
      * @return If the object is a String it will compare it with
      *          the Alias (case insensitive).
      *          If the object is another BeanField, it will see
@@ -320,6 +328,37 @@ public class BeanField implements IField
     public void setAlias(String alias)
     {
         this.alias = alias;
+    }
+    
+    /** 
+     * Sets the parameters of the beanfield.
+     * This will overwrite all previous values.
+     * Use addParameter instead if you want to preserve them
+     * 
+     * @param parameters
+     */
+    public void setParameters(List parameters) {
+        this.parameterList = parameters;
+    }
+    
+    /**
+     * 
+     * @return a list with currently know parameters or null
+     *          when no parameters are known.
+     */
+    public List getParameters() {
+        return this.parameterList;
+    }
+    
+    /**
+     * Add a single parameter to the parameter list
+     * @param parameter
+     */
+    public void addParameter(BeanParameter parameter) {
+        if (parameterList == null) {
+            parameterList = new ArrayList();
+        }
+        parameterList.add(parameter);
     }
 
 }

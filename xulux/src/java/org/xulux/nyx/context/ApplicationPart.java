@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.41 2003-07-14 01:39:39 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.42 2003-07-14 03:37:37 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -80,7 +80,7 @@ import org.xulux.nyx.utils.Translation;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.41 2003-07-14 01:39:39 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.42 2003-07-14 03:37:37 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -148,6 +148,13 @@ public class ApplicationPart
     }
     
     /**
+     * Currently not functional.
+     * It should compare the bean value and the 
+     * current value in the field. Some introspection
+     * should be done to turn the field value into a
+     * correct bean (string to string is not a problem 
+     * though).
+     * TODO: isDirty()
      * @return if the field specified has been changed..
      */
     public boolean isDirty(String field)

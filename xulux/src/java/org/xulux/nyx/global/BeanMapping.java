@@ -1,5 +1,5 @@
 /*
- $Id: BeanMapping.java,v 1.8 2003-01-26 02:43:34 mvdb Exp $
+ $Id: BeanMapping.java,v 1.9 2003-07-14 03:37:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Contains the the Bean to Name mapping
  * Every field in the mapping is represented by a BeanField
@@ -59,7 +62,7 @@ import java.util.ArrayList;
  *       of concept I am reinventing the wheel a bit..;)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.8 2003-01-26 02:43:34 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.9 2003-07-14 03:37:36 mvdb Exp $
  */
 public class BeanMapping
 {
@@ -69,7 +72,7 @@ public class BeanMapping
     private boolean discovery;
     private boolean isDiscovered;
     private FieldList fields;
-    private static int fail = 0;
+    private static Log log = LogFactory.getLog(BeanMapping.class);
 
     /**
      * Constructor for BeanMapping.
@@ -257,7 +260,7 @@ public class BeanMapping
             }
             if (discoverNestedBean)
             {
-                //System.out.println("WE need to discover nestedbean!");
+                //System.out.println("We need to discover nestedbean!");
                 Dictionary d = Dictionary.getInstance();
                 //System.out.println("PlainbeanName : "+d.getPlainBeanName(clazz));
 //                System.exit(0);
@@ -278,6 +281,7 @@ public class BeanMapping
         }
         else
         {
+            // other fields not yet supported.
             return;
         }
         fields.add(f);
@@ -292,6 +296,9 @@ public class BeanMapping
     }
     
     /**
+     * This method will also search aliases
+     * of the field.
+     * 
      * @param name
      * @return the beanfield for the specified 
      * field or null when no field is present
@@ -360,10 +367,17 @@ public class BeanMapping
         return false;
     }
     
+    
+    public String toString()
+    {
+        return getName();
+    }
+    
     /**
      * Inner ArrayList with an overriden indexOf
      * Which checks equals on the object In 
      * the arraylist instead of the object passed
+     * 
      * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
      */
     public class FieldList extends ArrayList
@@ -401,8 +415,4 @@ public class BeanMapping
 
     }
     
-    public String toString()
-    {
-        return getName();
-    }
 }

@@ -1,6 +1,6 @@
 
 /*
- $Id: DictionaryTest.java,v 1.7 2003-06-17 12:03:12 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.8 2003-07-14 03:37:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,7 +56,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.7 2003-06-17 12:03:12 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.8 2003-07-14 03:37:36 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -82,7 +82,7 @@ public class DictionaryTest extends TestCase
      */
     public void testInitialize()
     {
-        System.out.println(".testInitialize");
+        System.out.println("testInitialize");
         Dictionary dictionary = Dictionary.getInstance();
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
         assertEquals("Test", Dictionary.getInstance().getMapping("Test").getName());
@@ -100,7 +100,7 @@ public class DictionaryTest extends TestCase
      */
     public void testEasyMapping()
     {
-        System.out.println(".testEasyMapping");
+        System.out.println("testEasyMapping");
         Dictionary d = Dictionary.getInstance();
         DictionaryBean bean = new DictionaryBean();
         BeanMapping mapping = d.getMapping(bean.getClass());
@@ -166,6 +166,27 @@ public class DictionaryTest extends TestCase
         BeanMapping mbmain = d.getMapping(RecursiveBean.class);
         assertEquals(3, mbmain.getFields().size());
     }
+    
+    public void testParameters() {
+        System.out.println("testParameters");
+        Dictionary d = Dictionary.getInstance();
+        d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
+        ParameteredBean bean = new ParameteredBean();
+        BeanMapping mapping = d.getMapping("pb");
+        assertEquals("pb", mapping.getName());
+        // Testing setting a new value on the bean..
+        assertNull(bean.getParameter("BOGUS"));
+        assertEquals("parameter",mapping.getField("tp").getName());
+        assertEquals("sp",mapping.getField("sp").getAlias());
+        assertEquals("fp",mapping.getField("fp").getAlias());
+        // this one is here, since I got a nullpointer exception
+        // which wasn't handled..
+//        System.out.println("Mapping : "+mapping.getFields());
+//        System.out.println(bean.getParameter(ParameterType.FIRST));
+//        System.out.println(bean.getParameter(ParameterType.SECOND));
+//        System.out.println(bean.getParameter(ParameterType.THIRD));
+    }
+    
     /**
      * Clean up the dictionary..
      */

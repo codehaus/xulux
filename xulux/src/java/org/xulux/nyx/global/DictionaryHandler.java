@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryHandler.java,v 1.5 2003-05-21 11:03:58 mvdb Exp $
+ $Id: DictionaryHandler.java,v 1.6 2003-07-14 03:37:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.global;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -60,7 +61,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * The default dictionary.xml reader
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.5 2003-05-21 11:03:58 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.6 2003-07-14 03:37:36 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {
@@ -70,6 +71,7 @@ public class DictionaryHandler extends DefaultHandler
     private static String BASE_ELEMENT = "base";
     private static String FIELDS_ELEMENT = "fields";
     private static String FIELD_ELEMENT = "field";
+    private static String PARAMETER_ELEMENT = "parameter";
     private static String NAME_ATTRIBUTE = "name";
     private static String DISCOVERY_ATTRIBUTE = "discovery";
     private static String ALIAS_ATTRIBUTE = "alias";
@@ -79,6 +81,11 @@ public class DictionaryHandler extends DefaultHandler
     private BeanMapping currentMapping;
     private boolean inBeanElement;
     private boolean inBaseElement;
+    private String currentValue;
+    /**
+     * A list of parameters
+     */
+    private ArrayList parameters;
 
     /**
      * Constructor for DictionaryHandler.
@@ -120,17 +127,49 @@ public class DictionaryHandler extends DefaultHandler
     public void endElement(String namespaceURI, String localName, String qName)
         throws SAXException
     {
-        if (qName.toLowerCase().equals(PREFIX_ELEMENT))
+        qName = qName.toLowerCase();
+        if (currentValue != null) {
+            currentValue = currentValue.trim();
+        }
+        if (qName.equals(PREFIX_ELEMENT))
         {
             Dictionary.getInstance().addMapping(currentMapping);
         }
-        else if (qName.toLowerCase().equals(BEAN_ELEMENT))
+        else if (qName.equals(BEAN_ELEMENT))
         {
+            try
+            {
+                currentMapping.setBean(
+                    Class.forName(currentValue));
+            }
+            catch (ClassNotFoundException e)
+            {
+                log.error(
+                    "Could not find bean "
+                        + currentValue
+                        + " for beanMapping "
+                        + currentMapping.getName());
+            }
             inBeanElement = false;
         }
-        else if (qName.toLowerCase().equals(BASE_ELEMENT))
+        else if (qName.equals(BASE_ELEMENT))
         {
+            Class clazz;
+            try
+            {
+                clazz = Class.forName(currentValue);
+                Dictionary.getInstance().setBaseClass(clazz);
+            }
+            catch (ClassNotFoundException e)
+            {
+                log.error(
+                    "Could not find dictionary base "
+                        + currentValue+"\n"+
+                    "Nyx will possibly not be able to disover data beasn correctly");
+            }
             inBaseElement = false;
+        }
+        else if (qName.equals(PARAMETER_ELEMENT)) {
         }
     }
 
@@ -144,11 +183,12 @@ public class DictionaryHandler extends DefaultHandler
         Attributes atts)
         throws SAXException
     {
-        if (qName.toLowerCase().equals(PREFIX_ELEMENT))
+        qName = qName.toLowerCase();
+        if (qName.equals(PREFIX_ELEMENT))
         {
             currentMapping = new BeanMapping(atts.getValue(NAME_ATTRIBUTE));
         }
-        else if (qName.toLowerCase().equals(BEAN_ELEMENT))
+        else if (qName.equals(BEAN_ELEMENT))
         {
             inBeanElement = true;
             String discover = atts.getValue(DISCOVERY_ATTRIBUTE);
@@ -159,11 +199,11 @@ public class DictionaryHandler extends DefaultHandler
                 currentMapping.setDiscovery(true);
              }
         }
-        else if (qName.toLowerCase().equals(BASE_ELEMENT))
+        else if (qName.equals(BASE_ELEMENT))
         {
             inBaseElement = true;
         }
-        else if (qName.toLowerCase().equals(FIELD_ELEMENT))
+        else if (qName.equals(FIELD_ELEMENT))
         {
             String name = atts.getValue(NAME_ATTRIBUTE);
             String alias = atts.getValue(ALIAS_ATTRIBUTE);
@@ -179,6 +219,7 @@ public class DictionaryHandler extends DefaultHandler
                 {
                     field.setAlias(alias);
                 }
+                field.setParameters(parameters);
                 currentMapping.addField(field);
             }
             else
@@ -187,6 +228,8 @@ public class DictionaryHandler extends DefaultHandler
             }
             
         }
+        else if (qName.equals(PARAMETER_ELEMENT)) {
+        }
     }
 
     /**
@@ -194,37 +237,14 @@ public class DictionaryHandler extends DefaultHandler
      */
     public void characters(char[] arg0, int arg1, int arg2) throws SAXException
     {
-        if (inBeanElement)
-        {
-            try
+        if (inBeanElement || inBaseElement) {
+            if (currentValue == null)
             {
-                currentMapping.setBean(
-                    Class.forName(new String(arg0, arg1, arg2)));
+                currentValue = new String(arg0, arg1, arg2);
             }
-            catch (ClassNotFoundException e)
+            else
             {
-                log.error(
-                    "Could not find bean "
-                        + new String(arg0, arg1, arg2)
-                        + " for beanMapping "
-                        + currentMapping.getName());
-            }
-        }
-        else if (inBaseElement)
-        {
-            Class clazz;
-            try
-            {
-                clazz = Class.forName(new String(arg0, arg1, arg2));
-                Dictionary.getInstance().setBaseClass(clazz);
-                //System.err.println("base clazz ; "+clazz.getName());
-            }
-            catch (ClassNotFoundException e)
-            {
-                log.error(
-                    "Could not find dictionary base "
-                        + new String(arg0, arg1, arg2)+"\n"+
-                    "Nyx will possibly not be able to disover data beasn correctly");
+                currentValue+=new String(arg0, arg1, arg2);
             }
         }
     }

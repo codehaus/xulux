@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.6 2003-05-21 11:03:58 mvdb Exp $
+ $Id: Dictionary.java,v 1.7 2003-07-14 03:37:36 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,7 +58,7 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.6 2003-05-21 11:03:58 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.7 2003-07-14 03:37:36 mvdb Exp $
  */
 public class Dictionary
 {
@@ -287,6 +288,14 @@ public class Dictionary
             return false;
         }
         return (mappingCache.indexOf(clazz)==-1)?false:true;
+    }
+    
+    /**
+     * 
+     * @return a clone of the current cache. 
+     */
+    public List getCache() {
+        return (mappingCache != null)?(List)mappingCache.clone():null;
     }
 
 }
