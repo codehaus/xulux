@@ -1,0 +1,28 @@
+<part name="PersonBeanForm" prefix="CheckBoxBean">
+  <field type="window" name="Window">
+    <title>ComboTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>300,300</size>
+    <autosize>true</autosize>
+    <field type="checkbox" name="foo" use="foo">
+      <size>100,21</size>
+      <position>10,10</position>
+      <text>Foo</text>
+    </field>
+    <field type="checkbox" name="bar" use="bar">
+       <size>100,21</size>
+       <position>10, 40</position>
+       <text>Bar</text>
+    </field>
+    <field type="checkbox" name="foo" use="strfoo">
+      <size>100,21</size>
+      <position>10,70</position>
+      <text>Foo</text>
+    </field>
+    <field type="checkbox" name="bar" use="strbar">
+       <size>100,21</size>
+       <position>10,100</position>
+       <text>Bar</text>
+    </field>
+  </field>
+</part>
