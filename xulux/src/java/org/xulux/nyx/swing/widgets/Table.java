@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.11 2003-08-11 00:33:49 mvdb Exp $
+ $Id: Table.java,v 1.12 2003-08-11 09:12:36 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -79,7 +79,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.11 2003-08-11 00:33:49 mvdb Exp $
+ * @version $Id: Table.java,v 1.12 2003-08-11 09:12:36 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -217,7 +217,10 @@ implements IContentWidget
         refreshUpdateButtons();
         String height = getProperty("rowHeight");
         if (height != null) {
-            table.setRowHeight(Integer.valueOf(height).intValue());
+            int rowHeight = Integer.valueOf(height).intValue();
+            if (rowHeight >0 ) {
+                table.setRowHeight(Integer.valueOf(height).intValue());
+            }
         }
         isRefreshing = false;
     }
