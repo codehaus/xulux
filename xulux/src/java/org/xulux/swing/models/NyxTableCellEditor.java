@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableCellEditor.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+   $Id: NyxTableCellEditor.java,v 1.4 2004-06-22 22:51:23 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,10 +28,10 @@ import javax.swing.table.TableCellEditor;
 import org.xulux.gui.Widget;
 
 /**
- * A table cell editor for nyx
+ * A table cell editor for Xulux
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellEditor.java,v 1.3 2004-01-28 15:09:23 mvdb Exp $
+ * @version $Id: NyxTableCellEditor.java,v 1.4 2004-06-22 22:51:23 mvdb Exp $
  */
 public class NyxTableCellEditor extends AbstractCellEditor implements TableCellEditor {
 
@@ -60,20 +60,6 @@ public class NyxTableCellEditor extends AbstractCellEditor implements TableCellE
     }
 
     /**
-     * @see javax.swing.CellEditor#isCellEditable(java.util.EventObject)
-     */
-    public boolean isCellEditable(EventObject e) {
-        return super.isCellEditable(e);
-    }
-
-    /**
-     * @see javax.swing.CellEditor#stopCellEditing()
-     */
-    public boolean stopCellEditing() {
-        return super.stopCellEditing();
-    }
-
-    /**
      * Stops the editing of cells.
      * @param table the table
      */
@@ -86,14 +72,6 @@ public class NyxTableCellEditor extends AbstractCellEditor implements TableCellE
     }
 
     /**
-     * @see javax.swing.CellEditor#cancelCellEditing()
-     */
-    public void cancelCellEditing() {
-        super.cancelCellEditing();
-    }
-
-    /**
-     *
      * @return the widget that is the editor.
      */
     public Widget getWidget() {
@@ -102,7 +80,6 @@ public class NyxTableCellEditor extends AbstractCellEditor implements TableCellE
 
     /**
      * Destroy the editor.
-     *
      */
     public void destroy() {
         this.widget = null;
