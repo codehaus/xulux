@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.3 2003-07-29 16:14:27 mvdb Exp $
+ $Id: NyxListener.java,v 1.4 2003-07-31 14:09:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.3 2003-07-29 16:14:27 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.4 2003-07-31 14:09:49 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -104,6 +104,7 @@ public abstract class NyxListener
             ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
             // refresh fields that use the same functionality
             widget.getPart().refreshFields(widget);
+            widget.getPart().updateDependandWidgets(widget);
             return true;
         }
         
@@ -125,6 +126,7 @@ public abstract class NyxListener
             widget.setValue(widget.getGuiValue());
             // refresh the all widgets who references this field
             widget.getPart().refreshFields(widget);
+            widget.getPart().updateDependandWidgets(widget);
             return true;
         }
         

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.31 2003-07-29 16:14:27 mvdb Exp $
+ $Id: Widget.java,v 1.32 2003-07-31 14:09:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,9 +49,11 @@ package org.xulux.nyx.gui;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.rules.IRule;
+import org.xulux.nyx.utils.NyxCollectionUtils;
 
 /**
  * A widget is a independ way of representing gui objects. 
@@ -62,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.31 2003-07-29 16:14:27 mvdb Exp $
+ * @version $Id: Widget.java,v 1.32 2003-07-31 14:09:49 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -80,7 +82,7 @@ public abstract class Widget implements Serializable
     private ArrayList rules;
     private ApplicationPart part;
     
-    private ArrayList dependencies;
+    private List dependencies;
     
     private WidgetRectangle rectangle;
     
@@ -511,6 +513,9 @@ public abstract class Widget implements Serializable
             }
         }
         properties.put(key.toLowerCase(), value);
+        if (key.equals("depends")) {
+            this.dependencies = NyxCollectionUtils.getListFromCSV(value);
+        }
         if (key.equals("required"))
         {
             setRequired((value.equalsIgnoreCase("true")?true:false));
@@ -697,24 +702,30 @@ public abstract class Widget implements Serializable
      */
     public boolean hasDependencies()
     {
-        boolean retValue = true;
-        if (dependencies == null)
-        {
-            retValue = false;
-        }
-        else if (dependencies.size() == 0)
-        {
-            retValue =  false;
-        }
-        return retValue;
+        return (dependencies != null && dependencies.size() > 0);
     }
     
     /**
      * Returns the dependencies
      */
-    public ArrayList getDependencies()
+    public List getDependencies()
     {
         return dependencies;
+    }
+    
+    
+    /**
+     * Updates the widget because another widget
+     * has been updated.
+     * @param widget
+     */
+    public void updateWidget(Widget widget) {
+        if (!hasDependencies()) {
+            return;
+        }
+        if (getDependencies().contains(widget.getName())) {
+            refresh();
+        }
     }
     
     /**

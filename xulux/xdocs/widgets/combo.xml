@@ -60,7 +60,8 @@
           This specifies the type of content.
           Valid values are string (comma seperated list of 
           values) or field, which should map to an entry
-          in the dictionary.
+          in the dictionary. Currently only a static method
+          is supported if the bean is null.
         </td>
       </tr>
       <tr>

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.45 2003-07-23 13:14:43 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.46 2003-07-31 14:09:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -82,7 +82,7 @@ import org.xulux.nyx.utils.Translation;
  * TODO: Fix naming of field. It is used everywhere with different meanings.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.45 2003-07-23 13:14:43 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.46 2003-07-31 14:09:49 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -887,6 +887,19 @@ public class ApplicationPart
             Widget w = (Widget) it.next();
             if (w != widget) {
                 w.refresh();
+            }
+        }
+    }
+    
+    public void updateDependandWidgets(Widget widget) {
+        if (widget == null) {
+            return;
+        }
+        Iterator it = getWidgets().iterator();
+        while (it.hasNext()) {
+            Widget w = (Widget) it.next();
+            if (w != widget) {
+                w.updateWidget(widget);
             }
         }
     }
