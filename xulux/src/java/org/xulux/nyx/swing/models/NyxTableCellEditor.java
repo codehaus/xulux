@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableCellEditor.java,v 1.3 2003-08-26 00:40:44 mvdb Exp $
+ $Id: NyxTableCellEditor.java,v 1.4 2003-08-26 00:58:53 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.gui.Widget;
  * A table cell editor for nyx
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellEditor.java,v 1.3 2003-08-26 00:40:44 mvdb Exp $
+ * @version $Id: NyxTableCellEditor.java,v 1.4 2003-08-26 00:58:53 mvdb Exp $
  */
 public class NyxTableCellEditor extends AbstractCellEditor
 implements TableCellEditor
@@ -74,10 +74,6 @@ implements TableCellEditor
      * @see javax.swing.CellEditor#getCellEditorValue()
      */
     public Object getCellEditorValue() {
-        System.out.println("getCellEditorValue");
-        System.out.println("Widget value : "+widget.getValue());
-        System.out.println("widget gui value : "+widget.getGuiValue());
-        System.out.println("widget name "+widget.getName());
         return widget.getGuiValue();
     }
     /**
