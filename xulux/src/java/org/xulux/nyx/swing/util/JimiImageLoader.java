@@ -1,5 +1,5 @@
 /*
- $Id: JimiImageLoader.java,v 1.2 2003-06-17 14:08:23 mvdb Exp $
+ $Id: JimiImageLoader.java,v 1.3 2003-09-26 15:50:47 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import com.sun.jimi.core.Jimi;
  * get any strange exceptions when jimi is not there.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: JimiImageLoader.java,v 1.2 2003-06-17 14:08:23 mvdb Exp $
+ * @version $Id: JimiImageLoader.java,v 1.3 2003-09-26 15:50:47 mvdb Exp $
  */
 public class JimiImageLoader implements ImageLoaderInterface
 {
@@ -71,17 +71,28 @@ public class JimiImageLoader implements ImageLoaderInterface
     }
 
     /**
+     * For now we don't provide any exceptions or logging in case a 
+     * resrouce is null.
+     * 
      * @see org.xulux.nyx.gui.swing.util.ImageInterface#getImage(String, Object)
      */
     public Image getImage(URL url)
     {
-        return Jimi.getImage(url);
+        try {
+            return Jimi.getImage(url);
+        }catch(Exception e) {
+            return null;
+        }
     }
     
     public ImageIcon getIcon(URL url)
     {
         Image image = getImage(url);
-        return new ImageIcon(image);
+        if (image != null) {
+            return new ImageIcon(image);
+        } else {
+            return null;
+        }
     }
 
 }
