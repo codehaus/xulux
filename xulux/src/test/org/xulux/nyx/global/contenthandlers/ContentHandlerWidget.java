@@ -1,8 +1,8 @@
 /*
- $Id: TreeNodeContentHandler.java,v 1.8 2003-12-02 09:53:46 mvdb Exp $
+ $Id: ContentHandlerWidget.java,v 1.1 2003-12-02 09:53:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
-
+ 
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -10,29 +10,29 @@
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
-
+ 
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
-
+ 
  3. The name "xulux" must not be used to endorse or promote
     products derived from this Software without prior written
-    permission of The Xulux Project. For written permission,
+    permission of The Xulux Project.  For written permission,
     please contact martin@mvdb.net.
-
+ 
  4. Products derived from this Software may not be called "xulux"
     nor may "xulux" appear in their names without prior written
     permission of the Xulux Project. "xulux" is a registered
     trademark of the Xulux Project.
-
+ 
  5. Due credit should be given to the Xulux Project
     (http://xulux.org/).
-
+ 
  THIS SOFTWARE IS PROVIDED BY THE XULUX PROJECT AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
  THE XULUX PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -41,82 +41,46 @@
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
-
+ 
  */
 package org.xulux.nyx.global.contenthandlers;
-
-import javax.swing.tree.TreeNode;
 
 import org.xulux.nyx.gui.IContentWidget;
 
 /**
- * A tree content handler using a TreeNode.
- *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeNodeContentHandler.java,v 1.8 2003-12-02 09:53:46 mvdb Exp $
+ * @version $Id: ContentHandlerWidget.java,v 1.1 2003-12-02 09:53:46 mvdb Exp $
  */
-public class TreeNodeContentHandler extends TreeContentHandler {
+public class ContentHandlerWidget implements IContentWidget {
+
+    private Object content;
 
     /**
      * 
      */
-    public TreeNodeContentHandler() {
+    public ContentHandlerWidget() {
         super();
     }
 
     /**
-     * @param widget the widget to get the content from
+     * @see org.xulux.nyx.gui.IContentWidget#setContent(java.lang.Object)
      */
-    public TreeNodeContentHandler(IContentWidget widget) {
-        super(widget);
+    public void setContent(Object object) {
+        this.content = object;
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChild(java.lang.Object, int)
+     * @see org.xulux.nyx.gui.IContentWidget#getContent()
      */
-    public Object getChild(Object parent, int index) {
-        return ((TreeNode) parent).getChildAt(index);
+    public Object getContent() {
+        return this.content;
     }
 
     /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getChildCount(java.lang.Object)
+     * @see org.xulux.nyx.gui.IContentWidget#contentChanged()
      */
-    public int getChildCount(Object parent) {
-        return ((TreeNode) parent).getChildCount();
-    }
+    public void contentChanged() {
 
-    /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getIndexOfChild(java.lang.Object, java.lang.Object)
-     */
-    public int getIndexOfChild(Object parent, Object child) {
-        return ((TreeNode) parent).getIndex((TreeNode) child);
-    }
-
-    /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getRoot()
-     */
-    public Object getRoot() {
-        return (TreeNode) getWidget().getContent();
-    }
-
-    /**
-     * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#isLeaf(java.lang.Object)
-     */
-    public boolean isLeaf(Object node) {
-        boolean isLeaf = ((TreeNode) node).isLeaf();
-        if (!isLeaf) {
-            if (((TreeNode) node).getChildCount() == 0) {
-                isLeaf = true;
-            }
-        }
-        return isLeaf;
-    }
-
-    /**
-     * @see org.xulux.nyx.global.IContentHandler#getType()
-     */
-    public Class getType() {
-        return TreeNode.class;
     }
 
 }
