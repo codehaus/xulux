@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.9 2002-11-12 11:22:56 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.10 2002-11-13 00:12:29 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.9 2002-11-12 11:22:56 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.10 2002-11-13 00:12:29 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -197,37 +197,15 @@ public class ApplicationContext
     public static void fireRequest(PartRequest request, int type)
     {
         ApplicationPart part = request.getPart();
-        ArrayList rules = (ArrayList)part.getRules().clone();
-        System.out.println("Rules : " + rules);
-        synchronized (rules)
+        ArrayList rules = part.getRules();
+        if (rules == null || rules.size() == 0)
         {
-            Iterator it = rules.iterator();
-            while (it.hasNext())
-            {
-                IRule rule = (IRule) it.next();
-                System.out.println("Processing rule : " + rule.getUseCount());
-                try
-                {
-                    switch (type)
-                    {
-                        case PRE_REQUEST :
-                            rule.pre(request);
-                            continue;
-                        case EXECUTE_REQUEST :
-                            rule.execute(request);
-                            continue;
-                        case POST_REQUEST :
-                            rule.post(request);
-                            continue;
-                    }
-                }
-                catch(Exception e)
-                {
-                    System.err.println("Exception during Processing of rule : " + rule.getClass().getName());
-                    e.printStackTrace(System.err);
-                }
-            }
+            return;
         }
+        System.out.println("Rules : " + rules);
+        ArrayList currentRules = (ArrayList)rules.clone();
+        Iterator it = currentRules.iterator();
+        fireRequests(it, request, type);
     }
     
     /**
@@ -242,36 +220,13 @@ public class ApplicationContext
         int type)
     {
         ArrayList rules = widget.getRules();
-        if (rules == null)
+        if (rules == null || rules.size() == 0)
         {
             return;
         }
         ArrayList currentRules = (ArrayList)rules.clone();
         Iterator it = currentRules.iterator();
-        while (it.hasNext())
-        {
-            IRule rule = (IRule) it.next();
-            try
-            {
-                switch (type)
-                {
-                    case PRE_REQUEST :
-                        rule.pre(request);
-                        continue;
-                    case EXECUTE_REQUEST :
-                        rule.execute(request);
-                        continue;
-                    case POST_REQUEST :
-                        rule.post(request);
-                        continue;
-                }
-            }
-            catch(Exception e)
-            {
-                System.err.println("Exception during Processing of rule : " + rule.getClass().getName());
-                e.printStackTrace(System.err);
-            }
-        }
+        fireRequests(it, request, type);
         currentRules.clear();
         currentRules = null;
     }
@@ -283,7 +238,8 @@ public class ApplicationContext
         {
             return;
         }
-        Iterator wit = widgets.iterator();
+        ArrayList currentWidgets = (ArrayList)widgets.clone();
+        Iterator wit = currentWidgets.iterator();
         boolean stopAllRules = false;
         while (wit.hasNext() && !stopAllRules)
         {
@@ -294,34 +250,57 @@ public class ApplicationContext
             }
             Widget widget = (Widget) wit.next();
             ArrayList rules = widget.getRules();
-            if (rules == null)
+            if (rules == null || rules.size() == 0)
             {
                 return;
             }
-            Iterator it = rules.iterator();
-            while (it.hasNext() && !stopAllRules)
+            ArrayList currentRules = (ArrayList)rules.clone();
+            Iterator it = currentRules.iterator();
+            stopAllRules = fireRequests(it, request, type);
+        }
+    }
+    
+    /**
+     * Convenience method so I don't have to replicate
+     * code
+     * @return true if all rules need to be stopped..
+     */
+    private static boolean fireRequests(Iterator it, PartRequest request, int type)
+    {
+        boolean stopAllRules = false;
+        while (it.hasNext() && !stopAllRules)
+        {
+            IRule rule = (IRule) it.next();
+            stopAllRules = request.getPart().needToStopAllRules(getInstance());
+            if (stopAllRules)
             {
-                IRule rule = (IRule) it.next();
-                System.out.println("Processing rule : " + rule.getUseCount());
-                stopAllRules = request.getPart().needToStopAllRules(getInstance());
-                if (stopAllRules)
-                {
-                    return;
-                }
+                return true;
+            }
+            try
+            {
                 switch (type)
                 {
                     case PRE_REQUEST :
+                        System.err.println("Processing pre rule : " + rule.getClass().getName());
                         rule.pre(request);
                         continue;
                     case EXECUTE_REQUEST :
+                        System.err.println("Processing execute rule : " + rule.getClass().getName());
                         rule.execute(request);
                         continue;
                     case POST_REQUEST :
+                        System.out.println("Processing post rule : " + rule.getClass().getName());
                         rule.post(request);
                         continue;
                 }
             }
+            catch(Exception e)
+            {
+                System.err.println("Exception during Processing of rule : " + rule.getClass().getName());
+                e.printStackTrace(System.err);
+            }
         }
+        return false;
     }
     
     public void registerWidget(String name, String clazz)
