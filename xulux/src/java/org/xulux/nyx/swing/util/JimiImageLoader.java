@@ -1,5 +1,5 @@
 /*
- $Id: JimiImageLoader.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
+ $Id: JimiImageLoader.java,v 1.2 2003-06-17 14:08:23 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,12 +53,12 @@ import javax.swing.ImageIcon;
 import com.sun.jimi.core.Jimi;
 
 /**
- * Loads images using jini, so also ico, xpm, etc is supported
+ * Loads images using jimi, so also ico, xpm, etc is supported
  * by NYX. This is wrapped up in an interface so you don't
  * get any strange exceptions when jimi is not there.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: JimiImageLoader.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
+ * @version $Id: JimiImageLoader.java,v 1.2 2003-06-17 14:08:23 mvdb Exp $
  */
 public class JimiImageLoader implements ImageLoaderInterface
 {
