@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.10 2003-08-09 00:09:06 mvdb Exp $
+ $Id: NyxListener.java,v 1.11 2003-08-09 00:57:55 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,8 +49,8 @@ import java.util.Iterator;
 
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.PartRequest;
-import org.xulux.nyx.context.impl.PartRequestImpl;
-import org.xulux.nyx.context.impl.WidgetRequestImpl;
+import org.xulux.nyx.rules.impl.PartRequestImpl;
+import org.xulux.nyx.rules.impl.WidgetRequestImpl;
 import org.xulux.nyx.swing.widgets.Button;
 import org.xulux.nyx.swing.widgets.Entry;
 import org.xulux.nyx.swing.widgets.MenuItem;
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.10 2003-08-09 00:09:06 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.11 2003-08-09 00:57:55 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -98,8 +98,8 @@ public abstract class NyxListener
      */
     public void completedPart() {
         processing = true;
-        PartRequestImpl impl = new PartRequestImpl(widget.getPart(), PartRequest.ACTION_OK_REQUEST);
-        ApplicationContext.fireRequest(impl, ApplicationContext.POST_REQUEST);
+        PartRequestImpl req = new PartRequestImpl(widget.getPart(), PartRequest.ACTION_OK_REQUEST);
+        ApplicationContext.fireRequest(req, ApplicationContext.POST_REQUEST);
     }
     
     /**
