@@ -1,5 +1,5 @@
 /*
-   $Id: Label.java,v 1.12 2004-10-14 09:56:02 mvdb Exp $
+   $Id: Label.java,v 1.13 2004-10-14 12:56:55 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
 /**
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.12 2004-10-14 09:56:02 mvdb Exp $
+ * @version $Id: Label.java,v 1.13 2004-10-14 12:56:55 mvdb Exp $
  */
 public class Label extends SwingWidget {
 
@@ -98,7 +98,6 @@ public class Label extends SwingWidget {
         if (isRefreshing()) {
             return;
         }
-        System.out.println("getName : " + getName()+ " rule " + getRules());
         isRefreshing = true;
         initialize();
         initializeValue();
