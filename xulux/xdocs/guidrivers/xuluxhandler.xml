@@ -19,7 +19,7 @@
 </section>
 <section name="How to use">
   <p>
-   The <a href="../apidocs/org\xulux\nyx\context\ApplicationPartHandler.html">
+   The <a href="../apidocs/org/xulux/core/pplicationPartHandler.html">
    XuluxHandler</a> is the parser to create 
    <a href="../apidocs/org\xulux\nyx\context\ApplicationPart.html">XuluxParts</a>
    from xml. You can just call the handler with an inpustream to get a part

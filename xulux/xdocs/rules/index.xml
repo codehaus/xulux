@@ -35,7 +35,7 @@
   <p>
     The internal rule engine is handled by the <code>XuluxContext</code>, which is the main
     entry point for XULUX. (For a beginning of the API, see the 
-    <a href="xref/org/xulux/nyx/context/IRuleEngine.html">RuleEngine Interface</a> source.
+    <a href="xref/org/xulux/core/IRuleEngine.html">RuleEngine Interface</a> source.
     The NyxRuleEngine is used internally by Xulux to initialize widgets and other purposes.
     (eg the table needs to stop editing when a user leaves a cell in a table that is editable).
     The next sections will go into more detail about when rules are processed on how they
