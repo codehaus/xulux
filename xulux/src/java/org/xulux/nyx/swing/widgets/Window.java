@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.10 2003-08-07 16:41:14 mvdb Exp $
+ $Id: Window.java,v 1.11 2003-09-17 11:37:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -71,13 +71,13 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.10 2003-08-07 16:41:14 mvdb Exp $
+ * @version $Id: Window.java,v 1.11 2003-09-17 11:37:31 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
-    JFrame window;
-    WindowListener windowListener;
-    private static Log log = LogFactory.getLog(Window.class);
+    protected JFrame window;
+    protected WindowListener windowListener;
+    protected static Log log = LogFactory.getLog(Window.class);
 
     /**
      * Constructor for NyxWindow.
@@ -233,7 +233,7 @@ public class Window extends NyxWindow
         return null;
     }
     
-    private class RepaintComponent implements Runnable{
+    public class RepaintComponent implements Runnable{
         /**
          * @see java.lang.Runnable#run()
          */
