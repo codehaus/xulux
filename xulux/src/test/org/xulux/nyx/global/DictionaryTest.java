@@ -1,6 +1,6 @@
 
 /*
- $Id: DictionaryTest.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.4 2002-11-03 15:17:49 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.3 2002-11-03 11:56:56 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.4 2002-11-03 15:17:49 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -108,7 +108,7 @@ public class DictionaryTest extends TestCase
         BeanMapping mapping = d.getMapping(bean.getClass());
         assertEquals("DictionaryBean", mapping.getName());
         // Testing setting a new value on the bean..
-        BeanField field = mapping.getField("name");
+        IField field = mapping.getField("name");
         field.setValue(bean, "name");
         assertEquals("name",field.getValue(bean));
         mapping = d.getMapping(bean.getClass(), true);
