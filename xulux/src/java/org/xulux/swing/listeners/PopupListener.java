@@ -1,5 +1,5 @@
 /*
-   $Id: PopupListener.java,v 1.7 2004-11-16 11:13:19 mvdb Exp $
+   $Id: PopupListener.java,v 1.8 2004-11-24 08:57:29 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,9 +24,11 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
-import org.xulux.core.XuluxContext;
 import org.xulux.core.PartRequest;
+import org.xulux.core.XuluxContext;
+import org.xulux.gui.GuiUtils;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
 import org.xulux.rules.impl.WidgetRequestImpl;
@@ -35,7 +37,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * A popuplistener. Shows the popup when the right mousebutton is clicked
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupListener.java,v 1.7 2004-11-16 11:13:19 mvdb Exp $
+ * @version $Id: PopupListener.java,v 1.8 2004-11-24 08:57:29 mvdb Exp $
  */
 public class PopupListener extends NyxListener implements MouseListener {
 
@@ -89,6 +91,20 @@ public class PopupListener extends NyxListener implements MouseListener {
      * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
      */
     public void mouseClicked(MouseEvent e) {
+      System.out.println("mousClicked : " + e);
+      if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
+        // if detected a doubleclick and item is doubleclick item.
+        String dblName = widget.getProperty("doubleclick");
+        if (dblName == null) {
+          // try to get it at the parent
+          dblName = widget.getParent().getProperty("doubleclick");
+        }
+        if (dblName != null) {
+          Widget widget = (Widget) getWidget().getPart().getWidget(dblName);
+          GuiUtils.fireFieldPostRule(widget, widget, PartRequest.NO_ACTION);
+          return;
+        }
+      }
       showPopup(e);
     }
 

@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.14 2004-11-15 23:52:00 mvdb Exp $
+   $Id: Table.java,v 1.15 2004-11-24 08:57:29 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -59,7 +59,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.14 2004-11-15 23:52:00 mvdb Exp $
+ * @version $Id: Table.java,v 1.15 2004-11-24 08:57:29 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -564,6 +564,7 @@ public class Table extends ContainerWidget implements IContentWidget {
               return false;
             }
             menu.setParent(this);
+            menu.setPart(getPart());
             List children = menu.getChildWidgets();
             if (children != null) {
                 for (Iterator cit = children.iterator(); cit.hasNext();) {
