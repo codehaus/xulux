@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
+ $Id: Panel.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,35 +45,30 @@
  */
 package org.xulux.nyx.gui;
 
-import java.awt.Dimension;
-import javax.swing.JTextField;
+import java.util.ArrayList;
+import javax.swing.JPanel;
 
-import org.xulux.nyx.swing.listeners.ImmidiateListener;
-import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+import org.xulux.nyx.swing.layouts.XYLayout;
 
 /**
- * Represents an entry field
+ * A panel widget
+ * TODO: Also need to initialize child widgets !!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: Panel.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
  */
-public class Entry 
-extends Widget
-implements ValueWidget
+public class Panel extends Widget
 {
-    private boolean initialized;
-    private Dimension size;
     
-    /** 
-     * For now internally very swing specific
-     */
-    JTextField textField;
-    
-    
+    private JPanel panel;
+    private boolean initialized = false;
+    private ArrayList widgets;
+
     /**
-     * Constructor for Entry.
+     * Constructor for Panel.
+     * @param field
      */
-    public Entry(String field)
+    public Panel(String field)
     {
         super(field);
     }
@@ -83,8 +78,6 @@ implements ValueWidget
      */
     public void destroy()
     {
-        textField.removeAll();
-        // remove all listeners too..
     }
 
     /**
@@ -92,32 +85,22 @@ implements ValueWidget
      */
     public Object getNativeWidget()
     {
-        if (!initialized)
-        {
-            initialize();
-        }
-        return textField;
+        initialize();
+        return panel;
     }
-    
+
     /**
+     * TODO: Make layouts flexible.
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
     public void initialize()
     {
-        if (this.initialized)
+        if (initialized)
         {
             return;
         }
-        this.initialized = true;
-        textField = new JTextField();
-        if (isImmidiate())
-        {
-            textField.addKeyListener(new ImmidiateListener(this));
-        }
-        if (isVisible())
-        {
-            textField.addFocusListener(new PrePostFieldListener(this));
-        }
+        // we default to XYLayout for now..
+        panel = new JPanel(new XYLayout());
     }
 
     /**
@@ -125,44 +108,35 @@ implements ValueWidget
      */
     public void refresh()
     {
-        if (!initialized)
-        {
-            return;
-        }
-        textField.setEnabled(isEnabled());
-        textField.setVisible(isVisible());
-        textField.setPreferredSize(this.size);
+        initialize();
     }
 
     /**
-     * @see org.xulux.nyx.gui.ValueWidget#getValue()
+     * @see org.xulux.nyx.gui.Widget#addChildWidget(Widget)
      */
-    public Object getValue()
+    public void addChildWidget(Widget widget)
     {
-        return textField.getText();
+        if (widgets == null)
+        {
+            widgets = new ArrayList();
+        }
+        widgets.add(widget);
     }
-    
 
     /**
-     * @see org.xulux.nyx.gui.ValueWidget#setValue(Object)
+     * @see org.xulux.nyx.gui.Widget#canContainChildren()
      */
-    public void setValue(Object value)
+    public boolean canContainChildren()
     {
-        boolean update = true;
-        if (value!=null && value.equals(getValue()))
-        {
-            update = false;
-        }
-        String text = new String();
-        if (value != null)
-        {
-            text = value.toString();
-        }
-        textField.setText(text);
-        
-        if (update)
-        {
-            refresh();
-        }
+        return true;
     }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#getChildWidgets()
+     */
+    public ArrayList getChildWidgets()
+    {
+        return widgets;
+    }
+
 }

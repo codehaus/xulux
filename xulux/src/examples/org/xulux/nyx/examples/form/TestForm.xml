@@ -1,19 +1,44 @@
 <?xml version="1.0"?>
 <!--
-     Everything that starts with a percent sign, will be read
-     from TestForm.properties, so <formName>.properties
+    The testform definition
+    Please remember that some widget are suitable for containing other
+    widgets (the panel comes to mind!
 -->
-<!-- the TestForm window definition -->
-<window title="%title">
-  <layout></layout>
-  <fields layout="equalLayout">
-    <label at="1,1" name="Test.field1Label"/>
-    <entry at="1,2" use="Test.field1" required="true" link="Test.field1Label"/>
-    <label at="2,1" name="Test.field1Label"/>
-    <entry at="2,2" use="Test.field1" required="true" link="Test.field1Label"/>
-    <label at="3,1" name="Test.field1Label"/>
-    <entry at="3,2" use="Test.field1" required="true" link="Test.field1Label"/>
-    <label at="4,1" name="Test.field1Label"/>
-    <entry at="4,2" use="Test.field1" required="true" link="Test.field1Label"/>
+<!-- we should use the fields from prefix.. -->
+<!-- if not, specify the bean as eg
+      bean="org.xulux.nyx.bean.Bean"
+-->
+<part name="TestForm" prefix="Test">
+  <fields>
+    <field type="panel" name="dbcpanel">
+      <size>220,35</size>
+      <position>460,8</position>
+      <field type="label" name="DBC:Label">
+        <text>iDBC:</text>
+        <size>30,21</size>
+        <position>10,7</position>
+      </field>
+      <field type="entry" name="DBC:sp1"  usee="field1">
+        <size>21,21</size>
+        <position>52,7</position>
+      </field>
+      <field type="label" name="DBC.Label2">
+        <text>.</text>
+        <position>75,9</position>
+      </field>
+    </field>
   </fields>
-</window>
+</part>
+<!--
+        Test test = new Test();
+        test.setField1(FIELD1VALUE);
+        test.setField2(FIELD2VALUE);
+        test.setField3(FIELD3VALUE);
+        test.setField4(FIELD4VALUE);
+        TestContained c = new TestContained();
+        c.setField11(FIELD1VALUE);
+        c.setField12(FIELD2VALUE);
+        c.setField13(FIELD3VALUE);
+        test.setContained(c);
+-->
+

@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ $Id: Combo.java,v 1.2 2002-11-07 00:03:23 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,11 +49,14 @@ import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 
+import org.xulux.nyx.swing.listeners.ImmidiateListener;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
+
 /**
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.1 2002-11-04 21:46:08 mvdb Exp $
+ * @version $Id: Combo.java,v 1.2 2002-11-07 00:03:23 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -61,6 +64,7 @@ public class Combo extends Widget
     private ArrayList content;
     private JComboBox combo;
     private String notSelectedValue;
+    private boolean initialized = false;
 
     /**
      * Constructor for Combo.
@@ -144,26 +148,27 @@ public class Combo extends Widget
      */
     public void initialize()
     {
+        
+        if (this.initialized)
+        {
+            return;
+        }
+        this.initialized = true;
+        combo = new JComboBox();
+        if (isImmidiate())
+        {
+            combo.addKeyListener(new ImmidiateListener(this));
+        }
+        if (isVisible())
+        {
+            combo.addFocusListener(new PrePostFieldListener(this));
+        }
     }
 
     /**
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public void refresh()
-    {
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#setPosition(int, int)
-     */
-    public void setPosition(int x, int y)
-    {
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#setSize(int, int)
-     */
-    public void setSize(int width, int height)
     {
     }
 

@@ -1,17 +1,11 @@
 <?xml version="1.0"?>
-<GuiDefaults>
-  <entry>
-    <required>
-      <color></color>
-    </required>
-  </entry>
-  <label>
-    <font>
-      <family>Dialog</family>
-      <size>12</size>
-      <type>Bold</type>
-      <foreground-color>0,0,0<forgroundcolor>
-    </font>
-    <height>21</height>
-  </label>
-</GuiDefaults>
+<guidefaults>
+  <widgets>
+    <widget name="button" class="org.xulux.nyx.gui.Button"/>
+    <widget name="combo" class="org.xulux.nyx.gui.Combo"/>
+    <widget name="entry" class="org.xulux.nyx.gui.Entry"/>
+    <widget name="label" class="org.xulux.nyx.gui.Label"/>
+    <widget name="window" class="org.xulux.nyx.gui.Window"/>
+    <widget name="panel" class="org.xulux.nyx.gui.Panel"/>
+  </widgets>
+</guidefaults>

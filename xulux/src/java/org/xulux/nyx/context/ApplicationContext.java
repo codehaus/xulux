@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.4 2002-11-05 01:37:45 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.5 2002-11-07 00:03:23 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,11 +46,14 @@
 package org.xulux.nyx.context;
 
 import java.awt.Component;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.guidefaults.GuiDefaultsHandler;
 import org.xulux.nyx.rules.IRule;
 
 /**
@@ -58,11 +61,14 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.4 2002-11-05 01:37:45 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.5 2002-11-07 00:03:23 mvdb Exp $
  */
 public class ApplicationContext
 {
+    
+    private static String GUIDEFAULTS_XML = "org/xulux/nyx/guidefaults/GuiDefaults.xml";
     private static ApplicationContext instance;
+    
     /** 
      * This is the component registery
      * Which contains all components in the application
@@ -74,6 +80,8 @@ public class ApplicationContext
      * The listeners that are added to components
      */
     private ArrayList listeners;
+    
+    private HashMap widgets;
 
     /** 
      * The currently registered rules
@@ -102,6 +110,7 @@ public class ApplicationContext
         if (instance == null)
         {
             instance = new ApplicationContext();
+            instance.initializeGuiDefaults();
         }
         return instance;
     }
@@ -278,5 +287,48 @@ public class ApplicationContext
                 }
             }
         }
+    }
+    
+    public void registerWidget(String name, String clazz)
+    {
+        if (this.widgets == null)
+        {
+            widgets = new HashMap();
+        }
+        try
+        {
+            Class widgetClass = Class.forName(clazz);
+            widgets.put(name, widgetClass);
+        }
+        catch (ClassNotFoundException e)
+        {
+            System.err.println("Could not find "+clazz+" for widget named "+name);
+        }
+    }
+    
+    /**
+     * Initializes the default GuiDefaults in the systme
+     * @see org.xulux.nyx.guidefaults.GuiDefaultsHandler#read for more info.
+     * to override the current guidefaults..
+     */
+    private void initializeGuiDefaults()
+    {
+        GuiDefaultsHandler handler = new GuiDefaultsHandler();
+        InputStream stream = this.getClass().getClassLoader().getResourceAsStream(GUIDEFAULTS_XML);
+        handler.read(stream);
+    }
+    
+    /**
+     * Returns the class that corresponds to the name or null
+     * when not found
+     * See GuiDefaults.xml for more info on defining widgets or 
+     * call registerWidget(name, clazz) to register one yourself..
+     * 
+     * @param name - the widget
+     */
+    public Class getWidget(String name)
+    {
+        name = name.toLowerCase();
+        return (Class)widgets.get(name);
     }
 }

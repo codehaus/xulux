@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.4 2002-11-05 17:11:26 mvdb Exp $
+ $Id: Widget.java,v 1.5 2002-11-07 00:03:23 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,8 +59,11 @@ import org.xulux.nyx.rules.IRule;
  * For now swing specific, we need an xml config somewhere
  * to say how we should initialize it, etc.
  * 
+ * TODO: Use introspection, because this is getting to big and too
+ * specific as a generic Widget... 
+ * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.4 2002-11-05 17:11:26 mvdb Exp $
+ * @version $Id: Widget.java,v 1.5 2002-11-07 00:03:23 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -76,6 +79,11 @@ public abstract class Widget
     private ApplicationPart part;
     
     private WidgetRectangle rectangle;
+    
+    private String name;
+    
+    private String text;
+    
         
     public Widget(String field)
     {
@@ -275,4 +283,47 @@ public abstract class Widget
             return object == this;
         }
     }
+    
+    /**
+     * Override this method when the widget can contains child widgets
+     * @return
+     */
+    public boolean canContainChildren()
+    {
+        return false;
+    }
+    
+    /** 
+     * Doesn't do anything
+     */
+    public void addChildWidget(Widget widget)
+    {
+        return;
+    }
+    
+    public ArrayList getChildWidgets()
+    {
+        return null;
+    }
+    
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    
+    public String getName()
+    {
+        return this.name;
+    }
+    
+    public void setText(String text)
+    {
+        this.text = text;
+    }
+    
+    public String getText()
+    {
+        return this.text;
+    }
+    
 }

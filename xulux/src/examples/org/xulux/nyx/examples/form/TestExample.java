@@ -1,5 +1,5 @@
 /*
- $Id: TestExample.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
+ $Id: TestExample.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,6 +48,7 @@ package org.xulux.nyx.examples.form;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -72,7 +73,7 @@ import org.xulux.nyx.utils.Resources;
  * A simple example of a form
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestExample.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
+ * @version $Id: TestExample.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
  */
 public class TestExample
 {
@@ -94,6 +95,8 @@ public class TestExample
     }
     public void withDictionary()
     {
+        // this is bad, but for now mandatory...
+        ApplicationContext.getInstance();
         // first initialize the dictionary (not really necessary though
         Dictionary dictionary = Dictionary.getInstance();
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("dictionary.xml"));
@@ -122,6 +125,41 @@ public class TestExample
         frame.pack();
     }
     
+    public void withDictionaryAndXMLForm()
+    {
+        // this is bad, but for now mandatory...
+        ApplicationContext.getInstance();
+        // first initialize the dictionary (not really necessary though
+        Dictionary dictionary = Dictionary.getInstance();
+        dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("dictionary.xml"));
+        // TODO: set some defaults (should be in GuiDefaults.xml...)
+        String xml = "org/xulux/nyx/examples/form/TestForm.xml";
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        ApplicationPart part = TestFactory.getForm(stream, createDefaultTestObject());
+        ArrayList widgets = part.getWidgets();
+        Iterator it = widgets.iterator();
+        StringRule rule = new StringRule();
+        while (it.hasNext())
+        {
+            Widget widget = (Widget) it.next();
+            widget.registerRule(rule);
+        }
+        part.activate();
+        System.out.println("Form : "+part);
+        JFrame frame = new JFrame("FormExample");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.show();
+        System.out.println("frame size : "+frame.getBounds());
+        Dimension dim = ((Component)part.getRootWidget()).getPreferredSize();
+        dim.width += frame.getBounds().getWidth();
+        dim.height += frame.getBounds().getHeight();
+        frame.setSize(dim.width,dim.height);
+        frame.getContentPane().add((Component)part.getRootWidget());
+        System.out.println("Frame size : "+dim);
+        frame.pack();
+    }
+    
+    
     /** 
      * Don't use the dictionary. (internally it will though!!!)
      */
@@ -142,7 +180,8 @@ public class TestExample
     {
         try
         {
-            new TestExample().withDictionary();
+            //new TestExample().withDictionary();
+            new TestExample().withDictionaryAndXMLForm();
         }
         catch(Exception e)
         {

@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.2 2002-11-07 00:03:23 mvdb Exp $
+ $Id: WidgetFactory.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,65 +43,53 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-
 package org.xulux.nyx.gui;
 
-import javax.swing.JLabel;
+import java.lang.reflect.Constructor;
+
+import org.xulux.nyx.context.ApplicationContext;
 
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.2 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.1 2002-11-07 00:03:23 mvdb Exp $
  */
-public class Label extends Widget
+public class WidgetFactory
 {
-    
-    private JLabel label;
-    private boolean initialized;
-    
-    
-    public Label(String field)
-    {
-        super(field);
-    }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
+     * Constructor for WidgetFactory.
      */
-    public void destroy()
+    public WidgetFactory()
     {
     }
 
     /**
-     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
+     * Creates a widget from the widget Registry.
+     * 
+     * @param name - the name of the widget
+     * @param field - the field to use on the widget
      */
-    public Object getNativeWidget()
+    public static Widget getWidget(String name, String field)
     {
-        if (!initialized)
+        Class clazz = ApplicationContext.getInstance().getWidget(name);
+        Widget instance = null;
+        if (clazz != null)
         {
-            initialize();
+            try
+            {
+                Constructor constructor =
+                    clazz.getConstructor(new Class[] { String.class });
+                instance =
+                    (Widget) constructor.newInstance(new String[] { field });
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
-        return label;
-    }
+        return instance;
 
-    /**
-     * @see org.xulux.nyx.gui.Widget#initialize()
-     */
-    public void initialize()
-    {
-        if (this.initialized)
-        {
-            return;
-        }
-        this.initialized = true;
-        label = new JLabel(getText());
-    }
-    /**
-     * @see org.xulux.nyx.gui.Widget#refresh()
-     */
-    public void refresh()
-    {
-        label.setText(getText());
     }
 
 }

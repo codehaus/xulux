@@ -1,5 +1,5 @@
 /*
- $Id: TestFactory.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
+ $Id: TestFactory.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,16 +48,21 @@ package org.xulux.nyx.swing.factories;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.io.InputStream;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
 
 import org.xulux.nyx.context.ApplicationPart;
+import org.xulux.nyx.context.ApplicationPartHandler;
 import org.xulux.nyx.global.BeanField;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.Entry;
+import org.xulux.nyx.gui.ValueWidget;
+import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.swing.BaseForm;
 import org.xulux.nyx.swing.NewForm;
@@ -69,7 +74,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * a later stage.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.5 2002-11-05 17:11:26 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
  */
 public class TestFactory
 {
@@ -109,13 +114,30 @@ public class TestFactory
         while (iterator.hasNext())
         {
             IField field = (IField) iterator.next();
-            Entry entry = new Entry(field.getAlias());
+            Widget entry = WidgetFactory.getWidget("entry", field.getAlias());
             entry.setEnable(true);
             entry.setVisible(true);
             entry.initialize();
-            entry.setValue(field.getValue(bean));
+            if (entry instanceof ValueWidget)
+            {
+                ((ValueWidget)entry).setValue(field.getValue(bean));
+            }
             part.addWidget(entry, field.getName());
         }
+        return part;
+    }
+    
+    /**
+     * Build the form from an xml definition
+     */
+    public static ApplicationPart getForm(InputStream form, Object bean)
+    {
+        ApplicationPartHandler handler = new ApplicationPartHandler();
+        XYLayout layout = new XYLayout();
+        JPanel panel = new JPanel(layout);
+        ApplicationPart part = handler.read(form, bean);
+        part.setLayoutManager(layout);
+        part.setParentWidget(panel);
         return part;
     }
             
