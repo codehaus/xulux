@@ -128,29 +128,6 @@
 
     <sourceDirectory>src/java</sourceDirectory>
 
-    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-    <integrationUnitTestSourceDirectory/>
-
-    <aspectSourceDirectory></aspectSourceDirectory>
-
-    <!-- Unit test classes
-    <unitTest>
-      <includes>
-        <include>**/*Test.java</include>
-      </includes>
-      <excludes>
-        <exclude>**/RepositoryTest.java</exclude>
-      </excludes>
-    </unitTest>
-    -->
-
-    <!-- Integration unit test classes -->
-    <integrationUnitTestPatterns>
-    </integrationUnitTestPatterns>
-
-    <!-- J A R  R E S O U R C E S -->
-    <!-- Resources that are packaged up inside the JAR file -->
-
     <jars>
     </jars>
   </build>
