@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.12 2003-08-09 00:09:05 mvdb Exp $
+ $Id: Button.java,v 1.13 2003-09-28 23:27:54 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.swing.widgets;
 
 import java.awt.Container;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -67,7 +68,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.12 2003-08-09 00:09:05 mvdb Exp $
+ * @version $Id: Button.java,v 1.13 2003-09-28 23:27:54 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
@@ -119,23 +120,6 @@ public class Button extends SwingWidget
     {
         isRefreshing = true;
         initialize();
-        if (getProperty("text")!=null)
-        {
-            button.setText(getProperty("text"));
-        }
-        if (actionListener == null)
-        {
-            NyxListener listener = getPart().getFieldEventHandler(this);
-            if (listener == null)
-            {
-                actionListener = new PrePostFieldListener(this);
-            }
-            else
-            {
-                actionListener = (PrePostFieldListener)listener;
-            }
-            button.addActionListener(actionListener);
-        }
         String image = getProperty("image");
         if (image != null)
         {
@@ -195,6 +179,42 @@ public class Button extends SwingWidget
                 button.addFocusListener(focusListener);
             }
             
+        }
+        if (getProperty("text")!=null)
+        {
+            button.setText(getProperty("text"));
+        }
+        if (actionListener == null)
+        {
+            NyxListener listener = getPart().getFieldEventHandler(this);
+            if (listener == null)
+            {
+                actionListener = new PrePostFieldListener(this);
+            }
+            else
+            {
+                actionListener = (PrePostFieldListener)listener;
+            }
+            button.addActionListener(actionListener);
+        }
+        String alignment = getProperty("alignment");
+        if (alignment != null) {
+            System.err.println("BUTTON ALIGNMENT : "+alignment); 
+            // defaults to center..
+            int align = JButton.CENTER;;
+            if (alignment.equalsIgnoreCase("left")) {
+                align = JButton.LEFT;
+            } else if (alignment.equalsIgnoreCase("right")) {
+                align = JButton.RIGHT;
+            }
+            button.setHorizontalAlignment(align);
+        }
+        String margin = getProperty("margin");
+        if (margin != null) {
+            Insets insets = SwingUtils.getInsets(margin);
+            if (insets != null) {
+                button.setMargin(insets);
+            }
         }
         button.setEnabled(isEnabled());
         isRefreshing = false;

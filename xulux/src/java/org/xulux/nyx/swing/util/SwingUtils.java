@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.3 2003-08-04 01:59:10 mvdb Exp $
+ $Id: SwingUtils.java,v 1.4 2003-09-28 23:27:54 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,6 +47,7 @@ package org.xulux.nyx.swing.util;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.MediaTracker;
 import java.net.URL;
 
@@ -55,13 +56,14 @@ import javax.swing.ImageIcon;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.WidgetRectangle;
+import org.xulux.nyx.utils.NyxCollectionUtils;
 
 
 /**
  * Contains several utilities to make life with swing easier.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.3 2003-08-04 01:59:10 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.4 2003-09-28 23:27:54 mvdb Exp $
  */
 public class SwingUtils
 {
@@ -156,6 +158,30 @@ public class SwingUtils
         Dimension dim = new Dimension();
         dim.setSize(rectangle.getWidth(), rectangle.getHeight());
         return dim;
+    }
+
+    /**
+     * Creates an insets object from a comma delimited string.
+     * If the string is incomplete null will be returned.
+     * @param margin - the margin in the format 
+     * @return
+     */
+    public static Insets getInsets(String margin) {
+        if (margin == null) {
+            return null;
+        }
+        Object[] ins = NyxCollectionUtils.getListFromCSV(margin).toArray();
+        if (ins != null && ins.length == 4 ) { 
+            try {
+                int top = Integer.parseInt((String)ins[0]); 
+                int left = Integer.parseInt((String)ins[1]);
+                int bottom = Integer.parseInt((String)ins[2]);
+                int right = Integer.parseInt((String)ins[3]);
+                return new Insets(top,left,bottom,right);
+            } catch (Exception e) {
+            } 
+        }
+        return null;
     }
 
 }
