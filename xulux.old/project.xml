@@ -48,10 +48,14 @@
     <mailingList>
       <name>Xulux interest list</name>
       <archive>http://lists.werken.com/pipermail/xulux-interest</archive>
+      <subscribe>http://lists.werken.com/mailman/listinfo/xulux-interest</subscribe>
+      <unsubscribe>http://lists.werken.com/mailman/listinfo/xulux-interest</unsubscribe>
     </mailingList>
     <mailingList>
       <name>Xulux CVS List</name>
       <archive>http://lists.werken.com/pipermail/xulux-cvs</archive>
+      <subscribe>http://lists.werken.com/mailman/listinfo/xulux-cvs</subscribe>
+      <unsubscribe>http://lists.werken.com/mailman/listinfo/xulux-cvs</unsubscribe>
     </mailingList>
   </mailingLists>
 
