@@ -1,5 +1,5 @@
 /*
- $Id: NyxFocusManagerTest.java,v 1.1.2.1 2003-05-04 15:27:41 mvdb Exp $
+ $Id: NyxFocusManagerTest.java,v 1.1.2.2 2003-07-01 12:30:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,22 +46,38 @@
 
 package org.xulux.nyx.swing.layouts;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * A test for the nyx focus manager. 
  * Though one :) Stays empty for now I guess :) 
+ * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxFocusManagerTest.java,v 1.1.2.1 2003-05-04 15:27:41 mvdb Exp $
+ * @version $Id: NyxFocusManagerTest.java,v 1.1.2.2 2003-07-01 12:30:20 mvdb Exp $
  */
 public class NyxFocusManagerTest extends TestCase {
 
     /**
      * Constructor for NyxFocusManagerTest.
-     * @param arg0
+     * @param name
      */
     public NyxFocusManagerTest(String name) {
         super(name);
+    }
+
+    public static Test suite()
+    {
+        TestSuite suite = new TestSuite(NyxFocusManager.class);
+        return suite;
+    }
+    
+    /**
+     * Tests the constructor and therefor
+     * the initializeorderlist
+     */
+    public void testConstructor() {
     }
 
     public static void main(String[] args) {

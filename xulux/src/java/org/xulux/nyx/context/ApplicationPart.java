@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.30.2.6 2003-06-04 23:47:31 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.30.2.7 2003-07-01 12:30:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -88,7 +88,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.30.2.6 2003-06-04 23:47:31 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.30.2.7 2003-07-01 12:30:20 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -525,11 +525,31 @@ public class ApplicationPart
         if (log.isDebugEnabled()) {
             log.debug("Processing widget tab order");
         }
-        NyxFocusManager manager = new NyxFocusManager(this);
-        FocusManager.setCurrentManager(manager);
+        NyxFocusManager.getInstance().addPart(this);
+        if (!(FocusManager.getCurrentManager() instanceof NyxFocusManager)) {
+            // we just have to set the focusmanager once.
+            FocusManager.setCurrentManager(NyxFocusManager.getInstance());
+        }
         if (getRootWidget() instanceof JPanel) {
             JPanel panel = (JPanel)getRootWidget();
-            manager.setFocusToFirstWidget(panel);
+            // dirty hack for 2cure.. 
+            // If there are 3 panels, it should use the second one..
+            Iterator iterator = ApplicationContext.getInstance().getParts().iterator();
+            int panelCount = 0;
+            int secondPanel = 0;
+            while (iterator.hasNext()) {
+                panelCount++;
+                if (iterator.next().equals(this)) {
+                    secondPanel = panelCount;
+                    break;
+                }
+            }
+            System.err.println("panelCount : "+panelCount);
+            System.err.println("secondPanel : "+secondPanel);
+            if (panelCount == 1 || (panelCount == 3 && secondPanel == 1)) {
+                System.err.println("Setting focus to field");
+                NyxFocusManager.getInstance().setFocusToFirstWidget(panel);
+            }
         }
     }
     
@@ -884,6 +904,16 @@ public class ApplicationPart
     public void setTabOrder(List order)
     {
         this.order = order;
+    }
+    
+    private boolean ignoreTabOrder = false;
+    
+    public boolean ignoreTabOrder() {
+        return this.ignoreTabOrder;
+    }
+    
+    public void setIgnoreTabOrder(boolean ignoreTabOrder) {
+        this.ignoreTabOrder = ignoreTabOrder;
     }
     
     /**

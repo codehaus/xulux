@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+    <jar path="C:/martin/eclipse/2cure-epd/build/lib/nyx.jar"/>
+    <options overwrite="true" compress="true" exportErrors="true"
+        exportWarnings="true" saveDescription="true"
+        descriptionLocation="/nyx-tocure-10/nyx.jardesc"
+        useSourceFolders="false" buildIfNeeded="true"/>
+    <manifest manifestVersion="1.0" usesManifest="true"
+        reuseManifest="true" saveManifest="true"
+        generateManifest="false" manifestLocation="/2cure-epd/conf/fronttier.manifest">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false">
+        <javaElement handleIdentifier="=nyx-tocure-10/src/java"/>
+    </selectedElements>
+</jardesc>

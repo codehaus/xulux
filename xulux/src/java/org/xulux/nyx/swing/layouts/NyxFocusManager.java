@@ -1,5 +1,5 @@
 /*
- $Id: NyxFocusManager.java,v 1.1.2.5 2003-06-04 23:45:59 mvdb Exp $
+ $Id: NyxFocusManager.java,v 1.1.2.6 2003-07-01 12:30:20 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,6 +54,7 @@ import javax.swing.DefaultFocusManager;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.gui.Button;
 import org.xulux.nyx.gui.Widget;
@@ -62,30 +63,53 @@ import org.xulux.nyx.gui.Widget;
  * This class manages the focus of components created by nyx.
  * In the xml definition this corresponds to the order element
  * 
+ * NOTE: This contains modifications that are NOT suitable for the 
+ *       new release of nyx. It assumes that parts are all shown
+ *       on screen in the same window, not as in the new nyx version
+ *       that parts will be merged. So no copy & paste here to the new
+ *       version (the new version should support BOTH...
+ * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxFocusManager.java,v 1.1.2.5 2003-06-04 23:45:59 mvdb Exp $
+ * @version $Id: NyxFocusManager.java,v 1.1.2.6 2003-07-01 12:30:20 mvdb Exp $
  */
 public class NyxFocusManager extends DefaultFocusManager {
 
-    private ApplicationPart part;
+//    private ApplicationPart part;
+    /**
+     * Specifies if the orderList is empty,
+     * so the focus management should be
+     * left to swing itself
+     */
     private boolean emptyOrderList = false;
+    /**
+     * Swing just uses 1 focusmanger per app
+     * so we make a singleton out of it.
+     */
+    private static NyxFocusManager instance;
     
+    public static NyxFocusManager getInstance() {
+        if (instance == null) {
+            instance = new NyxFocusManager();
+        }
+        return instance;
+    }
     /**
      * Set the order list to be able to specify the order 
      * in the system.
      * 
      * @param part - the applicationPart
      */
-    public NyxFocusManager(ApplicationPart part) {
-        this.part = part;
-        Object root = part.getRootWidget();
-        if (part.getWidgets() == null || 
-            part.getWidgets().size() == 0) 
-        {
-            emptyOrderList = true;
-            return;
-        }
-        initializeOrderList();
+    private NyxFocusManager() {
+    }
+    
+    /**
+     * Adds a part to be managed by the 
+     * focusmanager.
+     * 
+     * @param part
+     */
+    public void addPart(ApplicationPart part) {
+        initializeOrderList(part);
     }
 
     /**
@@ -94,13 +118,18 @@ public class NyxFocusManager extends DefaultFocusManager {
      * specified in the part xml, we need to add
      * the other fields to the orderlist in 
      * normal order. 
-     * Also disables and invisible fields will 
+     * Also disabled and invisible fields will 
      * be added to the list, since they will be checked
      * ones a request for that widget is made.
      */
-    private void initializeOrderList() {
+    private void initializeOrderList(ApplicationPart part) {
+        if (part == null) {
+            emptyOrderList = true;
+            return;
+        }
         List oldOrder = part.getTabOrder();
         if (oldOrder == null) {
+            emptyOrderList = true;
             return;
         }
         ArrayList orderList = new ArrayList();
@@ -117,7 +146,7 @@ public class NyxFocusManager extends DefaultFocusManager {
         }
         part.setTabOrder(orderList);
     }
-
+    
     /** 
      * Does not yet include type support.
      * @param aComponent if this is null, the first component will be selected.
@@ -128,15 +157,37 @@ public class NyxFocusManager extends DefaultFocusManager {
             super.focusNextComponent(aComponent);
             return;
         }
+//        System.err.println("Part size : "+ApplicationContext.getInstance().getParts().size());
         boolean enabledWidgetFound = false;
         int widgetIndex = 0;
+        // dirty hack for 2cure..
+        ApplicationPart part = null;
         if (aComponent != null) {
-            Widget tmpW = part.getWidgets().findWithNative(aComponent);
-            String widgetName = tmpW.getName(); 
-            widgetIndex = part.getTabOrder().indexOf(widgetName);
-        }   
+            for (Iterator it = ApplicationContext.getInstance().getParts().iterator(); it.hasNext();) {
+                part = (ApplicationPart) it.next();
+                Widget tmpW = part.getWidgets().findWithNative(aComponent);
+                if (tmpW != null) {
+                    String widgetName = tmpW.getName(); 
+                    widgetIndex = part.getTabOrder().indexOf(widgetName);
+                    // we found the widget..
+                    break;
+                }
+            }
+                 
+        } 
         // we want to select the next component
         widgetIndex++;
+        if (aComponent == null) {
+            if (ApplicationContext.getInstance().getParts().size() == 3) {
+                Iterator partIt =ApplicationContext.getInstance().getParts().iterator(); 
+                partIt.next();
+                part = (ApplicationPart)partIt.next();
+            }else if (ApplicationContext.getInstance().getParts().size() == 1) {
+                Iterator partIt =ApplicationContext.getInstance().getParts().iterator(); 
+                part = (ApplicationPart)partIt.next();
+            }
+        }
+            
         while (true) {
             // when we moved to the last widget,
             // we reset the widgetIndex to 0..
@@ -153,12 +204,14 @@ public class NyxFocusManager extends DefaultFocusManager {
             }
             widgetIndex++;
         }
-        Widget widget = part.getWidgets().get((String)part.getTabOrder().get(widgetIndex));
-//        System.out.println("Setting focus to widget "+widget);
-//        if (widget != null) {
-//            System.out.println("with name :"+widget.getName());
-//        }
-        setFocus(widget);
+//        System.err.println("widgetIndex "+widgetIndex);
+        if (part != null) {
+            Widget widget = part.getWidgets().get((String)part.getTabOrder().get(widgetIndex));
+            setFocus(widget);
+        }
+        //System.err.println("Part : "+part);
+        
+            
     }
     
     /**
