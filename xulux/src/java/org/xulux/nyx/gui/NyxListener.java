@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.12 2003-08-09 01:27:38 mvdb Exp $
+ $Id: NyxListener.java,v 1.13 2003-08-11 00:33:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,6 +47,8 @@ package org.xulux.nyx.gui;
 
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.PartRequest;
 import org.xulux.nyx.rules.impl.PartRequestImpl;
@@ -60,12 +62,13 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.12 2003-08-09 01:27:38 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.13 2003-08-11 00:33:49 mvdb Exp $
  */
 public abstract class NyxListener
 {
     protected Widget widget;
     private static boolean processing = false;
+    private static Log log = LogFactory.getLog(NyxListener.class);
     
     public NyxListener()
     {
@@ -113,6 +116,7 @@ public abstract class NyxListener
     public boolean accepted(Widget widget) {
         if (widget instanceof NyxCombo) {
             // set the value, but do not refresh the gui.
+            log.warn("COMBO GUI VALUE : "+widget.getName()+":"+widget.getGuiValue());
             ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
             // refresh fields that use the same functionality
             widget.getPart().refreshFields(widget);

@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.10 2003-08-09 00:09:05 mvdb Exp $
+ $Id: Table.java,v 1.11 2003-08-11 00:33:49 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -79,7 +79,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.10 2003-08-09 00:09:05 mvdb Exp $
+ * @version $Id: Table.java,v 1.11 2003-08-11 00:33:49 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -109,6 +109,9 @@ implements IContentWidget
      * The tablemodel
      */
     protected NyxTableModel model;
+    
+    private int oldListSize = 0;
+    private int listSize = 0;
     
     /**
      * @param name
@@ -189,6 +192,10 @@ implements IContentWidget
      * @see org.xulux.nyx.gui.Widget#refresh()
      */
     public void refresh() {
+        if (isRefreshing) {
+            return;
+        }
+        isRefreshing = true;
         initializeContent();
         if (contentChanged) {
             this.destroyTable();
@@ -208,7 +215,24 @@ implements IContentWidget
         }
         initializeUpdateButtons();
         refreshUpdateButtons();
-
+        String height = getProperty("rowHeight");
+        if (height != null) {
+            table.setRowHeight(Integer.valueOf(height).intValue());
+        }
+        isRefreshing = false;
+    }
+    
+    /**
+     * Checkes through other means if the content is changed.
+     * It could be that someone adjusted the content..
+     *
+     */
+    private void checkContentChanged() {
+        log.warn("Checking content");
+        if (!contentChanged && listSize != oldListSize) {
+            log.warn("Content changed");
+            contentChanged = true;
+        }
     }
 
     /**
@@ -448,7 +472,11 @@ implements IContentWidget
      */
     public void setContent(List list) {
         contentChanged = true;
+        this.oldListSize = this.listSize;
         this.content = list;
+        if (list != null) {
+            listSize = list.size();
+        }
         if (initialized) {
             refresh();
         }
@@ -488,6 +516,13 @@ implements IContentWidget
      */
     public Object getValue() {
         return getGuiValue();
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#setProperty(java.lang.String, java.lang.String)
+     */
+    public void setProperty(String key, String value) {
+        super.setProperty(key, value);
     }
 
 }

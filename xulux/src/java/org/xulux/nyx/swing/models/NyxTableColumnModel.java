@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableColumnModel.java,v 1.3 2003-08-07 09:54:27 mvdb Exp $
+ $Id: NyxTableColumnModel.java,v 1.4 2003-08-11 00:33:49 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 
+import org.xulux.nyx.gui.NyxCombo;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.widgets.MenuItem;
 import org.xulux.nyx.swing.widgets.PopupMenu;
@@ -58,7 +59,7 @@ import org.xulux.nyx.swing.widgets.Table;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableColumnModel.java,v 1.3 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: NyxTableColumnModel.java,v 1.4 2003-08-11 00:33:49 mvdb Exp $
  */
 public class NyxTableColumnModel extends DefaultTableColumnModel
 { 
@@ -83,6 +84,7 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
     }
     
     private void initializeColumns() {
+        int maxHeight = 0;
         ArrayList list = table.getChildWidgets();
         if (list == null) {
             return;
@@ -93,13 +95,23 @@ public class NyxTableColumnModel extends DefaultTableColumnModel
                 continue;
             }
             TableColumn column = new TableColumn();
-//            System.out.println("text : "+widget.getProperty("text"));
             column.setHeaderValue(widget.getProperty("text"));
             column.setModelIndex(i);
-            column.setPreferredWidth(100);
+            //column.setPreferredWidth(100);
+            System.out.println("Setting width to : "+widget.getRectangle().getWidth());
+            int height = widget.getRectangle().getHeight();
+            if (height > maxHeight) {
+                maxHeight = height;
+            }
+            column.setPreferredWidth(widget.getRectangle().getWidth());
+            column.setWidth(widget.getRectangle().getWidth());
+            if (widget instanceof NyxCombo) {
+                column.setCellEditor(new NyxTableCellEditor(widget));
+            }
             addColumn(column);
         }
         System.out.println("columns : "+getColumnCount());
+        table.setProperty("rowHeight", String.valueOf(maxHeight));
     }
     
     /**

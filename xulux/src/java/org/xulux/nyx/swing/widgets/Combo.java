@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.16 2003-08-09 00:09:05 mvdb Exp $
+ $Id: Combo.java,v 1.17 2003-08-11 00:33:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.16 2003-08-09 00:09:05 mvdb Exp $
+ * @version $Id: Combo.java,v 1.17 2003-08-11 00:33:49 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -193,15 +193,19 @@ public class Combo extends NyxCombo
         }
         if (getValue() instanceof DefaultComboModel.ComboShowable)
         {
+            log.warn("ComboShowable...");
             
             model.setSelectedItem(value);
         }
         else
         {
+            log.warn("REFRESHING!!!");
+            log.warn(getName()+"Content : "+content);
+            log.warn(getName()+"  getValue() : "+getValue());
             if (content != null && getValue() != null)
             {
-                if (log.isTraceEnabled()) {
-                    log.trace("Setting value to : "+getValue());
+                if (log.isWarnEnabled()) {
+                    log.warn("Setting value to : "+getValue());
                 }
                 model.setRealSelectedValue(getValue());
             }
@@ -210,13 +214,17 @@ public class Combo extends NyxCombo
             {
                 // if we don't have a value select
                 // the first one in the list
-                if (log.isTraceEnabled()) {
-                    log.trace("Select the first one in the list");
+                if (log.isWarnEnabled()) {
+                    log.warn("Select the first one in the list");
                 }
                 if (!content.isEmpty())
                 {
                     model.setSelectedItem(0);
-                    setValue(model.getRealSelectedValue(),false);
+                    if (getField() == null) {
+                        this.value = model.getRealSelectedValue();
+                    } else {
+                        setValue(model.getRealSelectedValue(),false);
+                    }
                 }
             }
             if (model != null && model.getSelectedIndex() == 0

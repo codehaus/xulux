@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableCellEditor.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
+ $Id: NyxTableCellEditor.java,v 1.2 2003-08-11 00:33:49 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,83 +48,47 @@ package org.xulux.nyx.swing.models;
 import java.awt.Component;
 import java.util.EventObject;
 
+import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
-import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 
+import org.xulux.nyx.gui.Widget;
+
+
 /**
+ * A table cell editor for nyx
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableCellEditor.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
+ * @version $Id: NyxTableCellEditor.java,v 1.2 2003-08-11 00:33:49 mvdb Exp $
  */
-public class NyxTableCellEditor implements TableCellEditor {
-
-    /**
-     * 
-     */
-    public NyxTableCellEditor() {
-        super();
+public class NyxTableCellEditor extends AbstractCellEditor
+implements TableCellEditor
+{
+    
+    private Widget widget;
+    
+    public NyxTableCellEditor(Widget widget) {
+        this.widget = widget;
     }
-
-    /**
-     * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(javax.swing.JTable, java.lang.Object, boolean, int, int)
-     */
-    public Component getTableCellEditorComponent(
-        JTable table,
-        Object value,
-        boolean isSelected,
-        int row,
-        int column) {
-        return null;
-    }
-
     /**
      * @see javax.swing.CellEditor#getCellEditorValue()
      */
     public Object getCellEditorValue() {
-        return null;
+        return widget.getValue();
+    }
+    /**
+     * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(javax.swing.JTable, java.lang.Object, boolean, int, int)
+     */
+    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+        return (Component)this.widget.getNativeWidget();
     }
 
     /**
      * @see javax.swing.CellEditor#isCellEditable(java.util.EventObject)
      */
-    public boolean isCellEditable(EventObject anEvent) {
-        return false;
-    }
-
-    /**
-     * @see javax.swing.CellEditor#shouldSelectCell(java.util.EventObject)
-     */
-    public boolean shouldSelectCell(EventObject anEvent) {
-        return false;
-    }
-
-    /**
-     * @see javax.swing.CellEditor#stopCellEditing()
-     */
-    public boolean stopCellEditing() {
-        return false;
-    }
-
-    /**
-     * @see javax.swing.CellEditor#cancelCellEditing()
-     */
-    public void cancelCellEditing() {
-
-    }
-
-    /**
-     * @see javax.swing.CellEditor#addCellEditorListener(javax.swing.event.CellEditorListener)
-     */
-    public void addCellEditorListener(CellEditorListener l) {
-
-    }
-
-    /**
-     * @see javax.swing.CellEditor#removeCellEditorListener(javax.swing.event.CellEditorListener)
-     */
-    public void removeCellEditorListener(CellEditorListener l) {
-
+    public boolean isCellEditable(EventObject e) {
+        System.out.println("Source of isCellEditable : "+e.getSource());
+        return super.isCellEditable(e);
     }
 
 }

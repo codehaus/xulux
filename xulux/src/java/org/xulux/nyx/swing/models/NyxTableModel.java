@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableModel.java,v 1.3 2003-08-07 09:54:27 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.4 2003-08-11 00:33:49 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,11 +58,12 @@ import org.xulux.nyx.swing.widgets.Table;
  * The nyx tablemodel contains all magic for tables.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.3 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.4 2003-08-11 00:33:49 mvdb Exp $
  */
 public class NyxTableModel implements TableModel {
     
     protected Table table;
+    boolean editableColumns[];
     
     /**
      * 
@@ -121,7 +122,7 @@ public class NyxTableModel implements TableModel {
      * @see javax.swing.table.TableModel#isCellEditable(int, int)
      */
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false;
+        return true;
     }
 
     /**
@@ -154,7 +155,17 @@ public class NyxTableModel implements TableModel {
      * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
      */
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-
+        Widget w = (Widget)table.getChildWidgets().get(columnIndex);
+        if (w.getField() != null) {
+            BeanMapping map = Dictionary.getInstance().getMapping(table.getContent().get(rowIndex));
+            IField field = map.getField(w.getField());
+            if (field != null) {
+                field.setValue(table.getContent().get(rowIndex), aValue);
+                System.out.println("Setting value on field : "+field.getValue(table.getContent().get(rowIndex)));
+            }
+        }
+        System.out.println("SetValueAt called");
+        System.out.println(aValue+","+rowIndex+","+columnIndex);
     }
 
     /**

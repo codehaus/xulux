@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.19 2003-08-04 01:59:10 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.20 2003-08-11 00:33:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.widgets.Combo;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.19 2003-08-04 01:59:10 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.20 2003-08-11 00:33:49 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -170,19 +170,18 @@ public class DefaultComboModel implements ComboBoxModel
     
     public Object getRealSelectedValue()
     {
+        Object retValue = null;
         if (original != null && selectedItem != null)
         {
-            return original.get(selectedItem.getIndex());
+            retValue =  original.get(selectedItem.getIndex());
         }
         else if (selectedItem == null && list != null &&
                   list.size() > 0)
         {
-            return list.get(0);
+            retValue =  list.get(0);
         }
-        else
-        {
-            return null;
-        }
+        System.out.println(combo.getName()+" COMBOMODEL GETREALSELECTEDVALUE: "+retValue+":"+(retValue!=null?retValue.getClass().getName():""));
+        return retValue;
     }
     
     public Object getComboObject(int index)
@@ -239,6 +238,8 @@ public class DefaultComboModel implements ComboBoxModel
             {
                 Class tmpClazz = original.get(startMappingAt).getClass();
                 mapping = Dictionary.getInstance().getMapping(tmpClazz);
+                System.out.println("mapping in combomodel: "+mapping.getFields());
+                System.out.println("class in combo : "+tmpClazz);
             }
         }
         list = new ArrayList();

@@ -1,5 +1,5 @@
 /*
- $Id: PartRequest.java,v 1.8 2003-07-23 11:55:28 mvdb Exp $
+ $Id: PartRequest.java,v 1.9 2003-08-11 00:33:49 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import org.xulux.nyx.gui.Widget;
  * field or action (action not in the Swing sence)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequest.java,v 1.8 2003-07-23 11:55:28 mvdb Exp $
+ * @version $Id: PartRequest.java,v 1.9 2003-08-11 00:33:49 mvdb Exp $
  */
 public interface PartRequest extends Cloneable
 {
@@ -79,6 +79,7 @@ public interface PartRequest extends Cloneable
     public Object getValue();
     
     /**
+     * THIS RETURNS THE GUI VALUE!!!
      * Returns the value of the specified field
      * Fields in format partname.fieldname
      * will return null when the part or field is null
