@@ -88,7 +88,6 @@
   </developers>
 
  <contributors>
-
     <contributor>
       <name>Erik Fransen</name>
       <email>erik@mvdb.net</email>
@@ -97,7 +96,6 @@
         <role>Logo Designer</role>
       </roles>
     </contributor>
-
   </contributors>
 
   <!-- Need to mark these as compile-time/run-time -->
