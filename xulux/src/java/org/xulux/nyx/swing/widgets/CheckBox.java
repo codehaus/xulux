@@ -1,5 +1,5 @@
 /*
- $Id: CheckBox.java,v 1.10 2003-08-07 16:41:14 mvdb Exp $
+ $Id: CheckBox.java,v 1.11 2003-08-19 00:38:55 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,15 +45,18 @@
  */
 package org.xulux.nyx.swing.widgets;
 
+import java.awt.Color;
 import java.awt.Container;
 
-import javax.swing.JCheckBox;
+import javax.swing.Icon;
+import javax.swing.UIManager;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.NyxListener;
+import org.xulux.nyx.swing.NyxJCheckBox;
 import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
@@ -61,11 +64,16 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * The nyx to swing implementation of a checkbox
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.10 2003-08-07 16:41:14 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.11 2003-08-19 00:38:55 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
     
-    private JCheckBox checkBox;
+//    static {
+//        UIManager.put("CheckBox.icon", new NyxCheckBoxIcon());
+//    }
+    
+    private NyxJCheckBox checkBox;
+    //private NyxJCheckBox parentBox;
     private PrePostFieldListener itemListener;
     /**
      * @param name
@@ -114,7 +122,10 @@ public class CheckBox extends SwingWidget {
             return;
         }
         this.initialized = true;
-        this.checkBox = new JCheckBox();
+        this.checkBox = new NyxJCheckBox();
+        // set the icon to what is default..
+        this.checkBox.setIcon((Icon)UIManager.get("CheckBox.icon"));
+        this.checkBox.setSelectedIcon((Icon)UIManager.get("CheckBox.icon"));
         this.itemListener = new PrePostFieldListener(this);
         // we always need to add a itemlistener to change
         // the value..
@@ -136,6 +147,23 @@ public class CheckBox extends SwingWidget {
             checkBox.setSelected(BooleanUtils.toBoolean((Boolean)getValue()));
         }else if (getValue() instanceof String) {
             checkBox.setSelected(BooleanUtils.toBoolean((String)getValue()));
+        }
+        String backgroundColor = null;
+        if (isRequired() && isEnabled())
+        {
+            backgroundColor = getProperty("required-background-color");
+        }
+        else if (!isEnabled())
+        {
+            backgroundColor = getProperty("disabled-background-color");
+        }
+        else
+        {
+            backgroundColor = getProperty("default-background-color");
+        }
+        if (backgroundColor != null)
+        {
+            checkBox.setRealBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
         isRefreshing = false;
     }
