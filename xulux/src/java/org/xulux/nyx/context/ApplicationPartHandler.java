@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.22 2003-07-15 21:33:56 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.23 2003-07-16 13:57:46 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -75,7 +75,7 @@ import org.xulux.nyx.utils.Translator;
  * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.22 2003-07-15 21:33:56 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.23 2003-07-16 13:57:46 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -88,7 +88,6 @@ public class ApplicationPartHandler extends DefaultHandler
     private static String VALUE_ELEMENT = "value";
     private static String SIZE_ELEMENT = "size";
     private static String POSITION_ELEMENT = "position";
-    private static String TEXT_ELEMENT = "text";
     private static String RULES_ELEMENT = "rules";
     private static String RULE_ELEMENT = "rule";
     private static String LISTENER_ELEMENT = "listener";
@@ -127,7 +126,6 @@ public class ApplicationPartHandler extends DefaultHandler
 
     private Object bean;
 
-    private boolean processText = false;
     private boolean processPosition = false;
     private boolean processSize = false;
     private boolean processUse = false;
@@ -264,10 +262,6 @@ public class ApplicationPartHandler extends DefaultHandler
         {
             processRule = true;
         }
-        else if (qName.equals(TEXT_ELEMENT))
-        {
-            processText = true;
-        }
         else if (qName.equals(POSITION_ELEMENT))
         {
             processPosition = true;
@@ -336,12 +330,6 @@ public class ApplicationPartHandler extends DefaultHandler
         else if (qName.equals(TRANSLATION_ELEMENT)) {
             processingTranslation = false;
             part.addTranslation(currentValue,null);
-            currentValue = null;
-        }
-        else if (qName.equals(TEXT_ELEMENT))
-        {
-            processText = false;
-            ((Widget) stack.get(stack.size()-1)).setValue(currentValue);
             currentValue = null;
         }
         else if (qName.equals(RULES_ELEMENT))
@@ -540,7 +528,7 @@ public class ApplicationPartHandler extends DefaultHandler
      */
     public void characters(char[] arg0, int arg1, int arg2) throws SAXException
     {
-        if (processText || (processPosition || processSize) || 
+        if ( (processPosition || processSize) || 
             processValue || (processUnknown && currentqName!=null) ||
             processRule || processListener || processingTranslation ||
             processIncludePart)
