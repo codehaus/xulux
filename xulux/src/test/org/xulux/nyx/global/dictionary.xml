@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
-<!-- $Id: dictionary.xml,v 1.6 2003-07-24 01:20:03 mvdb Exp $ -->
+<!-- $Id: dictionary.xml,v 1.7 2003-09-08 10:44:41 mvdb Exp $ -->
 <dictionary>
+   <converters>
+     <converter>org.xulux.nyx.converters.DoubleConverter</converter>
+     <converter>org.xulux.nyx.converters.IntegerConverter</converter>
+   </converters>
    <prefix-mappings>
      <prefix name="Test">
        <!-- 

@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.13 2003-07-24 16:01:51 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.14 2003-09-08 10:44:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.13 2003-07-24 16:01:51 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.14 2003-09-08 10:44:41 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -247,7 +247,7 @@ public class DictionaryTest extends TestCase
     }
     
     /**
-     * Test the converter functionality in the registry
+     * Test the converter functionality in the registry.
      */
     public void testConverters() {
         System.out.println("testConverters");
@@ -258,6 +258,15 @@ public class DictionaryTest extends TestCase
         assertEquals("10", converter.getGuiValue(i));
         assertEquals(i, converter.getBeanValue("10"));
         assertNull(Dictionary.getConverter(DictionaryTest.class));
+    }
+    
+    /**
+     * Test the converter by means of parsing the dictionary.xml
+     *
+     */
+    public void testConverterXml() {
+        System.out.println("testConvertersXml");
+        fail("Test case todo");
     }
         
     /**
