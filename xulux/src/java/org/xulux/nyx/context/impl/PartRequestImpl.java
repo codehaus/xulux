@@ -1,5 +1,5 @@
 /*
- $Id: PartRequestImpl.java,v 1.7 2003-05-20 16:10:04 mvdb Exp $
+ $Id: PartRequestImpl.java,v 1.8 2003-07-23 11:55:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,7 +57,7 @@ import org.xulux.nyx.rules.IRule;
  * This class should not be used directly, it is only for internal use.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequestImpl.java,v 1.7 2003-05-20 16:10:04 mvdb Exp $
+ * @version $Id: PartRequestImpl.java,v 1.8 2003-07-23 11:55:28 mvdb Exp $
  */
 public class PartRequestImpl implements PartRequest
 {
@@ -171,6 +171,13 @@ public class PartRequestImpl implements PartRequest
     public SessionPart getSession()
     {
         return getPart().getSession();
+    }
+
+    /**
+     * @see org.xulux.nyx.context.PartRequest#getWidget(java.lang.String)
+     */
+    public Widget getWidget(String name) {
+        return getPart().getWidget(name);
     }
 
 }
