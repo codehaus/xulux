@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.17 2002-12-02 21:50:03 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.18 2002-12-12 14:41:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,6 +48,7 @@ package org.xulux.nyx.context;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.17 2002-12-02 21:50:03 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.18 2002-12-12 14:41:12 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -79,6 +80,12 @@ public class ApplicationContext
      * that aren't disposed
      */
     private ArrayList registry;
+    
+    /**
+     * placeholder to know if we are in testmode
+     * so exceptions shouldn't be caught
+     */
+    private static boolean test = false;
 
     /** 
      * The listeners that are added to components
@@ -408,5 +415,13 @@ public class ApplicationContext
             return null;
         }
         return parts.values();
+    }
+    
+    /** 
+     * Enable test mode
+     */
+    public static void setTest(boolean testMode)
+    {
+        test = testMode;
     }
 }

@@ -1,5 +1,5 @@
 /*
- $Id: PartRequest.java,v 1.4 2002-12-06 00:27:03 mvdb Exp $
+ $Id: PartRequest.java,v 1.5 2002-12-12 14:41:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,7 +53,7 @@ import org.xulux.nyx.rules.IRule;
  * field or action (action not in the Swing sence)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequest.java,v 1.4 2002-12-06 00:27:03 mvdb Exp $
+ * @version $Id: PartRequest.java,v 1.5 2002-12-12 14:41:12 mvdb Exp $
  */
 public interface PartRequest extends Cloneable
 {
@@ -78,6 +78,14 @@ public interface PartRequest extends Cloneable
      * Returns the current value of the part
      */
     public Object getValue();
+    
+    /**
+     * Returns the value of the specified field
+     * Fields in format partname.fieldname
+     * will return null when the part or field is null
+     */
+    public Object getValue(String field);
+    
     /**
      * Sets the current value to a new value
      */
@@ -103,4 +111,11 @@ public interface PartRequest extends Cloneable
     public Widget getWidget();
     
     public Object clone();
+    
+    /**
+     * Returns the session of the originating part
+     * (the part which you can acquire by using getPart()
+     * @return
+     */
+    public SessionPart getSession();
 }

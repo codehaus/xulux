@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.28 2002-12-05 14:50:17 mvdb Exp $
+ $Id: Entry.java,v 1.29 2002-12-12 14:41:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.28 2002-12-05 14:50:17 mvdb Exp $
+ * @version $Id: Entry.java,v 1.29 2002-12-12 14:41:12 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -69,6 +69,7 @@ extends Widget
     private static Log log = LogFactory.getLog(Entry.class);
     private Dimension size;
     private String text;
+    private boolean setValueCalled = false;
     
     /** 
      * For now internally very swing specific
@@ -128,6 +129,7 @@ extends Widget
             return;
         }
         this.initialized = true;
+        this.setValueCalled = true;
         textField = new JTextField();
         if (isImmidiate())
         {
@@ -148,6 +150,7 @@ extends Widget
             }
         }
         refresh();
+        this.setValueCalled = false;
     }
 
     /**
@@ -239,12 +242,17 @@ extends Widget
     
     private void initializeValue()
     {
+        // Don't do anything if setValue isn't called
+        if (!setValueCalled)
+        {
+            return;
+        }
         Object val = this.value;
         if (!(val instanceof String) && getField()!=null)
         {
             val = this.value;
         }
-        if (getField()!= null && getValue() != null)
+        if (getField()!= null && val != null && getValue() != null)
         {
             // we ignore multiple values for now.. 
             BeanMapping map = Dictionary.getInstance().getMapping(val.getClass());
@@ -273,7 +281,9 @@ extends Widget
         this.value = val;
         if (initialized)
         {
+            setValueCalled = true;
             refresh();
+            setValueCalled = false;
         }
     }
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: WidgetRequestImpl.java,v 1.4 2002-12-06 00:27:03 mvdb Exp $
+ $Id: WidgetRequestImpl.java,v 1.5 2002-12-12 14:41:12 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,8 +46,10 @@
 
 package org.xulux.nyx.context.impl;
 
+import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.context.SessionPart;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.IRule;
 
@@ -55,7 +57,7 @@ import org.xulux.nyx.rules.IRule;
  * This class should not be used directly, it is only for internal use.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetRequestImpl.java,v 1.4 2002-12-06 00:27:03 mvdb Exp $
+ * @version $Id: WidgetRequestImpl.java,v 1.5 2002-12-12 14:41:12 mvdb Exp $
  */
 public class WidgetRequestImpl implements PartRequest
 {
@@ -96,6 +98,31 @@ public class WidgetRequestImpl implements PartRequest
     public Object getValue()
     {
         return widget.getValue();
+    }
+    
+    /**
+     * @see org.xulux.nyx.context.PartRequest#getValue(String)
+     */
+    public Object getValue(String field)
+    {
+        int dotIndex = field.indexOf(".");
+        if (dotIndex == -1)
+        {
+            getPart().getGuiValue(field);
+        }
+        else
+        {
+            String partName = field.substring(0, dotIndex);
+            System.out.println("partName " +partName);
+            ApplicationPart newPart = ApplicationContext.getInstance().getPart(partName);
+            if (newPart != null)
+            {
+                String fieldName = field.substring(dotIndex);
+                System.out.println("new fieldName : "+fieldName);
+                return newPart.getGuiValue(fieldName);
+            }
+        }
+        return null;
     }
 
     /**
@@ -144,6 +171,14 @@ public class WidgetRequestImpl implements PartRequest
     public Object clone()
     {
         return new WidgetRequestImpl(getWidget(), getType());
+    }
+
+    /**
+     * @see org.xulux.nyx.context.PartRequest#getSession()
+     */
+    public SessionPart getSession()
+    {
+        return getPart().getSession();
     }
 
 }
