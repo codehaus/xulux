@@ -1,5 +1,5 @@
 /*
- $Id: DOMTreeContentHandler.java,v 1.4 2003-11-24 11:47:19 mvdb Exp $
+ $Id: DOMTreeContentHandler.java,v 1.5 2003-12-17 00:59:55 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.nyx.gui.IContentWidget;
  * A dom contenthandler for a tree..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DOMTreeContentHandler.java,v 1.4 2003-11-24 11:47:19 mvdb Exp $
+ * @version $Id: DOMTreeContentHandler.java,v 1.5 2003-12-17 00:59:55 mvdb Exp $
  */
 public class DOMTreeContentHandler extends TreeContentHandler {
 
@@ -91,7 +91,7 @@ public class DOMTreeContentHandler extends TreeContentHandler {
             Element element = (Element) parent;
             List list = getRealContent(element.content());
             if ("part".equals(element.getName())) {
-                System.err.println("Attributes : " + element.attributes());
+                //System.err.println("Attributes : " + element.attributes());
             }
             list.addAll(element.attributes());
             return new DOMWrapper(list.get(index));
@@ -117,7 +117,7 @@ public class DOMTreeContentHandler extends TreeContentHandler {
             children =  getRealContent(element.content()).size();
             children += element.attributeCount();
         }
-        System.err.println("Children : " + children);
+        //System.err.println("Children : " + children);
         return children;
     }
 
@@ -146,9 +146,9 @@ public class DOMTreeContentHandler extends TreeContentHandler {
      * @see org.xulux.nyx.global.contenthandlers.TreeContentHandler#getIndexOfChild(java.lang.Object, java.lang.Object)
      */
     public int getIndexOfChild(Object parent, Object child) {
-        System.out.println("getIndexOfChild");
-        System.out.println("parent : " + parent.getClass());
-        System.out.println("child : " + parent.getClass());
+//        System.out.println("getIndexOfChild");
+//        System.out.println("parent : " + parent.getClass());
+//        System.out.println("child : " + parent.getClass());
         return 0;
     }
 
@@ -166,7 +166,7 @@ public class DOMTreeContentHandler extends TreeContentHandler {
         if (node instanceof DOMWrapper) {
             node = ((DOMWrapper) node).getSource();
         }
-        System.out.println("Node : " + node.getClass());
+        //System.out.println("Node : " + node.getClass());
         if (node instanceof Comment) {
             return true;
         } else if (node instanceof Element) {

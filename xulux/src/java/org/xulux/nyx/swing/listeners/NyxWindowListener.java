@@ -1,5 +1,5 @@
 /*
- $Id: NyxWindowListener.java,v 1.5 2003-12-15 19:49:34 mvdb Exp $
+ $Id: NyxWindowListener.java,v 1.6 2003-12-17 00:59:55 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -50,7 +50,6 @@ import java.awt.event.WindowListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.gui.GuiUtils;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
@@ -61,7 +60,7 @@ import org.xulux.nyx.gui.Widget;
  * the X button.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListener.java,v 1.5 2003-12-15 19:49:34 mvdb Exp $
+ * @version $Id: NyxWindowListener.java,v 1.6 2003-12-17 00:59:55 mvdb Exp $
  */
 public class NyxWindowListener extends NyxListener implements WindowListener {
     /**
@@ -127,11 +126,6 @@ public class NyxWindowListener extends NyxListener implements WindowListener {
         }
         GuiUtils.processCancel(widget);
         completed();
-        if (getWidget().isRootWidget()) {
-            if (ApplicationContext.isPartApplication(getWidget().getPart())) {
-                ApplicationContext.exitApplication();
-            }
-        }
         getWidget().destroy();
     }
 

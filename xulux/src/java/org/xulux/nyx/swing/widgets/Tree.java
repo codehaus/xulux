@@ -1,5 +1,5 @@
 /*
- $Id: Tree.java,v 1.21 2003-11-24 16:06:58 mvdb Exp $
+ $Id: Tree.java,v 1.22 2003-12-17 00:59:55 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -53,6 +53,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 
 import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.WidgetConfig;
@@ -61,6 +62,7 @@ import org.xulux.nyx.gui.ContainerWidget;
 import org.xulux.nyx.gui.IContentWidget;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
+import org.xulux.nyx.swing.listeners.ImmidiateTreeSelectionListener;
 import org.xulux.nyx.swing.listeners.NewSelectionListener;
 import org.xulux.nyx.swing.listeners.PopupListener;
 import org.xulux.nyx.swing.listeners.UpdateButtonsListener;
@@ -71,7 +73,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tree.java,v 1.21 2003-11-24 16:06:58 mvdb Exp $
+ * @version $Id: Tree.java,v 1.22 2003-12-17 00:59:55 mvdb Exp $
  */
 public class Tree extends ContainerWidget implements IContentWidget {
 
@@ -111,6 +113,10 @@ public class Tree extends ContainerWidget implements IContentWidget {
      * the selectionlistener
      */
     protected NewSelectionListener selectionListener;
+    /**
+     * the immidiatelistener
+     */
+    protected ImmidiateTreeSelectionListener immidiateListener;
 
     /**
      * @param name the name of the tree
@@ -132,6 +138,10 @@ public class Tree extends ContainerWidget implements IContentWidget {
         if (selectionListener != null) {
             jtree.removeTreeSelectionListener(selectionListener);
             selectionListener = null;
+        }
+        if (immidiateListener != null) {
+            jtree.removeTreeSelectionListener(immidiateListener);
+            immidiateListener = null;
         }
         if (this.scrollPane != null) {
             if (this.jtree != null) {
@@ -168,7 +178,13 @@ public class Tree extends ContainerWidget implements IContentWidget {
             selectionListener = new NewSelectionListener(this);
         }
         jtree.addTreeSelectionListener(selectionListener);
+        if (immidiateListener == null) {
+            immidiateListener = new ImmidiateTreeSelectionListener(this);
+        }
+        jtree.addTreeSelectionListener(immidiateListener);
         cellRenderer = new NyxTreeCellRenderer(this);
+        // @todo add support for more than one node selection
+        jtree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         jtree.setCellRenderer(this.cellRenderer);
         scrollPane = new JScrollPane(jtree);
         initializeChildren();

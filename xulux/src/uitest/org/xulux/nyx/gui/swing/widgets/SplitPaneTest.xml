@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: SplitPaneTest.xml,v 1.1 2003-12-16 02:27:17 mvdb Exp $ -->
+<!-- $Id: SplitPaneTest.xml,v 1.2 2003-12-17 00:59:54 mvdb Exp $ -->
 <part name="LabelTestForm" prefix="Person">
   <rules>
     <rule>org.xulux.nyx.gui.rules.TreeContentRule</rule>
@@ -21,6 +21,9 @@
         <field type="tree" name="DomTree">
           <position>10,31</position>
           <size>300,400</size>
+          <rules>
+            <rule>org.xulux.nyx.gui.rules.TreeContentRule</rule>
+          </rules>
         </field>
       </field>
       <field type="panel" name="Panel:Table">

@@ -11,7 +11,11 @@
 <section name="The Tree Widget">
   <subsection name="General">
     <p>
-      Explain a tree (nice picture maybe?)
+      Currently the widget only supports a single node selection. Investigation is on the way
+      on how to handle mutliple selections.
+      To execute code when a new node is selected you can add a rule to the tree widget,
+      overriding the <a href="../../apidocs/org/xulux/nyx/rules/Rule.html#execute(org.xulux.nyx.context.PartRequest)">
+      <code>execute(org.xulux.nyx.context.PartRequest request)</code></a>.
     </p>
   </subsection>
   <subsection name="Properties">

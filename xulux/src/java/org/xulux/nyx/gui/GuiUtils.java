@@ -1,5 +1,5 @@
 /*
- $Id: GuiUtils.java,v 1.2 2003-12-15 19:49:34 mvdb Exp $
+ $Id: GuiUtils.java,v 1.3 2003-12-17 00:59:54 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -59,7 +59,7 @@ import org.xulux.nyx.rules.impl.WidgetRequestImpl;
  * Like firing rules when the cancel button is pressed or the window is closed.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtils.java,v 1.2 2003-12-15 19:49:34 mvdb Exp $
+ * @version $Id: GuiUtils.java,v 1.3 2003-12-17 00:59:54 mvdb Exp $
  */
 public class GuiUtils {
 
@@ -125,9 +125,33 @@ public class GuiUtils {
      * @param action the action
      */
     public static void fireFieldPostRule(Widget caller, Widget widget, int action) {
+        fireFieldRule(caller, widget, action, ApplicationContext.POST_REQUEST);
         WidgetRequestImpl impl = new WidgetRequestImpl(caller, action);
-        ApplicationContext.fireFieldRequest(widget, impl, ApplicationContext.POST_REQUEST);
     }
+
+    /**
+     * Fire the post rules of the specified widget
+     *
+     * @param caller the caller of the rule (request.getWidget()
+     * @param widget the widget to call the post rules of
+     * @param action the action
+     */
+    public static void fireFieldExecuteRule(Widget caller, Widget widget, int action) {
+        fireFieldRule(caller, widget, action, ApplicationContext.EXECUTE_REQUEST);
+    }
+
+    /**
+     * Fir the rules of the specified widget.
+     *
+     * @param caller the caller of the rule (request.getWidget()
+     * @param widget the widget to call the post rules of
+     * @param action the action
+     * @param type the type of request (PRE, POST or EXECUTE)
+     */
+    public static void fireFieldRule(Widget caller, Widget widget, int action, int type) {
+        WidgetRequestImpl impl = new WidgetRequestImpl(caller, action);
+        ApplicationContext.fireFieldRequest(widget, impl, type);
+    } 
     /**
      * @param property the property to look for
      * @param caller the caller widget to get the part from
