@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.4 2003-07-17 01:09:33 mvdb Exp $
+ $Id: Combo.java,v 1.5 2003-07-17 01:36:05 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.4 2003-07-17 01:09:33 mvdb Exp $
+ * @version $Id: Combo.java,v 1.5 2003-07-17 01:36:05 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -129,21 +129,20 @@ public class Combo extends NyxCombo
             return;
         }
         this.initialized = true;
-        if (getName().equals("Gender")) {
-            System.err.println("Gender");
-        }
         String nsv = getProperty("notselectedvalue");
         if (nsv != null)
         {
             this.notSelectedValue = nsv;
         }
         combo = new NyxComboBox();
-        if (!isRefreshing())
-        {
-            refresh();
-        }
+        refresh();
         // setValue refreshes the widget again..
         BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+        // if the field is null, we should try to get a value
+        // for it..
+        if (getField() == null) {
+            return;
+        }
         IField field = map.getField(getField());
         System.out.println("*********");
         System.out.println("Field :"+field);
@@ -156,6 +155,9 @@ public class Combo extends NyxCombo
      */
     public void refresh()
     {
+        if (isRefreshing()) {
+            return;
+        }
         isRefreshing = true;
         initialize();
         if (isImmidiate() && keyListener == null)
