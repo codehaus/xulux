@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.18 2003-11-10 12:42:54 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.19 2003-11-10 12:52:11 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.18 2003-11-10 12:42:54 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.19 2003-11-10 12:52:11 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -286,7 +286,6 @@ public class DictionaryTest extends TestCase
         System.out.println("testGetMappingWithGetMethod");
         ArrayList list = new ArrayList();
         BeanMapping mapping = Dictionary.getInstance().getMapping(list.getClass());
-        System.out.println("mapping : "+mapping.getField("get"));
         assertNotNull(mapping.getField("get"));
         mapping = Dictionary.getInstance().getMapping(new InnerBean());
         assertNotNull(mapping.getField("x"));
