@@ -11,9 +11,10 @@
 <section name="Swing">
   <p>
     Nyx supports swing. There are a couple of issues however with
-    Swing that neede fixing for it to work the same way as the SWT part
-    This document explain what you can do to customize the things
-    that nyx ueses internally. This is btw done via properties that can be
+    Swing that needed fixing for it to work the same way as the SWT part
+    will work.
+    This document explains what you can do to customize the things
+    that nyx uses internally. This is btw done via properties that can be
     passed to the jvm (NOTE: it needs to be improved, since nyx should be 
     able to run perfectly without any jvm commandline parameters and still
     allowing to add those parameters).
@@ -27,8 +28,8 @@
   <subsection name="nyx.swing.imageloader">
     <p>
       This property will set the imageloader to be used.
-      It defaults to looking for jimi in the classpath, The property is always
-      overrides the default property. The class to load images via JIMI is 
+      It defaults to looking for jimi in the classpath, Setting the property 
+      manually always overrides the default property. The class to load images via JIMI is 
       org.xulux.nyx.gui.swing.util.JimiImageLoader. If jimi is not on 
       your classpath or the specified imageloader is not on the classpath
       (or has problems instantiating) then it will fallback to standard

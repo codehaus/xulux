@@ -22,9 +22,9 @@
     In ApplicationPart in the method activate() the widget is 
     added to a swing JPanel and this will call the XYLayout 
     manager. So size and position are only set on initial 
-    activation and are never refreshed. Settings sizes will not
-    come to a referesh of the widget, but when setting the gui
-    calls the layoutmanager again, it will layou it according
+    activation and are never refreshed. Setting sizes will not
+    come to a refresh of the widget, but when setting the gui
+    calls the layoutmanager again, it will layout it according
     to the size being set.
   </p>
   </subsection>

@@ -10,14 +10,24 @@
 
 <section name="Introduction to NYX">
 <p>
-  NYX provides an easy way to display dynamicaly 
-  generated Swing components, driven by data.
-  The main focus will be creation forms and tables, which
-  are the components most widely used in data driven applications.
-  The main goal is to get rid of the horrible code that forms and
-  tables seems to be producing and to completely seperate
-  data, view and business logic. You can learn a bit more about this 
-  on the <a href="features.html">features</a> page. 
+  The main goals of NYX is to provide an easy way
+  to create frontends. The Frontend API that will
+  result from the development of NYX will provide
+  an easy way to migrate current application to NYX and
+  reuse the components that are already created or used
+  by that application.
+  The API allows easy integration of widgets and gui
+  layers, rule engines and dataproviders.
+  We aim to provide a default set of implementations
+  to get a professional frontend up and running in no time
+  and this way provide an easy look into the workings
+  of NYX.
+  Please understand that this is a work in progress and 
+  by far doesn't yet offer the functionality specified 
+  above. Also much of the documentation that is provided
+  is what is meant to be and not necessarily what is (yet).
+  Please have a look at the <a href="features.html">features</a>
+  page to see in more detail what we are going to provide.
 </p>
 </section>
 <section name="What's up with the name??">
