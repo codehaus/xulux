@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.7 2003-07-14 03:37:36 mvdb Exp $
+ $Id: Dictionary.java,v 1.8 2003-07-14 15:50:43 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.apache.commons.logging.LogFactory;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.7 2003-07-14 03:37:36 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.8 2003-07-14 15:50:43 mvdb Exp $
  */
 public class Dictionary
 {
@@ -171,7 +171,9 @@ public class Dictionary
     {
         if (getBaseClass() == null)
         {
-            log.warn("Base class is not set Nyx will possibly not be able to disover data beans correctly");
+            if (log.isInfoEnabled()) {
+                log.info("Base class is not set Nyx will possibly not be able to disover data beans correctly");
+            }
         }
         BeanMapping mapping = getMapping(preferredName);
         if (mapping == null)
