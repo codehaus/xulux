@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.8 2003-08-07 09:54:27 mvdb Exp $
+ $Id: Table.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,6 +61,8 @@ import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.ContainerWidget;
+import org.xulux.nyx.gui.IContentWidget;
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.swing.listeners.PopupListener;
@@ -78,9 +80,11 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.8 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: Table.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
  */
-public class Table extends ContainerWidget {
+public class Table extends ContainerWidget
+implements IContentWidget
+{
 
 
     protected JTable table;
@@ -360,7 +364,14 @@ public class Table extends ContainerWidget {
             List strList = NyxCollectionUtils.getListFromCSV(buttons);
             Iterator it = strList.iterator();
             while (it.hasNext()) {
-                Widget widget = getPart().getWidget((String)it.next());
+                String wName =(String)it.next();
+                Widget widget = getPart().getWidget(wName);
+                if (widget == null) {
+                    if (log.isWarnEnabled()) {
+                        log.warn("Button "+wName+" does not exist, check your part xml");
+                        continue;
+                    }
+                }
                 if (updateAction != null) {
                     widget.setProperty("action", updateAction);
                 }
@@ -446,4 +457,11 @@ public class Table extends ContainerWidget {
             refreshUpdateButtons();
         }
     }
+    /**
+     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
+     */
+    public void addNyxListener(NyxListener listener) {
+        // TODO
+    }
+
 }

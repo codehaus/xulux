@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.36 2003-08-07 09:54:27 mvdb Exp $
+ $Id: Widget.java,v 1.37 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -66,7 +66,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.36 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: Widget.java,v 1.37 2003-08-07 16:41:14 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -832,4 +832,11 @@ public abstract class Widget implements Serializable
             ((IWidgetInitializer)it.next()).destroy(this);
         }
     }
+    
+    /**
+     * Add a nyx listener to the widget.
+     * 
+     * @param listener
+     */
+    public abstract void addNyxListener(NyxListener listener);
 }

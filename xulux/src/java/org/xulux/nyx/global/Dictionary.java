@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.13 2003-07-29 09:17:37 mvdb Exp $
+ $Id: Dictionary.java,v 1.14 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.13 2003-07-29 09:17:37 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.14 2003-08-07 16:41:14 mvdb Exp $
  */
 public class Dictionary
 {
@@ -140,6 +140,9 @@ public class Dictionary
 
     public BeanMapping getMapping(Class clazz)
     {
+        if (clazz == null) {
+            return null;
+        }
         return getMapping(clazz, false);
     }
     

@@ -1,5 +1,5 @@
 /*
- $Id: Native.java,v 1.5 2003-08-07 16:41:14 mvdb Exp $
+ $Id: IContentWidget.java,v 1.1 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,92 +43,30 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.widgets;
+package org.xulux.nyx.gui;
 
-import org.xulux.nyx.gui.NyxListener;
-import org.xulux.nyx.gui.Widget;
+import java.util.List;
 
 /**
- * A placeholder for a native widgets.
- * It should just return the native widget when requested..
+ * Interface that widgets must implement if they use content.
+ * Content is a collection of objects that needs to be shown
+ * in eg a list, table or combo.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Native.java,v 1.5 2003-08-07 16:41:14 mvdb Exp $
+ * @version $Id: IContentWidget.java,v 1.1 2003-08-07 16:41:14 mvdb Exp $
  */
-public class Native extends Widget {
-
-    /**
-     * @param name
-     */
-    public Native(String name) {
-        super(name);
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
-     */
-    public void destroy() {
-        processDestroy();
-
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
-     */
-    public Object getNativeWidget() {
-        return null;
-    }
+public interface IContentWidget {
     
-    public void setNativeWidget(Object object) {
-    }
-
     /**
-     * @see org.xulux.nyx.gui.Widget#initialize()
+     * Set the content for the widget
+     * @param list
      */
-    public void initialize() {
-        processInit();
-
-    }
-
+    public void setContent(List list);
+    
     /**
-     * @see org.xulux.nyx.gui.Widget#refresh()
+     * Get the current content of the widget
+     * @return
      */
-    public void refresh() {
-
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#focus()
-     */
-    public void focus() {
-
-    }
-    /**
-     * @see org.xulux.nyx.gui.Widget#getGuiValue()
-     */
-    public Object getGuiValue() {
-        return null;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#canContainValue()
-     */
-    public boolean canContainValue() {
-        return false;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#isValueEmpty()
-     */
-    public boolean isValueEmpty() {
-        return true;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
-     */
-    public void addNyxListener(NyxListener listener) {
-        //TODO
-    }
+    public List getContent();
 
 }

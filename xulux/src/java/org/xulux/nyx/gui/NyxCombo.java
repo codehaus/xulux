@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.8 2003-08-07 09:54:27 mvdb Exp $
+ $Id: NyxCombo.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,9 +60,10 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.8 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.9 2003-08-07 16:41:14 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
+implements IContentWidget
 {
     
     protected List content;
@@ -115,7 +116,7 @@ public abstract class NyxCombo extends Widget
      * to say which one is used, in any other situation, toString is used
      * to represent a field.
      */
-    public void setContent(ArrayList list)
+    public void setContent(List list)
     {
         this.content = list;
         contentChanged = true;
@@ -140,8 +141,12 @@ public abstract class NyxCombo extends Widget
         }else if (contentType.equalsIgnoreCase("field")) {
             int index = content.lastIndexOf(".");
             BeanMapping mapping = Dictionary.getInstance().getMapping(ClassLoaderUtils.getClass(content.substring(0,index)));
-            IField field = mapping.getField(content.substring(index+1));
-            this.content = NyxCollectionUtils.getList(field.getValue(null));
+            if (mapping != null) {
+                IField field = mapping.getField(content.substring(index+1));
+                if (field != null) {
+                    this.content = NyxCollectionUtils.getList(field.getValue(null));
+                }
+            }
         }
     }
     

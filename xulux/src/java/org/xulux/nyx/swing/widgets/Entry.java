@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.20 2003-08-07 09:54:27 mvdb Exp $
+ $Id: Entry.java,v 1.21 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.20 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: Entry.java,v 1.21 2003-08-07 16:41:14 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -362,6 +362,13 @@ extends SwingWidget
                 return true;
         }
         return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
+     */
+    public void addNyxListener(NyxListener listener) {
+        // TODO
     }
 
 }

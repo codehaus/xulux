@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtils.java,v 1.3 2003-07-14 14:49:51 mvdb Exp $
+ $Id: ClassLoaderUtils.java,v 1.4 2003-08-07 16:41:15 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,7 +53,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.3 2003-07-14 14:49:51 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.4 2003-08-07 16:41:15 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -114,6 +114,11 @@ public class ClassLoaderUtils {
         catch (ClassNotFoundException e) {
             if (log.isWarnEnabled()) {
                 log.warn("Cannot find class "+clazzString);
+            }
+        }
+        catch(NoClassDefFoundError ncdfe) {
+            if (log.isWarnEnabled()) {
+                log.warn("Using wrong name for class "+clazzString+ "\n" +                    ncdfe.getLocalizedMessage());
             }
         }
         return null;

@@ -1,5 +1,5 @@
 /*
- $Id: PopupMenu.java,v 1.1 2003-08-07 09:54:27 mvdb Exp $
+ $Id: PopupMenu.java,v 1.2 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,13 +52,14 @@ import javax.swing.JPopupMenu;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.ContainerWidget;
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 
 /**
  * A popopmenu 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PopupMenu.java,v 1.1 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: PopupMenu.java,v 1.2 2003-08-07 16:41:14 mvdb Exp $
  */
 public class PopupMenu extends ContainerWidget {
     
@@ -169,6 +170,13 @@ public class PopupMenu extends ContainerWidget {
         if (initialized) {
             refresh();
         }
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
+     */
+    public void addNyxListener(NyxListener listener) {
+        // TODO
     }
 
 }

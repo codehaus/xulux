@@ -1,5 +1,5 @@
 /*
- $Id: MenuItem.java,v 1.1 2003-08-07 09:54:27 mvdb Exp $
+ $Id: MenuItem.java,v 1.2 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,10 +47,12 @@ package org.xulux.nyx.swing.widgets;
 
 import java.awt.Container;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
@@ -59,14 +61,14 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * menuitem
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: MenuItem.java,v 1.1 2003-08-07 09:54:27 mvdb Exp $
+ * @version $Id: MenuItem.java,v 1.2 2003-08-07 16:41:14 mvdb Exp $
  */
 public class MenuItem extends Widget {
     
     protected JMenuItem item;
     protected JSeparator separator;
     protected ActionListener actionListener;
-    
+    protected List listenerList;
     /**
      * @param name
      */
@@ -192,6 +194,18 @@ public class MenuItem extends Widget {
      */
     public boolean canContainValue() {
         return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
+     */
+    public void addNyxListener(NyxListener listener) {
+        if (listener instanceof ActionListener) {
+            if (listenerList == null) {
+                listenerList.add(listener);
+            }
+            this.item.addActionListener((ActionListener)listener);
+        }
     }
 
 }

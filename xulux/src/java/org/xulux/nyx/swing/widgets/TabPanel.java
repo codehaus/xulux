@@ -1,5 +1,5 @@
 /*
- $Id: TabPanel.java,v 1.5 2003-08-03 22:48:49 mvdb Exp $
+ $Id: TabPanel.java,v 1.6 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -55,6 +55,7 @@ import javax.swing.JTabbedPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.ContainerWidget;
+import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.util.SwingUtils;
 
@@ -64,7 +65,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * 
  * @todo Dig deeper into tabPanels..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TabPanel.java,v 1.5 2003-08-03 22:48:49 mvdb Exp $
+ * @version $Id: TabPanel.java,v 1.6 2003-08-07 16:41:14 mvdb Exp $
  */
 public class TabPanel extends ContainerWidget {
     
@@ -234,6 +235,13 @@ public class TabPanel extends ContainerWidget {
      */
     public boolean isValueEmpty() {
         return true;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
+     */
+    public void addNyxListener(NyxListener listener) {
+        // TODO
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.14 2003-08-03 20:53:03 mvdb Exp $
+ $Id: Combo.java,v 1.15 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The swing combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.14 2003-08-03 20:53:03 mvdb Exp $
+ * @version $Id: Combo.java,v 1.15 2003-08-07 16:41:14 mvdb Exp $
  */
 public class Combo extends NyxCombo
 {
@@ -280,6 +280,13 @@ public class Combo extends NyxCombo
             
         }
         return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
+     */
+    public void addNyxListener(NyxListener listener) {
+        // TODO
     }
 
 }

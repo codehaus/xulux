@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.10 2003-08-03 22:48:49 mvdb Exp $
+ $Id: Button.java,v 1.11 2003-08-07 16:41:14 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,8 +46,10 @@
 package org.xulux.nyx.swing.widgets;
 
 import java.awt.Container;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -63,7 +65,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.10 2003-08-03 22:48:49 mvdb Exp $
+ * @version $Id: Button.java,v 1.11 2003-08-07 16:41:14 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
@@ -71,6 +73,7 @@ public class Button extends SwingWidget
     private JButton button;
     private PrePostFieldListener actionListener;
     private FocusListener focusListener;
+    private List listenerList;
 
     /**
      * Constructor for Button.
@@ -246,6 +249,18 @@ public class Button extends SwingWidget
      */
     public boolean isValueEmpty() {
         return true;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#addNyxListener(org.xulux.nyx.gui.NyxListener)
+     */
+    public void addNyxListener(NyxListener listener) {
+        if (listener instanceof ActionListener) {
+            if (listenerList == null) {
+                listenerList.add(listener);
+            }
+            this.button.addActionListener((ActionListener)listener);
+        }
     }
 
 }
