@@ -1,5 +1,5 @@
 /*
-   $Id: IDataProvider.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
+   $Id: IDataProvider.java,v 1.3 2004-04-22 12:59:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ import java.util.Map;
  * The dataprovider interface.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IDataProvider.java,v 1.2 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: IDataProvider.java,v 1.3 2004-04-22 12:59:02 mvdb Exp $
  */
 public interface IDataProvider {
 
@@ -71,4 +71,27 @@ public interface IDataProvider {
      * @param mapping
      */
     void addMapping(IMapping mapping);
+    
+  /**
+   * A convenience method, so you can set values on the highest possible level
+   *
+   * @param mapping the mapping to use (could be a string or the current part / field value)
+   * @param field the field name to use
+   * @param object the object to use. If null the provider will try to create the object
+   * @param value the value to set in the object
+   * @return the object in the changed form, or if object was null, the newly created object.
+   *         if an error occured of somekind, it should be logged and the value null should be
+   *         returned.
+   */
+  Object setValue(Object mapping, String field, Object object, Object value);
+
+  /**
+   * A convenience method, so you can get values on the highest possible level
+   *
+   * @param mapping the mapping to use (could be a string or the current part / field value)
+   * @param field the field name to use
+   * @param object the object to use. If null the provider will try to create the object
+   * @return the object, or nul when an error occurred or the value is null.
+   */
+  Object getValue(Object mapping, String field, Object object);
 }

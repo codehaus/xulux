@@ -1,5 +1,5 @@
 /*
-   $Id: BeanMapping.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+   $Id: BeanMapping.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -38,7 +38,7 @@ import org.xulux.dataprovider.IMapping;
  * @todo Also fix the set when realField is used.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMapping.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: BeanMapping.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
  */
 public class BeanMapping implements IMapping
 {
@@ -437,6 +437,23 @@ public class BeanMapping implements IMapping
             }
             return -1;
         }
+    }
+
+    /**
+     * @see org.xulux.dataprovider.IMapping#setValue(java.lang.String, java.lang.Object, java.lang.Object)
+     */
+    public Object setValue(String field, Object object, Object value) {
+        IField iField = getField(field);
+        if (iField != null) {
+            return iField.setValue(object, value);
+        }
+        return null;
+    }
+    /**
+     * @see org.xulux.dataprovider.IMapping#getValue(java.lang.String, java.lang.Object)
+     */
+    public Object getValue(String field, Object object) {
+      return null;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: Dictionary.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
+   $Id: Dictionary.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * It is the datasource 
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
  */
 public final class Dictionary {
     /**
@@ -372,6 +372,42 @@ public final class Dictionary {
     public List getCache() {
         if (mappingCache != null) {
             return (List) mappingCache.clone();
+        }
+        return null;
+    }
+
+    /**
+     * A convenience method, so you can set values on the highest possible level
+     *
+     * @param provider the name of the provider to use
+     * @param mapping the mapping to use (could be a string or the current part / field value)
+     * @param field the field name to use
+     * @param object the object to use. If null the provider will try to create the object
+     * @param value the value to set in the object
+     * @return the object in the changed form, or if object was null, the newly created object.
+     *         if an error occured of somekind, it should be logged and the value null should be
+     *         returned.
+     */
+    public Object setValue(String provider, Object mapping, String field, Object object, Object value) {
+        IDataProvider iProvider = getProvider(provider);
+        if (iProvider != null) {
+            return iProvider.setValue(mapping,field, object, value);
+        }
+        return null;
+    }
+  /**
+   * A convenience method, so you can get values on the highest possible level
+   *
+   * @param provider the name of the provider to use
+   * @param mapping the mapping to use (could be a string or the current part / field value)
+   * @param field the field name to use
+   * @param object the object to use. If null the provider will try to create the object
+   * @return the object, or nul when an error occurred or the value is null.
+   */
+    public Object getValue(String provider, Object mapping, String field, Object object) {
+        IDataProvider iProvider = getProvider(provider);
+        if (iProvider != null) {
+            return iProvider.getValue(mapping, field, object);
         }
         return null;
     }

@@ -1,5 +1,5 @@
 /*
-   $Id: Entry.java,v 1.7 2004-04-01 16:15:08 mvdb Exp $
+   $Id: Entry.java,v 1.8 2004-04-22 12:59:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -26,7 +26,9 @@ import javax.swing.text.JTextComponent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.core.XuluxContext;
 import org.xulux.dataprovider.Dictionary;
+import org.xulux.dataprovider.IDataProvider;
 import org.xulux.dataprovider.IField;
 import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.converters.IConverter;
@@ -41,7 +43,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * Represents an entry field
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.7 2004-04-01 16:15:08 mvdb Exp $
+ * @version $Id: Entry.java,v 1.8 2004-04-22 12:59:02 mvdb Exp $
  */
 public class Entry extends SwingWidget {
     /**
@@ -74,7 +76,7 @@ public class Entry extends SwingWidget {
     /**
      * the value class
      */
-    private Class valueClass;
+    protected Class valueClass;
 
     /**
      * Constructor for Entry.
@@ -98,7 +100,9 @@ public class Entry extends SwingWidget {
             textComponent = null;
         }
         removeAllRules();
-        getPart().removeWidget(this, this);
+        if (getPart() != null) {
+          getPart().removeWidget(this, this);
+        }
         initialized = false;
     }
 
@@ -110,6 +114,31 @@ public class Entry extends SwingWidget {
             initialize();
         }
         return textComponent;
+    }
+
+    /**
+     * @see org.xulux.gui.Widget#setProperty(java.lang.String, java.lang.Object)
+     */
+    public void setProperty(String key, Object value) {
+      if (key != null) {
+        key = key.toLowerCase();
+      }
+      if (key != null && key.equals("valueclass")) {
+          setLazyProperty(key, value);
+          if (value != null) {
+            if (value instanceof String) {
+              this.valueClass = ClassLoaderUtils.getClass((String) value);
+            } else if (value instanceof Class) {
+              this.valueClass = (Class) value;
+            } else {
+              this.valueClass = value.getClass();
+            }
+          } else {
+            this.valueClass = null;
+          }
+      } else {
+          super.setProperty(key, value);
+      }
     }
 
     /**
@@ -257,7 +286,13 @@ public class Entry extends SwingWidget {
     
      */
     protected void initializeValue() {
-        if (getField() == null) {
+        if (getProvider() != null) {
+            IDataProvider pr = XuluxContext.getDictionary().getProvider(getProvider());
+            IMapping mapping = pr.getMapping(this.value);
+            IField field = mapping.getField(this.value);
+            textComponent.setText((String) field.getValue(this.value));
+            return;
+        } else if (getField() == null) {
             if (getValue() != null) {
                 if (getProperty("entryfields") != null) {
                     String entryFields = getProperty("entryfields");
@@ -358,7 +393,19 @@ public class Entry extends SwingWidget {
         // we set the value passed in
         // and check to see if the field
         // needs updating or not.
-        if (getField() == null) {
+        if (getProvider() != null) {
+          IDataProvider pr = XuluxContext.getDictionary().getProvider(getProvider());
+          IMapping mapping = null;
+          IField field = null;
+          if (!(object instanceof String) && this.value == null) {
+            this.value = object;
+          } else {
+            System.err.println("This.value : " + this.value.getClass());
+            mapping = pr.getMapping(this.value);
+            field = mapping.getField(this.value);
+            field.setValue(this.value, object);
+          }
+        } else if (getField() == null) {
             if (object != null) {
                 if (valueClass != null && !valueClass.isAssignableFrom(object.getClass())) {
                     IConverter converter = Dictionary.getConverter(valueClass);
@@ -378,7 +425,7 @@ public class Entry extends SwingWidget {
                 // set the previous value
                 if (field != null) {
                     this.previousValue = field.getValue(getPart().getBean());
-                    IConverter converter = Dictionary.getConverter(field.getReturnType());
+                    IConverter converter = Dictionary.getConverter(field.getType());
                     if (converter != null) {
                         object = converter.getBeanValue(object);
                     }
@@ -395,10 +442,8 @@ public class Entry extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#clear()
      */
     public void clear() {
-        if (textComponent == null) {
-            this.value = null;
-        } else {
-            this.value = null;
+        this.value = null;
+        if (textComponent != null) {
             textComponent.setText("");
         }
         if (initialized) {

@@ -1,5 +1,5 @@
 /*
-   $Id: RadioButton.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
+   $Id: RadioButton.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.BooleanUtils;
  * Represents a radiobutton in the gui.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButton.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.6 2004-04-22 12:59:02 mvdb Exp $
  */
 public class RadioButton extends Widget {
 
@@ -204,7 +204,7 @@ public class RadioButton extends Widget {
         if (map != null) {
             if (getField() != null) {
                 IField f = map.getField(getField());
-                Class cClass = f.getReturnType();
+                Class cClass = f.getType();
                 if (cClass == Boolean.class || cClass == Boolean.TYPE) {
                     if (value.getClass() == String.class) {
                         value = BooleanUtils.toBooleanObject((String) value);

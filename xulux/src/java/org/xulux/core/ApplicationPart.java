@@ -1,5 +1,5 @@
 /*
-   $Id: ApplicationPart.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
+   $Id: ApplicationPart.java,v 1.6 2004-04-22 12:59:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -55,7 +55,7 @@ import org.xulux.utils.Translation;
  * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.6 2004-04-22 12:59:03 mvdb Exp $
  */
 public class ApplicationPart {
 
@@ -340,7 +340,9 @@ public class ApplicationPart {
           return;
         }
         if (caller instanceof Widget) {
-            widgets.remove(widget);
+            if (widgets != null) {
+              widgets.remove(widget);
+            }
             return;
         }
         // set the parent to null..

@@ -1,5 +1,5 @@
 /*
-   $Id: BeanField.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+   $Id: BeanField.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -43,7 +43,7 @@ import org.xulux.utils.ClassLoaderUtils;
  *       to primitive types.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.1 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -146,20 +146,19 @@ public class BeanField implements IField
      * @return false on failure or if field is read only
      * @todo add some more intensive testing
      */
-    public boolean setValue(Object bean, Object value)
+    public Object setValue(Object bean, Object value)
     {
-        boolean success = false;
         if (isReadOnly())
         {
             if (log.isWarnEnabled()) {
                 log.warn("Field " + getName() + " is readonly or couldn't find the set Method");
             }
-            return success;
+            return bean;
         }
         try
         {
             if (getRealField() != null) {
-                Class retType = getReturnType();
+                Class retType = getType();
                 BeanMapping mapping = (BeanMapping) Dictionary.getInstance().getMapping(retType);
 //                log.warn("Mapping : "+mapping.getFields());
                 Object childObject = getMethod().invoke(bean, getArgs());
@@ -176,16 +175,14 @@ public class BeanField implements IField
                             log.warn("Cannot set value on " + toString() + "  Please set the value in a rule "
                             +  "or provide an empty constructor");
                         }
-                        return false;
+                        return bean;
                     }
                 }
                 BeanMapping childMapping = (BeanMapping) Dictionary.getInstance().getMapping(childObject);
 //                log.warn("childMapping : "+childMapping.getFields());
                 IField field = childMapping.getField(getRealField());
 //                log.warn("cf : "+field);
-                success = field.setValue(childObject, value);
-                success = true;
-                return success;
+                return field.setValue(childObject, value);
             }
             try {
 //                log.warn("Change method : "+this.changeMethod);
@@ -196,9 +193,7 @@ public class BeanField implements IField
                 if (log.isWarnEnabled()) {
                     log.warn("Invalid argument " + value.getClass().getName() + " for method " + this.changeMethod, iae);
                 }
-                success = false;
             }
-            success = true;
         }
         catch (IllegalAccessException e)
         {
@@ -217,7 +212,7 @@ public class BeanField implements IField
                 log.warn("Unexcpected exception ", e);
             }
         }
-        return success;
+        return bean;
     }
 
     /**
@@ -255,7 +250,7 @@ public class BeanField implements IField
             if (this.realField != null) {
                 // gets the real value to get
                 // since this field is just the parent..
-                Class retType = getReturnType();
+                Class retType = getType();
                 if (retType == Object.class) {
                     // we need to figure out which returntype we REALLY have..
                     Object retBean = getMethod().invoke(bean, getArgs());
@@ -644,7 +639,7 @@ public class BeanField implements IField
      *
      * @return the returntype of the getmethod.
      */
-    public Class getReturnType() {
+    public Class getType() {
         return this.method.getReturnType();
     }
 

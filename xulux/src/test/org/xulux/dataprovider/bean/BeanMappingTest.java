@@ -1,5 +1,5 @@
 /*
-   $Id: BeanMappingTest.java,v 1.1 2004-04-14 14:16:11 mvdb Exp $
+   $Id: BeanMappingTest.java,v 1.2 2004-04-22 12:59:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
  * Test the BeanMapping.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanMappingTest.java,v 1.1 2004-04-14 14:16:11 mvdb Exp $
+ * @version $Id: BeanMappingTest.java,v 1.2 2004-04-22 12:59:02 mvdb Exp $
  */
 public class BeanMappingTest extends TestCase {
 
@@ -78,5 +78,12 @@ public class BeanMappingTest extends TestCase {
         child1.setAnother(child11);
         AnotherRecursiveBean child111 = new AnotherRecursiveBean("child111");
         return parent;
+    }
+    
+    public void testGetAndSetValue() {
+        System.out.println("testgetAndSetValue");
+        BeanMapping mapping = new BeanMapping("test");
+        Object getValue = mapping.getValue("field", "object");
+        Object setValue = mapping.setValue("field", "object", "value");
     }
 }

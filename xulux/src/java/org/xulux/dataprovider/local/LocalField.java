@@ -1,5 +1,5 @@
 /*
-   $Id: LocalField.java,v 1.1 2004-04-14 14:16:12 mvdb Exp $
+   $Id: LocalField.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ import org.xulux.dataprovider.IField;
  * A localfield.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LocalField.java,v 1.1 2004-04-14 14:16:12 mvdb Exp $
+ * @version $Id: LocalField.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
  */
 public class LocalField implements IField
 {
@@ -108,10 +108,10 @@ public class LocalField implements IField
     /**
      * @see org.xulux.nyx.global.IField#setValue(Object, Object)
      */
-    public boolean setValue(Object bean, Object value)
+    public Object setValue(Object bean, Object value)
     {
         this.value = value;
-        return true;
+        return this.value;
     }
 
     /**
@@ -125,7 +125,7 @@ public class LocalField implements IField
     /**
      * @see org.xulux.nyx.global.IField#getReturnType()
      */
-    public Class getReturnType() {
+    public Class getType() {
         return null;
     }
 

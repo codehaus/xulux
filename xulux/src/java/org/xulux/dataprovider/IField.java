@@ -1,5 +1,5 @@
 /*
-   $Id: IField.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+   $Id: IField.java,v 1.2 2004-04-22 12:59:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,7 +21,7 @@ package org.xulux.dataprovider;
  * The generic field interface..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IField.java,v 1.1 2004-03-16 14:35:14 mvdb Exp $
+ * @version $Id: IField.java,v 1.2 2004-04-22 12:59:02 mvdb Exp $
  */
 public interface IField
 {
@@ -40,9 +40,9 @@ public interface IField
      * Sets the value of the object
      * @param object the object to set the value on
      * @param value the value to set
-     * @return true on success, false on failure
+     * @return The changed object or the newly created object
      */
-    boolean setValue(Object object, Object value);
+    Object setValue(Object object, Object value);
 
     /**
      * @param object the object to get the value from
@@ -56,9 +56,9 @@ public interface IField
     boolean isReadOnly();
 
     /**
-     * @return the returntype of the field
+     * @return the type of Object the field must create if the object has to be created
      */
-    Class getReturnType();
+    Class getType();
 
 
 }

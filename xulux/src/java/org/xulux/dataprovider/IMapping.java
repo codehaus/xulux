@@ -1,5 +1,5 @@
 /*
-   $Id: IMapping.java,v 1.2 2004-04-01 16:15:09 mvdb Exp $
+   $Id: IMapping.java,v 1.3 2004-04-22 12:59:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -24,7 +24,7 @@ import java.util.List;
  * For now empty.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IMapping.java,v 1.2 2004-04-01 16:15:09 mvdb Exp $
+ * @version $Id: IMapping.java,v 1.3 2004-04-22 12:59:02 mvdb Exp $
  */
 public interface IMapping {
 
@@ -53,5 +53,27 @@ public interface IMapping {
     /**
      * @return the name of the mapping
      */
-    String getName();    
+    String getName();
+
+    /**
+     * A convenience method, so you can set values on the highest possible level
+     *
+     * @param field the field name to use
+     * @param object the object to use. If null the provider will try to create the object
+     * @param value the value to set in the object
+     * @return the object in the changed form, or if object was null, the newly created object.
+     *         if an error occured of somekind, it should be logged and the value null should be
+     *         returned.
+     */
+    Object setValue(String field, Object object, Object value);
+  
+    /**
+     * A convenience method, so you can get values on the highest possible level
+     *
+     * @param field the field name to use
+     * @param object the object to use. If null the provider will try to create the object
+     * @return the object, or nul when an error occurred or the value is null.
+     */
+    Object getValue(String field, Object object);
+    
 }

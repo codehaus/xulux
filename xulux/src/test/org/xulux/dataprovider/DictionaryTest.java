@@ -1,5 +1,5 @@
 /*
-   $Id: DictionaryTest.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
+   $Id: DictionaryTest.java,v 1.6 2004-04-22 12:59:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -37,7 +37,7 @@ import org.xulux.dataprovider.converters.IntegerConverter;
  * how nyx handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.5 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.6 2004-04-22 12:59:03 mvdb Exp $
  */
 public class DictionaryTest extends TestCase {
 
@@ -134,6 +134,16 @@ public class DictionaryTest extends TestCase {
         dictionary.registerProvider("test", null);
         assertNull(dictionary.getProvider("test"));
         assertEquals(1, dictionary.getProviders().size());
+    }
+    
+    public void testGetAndSetValue() {
+        System.out.println("testSetAndGetValue");
+        Dictionary dictionary = XuluxContext.getDictionary();
+        Object getValue = dictionary.getValue("provider", "mapping", "field", "object");
+        assertEquals(null, getValue);
+        Object setValue = dictionary.setValue("provider", "mapping", "field", "object", "value");
+        assertEquals(null, setValue);
+        
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
-   $Id: BeanDataProviderTest.java,v 1.1 2004-04-15 00:05:04 mvdb Exp $
+   $Id: BeanDataProviderTest.java,v 1.2 2004-04-22 12:59:02 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -43,7 +43,7 @@ import org.xulux.dataprovider.RecursiveBean;
  * how xulux handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanDataProviderTest.java,v 1.1 2004-04-15 00:05:04 mvdb Exp $
+ * @version $Id: BeanDataProviderTest.java,v 1.2 2004-04-22 12:59:02 mvdb Exp $
  */
 public class BeanDataProviderTest extends TestCase {
 
@@ -278,6 +278,12 @@ public class BeanDataProviderTest extends TestCase {
         assertNotNull(mapping.getField("x"));
     }
 
+    public void testSetAndGetValue() {
+        System.out.println("testSetAndGetValue");
+        BeanDataProvider provider = new BeanDataProvider();
+        Object setValue = provider.setValue("mapping", "field", "Object", "value");
+        Object getValue = provider.getValue("mapping", "field", "Object");
+    }
     /**
      * @see junit.framework.TestCase#setUp()
      */
