@@ -1,5 +1,5 @@
 /*
- $Id: WindowTest.java,v 1.1 2003-01-25 23:18:52 mvdb Exp $
+ $Id: WindowTest.java,v 1.2 2003-01-26 00:41:45 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,8 +59,8 @@ import sun.awt.AppContext;
 /**
  * Testcase for an entry field
  * 
- * @author Martin van den Bemt
- * @version $Id: WindowTest.java,v 1.1 2003-01-25 23:18:52 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: WindowTest.java,v 1.2 2003-01-26 00:41:45 mvdb Exp $
  */
 public class WindowTest extends TestCase
 {
@@ -101,10 +101,6 @@ public class WindowTest extends TestCase
             e.printStackTrace(System.err);
             System.exit(0);
         }
-        System.out.println(AppContext.getAppContext().toString());
-        AppContext.getAppContext().remove(AppContext.getAppContext().getThreadGroup());
-        AppContext.getAppContext().dispose();
-        System.out.println("hoi");
     }
 
 }

@@ -1,7 +1,7 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.14 2003-01-25 23:17:57 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.15 2003-01-26 00:41:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -69,7 +69,7 @@ import org.xulux.nyx.listeners.swing.PrePostFieldListener;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.14 2003-01-25 23:17:57 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.15 2003-01-26 00:41:45 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -193,10 +193,7 @@ public class ApplicationPartHandler extends DefaultHandler
             {
                 this.part = new ApplicationPart(this.bean);
                 part.setName(atts.getValue(NAME_ATTRIBUTE));
-                if (BooleanUtils.toBoolean(atts.getValue(APPLICATION_ATTRIBUTE)))
-                {
-                    ApplicationContext.getInstance().isPartApplication(this.part);
-                }
+                isApplication = BooleanUtils.toBoolean(atts.getValue(APPLICATION_ATTRIBUTE));
             }
         }
         else if (qName.equals(FIELD_ELEMENT))
@@ -446,4 +443,12 @@ public class ApplicationPartHandler extends DefaultHandler
             }
         }
     }
+    /**
+     * The enddocument registers the part in the ApplicationContext.
+     */
+    public void endDocument() throws SAXException
+    {
+        ApplicationContext.getInstance().register(this.part, isApplication);
+    }
+
 }

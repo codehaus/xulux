@@ -1,7 +1,7 @@
 /*
- $Id: ApplicationContext.java,v 1.21 2003-01-25 23:17:57 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.22 2003-01-26 00:41:45 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -64,7 +64,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.21 2003-01-25 23:17:57 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.22 2003-01-26 00:41:45 mvdb Exp $
  */
 public class ApplicationContext
 {
