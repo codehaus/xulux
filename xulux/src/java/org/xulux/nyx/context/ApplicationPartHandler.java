@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.7 2002-11-12 21:34:34 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.8 2002-11-19 20:45:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -65,7 +65,7 @@ import org.xulux.nyx.rules.IRule;
  * from that..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.7 2002-11-12 21:34:34 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.8 2002-11-19 20:45:06 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler
 {
@@ -114,10 +114,13 @@ public class ApplicationPartHandler extends DefaultHandler
     public ApplicationPartHandler()
     {
         stack = new Stack();
+        this.bean = null;
+        this.part = null;
     }
     
     public ApplicationPartHandler(ApplicationPart part)
     {
+        this();
         this.part = part;
     }
 
@@ -170,7 +173,7 @@ public class ApplicationPartHandler extends DefaultHandler
         {
             if (this.part == null)
             {
-                this.part = new ApplicationPart(bean);
+                this.part = new ApplicationPart(this.bean);
                 part.setName(atts.getValue(NAME_ATTRIBUTE));
             }
         }

@@ -1,5 +1,5 @@
 /*
- $Id: TestFactory.java,v 1.8 2002-11-16 14:23:43 mvdb Exp $
+ $Id: TestFactory.java,v 1.9 2002-11-19 20:45:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -74,7 +74,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * a later stage.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.8 2002-11-16 14:23:43 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.9 2002-11-19 20:45:06 mvdb Exp $
  */
 public class TestFactory
 {
@@ -138,6 +138,20 @@ public class TestFactory
         part.setParentWidget(panel);
         return part;
     }
-            
-
+    /**
+     * Build the form from an xml definition and override
+     * the name
+     */
+    public static ApplicationPart getForm(InputStream form, String name,Object bean)
+    {
+        ApplicationPartHandler handler = new ApplicationPartHandler();
+        XYLayout layout = new XYLayout();
+        JPanel panel = new JPanel(layout);
+        ApplicationPart part = handler.read(form, bean);
+        part.setName(name);
+        ApplicationContext.getInstance().registerPart(part);
+        part.setLayoutManager(layout);
+        part.setParentWidget(panel);
+        return part;
+    }
 }

@@ -1,5 +1,5 @@
 /*
- $Id: Combo.java,v 1.13 2002-11-16 14:23:42 mvdb Exp $
+ $Id: Combo.java,v 1.14 2002-11-19 20:45:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.models.DefaultComboModel;
  * The combo widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Combo.java,v 1.13 2002-11-16 14:23:42 mvdb Exp $
+ * @version $Id: Combo.java,v 1.14 2002-11-19 20:45:06 mvdb Exp $
  */
 public class Combo extends Widget
 {
@@ -110,7 +110,10 @@ public class Combo extends Widget
             content.add(0,notSelectedValue);
         }
         contentChanged = true;
-        refresh();
+        if (initialized)
+        {
+            refresh();
+        }
     }
     
     /**
@@ -210,6 +213,7 @@ public class Combo extends Widget
      */
     public void refresh()
     {
+        System.err.println("Refreshing Combo...");
         initialize();
         if (isImmidiate() && keyListener == null)
         {
@@ -247,21 +251,17 @@ public class Combo extends Widget
         }
         else
         {
-            int index = -1;
             if (content != null && value != null)
             {
-                index = content.indexOf(value);
-            }
-            if (index != -1)
-            {
-                model.setSelectedItem(index);
+                model.setRealSelectedValue(this.value);
             }
             
             //Ideal for debugging...
-            if (getName().equalsIgnoreCase("treatmentList"))
+            if (getName().equalsIgnoreCase("authorList"))
             {
                 System.err.println("***************************************");
-                System.err.println("Index : "+index);
+                System.err.println("name : "+getName());
+                //System.err.println("Index : "+model.getSelectedItem());
                 System.err.println("content : "+content);
                 System.err.println("this.value : "+value);
                 if (value != null)

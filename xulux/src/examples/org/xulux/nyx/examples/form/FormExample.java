@@ -1,5 +1,5 @@
 /*
- $Id: FormExample.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
+ $Id: FormExample.java,v 1.3 2002-11-19 20:45:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,8 +45,19 @@
  */
 package org.xulux.nyx.examples.form;
 
-import javax.swing.JFrame;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.xulux.nyx.context.ApplicationContext;
+import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.examples.datamodel.Test;
 import org.xulux.nyx.examples.datamodel.TestContained;
 import org.xulux.nyx.global.Dictionary;
@@ -54,13 +65,14 @@ import org.xulux.nyx.swing.BaseForm;
 import org.xulux.nyx.swing.SimpleForm;
 import org.xulux.nyx.swing.factories.FormFactory;
 import org.xulux.nyx.swing.factories.GuiField;
+import org.xulux.nyx.swing.factories.TestFactory;
 import org.xulux.nyx.utils.Resources;
 
 /**
  * A simple example of a form
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: FormExample.java,v 1.2 2002-11-04 21:40:57 mvdb Exp $
+ * @version $Id: FormExample.java,v 1.3 2002-11-19 20:45:06 mvdb Exp $
  */
 public class FormExample
 {
@@ -77,6 +89,10 @@ public class FormExample
      * Constructor for FormExample.
      */
     public FormExample()
+    {
+    }
+    
+    public void oldTestStuff()
     {
         Dictionary dictionary = Dictionary.getInstance();
         dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream("dictionary.xml"));
@@ -95,12 +111,42 @@ public class FormExample
         frame.setSize(frame.getPreferredSize());
         frame.show();
     }
+    
+    public void withTwoFormsAndDictionary()
+    {
+        // this is bad, but for now mandatory...
+        ApplicationContext.getInstance();
+        // first initialize the dictionary (not really necessary though
+/*        Dictionary dictionary = Dictionary.getInstance();
+        String dict = "nl/tocure/dbc/DBCDictionary.xml";
+        dictionary.initialize(this.getClass().getClassLoader().getResourceAsStream(dict));
+        */
+        // TODO: set some defaults (should be in GuiDefaults.xml...)
+        String xml = "org/xulux/nyx/examples/form/Part.xml";
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
+        ApplicationPart part = TestFactory.getForm(stream, new Object());
+        ArrayList widgets = part.getWidgets();
+        Iterator it = widgets.iterator();
+        JPanel panel = (JPanel)part.getRootWidget();
+        panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.blue),"te sluiten iniitele DBC"));
+        part.activate();
+        JFrame frame = new JFrame("DBC TEST");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.show();
+        Dimension dim = ((Component)part.getRootWidget()).getPreferredSize();
+        dim.width += frame.getBounds().getWidth();
+        dim.height += frame.getBounds().getHeight();
+        frame.setSize(dim.width,dim.height);
+        frame.getContentPane().add((Component)part.getRootWidget());
+        frame.pack();
+    }
+    
 
     public static void main(String[] args)
     {
         try
         {
-            new FormExample();
+            new FormExample().withTwoFormsAndDictionary();
         }
         catch(Exception e)
         {

@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.22 2002-11-16 14:23:43 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.23 2002-11-19 20:45:06 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -83,7 +83,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.22 2002-11-16 14:23:43 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.23 2002-11-19 20:45:06 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -111,6 +111,11 @@ public class ApplicationPart
     
     private SessionPart session;
     private LayoutManager2 layout;
+    
+    public final static int NO_STATE = 0;
+    public final static int INVALID_STATE = 1;
+    public final static int OK_STATE =2;
+    private int state = NO_STATE;
     
     /**
      * Constructor for GuiPart.
@@ -330,6 +335,7 @@ public class ApplicationPart
      */
     public void initialize(Object caller)
     {
+        System.out.println("Initializing...");
         if (!(caller instanceof DefaultPartRule))
         {
             return;
@@ -340,7 +346,16 @@ public class ApplicationPart
             Widget widget = (Widget) it.next();
         }
         runIndex++;
-        
+    }
+    
+    public void refreshAllWidgets()
+    {
+        Iterator it = widgets.iterator();
+        while (it.hasNext())
+        {
+            Widget widget = (Widget) it.next();
+            widget.refresh();
+        }
     }
     
     /**
@@ -578,23 +593,29 @@ public class ApplicationPart
         bean = null;
         parentWidget = null;
         activated = false;
-        ArrayList widgetList = (ArrayList)widgets.clone();
-        Iterator it = widgetList.iterator();
-        while (it.hasNext())
+        if (widgets != null)
         {
-            ((Widget)it.next()).destroy();
+            ArrayList widgetList = (ArrayList)widgets.clone();
+            Iterator it = widgetList.iterator();
+            while (it.hasNext())
+            {
+                ((Widget)it.next()).destroy();
+            }
+            widgets.clear();
+            widgetList.clear();
+            widgetList = null;
+            widgets = null;
         }
-        widgets.clear();
-        widgetList.clear();
-        widgetList = null;
-        widgets = null;
-        it = partRules.iterator();
-        while (it.hasNext())
+        if (partRules != null)
         {
-            ((IRule)it.next()).destroy();
+            Iterator it = partRules.iterator();
+            while (it.hasNext())
+            {
+                ((IRule)it.next()).destroy();
+            }
+            partRules.clear();
+            partRules = null;
         }
-        partRules.clear();
-        partRules = null;
         mapping = null;
         if (parentWidget != null)
         {
@@ -641,4 +662,22 @@ public class ApplicationPart
         return retValue;
     }
         
+    /**
+     * Returns the state.
+     * @return int
+     */
+    public int getState()
+    {
+        return state;
+    }
+
+    /**
+     * Sets the state.
+     * @param state The state to set
+     */
+    public void setState(int state)
+    {
+        this.state = state;
+    }
+
 }
