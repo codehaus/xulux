@@ -1,5 +1,5 @@
 /*
- $Id: TreeNodeContentHandler.java,v 1.8 2003-12-02 09:53:46 mvdb Exp $
+ $Id: TreeNodeContentHandler.java,v 1.9 2003-12-11 20:00:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -53,12 +53,12 @@ import org.xulux.nyx.gui.IContentWidget;
  * A tree content handler using a TreeNode.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TreeNodeContentHandler.java,v 1.8 2003-12-02 09:53:46 mvdb Exp $
+ * @version $Id: TreeNodeContentHandler.java,v 1.9 2003-12-11 20:00:41 mvdb Exp $
  */
 public class TreeNodeContentHandler extends TreeContentHandler {
 
     /**
-     * 
+     *
      */
     public TreeNodeContentHandler() {
         super();
