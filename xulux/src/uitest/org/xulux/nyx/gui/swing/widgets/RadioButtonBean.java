@@ -1,5 +1,5 @@
 /*
- $Id: CheckBoxBean.java,v 1.3 2003-10-23 01:43:09 mvdb Exp $
+ $Id: RadioButtonBean.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,22 +46,23 @@
 package org.xulux.nyx.gui.swing.widgets;
 
 /**
- * A checkbox bean..
+ * An example bean used to show / test the usage of the radio button.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBoxBean.java,v 1.3 2003-10-23 01:43:09 mvdb Exp $
+ * @version $Id: RadioButtonBean.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
  */
-public class CheckBoxBean {
+public class RadioButtonBean {
     
-    boolean Foo;
-    boolean Bar;
-    String strFoo;
-    String strBar;
+    private boolean bar;
+    private boolean foo;
+    private boolean group;
+    private boolean male;
+    private boolean female;
     
     /**
      * 
      */
-    public CheckBoxBean() {
+    public RadioButtonBean() {
         super();
     }
 
@@ -69,70 +70,70 @@ public class CheckBoxBean {
      * @return
      */
     public boolean isBar() {
-        return Bar;
+        return bar;
     }
-    
+
+    /**
+     * @return
+     */
+    public boolean isFemale() {
+        return female;
+    }
+
     /**
      * @return
      */
     public boolean isFoo() {
-        return Foo;
+        return foo;
     }
 
     /**
      * @return
      */
-    public boolean getBar() {
-        return Bar;
+    public boolean isGroup() {
+        return group;
     }
 
     /**
      * @return
      */
-    public boolean getFoo() {
-        return Foo;
+    public boolean isMale() {
+        return male;
     }
 
     /**
      * @param b
      */
     public void setBar(boolean b) {
-        Bar = b;
+        bar = b;
+    }
+
+    /**
+     * @param b
+     */
+    public void setFemale(boolean b) {
+        female = b;
     }
 
     /**
      * @param b
      */
     public void setFoo(boolean b) {
-        Foo = b;
+        foo = b;
     }
 
     /**
-     * @return
+     * @param b
      */
-    public String getStrBar() {
-        return strBar;
+    public void setGroup(boolean b) {
+        group = b;
     }
 
     /**
-     * @return
+     * @param b
      */
-    public String getStrFoo() {
-        return strFoo;
-    }
-
-    /**
-     * @param string
-     */
-    public void setStrBar(String string) {
-        strBar = string;
-    }
-
-    /**
-     * @param string
-     */
-    public void setStrFoo(String string) {
-        strFoo = string;
+    public void setMale(boolean b) {
+        male = b;
     }
 
 }

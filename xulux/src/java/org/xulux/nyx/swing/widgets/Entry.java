@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.30 2003-10-10 17:28:27 mvdb Exp $
+ $Id: Entry.java,v 1.31 2003-10-23 01:43:08 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -69,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.30 2003-10-10 17:28:27 mvdb Exp $
+ * @version $Id: Entry.java,v 1.31 2003-10-23 01:43:08 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -123,8 +123,7 @@ extends SwingWidget
      */
     public Object getNativeWidget()
     {
-        if (!initialized)
-        {
+        if (!initialized) {
             initialize();
         }
         return textComponent;
@@ -143,32 +142,22 @@ extends SwingWidget
         if (getProperty("valueclass") != null) {
             this.valueClass = ClassLoaderUtils.getClass(getProperty("valueclass"));
         }
-        if (isImmidiate())
-        {
-            if (this.immidiateListener == null)
-            {
+        if (isImmidiate()) {
+            if (this.immidiateListener == null) {
                 NyxListener listener = getPart().getFieldEventHandler(this);
-                if (listener != null)
-                {
+                if (listener != null) {
                     this.immidiateListener = (PrePostFieldListener)listener;
-                }
-                else
-                {
+                } else {
                     this.immidiateListener = new PrePostFieldListener(this);
                 }
             }
         }
-        if (isVisible())
-        {
-            if (focusListener == null)
-            {
+        if (isVisible()) {
+            if (focusListener == null) {
                 NyxListener listener = getPart().getFieldEventHandler(this);
-                if (listener == null)
-                {
+                if (listener == null) {
                     focusListener = (PrePostFieldListener)listener;
-                }
-                else
-                {
+                } else {
                     focusListener = new PrePostFieldListener(this);
                 }
                 textComponent.addFocusListener(focusListener);
@@ -217,20 +206,14 @@ extends SwingWidget
         textComponent.setVisible(isVisible());
         textComponent.setPreferredSize(this.size);
         String backgroundColor = null;
-        if (isRequired()  && isEnabled())
-        {
+        if (isRequired()  && isEnabled()) {
             backgroundColor = getProperty("required-background-color");
-        }
-        else if (!isEnabled())
-        {
+        } else if (!isEnabled()) {
             backgroundColor = getProperty("disabled-background-color");
-        }
-        else
-        {
+        } else  {
             backgroundColor = getProperty("default-background-color");
         }
-        if (backgroundColor != null)
-        {
+        if (backgroundColor != null) {
             textComponent.setBackground(new Color(Integer.parseInt(backgroundColor,16)));
         }
         if (getProperty("enabled.depends")!= null) {

@@ -1,5 +1,5 @@
 /*
- $Id: NyxJCheckBox.java,v 1.2 2003-10-23 01:43:09 mvdb Exp $
+ $Id: NyxJRadioButton.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,7 +43,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing;
+package org.xulux.nyx.swing.extensions;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -51,64 +51,59 @@ import java.awt.Graphics;
 
 import javax.swing.Action;
 import javax.swing.Icon;
-import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
 
 /**
- * Overriding JCheckBox so the background is painted correctly
- * based on the color set in the widget.
- * If the size is bigger than the image that is being shown as the
- * checkbox, it otherwise would paint the whole area in the background
- * color.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxJCheckBox.java,v 1.2 2003-10-23 01:43:09 mvdb Exp $
+ * @version $Id: NyxJRadioButton.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
  */
-public class NyxJCheckBox extends JCheckBox {
+public class NyxJRadioButton extends JRadioButton {
 
     private Color realBg;
     private boolean returnRealBackground;
-    
+
     /**
      * 
      */
-    public NyxJCheckBox() {
+    public NyxJRadioButton() {
         super();
     }
 
     /**
      * @param icon
      */
-    public NyxJCheckBox(Icon icon) {
+    public NyxJRadioButton(Icon icon) {
         super(icon);
+    }
+
+    /**
+     * @param a
+     */
+    public NyxJRadioButton(Action a) {
+        super(a);
     }
 
     /**
      * @param icon
      * @param selected
      */
-    public NyxJCheckBox(Icon icon, boolean selected) {
+    public NyxJRadioButton(Icon icon, boolean selected) {
         super(icon, selected);
     }
 
     /**
      * @param text
      */
-    public NyxJCheckBox(String text) {
+    public NyxJRadioButton(String text) {
         super(text);
-    }
-
-    /**
-     * @param a
-     */
-    public NyxJCheckBox(Action a) {
-        super(a);
     }
 
     /**
      * @param text
      * @param selected
      */
-    public NyxJCheckBox(String text, boolean selected) {
+    public NyxJRadioButton(String text, boolean selected) {
         super(text, selected);
     }
 
@@ -116,7 +111,7 @@ public class NyxJCheckBox extends JCheckBox {
      * @param text
      * @param icon
      */
-    public NyxJCheckBox(String text, Icon icon) {
+    public NyxJRadioButton(String text, Icon icon) {
         super(text, icon);
     }
 
@@ -125,7 +120,7 @@ public class NyxJCheckBox extends JCheckBox {
      * @param icon
      * @param selected
      */
-    public NyxJCheckBox(String text, Icon icon, boolean selected) {
+    public NyxJRadioButton(String text, Icon icon, boolean selected) {
         super(text, icon, selected);
     }
     
@@ -188,16 +183,18 @@ public class NyxJCheckBox extends JCheckBox {
         }
 
         /**
-         * Fill a rectangle of the size of the icon with the real
-         * background color.
+         * Set the color of the component just for radiobutton..
          * @see javax.swing.Icon#paintIcon(java.awt.Component, java.awt.Graphics, int, int)
          */
         public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (NyxJCheckBox.this.getRealBackground() != null) {
-                g.setColor(getRealBackground());
+            Color tmpColor = c.getBackground();
+            if (NyxJRadioButton.this.getRealBackground() != null) {
+                c.setBackground(getRealBackground());
             }
-            g.fillRect(x,y,getIconWidth(), getIconHeight());
             icon.paintIcon(c, g, x, y);
+            c.setBackground(tmpColor);
         }
     }
+    
+
 }

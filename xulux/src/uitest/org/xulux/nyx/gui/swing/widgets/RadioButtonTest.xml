@@ -1,32 +1,124 @@
 <?xml version="1.0"?>
-<!-- $Id: RadioButtonTest.xml,v 1.1 2003-09-25 17:09:40 mvdb Exp $ -->
+<!-- $Id: RadioButtonTest.xml,v 1.2 2003-10-23 01:43:09 mvdb Exp $ -->
 <part name="RadioButtonForm" prefix="RadioButtonBean">
   <field type="window" name="Window">
-    <title>RadioButtonBean</title>
+    <title>RadioButtonTest</title>
     <icon>resources/Car.ico</icon>
     <size>300,300</size>
     <autosize>true</autosize>
-    <field type="radiobutton" name="radio:foo">
-      <size>100,21</size>
-      <position>10,10</position>
-      <text>Foo</text>
+    <field type="panel" name="fooBarPanel">
+      <border>titled</border>
+      <border-title>Individual Checkbox</border-title>
+      <size>260,65</size>
+      <field type="radiobutton" name="radio:foo">
+        <size>50,21</size>
+        <position>10,0</position>
+        <text>Foo</text>
+        <selected>false</selected>
+      </field>
+      <field type="label" name="label:foo:value">
+        <rules>
+          <rule>org.xulux.nyx.gui.rules.RadioButtonTestRule</rule>
+        </rules>
+        <size>140,21</size>
+        <position>60,0</position>
+      </field>
+      <field type="radiobutton" name="radio:bar">
+         <size>50,21</size>
+         <position>10,20</position>
+         <text>Bar</text>
+         <selected>true</selected>
+      </field>
+      <field type="label" name="label:bar:value">
+        <rules>
+          <rule>org.xulux.nyx.gui.rules.RadioButtonTestRule</rule>
+        </rules>
+        <size>140,21</size>
+        <position>60,20</position>
+      </field>
     </field>
-    <field type="radiobutton" name="radio:bar">
-       <size>100,21</size>
-       <position>10, 40</position>
-       <text>Bar</text>
+    <field type="panel" name="fooBarUsePanel">
+      <border>titled</border>
+      <border-title>Individual Checkbox With Use</border-title>
+      <size>260,65</size>
+      <position>0,65</position>
+      <field type="radiobutton" name="radio:foo" use="foo">
+        <size>100,21</size>
+        <position>10,0</position>
+        <text>Foo</text>
+      </field>
+      <field type="radiobutton" name="radio:bar" use="bar">
+         <size>100,21</size>
+         <position>10,20</position>
+         <text>Bar</text>
+      </field>
     </field>
-    <field type="buttongroup" name="buttongroup">
-    <field type="radiobutton" name="group1">
-      <size>100,21</size>
-      <position>10,70</position>
-      <text>Group1</text>
+    <field type="panel" name="bgPanel">
+      <border>titled</border>
+      <border-title>Group without use</border-title>
+      <size>260,50</size>
+      <position>0,130</position>
+      <field type="buttongroup" name="buttongroup">
+        <field type="radiobutton" name="group1">
+          <size>100,21</size>
+          <position>10,5</position>
+          <text>Group1</text>
+        </field>
+        <field type="radiobutton" name="group2">
+          <size>100,21</size>
+          <position>120, 5</position>
+          <text>Group2</text>
+        </field>
+      </field>
     </field>
-    <field type="radiobutton" name="group2">
-       <size>100,21</size>
-       <position>120, 70</position>
-       <text>Group2</text>
+    <field type="panel" name="bgGroupUsePanel">
+      <border>titled</border>
+      <border-title>Group with group use</border-title>
+      <size>260,100</size>
+      <position>0,180</position>
+      <field type="buttongroup" name="buttongroup" use="group">
+        <field type="label" name="group:value">
+          <size>200,21</size>
+          <position>10,0</position>
+          <text>Group Value : </text>
+        </field>
+        <field type="radiobutton" name="group1">
+          <size>120,21</size>
+          <position>10,26</position>
+          <text>true</text>
+        </field>
+        <field type="radiobutton" name="group2">
+          <size>110,21</size>
+          <position>130,26</position>
+          <text>false</text>
+        </field>
+      </field>
     </field>
+    <field type="panel" name="bgUsePanel">
+      <border>titled</border>
+      <border-title>Group with radio use</border-title>
+      <size>260,100</size>
+      <position>0,280</position>
+      <field type="buttongroup" name="UseButtonGroup">
+        <field type="label" name="label:group:value">
+          <size>200,21</size>
+          <position>10,0</position>
+          <rules>
+            <rule>org.xulux.nyx.gui.rules.RadioButtonTestRule</rule>
+          </rules>
+        </field>
+        <field type="radiobutton" name="male" use="male">
+          <size>120,21</size>
+          <position>10,26</position>
+          <text>Male</text>
+        </field>
+        <field type="radiobutton" name="female" use="female">
+          <size>100,21</size>
+          <position>130,26</position>
+          <text>Female</text>
+          <default-background-color>FFFFFF</default-background-color>
+        </field>
+      </field>
     </field>
   </field>
 </part>

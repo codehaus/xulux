@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.20 2003-10-03 16:11:49 mvdb Exp $
+ $Id: Label.java,v 1.21 2003-10-23 01:43:08 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.20 2003-10-03 16:11:49 mvdb Exp $
+ * @version $Id: Label.java,v 1.21 2003-10-23 01:43:08 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -125,12 +125,9 @@ public class Label extends SwingWidget
     {
         initialize();
         initializeValue();
-        if (getProperty("text")!=null)
-        {
+        if (getProperty("text")!=null) {
             label.setText(getProperty("text"));
-        }
-        else
-        {
+        } else {
             label.setText("");
         }
         String ha = getProperty("horizontalalignment");

@@ -1,7 +1,7 @@
 /*
- $Id: CheckBox.java,v 1.13 2003-09-17 11:57:46 mvdb Exp $
+ $Id: CheckBox.java,v 1.14 2003-10-23 01:43:08 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -45,7 +45,6 @@
  */
 package org.xulux.nyx.swing.widgets;
 
-import java.awt.Color;
 import java.awt.Container;
 
 import javax.swing.Icon;
@@ -56,6 +55,7 @@ import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.NyxListener;
+import org.xulux.nyx.gui.utils.ColorUtils;
 import org.xulux.nyx.swing.NyxJCheckBox;
 import org.xulux.nyx.swing.SwingWidget;
 import org.xulux.nyx.swing.listeners.PrePostFieldListener;
@@ -64,16 +64,11 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * The nyx to swing implementation of a checkbox
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.13 2003-09-17 11:57:46 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.14 2003-10-23 01:43:08 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
     
-//    static {
-//        UIManager.put("CheckBox.icon", new NyxCheckBoxIcon());
-//    }
-    
     private NyxJCheckBox checkBox;
-    //private NyxJCheckBox parentBox;
     private PrePostFieldListener itemListener;
     /**
      * @param name
@@ -117,13 +112,12 @@ public class CheckBox extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#initialize()
      */
     public void initialize() {
-        if (this.initialized)
-        {
+        if (this.initialized) {
             return;
         }
         this.initialized = true;
         this.checkBox = new NyxJCheckBox();
-        // set the icon to what is default..
+        // set the icon to what is default in Swing..
         this.checkBox.setIcon((Icon)UIManager.get("CheckBox.icon"));
         this.checkBox.setSelectedIcon((Icon)UIManager.get("CheckBox.icon"));
         this.itemListener = new PrePostFieldListener(this);
@@ -150,21 +144,15 @@ public class CheckBox extends SwingWidget {
         }
         checkBox.setEnabled(isEnabled());
         String backgroundColor = null;
-        if (isRequired() && isEnabled())
-        {
+        if (isRequired() && isEnabled()) {
             backgroundColor = getProperty("required-background-color");
-        }
-        else if (!isEnabled())
-        {
+        } else if (!isEnabled()) {
             backgroundColor = getProperty("disabled-background-color");
-        }
-        else
-        {
+        } else {
             backgroundColor = getProperty("default-background-color");
         }
-        if (backgroundColor != null)
-        {
-            checkBox.setRealBackground(new Color(Integer.parseInt(backgroundColor,16)));
+        if (backgroundColor != null) {
+            checkBox.setRealBackground(ColorUtils.getSwingColor(backgroundColor));
         }
         isRefreshing = false;
     }

@@ -1,7 +1,7 @@
 /*
- $Id: RadioButton.java,v 1.3 2003-09-29 01:25:08 mvdb Exp $
+ $Id: RadioButton.java,v 1.4 2003-10-23 01:43:08 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -45,20 +45,30 @@
  */
 package org.xulux.nyx.swing.widgets;
 
-import javax.swing.JRadioButton;
+import java.awt.Container;
+
+import javax.swing.Icon;
+import javax.swing.UIManager;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.xulux.nyx.global.BeanMapping;
+import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.Widget;
+import org.xulux.nyx.gui.utils.ColorUtils;
+import org.xulux.nyx.swing.extensions.NyxJRadioButton;
+import org.xulux.nyx.swing.listeners.PrePostFieldListener;
 
 /**
  * Represents a radiobutton in the gui.
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButton.java,v 1.3 2003-09-29 01:25:08 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.4 2003-10-23 01:43:08 mvdb Exp $
  */
 public class RadioButton extends Widget {
     
-    protected JRadioButton radioButton;
+    protected NyxJRadioButton radioButton;
+    protected PrePostFieldListener itemListener; 
     
     /**
      * @param name
@@ -71,6 +81,23 @@ public class RadioButton extends Widget {
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
     public void destroy() {
+        if (!initialized) {
+            return;
+        }
+        processDestroy();
+        if (radioButton != null) {
+            if (itemListener != null) {
+                radioButton.removeItemListener(itemListener);
+            }
+            radioButton.removeAll();
+            Container container = radioButton.getParent();
+            if (container != null) {
+                container.remove(radioButton);
+            }
+            radioButton = null;
+        }
+        removeAllRules();
+        getPart().removeWidget(this,this);
 
     }
 
@@ -89,9 +116,15 @@ public class RadioButton extends Widget {
         if (initialized) {
             return;
         }
-        radioButton = new JRadioButton();
+        radioButton = new NyxJRadioButton();
+        // set the icon to what is default in Swing..
+        radioButton.setIcon((Icon)UIManager.get("RadioButton.icon"));
+        radioButton.setSelectedIcon((Icon)UIManager.get("RadioButton.icon"));
+        itemListener = new PrePostFieldListener(this);
+        radioButton.addItemListener(this.itemListener);
         initialized = true;
         refresh();
+        processInit();
         
     }
 
@@ -104,12 +137,28 @@ public class RadioButton extends Widget {
         }
         isRefreshing = true;
         initialize();
-        String text = getProperty("text");
-        if (text != null) {
-            radioButton.setText(text);
+        if (getProperty("text") != null) {
+            radioButton.setText(getProperty("text"));
+        }
+        if (getValue() instanceof Boolean) {
+            radioButton.setSelected(BooleanUtils.toBoolean((Boolean)getValue()));
+        }else if (getValue() instanceof String) {
+            radioButton.setSelected(BooleanUtils.toBoolean((String)getValue()));
+        } else {
+            radioButton.setSelected(BooleanUtils.toBoolean(getProperty("selected")));
         }
         radioButton.setEnabled(isEnabled());
-        radioButton.setSelected(BooleanUtils.toBoolean(getProperty("selected")));
+        String backgroundColor = null;
+        if (isRequired() && isEnabled()) {
+            backgroundColor = getProperty("required-background-color");
+        } else if (!isEnabled()) {
+            backgroundColor = getProperty("disabled-background-color");
+        } else {
+            backgroundColor = getProperty("default-background-color");
+        }
+        if (backgroundColor != null) {
+            radioButton.setRealBackground(ColorUtils.getSwingColor(backgroundColor));
+        }
         isRefreshing = false;
     }
 
@@ -117,7 +166,10 @@ public class RadioButton extends Widget {
      * @see org.xulux.nyx.gui.Widget#getGuiValue()
      */
     public Object getGuiValue() {
-        return null;
+        if (initialized) {
+            return BooleanUtils.toBooleanObject(radioButton.isSelected());
+        }
+        return null;  
     }
 
     /**
@@ -140,5 +192,59 @@ public class RadioButton extends Widget {
     public boolean canContainValue() {
         return true;
     }
+    
+    /**
+     * @see org.xulux.nyx.gui.Widget#getValue()
+     */
+    public Object getValue() {
+        if (getPart().getBean() == null || getField() == null) {
+            Object retValue =  getGuiValue();
+            if (retValue == null) {
+                retValue = super.getValue();
+            }
+            return retValue;
+        }
+        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean().getClass());
+        if (map != null) {
+            IField field = map.getField(getField());
+            if (field != null) {
+                return field.getValue(getPart().getBean());
+            }
+        }
+        return super.getValue();
+    }
+    
+    /**
+     * @see org.xulux.nyx.gui.Widget#setValue(java.lang.Object)
+     */
+    public void setValue(Object value) {
+        if (this.value == null) {
+            this.value = "false";
+        }
+        this.previousValue = this.value;
+        BeanMapping map = Dictionary.getInstance().getMapping(getPart().getBean());
+        if (map != null) {
+            if (getField() != null) { 
+                IField f = map.getField(getField());
+                Class cClass = f.getReturnType();
+                if (cClass == Boolean.class || cClass == Boolean.TYPE) {
+                    if (value.getClass() == String.class) {
+                        value = BooleanUtils.toBooleanObject((String)value);
+                    }
+                } else if (cClass == String.class) {
+                    if (value.getClass() == Boolean.class) {
+                        value = BooleanUtils.toStringTrueFalse((Boolean)value);
+                    }
+                }
+                f.setValue(getPart().getBean(),value);
+            }
+        }
+        this.value = value;
+        if (initialized) {
+            refresh();
+        }
+    }
+    
+    
 
 }

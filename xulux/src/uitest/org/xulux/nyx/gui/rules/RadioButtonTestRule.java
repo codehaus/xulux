@@ -1,5 +1,5 @@
 /*
- $Id: LabelRule.java,v 1.3 2003-10-23 01:43:09 mvdb Exp $
+ $Id: RadioButtonTestRule.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,61 +50,54 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.Rule;
 
 /**
+ * This rule is used to show the real values of the widget
+ * in a label
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LabelRule.java,v 1.3 2003-10-23 01:43:09 mvdb Exp $
+ * @version $Id: RadioButtonTestRule.java,v 1.1 2003-10-23 01:43:09 mvdb Exp $
  */
-public class LabelRule extends Rule {
+public class RadioButtonTestRule extends Rule {
 
     /**
      * 
      */
-    public LabelRule() {
+    public RadioButtonTestRule() {
         super();
     }
 
     /**
+     * First the rule gets called with the the caller being itself.
+     * TODO: Figure out why the caller is first group1 and then group2, instead
+     * of just group2 or group1..
+     * 
      * @see org.xulux.nyx.rules.IRule#pre(org.xulux.nyx.context.PartRequest)
      */
     public void pre(PartRequest request) {
-
+        //System.out.println("caller : "+request.getWidget().getName());
+        if (request.getWidget().getName().equals("radio:foo") ||
+            request.getWidget().getName().equals("label:foo:value")) {
+            Widget w = request.getWidget("radio:foo");
+            request.getWidget("label:foo:value").setProperty("text", "getValue() : "+w.getValue());
+        } else if (request.getWidget().getName().equals("radio:bar") ||
+            request.getWidget().getName().equals("label:bar:value")) {
+            Widget w = request.getWidget("radio:bar");
+            request.getWidget("label:bar:value").setProperty("text", "getValue() : "+w.getValue());
+        } else if (request.getWidget().getName().equals("male") ||
+            request.getWidget().getName().equals("female") ||
+            request.getWidget().getName().equals("label:group:value")) {
+            System.out.println("Setting value...");
+            Widget w = request.getWidget("buttongroup");
+            Widget male = request.getWidget("male");
+            Widget female = request.getWidget("female");
+            String text = "Male : "+male.getValue()+"      Female : "+female.getValue();
+            request.getWidget("label:group:value").setProperty("text", text);
+        }
     }
 
     /**
      * @see org.xulux.nyx.rules.IRule#post(org.xulux.nyx.context.PartRequest)
      */
     public void post(PartRequest request) {
-        if (request.getWidget().equals("button")) {
-            processButton(request);
-        } else if (request.getWidget().equals("switch")) {
-            processSwitch(request);
-        }
-    }
-    
-    /**
-     * There are 2 ways to set the text of a label :
-     * via setProperty() and via setValue()
-     * @param request
-     */
-    public void processButton(PartRequest request) {
-        Object value = request.getPart().getWidget("Name").getValue();
-        System.out.println("value : "+value);
-        //request.getPart().getWidget("Label:Variable").setProperty("text",String.valueOf(value));
-        Widget var = request.getPart().getWidget("Label:Variable");
-        var.setValue(value);
-        System.out.println("Previous : "+var.getPreviousValue());
-        System.out.println("Value :"+var.getValue());
-    }
-    
-    public void processSwitch(PartRequest request) {
-        Widget button = request.getWidget();
-        Widget fixedLabel = request.getPart().getWidget("Label:Fixed");
-        fixedLabel.setEnable(!fixedLabel.isEnabled());
-        if (fixedLabel.isEnabled()) {
-            button.setProperty("text","Disable");
-        } else {
-            button.setProperty("text","Enable");
-        }
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.29 2003-09-01 12:04:20 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.30 2003-10-23 01:43:09 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,6 +59,7 @@ import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.swing.util.NyxEventQueue;
 import org.xulux.nyx.swing.widgets.Button;
 import org.xulux.nyx.swing.widgets.CheckBox;
+import org.xulux.nyx.swing.widgets.RadioButton;
 
 /**
  * TODO: Find a better way to handle the concel button.
@@ -67,7 +68,7 @@ import org.xulux.nyx.swing.widgets.CheckBox;
  * Also if a user closes the window, widget.destroy should be called
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.29 2003-09-01 12:04:20 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.30 2003-10-23 01:43:09 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -174,7 +175,7 @@ implements FocusListener, ActionListener, ItemListener
         }
         boolean refresh = false;
         // reset the hold events to process previous events..
-        if (widget instanceof CheckBox) {
+        if (widget instanceof CheckBox || widget instanceof RadioButton) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 widget.setValue("true");
                 refresh = true;
@@ -184,7 +185,7 @@ implements FocusListener, ActionListener, ItemListener
                 refresh = true;
             }
             if (log.isTraceEnabled()) {
-                log.trace("Checkbox clicked on Widget : "+
+                log.trace("Checkbox or RadioButton clicked on Widget : "+
                    widget.getName()+" value: "+
                        widget.getValue());
             }
@@ -194,7 +195,6 @@ implements FocusListener, ActionListener, ItemListener
             widget.getPart().refreshFields(widget);
             widget.getPart().updateDependandWidgets(widget);
         }
-            
         completed();
     }
 }
