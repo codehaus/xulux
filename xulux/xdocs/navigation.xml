@@ -10,9 +10,11 @@
       <item name="The Werken Company" href="http://www.werken.com/"/>
     </links>
     <menu name="NYX">
-      <item name="Overview"                href="/index.html"/>
-      <item name="Features"                href="/features.html"/>
-      <item name="Notes"                   href="/notes.html"/>
+      <item name="Overview" href="/index.html"/>
+      <item name="Features" href="/features.html"/>
+      <item name="Notes" href="/notes.html"/>
+      <item name="Examples" href="examples.html"/>
+      <item name="Powered by" href="powered.html"/>
     </menu>
   </body>
 </project>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - Examples</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Examples">
+  <p>
+    The hard part of systems like this is to decide if this system is useable to you.
+    To make the decision easier, I provide some examples of current scenarios that
+    are supported. 
+  </p>
+  <p>
+    If you can think of any usefull examples that can be added, please let us know!
+  </p>
+  <subsection name="Maven">
+  <p>
+    NYX needs maven to be build. Since I assume you already have maven,
+    this is an example which should run without any trouble.
+    Maven uses a project.xml file, that is being
+    processed by <a href="http://jakarta.apache.org/commons/betwixt">Betwixt</a>
+    into useable objects. 
+    From this NYX will automatically create a dictionary and a gui, which lets you edit
+    the project.xml (currently limited, since no support for tables is present yet)
+    and save the xml again. The saving is not done by nyx (it doesn't want to now about that)
+    , but by a rule which materializes the bean back into the xml via 
+    <a href="http://jakarta.apache.org/commons/betwixt">Betwixt</a>
+  </p>
+  <p>
+    You can start the example by typing <b>maven examples:maven</b>
+  </p>
+  </subsection>
+</section>
+
+</body>
+
+</document>
