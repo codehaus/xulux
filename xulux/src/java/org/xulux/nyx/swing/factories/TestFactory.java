@@ -1,5 +1,5 @@
 /*
- $Id: TestFactory.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
+ $Id: TestFactory.java,v 1.7 2002-11-12 11:10:20 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,6 @@ import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.Entry;
-import org.xulux.nyx.gui.ValueWidget;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.gui.WidgetFactory;
 import org.xulux.nyx.rules.DefaultPartRule;
@@ -74,7 +73,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * a later stage.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestFactory.java,v 1.6 2002-11-07 00:03:23 mvdb Exp $
+ * @version $Id: TestFactory.java,v 1.7 2002-11-12 11:10:20 mvdb Exp $
  */
 public class TestFactory
 {
@@ -118,10 +117,7 @@ public class TestFactory
             entry.setEnable(true);
             entry.setVisible(true);
             entry.initialize();
-            if (entry instanceof ValueWidget)
-            {
-                ((ValueWidget)entry).setValue(field.getValue(bean));
-            }
+            entry.setValue(field.getValue(bean));
             part.addWidget(entry, field.getName());
         }
         return part;

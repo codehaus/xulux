@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.17 2002-11-12 00:55:42 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.18 2002-11-12 11:10:20 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,6 @@ import org.xulux.nyx.global.BeanField;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
-import org.xulux.nyx.gui.ValueWidget;
 import org.xulux.nyx.gui.Widget;
 import org.xulux.nyx.rules.DefaultPartRule;
 import org.xulux.nyx.rules.IRule;
@@ -84,7 +83,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.17 2002-11-12 00:55:42 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.18 2002-11-12 11:10:20 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -185,24 +184,17 @@ public class ApplicationPart
     public void setGuiValue(String field, Object value)
     {
         Widget widget = (Widget) widgets.get(field);
-        if (widget instanceof ValueWidget)
-        {
-            ((ValueWidget)widget).setValue(value);
-        }
+        widget.setValue(value);
     }
     
     /** 
      * Returns the current value of the specified field
      * @param field
      */
-    public Object getGuiValue(String field)
+    public Object getGuiValue(String name)
     {
-        Widget widget = (Widget)widgets.get(field);
-        if (widget instanceof ValueWidget)
-        {
-          return ((ValueWidget)widget).getValue();
-        }
-        return null;
+        Widget widget = (Widget)widgets.get(name);
+        return ((Widget)widget).getValue();
     }
     
     /**
@@ -223,7 +215,6 @@ public class ApplicationPart
      */
     public Widget getWidget(String name)
     {
-        System.out.println("Widgets  :"+widgets);
         return (Widget)widgets.get(name);
     }
     
@@ -445,7 +436,7 @@ public class ApplicationPart
     public class WidgetList extends ArrayList
     {
         
-            /**
+        /**
          * @see java.util.List#indexOf(Object)
          */
         public int indexOf(Object elem)
@@ -457,7 +448,14 @@ public class ApplicationPart
             for (int i = 0; i < size(); i++)
             {
                 Object data = get(i);
-                if (data != null && data.equals(elem))
+                if (data instanceof Widget && elem instanceof String)
+                {
+                    if (data != null && ((Widget)data).getName().equalsIgnoreCase((String)elem))
+                    {
+                        return i;
+                    }
+                }
+                else if (data != null && data.equals(elem))
                 {
                     return i;
                 }
@@ -466,9 +464,9 @@ public class ApplicationPart
             
         }
         
-        public Widget get(String field)
+        public Widget get(String name)
         {
-            int index = indexOf(field);
+            int index = indexOf(name);
             if (index != -1)
             {
                 return (Widget) get(index);
@@ -541,10 +539,7 @@ public class ApplicationPart
     public void reset(String field)
     {
         Widget widget = widgets.get(field);
-        if (widget instanceof ValueWidget)
-        {
-            ((ValueWidget)widget).setValue(null);
-        }
+        widget.setValue(null);
     }
     
     public void setLayoutManager(LayoutManager2 layout)
