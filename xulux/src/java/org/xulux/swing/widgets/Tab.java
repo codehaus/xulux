@@ -1,5 +1,5 @@
 /*
-   $Id: Tab.java,v 1.1 2004-10-14 12:28:00 mvdb Exp $
+   $Id: Tab.java,v 1.2 2004-10-20 13:11:22 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -34,12 +34,13 @@ import org.xulux.gui.IShowChildWidgets;
 import org.xulux.gui.IXuluxLayout;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
+import org.xulux.gui.utils.ColorUtils;
 
 /**
  * A panel widget
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Tab.java,v 1.1 2004-10-14 12:28:00 mvdb Exp $
+ * @version $Id: Tab.java,v 1.2 2004-10-20 13:11:22 mvdb Exp $
  */
 public class Tab extends ContainerWidget {
 
@@ -109,6 +110,11 @@ public class Tab extends ContainerWidget {
     public void refresh() {
         initialize();
         isRefreshing = true;
+        String backgroundColor = getProperty("default-background-color");
+
+        if (backgroundColor != null) {
+            panel.setBackground(ColorUtils.getSwingColor(backgroundColor));
+        }
         String tabId = getProperty(TabPanel.TABID);
         if (tabId == null) {
             panel.setEnabled(isEnabled());
