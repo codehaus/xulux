@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.18 2003-09-01 12:04:20 mvdb Exp $
+ $Id: Label.java,v 1.19 2003-09-30 16:09:35 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.18 2003-09-01 12:04:20 mvdb Exp $
+ * @version $Id: Label.java,v 1.19 2003-09-30 16:09:35 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -148,6 +148,8 @@ public class Label extends SwingWidget
             {
                 label.setHorizontalAlignment(JLabel.RIGHT);
             }
+        } else {
+            label.setHorizontalAlignment(JLabel.RIGHT);
         }
         String color = null;
         if (isEnabled()) {

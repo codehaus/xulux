@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.27 2003-09-25 13:24:47 mvdb Exp $
+ $Id: Entry.java,v 1.28 2003-09-30 16:09:35 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.27 2003-09-25 13:24:47 mvdb Exp $
+ * @version $Id: Entry.java,v 1.28 2003-09-30 16:09:35 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -278,6 +278,7 @@ extends SwingWidget
         if (field == null) {
             if (log.isWarnEnabled()) {
                 log.warn("Field "+getField()+" is not present in the dictionary");
+                log.warn("Widget : "+getName());
             }
             textComponent.setText("");
             return;
