@@ -1,5 +1,5 @@
 /*
- $Id: ParameteredBean.java,v 1.3 2003-07-21 21:04:18 mvdb Exp $
+ $Id: ParameteredBean.java,v 1.4 2003-07-24 01:20:03 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,7 @@ import java.util.Iterator;
  * constructed data structures.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ParameteredBean.java,v 1.3 2003-07-21 21:04:18 mvdb Exp $
+ * @version $Id: ParameteredBean.java,v 1.4 2003-07-24 01:20:03 mvdb Exp $
  */
 public class ParameteredBean extends DictionaryBaseBean {
 
@@ -91,6 +91,21 @@ public class ParameteredBean extends DictionaryBaseBean {
             }
         }
         return null;
+    }
+    
+    public void setParameter(Parameter parameter) {
+        System.out.println("list before : "+list);
+        System.out.println("parameter : "+parameter);
+        if (parameter.getType().equals(new ParameterType(ParameterType.FIRST))) {
+            list.set(0,parameter);
+        } else if (parameter.getType().equals(new ParameterType(ParameterType.SECOND))) {
+            list.set(1,parameter);
+        } else if (parameter.getType().equals(new ParameterType(ParameterType.THIRD))) {
+            list.set(2,parameter);
+        } else {
+            list.add(parameter);
+        }
+        System.out.println("list after : "+list);
     }
     
     /**
@@ -140,6 +155,17 @@ public class ParameteredBean extends DictionaryBaseBean {
         }else if (NO3.equals(No)) {
             NO3Value = value;
         } 
+    }
+    
+    /**
+     * Stub for setting a parameter. This way we can test
+     * if the setMethod element in the dictionary is actually
+     * working.
+     * 
+     * @param parameter
+     */
+    public void setSomethingDifferent(Parameter parameter) {
+        setParameter(parameter);
     }
 
 }

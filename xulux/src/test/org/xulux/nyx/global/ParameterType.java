@@ -1,5 +1,5 @@
 /*
- $Id: ParameterType.java,v 1.1 2003-07-14 03:37:36 mvdb Exp $
+ $Id: ParameterType.java,v 1.2 2003-07-24 01:20:03 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,13 +49,14 @@ package org.xulux.nyx.global;
  * A weird example. Pretty much strongly typed so to speak..
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ParameterType.java,v 1.1 2003-07-14 03:37:36 mvdb Exp $
+ * @version $Id: ParameterType.java,v 1.2 2003-07-24 01:20:03 mvdb Exp $
  */
 public class ParameterType {
     
     public static String FIRST = "first";
     public static String SECOND = "second";
     public static String THIRD = "third";
+    public static String FOURTH = "fourth";
     
     public String type;
     
@@ -67,7 +68,7 @@ public class ParameterType {
             type.equals(SECOND) ||
             type.equals(THIRD)) 
         {
-                setType(type);
+            setType(type);
         } else {
             throw new RuntimeException("Invalid type "+type);
         }
@@ -91,8 +92,8 @@ public class ParameterType {
     
     public boolean equals(Object object) {
         if (object != null) {
-            if (object instanceof BeanParameter) {
-                BeanParameter p = (BeanParameter) object;
+            if (object instanceof ParameterType) {
+                ParameterType p = (ParameterType) object;
                 return p.getType().equals(getType());
             }else if (object instanceof String) {
                 return ((String)object).equals(getType());

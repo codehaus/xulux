@@ -1,5 +1,5 @@
 /*
- $Id: Parameter.java,v 1.1 2003-07-14 03:37:36 mvdb Exp $
+ $Id: Parameter.java,v 1.2 2003-07-24 01:20:03 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,7 +48,7 @@ package org.xulux.nyx.global;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Parameter.java,v 1.1 2003-07-14 03:37:36 mvdb Exp $
+ * @version $Id: Parameter.java,v 1.2 2003-07-24 01:20:03 mvdb Exp $
  */
 public class Parameter {
 
@@ -94,5 +94,15 @@ public class Parameter {
     public String toString() {
         return getValue()+" of type "+getType();
     }
+    
+    public boolean equals(Object object) {
+        if (object instanceof Parameter) {
+            if (toString().equals(((Parameter)object).toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 
 }

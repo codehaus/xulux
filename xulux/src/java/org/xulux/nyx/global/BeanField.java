@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.18 2003-07-21 21:17:10 mvdb Exp $
+ $Id: BeanField.java,v 1.19 2003-07-24 01:20:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,6 +54,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * This class contains all the symantics for working
@@ -67,7 +68,7 @@ import org.apache.commons.logging.LogFactory;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.18 2003-07-21 21:17:10 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.19 2003-07-24 01:20:03 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -175,43 +176,47 @@ public class BeanField implements IField
         }
         try
         {
-            //System.err.println("changeMethod : "+changeMethod);
-            //System.err.println("Value : "+value.getClass());
-            if (this.realField != null) {
-                // set the real value..
-                Class retType = getMethod().getReturnType();
+            // TODO: Test!!!
+            if (getRealField() != null) {
+                Class retType = getReturnType();
                 BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
-                Object realBean = getMethod().invoke(bean, getArgs());
-                IField field = mapping.getField(realField);
-                field.setValue(realBean, value);
+//                System.err.println("Mapping : "+mapping.getFields());
+                Object childObject = getMethod().invoke(bean, getArgs());
+                if (childObject == null) {
+                    // try to create the object!
+                    childObject = ClassLoaderUtils.getObjectFromClass(retType);
+//                    System.err.println("args :"+Arrays.asList(getSetMethodArgs(childObject)));
+                    //System.err.println("getChangeObject")
+                    getChangeMethod().invoke(bean, getSetMethodArgs(childObject));
+                    
+                    // TODO : Preform some magic to set the object to the bean!! 
+                    if (childObject == null) {
+                        if (log.isWarnEnabled()) {
+                            log.warn("Cannot set value on "+toString()+" Please set the value in a rule or provide an empty constructor");
+                        }
+                        return false;
+                    }
+                }
+//                System.err.println("childObject : "+childObject);
+//                System.err.print("RealField : "+getRealField());
+//                System.err.print("==field : "+getName());
+//                System.err.println("==Alias : "+getAlias());
+//                System.err.println("changeMethod : "+getChangeMethod());
+                BeanMapping childMapping = Dictionary.getInstance().getMapping(childObject);
+                IField field = childMapping.getField(getRealField());
+//                System.err.println("Field : "+field);
+                success = field.setValue(childObject,value);
+                success = true;
+                return success;
             }
-//            } else {
-//                System.err.println("changeMethod : "+changeMethod);
-//                System.err.println("Value : "+value.getClass());
-//                Class valClass = value.getClass();
-//                List parmList = Arrays.asList(changeMethod.getParameterTypes());
-//                System.err.println("parmList : "+parmList);
-//                // TODO: Support multiple parameters when setting..
-//                if (parmList.size() > 0 ) {
-//                    Class cl = (Class) parmList.get(0);
-//                    // TODO: Error prone probably...
-//                    // What this does is if the object set as value
-//                    // is not a String and the parameter that needs
-//                    // to be used is a string, it will try to  
-//                    // invoke the toString method on the value.
-//                    if (cl == String.class) {
-//                        // try a toString..
-//                        if (value != null) {
-//                            value = value.toString();
-//                        }
-//                    }
-//                }
+            //System.err.println("changeMethod : "+changeMethod);
+//            System.err.println("Value : "+value.getClass());
             try {
-                //System.err.println("getSetMethodArgs :"+Arrays.asList( getSetMethodArgs(value)));
+//                System.err.println("getSetMethodArgs :"+Arrays.asList( getSetMethodArgs(value)));
                 this.changeMethod.invoke(bean, getSetMethodArgs(value));
             }catch(IllegalArgumentException iae) {
                 if (log.isWarnEnabled()) {
-                    log.warn("Invalid argument "+value.getClass().getName()+" for method "+this.changeMethod);
+                    log.warn("Invalid argument "+value.getClass().getName()+" for method "+this.changeMethod,iae);
                 }
                 success = false;
             }
@@ -227,6 +232,11 @@ public class BeanField implements IField
         {
             if (log.isTraceEnabled()) {
                 log.trace("Exception occured ",e);
+            }
+        }
+        catch (Exception e) {
+            if (log.isWarnEnabled()) {
+                log.warn("Unexcpected exception ",e);
             }
         }
         return success;
@@ -248,7 +258,7 @@ public class BeanField implements IField
             if (this.realField != null) {
                 // gets the real value to get
                 // since this field is just the parent..
-                Class retType = getMethod().getReturnType();
+                Class retType = getReturnType();
                 BeanMapping mapping = Dictionary.getInstance().getMapping(retType);
                 IField field = mapping.getField(realField);
                 return field.getValue(getMethod().invoke(bean, getArgs()));
@@ -320,7 +330,7 @@ public class BeanField implements IField
         int parmSize = (parameterList!=null)?parameterList.size():0;
         int clzSize = clz.length;
         // actually always the case I guess??
-        if (parmSize < clzSize) {
+        if (parmSize <= clzSize && clzSize != 0) {
             // TODO: Parameter conversion checking..
             // normal get / set method system
             // TODO : Add test for this scenario!
@@ -339,9 +349,14 @@ public class BeanField implements IField
             
             if (parmSize == 1 && clzSize == 2) {
                 Object[] retValue = new Object[clzSize];
+                int currentParm = 1;
                 retValue[0] = ((BeanParameter)parameterList.get(0)).getObject();
-                if (clz[1] == String.class) {
-                    retValue[1] = value.toString();
+                if (clz[0] != retValue[0].getClass()) {
+                    retValue[1] = retValue[0];
+                    currentParm = 0;
+                }  
+                if (clz[currentParm] == String.class) {
+                    retValue[currentParm] = value.toString();
                 } else {
                     /* We should try to make the type the same 
                      * so if the value is a string and the type
@@ -349,20 +364,37 @@ public class BeanField implements IField
                      * place
                      * TODO: Fix this :)
                      */
-                     if (clz[1] == value.getClass()) {
-                        retValue[1] = value;
+                     if (clz[currentParm] == value.getClass()) {
+                        retValue[currentParm] = value;
                      } else {
                          log.warn("Cannot set value of type "+value.getClass().getName()+" for the parameter "+clz[1]);
                          // we are hardheaded and set it anyway, so we can 
                          // get some kind of exception.
                          // TODO: FIX!!
-                         retValue[1] = value;
+                         retValue[currentParm] = value;
                      }
                 }
                 return retValue;
             }
+            if (clzSize == 1) {
+                // we keep it simple for now!
+                // TODO: Make it work with more parms!
+                
+                // Note : the "parameter" from the getter
+                // gets ignored here..
+                if (clzSize == 1) {
+                    Class clzType = clz[0];
+                    if (value == null || clzType == value.getClass()) {
+                        parms.add(value);
+                    } else {
+                        if (log.isWarnEnabled()) {
+                            log.warn("These kind of parameters are not yet supported");
+                        }
+                    }
+                }  
+            }
         }
-        return null;
+        return parms.toArray();
     }
     
 
@@ -408,7 +440,7 @@ public class BeanField implements IField
      */
     public String toString()
     {
-        return getMethod().getName()+"["+getAlias()+","+getName()+"]";
+        return getMethod().getName()+"["+getAlias()+","+getName()+",realField="+getRealField()+"]";
     }
     
     /**
@@ -468,6 +500,28 @@ public class BeanField implements IField
     public void setChangeMethod(Method method)
     {
         this.changeMethod = method;
+    }
+    
+    /**
+     * Convenience method to set the changemethod.
+     * It will figure out which changemethod it will
+     * be..
+     * @param name
+     */
+    public void setChangeMethod(Class clazz, String name) {
+        Method[] methods = clazz.getMethods();
+        //System.out.println("methods : "+Arrays.asList(methods));
+        for (int i=0; i < methods.length; i++) {
+            Method m = methods[i];
+            if (m.getName().equalsIgnoreCase(name)) {
+                //System.out.println("Found changeMethod :"+m);
+                setChangeMethod(m);
+                break;
+            }
+        }
+        if (!name.startsWith("set")) {
+            setChangeMethod(clazz, "set"+name);
+        }
     }
 
     /**
@@ -534,10 +588,22 @@ public class BeanField implements IField
     
     /**
      * 
+     * @return the real underlying field.
+     */
+    public String getRealField() {
+        return this.realField;
+    }
+    
+    /**
+     * 
      * @return the returntype of the getmethod.
      */
     public Class getReturnType() {
         return this.method.getReturnType();
+    }
+    
+    protected Method getChangeMethod() {
+        return this.changeMethod;
     }
 
 }

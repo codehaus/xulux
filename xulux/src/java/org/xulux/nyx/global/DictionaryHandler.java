@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryHandler.java,v 1.7 2003-07-15 00:55:14 mvdb Exp $
+ $Id: DictionaryHandler.java,v 1.8 2003-07-24 01:20:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * The default dictionary.xml reader
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryHandler.java,v 1.7 2003-07-15 00:55:14 mvdb Exp $
+ * @version $Id: DictionaryHandler.java,v 1.8 2003-07-24 01:20:03 mvdb Exp $
  */
 public class DictionaryHandler extends DefaultHandler
 {
@@ -72,11 +72,13 @@ public class DictionaryHandler extends DefaultHandler
     private static String FIELDS_ELEMENT = "fields";
     private static String FIELD_ELEMENT = "field";
     private static String PARAMETER_ELEMENT = "parameter";
+    private static String SETMETHOD_ELEMENT = "setmethod";
     private static String NAME_ATTRIBUTE = "name";
     private static String DISCOVERY_ATTRIBUTE = "discovery";
     private static String ALIAS_ATTRIBUTE = "alias";
     private static String TYPE_ATTRIBUTE = "type";
-    private static String VALUE_ATTRIBUTE = "value";    
+    private static String VALUE_ATTRIBUTE = "value";
+    
     private static Log log = LogFactory.getLog(DictionaryHandler.class);
 
     private BeanMapping currentMapping;
@@ -247,6 +249,11 @@ public class DictionaryHandler extends DefaultHandler
             String type = atts.getValue(TYPE_ATTRIBUTE);
             String value = atts.getValue(VALUE_ATTRIBUTE);
             parameters.add(new BeanParameter(type, value));
+        }
+        else if (qName.equals(SETMETHOD_ELEMENT)) {
+            if (currentField != null) {
+                this.currentField.setChangeMethod(currentMapping.getBean(),atts.getValue(NAME_ATTRIBUTE));
+            }
         }
     }
 
