@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.12 2003-07-24 01:20:03 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.13 2003-07-24 16:01:51 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,6 +47,8 @@ package org.xulux.nyx.global;
 
 import java.util.ArrayList;
 
+import org.xulux.nyx.global.converters.IntegerConverter;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -55,7 +57,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.12 2003-07-24 01:20:03 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.13 2003-07-24 16:01:51 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -79,7 +81,7 @@ public class DictionaryTest extends TestCase
      * Tests the initialization of the dictaionary from an dictionary 
      * file
      */
-    public void xtestInitialize()
+    public void testInitialize()
     {
         System.out.println("testInitialize");
         Dictionary dictionary = Dictionary.getInstance();
@@ -97,7 +99,7 @@ public class DictionaryTest extends TestCase
     /** 
      * Tests for dynamic mapping 
      */
-    public void xtestEasyMapping()
+    public void testEasyMapping()
     {
         System.out.println("testEasyMapping");
         Dictionary d = Dictionary.getInstance();
@@ -123,7 +125,7 @@ public class DictionaryTest extends TestCase
      * of a bean is used.
      * Also test if booleans are working correctly.
      */
-    public void xtestNestedDataBean()
+    public void testNestedDataBean()
     {
         System.out.println("testNestedDataBean");
         Dictionary d = Dictionary.getInstance();
@@ -134,7 +136,7 @@ public class DictionaryTest extends TestCase
         IField field = subBean.getField("nice");
     }
     
-    public void xtestBooleanData() {
+    public void testBooleanData() {
         System.out.println("testBooleanData");
         Dictionary d = Dictionary.getInstance();
         d.setBaseClass(DictionaryBaseBean.class);
@@ -151,7 +153,7 @@ public class DictionaryTest extends TestCase
     /**
      * Test the Fields/field (non autodiscovery) mechanisme
      */
-    public void xtestFieldElements()
+    public void testFieldElements()
     {
         System.out.println("testFieldElements");
         Dictionary d = Dictionary.getInstance();
@@ -169,7 +171,7 @@ public class DictionaryTest extends TestCase
         assertEquals("city", mapping.getField("plaats").getName());
     }
     
-    public void xtestInfiniteLoop()
+    public void testInfiniteLoop()
     {
         System.out.println("testInfiniteLoop");
         Dictionary d = Dictionary.getInstance();
@@ -182,7 +184,7 @@ public class DictionaryTest extends TestCase
         assertEquals(3, mbmain.getFields().size());
     }
     
-    public void xtestParameters() {
+    public void testParameters() {
         System.out.println("testParameters");
         Dictionary d = Dictionary.getInstance();
         d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
@@ -205,7 +207,7 @@ public class DictionaryTest extends TestCase
      * the getter.
      *
      */
-    public void xtestDoubleParameters() {
+    public void testDoubleParameters() {
         System.out.println("testDoubleParameters");
         Dictionary d = Dictionary.getInstance();
         d.initialize(this.getClass().getClassLoader().getResourceAsStream("org/xulux/nyx/global/dictionary.xml"));
@@ -242,6 +244,20 @@ public class DictionaryTest extends TestCase
         assertEquals(bean.getDouble(ParameteredBean.NO1), fieldno1.getValue(bean));
         assertEquals(bean.getDouble(ParameteredBean.NO2), fieldno2.getValue(bean));
         assertEquals(bean.getDouble(ParameteredBean.NO3), fieldno3.getValue(bean));
+    }
+    
+    /**
+     * Test the converter functionality in the registry
+     */
+    public void testConverters() {
+        System.out.println("testConverters");
+        Dictionary.addConverter(IntegerConverter.class);
+        Integer i = new Integer(10);
+        IConverter converter = Dictionary.getConverter(i);
+        assertEquals(Integer.class,converter.getType());
+        assertEquals("10", converter.getGuiValue(i));
+        assertEquals(i, converter.getBeanValue("10"));
+        assertNull(Dictionary.getConverter(DictionaryTest.class));
     }
         
     /**

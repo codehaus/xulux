@@ -1,5 +1,5 @@
 /*
- $Id: Dictionary.java,v 1.11 2003-07-17 01:09:34 mvdb Exp $
+ $Id: Dictionary.java,v 1.12 2003-07-24 16:01:51 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -53,12 +53,13 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.utils.ClassLoaderUtils;
 
 /**
  * A static applcation dictionary context
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dictionary.java,v 1.11 2003-07-17 01:09:34 mvdb Exp $
+ * @version $Id: Dictionary.java,v 1.12 2003-07-24 16:01:51 mvdb Exp $
  */
 public class Dictionary
 {
@@ -73,6 +74,8 @@ public class Dictionary
      */
     private ArrayList mappingCache;
     private int mappingDepth = 0;
+    
+    private static HashMap converters;
 
     /**
      * Constructor for Dictionary.
@@ -315,5 +318,36 @@ public class Dictionary
     public List getCache() {
         return (mappingCache != null)?(List)mappingCache.clone():null;
     }
+
+    /**
+     * @param clazz - the class of the converter.
+     */
+    public static void addConverter(Class clazz) {
+        if (converters == null) {
+            converters = new HashMap();
+        }
+        Object object = ClassLoaderUtils.getObjectFromClass(clazz);
+        if (object instanceof IConverter) {
+            IConverter c = (IConverter)object;
+            converters.put(c.getType(),c);
+        } else {
+            if (log.isWarnEnabled()) {
+                log.warn(clazz.getName()+" does not implement IConverter, not registering object");
+            }
+        }
+    }
+    
+    public static IConverter getConverter(Object object) {
+        return getConverter(object!=null?object.getClass():null);
+    }
+    
+    public static IConverter getConverter(Class clazz) {
+        if (clazz != null && converters != null)  {
+            return (IConverter)converters.get(clazz);
+        }
+        return null;
+    }
+        
+            
 
 }

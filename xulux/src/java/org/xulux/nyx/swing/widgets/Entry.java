@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.13 2003-07-24 01:20:03 mvdb Exp $
+ $Id: Entry.java,v 1.14 2003-07-24 16:01:51 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,6 +56,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
+import org.xulux.nyx.global.IConverter;
 import org.xulux.nyx.global.IField;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.swing.SwingWidget;
@@ -65,7 +66,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.13 2003-07-24 01:20:03 mvdb Exp $
+ * @version $Id: Entry.java,v 1.14 2003-07-24 16:01:51 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -219,7 +220,13 @@ extends SwingWidget
     {
         if (getField() == null) {
             if (getValue() != null) {
-                textComponent.setText(String.valueOf(getValue()));
+                IConverter converter = Dictionary.getConverter(getValue());
+                if (converter != null) {
+                    textComponent.setText((String)converter.getGuiValue(getValue()));
+                } else {
+                    textComponent.setText(String.valueOf(getValue()));
+                }                    
+                    
             } else {
                 textComponent.setText("");
             }
@@ -249,8 +256,13 @@ extends SwingWidget
             // that turn up here.
             
             // If this is not an array, do a toString
-            if (!this.value.getClass().isArray()) { 
-                textComponent.setText(this.value.toString());
+            if (!this.value.getClass().isArray()) {
+                IConverter converter = Dictionary.getConverter(this.value);
+                if (converter != null) {
+                    textComponent.setText((String)converter.getGuiValue(this.value));
+                } else {
+                    textComponent.setText(this.value.toString());
+                }
             } else {
                 textComponent.setText("Invalid : Array");
             }
