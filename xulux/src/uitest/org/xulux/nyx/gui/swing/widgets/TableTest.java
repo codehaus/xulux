@@ -1,5 +1,5 @@
 /*
- $Id: TableTest.java,v 1.1 2003-07-29 09:17:37 mvdb Exp $
+ $Id: TableTest.java,v 1.2 2003-11-20 11:48:50 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import junit.framework.TestSuite;
  * We keep it simple for now.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TableTest.java,v 1.1 2003-07-29 09:17:37 mvdb Exp $
+ * @version $Id: TableTest.java,v 1.2 2003-11-20 11:48:50 mvdb Exp $
  */
 public class TableTest extends TestCase {
 
@@ -95,7 +95,7 @@ public class TableTest extends TestCase {
     public ArrayList getData() {
         ArrayList list = new ArrayList();
         list.add(new PersonBean("Martin", "van den Bemt"));
-        list.add(new PersonBean("Miska", "Alma"));
+        list.add(new PersonBean("Misja", "Alma"));
         list.add(new PersonBean("Arthur", "Scrhijer"));
         list.add(new PersonBean("Remko", "Nienhuis"));
         list.add(new PersonBean("Maarten", "Spook"));
