@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtils.java,v 1.7 2004-06-14 13:34:29 mvdb Exp $
+   $Id: ClassLoaderUtils.java,v 1.8 2004-06-15 11:03:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * so we can do actual code reuse.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtils.java,v 1.7 2004-06-14 13:34:29 mvdb Exp $
+ * @version $Id: ClassLoaderUtils.java,v 1.8 2004-06-15 11:03:08 mvdb Exp $
  */
 public class ClassLoaderUtils {
 
@@ -183,21 +183,24 @@ public class ClassLoaderUtils {
                         Constructor constructor = constructors[c];
                         Class[] cclz = constructor.getParameterTypes();
                         boolean cStatus = true;
-                        for (int cc = 0; cc < cclz.length; cc++) {
-                            try {
-                            if (!cclz[cc].isAssignableFrom(clzList[cc])) {
-                                cStatus = false;
+                        if (clzList.length >= cclz.length) {
+                            for (int cc = 0; cc < cclz.length; cc++) {
+                                if (!cclz[cc].isAssignableFrom(clzList[cc])) {
+                                    cStatus = false;
+                                }
                             }
-                            }catch(Exception e) {
-                                //e.printStackTrace();
-                            }
+                        } else {
+                            cStatus = false;
                         }
                         if (cStatus) {
-                            Object retValue = constructor.newInstance(parms.toArray());
-                            if (cleanUp) {
-                                parms.remove(0);
+                            Object retValue = null;
+                            if (parms.size() == constructor.getParameterTypes().length) {
+                                retValue = constructor.newInstance(parms.toArray());
+                                if (cleanUp) {
+                                    parms.remove(0);
+                                }
+                                return retValue;
                             }
-                            return retValue;
                         }
                     }
                     if (cleanUp) {

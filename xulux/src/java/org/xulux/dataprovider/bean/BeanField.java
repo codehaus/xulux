@@ -1,5 +1,5 @@
 /*
-   $Id: BeanField.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
+   $Id: BeanField.java,v 1.3 2004-06-15 11:03:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -43,7 +43,7 @@ import org.xulux.utils.ClassLoaderUtils;
  *       to primitive types.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.2 2004-04-22 12:59:03 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.3 2004-06-15 11:03:08 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -161,11 +161,14 @@ public class BeanField implements IField
                 Class retType = getType();
                 BeanMapping mapping = (BeanMapping) Dictionary.getInstance().getMapping(retType);
 //                log.warn("Mapping : "+mapping.getFields());
+//                System.out.println("getMethod : " + getMethod());
                 Object childObject = getMethod().invoke(bean, getArgs());
 //                log.warn("ChildObject ; "+childObject);
                 if (childObject == null) {
                     // try to create the object!
-                    childObject = ClassLoaderUtils.getObjectFromClass(retType, getBeanParameterValues(parameterList));
+                    // @todo mvdb : need to check which conditions actually are using the parameterList..
+                    //childObject = ClassLoaderUtils.getObjectFromClass(retType, getBeanParameterValues(parameterList));
+                    childObject = ClassLoaderUtils.getObjectFromClass(retType, getBeanParameterValues(new ArrayList()));
 //                    log.warn("ChildObject ; "+childObject);
                     getChangeMethod().invoke(bean, getSetMethodArgs(childObject));
 
@@ -393,10 +396,10 @@ public class BeanField implements IField
                      * place
                      * @todo Fix this :)
                      */
-                     if (clz[currentParm] == value.getClass()) {
+                     if (value != null && clz[currentParm] == value.getClass()) {
                         retValue[currentParm] = value;
                      } else {
-                         log.warn("Cannot set value of type " + value.getClass().getName() + " for the parameter " + clz[1]);
+                         log.warn("Cannot set value of type " + ((value == null)?"Unknown":value.getClass().getName()) + " for the parameter " + clz[1]);
                          // we are hardheaded and set it anyway, so we can
                          // get some kind of exception.
                          // @todo FIX!!

@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderTestObject.java,v 1.1 2004-03-23 08:42:22 mvdb Exp $
+   $Id: ClassLoaderTestObject.java,v 1.2 2004-06-15 11:03:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -22,11 +22,14 @@ package org.xulux.utils;
  * hierarchical constructors.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderTestObject.java,v 1.1 2004-03-23 08:42:22 mvdb Exp $
+ * @version $Id: ClassLoaderTestObject.java,v 1.2 2004-06-15 11:03:08 mvdb Exp $
  */
 public class ClassLoaderTestObject {
     
     public ClassLoaderTestObject(String string, Object object2) {
+    }
+
+    public ClassLoaderTestObject(String string, String string2, Object object2) {
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-   $Id: ClassLoaderUtilsTest.java,v 1.7 2004-04-14 14:16:10 mvdb Exp $
+   $Id: ClassLoaderUtilsTest.java,v 1.8 2004-06-15 11:03:08 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -36,7 +36,7 @@ import org.xulux.dataprovider.AnotherRecursiveBean;
  * Test for the classLoaderUtils
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtilsTest.java,v 1.7 2004-04-14 14:16:10 mvdb Exp $
+ * @version $Id: ClassLoaderUtilsTest.java,v 1.8 2004-06-15 11:03:08 mvdb Exp $
  */
 public class ClassLoaderUtilsTest extends TestCase {
     /**
@@ -199,6 +199,7 @@ public class ClassLoaderUtilsTest extends TestCase {
         obj = ClassLoaderUtils.getObjectFromClass(OC3.class, list);
         assertNull(obj);
         obj = ClassLoaderUtils.getObjectFromClass(ClassLoaderTestObject.class, list);
+        System.err.println("List : " + list);
         assertNotNull("Object should be instanceof ClassLoaderTestObject", obj);
         assertTrue("Object should be instanceof ClassLoaderTestObject", obj instanceof ClassLoaderTestObject);
         assertEquals(2, list.size());
