@@ -1,5 +1,5 @@
 /*
- $Id: ParameteredBean.java,v 1.1 2003-07-14 03:37:36 mvdb Exp $
+ $Id: ParameteredBean.java,v 1.2 2003-07-16 15:40:38 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -54,7 +54,7 @@ import java.util.Iterator;
  * constructed data structures.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ParameteredBean.java,v 1.1 2003-07-14 03:37:36 mvdb Exp $
+ * @version $Id: ParameteredBean.java,v 1.2 2003-07-16 15:40:38 mvdb Exp $
  */
 public class ParameteredBean extends DictionaryBaseBean {
 
@@ -75,9 +75,9 @@ public class ParameteredBean extends DictionaryBaseBean {
     
     
     
-    public BeanParameter getParameter(String parm) {
+    public Parameter getParameter(String parm) {
         for (Iterator it = list.iterator(); it.hasNext();) {
-            BeanParameter p = (BeanParameter)it.next();
+            Parameter p = (Parameter)it.next();
             if (p.getType().equals(parm)) {
                 return p;
             }

@@ -1,5 +1,5 @@
 /*
- $Id: DictionarySubBean.java,v 1.2 2003-05-21 10:00:14 mvdb Exp $
+ $Id: DictionarySubBean.java,v 1.3 2003-07-16 15:40:38 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,7 +50,7 @@ package org.xulux.nyx.global;
  * the Dictionary (mapping in specific..)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionarySubBean.java,v 1.2 2003-05-21 10:00:14 mvdb Exp $
+ * @version $Id: DictionarySubBean.java,v 1.3 2003-07-16 15:40:38 mvdb Exp $
  */
 public class DictionarySubBean extends DictionaryBaseBean
 {
@@ -58,6 +58,7 @@ public class DictionarySubBean extends DictionaryBaseBean
     private String phone;
     private String fax;
     private String mobile;
+    private boolean nice;
 
     /**
      * Constructor for DictionarySubBean.
@@ -66,8 +67,6 @@ public class DictionarySubBean extends DictionaryBaseBean
     {
         super();
     }
-    
-    
 
     /**
      * Returns the fax.
@@ -121,6 +120,20 @@ public class DictionarySubBean extends DictionaryBaseBean
     public void setPhone(String phone)
     {
         this.phone = phone;
+    }
+    
+    /**
+     * @return
+     */
+    public boolean isNice() {
+        return nice;
+    }
+
+    /**
+     * @param b
+     */
+    public void setNice(boolean b) {
+        nice = b;
     }
 
 }

@@ -1,6 +1,6 @@
 
 /*
- $Id: DictionaryTest.java,v 1.9 2003-07-14 23:42:25 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.10 2003-07-16 15:40:38 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -56,7 +56,7 @@ import junit.framework.TestSuite;
  * Tests the initialization of the dictionary.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.9 2003-07-14 23:42:25 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.10 2003-07-16 15:40:38 mvdb Exp $
  */
 public class DictionaryTest extends TestCase
 {
@@ -121,7 +121,8 @@ public class DictionaryTest extends TestCase
     
     /**
      * Tests if everything works ok when overriding
-     * of a bean is used
+     * of a bean is used.
+     * Also test if booleans are working correctly.
      */
     public void testNestedDataBean()
     {
@@ -131,6 +132,20 @@ public class DictionaryTest extends TestCase
         DictionaryBean bean = new DictionaryBean();
         BeanMapping mapping = d.getMapping(bean.getClass());
         BeanMapping subBean = d.getMapping("DictionarySubSubBean");
+        IField field = subBean.getField("nice");
+    }
+    
+    public void testBooleanData() {
+        System.out.println("testBooleanData");
+        Dictionary d = Dictionary.getInstance();
+        d.setBaseClass(DictionaryBaseBean.class);
+        BeanMapping subBean = d.getMapping(DictionarySubBean.class,true);
+        System.out.println("subBean fields : "+subBean.getFields());
+        IField field = subBean.getField("nice");
+        DictionarySubBean bean = new DictionarySubBean();
+        bean.setNice(true);
+        assertNotNull(field);
+        System.out.println("boolean : "+field.getValue(bean));
     }
     
     /**
