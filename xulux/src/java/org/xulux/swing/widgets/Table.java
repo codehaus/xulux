@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.13 2004-10-28 20:18:35 mvdb Exp $
+   $Id: Table.java,v 1.14 2004-11-15 23:52:00 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,10 +18,13 @@
 package org.xulux.swing.widgets;
 
 import java.awt.Container;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
@@ -56,7 +59,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.13 2004-10-28 20:18:35 mvdb Exp $
+ * @version $Id: Table.java,v 1.14 2004-11-15 23:52:00 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -565,11 +568,16 @@ public class Table extends ContainerWidget implements IContentWidget {
             if (children != null) {
                 for (Iterator cit = children.iterator(); cit.hasNext();) {
                     Widget cw = (Widget) cit.next();
+                    // we must clear the prepostfieldlistener...
+                    JMenuItem jcomp = (JMenuItem) cw.getNativeWidget();
+                    EventListener[] evs = jcomp.getListeners(ActionListener.class);
+                    if (evs != null && evs.length > 0) {
+                      jcomp.removeActionListener((ActionListener) evs[0]);
+                    }
                     cw.addNyxListener(new UpdateButtonsListener(this, cw));
                 }
             }
             addChildWidget(menu);
-            System.out.println("ADDING MENU ITEM TO SYSTEM");
             table.addMouseListener(new PopupListener(this.menu));
             if (this.lockedTable != null) {
               this.lockedTable.addMouseListener(new PopupListener(this.menu));
