@@ -1,5 +1,5 @@
 /*
- $Id: RadioButton.java,v 1.2 2003-09-25 17:11:40 mvdb Exp $
+ $Id: RadioButton.java,v 1.3 2003-09-29 01:25:08 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,13 +47,14 @@ package org.xulux.nyx.swing.widgets;
 
 import javax.swing.JRadioButton;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.xulux.nyx.gui.Widget;
 
 /**
  * Represents a radiobutton in the gui.
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: RadioButton.java,v 1.2 2003-09-25 17:11:40 mvdb Exp $
+ * @version $Id: RadioButton.java,v 1.3 2003-09-29 01:25:08 mvdb Exp $
  */
 public class RadioButton extends Widget {
     
@@ -108,6 +109,7 @@ public class RadioButton extends Widget {
             radioButton.setText(text);
         }
         radioButton.setEnabled(isEnabled());
+        radioButton.setSelected(BooleanUtils.toBoolean(getProperty("selected")));
         isRefreshing = false;
     }
 

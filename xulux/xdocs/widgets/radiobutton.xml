@@ -21,9 +21,26 @@
     <table>
       <tr><th>Property</th><th>supported</th><th>Behaviour</th></tr>
       <tr>
-        <td>xxx</td>
+        <td>enabled</td>
         <td>swing</td>
-        <td>xxx</td>
+        <td>
+          Should the radiobutton be enabled or disabled? true or false.
+        </td>
+      </tr>
+      <tr>
+        <td>text</td>
+        <td>swing</td>
+        <td>
+          The radiobutton text.
+        </td>
+      </tr>
+      <tr>
+        <td>selected</td>
+        <td>swing</td>
+        <td>
+          Specifies if the radiobutton should be selected or not
+          true or false.
+        </td>
       </tr>
     </table>
   </subsection>
