@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.35 2003-11-06 19:53:10 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.36 2003-11-24 10:51:48 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -69,13 +69,13 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * known to the system.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.35 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.36 2003-11-24 10:51:48 mvdb Exp $
  */
 public class ApplicationContext {
     /**
      * The default GuiDefaults (can be overridden);
      */
-    public final static String GUIDEFAULTS_XML = "org/xulux/nyx/guidefaults/GuiDefaults.xml";
+    public static final String GUIDEFAULTS_XML = "org/xulux/nyx/guidefaults/GuiDefaults.xml";
 
     /**
      * The applicationcontext instance
@@ -148,15 +148,27 @@ public class ApplicationContext {
     /**
      * is nyx the complete application ?
      */
-    private ApplicationPart isApplication;
+    private ApplicationPart application;
 
     /**
-     * Request types..
+     * The request must fire pre in rule
      */
     public static final int PRE_REQUEST = 0;
+    /**
+     * The request must fire execute in rule
+     */
     public static final int EXECUTE_REQUEST = 1;
+    /**
+     * The request must fire post in rule
+     */
     public static final int POST_REQUEST = 2;
+    /**
+     * The request must fire init in rule
+     */
     public static final int INIT_REQUEST = 3;
+    /**
+     * The request must fire destroy in rule
+     */
     public static final int DESTROY_REQUEST = 4;
 
     /**
@@ -173,10 +185,11 @@ public class ApplicationContext {
     }
 
     /**
-     * Checks to see if this part is the application
+     * @param part - the applicationpart
+     * @return if this applicationpart is an application by itself
      */
     public static boolean isPartApplication(ApplicationPart part) {
-        return (part == getInstance().isApplication);
+        return (part == getInstance().application);
     }
 
     /**
@@ -210,8 +223,8 @@ public class ApplicationContext {
     /**
      * Register an applicationpart.
      *
-     * @param part
-     * @param isApplication
+     * @param part the applicationpart
+     * @param isApplication is this part the main entry for the application
      */
     public void register(ApplicationPart part, boolean isApplication) {
         if (registry == null) {
@@ -219,7 +232,7 @@ public class ApplicationContext {
         }
         registry.add(part);
         if (isApplication) {
-            this.isApplication = part;
+            this.application = part;
         }
     }
 
@@ -248,9 +261,9 @@ public class ApplicationContext {
     /**
      * Deregister everything connected to the partname.
      * It will remove the rule when the useCount is 0.
-     * NOTE: We probably should add some kind of cacheSetting
+     * @todo We probably should add some kind of cacheSetting
      *       so heavily used rules will never be deregistered.when they are zero.
-     * @param partName
+     * @param partName the partName to deregister.
      */
     public void deregister(String partName) {
         Iterator it = rules.iterator();
@@ -262,33 +275,37 @@ public class ApplicationContext {
 
     /**
      * Fires a request of a certain type.
+     *
+     * @param request the requeset object to pass to the rule
+     * @param type the type of request to fire in the rule
      */
     public static void fireRequest(PartRequest request, int type) {
         ApplicationPart part = request.getPart();
-        ArrayList rules = part.getRules();
-        if (rules == null || rules.size() == 0) {
+        ArrayList tmpRules = part.getRules();
+        if (tmpRules == null || tmpRules.size() == 0) {
             return;
         }
         if (log.isDebugEnabled()) {
-            log.debug("Rules : " + rules);
+            log.debug("Rules : " + tmpRules);
         }
-        ArrayList currentRules = (ArrayList) rules.clone();
+        ArrayList currentRules = (ArrayList) tmpRules.clone();
         Iterator it = currentRules.iterator();
         fireRequests(it, request, type);
     }
 
     /**
      * Fires the rules on the specified field
-     * @param widget
-     * @param request
-     * @param type
+     *
+     * @param widget The field to fire the rules for
+     * @param request the requeset object to pass to the rule
+     * @param type the type of request to fire in the rule
      */
     public static void fireFieldRequest(Widget widget, PartRequest request, int type) {
-        ArrayList rules = widget.getRules();
-        if (rules == null || rules.size() == 0) {
+        ArrayList tmpRules = widget.getRules();
+        if (tmpRules == null || tmpRules.size() == 0) {
             return;
         }
-        ArrayList currentRules = (ArrayList) rules.clone();
+        ArrayList currentRules = (ArrayList) tmpRules.clone();
         Iterator it = currentRules.iterator();
         fireRequests(it, request, type);
         currentRules.clear();
@@ -298,15 +315,15 @@ public class ApplicationContext {
     /**
      * Fires an fieldrequest of the type specfied
      *
-     * @param request
-     * @param type
+     * @param request the requeset object to pass to the rule
+     * @param type the type of request to fire in the rule
      */
     public static void fireFieldRequests(PartRequest request, int type) {
-        ArrayList widgets = request.getPart().getWidgets();
-        if (widgets == null) {
+        ArrayList requestWidgets = request.getPart().getWidgets();
+        if (requestWidgets == null) {
             return;
         }
-        ArrayList currentWidgets = (ArrayList) widgets.clone();
+        ArrayList currentWidgets = (ArrayList) requestWidgets.clone();
         Iterator wit = currentWidgets.iterator();
         boolean stopAllRules = false;
         while (wit.hasNext() && !stopAllRules) {
@@ -319,11 +336,11 @@ public class ApplicationContext {
             if (stopAllRules) {
                 return;
             }
-            ArrayList rules = widget.getRules();
-            if (rules == null || rules.size() == 0) {
+            ArrayList tmpRules = widget.getRules();
+            if (tmpRules == null || tmpRules.size() == 0) {
                 continue;
             }
-            ArrayList currentRules = (ArrayList) rules.clone();
+            ArrayList currentRules = (ArrayList) tmpRules.clone();
             Iterator it = currentRules.iterator();
             stopAllRules = fireRequests(it, request, type);
         }
@@ -332,9 +349,10 @@ public class ApplicationContext {
     /**
      * Convenience method so I don't have to replicate
      * code
-     * @param it
-     * @param request
-     * @param type
+     *
+     * @param it an iterator containing all the rules to fire.
+     * @param request the request object to pass to the rule
+     * @param type the type of request to fire in the rule
      * @return true if all rules need to be stopped..
      */
     private static boolean fireRequests(Iterator it, PartRequest request, int type) {
@@ -364,6 +382,8 @@ public class ApplicationContext {
                             log.trace("Processing post rule : " + rule.getClass().getName());
                         }
                         rule.post(request);
+                        continue;
+                    default:
                         continue;
                 }
             }
@@ -416,8 +436,8 @@ public class ApplicationContext {
      * to eg remove all widgets from the parent in one go.
      * Initially it will be read from the default GuiDefaults.xml
      * and can be overriden.
-     * @param type
-     * @param clazz
+     * @param type specifies the gui type to register the parent handler for
+     * @param clazz the class name of the parenthandler.
      * @deprecated No replacement yet.
      */
     public void registerParentWidgetHandler(String type, String clazz) {
@@ -447,8 +467,8 @@ public class ApplicationContext {
      * The handler will contain all logic to be able
      * to use native widgets on top of the nyx widgets
      *
-     * @param type
-     * @param clazz
+     * @param type specifies the gui type to register the native handler for
+     * @param clazz the classname of the nativehandler.
      * @deprecated No replacement yet
      */
     public void registerNativeWidgetHandler(String type, String clazz) {
@@ -475,8 +495,8 @@ public class ApplicationContext {
 
     /**
      *
-     * @param type
-     * @param clazz
+     * @param type specifies the gui type to register the field event handler for
+     * @param clazz the class name of the field event handler.
      * @deprecated No replacement yet
      */
     public void registerFieldEventHandler(String type, String clazz) {
@@ -503,7 +523,7 @@ public class ApplicationContext {
     /**
      * Returns a new instance of the event Handler
      *
-     * @param type
+     * @param type specifies the gui type to get the eventhandler for
      * @return the fieldEventHandler.
      * @deprecated No replacement yet.
      */
@@ -519,7 +539,7 @@ public class ApplicationContext {
 
     /**
      *
-     * @param type
+     * @param type specifies the gui type to get the parent widget handler for
      * @return the handler of parent widgets, or null when not found
      * @deprecated No replacement yet
      */
@@ -542,7 +562,7 @@ public class ApplicationContext {
 
     /**
      *
-     * @param type - the type (eg swing, swt, or whatnot)
+     * @param type specifies the gui type to get the native widget handler for
      * @return the native widget handler for the specified type
      * @deprecated No replacement yet
      */
@@ -563,14 +583,21 @@ public class ApplicationContext {
     }
 
     /**
-     * Initializes the default GuiDefaults in the systme
-     * @see org.xulux.nyx.guidefaults.GuiDefaultsHandler#read for more info.
+     * Initializes the default GuiDefaults in the system
+     *
+     * @see org.xulux.nyx.guidefaults.GuiDefaultsHandler#read for more info
      * to override the current guidefaults..
      */
     private void initializeGuiDefaults() {
         initializeGuiDefaults(GUIDEFAULTS_XML);
     }
 
+    /**
+     * Initializes the gui defaults from the specified xmlfile.
+     * This overrides the system defaults
+     *
+     * @param xmlFile the guidefaults xml file.
+     */
     public void initializeGuiDefaults(String xmlFile) {
         GuiDefaultsHandler handler = new GuiDefaultsHandler();
         InputStream stream = this.getClass().getClassLoader().getResourceAsStream(xmlFile);
@@ -583,8 +610,9 @@ public class ApplicationContext {
      * See GuiDefaults.xml for more info on defining widgets or
      * call registerWidget(name, clazz) to register one yourself..
      *
-     * @param name - the widget
-     * @param type - the type of widget
+     * @param name the widget
+     * @param type specifies the gui type to get widgetclass for.
+     * @return the class for the widget
      */
     public Class getWidget(String name, String type) {
         name = name.toLowerCase();
@@ -592,8 +620,6 @@ public class ApplicationContext {
         if (config == null) {
             return null;
         }
-        Class clazz = config.get(type);
-
         return config.get(type);
     }
 
@@ -604,12 +630,21 @@ public class ApplicationContext {
      * call registerWidget(name, clazz) to register one yourself..
      * This will return the widget from the set defaulttype
      * (system default is swing).
-     * @param name - the widget
+     *
+     * @param name - the widget name
+     * @return the class for the widget
      */
     public Class getWidget(String name) {
         return getWidget(name, getDefaultWidgetType());
     }
 
+    /**
+     * Registers a part in the applicationcontext.
+     * This is needed for part interoperability.
+     * Advice is not to use it yet..
+     *
+     * @param part the applicationpart to register
+     */
     public void registerPart(ApplicationPart part) {
         if (parts == null) {
             parts = new HashMap();
@@ -618,6 +653,11 @@ public class ApplicationContext {
         parts.put(part.getName(), part);
     }
 
+    /**
+     *
+     * @param name the name of the applicationPart.
+     * @return the requested part or null when not found.
+     */
     public ApplicationPart getPart(String name) {
         if (parts == null) {
             return null;
@@ -628,6 +668,8 @@ public class ApplicationContext {
 
     /**
      * Removes parts from the context
+     *
+     * @param name the name of the applicationpart
      */
     public void removePart(String name) {
         if (parts != null) {
@@ -635,6 +677,10 @@ public class ApplicationContext {
         }
     }
 
+    /**
+     *
+     * @return a collection of all the parts.
+     */
     public Collection getParts() {
         if (parts == null) {
             return null;
@@ -643,7 +689,11 @@ public class ApplicationContext {
     }
 
     /**
-     * Enable test mode
+     * Enable test mode.
+     * There is no testmode in the system yet, just setting it is
+     * possible.
+     *
+     * @param testMode true enables the testmode.
      */
     public static void setTest(boolean testMode) {
         test = testMode;
@@ -651,10 +701,11 @@ public class ApplicationContext {
     /**
      * Sets the application wide default widget type
      * (eg. swt, core, swing)
-     * @param defaultType
+     *
+     * @param type the default gui type for this application
      */
-    public void setDefaultWidgetType(String defaultType) {
-        this.defaultType = defaultType;
+    public void setDefaultWidgetType(String type) {
+        this.defaultType = type;
     }
 
     /**
@@ -666,7 +717,6 @@ public class ApplicationContext {
     }
 
     /**
-     * Method getWidgets.
      * @return a map with widgets.
      */
     public HashMap getWidgets() {
@@ -684,7 +734,7 @@ public class ApplicationContext {
 
     /**
      *
-     * @param type - the toolkit type (eg swt, swing)
+     * @param type the toolkit type (eg swt, swing)
      * @return the NYX toolkit type specified or null
      *          when not present
      * @deprecated Use getWidgetConfig
@@ -698,6 +748,7 @@ public class ApplicationContext {
 
     /**
      * Add a toolkit of specified type
+     *
      * @param clazz the toolkit class
      * @param type if the type is null, it deaults to getDefaultWidgetType
      * @deprecated Use registerWidgetTool.
@@ -721,9 +772,10 @@ public class ApplicationContext {
     /**
      * Register a widget tool for the specified widget.
      *
-     * @param clazz - the clazzname of the widget tool
-     * @param widgetName - the name of the widget
-     * @param type - the guilayer type to register it for.
+     * @param clazz the clazzname of the widget tool
+     * @param widgetName the name of the widget
+     * @param type the guilayer type to register it for.
+     * @deprecated No replacement yet.
      */
     public void registerWidgetTool(String clazz, String widgetName, String type) {
         WidgetConfig config = getWidgetConfig(widgetName);
@@ -732,13 +784,21 @@ public class ApplicationContext {
         }
     }
 
+    /**
+     * Register a widgettool or the  specified widget.
+     * It registers this or the defaulttype.
+     *
+     * @param clazz the clazzname of the widget tool
+     * @param widgetName the name of the widget
+     * @deprecated No replacement yet.
+     */
     public void registerWidgetTool(String clazz, String widgetName) {
         registerWidgetTool(clazz, widgetName, getDefaultWidgetType());
     }
 
     /**
      *
-     * @param widgetType
+     * @param widgetName the name of the widget to get the config for
      * @return the widgetconfig for the widget
      */
     public WidgetConfig getWidgetConfig(String widgetName) {
@@ -747,9 +807,10 @@ public class ApplicationContext {
 
     /**
      * Add a widget initializer
-     * @param initializerClass
-     * @param widgetName
-     * @param type
+     *
+     * @param initializerClass - the class that implements IWidgetInitializer
+     * @param widgetName the name of the widget to register the initializer for
+     * @param type the type of gui to register the initializer for
      * @deprecated Use registerWidgetTool now.
      */
     public void registerWidgetInitializer(String initializerClass, String widgetName, String type) {
@@ -787,7 +848,7 @@ public class ApplicationContext {
 
     /**
      *
-     * @param widgetType
+     * @param widgetType the type of widget to get the widgetinitializer for
      * @return a new instance of the widget initializer that is part of this widget
      *          or null when not present
      * @deprecated use getWidgetConfig

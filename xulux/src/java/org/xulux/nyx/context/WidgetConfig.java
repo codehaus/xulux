@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfig.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
+ $Id: WidgetConfig.java,v 1.9 2003-11-24 10:51:48 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -60,14 +60,26 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * (eg swt, swing)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.8 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.9 2003-11-24 10:51:48 mvdb Exp $
  */
 public class WidgetConfig {
 
-    protected HashMap map;
-    protected HashMap initializers;
-    protected Class coreClass;
-    protected HashMap contentHandlers;
+    /**
+     * The map containg gui layer implementations of the widgettype
+     */
+    private HashMap map;
+    /**
+     * The initializers
+     */
+    private HashMap initializers;
+    /**
+     * The coreclass
+     */
+    private Class coreClass;
+    /**
+     * the map of contenthandlers
+     */
+    private HashMap contentHandlers;
 
     /**
      * Constructor for WidgetConfig.
@@ -77,8 +89,8 @@ public class WidgetConfig {
 
     /**
      * Adds a specific implementation to the widgetConfig
-     * @param type
-     * @param widgetClass
+     * @param type the type of gui layer
+     * @param widgetClass the widget class
      */
     public void add(String type, Class widgetClass) {
         if (map == null) {
@@ -96,16 +108,17 @@ public class WidgetConfig {
     }
 
     /**
-     * Sets the coreClass of the widget
-     * @param coreClass
+     * Set the coreClass of the widget
+     *
+     * @param coreClass the coreclass of the widget
      */
     public void setCoreClass(Class coreClass) {
         this.coreClass = coreClass;
     }
     /**
      *
-     * @param type
-     * @return the Class of the specified type
+     * @param type the type of gui layer
+     * @return the Class of the specified widget type
      */
     public Class get(String type) {
         if (map == null) {
@@ -119,8 +132,8 @@ public class WidgetConfig {
      * It checks it the same initializer already exist or
      * not.
      *
-     * @param type
-     * @param initializerClass
+     * @param type the type of gui layer
+     * @param initializerClass the initializer class
      * @deprecated Please use addWidgetTool
      */
     public void addWidgetInitializer(String type, Class initializerClass) {
@@ -150,10 +163,21 @@ public class WidgetConfig {
         return (List) initializers.get(type);
     }
 
+    /**
+     * Adds a widgettool to the widgetconfig
+     * @param type the type of gui layer
+     * @param clazzName the widgettools class
+     */
     public void addWidgetTool(String type, String clazzName) {
-
+        Class clazz = ClassLoaderUtils.getClass(clazzName);
+        addWidgetTool(type, clazz);
     }
 
+    /**
+     * Adds a widgettool to the widgetconfig
+     * @param type the type of gui layer
+     * @param clazz the widgettools class
+     */
     public void addWidgetTool(String type, Class clazz) {
         if (contentHandlers == null) {
             contentHandlers = new HashMap();
@@ -165,7 +189,8 @@ public class WidgetConfig {
     }
 
     /**
-     * @param clazz - the className to get the contenthandler for.
+     * @param clazz the className to get the contenthandler for.
+     * @return the contenthandler found.
      */
     public IContentHandler getContentHandler(Class clazz) {
         if (contentHandlers != null) {

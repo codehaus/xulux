@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPartHandler.java,v 1.35 2003-11-17 14:00:22 mvdb Exp $
+ $Id: ApplicationPartHandler.java,v 1.36 2003-11-24 10:51:48 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -70,72 +70,162 @@ import org.xulux.nyx.utils.Translator;
 /**
  * Reads in a part definition and creates an ApplicationPart
  * from that..
- * TODO: Make sure when widgets skip, the properties are
+ * @todo Make sure when widgets skip, the properties are
  *        skipped too..
- * TODO: Move out "generic" code, so we can have a helper class to do all the nyx magic
+ * @todo Move out "generic" code, so we can have a helper class to do all the nyx magic
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPartHandler.java,v 1.35 2003-11-17 14:00:22 mvdb Exp $
+ * @version $Id: ApplicationPartHandler.java,v 1.36 2003-11-24 10:51:48 mvdb Exp $
  */
 public class ApplicationPartHandler extends DefaultHandler {
 
+    /**
+     * The log instance for the handler
+     */
     private static Log log = LogFactory.getLog(ApplicationPartHandler.class);
 
-    private static String PART_ELEMENT = "part";
-    private static String FIELDS_ELEMENT = "fields";
-    private static String FIELD_ELEMENT = "field";
-    private static String VALUE_ELEMENT = "value";
-    private static String SIZE_ELEMENT = "size";
-    private static String POSITION_ELEMENT = "position";
-    private static String RULES_ELEMENT = "rules";
-    private static String RULE_ELEMENT = "rule";
-    private static String LISTENER_ELEMENT = "listener";
-    private static String TRANSLATION_ELEMENT = "translation";
+    /**
+     * The part element
+     */
+    private static final String PART_ELEMENT = "part";
+    /**
+     * the fields element
+     */
+    private static final String FIELDS_ELEMENT = "fields";
+    /**
+     * the field element
+     */
+    private static final String FIELD_ELEMENT = "field";
+    /**
+     * the value element
+     */
+    private static final String VALUE_ELEMENT = "value";
+    /**
+     * the size element
+     */
+    private static final String SIZE_ELEMENT = "size";
+    /**
+     * the position element
+     */
+    private static final String POSITION_ELEMENT = "position";
+    /**
+     * the rules element
+     */
+    private static final String RULES_ELEMENT = "rules";
+    /**
+     * the rule element
+     */
+    private static final String RULE_ELEMENT = "rule";
+    /**
+     * the listener element
+     */
+    private static final String LISTENER_ELEMENT = "listener";
+    /**
+     * the translation element
+     */
+    private static final String TRANSLATION_ELEMENT = "translation";
     /**
      * Include another part in the current part
      */
-    private static String INCLUDE_ELEMENT = "includepart";
+    private static final String INCLUDE_ELEMENT = "includepart";
 
     /**
      * The prefix of the current part
      * This is to prevent name clashes between fields
      */
-    private static String PREFIX_ATTRIBUTE = "prefix";
+    private static final String PREFIX_ATTRIBUTE = "prefix";
     /**
      * If the type is native (so this name is a "reserved" keyword.
      * it will try to add the native widget to the applicationpart.
      * You need to make sure the native widgets is of a supported
      * type (eg inherits from Swing classes or SWT classes)
      */
-    private static String TYPE_ATTRIBUTE = "type";
-    private static String NAME_ATTRIBUTE = "name";
-    private static String USE_ATTRIBUTE = "use";
+    private static final String TYPE_ATTRIBUTE = "type";
+    /**
+     * The name attribute
+     */
+    private static final String NAME_ATTRIBUTE = "name";
+    /**
+     * the use attribute
+     */
+    private static final String USE_ATTRIBUTE = "use";
     /**
      * You can specify a class to override the defaults
      * This must be a Widget when not using native.
      */
-    private static String CLAZZ_ATTRIBUTE = "class";
-    private static String APPLICATION_ATTRIBUTE = "application";
-    private static String FIELDPREFIX_ATTRIBUTE = "fieldPrefix";
+    private static final String CLAZZ_ATTRIBUTE = "class";
+    /**
+     * The application attribute
+     */
+    private static final String APPLICATION_ATTRIBUTE = "application";
+    /**
+     * the fieldprefix attribute
+     */
+    private static final String FIELDPREFIX_ATTRIBUTE = "fieldPrefix";
 
+    /**
+     * is processing a field ?
+     */
     private boolean processingField = false;
 
+    /**
+     * Is part an application ?
+     */
     private boolean isApplication = false;
 
+    /**
+     * the created part
+     */
     private ApplicationPart part;
 
+    /**
+     * the bean to use
+     */
     private Object bean;
 
+    /**
+     * processing position
+     */
     private boolean processPosition = false;
+    /**
+     * processing size
+     */
     private boolean processSize = false;
+    /**
+     * processing use
+     */
     private boolean processUse = false;
+    /**
+     * processing value
+     */
     private boolean processValue = false;
+    /**
+     * processing unknown element
+     */
     private boolean processUnknown = false;
+    /**
+     * Are we ready to add rules.
+     */
     private boolean rulesStarted = false;
+    /**
+     * process a rule
+     */
     private boolean processRule = false;
+    /**
+     * process a listener
+     */
     private boolean processListener = false;
+    /**
+     * processing native
+     */
     private boolean processingNative = false;
+    /**
+     * processing translation
+     */
     private boolean processingTranslation = false;
+    /**
+     * processing includepart
+     */
     private boolean processIncludePart = false;
 
     /**
@@ -145,10 +235,21 @@ public class ApplicationPartHandler extends DefaultHandler {
      */
     private boolean ignorePart = false;
 
+    /**
+     * Current qualifiedname
+     */
     private String currentqName;
+    /**
+     * current value
+     */
     private String currentValue;
+    /**
+     * current attributes
+     */
     private HashMap currentAtts;
-
+    /**
+     * the last field created
+     */
     private String lastField;
     /**
      * Contains the prefix to be used when
@@ -165,8 +266,14 @@ public class ApplicationPartHandler extends DefaultHandler {
      * value untill done calling includePart
      */
     private String tempFieldPrefix;
+    /**
+     * temp prefix when processing includeparts
+     */
     private String tempPrefix;
 
+    /**
+     * the SAXParserfactory to use
+     */
     private static SAXParserFactory factory;
 
     /**
@@ -184,17 +291,32 @@ public class ApplicationPartHandler extends DefaultHandler {
         this.part = null;
     }
 
+    /**
+     * Set the aplicationpart manually, so the new read
+     * will use that one instead of create a new part.
+     * @param part the applicationpart
+     */
     public ApplicationPartHandler(ApplicationPart part) {
         this();
         this.part = part;
     }
 
+    /**
+     * Process the applicationpart xml
+     * @param stream the stream containing the xml
+     * @param bean the bean to use while processing
+     * @return the newly created part
+     */
     public ApplicationPart read(InputStream stream, Object bean) {
         this.bean = bean;
         read(stream);
         return this.part;
     }
 
+    /**
+     * Start processing the xml
+     * @param stream the stream containing the xml
+     */
     public void read(InputStream stream) {
         if (factory == null) {
             factory = SAXParserFactory.newInstance();
@@ -236,8 +358,6 @@ public class ApplicationPartHandler extends DefaultHandler {
                 this.part = new ApplicationPart(this.bean);
                 part.setName(atts.getValue(NAME_ATTRIBUTE));
                 isApplication = BooleanUtils.toBoolean(atts.getValue(APPLICATION_ATTRIBUTE));
-            } else {
-                part.setUse(atts.getValue(USE_ATTRIBUTE));
             }
         }
         else if (qName.equals(TRANSLATION_ELEMENT)) {
@@ -278,6 +398,10 @@ public class ApplicationPartHandler extends DefaultHandler {
         }
     }
 
+    /**
+     * @param atts the attributes to get a map from
+     * @return A map of the current attributes
+     */
     private HashMap getAttributeMap(Attributes atts) {
         if (atts == null || atts.getLength() == 0) {
             return null;
@@ -293,6 +417,7 @@ public class ApplicationPartHandler extends DefaultHandler {
      * (eg &lt;field&gt;&lt;field&gt;&lt;/field&gt;&lt;/field&gt;)
      * Not deeper yet..
      * @see org.xml.sax.ContentHandler#endElement(String, String, String)
+     * @todo Test rule registration
      */
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
         if (currentValue != null) {
@@ -337,9 +462,7 @@ public class ApplicationPartHandler extends DefaultHandler {
                 Widget widget = (Widget) stack.get(stack.size() - 1);
                 if (processingField) {
                     addRule(widget, currentValue);
-                }
-                else {
-                    // partrule.. TODO: Test rule registration
+                } else {
                     addRule(null, currentValue);
                 }
             }
@@ -364,9 +487,7 @@ public class ApplicationPartHandler extends DefaultHandler {
             if (processSize) {
                 if (autoSize) {
                     widget.setProperty("autosize", "true");
-                }
-                else {
-                    //widget.setSize(x, y);
+                } else {
                     widget.setProperty("size", currentValue);
                 }
                 processSize = false;
@@ -382,8 +503,7 @@ public class ApplicationPartHandler extends DefaultHandler {
                                 x = Integer.parseInt(xStr);
                                 y = Integer.parseInt(yStr);
                             }
-                        }
-                        catch (Exception nse) {
+                        } catch (Exception nse) {
                             if (log.isWarnEnabled()) {
                                 log.warn("Parsing error with text : " + currentValue);
                                 log.warn("with widget : " + ((Widget) stack.get(stack.size() - 1)).getName());
@@ -417,6 +537,7 @@ public class ApplicationPartHandler extends DefaultHandler {
                 listener = (PrePostFieldListener) clazz.newInstance();
             }
             catch (Exception e) {
+                listener = null;
             }
             if (listener != null) {
                 part.setFieldEventHandler(listener);
@@ -474,25 +595,41 @@ public class ApplicationPartHandler extends DefaultHandler {
         }
     }
 
+    /**
+     * Set the fieldprefix
+     * @param fieldPrefix the name of the fieldPrefix
+     */
     public void setFieldPrefix(String fieldPrefix) {
         this.fieldPrefix = fieldPrefix;
     }
 
+    /**
+     * Set the prefix
+     * @param prefix the prefix to set
+     */
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
 
+    /**
+     * Set the stack from the parent applicationpart
+     * @param stack the stack with the widget tree.
+     */
     public void setStack(Stack stack) {
         this.stack = stack;
     }
 
+    /**
+     * Ignore the part creation
+     * @param ignore ignore it or not (defaults to false)
+     */
     public void ignorePart(boolean ignore) {
         this.ignorePart = true;
     }
 
     /**
      * Creates the objects and pushes it on the stack
-     * @param atts
+     * @param atts the attributes to process for the field
      */
     private void processField(Attributes atts) {
 
@@ -552,6 +689,11 @@ public class ApplicationPartHandler extends DefaultHandler {
         }
     }
 
+    /**
+     * Add a rule to the specified widget
+     * @param widget the widget
+     * @param ruleClass the rule class to add
+     */
     private void addRule(Widget widget, String ruleClass) {
         try {
             Class clazz = Class.forName(ruleClass);
@@ -578,6 +720,7 @@ public class ApplicationPartHandler extends DefaultHandler {
     }
     /**
      * The enddocument registers the part in the ApplicationContext.
+     * @throws SAXException when ending the document fails
      */
     public void endDocument() throws SAXException {
         if (!ignorePart) {

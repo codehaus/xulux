@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.64 2003-11-18 20:41:37 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.65 2003-11-24 10:51:48 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -8,7 +8,7 @@
  that the following conditions are met:
 
  1. Redistributions of source code must retain copyright
-    statements and notices. Redistributions must also contain a
+    statements and notices.  Redistributions must also contain a
     copy of this document.
 
  2. Redistributions in binary form must reproduce the
@@ -63,6 +63,7 @@ import org.xulux.nyx.rules.IRule;
 import org.xulux.nyx.rules.impl.PartRequestImpl;
 import org.xulux.nyx.rules.impl.WidgetRequestImpl;
 import org.xulux.nyx.swing.util.NyxEventQueue;
+import org.xulux.nyx.utils.BooleanUtils;
 import org.xulux.nyx.utils.Translation;
 
 /**
@@ -74,21 +75,27 @@ import org.xulux.nyx.utils.Translation;
  * and the copy on the screen.
  *
  *
- * TODO: Add refresh possibilities to the application parts,
+ * @todo Add refresh possibilities to the application parts,
  * so your are able to replace the original bean and determine if
  * the "bean refresh" changed the bean or not.
  * Esp. usefull when concurrent changes of beans occur by different
  * people (although this would be merely convenience, since other code
  * should handle these kind of situation..).
- * TODO: Fix naming of field. It is used everywhere with different meanings.
+ * @todo Fix naming of field. It is used everywhere with different meanings.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.64 2003-11-18 20:41:37 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.65 2003-11-24 10:51:48 mvdb Exp $
  */
 public class ApplicationPart {
 
+    /**
+     * Is the part destroyed
+     */
     private boolean destroyed;
 
+    /**
+     * the log instance
+     */
     private static Log log = LogFactory.getLog(ApplicationPart.class);
 
     /**
@@ -96,17 +103,35 @@ public class ApplicationPart {
      */
     private Object bean;
 
+    /**
+     * The mapping of the bean
+     */
     private BeanMapping mapping;
 
+    /**
+     * The parentwidget of this applicationpart
+     */
     private Object parentWidget;
 
+    /**
+     * The widgets contained in this part.
+     */
     private WidgetList widgets;
 
+    /**
+     * The partrules.
+     */
     private ArrayList partRules;
 
+    /**
+     * If the part is activated or not
+     */
     private boolean activated;
 
-    boolean stopRules = false;
+    /**
+     * If all rules should be stopped or not
+     */
+    private boolean stopRules = false;
 
     /**
      * Specifies if a window is currently
@@ -114,18 +139,40 @@ public class ApplicationPart {
      */
     private boolean isActivating = false;
 
-    private String name;
+    /**
+     * The name of the part
+     */
+    private String partName;
 
-    public static int runIndex = 0;
-
+    /**
+     * The session of the part.
+     */
     private SessionPart session;
 
-    public final static int NO_STATE = 0;
-    public final static int INVALID_STATE = 1;
-    public final static int OK_STATE = 2;
+    /**
+     * Not used
+     */
+    public static final int NO_STATE = 0;
+    /**
+     * Not used
+     */
+    public static final int INVALID_STATE = 1;
+    /**
+     * Not used
+     */
+    public static final int OK_STATE = 2;
+    /**
+     * Not used
+     */
     private int state = NO_STATE;
+    /**
+     * The fieldeventhandler
+     */
     private NyxListener fieldEventHandler;
 
+    /**
+     * The list of translation files.
+     */
     private ArrayList translationList;
 
     /**
@@ -133,12 +180,6 @@ public class ApplicationPart {
      *
      */
     private ApplicationPart parentPart;
-    
-    /**
-     * Holds the current use. Only used when including parts.
-     */
-    protected String use;
-    
 
     /**
      * Constructor for GuiPart.
@@ -148,6 +189,8 @@ public class ApplicationPart {
 
     /**
      * Used for single bean representation
+     * @param bean the bean to be used in the part
+     * @todo make this a dataprovider class!
      */
     public ApplicationPart(Object bean) {
         this();
@@ -171,8 +214,9 @@ public class ApplicationPart {
      * should be done to turn the field value into a
      * correct bean (string to string is not a problem
      * though).
-     * TODO: isDirty()
-     * @return if the field specified has been changed..
+     * @todo isDirty() need to move to dataprovider
+     * @param field is ignored
+     * @return always false
      */
     public boolean isDirty(String field) {
         return false;
@@ -182,17 +226,20 @@ public class ApplicationPart {
      * Returns if the field specified is the one currently
      * being processed. This way you can quicly determine in
      * your code if the rule
+     * @todo remove this method ?
+     * @param field is ignored
+     * @return always returns false.
      */
     public boolean isCurrentField(String field) {
         return false;
     }
 
     /**
-     * No primitive support yet.. sorry ;)
+     * @todo primitive support (probably working already though!)
      * This is pretty ignoarant.. If a field does not exists
      * in the apppart, it will do nothing
-     * @param field
-     * @param value
+     * @param field the field to process
+     * @param value the value to set
      */
     public void setBeanValue(String field, Object value) {
         IField bField = mapping.getField(field);
@@ -212,6 +259,11 @@ public class ApplicationPart {
         }
     }
 
+    /**
+     * Set the gui value
+     * @param name the widget name
+     * @param value the value to set
+     */
     public void setGuiValue(String name, Object value) {
         Widget widget = (Widget) widgets.get(name);
         if (widget == null) {
@@ -225,21 +277,24 @@ public class ApplicationPart {
     }
 
     /**
-     * Returns the current value of the specified field
-     *
-     * @param field
+     * @param widgetName the name of the widget to get the value from
+     * @return the current value of the specified field
      */
-    public Object getGuiValue(String name) {
-        Widget widget = (Widget) widgets.get(name);
+    public Object getGuiValue(String widgetName) {
+        Widget widget = (Widget) widgets.get(widgetName);
         if (widget == null) {
             if (log.isWarnEnabled()) {
-                log.warn("Cannot find widget " + name + " to get value from");
+                log.warn("Cannot find widget " + widgetName + " to get value from");
             }
             return null;
         }
         return widget.getValue();
     }
 
+    /**
+     * @param name the name of the widget
+     * @return the previousvalue of the widget
+     */
     public Object getPreviousGuiValue(String name) {
         Widget widget = (Widget) widgets.get(name);
         if (widget == null) {
@@ -252,56 +307,61 @@ public class ApplicationPart {
     }
 
     /**
+     * @param field the field to get the beanvalue from
      * @return the current bean value
      */
     public Object getBeanValue(String field) {
         return mapping.getField(field).getValue(getBean());
     }
 
-    public IField getField(String name) {
-        return mapping.getField(name);
+    /**
+     * @param field the name of the field
+     * @return the field insteance of the field name
+     */
+    public IField getField(String field) {
+        return mapping.getField(field);
     }
 
     /**
+     * @param widgetName the name of the widget to get.
      * @return the widget that is connected to the field,
      * null if not found or no widgets are present.
      */
-    public Widget getWidget(String name) {
+    public Widget getWidget(String widgetName) {
         if (widgets != null) {
-            return (Widget) widgets.get(name);
+            return (Widget) widgets.get(widgetName);
         }
         return null;
 
     }
 
     /**
-     * Returns the plain bean
+     * @return the plain bean
      */
     public Object getBean() {
         return this.bean;
     }
 
     /**
-     * Returns the name of the part
+     * @return the name of the part
      */
     public String getName() {
-        return this.name;
+        return this.partName;
     }
-    
+
     /**
-     * Sets the name and registers the part.. 
-     * @param name
+     * Sets the name and registers the part..
+     * @param name the name of the part
+     * @todo This is buggy, since a part doesn't have to have a unique name..
      */
     public void setName(String name) {
-        this.name = name;
-        // TODO : This is buggy, since a part doesn't have to have
-        // a unique name..
+        this.partName = name;
         //ApplicationContext.getInstance().registerPart(this);
     }
 
     /**
      * The parent widget for all child widgets to be added
-     * @param widget
+     * @param widget the widget to set the parent for
      */
     public void setParentWidget(Object widget) {
         this.parentWidget = widget;
@@ -313,10 +373,9 @@ public class ApplicationPart {
      * call for that (that is assuming the widgets are already there
      * by default..)
      *
-     * @param widget
-     * @param field - the fieldAlias
+     * @param widget the widget to add to the part
      */
-    public void addWidget(Widget widget) //, String field)
+    public void addWidget(Widget widget)
     {
         if (widget == null) {
             return;
@@ -329,16 +388,13 @@ public class ApplicationPart {
         widgets.add(widget);
     }
 
-    public void addWidget(Widget widget, String prefix) {
-    }
-
     /**
      * Removes a widget. It will call the destroy
      * method on the widget and if the widget
      * is calling this, it will remove it from
      * the application part widget registry.
      * TODO : this method should automatically be called
-     * @param widget
+     * @param widget the widget to remove.
      * @param caller - the caller of the object. Always pass
      *         <code>this</code>.
      */
@@ -353,11 +409,12 @@ public class ApplicationPart {
     }
     /**
      * Replaces the field with the specified widget
-     * @param widget
-     * @param field
+     *
+     * @param widget the new widget
+     * @param widgetName the widget to replace
      */
-    public void setWidget(Object widget, String field) {
-        int index = widgets.indexOf(field);
+    public void setWidget(Object widget, String widgetName) {
+        int index = widgets.indexOf(widgetName);
         if (index != -1) {
             widgets.set(index, widget);
         }
@@ -368,6 +425,8 @@ public class ApplicationPart {
     /**
      * If the root widget is null,
      * the part is contained in itself
+     * @return null when the part is standalone, else the rootwidget (which is
+     *          normally a native widget!
      */
     public Object getRootWidget() {
         return parentWidget;
@@ -379,7 +438,7 @@ public class ApplicationPart {
      * Initialize the part, which makes the gui visible,
      * processes fields, etc.
      * Can only be called from the DefaultPartRule
-     * TODO: This is pretty horrible way of doing things
+     * @todo This is pretty horrible way of doing things
      *       Better ideas appreciated..
      * @param caller - the caller
      */
@@ -405,6 +464,7 @@ public class ApplicationPart {
 
     /**
      * Registers an ApplicationPart rule
+     * @param rule the rule to register for the part
      */
     public void registerRule(IRule rule) {
         // the defaultrule should stay last..
@@ -413,14 +473,22 @@ public class ApplicationPart {
         rule.registerPartName(this.getName());
     }
 
-    public void registerFieldRule(IRule rule, String field) {
-        Object tmp = widgets.get(field);
+    /**
+     * Registers a field rule in the field.
+     * @param rule the rule to register
+     * @param widgetName the name of the widget
+     */
+    public void registerFieldRule(IRule rule, String widgetName) {
+        Object tmp = widgets.get(widgetName);
         if (tmp instanceof Widget) {
             Widget widget = (Widget) tmp;
             widget.registerRule(rule);
         }
     }
 
+    /**
+     * @return if the part is currently activating or not
+     */
     public boolean isActivating() {
         return this.isActivating;
     }
@@ -475,7 +543,6 @@ public class ApplicationPart {
 
     /**
      * Runs all the pre rules again..
-     *
      */
     public void runPreRules() {
         if (getRules() != null) {
@@ -496,7 +563,7 @@ public class ApplicationPart {
     }
 
     /**
-     * Returns the part rules
+     * @return the part rules
      */
     public ArrayList getRules() {
         initializePartRules();
@@ -515,7 +582,15 @@ public class ApplicationPart {
         }
     }
 
-    public ArrayList getRules(String field) {
+    /**
+     * @param widgetName the name of the widget
+     * @return the rules of the widget specified in the name
+     */
+    public List getRules(String widgetName) {
+        Widget widget = getWidget(widgetName);
+        if (widget != null) {
+            return widget.getRules();
+        }
         return null;
     }
 
@@ -526,23 +601,26 @@ public class ApplicationPart {
 
         /**
          *
-         * @param field
+         * @param widgetName the widget that other fields depend on
          * @return a collection with widgets that reference the
          *          specified field or null when no fields are found
          */
-        public Collection getWidgetsWithField(String field) {
+        public Collection getWidgetsWithField(String widgetName) {
             Collection col = new ArrayList();
             Iterator it = iterator();
             while (it.hasNext()) {
                 Widget w = (Widget) it.next();
                 if (w.getField() != null) {
-                    if (w.getField().equalsIgnoreCase(field) || 
-                        w.getField().startsWith("?"+field)) {
+                    if (w.getField().equalsIgnoreCase(widgetName)
+                        || w.getField().startsWith("?" + widgetName)) {
                         col.add(w);
                     }
                 }
             }
-            return col.size() > 0 ? col : null;
+            if (col != null && col.size() == 0) {
+                col = null;
+            }
+            return col;
         }
 
         /**
@@ -567,6 +645,10 @@ public class ApplicationPart {
 
         }
 
+        /**
+         * @param name the name of the widget
+         * @return the widget with the specified name
+         */
         public Widget get(String name) {
             int index = indexOf(name);
             if (index != -1) {
@@ -576,6 +658,9 @@ public class ApplicationPart {
         }
     }
 
+    /**
+     * @return the list of widgets of this part
+     */
     public WidgetList getWidgets() {
         return widgets;
     }
@@ -603,15 +688,16 @@ public class ApplicationPart {
 
     /**
      * Clears the specified field
+     * @param widgetName the name of the widget to clear
      */
-    public void clear(String name) {
-        Widget widget = widgets.get(name);
+    public void clear(String widgetName) {
+        Widget widget = widgets.get(widgetName);
         if (widget != null) {
             widget.clear();
         }
         else {
             if (log.isWarnEnabled()) {
-                log.warn("Widget " + name + " does not exist");
+                log.warn("Widget " + widgetName + " does not exist");
             }
         }
     }
@@ -628,9 +714,10 @@ public class ApplicationPart {
 
     /**
      * Resets the specified field to the original value
+     * @param widgetName the widget to reset the value for
      */
-    public void reset(String field) {
-        Widget widget = widgets.get(field);
+    public void reset(String widgetName) {
+        Widget widget = widgets.get(widgetName);
         widget.setValue(null);
     }
 
@@ -693,6 +780,10 @@ public class ApplicationPart {
         }
     }
 
+    /**
+     * Stops all the rules that are currently processing and
+     * doesn't process any rules that are waiting to be processed
+     */
     public void stopAllRules() {
         stopRules = true;
         getSession().setValue("stopAllRules", String.valueOf(stopRules));
@@ -700,6 +791,9 @@ public class ApplicationPart {
 
     /**
      * Checks to see if all rules should stop processing.
+     * @param caller the caller of needToStopAllRules.
+     *         This prevents the applicationcontext from stopping all rules.
+     * @return true if all rules need to be stopped
      */
     public boolean needToStopAllRules(Object caller) {
         boolean retValue = stopRules;
@@ -708,7 +802,7 @@ public class ApplicationPart {
         }
         else {
             stopRules = false;
-            retValue = "true".equalsIgnoreCase((String) getSession().getValue("stopAllRules")) ? true : false;
+            retValue = BooleanUtils.toBoolean(getSession().getValue("stopAllRules"));
             getSession().remove("stopAllRules");
         }
         return retValue;
@@ -735,6 +829,7 @@ public class ApplicationPart {
      * You can override this in the applicationpart
      * xml by adding the listener tag with the class
      * specified.
+     * @param widget the widget to get the fieldeventhandler for
      * @return PrePostFieldListener
      */
     public NyxListener getFieldEventHandler(Widget widget) {
@@ -745,6 +840,9 @@ public class ApplicationPart {
                 listener.setWidget(widget);
             }
             catch (Exception e) {
+                if (log.isWarnEnabled()) {
+                    log.warn("Field event Handler for widget " + widget + " cannot be initialized");
+                }
             }
         }
         else {
@@ -806,17 +904,17 @@ public class ApplicationPart {
      * Refreshes all fields that reference the field
      * used by the passed in widget
      * When field is null nothing will be done.
-     * @param widget
+     * @param widget the widget to refresh the fields for
      */
     public void refreshFields(Widget widget) {
         String field = widget.getField();
-        refreshFields(field,widget);
+        refreshFields(field , widget);
     }
 
     /**
      * Refreshes widgets which have a pointer to the caller in their use.
-     * 
-     * @param caller
+     *
+     * @param caller the caller of refreshwidgets (normally pass in this)
      */
     public void refreshWidgets(Widget caller) {
         if (caller == null) {
@@ -824,11 +922,11 @@ public class ApplicationPart {
         }
         refreshFields(caller.getName(), caller);
     }
-    
+
     /**
      * Utility method that refreshes all fields that have pointers to
      * a field or depend on a field
-     * 
+     *
      * @param field the field name to find
      * @param widget - the source widget that called the refresh
      */
@@ -848,12 +946,11 @@ public class ApplicationPart {
             }
         }
     }
-    
 
     /**
      * Updates the widgets that depends on the widget
      * passed in.
-     * @param widget
+     * @param widget the widget that other depends on
      */
     public void updateDependandWidgets(Widget widget) {
         if (widget == null || getWidgets() == null) {
@@ -871,7 +968,7 @@ public class ApplicationPart {
     /**
      * Set the parent part. This way a part knows that
      * the bean provided should be passed to the parent.
-     * @param part
+     * @param part the applicationpart that serves as a parent
      */
     public void setParentPart(ApplicationPart part) {
         this.parentPart = part;
@@ -885,15 +982,10 @@ public class ApplicationPart {
         return this.parentPart;
     }
 
+    /**
+     * @return if the part has been destroyed
+     */
     public boolean isPartDestroyed() {
         return destroyed;
-    }
-    
-    public void setUse(String use) {
-        this.use = use;
-    }
-    
-    public String getUse() {
-        return this.use;
     }
 }

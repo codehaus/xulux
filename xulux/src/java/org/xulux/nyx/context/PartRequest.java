@@ -1,5 +1,5 @@
 /*
- $Id: PartRequest.java,v 1.12 2003-11-06 19:53:10 mvdb Exp $
+ $Id: PartRequest.java,v 1.13 2003-11-24 10:51:48 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -52,76 +52,87 @@ import org.xulux.nyx.gui.Widget;
  * field or action (action not in the Swing sence)
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PartRequest.java,v 1.12 2003-11-06 19:53:10 mvdb Exp $
+ * @version $Id: PartRequest.java,v 1.13 2003-11-24 10:51:48 mvdb Exp $
  */
 public interface PartRequest extends Cloneable {
     /**
      * No action, just felt the need to call you
      */
-    public int NO_ACTION = 0;
+    int NO_ACTION = 0;
     /**
      * The user pressed ok
      */
-    public int ACTION_OK_REQUEST = 1;
+    int ACTION_OK_REQUEST = 1;
     /**
      * The user pressed cancel
      */
-    public int ACTION_CANCEL_REQUEST = 2;
+    int ACTION_CANCEL_REQUEST = 2;
     /**
-     * Field changed/
+     * Field changed
      */
-    public int ACTION_VALUE_CHANGED = 3;
+    int ACTION_VALUE_CHANGED = 3;
 
     /**
      * Returns the current value of the part
+     *
+     * @return the value of the requesting widget
      */
-    public Object getValue();
+    Object getValue();
 
     /**
      * THIS RETURNS THE GUI VALUE!!!
      * Returns the value of the specified field
      * Fields in format partname.fieldname
      * will return null when the part or field is null
+     *
+     * @param field the name of the field
+     * @return the value of the field requested
      */
-    public Object getValue(String field);
+    Object getValue(String field);
 
     /**
      * Sets the current value to a new value
+     *
+     * @param value set the value of the requesting widget
      */
-    public void setValue(Object value);
-    /**
-     * Returns the applicationPart
-     */
-    public ApplicationPart getPart();
+    void setValue(Object value);
 
     /**
-     * Returns the requestType
+     * @return the applicationPart of the requesting widget
      */
-    public int getType();
+    ApplicationPart getPart();
 
     /**
-     * Returns the name of the field
+     * @return the requestType of the requesting widget
      */
-    public String getName();
+    int getType();
 
     /**
-     * Returns the widget
+     * @return the name of the requesting widget
      */
-    public Widget getWidget();
+    String getName();
+
+    /**
+     * @return the requesting widget
+     */
+    Widget getWidget();
 
     /**
      *
      * @param name - the name of the widget to fetch.
      * @return the widget specified in the current part
      */
-    public Widget getWidget(String name);
+    Widget getWidget(String name);
 
-    public Object clone();
+    /**
+     * @return the clone of the request object
+     */
+    Object clone();
 
     /**
      * Returns the session of the originating part
      * (the part which you can acquire by using getPart()
-     * @return the session.
+     * @return the session of the part
      */
-    public SessionPart getSession();
+    SessionPart getSession();
 }
