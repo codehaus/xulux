@@ -1,5 +1,5 @@
 /*
- $Id: DictionaryTest.java,v 1.2 2003-12-22 15:29:50 mvdb Exp $
+ $Id: DictionaryTest.java,v 1.3 2003-12-23 01:20:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
  * how nyx handles bogus entry in the dictionary xml.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DictionaryTest.java,v 1.2 2003-12-22 15:29:50 mvdb Exp $
+ * @version $Id: DictionaryTest.java,v 1.3 2003-12-23 01:20:31 mvdb Exp $
  */
 public class DictionaryTest extends TestCase {
 
@@ -301,23 +301,6 @@ public class DictionaryTest extends TestCase {
         assertNotNull(mapping.getField("get"));
         mapping = Dictionary.getInstance().getMapping(new InnerBean());
         assertNotNull(mapping.getField("x"));
-    }
-
-    /**
-     * The inner class FieldList is covered here.
-     */
-    public void testFieldList() {
-        System.out.println("testFieldList");
-        BeanMapping.FieldList list = new BeanMapping().new FieldList();
-        list.add("string1");
-        list.add("string2");
-        list.add("string3");
-        assertEquals(3, list.size());
-        assertEquals(-1, list.indexOf(null));
-        assertEquals(0, list.indexOf("string1"));
-        assertEquals(2, list.indexOf("string3"));
-        assertEquals(-1, list.indexOf("string4"));
-        assertEquals(-1, list.indexOf(new Object()));
     }
 
     /**

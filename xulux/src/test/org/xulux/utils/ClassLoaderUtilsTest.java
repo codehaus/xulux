@@ -1,5 +1,5 @@
 /*
- $Id: ClassLoaderUtilsTest.java,v 1.1 2003-12-18 00:17:31 mvdb Exp $
+ $Id: ClassLoaderUtilsTest.java,v 1.2 2003-12-23 01:20:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -62,7 +62,7 @@ import org.xulux.global.Dictionary;
  * Test for the classLoaderUtils
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ClassLoaderUtilsTest.java,v 1.1 2003-12-18 00:17:31 mvdb Exp $
+ * @version $Id: ClassLoaderUtilsTest.java,v 1.2 2003-12-23 01:20:31 mvdb Exp $
  */
 public class ClassLoaderUtilsTest extends TestCase {
     /**
@@ -121,7 +121,7 @@ public class ClassLoaderUtilsTest extends TestCase {
     public void testGetClass() throws Exception {
         System.out.println("testGetClass");
         assertEquals(String.class, ClassLoaderUtils.getClass("java.lang.String"));
-        assertEquals(AnotherRecursiveBean.class, ClassLoaderUtils.getClass("org.xulux.nyx.global.AnotherRecursiveBean"));
+        assertEquals(AnotherRecursiveBean.class, ClassLoaderUtils.getClass("org.xulux.global.AnotherRecursiveBean"));
         assertNull(ClassLoaderUtils.getClass(null));
         assertNull(ClassLoaderUtils.getClass("bogus.class.name"));
         Log log = LogFactory.getLog(ClassLoaderUtils.class);

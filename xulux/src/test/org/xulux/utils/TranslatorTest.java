@@ -1,5 +1,5 @@
 /*
- $Id: TranslatorTest.java,v 1.1 2003-12-18 00:17:31 mvdb Exp $
+ $Id: TranslatorTest.java,v 1.2 2003-12-23 01:20:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -57,7 +57,7 @@ import junit.framework.TestSuite;
  * Test class for Translation and Translator.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TranslatorTest.java,v 1.1 2003-12-18 00:17:31 mvdb Exp $
+ * @version $Id: TranslatorTest.java,v 1.2 2003-12-23 01:20:31 mvdb Exp $
  */
 public class TranslatorTest extends TestCase {
 
@@ -82,9 +82,9 @@ public class TranslatorTest extends TestCase {
      * Test the translation
      */
     public void testTranslate() {
-        Translation trans1 = new Translation("org/xulux/nyx/utils/TranslatorTest1", null);
-        Translation trans2 = new Translation("org/xulux/nyx/utils/TranslatorTest2", null);
-        Translation trans3 = new Translation("org/xulux/nyx/utils/TranslatorTest3", null);
+        Translation trans1 = new Translation("org/xulux/utils/TranslatorTest1", null);
+        Translation trans2 = new Translation("org/xulux/utils/TranslatorTest2", null);
+        Translation trans3 = new Translation("org/xulux/utils/TranslatorTest3", null);
         ArrayList list = new ArrayList();
         list.add(trans1);
         list.add(trans2);

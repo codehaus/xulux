@@ -1,5 +1,5 @@
 /*
- $Id: AnotherRecursiveBean.java,v 1.2 2003-12-23 01:20:31 mvdb Exp $
+ $Id: BeanMappingTest.java,v 1.1 2003-12-23 01:20:31 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -45,98 +45,64 @@
  */
 package org.xulux.global;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
 /**
- * Used to test infiniteloop situations.
+ * Test the BeanMapping.
  *
- * @author <a href="mailto:martin@mvdb.net>Martin van den Bemt</a>
- * @version $Id: AnotherRecursiveBean.java,v 1.2 2003-12-23 01:20:31 mvdb Exp $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: BeanMappingTest.java,v 1.1 2003-12-23 01:20:31 mvdb Exp $
  */
-public class AnotherRecursiveBean extends RecursiveBean {
+public class BeanMappingTest extends TestCase {
 
     /**
-     * Another
+     * Constructor for BeanMappingTest.
+     * @param name the name of the test
      */
-    private RecursiveBean another;
-    /**
-     * AnotherRecursive
-     */
-    private RecursiveBean anotherRecursive;
-    /**
-     * Another recursive bean
-     */
-    private RecursiveBean anotherRecursiveBean;
-    /**
-     * The value
-     */
-    private String value;
-    /**
-     * Constructor for AnotherRecursiveBean.
-     */
-    public AnotherRecursiveBean() {
-        super();
+    public BeanMappingTest(String name) {
+        super(name);
     }
 
     /**
-     * Constructor for AnotherRecursiveBean.
-     * @param value the value
+     * @return the testsuite
      */
-    public AnotherRecursiveBean(String value) {
-        this.value = value;
+    public static Test suite() {
+        TestSuite suite = new TestSuite(BeanMappingTest.class);
+        return suite;
     }
 
-    /**
-     * @return null
-     */
-    public RecursiveBean getAnother() {
-        return another;
-    }
 
     /**
-     * @return null
+     * Test the getField(String) method
+     * We need to test different variations :
+     * 1) A normal field name (foo)
+     * 2) A field with dots in the prefix (foo.bar.code)
+     *    This should resolve to getField(foo.bar) and a getCode() on the result
+     * 3) A field can contain a pointer to another field.
+     *    Eg ?WidgetName.foo.bar should return getField(foo).getBar()
      */
-    public RecursiveBean getAnotherRecursive() {
-        return anotherRecursive;
+    public void testGetField() {
+        System.out.println("testGetField");
+        BeanMapping mapping = new BeanMapping("test");
+        assertNull(mapping.getField(null));
+        mapping.setBean(AnotherRecursiveBean.class);
+        mapping.setDiscovery(true);
+        mapping.discover();
+        System.out.println("Fields : " + mapping.getFields());
+        BeanField field = new BeanField();
+        field.setAlias("pre.postalias");
+        //field.setChangeMethod()
     }
 
-    /**
-     * @return null
-     */
-    public RecursiveBean getAnotherRecursiveBean() {
-        return anotherRecursiveBean;
-    }
-
-    /**
-     * @param bean the bean to set
-     */
-    public void setAnother(RecursiveBean bean) {
-        another = bean;
-    }
-
-    /**
-     * @param bean the bean to set
-     */
-    public void setAnotherRecursive(RecursiveBean bean) {
-        anotherRecursive = bean;
-    }
-
-    /**
-     * @param bean the bean to set
-     */
-    public void setAnotherRecursiveBean(RecursiveBean bean) {
-        anotherRecursiveBean = bean;
-    }
-
-    /**
-     * @param value the value
-     */    
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * @return the value
-     */
-    public String getValue() {
-        return this.value;
+    public AnotherRecursiveBean getBean() {
+        AnotherRecursiveBean parent = new AnotherRecursiveBean("parent");
+        AnotherRecursiveBean child1 = new AnotherRecursiveBean("child1");
+        parent.setAnother(child1);
+        AnotherRecursiveBean child11 = new AnotherRecursiveBean("child11");
+        child1.setAnother(child11);
+        AnotherRecursiveBean child111 = new AnotherRecursiveBean("child111");
+        return parent;
     }
 }
