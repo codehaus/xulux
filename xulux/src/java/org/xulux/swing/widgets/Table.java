@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.12 2004-10-26 07:43:05 mvdb Exp $
+   $Id: Table.java,v 1.13 2004-10-28 20:18:35 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -18,7 +18,6 @@
 package org.xulux.swing.widgets;
 
 import java.awt.Container;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,7 +56,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.12 2004-10-26 07:43:05 mvdb Exp $
+ * @version $Id: Table.java,v 1.13 2004-10-28 20:18:35 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
