@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.24 2002-12-02 21:50:03 mvdb Exp $
+ $Id: Entry.java,v 1.25 2002-12-03 02:19:08 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.24 2002-12-02 21:50:03 mvdb Exp $
+ * @version $Id: Entry.java,v 1.25 2002-12-03 02:19:08 mvdb Exp $
  */
 public class Entry 
 extends Widget
@@ -227,31 +227,46 @@ extends Widget
                 retValue = this.value;
             }
         }
-        else if (this.value != null)
+        else if ("".equals(text))
         {
-            retValue = this.value;
+            if (this.value == null)
+            {
+                retValue = "";
+            }
+            else
+            {
+                retValue = this.value;
+            }
+        }
+        else if (text == null)
+        {
+            retValue = "";
         }
         else
         {
             retValue = text;
         }
-//        System.out.println("Returning : "+retValue);
+
         return retValue;
     }
     
     private void initializeValue()
     {
         Object val = getValue();
-        //System.out.println("Value : "+val);
+        if (!(val instanceof String) && getField()!=null)
+        {
+            val = this.value;
+        }
+        System.out.println("Val : "+val);
+        System.out.println("this.value : "+this.value);
         if (getField()!= null && getValue() != null)
         {
             // we ignore multiple values for now.. 
             BeanMapping map = Dictionary.getInstance().getMapping(val.getClass());
-            //System.out.println("Mapping : "+map);
             if (map != null)
             {
+                System.out.println("Widget : "+getName());
                 val = map.getField(getField()).getValue(this.value);
-                //System.out.println("val : "+val);
             }
         }
         
@@ -270,7 +285,7 @@ extends Widget
      */
     public void setValue(Object val)
     {
-        this.previousValue = this.value;
+        this.previousValue = getValue();
         this.value = val;
         if (initialized)
         {
@@ -289,7 +304,7 @@ extends Widget
         else
         {
             this.value = null;
-            setText("");
+            textField.setText("");
         }
         if (initialized)
         {
@@ -314,5 +329,5 @@ extends Widget
     {
         this.text = text;
     }
-
+    
 }

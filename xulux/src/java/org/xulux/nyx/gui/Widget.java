@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.20 2002-12-02 20:46:37 mvdb Exp $
+ $Id: Widget.java,v 1.21 2002-12-03 02:19:08 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.rules.IRule;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.20 2002-12-02 20:46:37 mvdb Exp $
+ * @version $Id: Widget.java,v 1.21 2002-12-03 02:19:08 mvdb Exp $
  */
 public abstract class Widget
 {
@@ -340,20 +340,6 @@ public abstract class Widget
     public String getName()
     {
         return this.name;
-    }
-    
-    public void xsetText(String text)
-    {
-        this.text = text;
-        if (initialized)
-        {
-            refresh();
-        }
-    }
-    
-    public String xgetText()
-    {
-        return this.text;
     }
     
     public void setProperty(String key, String value)
