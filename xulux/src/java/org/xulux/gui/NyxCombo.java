@@ -1,5 +1,5 @@
 /*
-   $Id: NyxCombo.java,v 1.12 2004-11-23 19:04:21 mvdb Exp $
+   $Id: NyxCombo.java,v 1.13 2004-11-30 14:28:01 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.12 2004-11-23 19:04:21 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.13 2004-11-30 14:28:01 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget implements IContentWidget {
 
@@ -308,14 +308,16 @@ public abstract class NyxCombo extends Widget implements IContentWidget {
             this.value = object;
         } else {
             IMapping map = XuluxContext.getDictionary().getMapping(getPart().getBean());
-            IField field = map.getField(getField());
-            if (field != null) {
-                Object currentValue = field.getValue(getPart().getBean());
-                if (currentValue != null) {
-                    this.previousValue = currentValue;
-                }
-                field.setValue(getPart().getBean(), object);
-                this.value = object;
+            if (map != null) {
+	            IField field = map.getField(getField());
+	            if (field != null) {
+	                Object currentValue = field.getValue(getPart().getBean());
+	                if (currentValue != null) {
+	                    this.previousValue = currentValue;
+	                }
+	                field.setValue(getPart().getBean(), object);
+	                this.value = object;
+	            }
             }
             if (this.value == null) {
                 this.value = object;
