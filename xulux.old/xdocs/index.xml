@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>XULUX - "ZoolLooks"</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="Introduction to XULUX">
+
+<p>
+  The XULUX project was started to scratch an itch (a big itch)
+  The itch we have is that it is a pain to create gui's and it 
+  takes too much development time, while we can better use
+  invest our time in doing usefull things, like focussing on 
+  business logic. 
+</p>
+
+</section>
+</body>
+</document>

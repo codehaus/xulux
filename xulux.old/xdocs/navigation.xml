@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="XULUX">
+
+  <title>XULUX</title>
+  <organizationLogo href="/images/logo1.jpg">xulux.org</organizationLogo>
+
+  <body>
+    <menu name="XULUX">
+      <item name="Overview"                href="/index.html"/>
+      <item name="Logos"                   href="/logo.html"/>
+      <item name="To Do List"              href="/todo.html"/>
+    </menu>
+  </body>
+</project>
