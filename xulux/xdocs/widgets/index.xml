@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The Widget</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The Widget">
+  <subsection name="General">
+    <p>
+      Explain what a widget is
+    </p>
+  </subsection>
+  <subsection name="Behaviour">
+    <p>
+      Explain the behaviour
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      Make a list of properties
+    </p>
+  </subsection>
+</section>
+
+</body>
+
+</document>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>NYX - The Combo Widget</title>
+    <author email="martin@mvdb.net">Martin van den Bemt</author>
+  </properties>
+
+<body>
+
+<section name="The Combo Widget">
+  <subsection name="General">
+    <p>
+      Explain what the combo does
+    </p>
+  </subsection>
+  <subsection name="Content and Selected Value">
+    <p>
+      When you set a value in the combo, nyx will set
+      the selected value in the list accordingly.
+      If the value is not found, it will set the selected
+      value to the first entry in the list.
+    </p>
+    <p>
+      If you replace the content and in between the value
+      is never set, it will try to use the current value
+      to select the correct item. So if you change the combo
+      content and don't want the current value to "live on"
+      call the clear method to reset the value.
+    </p>
+  </subsection>
+  <subsection name="Properties">
+    <p>
+      This is a list of all supported, combo specific, properties.
+      See the <a href="index.html">widget page</a> for information
+      about properties used for all widgets.
+    </p>
+  </subsection>
+</section>
+
+</body>
+
+</document>
