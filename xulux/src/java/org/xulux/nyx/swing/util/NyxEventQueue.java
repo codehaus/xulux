@@ -1,5 +1,5 @@
 /*
- $Id: SwingToolkit.java,v 1.2 2003-08-28 23:28:13 mvdb Exp $
+ $Id: NyxEventQueue.java,v 1.1 2003-08-28 23:28:13 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -47,71 +47,62 @@ package org.xulux.nyx.swing.util;
 
 import java.awt.AWTEvent;
 import java.awt.EventQueue;
-import java.awt.Toolkit;
-
-import org.xulux.nyx.gui.NYXToolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
- * The swing toolkit...
+ * The nyx eventqueue..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingToolkit.java,v 1.2 2003-08-28 23:28:13 mvdb Exp $
+ * @version $Id: NyxEventQueue.java,v 1.1 2003-08-28 23:28:13 mvdb Exp $
  */
-public class SwingToolkit extends NYXToolkit {
-    /**
-     * Holds the event queue for nyx..
-     */
-    protected NyxEventQueue eventQueue;
-    private static boolean initialized = true;
-
+public class NyxEventQueue extends EventQueue implements AWTEventListener{
+    
+    ArrayList queue;
     /**
      * 
      */
-    public SwingToolkit() {
+    public NyxEventQueue() {
+        super();
+        System.out.println("Eventqueue created..");
+        //queue = new ArrayList();
     }
+    
 
     /**
-     * @see org.xulux.nyx.gui.NYXToolkit#beep()
+     * @see java.awt.EventQueue#postEvent(java.awt.AWTEvent)
      */
-    public void beep() {
-        Toolkit.getDefaultToolkit().beep();
+    public void postEvent(AWTEvent theEvent) {
+        System.out.println("Event : "+theEvent);
+        super.postEvent(theEvent);
     }
 
+
     /**
-     * @see org.xulux.nyx.gui.NYXToolkit#initialize()
+     * @see java.awt.event.AWTEventListener#eventDispatched(java.awt.AWTEvent)
      */
-    public void initialize() {
-        if (initialized) {
-            return;
+    public void eventDispatched(AWTEvent event) {
+        if (!(event instanceof MouseEvent)) { 
+            System.out.println("dispatch : "+event);
         }
-        System.out.println("Initializing Swing...");
-        EventQueue systemQueue = 
-            Toolkit.getDefaultToolkit().getSystemEventQueue();
-        this.eventQueue = new NyxEventQueue();
-        systemQueue.push(this.eventQueue);
-        long eventMask =
-            AWTEvent.ACTION_EVENT_MASK
-                + AWTEvent.ADJUSTMENT_EVENT_MASK
-                + AWTEvent.COMPONENT_EVENT_MASK
-                + AWTEvent.FOCUS_EVENT_MASK
-                + AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK
-                + AWTEvent.HIERARCHY_EVENT_MASK
-                + AWTEvent.INPUT_METHOD_EVENT_MASK
-                + AWTEvent.INVOCATION_EVENT_MASK
-                + AWTEvent.ITEM_EVENT_MASK
-                + AWTEvent.KEY_EVENT_MASK
-                + AWTEvent.MOUSE_EVENT_MASK
-                + AWTEvent.MOUSE_MOTION_EVENT_MASK
-                + AWTEvent.PAINT_EVENT_MASK
-                + AWTEvent.TEXT_EVENT_MASK
-                + AWTEvent.WINDOW_EVENT_MASK;
-        Toolkit.getDefaultToolkit().addAWTEventListener(
-            this.eventQueue,
-            eventMask);
-        initialized = true;
+        if (event instanceof KeyEvent) {
+            KeyEvent ke = (KeyEvent)event;
+            if (ke.getKeyCode() == 40) {
+                System.out.println("Keycode 40 start debugging!");
+            }
+        } 
     }
 
-    public void destroy() {
+    /**
+     * @see java.awt.EventQueue#dispatchEvent(java.awt.AWTEvent)
+     */
+    protected void dispatchEvent(AWTEvent event) {
+        if (!(event instanceof MouseEvent)) { 
+            System.out.println("dispatch : "+event);
+        }
+        super.dispatchEvent(event);
     }
 
 }

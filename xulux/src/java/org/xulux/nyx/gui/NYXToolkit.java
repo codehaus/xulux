@@ -1,5 +1,5 @@
 /*
- $Id: NYXToolkit.java,v 1.1 2003-07-29 16:14:27 mvdb Exp $
+ $Id: NYXToolkit.java,v 1.2 2003-08-28 23:28:13 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -57,13 +57,12 @@ import org.xulux.nyx.context.ApplicationContext;
  * (didn't check yet if swt uses something different though)
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NYXToolkit.java,v 1.1 2003-07-29 16:14:27 mvdb Exp $
+ * @version $Id: NYXToolkit.java,v 1.2 2003-08-28 23:28:13 mvdb Exp $
  */
 public abstract class NYXToolkit {
 
     private static NYXToolkit instance;
     private static Log log = LogFactory.getLog(NYXToolkit.class);
-    private static boolean initialized = false;
     /**
      * 
      */
@@ -78,10 +77,9 @@ public abstract class NYXToolkit {
     protected static NYXToolkit getInstance() {
         if (instance == null) {
             instance = ApplicationContext.getInstance().getNYXToolkit();
-            if (!initialized && instance == null) {
+            if (instance == null) {
                 log.warn("No toolkits present for nyx, please check your configuration or guidefaults xml file");
             }
-            initialized = true;
             
         }
         return instance;
@@ -91,5 +89,18 @@ public abstract class NYXToolkit {
      * Make a noise.
      */
     public abstract void beep();
+    
+    /**
+     * Initializes whatever may be needed.
+     * Eg custom eventqueues for swing,etc..
+     *
+     */
+    public abstract void initialize();
+    
+    /**
+     * Destroys whatever was initialized..
+     *
+     */
+    public abstract void destroy();
 
 }
