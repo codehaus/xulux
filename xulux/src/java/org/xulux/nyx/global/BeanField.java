@@ -1,5 +1,5 @@
 /*
- $Id: BeanField.java,v 1.20 2003-07-24 16:01:51 mvdb Exp $
+ $Id: BeanField.java,v 1.21 2003-07-31 13:00:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -48,6 +48,7 @@ package org.xulux.nyx.global;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -68,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  *       to primitive types.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: BeanField.java,v 1.20 2003-07-24 16:01:51 mvdb Exp $
+ * @version $Id: BeanField.java,v 1.21 2003-07-31 13:00:28 mvdb Exp $
  */
 public class BeanField implements IField
 {
@@ -267,6 +268,11 @@ public class BeanField implements IField
                 if (bean != null) {
                     return this.method.invoke(bean, getArgs());
                 } else {
+                    // try to see if it is static..
+                    
+                    if (Modifier.isStatic(getMethod().getModifiers())) {
+                        return getMethod().invoke(null, getArgs());
+                    }
                     if (log.isDebugEnabled()) {
                         log.debug("no data found for "+getName()+", alias "+getAlias()+", realfield "+realField);
                         
@@ -466,6 +472,10 @@ public class BeanField implements IField
         {
             if (this.getAlias().equalsIgnoreCase(object.toString()))
             {
+                return true;
+            } else if (getMethod().getName().equalsIgnoreCase(object.toString())) {
+                // if the method name is the same as this
+                // return true..
                 return true;
             }
         }

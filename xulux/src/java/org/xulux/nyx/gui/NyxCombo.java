@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.4 2003-07-23 13:18:43 mvdb Exp $
+ $Id: NyxCombo.java,v 1.5 2003-07-31 13:00:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,23 +46,26 @@
 package org.xulux.nyx.gui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.global.BeanMapping;
 import org.xulux.nyx.global.Dictionary;
 import org.xulux.nyx.global.IField;
+import org.xulux.nyx.utils.ClassLoaderUtils;
+import org.xulux.nyx.utils.NyxCollectionUtils;
 
 /**
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.4 2003-07-23 13:18:43 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.5 2003-07-31 13:00:28 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 {
     
-    protected ArrayList content;
+    protected List content;
     protected String notSelectedValue;
     protected boolean contentChanged;
     protected boolean notSelectedValueSet;
@@ -122,6 +125,26 @@ public abstract class NyxCombo extends Widget
         }
     }
     
+    /**
+     * Initializes the content when the property
+     * content and content.type is present
+     */
+    protected void initializeContent() {
+        String content = getProperty("content");
+        String contentType = getProperty("content.type");
+        if (content == null || contentType == null) {
+            return;
+        }
+        if (contentType.equalsIgnoreCase("string")) {
+            this.content = NyxCollectionUtils.getListFromCSV(content);
+        }else if (contentType.equalsIgnoreCase("field")) {
+            int index = content.lastIndexOf(".");
+            BeanMapping mapping = Dictionary.getInstance().getMapping(ClassLoaderUtils.getClass(content.substring(0,index)));
+            IField field = mapping.getField(content.substring(index+1));
+            this.content = NyxCollectionUtils.getList(field.getValue(null));
+        }
+    }
+    
     protected void initializeNotSelectedValue()
     {
         String nsv = getNotSelectedValue();
@@ -164,7 +187,7 @@ public abstract class NyxCombo extends Widget
             }
             else
             {
-                ArrayList tmpContent = this.content;
+                List tmpContent = this.content;
                 content = new ArrayList();
                 content.add(nsv);
                 content.addAll(tmpContent);
@@ -275,11 +298,54 @@ public abstract class NyxCombo extends Widget
      * Returns the content.
      * @return ArrayList
      */
-    public ArrayList getContent()
+    public List getContent()
     {
         return content;
     }
 
     
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#canContainValue()
+     */
+    public boolean canContainValue() {
+        return false;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#focus()
+     */
+    public void focus() {
+
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#getGuiValue()
+     */
+    public Object getGuiValue() {
+        return null;
+    }
+
+    /**
+     * @see org.xulux.nyx.gui.Widget#isValueEmpty()
+     */
+    public boolean isValueEmpty() {
+        return false;
+    }
+
+    /**
+     * We need to keep track of content changes 
+     * through the property system.
+     * 
+     * @see org.xulux.nyx.gui.Widget#setProperty(java.lang.String, java.lang.String)
+     */
+    public void setProperty(String key, String value) {
+        if (key != null) {
+            if (key.startsWith("content")) {
+                contentChanged = true;
+            }
+        }
+        super.setProperty(key, value);
+    }
 
 }

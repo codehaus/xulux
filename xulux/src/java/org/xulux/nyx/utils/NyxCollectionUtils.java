@@ -1,7 +1,7 @@
 /*
- $Id: ComboContent.java,v 1.3 2003-07-31 13:00:29 mvdb Exp $
+ $Id: NyxCollectionUtils.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,31 +43,76 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui.utils;
+package org.xulux.nyx.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-
-import org.xulux.nyx.gui.NyxCombo;
+import java.util.StringTokenizer;
 
 /**
- * Creates the content needed for the combo box.
- * This way we have one single entry point for 
- * creating combo data.
+ * Collection utilities to do conversions for nyx.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboContent.java,v 1.3 2003-07-31 13:00:29 mvdb Exp $
+ * @version $Id: NyxCollectionUtils.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
  */
-public class ComboContent
-{
+public class NyxCollectionUtils {
 
-    public static String[] getStringArray(List content, String comboFields, NyxCombo combo)
-    {
-        return null;
+    /**
+     * 
+     */
+    public NyxCollectionUtils() {
     }
     
-    public static List getArrayList(ArrayList content, String comboFields, NyxCombo combo)
-    {
+    /**
+     * Tries to figure out the seperator used
+     * TODO: Make it automatic, now uses comma as seperator
+     * @param values - the seper
+     * @return a list from seperated values or null when values is null
+     */
+    public static List getListFromCSV(String values) {
+        return getListFromCSV(values, ",");
+    }
+    
+    /**
+     * 
+     * @param value
+     * @param delim - seperator
+     * @return a list from seperated values or null when values is null
+     */
+    public static List getListFromCSV(String values, String delim) {
+        if (values == null || values.length()==0) {
+            return null;
+        }
+        ArrayList list = new ArrayList();
+        StringTokenizer tokenizer = new StringTokenizer(values,delim);
+        while (tokenizer.hasMoreTokens()) {
+            list.add(tokenizer.nextToken());
+        }    
+        return list;
+    }
+    
+    /**
+     * Currently supports lists, collections and arrays
+     * 
+     * @param object
+     * @return A list from the specified object. If the object
+     *          is already a list, it will return with the list passed in
+     */
+    public static List getList(Object object) {
+        if (object == null) {
+            return null;
+        }
+        if (object instanceof List) {
+            return (List)object;
+        }
+        if (object instanceof Collection) {
+            return new ArrayList((Collection)object);
+        }
+        if (object.getClass().isArray()) {
+            return Arrays.asList((Object[])object);
+        } 
         return null;
     }
 

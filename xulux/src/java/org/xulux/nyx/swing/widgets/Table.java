@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.2 2003-07-29 16:14:26 mvdb Exp $
+ $Id: Table.java,v 1.3 2003-07-31 13:00:28 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,8 @@
  */
 package org.xulux.nyx.swing.widgets;
 
+import java.awt.Container;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -56,12 +58,15 @@ import org.xulux.nyx.swing.NyxJTable;
  * A nyx table.. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.2 2003-07-29 16:14:26 mvdb Exp $
+ * @version $Id: Table.java,v 1.3 2003-07-31 13:00:28 mvdb Exp $
  */
 public class Table extends ContainerWidget {
 
 
     protected JTable table;
+    /** 
+     * This is the native widget
+     */
     protected JScrollPane scrollPane;
     
     /**
@@ -75,7 +80,18 @@ public class Table extends ContainerWidget {
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
     public void destroy() {
-
+        if (!initialized) {
+            return;
+        }
+        this.scrollPane.remove(this.table);
+        Container container = this.scrollPane.getParent();
+        this.scrollPane.setVisible(false);
+        this.scrollPane.removeAll();
+        if (container != null)
+        {
+            container.remove(this.scrollPane);
+        }
+        this.scrollPane = null;
     }
 
     /**
@@ -115,6 +131,17 @@ public class Table extends ContainerWidget {
      * @see org.xulux.nyx.gui.Widget#focus()
      */
     public void focus() {
+        this.scrollPane.requestFocus();
+        // if widget is not showing we have
+        // to make it showing..
+        if (!this.scrollPane.isShowing() && getParent() != null) {
+            // set the session variable, so controls
+            // can look who requested focus..
+            getPart().getSession().setValue("nyx.focusrequest", this);
+            getParent().focus();            
+        }
+        // remove session variable again.
+        getPart().getSession().remove("nyx.focusrequest");
         this.scrollPane.requestFocus();
     }
 

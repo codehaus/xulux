@@ -76,5 +76,34 @@
 	    <default-background-color>FFFFFF</default-background-color>
 	    <disabled-background-color>CCCCCC</disabled-background-color>
 	  </field>
+	  <field type="label" name="Label:StringContent">
+	    <text>String content:</text>
+	    <size>120,21</size>
+	    <position>4,130</position>
+	  </field>
+	  <field type="combo" name="StringContent">
+	    <content type="string">1,2,3,4,6,7,8</content>
+	    <size>250,21</size>
+	    <position>125,130</position>
+	    <required>true</required>
+	    <required-background-color>FFFFB6</required-background-color>
+	    <default-background-color>FFFFFF</default-background-color>
+	    <disabled-background-color>CCCCCC</disabled-background-color>
+	  </field>
+	  <field type="label" name="Label:FieldContent">
+	    <text>Field content:</text>
+	    <size>120,21</size>
+	    <position>4,160</position>
+	  </field>
+	  <field type="combo" name="FieldContent">
+	    <combofields>fullname</combofields>
+	    <content type="field">org.xulux.nyx.gui.swing.widgets.ComboTest.getValues</content>
+	    <size>250,21</size>
+	    <position>125,160</position>
+	    <required>true</required>
+	    <required-background-color>FFFFB6</required-background-color>
+	    <default-background-color>FFFFFF</default-background-color>
+	    <disabled-background-color>CCCCCC</disabled-background-color>
+	  </field>
    </field>
 </part>

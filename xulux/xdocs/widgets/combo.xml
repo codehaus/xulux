@@ -46,6 +46,24 @@
         </td>
       </tr>
       <tr>
+        <td>content</td>
+        <td>swing</td>
+        <td>
+            The dictionary field or a comma seperated
+            list of values.
+        </td>
+      </tr>
+      <tr>
+        <td>content.type</td>
+        <td>swing</td>
+        <td>
+          This specifies the type of content.
+          Valid values are string (comma seperated list of 
+          values) or field, which should map to an entry
+          in the dictionary.
+        </td>
+      </tr>
+      <tr>
         <td>others</td>
         <td>swing, swt</td>
         <td>

@@ -1,7 +1,7 @@
 /*
- $Id: ComboContent.java,v 1.3 2003-07-31 13:00:29 mvdb Exp $
+ $Id: NyxTableCellEditor.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,32 +43,88 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui.utils;
+package org.xulux.nyx.swing.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Component;
+import java.util.EventObject;
 
-import org.xulux.nyx.gui.NyxCombo;
+import javax.swing.JTable;
+import javax.swing.event.CellEditorListener;
+import javax.swing.table.TableCellEditor;
 
 /**
- * Creates the content needed for the combo box.
- * This way we have one single entry point for 
- * creating combo data.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboContent.java,v 1.3 2003-07-31 13:00:29 mvdb Exp $
+ * @version $Id: NyxTableCellEditor.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
  */
-public class ComboContent
-{
+public class NyxTableCellEditor implements TableCellEditor {
 
-    public static String[] getStringArray(List content, String comboFields, NyxCombo combo)
-    {
+    /**
+     * 
+     */
+    public NyxTableCellEditor() {
+        super();
+    }
+
+    /**
+     * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(javax.swing.JTable, java.lang.Object, boolean, int, int)
+     */
+    public Component getTableCellEditorComponent(
+        JTable table,
+        Object value,
+        boolean isSelected,
+        int row,
+        int column) {
         return null;
     }
-    
-    public static List getArrayList(ArrayList content, String comboFields, NyxCombo combo)
-    {
+
+    /**
+     * @see javax.swing.CellEditor#getCellEditorValue()
+     */
+    public Object getCellEditorValue() {
         return null;
+    }
+
+    /**
+     * @see javax.swing.CellEditor#isCellEditable(java.util.EventObject)
+     */
+    public boolean isCellEditable(EventObject anEvent) {
+        return false;
+    }
+
+    /**
+     * @see javax.swing.CellEditor#shouldSelectCell(java.util.EventObject)
+     */
+    public boolean shouldSelectCell(EventObject anEvent) {
+        return false;
+    }
+
+    /**
+     * @see javax.swing.CellEditor#stopCellEditing()
+     */
+    public boolean stopCellEditing() {
+        return false;
+    }
+
+    /**
+     * @see javax.swing.CellEditor#cancelCellEditing()
+     */
+    public void cancelCellEditing() {
+
+    }
+
+    /**
+     * @see javax.swing.CellEditor#addCellEditorListener(javax.swing.event.CellEditorListener)
+     */
+    public void addCellEditorListener(CellEditorListener l) {
+
+    }
+
+    /**
+     * @see javax.swing.CellEditor#removeCellEditorListener(javax.swing.event.CellEditorListener)
+     */
+    public void removeCellEditorListener(CellEditorListener l) {
+
     }
 
 }

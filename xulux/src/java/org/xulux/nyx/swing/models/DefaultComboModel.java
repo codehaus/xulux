@@ -1,5 +1,5 @@
 /*
- $Id: DefaultComboModel.java,v 1.15 2003-06-17 12:52:50 mvdb Exp $
+ $Id: DefaultComboModel.java,v 1.16 2003-07-31 13:00:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.swing.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.StringTokenizer;
 
 import javax.swing.ComboBoxModel;
@@ -60,7 +61,7 @@ import org.xulux.nyx.swing.widgets.Combo;
  * The default combobox model.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DefaultComboModel.java,v 1.15 2003-06-17 12:52:50 mvdb Exp $
+ * @version $Id: DefaultComboModel.java,v 1.16 2003-07-31 13:00:28 mvdb Exp $
  */
 public class DefaultComboModel implements ComboBoxModel
 {
@@ -82,10 +83,10 @@ public class DefaultComboModel implements ComboBoxModel
     /**
      * Constructor for DefaultComboModel.
      */
-    public DefaultComboModel(ArrayList list, String field, Combo combo)
+    public DefaultComboModel(Collection list, String field, Combo combo)
     {
         this.field = field;
-        this.original = list;
+        this.original = new ArrayList(list);
         this.combo = combo;
         initialize();
     }

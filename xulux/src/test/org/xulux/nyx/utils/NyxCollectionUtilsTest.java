@@ -1,7 +1,7 @@
 /*
- $Id: ComboTest.java,v 1.2 2003-07-31 13:00:28 mvdb Exp $
+ $Id: NyxCollectionUtilsTest.java,v 1.1 2003-07-31 13:00:29 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,90 +43,82 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui.swing.widgets;
+package org.xulux.nyx.utils;
 
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.xulux.nyx.context.ApplicationContext;
-import org.xulux.nyx.context.ApplicationPart;
-import org.xulux.nyx.gui.PartCreator;
-
 /**
- * 
+ * Test the collection utils..
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboTest.java,v 1.2 2003-07-31 13:00:28 mvdb Exp $
+ * @version $Id: NyxCollectionUtilsTest.java,v 1.1 2003-07-31 13:00:29 mvdb Exp $
  */
-public class ComboTest extends TestCase
-{
+public class NyxCollectionUtilsTest extends TestCase {
 
     /**
-     * Constructor for ComboTest.
+     * Constructor for NyxCollectionUtilsTest.
+     * @param name
      */
-    public ComboTest(String name)
-    {
+    public NyxCollectionUtilsTest(String name) {
         super(name);
     }
     
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite(ComboTest.class);
+    public static Test suite() {
+        TestSuite suite = new TestSuite(NyxCollectionUtilsTest.class);
         return suite;
     }
-    
-    public void testSimpleComboSwing()
-    {
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/swing/widgets/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-        part.activate();
-    }
-    
-    public void testSimpleComboSwt()
-    {
-        ApplicationContext.getInstance();
-        ApplicationContext.getInstance().setDefaultWidgetType("swt");
-        PersonBean person = new PersonBean("Martin", "van den Bemt");
-        String xml = "org/xulux/nyx/gui/swing/widgets/ComboTest.xml";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(xml);
-        ApplicationPart part = PartCreator.createPart(person, stream);
-        part.activate();
-    }
-    
-    public static void main(String args[])
-    {
-        try
-        {
-            new ComboTest("ComboTest").testSimpleComboSwing();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(0);
-        }
-    }
-    
-    
+
     /**
-     * Convenience method for the combo 
-     * content type=field test..
+     * Test for List getListFromCSV(String)
      */
-    public static List getValues() {
-        ArrayList list = new ArrayList();
-        list.add(new PersonBean("content1","field1"));
-        list.add(new PersonBean("content2","field2"));
-        list.add(new PersonBean("content3","field3"));
-        return list;
+    public void testGetListFromCSVString() {
     }
-       
+
+    /**
+     * Test for List getListFromCSV(String, String)
+     */
+    public void testGetListFromCSVStringString() {
+    }
+
+    /** 
+     * Test the getList.
+     */
+    public void testGetListList() {
+        ArrayList list = new ArrayList();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        assertEquals(list, NyxCollectionUtils.getList(list));
+    }
     
+    public void testGetListCollection() {
+        HashMap map = new HashMap();
+        map.put("1","1");
+        map.put("2","1");
+        map.put("3","1");
+        List list = NyxCollectionUtils.getList(map.keySet());
+        assertEquals(3,list.size());
+        assertTrue(list.contains("1"));
+        assertTrue(list.contains("2"));
+        assertTrue(list.contains("3"));
+    }
     
-    
+    public void testGetListArray() {
+        String[] string = new String[3];
+        string[0] = "1";
+        string[1] = "2";
+        string[2] = "3";
+        List list = NyxCollectionUtils.getList(string); 
+        assertEquals(3,list.size());
+        assertEquals("1", list.get(0));
+        assertEquals("2", list.get(1));
+        assertEquals("3", list.get(2));
+    }
 
 }

@@ -1,7 +1,7 @@
 /*
- $Id: ComboContent.java,v 1.3 2003-07-31 13:00:29 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,32 +43,87 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui.utils;
+package org.xulux.nyx.swing.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.xulux.nyx.gui.NyxCombo;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 
 /**
- * Creates the content needed for the combo box.
- * This way we have one single entry point for 
- * creating combo data.
+ * The nyx tablemodel contains all magic for tables.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboContent.java,v 1.3 2003-07-31 13:00:29 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
  */
-public class ComboContent
-{
+public class NyxTableModel implements TableModel {
 
-    public static String[] getStringArray(List content, String comboFields, NyxCombo combo)
-    {
+    /**
+     * 
+     */
+    public NyxTableModel() {
+        super();
+    }
+
+    /**
+     * @see javax.swing.table.TableModel#getRowCount()
+     */
+    public int getRowCount() {
+        return 0;
+    }
+
+    /**
+     * @see javax.swing.table.TableModel#getColumnCount()
+     */
+    public int getColumnCount() {
+        return 0;
+    }
+
+    /**
+     * @see javax.swing.table.TableModel#getColumnName(int)
+     */
+    public String getColumnName(int columnIndex) {
         return null;
     }
-    
-    public static List getArrayList(ArrayList content, String comboFields, NyxCombo combo)
-    {
+
+    /**
+     * @see javax.swing.table.TableModel#getColumnClass(int)
+     */
+    public Class getColumnClass(int columnIndex) {
         return null;
+    }
+
+    /**
+     * @see javax.swing.table.TableModel#isCellEditable(int, int)
+     */
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return false;
+    }
+
+    /**
+     * @see javax.swing.table.TableModel#getValueAt(int, int)
+     */
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        return null;
+    }
+
+    /**
+     * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
+     */
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+
+    }
+
+    /**
+     * @see javax.swing.table.TableModel#addTableModelListener(javax.swing.event.TableModelListener)
+     */
+    public void addTableModelListener(TableModelListener l) {
+
+    }
+
+    /**
+     * @see javax.swing.table.TableModel#removeTableModelListener(javax.swing.event.TableModelListener)
+     */
+    public void removeTableModelListener(TableModelListener l) {
+
     }
 
 }

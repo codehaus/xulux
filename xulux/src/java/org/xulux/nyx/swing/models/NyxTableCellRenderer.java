@@ -1,7 +1,7 @@
 /*
- $Id: ComboContent.java,v 1.3 2003-07-31 13:00:29 mvdb Exp $
+ $Id: NyxTableCellRenderer.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
 
- Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,31 +43,37 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui.utils;
+package org.xulux.nyx.swing.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Component;
 
-import org.xulux.nyx.gui.NyxCombo;
+import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 /**
- * Creates the content needed for the combo box.
- * This way we have one single entry point for 
- * creating combo data.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ComboContent.java,v 1.3 2003-07-31 13:00:29 mvdb Exp $
+ * @version $Id: NyxTableCellRenderer.java,v 1.1 2003-07-31 13:00:28 mvdb Exp $
  */
-public class ComboContent
-{
+public class NyxTableCellRenderer implements TableCellRenderer {
 
-    public static String[] getStringArray(List content, String comboFields, NyxCombo combo)
-    {
-        return null;
+    /**
+     * 
+     */
+    public NyxTableCellRenderer() {
+        super();
     }
-    
-    public static List getArrayList(ArrayList content, String comboFields, NyxCombo combo)
-    {
+
+    /**
+     * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+     */
+    public Component getTableCellRendererComponent(
+        JTable table,
+        Object value,
+        boolean isSelected,
+        boolean hasFocus,
+        int row,
+        int column) {
         return null;
     }
 
