@@ -1,5 +1,5 @@
 /*
-   $Id: NyxEventQueue.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+   $Id: NyxEventQueue.java,v 1.4 2004-03-02 14:02:37 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,7 +30,7 @@ import org.xulux.gui.NyxListener;
  * doing rule processing..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxEventQueue.java,v 1.3 2004-01-28 15:09:24 mvdb Exp $
+ * @version $Id: NyxEventQueue.java,v 1.4 2004-03-02 14:02:37 mvdb Exp $
  */
 public class NyxEventQueue { // extends EventQueue {
 
@@ -88,8 +88,10 @@ public class NyxEventQueue { // extends EventQueue {
         }
         for (int i = 0; i < accepted.size(); i++) {
             NyxListener listener = ((NyxListener) accepted.get(i));
-            if (listener.accepted(listener.getWidget())) {
-                listener.completed();
+            if (listener != null) {
+                if (listener.accepted(listener.getWidget())) {
+                    listener.completed();
+                }
             }
         }
         accepted = null;
