@@ -1,7 +1,7 @@
 /*
- $Id: SWTUtil.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ $Id: SWTUtil.java,v 1.2 2003-01-27 00:35:51 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -45,19 +45,37 @@
  */
 package org.xulux.nyx.gui.swt.util;
 
+import java.io.InputStream;
+
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Widget;
+import org.xulux.nyx.gui.WidgetRectangle;
 import org.xulux.nyx.gui.utils.ColorUtils;
 
 /**
  * Utility class to make swt a bit easier accessable.
  * 
+ * @task This probably can be made more generic and allow pluging in 
+ *       specific implementation. This way you have only one API to talk
+ *       to instead of multiple apis depending on extra support of gui
+ *       types
+ * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTUtil.java,v 1.1 2003-01-08 02:37:07 mvdb Exp $
+ * @version $Id: SWTUtil.java,v 1.2 2003-01-27 00:35:51 mvdb Exp $
  */
 public class SWTUtil
 {
+    
+    /**
+     * The imageLoader instance we are reusing
+     */
+    private static ImageLoader imageLoader;
 
     /**
      * Constructor for SWTUtil.
@@ -89,6 +107,39 @@ public class SWTUtil
     public static RGB getRGB(int rgb[])
     {
         return new RGB(rgb[0],rgb[1],rgb[2]);
+    }
+    
+    
+    /**
+     * See the ImageLoader javadoc for the inner workings.
+     * This will not support all imageTypes, but it will
+     * support ICO files.
+     * 
+     * @param resource - the resource to load
+     * @param object - the object to use the classloader from (cannot be null)
+     * @return - the image 
+     */ 
+    public static Image getImage(String resource, Widget widget)
+    {
+        if (imageLoader == null)
+        {
+            imageLoader = new ImageLoader();
+        }
+        InputStream stream  = widget.getClass().getClassLoader().getResourceAsStream(resource);
+        return new Image(widget.getDisplay() ,stream);
+    }
+    
+    
+    /**
+     * Creates an swt from a WidgetRectangle.
+     * 
+     * @param rect - the widget rectangle that is created by nyx
+     * @return an swt rectangle
+     */
+    public static Rectangle getRectangle(WidgetRectangle rect)
+    {
+        return new Rectangle(rect.getX(), rect.getY(), 
+                              rect.getWidth(), rect.getHeight());
     }
 
 }

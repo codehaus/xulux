@@ -1,7 +1,7 @@
 /*
- $Id: Widget.java,v 1.23 2003-01-25 23:17:57 mvdb Exp $
+ $Id: Widget.java,v 1.24 2003-01-27 00:35:51 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -58,11 +58,11 @@ import org.xulux.nyx.rules.IRule;
  * For now swing specific, we need an xml config somewhere
  * to say how we should initialize it, etc.
  * 
- * TODO: Use introspection, because this is getting to big and too
+ * @todo Use introspection, because this is getting to big and too
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.23 2003-01-25 23:17:57 mvdb Exp $
+ * @version $Id: Widget.java,v 1.24 2003-01-27 00:35:51 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -229,6 +229,7 @@ public abstract class Widget implements Serializable
      * Returns the "native" widget. could be a swing, swt or other type of component
      */
     public abstract Object getNativeWidget();
+    
     
     /**
      * Initializes the widget, based on the current settings

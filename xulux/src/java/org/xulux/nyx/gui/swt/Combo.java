@@ -1,7 +1,7 @@
 /*
- $Id: Combo.java,v 1.1 2003-01-25 23:17:57 mvdb Exp $
+ $Id: Combo.java,v 1.2 2003-01-27 00:35:51 mvdb Exp $
 
- Copyright 2002 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -48,9 +48,7 @@ package org.xulux.nyx.gui.swt;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Composite;
 import org.xulux.nyx.gui.swt.util.SWTUtil;
 import org.xulux.nyx.gui.utils.ComboContent;
 import org.xulux.nyx.listeners.NyxListener;
@@ -61,16 +59,17 @@ import org.xulux.nyx.listeners.swt.PrePostFieldListener;
 /**
  * Represents the swt combo and cCombo.
  * 
- * @author Martin van den Bemt
- * @version $Id: Combo.java,v 1.1 2003-01-25 23:17:57 mvdb Exp $
+ * @author <a href="mailo:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: Combo.java,v 1.2 2003-01-27 00:35:51 mvdb Exp $
  */
 public class Combo extends org.xulux.nyx.gui.Combo
+implements SWTWidget
 {
-    
     
     org.eclipse.swt.widgets.Combo combo;
     KeyListener keyListener;
     SelectionListener selectionListener;
+    Composite parent;
 
     /**
      * Constructor for Combo.
@@ -88,6 +87,21 @@ public class Combo extends org.xulux.nyx.gui.Combo
     {
         return combo;
     }
+    
+    /**
+     * @see org.xulux.nyx.gui.swt.SWTWidget#getNativeObject(Composite)
+     */
+    public Object getNativeObject(Composite composite)
+    {
+        if (!initialized)
+        {
+            System.out.println("initializing : "+composite.getClass().getName());
+            this.parent = composite;
+            initialize();
+        }
+        return getNativeWidget();
+    }
+    
 
     /**
      * @see org.xulux.nyx.gui.Widget#initialize()
@@ -104,8 +118,8 @@ public class Combo extends org.xulux.nyx.gui.Combo
         {
             this.notSelectedValue = nsv;
         }
-        combo = new org.eclipse.swt.widgets.Combo(null, SWT.LEFT);
-        //combo.
+        combo = new org.eclipse.swt.widgets.Combo(parent, SWT.DROP_DOWN);
+        combo.setBounds(SWTUtil.getRectangle(getRectangle()));
         if (!isRefreshing())
         {
             refresh();
@@ -165,16 +179,10 @@ public class Combo extends org.xulux.nyx.gui.Combo
                 this.value = content.get(combo.getSelectionIndex());
             }
         }
-        /*
-        if (model != null && model.getSelectedIndex() == 0
-            && contentChanged)
-        {
-            this.value = model.getRealSelectedValue();
-        }
-        */
         if (contentChanged)
         {
             contentChanged = false;
+            //combo.setItems()
         }
         String backgroundColor = null;
         if (isRequired() && isEnabled())
