@@ -1,5 +1,5 @@
 /*
- $Id: NyxTableModel.java,v 1.10 2003-09-01 12:04:20 mvdb Exp $
+ $Id: NyxTableModel.java,v 1.11 2003-09-10 07:41:28 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,8 @@
  */
 package org.xulux.nyx.swing.models;
 
+import java.util.List;
+
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
@@ -58,9 +60,10 @@ import org.xulux.nyx.swing.widgets.Table;
 
 /**
  * The nyx tablemodel contains all magic for tables.
+ * TODO: Assumes lists right now.. Should support more probably..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.10 2003-09-01 12:04:20 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.11 2003-09-10 07:41:28 mvdb Exp $
  */
 public class NyxTableModel extends NyxListener implements TableModel {
     
@@ -92,7 +95,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
         if (table == null) {
             return 0;
         }
-        return (table.getContent()!=null)?table.getContent().size():0;
+        return (table.getContent()!=null)?((List)table.getContent()).size():0;
     }
 
     /**
@@ -135,14 +138,14 @@ public class NyxTableModel extends NyxListener implements TableModel {
      */
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (columnIndex == -1) {
-            return table.getContent().get(rowIndex);
+            return ((List)table.getContent()).get(rowIndex);
         }
         Widget w = (Widget)table.getChildWidgets().get(columnIndex);
         if (w.getField() != null) {
-            BeanMapping map = Dictionary.getInstance().getMapping(table.getContent().get(rowIndex));
+            BeanMapping map = Dictionary.getInstance().getMapping(((List)table.getContent()).get(rowIndex));
             IField field = map.getField(w.getField());
             if (field != null) {
-                Object value = field.getValue(table.getContent().get(rowIndex));
+                Object value = field.getValue(((List)table.getContent()).get(rowIndex));
                 if (value == null) {
                     value = "";
                 }
@@ -164,10 +167,10 @@ public class NyxTableModel extends NyxListener implements TableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Widget w = (Widget)table.getChildWidgets().get(columnIndex);
         if (w.getField() != null) {
-            BeanMapping map = Dictionary.getInstance().getMapping(table.getContent().get(rowIndex));
+            BeanMapping map = Dictionary.getInstance().getMapping(((List)table.getContent()).get(rowIndex));
             IField field = map.getField(w.getField());
             if (field != null) {
-                field.setValue(table.getContent().get(rowIndex), aValue);
+                field.setValue(((List)table.getContent()).get(rowIndex), aValue);
             }
         }
         // process rules, etc..

@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.16 2003-09-01 11:45:37 mvdb Exp $
+ $Id: Table.java,v 1.17 2003-09-10 07:41:28 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -82,7 +82,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * TODO: Redo this completely! It sucks big time!!
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.16 2003-09-01 11:45:37 mvdb Exp $
+ * @version $Id: Table.java,v 1.17 2003-09-10 07:41:28 mvdb Exp $
  */
 public class Table extends ContainerWidget
 implements IContentWidget
@@ -500,7 +500,7 @@ implements IContentWidget
      * 
      * @return the content of the table or null when no content is present
      */
-    public List getContent() {
+    public Object getContent() {
         return this.content;
     }
     
@@ -508,12 +508,14 @@ implements IContentWidget
      * Set the content of the table
      * @param list
      */
-    public void setContent(List list) {
+    public void setContent(Object object) {
         contentChanged = true;
         this.oldListSize = this.listSize;
-        this.content = list;
-        if (list != null) {
-            listSize = list.size();
+        if (object instanceof List) {
+            this.content = (List)object;
+        }
+        if (object != null) {
+            listSize = this.content.size();
         }
         if (initialized) {
             refresh();

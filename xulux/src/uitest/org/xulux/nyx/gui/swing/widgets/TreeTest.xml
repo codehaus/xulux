@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- $Id: TreeTest.xml,v 1.1 2003-09-10 07:41:28 mvdb Exp $ -->
+<part name="LabelTestForm" prefix="Person">
+  <rules>
+    <rule>org.xulux.nyx.gui.rules.TreeContentRule</rule>
+  </rules>
+  <field type="window" name="Window">
+    <title>TreeTest</title>
+    <icon>resources/Car.ico</icon>
+    <size>320,420</size>
+    <field type="tree" name="SimpleTree">
+     <position>10,0</position>
+     <size>300,400</size>
+    </field>
+  </field>
+</part>

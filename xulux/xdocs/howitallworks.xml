@@ -2,20 +2,43 @@
 
 <document>
   <properties>
-    <title>NYX - How it all works</title>
+    <title>NYX - How NYX currently works</title>
     <author email="martin@mvdb.net">Martin van den Bemt</author>
   </properties>
 
 <body>
 
-<section name="How it all works">
+<section name="How NYX currently works">
   <p>
-    Currently it doesn't all work, so be patient
-    till I release something.
-    If you want to help out, I will try to put
-    something together to fill this document
-    Needs some attention I guess ;)
+    Not everything currently works the way I have in mind. See the features page, 
+    if you want to learn more about the goals. 
   </p>
+    <subsection name="Core">
+      <p>
+        The core of the nyx system, only contains non gui layers specific code. 
+        (don't let the gui package fool you).
+        The core is devided into a couple of part :
+        - the context.
+        - global
+        - gui
+        - guidefaults
+        - rules
+        - utility classes
+        - NyxRunner
+      </p>
+    </subsection>
+    <subsection name="Swing">
+      <p>
+        This swing gui layer is currently provided as part of the core nyx jar.
+        In a later stage this will be moved to a seperate jar. 
+        A lot of the swing stuff is already documented. Internals are not yet important
+        to document, so I will do that when there is need for it. 
+        Expect changes in this area, so we can make more use of generics, so all gui layers
+        can be based on the same api and rely on the same mechanismes. See gui for more info
+        on this.
+      </p>
+    </subsection>
+  
 </section>
 
 </body>

@@ -57,6 +57,10 @@
         <td><a href="table.html">table</a></td>
         <td>swing</td>
       </tr>
+      <tr>
+        <td><a href="tree.html">tree</a></td>
+        <td>swing</td>
+      </tr>
       </table>
     </p>
   </subsection>

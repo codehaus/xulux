@@ -1,7 +1,7 @@
 /*
- $Id: IContentWidget.java,v 1.2 2003-09-10 07:41:28 mvdb Exp $
+ $Id: IContentHandler.java,v 1.1 2003-09-10 07:41:29 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,30 +43,39 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
-
-import java.util.List;
+package org.xulux.nyx.global;
 
 /**
- * Interface that widgets must implement if they use content.
- * Content is a collection of objects that needs to be shown
- * in eg a list, table or combo.
+ * The content handler interface. A contenthandler is used for widgets
+ * that shows content from a eg a list, a tree, DOM, etc.
+ * The passed in object will be processed to the type it returns when using getType()
  * 
+ * Eventually this will move to be the generic contenthandler for all widgets.
+ * Contenthandlers are registered in a widget (eg guidefaults), so the developer
+ * of a widget can specify which content is supported.
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentWidget.java,v 1.2 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: IContentHandler.java,v 1.1 2003-09-10 07:41:29 mvdb Exp $
  */
-public interface IContentWidget {
+public interface IContentHandler {
     
     /**
-     * Set the content for the widget
-     * @param list
+     * Sets the content to the specified object.
+     * 
+     * @param content
      */
-    public void setContent(Object object);
+    public void setContent(Object content);
     
     /**
-     * Get the current content of the widget
-     * @return
+     * 
+     * @return the content that is previously set
      */
     public Object getContent();
+    
+    /**
+     * 
+     * @return the type of content this handler supports.
+     */
+    public Class getType();
 
 }

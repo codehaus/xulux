@@ -33,9 +33,41 @@
       </p>
     </subsection>
 
+    <subsection name="Gui Handlers">
+      <p>
+        A gui handler is the system that actually creates the widgets and
+        activates them. Currently a nyx specific xml format is used. 
+        Adding handlers for eg XUL or formats used by others, is already
+        possible, since you currently have to call the handlers manually.
+        We want to move to a more "pluggable" way of using handlers, so nyx
+        can be completely run by not having to call the handlers directly.
+        (eg using NyxRunner specifying a xml'ized configuration file.
+      </p>
+    </subsection>
+    
+    <subsection name="Gui Designer">
+      <p>
+        The gui designer will be an important part in nyx. It will allow 
+        seperation of gui design from business rules. It will also contain
+        an appication generator, which will be based on the selected 
+        dataprovider for the project. 
+        Since I want to make the gui designer in NYX as a proof of concept
+        for what NYX can do, it will take a while to get this finished.
+        Building of the designer will be focused towards Eclipse integration
+        and if the need is there, there will be a netbeans plugin. 
+      </p>
+    </subsection>
+
     <subsection name="Widgets">
       <p>
-        List of widgets
+        Currently the widgets are kind of focussed on getting the job done, 
+        even though not always nicely. The goals is to create basic widgets,
+        that can be extended to any use.  A widget should be constructed 
+        based on different parts of functionality. There should be a core
+        widget, which just delegates it's behaviour to the handlers specified
+        in an xml configuration for that widget. This way every peace of handling
+        can be delegated or overriden easily if behaviour of the widget should be 
+        adjusted.
       </p>
     </subsection>
     

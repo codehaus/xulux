@@ -1,7 +1,7 @@
 /*
- $Id: IContentWidget.java,v 1.2 2003-09-10 07:41:28 mvdb Exp $
+ $Id: TreeContentRule.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,30 +43,39 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.gui.rules;
 
-import java.util.List;
+import org.xulux.nyx.context.PartRequest;
+import org.xulux.nyx.gui.IContentWidget;
+import org.xulux.nyx.gui.swing.widgets.TreeTest;
+import org.xulux.nyx.rules.Rule;
 
 /**
- * Interface that widgets must implement if they use content.
- * Content is a collection of objects that needs to be shown
- * in eg a list, table or combo.
- * 
+ * Sets the content from a rule..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentWidget.java,v 1.2 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: TreeContentRule.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
  */
-public interface IContentWidget {
-    
+public class TreeContentRule extends Rule {
+
     /**
-     * Set the content for the widget
-     * @param list
+     * 
      */
-    public void setContent(Object object);
-    
+    public TreeContentRule() {
+        super();
+    }
+
     /**
-     * Get the current content of the widget
-     * @return
+     * @see org.xulux.nyx.rules.IRule#pre(org.xulux.nyx.context.PartRequest)
      */
-    public Object getContent();
+    public void pre(PartRequest request) {
+        ((IContentWidget)request.getPart().getWidget("SimpleTree")).setContent(TreeTest.getData());
+    }
+
+    /**
+     * @see org.xulux.nyx.rules.IRule#post(org.xulux.nyx.context.PartRequest)
+     */
+    public void post(PartRequest request) {
+
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- $Id: UpdateButtonsListener.java,v 1.6 2003-09-01 12:04:20 mvdb Exp $
+ $Id: UpdateButtonsListener.java,v 1.7 2003-09-10 07:41:28 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -72,7 +72,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * very usefull for this purpose.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: UpdateButtonsListener.java,v 1.6 2003-09-01 12:04:20 mvdb Exp $
+ * @version $Id: UpdateButtonsListener.java,v 1.7 2003-09-10 07:41:28 mvdb Exp $
  */
 public class UpdateButtonsListener extends NyxListener
 implements ActionListener, ListSelectionListener
@@ -123,20 +123,24 @@ implements ActionListener, ListSelectionListener
             if (value == null) {
                 // figure out what object type to create
                 if (parent instanceof IContentWidget) {
-                    List content = ((IContentWidget)parent).getContent();
-                    String classType = parent.getProperty("classType");
-                    if (classType != null) {
-                        partBean = ClassLoaderUtils.getObjectFromClassString(classType);
-                    } else if (content != null && content.size() > 0) {
-                        partBean = ClassLoaderUtils.getObjectFromClass(content.get(0).getClass());
-                    }
-                    if (partBean == null) {
-                        if (log.isWarnEnabled()) {
-                            log.warn("Cannot determine type to create for widget "+ 
-                                parent.getName() + " please create a rule to call" +                                    " the updateform or add the classType property to the table");
+                    Object objContent = ((IContentWidget)parent).getContent();
+                    // TODO: Only supports content lists...
+                    if (objContent instanceof List) { 
+                        List content = (List) objContent;
+                        String classType = parent.getProperty("classType");
+                        if (classType != null) {
+                            partBean = ClassLoaderUtils.getObjectFromClassString(classType);
+                        } else if (content != null && content.size() > 0) {
+                            partBean = ClassLoaderUtils.getObjectFromClass(content.get(0).getClass());
                         }
-                        // TODO: the nyx magic stops here for now 
-                        return;
+                        if (partBean == null) {
+                            if (log.isWarnEnabled()) {
+                                log.warn("Cannot determine type to create for widget "+ 
+                                    parent.getName() + " please create a rule to call" +                                        " the updateform or add the classType property to the table");
+                            }
+                            // TODO: the nyx magic stops here for now 
+                            return;
+                        }
                     }
                 }
             } else {

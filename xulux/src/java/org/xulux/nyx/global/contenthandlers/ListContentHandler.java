@@ -1,7 +1,7 @@
 /*
- $Id: IContentWidget.java,v 1.2 2003-09-10 07:41:28 mvdb Exp $
+ $Id: ListContentHandler.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,30 +43,37 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.global.contenthandlers;
 
 import java.util.List;
 
 /**
- * Interface that widgets must implement if they use content.
- * Content is a collection of objects that needs to be shown
- * in eg a list, table or combo.
+ * A content handler for a list.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentWidget.java,v 1.2 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: ListContentHandler.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
  */
-public interface IContentWidget {
-    
+public class ListContentHandler extends ContentHandlerAbstract {
+
     /**
-     * Set the content for the widget
-     * @param list
+     * 
      */
-    public void setContent(Object object);
-    
+    public ListContentHandler() {
+        super();
+    }
+
     /**
-     * Get the current content of the widget
-     * @return
+     * @see org.xulux.nyx.global.IContentHandler#getContent()
      */
-    public Object getContent();
+    public Object getContent() {
+        return null;
+    }
+
+    /**
+     * @see org.xulux.nyx.global.IContentHandler#getType()
+     */
+    public Class getType() {
+        return List.class;
+    }
 
 }

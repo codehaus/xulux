@@ -1,7 +1,7 @@
 /*
- $Id: IContentWidget.java,v 1.2 2003-09-10 07:41:28 mvdb Exp $
+ $Id: ContentHandlerAbstract.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
 
- Copyright 2003 (C) The Xulux Project. All Rights Reserved.
+ Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
@@ -43,30 +43,45 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.gui;
+package org.xulux.nyx.global.contenthandlers;
 
-import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xulux.nyx.global.IContentHandler;
 
 /**
- * Interface that widgets must implement if they use content.
- * Content is a collection of objects that needs to be shown
- * in eg a list, table or combo.
+ * An absract for the content handler.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IContentWidget.java,v 1.2 2003-09-10 07:41:28 mvdb Exp $
+ * @version $Id: ContentHandlerAbstract.java,v 1.1 2003-09-10 07:41:28 mvdb Exp $
  */
-public interface IContentWidget {
+public abstract class ContentHandlerAbstract implements IContentHandler {
+    
+    protected Object content;
+    protected static Log log = LogFactory.getLog(ContentHandlerAbstract.class);
     
     /**
-     * Set the content for the widget
-     * @param list
+     * 
      */
-    public void setContent(Object object);
-    
+    public ContentHandlerAbstract() {
+        super();
+    }
+
     /**
-     * Get the current content of the widget
-     * @return
+     * @see org.xulux.nyx.global.IContentHandler#setContent(java.lang.Object)
      */
-    public Object getContent();
+    public void setContent(Object content) {
+        this.content = content;
+    }
+
+    /**
+     * @see org.xulux.nyx.global.IContentHandler#getContent()
+     */
+    public abstract Object getContent();
+
+    /**
+     * @see org.xulux.nyx.global.IContentHandler#getType()
+     */
+    public abstract Class getType();
 
 }

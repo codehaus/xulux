@@ -1,5 +1,5 @@
 /*
- $Id: SWTCombo.java,v 1.7 2003-08-09 00:09:56 mvdb Exp $
+ $Id: SWTCombo.java,v 1.8 2003-09-10 07:41:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,8 @@
  */
 package org.xulux.nyx.swt.widgets;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionListener;
@@ -62,7 +64,7 @@ import org.xulux.nyx.swt.util.SWTUtil;
  * Represents the swt combo and cCombo.
  * 
  * @author <a href="mailo:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SWTCombo.java,v 1.7 2003-08-09 00:09:56 mvdb Exp $
+ * @version $Id: SWTCombo.java,v 1.8 2003-09-10 07:41:28 mvdb Exp $
  */
 public class SWTCombo extends NyxCombo
 implements SWTWidget
@@ -150,7 +152,7 @@ implements SWTWidget
         {
             initializeNotSelectedValue();
             String comboFields = getProperty("combofields");
-            combo.setItems(ComboContent.getStringArray(getContent(), comboFields, this));
+            combo.setItems(ComboContent.getStringArray((List)getContent(), comboFields, this));
             if (this.selectionListener == null)
             {
                 NyxListener listener = getPart().getFieldEventHandler(this);

@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.17 2003-09-01 09:38:14 mvdb Exp $
+ $Id: NyxListener.java,v 1.18 2003-09-10 07:41:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -64,7 +64,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.17 2003-09-01 09:38:14 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.18 2003-09-10 07:41:28 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -204,18 +204,22 @@ public abstract class NyxListener
                     }
                     Widget parent = (Widget)widget.getPart().getSession().getValue("nyx.callerwidget");
                     if (parent instanceof IContentWidget) {
-                        List data = ((IContentWidget)parent).getContent();
-                        if (data == null) {
-                            data = new ArrayList();
+                        Object objData = ((IContentWidget)parent).getContent();
+                        // TODO:now only supports content with a list.. Needs to be improved..
+                        if (objData instanceof List) {
+                            List data = (List) objData;
+                            if (data == null) {
+                                data = new ArrayList();
+                            }
+                            Object dataBean = widget.getPart().getBean();
+                            int dataIndex = data.indexOf(dataBean);
+                            if (dataIndex != -1 ) {
+                                data.set(dataIndex, dataBean);
+                            } else {
+                                data.add(widget.getPart().getBean());
+                            }
+                            ((IContentWidget)parent).setContent(data);
                         }
-                        Object dataBean = widget.getPart().getBean();
-                        int dataIndex = data.indexOf(dataBean);
-                        if (dataIndex != -1 ) {
-                            data.set(dataIndex, dataBean);
-                        } else {
-                            data.add(widget.getPart().getBean());
-                        }
-                        ((IContentWidget)parent).setContent(data);
                         parent.setValue(widget.getPart().getBean());
                     }
                     if (parent != null) {

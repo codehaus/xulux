@@ -1,5 +1,5 @@
 /*
- $Id: NyxCombo.java,v 1.14 2003-09-01 09:38:14 mvdb Exp $
+ $Id: NyxCombo.java,v 1.15 2003-09-10 07:41:28 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * The combo abstract. This will contain the combo generics
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxCombo.java,v 1.14 2003-09-01 09:38:14 mvdb Exp $
+ * @version $Id: NyxCombo.java,v 1.15 2003-09-10 07:41:28 mvdb Exp $
  */
 public abstract class NyxCombo extends Widget
 implements IContentWidget
@@ -117,9 +117,11 @@ implements IContentWidget
      * to say which one is used, in any other situation, toString is used
      * to represent a field.
      */
-    public void setContent(List list)
+    public void setContent(Object object)
     {
-        this.content = list;
+        if (this.content instanceof List) {
+            this.content = (List)object;
+        }
         contentChanged = true;
         if (initialized)
         {
@@ -336,7 +338,7 @@ implements IContentWidget
      * Returns the content.
      * @return ArrayList
      */
-    public List getContent()
+    public Object getContent()
     {
         return content;
     }
