@@ -1,5 +1,5 @@
 /*
- $Id: AllTests.java,v 1.3 2003-11-25 16:40:16 mvdb Exp $
+ $Id: ComboContentTest.java,v 1.1 2003-11-25 16:40:16 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
 
@@ -46,25 +46,43 @@
 package org.xulux.nyx.gui.utils;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
+ * Test of the colorutils class
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: AllTests.java,v 1.3 2003-11-25 16:40:16 mvdb Exp $
+ * @version $Id: ComboContentTest.java,v 1.1 2003-11-25 16:40:16 mvdb Exp $
  */
-public class AllTests
+public class ComboContentTest extends TestCase
 {
 
     /**
-     * @return the testsuite
+     * Constructor for ComboContenTest
+     * @param name the name of the test
      */
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for org.xulux.nyx.gui.utils");
-        //$JUnit-BEGIN$
-        suite.addTest(ColorUtilsTest.suite());
-        //$JUnit-END$
+    public ComboContentTest(String name) {
+        super(name);
+    }
+
+    /**
+     * @return the test suite
+     */
+    public static Test suite() {
+        TestSuite suite = new TestSuite(ComboContentTest.class);
         return suite;
     }
+
+    /**
+     * Fake test, so we actually test something when
+     * using that class.
+     */
+    public void testComboContent() {
+        System.out.println("testComboContent");
+        new ComboContent();
+        assertNull(ComboContent.getArrayList(null, null, null));
+        assertNull(ComboContent.getStringArray(null, null, null));
+    }
+
 }
