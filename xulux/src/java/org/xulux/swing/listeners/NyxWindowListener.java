@@ -1,5 +1,5 @@
 /*
-   $Id: NyxWindowListener.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
+   $Id: NyxWindowListener.java,v 1.5 2004-11-01 21:40:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -32,7 +32,7 @@ import org.xulux.gui.Widget;
  * the X button.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxWindowListener.java,v 1.4 2004-07-07 17:43:42 mvdb Exp $
+ * @version $Id: NyxWindowListener.java,v 1.5 2004-11-01 21:40:31 mvdb Exp $
  */
 public class NyxWindowListener extends NyxListener implements WindowListener {
     /**
@@ -83,7 +83,6 @@ public class NyxWindowListener extends NyxListener implements WindowListener {
      * @see java.awt.event.WindowListener#windowClosing(WindowEvent)
      */
     public void windowClosing(WindowEvent e) {
-        System.err.println("window closing : " + e);
         log.trace("Window closing : " + e);
         shouldDestroy = true;
     }

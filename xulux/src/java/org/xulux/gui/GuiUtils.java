@@ -1,5 +1,5 @@
 /*
-   $Id: GuiUtils.java,v 1.11 2004-10-26 07:43:06 mvdb Exp $
+   $Id: GuiUtils.java,v 1.12 2004-11-01 21:40:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -31,7 +31,7 @@ import org.xulux.rules.impl.WidgetRequestImpl;
  * Like firing rules when the cancel button is pressed or the window is closed.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiUtils.java,v 1.11 2004-10-26 07:43:06 mvdb Exp $
+ * @version $Id: GuiUtils.java,v 1.12 2004-11-01 21:40:31 mvdb Exp $
  */
 public class GuiUtils {
 
@@ -60,7 +60,7 @@ public class GuiUtils {
             // of closing the part was used (eg a window close)
             // we assume this must be the parent of the cancel button.
             // find the cancel button if any are present..
-            if (!(caller instanceof IContentWidget)) {
+            if (!(caller instanceof ContainerWidget)) {
               return false;
             }
             List list = getWidgetsWithProperty("defaultaction", caller);

@@ -1,5 +1,5 @@
 /*
-   $Id: IconTitledBorder.java,v 1.2 2004-07-19 22:07:31 mvdb Exp $
+   $Id: IconTitledBorder.java,v 1.3 2004-11-01 21:40:31 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -34,7 +34,7 @@ import javax.swing.border.AbstractBorder;
  * A border wich supports an icon as well as text.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: IconTitledBorder.java,v 1.2 2004-07-19 22:07:31 mvdb Exp $
+ * @version $Id: IconTitledBorder.java,v 1.3 2004-11-01 21:40:31 mvdb Exp $
  */
 public class IconTitledBorder extends AbstractBorder {
 
@@ -120,7 +120,7 @@ public class IconTitledBorder extends AbstractBorder {
   }
 
 
-  protected int getTitleWidth(Component c) {
+  public int getTitleWidth(Component c) {
     int titleWidth = 0;
     if (getImage() != null) {
       titleWidth+=getImage().getIconWidth();
@@ -149,7 +149,7 @@ public class IconTitledBorder extends AbstractBorder {
     return getMaxHeight(c) / 2;
   }
   
-  protected int getMaxHeight(Component c) {
+  public int getMaxHeight(Component c) {
     int textHeight = 0;
     int imageHeight = 0;
     if (getTitle() != null) {
