@@ -1,5 +1,5 @@
 /*
-   $Id: NyxTableModel.java,v 1.7 2004-06-23 11:10:39 mvdb Exp $
+   $Id: NyxTableModel.java,v 1.8 2004-06-24 21:33:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -29,6 +29,7 @@ import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.converters.IConverter;
 import org.xulux.gui.NyxListener;
 import org.xulux.gui.Widget;
+import org.xulux.gui.utils.FirstNyxComboTest;
 import org.xulux.swing.widgets.Table;
 import org.xulux.utils.BooleanUtils;
 
@@ -37,7 +38,7 @@ import org.xulux.utils.BooleanUtils;
  * @todo Assumes lists right now.. Should support more probably..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxTableModel.java,v 1.7 2004-06-23 11:10:39 mvdb Exp $
+ * @version $Id: NyxTableModel.java,v 1.8 2004-06-24 21:33:03 mvdb Exp $
  */
 public class NyxTableModel extends NyxListener implements TableModel {
 
@@ -109,6 +110,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
                 rowCount = ((List) table.getContent()).size();
             }
         }
+//        System.err.println("rowcount : " + rowCount);
         return rowCount;
     }
 
@@ -245,6 +247,7 @@ public class NyxTableModel extends NyxListener implements TableModel {
      * refreshes the table, since there is new content
      */
     public void refresh() {
+        
     }
 
 }

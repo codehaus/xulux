@@ -1,5 +1,5 @@
 /*
-   $Id: Table.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
+   $Id: Table.java,v 1.6 2004-06-24 21:33:03 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -28,9 +28,9 @@ import javax.swing.table.TableModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xulux.dataprovider.IMapping;
 import org.xulux.dataprovider.Dictionary;
 import org.xulux.dataprovider.IField;
+import org.xulux.dataprovider.IMapping;
 import org.xulux.gui.ContainerWidget;
 import org.xulux.gui.IContentWidget;
 import org.xulux.gui.NyxListener;
@@ -56,7 +56,7 @@ import org.xulux.utils.NyxCollectionUtils;
  * @todo Redo this completely! It sucks big time!!
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.5 2004-04-01 16:15:08 mvdb Exp $
+ * @version $Id: Table.java,v 1.6 2004-06-24 21:33:03 mvdb Exp $
  */
 public class Table extends ContainerWidget implements IContentWidget {
 
@@ -249,34 +249,41 @@ public class Table extends ContainerWidget implements IContentWidget {
         isRefreshing = true;
         initializeContent();
         if (contentChanged) {
-            this.destroyTable();
+            //this.destroyTable();
             if (this.columnModel == null) {
                 this.columnModel = new NyxTableColumnModel(this);
                 //                System.out.println("hasLockedColumns : "+this.columnModel.hasLockedColumns());
             }
+            boolean refreshModel = false;
             if (this.model == null) {
                 if (content instanceof TableModel) {
                     this.model = new NyxTableModel((TableModel) content, this);
                 } else {
                     this.model = new NyxTableModel(this);
                 }
+            } else {
+                refreshModel = true;
             }
+                
+            
             if (this.editor == null) {
                 this.editor = new NyxTableCellEditor(this);
             }
             boolean hasLockedColumns = columnModel.hasLockedColumns();
-            if (hasLockedColumns) {
+            if (hasLockedColumns && lockedTable == null) {
                 lockedTable = new NyxJTable(model, columnModel.getLockedColumnModel());
                 lockedTable.setCellEditor(editor);
                 lockedTable.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
             }
-            table = new NyxJTable(this.model, this.columnModel);
-            table.setCellEditor(this.editor);
-            table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
-            table.getSelectionModel().addListSelectionListener(new NewSelectionListener(this));
-            scrollPane.setViewportView(table);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            if (hasLockedColumns) {
+            if (table == null) {
+                table = new NyxJTable(this.model, this.columnModel);
+                table.setCellEditor(this.editor);
+                table.getSelectionModel().addListSelectionListener(new UpdateButtonsListener(this));
+                table.getSelectionModel().addListSelectionListener(new NewSelectionListener(this));
+                scrollPane.setViewportView(table);
+                scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            }
+            if (hasLockedColumns && table.getSiblingTable() == null) {
                 table.setSiblingTable(lockedTable);
                 lockedTable.setSiblingTable(table);
                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -291,6 +298,13 @@ public class Table extends ContainerWidget implements IContentWidget {
             }
             scrollPane.setVisible(true);
             table.setVisible(true);
+            if (refreshModel) {
+                // null means everything changed..
+                table.tableChanged(null);
+                lockedTable.tableChanged(null);
+//                table.tableChanged(new TableModelEvent(this.model, TableModelEvent.ALL_COLUMNS));
+//                lockedTable.tableChanged(new TableModelEvent(this.model, TableModelEvent.ALL_COLUMNS));
+            }
             getPart().refreshWidgets(this);
             contentChanged = false;
         }
@@ -562,6 +576,9 @@ public class Table extends ContainerWidget implements IContentWidget {
             }
         }
         if (menu != null) {
+            if (menu.getParent() == null) {
+                menu.setParent(this);
+            }
             menu.initialize();
         }
         return true;
