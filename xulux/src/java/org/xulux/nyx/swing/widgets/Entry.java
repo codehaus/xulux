@@ -1,5 +1,5 @@
 /*
- $Id: Entry.java,v 1.22 2003-08-09 00:09:05 mvdb Exp $
+ $Id: Entry.java,v 1.23 2003-08-10 21:48:41 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -67,7 +67,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * Represents an entry field
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Entry.java,v 1.22 2003-08-09 00:09:05 mvdb Exp $
+ * @version $Id: Entry.java,v 1.23 2003-08-10 21:48:41 mvdb Exp $
  */
 public class Entry 
 extends SwingWidget
@@ -307,8 +307,8 @@ extends SwingWidget
             if (map != null) {
                 IField field = map.getField(getField());
                 // set the previous value
-                this.previousValue = field.getValue(getPart().getBean());
                 if (field != null) {
+                    this.previousValue = field.getValue(getPart().getBean());
                     IConverter converter = Dictionary.getConverter(field.getReturnType());
                     if (converter != null) {
                         object = converter.getBeanValue(object);
