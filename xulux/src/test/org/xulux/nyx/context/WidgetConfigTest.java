@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfigTest.java,v 1.3 2003-05-21 10:00:14 mvdb Exp $
+ $Id: WidgetConfigTest.java,v 1.4 2003-08-03 20:53:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,9 @@
  */
 package org.xulux.nyx.context;
 
+import org.xulux.nyx.gui.IWidgetInitializer;
+import org.xulux.nyx.gui.Widget;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -53,7 +56,7 @@ import junit.framework.TestSuite;
  * Tests the widgetConfig
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfigTest.java,v 1.3 2003-05-21 10:00:14 mvdb Exp $
+ * @version $Id: WidgetConfigTest.java,v 1.4 2003-08-03 20:53:04 mvdb Exp $
  */
 public class WidgetConfigTest extends TestCase
 {
@@ -100,4 +103,50 @@ public class WidgetConfigTest extends TestCase
         assertNull(config.get("swing"));
         assertNull(config.getCoreClass());
     }
+    
+    public void testWidgetInitializers() {
+        WidgetConfig config = new WidgetConfig();
+        config.add("swt", Integer.class);
+        config.add("swing", Integer.class);
+        config.addWidgetInitializer("swing", initOne.class);
+        assertEquals(1,config.getWidgetInitializers("swing").size());
+        config.addWidgetInitializer("swing", initTwo.class);
+        assertEquals(2,config.getWidgetInitializers("swing").size());
+        assertNull(config.getWidgetInitializers("swt"));
+        config.addWidgetInitializer("swt", initTwo.class);
+        assertEquals(1, config.getWidgetInitializers("swt").size());
+    }
+    
+    public class initOne implements IWidgetInitializer {
+            /**
+         * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
+         */
+        public void destroy(Widget widget) {
+
+        }
+
+        /**
+         * @see org.xulux.nyx.gui.IWidgetInitializer#initialize(org.xulux.nyx.gui.Widget)
+         */
+        public void initialize(Widget widget) {
+
+        }
+
+}
+    public class initTwo implements IWidgetInitializer {
+            /**
+         * @see org.xulux.nyx.gui.IWidgetInitializer#destroy(org.xulux.nyx.gui.Widget)
+         */
+        public void destroy(Widget widget) {
+
+        }
+
+        /**
+         * @see org.xulux.nyx.gui.IWidgetInitializer#initialize(org.xulux.nyx.gui.Widget)
+         */
+        public void initialize(Widget widget) {
+
+        }
+
+}
 }

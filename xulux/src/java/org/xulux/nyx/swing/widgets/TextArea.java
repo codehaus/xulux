@@ -1,5 +1,5 @@
 /*
- $Id: TextArea.java,v 1.4 2003-07-21 22:11:03 mvdb Exp $
+ $Id: TextArea.java,v 1.5 2003-08-03 20:53:03 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * The swing textare widget.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TextArea.java,v 1.4 2003-07-21 22:11:03 mvdb Exp $
+ * @version $Id: TextArea.java,v 1.5 2003-08-03 20:53:03 mvdb Exp $
  */
 public class TextArea extends Entry {
     
@@ -85,6 +85,7 @@ public class TextArea extends Entry {
      */
     public void destroy()
     {
+        processDestroy();
         if (textComponent != null)
         {
             textComponent.removeAll();
@@ -155,6 +156,7 @@ public class TextArea extends Entry {
             }
         }
         refresh();
+        processInit();
         this.setValueCalled = false;
     }
 

@@ -1,5 +1,5 @@
 /*
- $Id: Native.java,v 1.4 2003-08-03 20:53:03 mvdb Exp $
+ $Id: IWidgetInitializer.java,v 1.1 2003-08-03 20:53:04 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -43,84 +43,21 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-package org.xulux.nyx.swing.widgets;
-
-import org.xulux.nyx.gui.Widget;
+package org.xulux.nyx.gui;
 
 /**
- * A placeholder for a native widgets.
- * It should just return the native widget when requested..
- * 
+ * This interface is to be able to add custom destroyers
+ * and initializors to widgets. These initializors
+ * will be stored in the Widget class as statics.
+ * You cannot use instance variables, since the same
+ * instance of the initializer will be reused.
+ *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Native.java,v 1.4 2003-08-03 20:53:03 mvdb Exp $
+ * @version $Id: IWidgetInitializer.java,v 1.1 2003-08-03 20:53:04 mvdb Exp $
  */
-public class Native extends Widget {
-
-    /**
-     * @param name
-     */
-    public Native(String name) {
-        super(name);
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#destroy()
-     */
-    public void destroy() {
-        processDestroy();
-
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#getNativeWidget()
-     */
-    public Object getNativeWidget() {
-        return null;
-    }
+public interface IWidgetInitializer {
     
-    public void setNativeWidget(Object object) {
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#initialize()
-     */
-    public void initialize() {
-        processInit();
-
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#refresh()
-     */
-    public void refresh() {
-
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#focus()
-     */
-    public void focus() {
-
-    }
-    /**
-     * @see org.xulux.nyx.gui.Widget#getGuiValue()
-     */
-    public Object getGuiValue() {
-        return null;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#canContainValue()
-     */
-    public boolean canContainValue() {
-        return false;
-    }
-
-    /**
-     * @see org.xulux.nyx.gui.Widget#isValueEmpty()
-     */
-    public boolean isValueEmpty() {
-        return true;
-    }
-
+    public void initialize(Widget widget);
+    
+    public void destroy(Widget widget);
 }

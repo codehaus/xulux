@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.28 2003-07-29 16:14:27 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.29 2003-08-03 20:53:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,17 +45,18 @@
  */
 package org.xulux.nyx.context;
 
-import java.awt.Component;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xulux.nyx.gui.INativeWidgetHandler;
 import org.xulux.nyx.gui.IParentWidgetHandler;
+import org.xulux.nyx.gui.IWidgetInitializer;
 import org.xulux.nyx.gui.NYXToolkit;
 import org.xulux.nyx.gui.NyxListener;
 import org.xulux.nyx.gui.Widget;
@@ -68,7 +69,7 @@ import org.xulux.nyx.utils.ClassLoaderUtils;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.28 2003-07-29 16:14:27 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.29 2003-08-03 20:53:04 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -90,11 +91,6 @@ public class ApplicationContext
      */
     private static boolean test = false;
 
-    /** 
-     * The listeners that are added to components
-     */
-    private ArrayList listeners;
-    
     private HashMap parts;
     
     private HashMap widgets;
@@ -122,6 +118,13 @@ public class ApplicationContext
      * Normal situations just have 1 toolkit..
      */
     private HashMap nyxToolkits;
+    
+    /**
+     * Map contains widget Initializers and
+     * destroyers.
+     */
+    private HashMap widgetInitMap;
+    
     /** 
      * The currently registered rules
      */
@@ -239,27 +242,6 @@ public class ApplicationContext
             IRule rule = (IRule) it.next();
             rule.deregisterPartName(partName);
         }
-    }
-
-    /**
-     * Adds default listeners to a certain component
-     */
-    public void addApplicationListeners(Component component)
-    {
-        initializeListeners();
-        // TODO ;((
-    }
-
-    /**
-     * Initializes the default listeners
-     */
-    private void initializeListeners()
-    {
-        if (listeners != null)
-        {
-            return;
-        }
-        listeners = new ArrayList();
     }
 
     /** 
@@ -587,8 +569,12 @@ public class ApplicationContext
      */
     private void initializeGuiDefaults()
     {
+        initializeGuiDefaults(GUIDEFAULTS_XML);
+    }
+    
+    public void initializeGuiDefaults(String xmlFile) {
         GuiDefaultsHandler handler = new GuiDefaultsHandler();
-        InputStream stream = this.getClass().getClassLoader().getResourceAsStream(GUIDEFAULTS_XML);
+        InputStream stream = this.getClass().getClassLoader().getResourceAsStream(xmlFile);
         handler.read(stream);
     }
 
@@ -739,6 +725,60 @@ public class ApplicationContext
             log.warn("NYXToolkit class "+clazz+" is not of type NYXToolkit or cannot be instantiated");
         } 
     }
-        
-
+    
+    
+    /**
+     * Add a widget initializer 
+     * @param initializerClass
+     * @param widgetName
+     * @param type
+     */
+    public void registerWidgetInitializer(String initializerClass, String widgetName, String type) {
+        if (type == null) {
+            type = getDefaultWidgetType();
+        }
+        Class clz = ClassLoaderUtils.getClass(initializerClass);
+        if (clz != null) {
+            if (!IWidgetInitializer.class.isAssignableFrom(clz)) {
+                if (log.isWarnEnabled()) {
+                    log.warn("Widget initializer "+initializerClass+" is not of type IWidgetInitializer");
+                }
+                return;
+            }
+            WidgetConfig config = (WidgetConfig)widgets.get(widgetName);
+            if (config != null) {
+                config.addWidgetInitializer(type, clz);
+            } else {
+                if (log.isWarnEnabled()) {
+                    log.warn("Cannot register widget initializer "+initializerClass+
+                       " since there is no widget with the name "+widgetName);
+                }
+            } 
+        } else {
+            if (log.isWarnEnabled()) {
+                log.warn("Widget initializer "+initializerClass+" cannot be initialized");
+            }
+        } 
+    }
+    
+    /**
+     * 
+     * @param widgetType
+     * @return a new instance of the widget initializer that is part of this widget
+     *          or null when not present
+     */
+    public List getWidgetInitializers(String widgetType) {
+        WidgetConfig config = (WidgetConfig)widgets.get(widgetType);
+        List clzs = config.getWidgetInitializers(getDefaultWidgetType());
+        Iterator it = clzs.iterator();
+        ArrayList list = new ArrayList();
+        while (it.hasNext()) {
+            Class clz = (Class)it.next();
+            list.add((IWidgetInitializer)ClassLoaderUtils.getObjectFromClass(clz));
+        }
+        if (list.size() == 0) {
+            return null;
+        }
+        return list;
+    }
 }

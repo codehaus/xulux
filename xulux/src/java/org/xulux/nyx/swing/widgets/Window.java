@@ -1,5 +1,5 @@
 /*
- $Id: Window.java,v 1.6 2003-07-29 16:14:26 mvdb Exp $
+ $Id: Window.java,v 1.7 2003-08-03 20:53:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -70,7 +70,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * This is a swing window.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Window.java,v 1.6 2003-07-29 16:14:26 mvdb Exp $
+ * @version $Id: Window.java,v 1.7 2003-08-03 20:53:03 mvdb Exp $
  */
 public class Window extends NyxWindow
 {
@@ -92,6 +92,7 @@ public class Window extends NyxWindow
      */
     public void destroy()
     {
+        processDestroy();
         ArrayList children = getChildWidgets();
         if (children != null)
         {
@@ -173,7 +174,8 @@ public class Window extends NyxWindow
         {
             refresh();
         }
-        new Thread(new RepaintComponent()).start();    
+        new Thread(new RepaintComponent()).start();
+        processInit();    
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: CheckBox.java,v 1.6 2003-07-29 16:14:26 mvdb Exp $
+ $Id: CheckBox.java,v 1.7 2003-08-03 20:53:03 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.listeners.PrePostFieldListener;
  * The nyx to swing implementation of a checkbox
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CheckBox.java,v 1.6 2003-07-29 16:14:26 mvdb Exp $
+ * @version $Id: CheckBox.java,v 1.7 2003-08-03 20:53:03 mvdb Exp $
  */
 public class CheckBox extends SwingWidget {
     
@@ -77,6 +77,7 @@ public class CheckBox extends SwingWidget {
      * @see org.xulux.nyx.gui.Widget#destroy()
      */
     public void destroy() {
+        processDestroy();
         if (checkBox != null)
         {
             Container container = checkBox.getParent();
@@ -118,6 +119,7 @@ public class CheckBox extends SwingWidget {
         // the value..
         checkBox.addItemListener(this.itemListener);
         refresh();
+        processInit();
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- $Id: GuiDefaultsTest.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
+ $Id: GuiDefaultsTest.java,v 1.5 2003-08-03 20:53:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -46,6 +46,7 @@
 package org.xulux.nyx.guidefaults;
 
 import java.util.HashMap;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -58,7 +59,7 @@ import org.xulux.nyx.context.WidgetConfig;
  * Tests processing of guiDefaults.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.4 2003-07-10 22:40:22 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.5 2003-08-03 20:53:04 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase
 {
@@ -93,6 +94,16 @@ public class GuiDefaultsTest extends TestCase
         assertNotNull(ApplicationContext.getInstance().getParentWidgetHandler("swing"));
         assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler());
         assertNotNull(ApplicationContext.getInstance().getNativeWidgetHandler("swing"));
+    }
+    
+    public void testCustomGuiDefaults() {
+        System.out.println("testCustomGuiDefaults");
+        ApplicationContext.getInstance();
+        ApplicationContext.getInstance().initializeGuiDefaults("org/xulux/nyx/guidefaults/GuiDefaultsTest.xml");
+        HashMap map = ApplicationContext.getInstance().getWidgets();
+        WidgetConfig config = (WidgetConfig)map.get("window");
+        List list = config.getWidgetInitializers("swing");
+        assertEquals(1,list.size());
     }
 
 }

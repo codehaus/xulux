@@ -1,5 +1,5 @@
 /*
- $Id: Panel.java,v 1.6 2003-07-29 16:14:26 mvdb Exp $
+ $Id: Panel.java,v 1.7 2003-08-03 20:53:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -61,7 +61,7 @@ import org.xulux.nyx.swing.layouts.XYLayout;
  * A panel widget
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Panel.java,v 1.6 2003-07-29 16:14:26 mvdb Exp $
+ * @version $Id: Panel.java,v 1.7 2003-08-03 20:53:03 mvdb Exp $
  */
 public class Panel extends ContainerWidget
 {
@@ -82,6 +82,7 @@ public class Panel extends ContainerWidget
      */
     public void destroy()
     {
+        processDestroy();
         super.destroy();
         Container container = panel.getParent();
         panel.setVisible(false);
@@ -117,6 +118,7 @@ public class Panel extends ContainerWidget
         panel = new JPanel(new XYLayout());
         initializeChildren();
         refresh();
+        processInit();
     }
 
     /**

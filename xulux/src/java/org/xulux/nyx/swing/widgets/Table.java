@@ -1,5 +1,5 @@
 /*
- $Id: Table.java,v 1.3 2003-07-31 13:00:28 mvdb Exp $
+ $Id: Table.java,v 1.4 2003-08-03 20:53:03 mvdb Exp $
 
  Copyright 2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.xulux.nyx.swing.NyxJTable;
  * A nyx table.. 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Table.java,v 1.3 2003-07-31 13:00:28 mvdb Exp $
+ * @version $Id: Table.java,v 1.4 2003-08-03 20:53:03 mvdb Exp $
  */
 public class Table extends ContainerWidget {
 
@@ -83,6 +83,7 @@ public class Table extends ContainerWidget {
         if (!initialized) {
             return;
         }
+        processDestroy();
         this.scrollPane.remove(this.table);
         Container container = this.scrollPane.getParent();
         this.scrollPane.setVisible(false);
@@ -111,6 +112,7 @@ public class Table extends ContainerWidget {
         initialized = true;
         this.table = new NyxJTable();
         this.scrollPane = new JScrollPane();
+        processInit();
     }
 
     /**

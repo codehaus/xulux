@@ -1,5 +1,5 @@
 /*
- $Id: WidgetFactory.java,v 1.4 2003-07-10 22:40:21 mvdb Exp $
+ $Id: WidgetFactory.java,v 1.5 2003-08-03 20:53:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -50,9 +50,10 @@ import java.lang.reflect.Constructor;
 import org.xulux.nyx.context.ApplicationContext;
 
 /**
+ * Factory to create the widget class..
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.4 2003-07-10 22:40:21 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.5 2003-08-03 20:53:04 mvdb Exp $
  */
 public class WidgetFactory
 {
@@ -82,6 +83,7 @@ public class WidgetFactory
                     clazz.getConstructor(new Class[] { String.class });
                 instance =
                     (Widget) constructor.newInstance(new String[] { name });
+                instance.setWidgetType(type);
             }
             catch (Exception e)
             {

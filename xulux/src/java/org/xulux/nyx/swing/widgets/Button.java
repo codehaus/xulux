@@ -1,5 +1,5 @@
 /*
- $Id: Button.java,v 1.7 2003-07-29 16:14:26 mvdb Exp $
+ $Id: Button.java,v 1.8 2003-08-03 20:53:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.swing.util.SwingUtils;
  * Represents a button in the gui
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Button.java,v 1.7 2003-07-29 16:14:26 mvdb Exp $
+ * @version $Id: Button.java,v 1.8 2003-08-03 20:53:03 mvdb Exp $
  */
 public class Button extends SwingWidget
 {
@@ -104,6 +104,7 @@ public class Button extends SwingWidget
         {
             refresh();
         }
+        processInit();
     }
 
     /**
@@ -199,6 +200,7 @@ public class Button extends SwingWidget
      */
     public void destroy()
     {
+        processDestroy();
         Container container = button.getParent();
         if (actionListener != null)
         {

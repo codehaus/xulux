@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!-- $Id: GuiDefaults.xml,v 1.14 2003-08-03 20:53:04 mvdb Exp $ -->
 <!-- 
     Where no type is specified, it will default
     to defaultType.

@@ -1,5 +1,5 @@
 /*
- $Id: Widget.java,v 1.33 2003-07-31 14:37:41 mvdb Exp $
+ $Id: Widget.java,v 1.34 2003-08-03 20:53:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,8 +49,10 @@ package org.xulux.nyx.gui;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
+import org.xulux.nyx.context.ApplicationContext;
 import org.xulux.nyx.context.ApplicationPart;
 import org.xulux.nyx.rules.IRule;
 import org.xulux.nyx.utils.NyxCollectionUtils;
@@ -64,7 +66,7 @@ import org.xulux.nyx.utils.NyxCollectionUtils;
  * specific as a generic Widget... 
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget.java,v 1.33 2003-07-31 14:37:41 mvdb Exp $
+ * @version $Id: Widget.java,v 1.34 2003-08-03 20:53:04 mvdb Exp $
  */
 public abstract class Widget implements Serializable
 {
@@ -112,6 +114,12 @@ public abstract class Widget implements Serializable
      * Holds the prefix of the field
      */
     private String prefix;
+    
+    /**
+     * The type of widget as defined in the
+     * GuiDefaults
+     */
+    private String widgetType;
     
         
     public Widget(String name)
@@ -775,5 +783,47 @@ public abstract class Widget implements Serializable
      * @return
      */
     public abstract boolean canContainValue();
-
+    
+    /**
+     * Set the widget type as defined in GuiDefaults.xml
+     * 
+     * @param widgetType
+     */
+    public void setWidgetType(String widgetType) {
+        this.widgetType = widgetType;
+    }
+    
+    /**
+     * 
+     * @return - the widgetType as defined in GuiDefaults.xml
+     */
+    public String getWidgetType() {
+        return this.widgetType;
+    }
+    
+    /**
+     * process custom initialization classes
+     * This should ONLY be called after the widget has
+     * finished initializing
+     */
+    protected void processInit() {
+        List list = ApplicationContext.getInstance().getWidgetInitializers(getWidgetType());
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            ((IWidgetInitializer)it.next()).initialize(this);
+        }
+    }
+    
+    /**
+     * process custom destroy classes.
+     * This should only be called before the widget gets
+     * destroyed.
+     */    
+    protected void processDestroy() {
+        List list = ApplicationContext.getInstance().getWidgetInitializers(getWidgetType());
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            ((IWidgetInitializer)it.next()).destroy(this);
+        }
+    }
 }

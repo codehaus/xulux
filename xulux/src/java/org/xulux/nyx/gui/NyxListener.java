@@ -1,5 +1,5 @@
 /*
- $Id: NyxListener.java,v 1.4 2003-07-31 14:09:49 mvdb Exp $
+ $Id: NyxListener.java,v 1.5 2003-08-03 20:53:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -58,7 +58,7 @@ import org.xulux.nyx.swing.widgets.TextArea;
  * An abstract to which all listeners must obey.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: NyxListener.java,v 1.4 2003-07-31 14:09:49 mvdb Exp $
+ * @version $Id: NyxListener.java,v 1.5 2003-08-03 20:53:04 mvdb Exp $
  */
 public abstract class NyxListener
 {
@@ -98,7 +98,7 @@ public abstract class NyxListener
      * @return true if the accepted went ok, false if not.
      */
     public boolean accepted(Widget widget) {
-        
+        System.out.println("Widget name "+widget.getName());
         if (widget instanceof NyxCombo) {
             // set the value, but do not refresh the gui.
             ((NyxCombo)widget).setValue(widget.getGuiValue(),false);
@@ -131,7 +131,6 @@ public abstract class NyxListener
         }
         
         if (widget instanceof Button) {
-//            Button button = (Button) widget;
             String defAction = widget.getProperty("defaultaction");
             if (defAction != null) {
                 if (defAction.equalsIgnoreCase("save")) {

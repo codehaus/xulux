@@ -1,5 +1,5 @@
 /*
- $Id: Label.java,v 1.11 2003-07-31 14:37:40 mvdb Exp $
+ $Id: Label.java,v 1.12 2003-08-03 20:53:03 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -60,7 +60,7 @@ import org.xulux.nyx.swing.SwingWidget;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Label.java,v 1.11 2003-07-31 14:37:40 mvdb Exp $
+ * @version $Id: Label.java,v 1.12 2003-08-03 20:53:03 mvdb Exp $
  */
 public class Label extends SwingWidget
 {
@@ -77,6 +77,7 @@ public class Label extends SwingWidget
      */
     public void destroy()
     {
+        processDestroy();
         if (label != null)
         {
             Container container = label.getParent();
@@ -112,6 +113,7 @@ public class Label extends SwingWidget
         this.initialized = true;
         this.label = new JLabel();
         refresh();
+        processInit();
     }
     /**
      * For now aligns to the right by default.

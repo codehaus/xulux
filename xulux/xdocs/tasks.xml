@@ -17,6 +17,14 @@
     the swing thread dispose of. The main should be stalled
     and not continue the code.
   </li>
+  <li>
+    Move guiDefaults and widget processing out of 
+    applicationcontext and applicationPart and start
+    using factories for setting the guidefaults. Also
+    extend use of defaults (default height, width, colors,etc)
+    Also make a way to automaticcaly process custom guidefaults
+    (eg in manifests in jars)
+  </li>
 </ul>
 </p>
 </section>

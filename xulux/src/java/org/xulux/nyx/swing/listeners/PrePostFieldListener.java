@@ -1,5 +1,5 @@
 /*
- $Id: PrePostFieldListener.java,v 1.23 2003-07-31 14:37:41 mvdb Exp $
+ $Id: PrePostFieldListener.java,v 1.24 2003-08-03 20:53:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,6 +45,9 @@
  */
 package org.xulux.nyx.swing.listeners;
 
+import java.awt.AWTEvent;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -61,7 +64,7 @@ import org.xulux.nyx.swing.widgets.CheckBox;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PrePostFieldListener.java,v 1.23 2003-07-31 14:37:41 mvdb Exp $
+ * @version $Id: PrePostFieldListener.java,v 1.24 2003-08-03 20:53:04 mvdb Exp $
  */
 public class PrePostFieldListener extends NyxListener
 implements FocusListener, ActionListener, ItemListener
@@ -111,6 +114,12 @@ implements FocusListener, ActionListener, ItemListener
         {
             return;
         }
+        System.out.println("Focus event : "+e);
+        System.out.println(e.paramString());
+        EventQueue q = Toolkit.getDefaultToolkit().getSystemEventQueue();
+        AWTEvent event = q.peekEvent();
+        System.out.println("next event : "+event);
+        
         if (accepted(widget)) {
             completed();
         }
@@ -123,6 +132,7 @@ implements FocusListener, ActionListener, ItemListener
      */
     public void actionPerformed(ActionEvent e)
     {
+        System.out.println("Event : "+e);
         if (isProcessing())
         {
             return;

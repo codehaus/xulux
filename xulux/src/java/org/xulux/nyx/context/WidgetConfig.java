@@ -1,5 +1,5 @@
 /*
- $Id: WidgetConfig.java,v 1.2 2003-05-20 16:10:04 mvdb Exp $
+ $Id: WidgetConfig.java,v 1.3 2003-08-03 20:53:04 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -45,7 +45,9 @@
  */
 package org.xulux.nyx.context;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * The widget config contains the main class
@@ -54,12 +56,13 @@ import java.util.HashMap;
  * (eg swt, swing)
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetConfig.java,v 1.2 2003-05-20 16:10:04 mvdb Exp $
+ * @version $Id: WidgetConfig.java,v 1.3 2003-08-03 20:53:04 mvdb Exp $
  */
 public class WidgetConfig
 {
     
     HashMap map;
+    HashMap initializers;
     Class coreClass;
     
     /**
@@ -111,4 +114,40 @@ public class WidgetConfig
         }
         return (Class)map.get(type);
     }
+    
+    /**
+     * Adds a widgetInitializer.
+     * It checks it the same initializer already exist or
+     * not.
+     * 
+     * @param type
+     * @param initializerClass
+     */    
+    public void addWidgetInitializer(String type, Class initializerClass) {
+        if (initializers == null) {
+            initializers = new HashMap();
+        }
+        ArrayList inits = (ArrayList)initializers.get(type);
+        if (inits == null) {
+            inits = new ArrayList();
+        }
+        if (!inits.contains(initializerClass)) {
+            inits.add(initializerClass);
+        }
+        initializers.put(type, inits);
+    }
+    
+    /**
+     * 
+     * @param type - eg swing, swt, awt, html, etc.
+     * @return the widgetHandler classlist for the specified type
+     */
+    public List getWidgetInitializers(String type) {
+        if (initializers == null)
+        {
+            return null;
+        }
+        return (List)initializers.get(type);
+    }
+        
 }
