@@ -1,5 +1,5 @@
 /*
- $Id: ValueWidget.java,v 1.1 2002-11-05 01:11:12 mvdb Exp $
+ $Id: ValueWidget.java,v 1.2 2002-11-05 14:32:46 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -49,13 +49,19 @@ package org.xulux.nyx.gui;
  * Specifies the widget has a value to share with us.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ValueWidget.java,v 1.1 2002-11-05 01:11:12 mvdb Exp $
+ * @version $Id: ValueWidget.java,v 1.2 2002-11-05 14:32:46 mvdb Exp $
  */
 public interface ValueWidget 
 {
     
     public Object getValue();
     
+    /**
+     * Sets the value on a widget.
+     * If the value is null, the widget must clear
+     * the value.
+     * @param value
+     */
     public void setValue(Object value);
 
 }

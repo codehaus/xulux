@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.9 2002-11-05 14:02:41 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.10 2002-11-05 14:32:46 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -80,7 +80,7 @@ import org.xulux.nyx.swing.factories.GuiField;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.9 2002-11-05 14:02:41 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.10 2002-11-05 14:32:46 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -445,6 +445,55 @@ public class ApplicationPart
         }
         return session;
     }
+    
+    /**
+     * Clears all fields
+     */
+    public void clear()
+    {
+        Iterator it = widgets.iterator();
+        while (it.hasNext())
+        {
+            clear(((Widget)it.next()).getField());
+        }
+    }
+    
+    /**
+     * Clears the specified field
+     */
+    public void clear(String field)
+    {
+        Widget widget = widgets.get(field);
+        if (widget instanceof ValueWidget)
+        {
+            ((ValueWidget)widget).setValue(getBeanValue(widget.getField()));
+        }
+    }
+    
+    /** 
+     * Resets all fields to the original value
+     */
+    public void reset()
+    {
+        Iterator it = widgets.iterator();
+        while (it.hasNext())
+        {
+            reset(((Widget)it.next()).getField());
+        }
+    }
+    
+    /**
+     * Resets the specified field to the original value
+     */
+    public void reset(String field)
+    {
+        Widget widget = widgets.get(field);
+        if (widget instanceof ValueWidget)
+        {
+            ((ValueWidget)widget).setValue(null);
+        }
+    }
+        
     
     /** 
      * Destroys the applicationPart
