@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsHandler.java,v 1.8 2004-05-11 12:56:57 mvdb Exp $
+   $Id: GuiDefaultsHandler.java,v 1.9 2004-05-11 14:58:06 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -30,6 +30,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xulux.core.WidgetConfig;
 import org.xulux.core.XuluxContext;
+import org.xulux.utils.BooleanUtils;
 
 /**
  * Case insensitive processing of the guidefaults.
@@ -37,7 +38,7 @@ import org.xulux.core.XuluxContext;
  * @todo move the contenthandlers to the dataprovider API.
  * @todo do some code reuse of setting the properties.. eg util method or something
  * @author <a href="mailto;martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsHandler.java,v 1.8 2004-05-11 12:56:57 mvdb Exp $
+ * @version $Id: GuiDefaultsHandler.java,v 1.9 2004-05-11 14:58:06 mvdb Exp $
  */
 public class GuiDefaultsHandler extends DefaultHandler {
 
@@ -205,8 +206,17 @@ public class GuiDefaultsHandler extends DefaultHandler {
                 WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(widgetName);
                 config.addContentHandler(clazz, defaultView); 
             }
-        } else if (qName.equals(ELEMENT_DEFAULTS)) {
+        } else if (qName.equals(ELEMENT_LAYOUTS)) {
             layoutsStarted = true;
+        } else if (layoutsStarted && qName.equals(ELEMENT_LAYOUT)) {
+            boolean isDefault = BooleanUtils.toBoolean(atts.getValue(ATTRIBUTE_DEFAULT));
+            String name = atts.getValue(ATTRIBUTE_NAME);
+            String clazz = atts.getValue(ATTRIBUTE_CLASS);
+            String type = atts.getValue(ATTRIBUTE_TYPE);
+            if (type == null) {
+                type = XuluxContext.getGuiDefaults().getDefaultWidgetType();
+            }
+            XuluxContext.getGuiDefaults().registerLayout(name, isDefault, clazz, type);
         }
     }
 
@@ -229,7 +239,7 @@ public class GuiDefaultsHandler extends DefaultHandler {
      */
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
         qName = qName.toLowerCase();
-        if (qName.equalsIgnoreCase(ELEMENT_DEFAULTS)) {
+        if (qName.equals(ELEMENT_DEFAULTS)) {
             defaultsStarted = false;
         } else if (defaultsStarted) {
             WidgetConfig config = XuluxContext.getGuiDefaults().getWidgetConfig(widgetName);
@@ -257,12 +267,14 @@ public class GuiDefaultsHandler extends DefaultHandler {
                 this.initType = null;
                 this.initClass = null;
             }
-        } else if (qName.equalsIgnoreCase(ELEMENT_WIDGETS)) {
+        } else if (qName.equals(ELEMENT_WIDGETS)) {
             widgetsStarted = false;
-        } else if (qName.equalsIgnoreCase(ELEMENT_CONTENTHANDLERS)) {
+        } else if (qName.equals(ELEMENT_CONTENTHANDLERS)) {
             contentHandlersStarted = false;
-        } else if (qName.equalsIgnoreCase(ELEMENT_PROPERTIES)) {
+        } else if (qName.equals(ELEMENT_PROPERTIES)) {
             propertiesStarted = false;
+        } else if (qName.equals(ELEMENT_LAYOUTS)) {
+            layoutsStarted = false;
         }
     }
 

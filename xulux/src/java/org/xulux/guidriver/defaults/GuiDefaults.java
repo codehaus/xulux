@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaults.java,v 1.4 2004-05-11 12:56:57 mvdb Exp $
+   $Id: GuiDefaults.java,v 1.5 2004-05-11 14:58:06 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -35,7 +35,7 @@ import org.xulux.utils.ClassLoaderUtils;
  * properties.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaults.java,v 1.4 2004-05-11 12:56:57 mvdb Exp $
+ * @version $Id: GuiDefaults.java,v 1.5 2004-05-11 14:58:06 mvdb Exp $
  */
 public class GuiDefaults {
 
@@ -78,6 +78,16 @@ public class GuiDefaults {
      * The key is the type
      */
     Map parentWidgetHandlerMap;
+
+    /**
+     * The map containing the layouts
+     */
+    Map layoutMap;
+
+    /**
+     * The default layout name
+     */
+    String defaultLayout;
 
     /**
      * Constructor for GuiDefaults.
@@ -237,23 +247,18 @@ public class GuiDefaults {
      * @param clazz the class name of the field event handler.
      */
     public void registerFieldEventHandler(String type, String clazz) {
-        try {
-            if (type == null) {
-                type = getDefaultWidgetType();
-            }
-            Class clz = ClassLoaderUtils.getClass(clazz);
-            if (!(NyxListener.class.isAssignableFrom(clz))) {
-                log.warn(clazz + " is not an instance of NyxListener");
-                return;
-            }
-            if (fieldEventHandlerMap == null) {
-                fieldEventHandlerMap = new HashMap();
-            }
-            fieldEventHandlerMap.put(type, clz);
+        if (type == null) {
+            type = getDefaultWidgetType();
         }
-        catch (Exception e) {
-            log.warn("Could not find the fieldEventHandler " + clazz + " for type " + type);
+        Class clz = ClassLoaderUtils.getClass(clazz);
+        if (clz == null || !(NyxListener.class.isAssignableFrom(clz))) {
+            log.warn(clazz + " is not an instance of NyxListener");
+            return;
         }
+        if (fieldEventHandlerMap == null) {
+            fieldEventHandlerMap = new HashMap();
+        }
+        fieldEventHandlerMap.put(type, clz);
     }
 
     /**
@@ -354,10 +359,79 @@ public class GuiDefaults {
         return getParentWidgetHandler(getDefaultWidgetType());
     }
     
+    /**
+     * Register the specified layout.
+     * Setting the default layout is based on the name and will be the same across
+     * all gui layers. The last one that calls this method with the field isDefault
+     * as true, will be the default for the application
+     *
+     * @param name the name of the layout
+     * @param isDefault is this layout the default
+     * @param clazz the class of the layout
+     * @param type the gui layer type
+     */
     public void registerLayout(String name, boolean isDefault, String clazz, String type) {
+        if (name == null) {
+            return;
+        }
+        if (layoutMap == null) {
+            layoutMap = new HashMap();
+        }
+        Map map = (Map) layoutMap.get(name);
+        if (map == null) {
+            map = new HashMap();
+        }
+        if (type != null) {
+            Class clz = ClassLoaderUtils.getClass(clazz);
+            if (clz != null) {
+              if (IXuluxLayout.class.isAssignableFrom(clz)) {
+                  map.put(type, ClassLoaderUtils.getClass(clazz));
+                  if (isDefault) {
+                      defaultLayout = name;
+                  }
+              } else {
+                  log.warn("Class " + clazz + "is not a IXuluxLayout");
+              }
+            }
+        }
+        if (map.size() > 0) {
+            layoutMap.put(name, map);
+        }
     }
-    
+
+    /**
+     * @param type the gui layer type
+     * @param name the name of the layout
+     * @return the layout specified or null if not found
+     */
     public IXuluxLayout getLayout(String type, String name) {
+        if (layoutMap != null) {
+            Map map = (Map) layoutMap.get(name);
+            if (map != null) {
+                Class clz = (Class) map.get(type);
+                return (IXuluxLayout) ClassLoaderUtils.getObjectFromClass(clz);
+            }
+        }
         return null;
     }
+    
+    /**
+     * The defaultwidget type needs to be set for this method to work.
+     *
+     * @return the default layout if one is set
+     */
+    public IXuluxLayout getDefaultLayout() {
+        return getLayout(getDefaultWidgetType(), defaultLayout);
+    }
+
+    /**
+     * The defaultwidget type needs to be set for this method to work.
+     *
+     * @param type the gui layer type
+     * @return the default layout if one is set
+     */
+    public IXuluxLayout getDefaultLayout(String type) {
+        return getLayout(type, defaultLayout);
+    }
+
 }

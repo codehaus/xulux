@@ -1,5 +1,5 @@
 /*
-   $Id: GuiDefaultsTest.java,v 1.8 2004-05-11 12:56:57 mvdb Exp $
+   $Id: GuiDefaultsTest.java,v 1.9 2004-05-11 14:58:07 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -34,6 +34,7 @@ import org.xulux.dataprovider.contenthandlers.IContentHandler;
 import org.xulux.dataprovider.contenthandlers.SimpleDOMView;
 import org.xulux.gui.Widget;
 import org.xulux.gui.WidgetFactory;
+import org.xulux.swing.layouts.XYLayout;
 import org.xulux.swing.util.NativeWidgetHandler;
 import org.xulux.swing.widgets.Combo;
 
@@ -41,7 +42,7 @@ import org.xulux.swing.widgets.Combo;
  * Tests processing of guiDefaults.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: GuiDefaultsTest.java,v 1.8 2004-05-11 12:56:57 mvdb Exp $
+ * @version $Id: GuiDefaultsTest.java,v 1.9 2004-05-11 14:58:07 mvdb Exp $
  */
 public class GuiDefaultsTest extends TestCase {
 
@@ -120,6 +121,9 @@ public class GuiDefaultsTest extends TestCase {
         assertNotNull(handler);
         // overriding the view and setting it to bogus..
         assertEquals(BogusContentView.class, handler.getViewClass());
+        GuiDefaults defaults = XuluxContext.getGuiDefaults();
+        assertNotNull(defaults.getLayout("swing", "xylayout"));
+        assertEquals(true, defaults.getDefaultLayout() instanceof XYLayout);
     }
     
     /**
@@ -200,6 +204,7 @@ public class GuiDefaultsTest extends TestCase {
         defaults.registerFieldEventHandler("swt", TempNyxListener.class.getName());
         assertNotNull(defaults.getFieldEventHandler("swt"));
         assertEquals(2, defaults.fieldEventHandlerMap.size());
+        defaults.registerFieldEventHandler("swing", "java.bogus.className");
     }
 
     public void testNativeWidgetHandler() {
@@ -242,7 +247,35 @@ public class GuiDefaultsTest extends TestCase {
     public void testLayouts() {
         System.out.println("testLayouts");
         GuiDefaults defaults = new GuiDefaults();
-        //defaults.get
+        assertEquals(null, defaults.getLayout(null, null));
+        defaults.registerLayout(null, false, null, null);
+        defaults.registerLayout("layout", false, XYLayout.class.getName(), "swing");
+        assertEquals(1, defaults.layoutMap.size());
+        defaults.registerLayout("layout", false, XYLayout.class.getName(), "swt");
+        assertEquals(1, defaults.layoutMap.size());
+        assertEquals(2, ((Map)defaults.layoutMap.get("layout")).size());
+        assertNotNull(defaults.getLayout("swing", "layout"));
+        assertNotNull(defaults.getLayout("swt", "layout"));
+        // notthere type has no registered layouts
+        assertEquals(null, defaults.getLayout("notthere", "layout"));
+        // layout2 doesn't exist in the layout map.
+        assertEquals(null, defaults.getLayout("swing", "layout2"));
+        defaults.registerLayout("test", false, XYLayout.class.getName(), null);
+        assertEquals(null, defaults.getLayout(null, "test"));
+        // register a non IXUluxLayout..
+        defaults.registerLayout("test", false, getClass().getName(), "swt");
+        assertEquals(null, defaults.getLayout("swt", "test"));
+        // test the default layout..
+        defaults = new GuiDefaults();
+        defaults.registerLayout("layout", true, XYLayout.class.getName(), "swing");
+        assertEquals("layout", defaults.defaultLayout);
+        assertNotNull(defaults.getDefaultLayout("swing"));
+        defaults.setDefaultWidgetType("swing");
+        assertNotNull(defaults.getDefaultLayout());
+        assertEquals(true, defaults.getDefaultLayout() instanceof XYLayout);
+        // an npe exeption..
+        defaults = new GuiDefaults();
+        defaults.registerLayout("xylayout", true, "org.xulux.swing.layout.XYLayout", "swing");
     }
 
     public class Temp2XuluxToolkit extends TempXuluxToolkit {
