@@ -1,5 +1,5 @@
 /*
- $Id: SwingUtils.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
+ $Id: SwingUtils.java,v 1.2 2003-06-17 13:23:29 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -59,7 +59,7 @@ import org.apache.commons.logging.LogFactory;
  * Contains several utilities to make life with swing easier.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SwingUtils.java,v 1.1 2003-06-17 12:52:50 mvdb Exp $
+ * @version $Id: SwingUtils.java,v 1.2 2003-06-17 13:23:29 mvdb Exp $
  */
 public class SwingUtils
 {
@@ -73,7 +73,7 @@ public class SwingUtils
      * The default custom images loader (uses jimi)
      */
     private static String DEFAULT_CUSTOMIMAGELOADER = 
-                    "org.xulux.nyx.gui.swing.util.JimiImageLoader";
+                    "org.xulux.nyx.swing.util.JimiImageLoader";
     
     /** 
      * Contains the custom image loader
@@ -139,7 +139,7 @@ public class SwingUtils
             {
                 log.warn("Image type "+resource+" not supported by swing "
                      + "we advice you to add jimi to your classpath or convert your "
-                     + "image to a image type supported by swing");
+                     + "image to an image type supported by swing");
             }
         }
         return icon;
