@@ -1,5 +1,5 @@
 /*
- $Id: WidgetFactory.java,v 1.2 2002-11-10 21:44:11 mvdb Exp $
+ $Id: WidgetFactory.java,v 1.3 2003-01-07 23:05:13 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -52,7 +52,7 @@ import org.xulux.nyx.context.ApplicationContext;
 /**
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: WidgetFactory.java,v 1.2 2002-11-10 21:44:11 mvdb Exp $
+ * @version $Id: WidgetFactory.java,v 1.3 2003-01-07 23:05:13 mvdb Exp $
  */
 public class WidgetFactory
 {
@@ -70,9 +70,9 @@ public class WidgetFactory
      * @param name - the name of the widget
      * @param field - the field to use on the widget
      */
-    public static Widget getWidget(String className, String name)
+    public static Widget getWidget(String type, String name)
     {
-        Class clazz = ApplicationContext.getInstance().getWidget(className);
+        Class clazz = ApplicationContext.getInstance().getWidget(type);
         Widget instance = null;
         if (clazz != null)
         {
