@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationContext.java,v 1.23 2003-02-15 16:34:38 mvdb Exp $
+ $Id: ApplicationContext.java,v 1.24 2003-06-16 22:29:00 mvdb Exp $
 
  Copyright 2002-2003 (C) The Xulux Project. All Rights Reserved.
  
@@ -63,7 +63,7 @@ import org.xulux.nyx.rules.IRule;
  * known to the system.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationContext.java,v 1.23 2003-02-15 16:34:38 mvdb Exp $
+ * @version $Id: ApplicationContext.java,v 1.24 2003-06-16 22:29:00 mvdb Exp $
  */
 public class ApplicationContext
 {
@@ -174,7 +174,6 @@ public class ApplicationContext
     /** 
      * Register a certain rule to a certain part.
      * If the rulecount is zero, it will add it by default..
-     * TODO : Use th
      * 
      * @param partName can be eg TestForm or TestForm.fieldname If the emapping already exists,
      *         this will add it to the new mapping. Need to do some work here, since 2 identical
