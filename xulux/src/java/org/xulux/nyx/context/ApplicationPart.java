@@ -1,5 +1,5 @@
 /*
- $Id: ApplicationPart.java,v 1.35 2003-05-06 12:39:19 mvdb Exp $
+ $Id: ApplicationPart.java,v 1.36 2003-05-06 12:40:28 mvdb Exp $
 
  Copyright 2002 (C) The Xulux Project. All Rights Reserved.
  
@@ -83,7 +83,7 @@ import org.xulux.nyx.rules.IRule;
  * should handle these kind of situation..).
  *  
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: ApplicationPart.java,v 1.35 2003-05-06 12:39:19 mvdb Exp $
+ * @version $Id: ApplicationPart.java,v 1.36 2003-05-06 12:40:28 mvdb Exp $
  */
 public class ApplicationPart
 {
@@ -449,7 +449,7 @@ public class ApplicationPart
         else
         {
             PartRequestImpl req = new PartRequestImpl(this, PartRequest.NO_ACTION);
-            ApplicationContext.getInstance().fireRequest(req, ApplicationContext.PRE_REQUEST);
+            ApplicationContext.fireRequest(req, ApplicationContext.PRE_REQUEST);
         }
             
         Iterator it = widgets.iterator();
