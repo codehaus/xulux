@@ -1,5 +1,5 @@
 /*
-   $Id: Widget2.java,v 1.1 2004-03-16 14:35:15 mvdb Exp $
+   $Id: Widget2.java,v 1.2 2004-07-25 20:20:48 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,50 +21,62 @@ import java.io.Serializable;
 
 /**
  * The new Widget structure.
- * We are now using property handlers, native handlers, gui handlers
- * that construct a widget, instead of an abstract widget which is extended.
+ * Since we extend widget, this makes sure current code will continue to work
+ * When this refactor is finished, it should replace the current widget class though.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Widget2.java,v 1.1 2004-03-16 14:35:15 mvdb Exp $
+ * @version $Id: Widget2.java,v 1.2 2004-07-25 20:20:48 mvdb Exp $
  */
-public class Widget2 implements Serializable {
+public class Widget2 extends Widget implements Serializable {
 
-	private String name;
+  public Widget2(String name) {
+      super(name);
+  }
 
-	/**
-	 * Default constructor
-	 */	
-	public Widget2() {
-	}
+  /**
+   * @see org.xulux.gui.Widget#destroy()
+   */
+  public void destroy() {
+  }
 
-	/**
-	 * The main constructor of the widget
-	 * @param name
-	 */	
-	public Widget2(String name) {
-		setName(name);
-	}
+  /**
+   * @see org.xulux.gui.Widget#getNativeWidget()
+   */
+  public Object getNativeWidget() {
+    return null;
+  }
 
-	/**
-	 * Set the name of the widget
-	 * @param name the name of the widget
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+  /**
+   * @see org.xulux.gui.Widget#initialize()
+   */
+  public void initialize() {
+  }
 
-	/**
-	 * 
-	 * @return the name of the widget
-	 */
-	public String getName() {
-		return this.name;
-	}
-	/**
-	 * Sets the widget properties / functionality.
-	 * @param property
-	 * @param value
-	 */
-	public void setWidgetProperty(String property, String value) {
-	}
+  /**
+   * @see org.xulux.gui.Widget#getGuiValue()
+   */
+  public Object getGuiValue() {
+    return null;
+  }
+
+  /**
+   * @see org.xulux.gui.Widget#focus()
+   */
+  public void focus() {
+  }
+
+  /**
+   * @see org.xulux.gui.Widget#isValueEmpty()
+   */
+  public boolean isValueEmpty() {
+    return false;
+  }
+
+  /**
+   * @see org.xulux.gui.Widget#canContainValue()
+   */
+  public boolean canContainValue() {
+    return false;
+  }
+
 }
