@@ -28,6 +28,14 @@
         </td>
       </tr>
       <tr>
+        <td>defaultbutton</td>
+        <td>swing</td>
+        <td>
+          Sets if this button is the defaultbutton of the rootpane.
+          The last widget initialized will win.
+        </td>
+      </tr>
+      <tr>
         <td>action.type</td>
         <td>swing</td>
         <td>
