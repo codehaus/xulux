@@ -1,5 +1,5 @@
 /*
-   $Id: JdkLoggingTest.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
+   $Id: JdkLoggingTest.java,v 1.2 2005-04-30 10:05:25 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: JdkLoggingTest.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
+ * @version $Id: JdkLoggingTest.java,v 1.2 2005-04-30 10:05:25 mvdb Exp $
  */
 
 public class JdkLoggingTest extends TestCase {
@@ -33,7 +33,14 @@ public class JdkLoggingTest extends TestCase {
     public JdkLoggingTest(String name) {
         super(name);
     }
-    
+
+    public void testInitDestroy() {
+        System.out.println("testInitDestroy");
+        JdkLogging jl = new JdkLogging();
+        jl.init();
+        jl.destroy();
+    }
+
     public void testLog() {
         JdkLogging log = new JdkLogging();
         log.log(0, null, null);

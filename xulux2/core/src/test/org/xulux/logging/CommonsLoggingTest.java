@@ -1,5 +1,5 @@
 /*
-   $Id: CommonsLoggingTest.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
+   $Id: CommonsLoggingTest.java,v 1.2 2005-04-30 10:05:25 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CommonsLoggingTest.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
+ * @version $Id: CommonsLoggingTest.java,v 1.2 2005-04-30 10:05:25 mvdb Exp $
  */
 
 public class CommonsLoggingTest extends TestCase {
@@ -38,6 +38,13 @@ public class CommonsLoggingTest extends TestCase {
      */
     public CommonsLoggingTest(String name) {
         super(name);
+    }
+    
+    public void testInitDestroy() {
+        System.out.println("testInitDestroy");
+        CommonsLogging cl = new CommonsLogging();
+        cl.init();
+        cl.destroy();
     }
     
     public void testLog() {

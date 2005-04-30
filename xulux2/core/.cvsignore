@@ -4,3 +4,5 @@
 junit*.properties
 .clover
 target
+.djunitplugin
+jcoverage.ser

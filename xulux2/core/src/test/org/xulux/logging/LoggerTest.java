@@ -1,5 +1,5 @@
 /*
-   $Id: LoggerTest.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
+   $Id: LoggerTest.java,v 1.3 2005-04-30 10:05:25 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -19,16 +19,13 @@ package org.xulux.logging;
 
 import java.util.HashMap;
 
-import org.xulux.logging.ILog;
-import org.xulux.logging.Logger;
-
 import junit.framework.TestCase;
 
 /**
  * Testcase for the logger..
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: LoggerTest.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
+ * @version $Id: LoggerTest.java,v 1.3 2005-04-30 10:05:25 mvdb Exp $
  */
 
 public class LoggerTest extends TestCase {
@@ -43,7 +40,7 @@ public class LoggerTest extends TestCase {
     
     public void testConstructor() {
         System.out.println("testConstructor");
-        Logger logger = new Logger();
+        new Logger();
     }
     
     public void testRegisterLogger() {
@@ -155,7 +152,7 @@ public class LoggerTest extends TestCase {
     
     public void testLogMessage() {
         System.out.println("testLogMessage");
-        String msg = "level:name:message";
+        String msg = "0:name:message";
         Logger logger = new Logger();
         // should not crash
         logger.log(0, null, null);
@@ -165,11 +162,17 @@ public class LoggerTest extends TestCase {
         logger.useDefaultLogger();
         TstListLogger log = (TstListLogger) logger.getCurrentLog();
         assertNotNull(log.log);
+        logger.setLevel(0);
         logger.log(0, "name", "message");
         assertEquals(msg, log.log.get(0));
         logger.log(0, "name", "message", new Throwable());
         assertEquals(true, ((String)log.log.get(1)).startsWith(msg));
         assertEquals(true, ((String) log.log.get(1)).length() > msg.length());
+        int size = log.log.size();
+        logger.setLevel(ILog.FATAL);
+        logger.log(ILog.ERROR, "name", "message", new Throwable());
+        // nothing should have been logged.
+        assertEquals(size, log.log.size());
         logger.clearCache();
         assertNull(log.log);
     }
@@ -180,13 +183,14 @@ public class LoggerTest extends TestCase {
     public void testLevel() {
         System.out.println("testLevel");
         Logger logger = new Logger();
-        assertEquals(-1, logger.getLevel());
+        assertEquals(ILog.ERROR, logger.getLevel());
         logger.setLevel(1234);
         assertEquals(1234, logger.getLevel());
         logger.setLevel(-1);
         assertEquals(-1, logger.getLevel());
         logger.registerLogger("jdk", JdkLogging.class.getName());
         logger.setCurrentLogger("jdk");
+        logger.setLevel(1);
         logger.log(0, "test", "should not be logged");
     }
 

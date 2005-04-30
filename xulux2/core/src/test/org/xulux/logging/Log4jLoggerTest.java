@@ -1,5 +1,5 @@
 /*
-   $Id: Log4jLoggerTest.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
+   $Id: Log4jLoggerTest.java,v 1.2 2005-04-30 10:05:25 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Log4jLoggerTest.java,v 1.1 2004-12-16 06:44:05 mvdb Exp $
+ * @version $Id: Log4jLoggerTest.java,v 1.2 2005-04-30 10:05:25 mvdb Exp $
  */
 
 public class Log4jLoggerTest extends TestCase {
@@ -43,6 +43,13 @@ public class Log4jLoggerTest extends TestCase {
         super(name);
     }
     
+    public void testInitDestroy() {
+        System.out.println("testInitDestroy");
+        Log4jLogger ll = new Log4jLogger();
+        ll.init();
+        ll.destroy();
+    }
+
     public void testLog() {
         System.out.println("testLog");
         Log4jLogger log = new Log4jLogger();

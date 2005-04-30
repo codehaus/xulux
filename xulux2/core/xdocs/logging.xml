@@ -8,36 +8,9 @@
 
 <body>
 
-<section name="The problem">
-<p>
-  Java is mostly used for server side development and less used for
-  frontend developmet. I think this is with good reason. 
-  It should be easy to create nice data driven gui's, without actually
-  spending 80% of your time working on that gui. Gui's are nice if they
-  can be slapped together pretty quicly, but if you spend one minute to long
-  on them they are a PITA. I had to many PITA experiences with creating gui's
-  and got sick and tired of it and so here it is XULUX.
-</p>
-</section>
-
-<section name="The Solution">
-<p>
-  The one thing that XULUX is not a solution for is to my problem of spending
-  less time doing gui stuff :) But my vision is if you have an itch, you have
-  to scratch it.
-  Since I started development of the current XULUX code (which is and will never
-  be released, although is available in CVS), I learned a lot of what I need
-  and things I want to do better and in some cases differently. 
-</p>
-</section>
-
-
 <section name="Introduction to XULUX">
 <p>
-  The main goal of XULUX is to create a frontend API 
-  together with a "reference implementation" of that API.
-  
-  provide an easy way
+  The main goals of XULUX is to provide an easy way
   to create frontends. The Frontend API that will
   result from the development of XULUX will provide
   an easy way to migrate current applications to XULUX and

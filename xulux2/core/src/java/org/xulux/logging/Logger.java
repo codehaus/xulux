@@ -1,5 +1,5 @@
 /*
-   $Id: Logger.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
+   $Id: Logger.java,v 1.3 2005-04-30 10:05:25 mvdb Exp $
    
    Copyright 2002-2004 The Xulux Project
 
@@ -27,10 +27,10 @@ import org.xulux.utils.ClassLoaderUtils;
  * Not using any logger as the default, since we want to minimize dependencies.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Logger.java,v 1.2 2004-12-16 06:44:05 mvdb Exp $
+ * @version $Id: Logger.java,v 1.3 2005-04-30 10:05:25 mvdb Exp $
  */
 
-public class Logger {
+public class Logger implements ILogger {
 
     /**
      * The list with registered loggers
@@ -113,7 +113,7 @@ public class Logger {
      */
     public void log(int level, String name, String message) {
         if (getCurrentLog() != null) {
-            if (level <= getLevel()) {
+            if (level >= getLevel()) {
                 getCurrentLog().log(level, name, message);
             }
         }
@@ -129,7 +129,7 @@ public class Logger {
      */
     public void log(int level, String name, String message, Throwable t) {
         if (getCurrentLog() != null) {
-            if (level <= getLevel()) { 
+            if (level >= getLevel()) { 
                 getCurrentLog().log(level, name, message, t);
             }
         }
